@@ -231,7 +231,7 @@ defmodule Loanmanagementsystem.SetUser.SetUser do
     create_employee_account()
 
     Loanmanagementsystem.Accounts.create_user(%{
-      username: "employee@probasegroup.com",
+      username: "employee@tigule.com",
       password: "Password@06",
       auto_password: "N",
       status: "ACTIVE",
@@ -270,7 +270,7 @@ defmodule Loanmanagementsystem.SetUser.SetUser do
       lastName: "Chanda",
       otherName: "Momo",
       userId: 3,
-      emailAddress: "muhammad@gmail.com",
+      emailAddress: "muhammad22@gmail.com",
       meansOfIdentificationType: "NRC",
       meansOfIdentificationNumber: "23101/10/3",
       gender: "MALE",

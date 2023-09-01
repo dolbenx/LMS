@@ -5,22 +5,14 @@
 <!-- Mirrored from mannatthemes.com/T-Wind/default/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 13:27:42 GMT -->
 <head>
     <meta charset="utf-8" />
-    <title>T-Wind - Admin & Dashboard Template</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta
-      content="Tailwind Multipurpose Admin & Dashboard Template"
-      name="description"
-    />
+    <title>Tisunge - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta content="Tisunge - Login" name="description"/>
     <meta content="" name="Mannatthemes" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
-
-
+    <link rel="shortcut icon" href="/assets/images/logos/Tisunge-logo-JPEG.jpg"/>
     <link rel="stylesheet" href="/assets/css/icons.css" />
     <link rel="stylesheet" href="/assets/css/tailwind.css" />
 
@@ -31,10 +23,10 @@
 
         <div class="relative flex flex-col justify-center min-h-screen overflow-hidden">
             <div class="w-full  m-auto bg-white dark:bg-slate-800/60 rounded shadow-lg ring-2 ring-slate-300/50 dark:ring-slate-700/50 lg:max-w-md">
-                <div class="text-center p-6 bg-slate-900 rounded-t">
-                    <a href="index.html"><img src="assets/images/logo-sm.png" alt="" class="w-14 h-14 mx-auto mb-2"></a>
-                    <h3 class="font-semibold text-white text-xl mb-1">Let's Get Started T-Wind</h3>
-                    <p class="text-xs text-slate-400">Sign in to continue to T-Wind.</p>
+                <div class="text-center p-6  rounded-t" style="background-color: #5962A9;">
+                    <a href="index.html"><img src="assets/images/logos/Tisunge-logo-JPEG.jpg" alt="" class="w-14 h-14 mx-auto mb-2"></a>
+                    <h3 class="font-semibold text-white text-xl mb-1">Always there for you</h3>
+                    <p class="text-xs text-slate-400">Sign in to continue to Tisunge.</p>
                 </div>
 
                 <form class="p-6" action="<%= Routes.session_path(@conn, :create)%>" method="post">
@@ -57,14 +49,13 @@
                         </label>
                     </div>
                     <div class="mt-6">
-                        <button
-                            class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                        <button class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600" style="background-color: #5BC6CC;">
                             Login
                         </button>
                     </div>
                 </form>
                 <p class="mb-5 text-sm font-medium text-center text-slate-500"> Don't have an account? <a href="register.html"
-                    class="font-medium text-blue-600 hover:underline">Sign up</a>
+                    class="font-medium hover:underline" style="color: #5962A9;">Sign up</a>
                 </p>
             </div>
         </div>

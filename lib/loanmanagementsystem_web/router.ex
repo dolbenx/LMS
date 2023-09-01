@@ -9,6 +9,7 @@ defmodule LoanmanagementsystemWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug(LoanmanagementsystemWeb.Plugs.SetUser)
+    plug(LoanmanagementsystemWeb.Plugs.SessionTimeout, timeout_after_seconds: 60000)
   end
 
   pipeline :api do
@@ -17,6 +18,11 @@ defmodule LoanmanagementsystemWeb.Router do
 
   pipeline :app do
     plug(:put_layout, {LoanmanagementsystemWeb.LayoutView, :app})
+  end
+
+
+  pipeline :employer_app do
+    plug(:put_layout, {LoanmanagementsystemWeb.LayoutView, :employer_app})
   end
 
   pipeline :session do
@@ -60,12 +66,80 @@ defmodule LoanmanagementsystemWeb.Router do
     pipe_through([:browser, :app])
     get("/Home", PageController, :index)
     get("/Admin/Dashboard", UserController, :admin_dashboard)
+
+    get("/Admin/view/all/products", ProductsController, :admin_all_products)
+    get("/Admin/edit/products", ProductsController, :admin_edit_product)
+    # post("/Admin/view/all/products", ProductsController, :admin_all_products)
+    get("/Admin/view/all/products/view", ProductsController, :admin_view_add_product)
+    get("/Admin/view/pending/products", ProductsController, :pending_products)
+    get("/Admin/view/inactive/products", ProductsController, :inactive_products)
+    get("/Admin/view/all/products/create", ProductsController, :admin_add_product)
+    post("/Admin/view/all/products/create", ProductsController, :admin_add_product)
+
+
+    get("/Admin/view/all/products/update", ProductsController, :admin_update_product)
+    post("/Admin/view/all/products/update", ProductsController, :admin_update_product)
+    get("/Admin/view/system/products/activate", ProductsController, :admin_activate_product)
+    post("/Admin/view/system/products/activate", ProductsController, :admin_activate_product)
+    get("/Admin/view/system/products/deactivate", ProductsController, :admin_deactivate_product)
+    post("/Admin/view/system/products/deactivate", ProductsController, :admin_deactivate_product)
+    post("/Admin/View/product/update", ProductsController, :admin_update_product_details)
+
+
+    post("/products/items/view", ProductsController, :product_item_lookup)
+    post("/Admin/products/selected/charge", ProductsController, :admin_charge_lookup)
+
+  end
+
+  scope "/", LoanmanagementsystemWeb do
+    pipe_through([:browser, :employer_app])
+    get("/Employer/Dashboard", PageController, :index)
+    get("/Employer/dashboard", UserController, :employer_dashboard)
+    get("/Employer/get/all/loans", EmployerController, :employer_employee_all_loans)
+    get("/Employer/get/all/distursed/loans", EmployerController, :employer_employee_disbursed_loans)
+    get("/Employer/get/all/pending/loans", EmployerController, :employer_employee_pending_loans)
+    get("/Employer/get/all/rejected/loans", EmployerController, :employer_employee_rejected_loans)
+    get("/Employer/apply/loans", EmployerController, :employer_employee_loan_products)
+    get("/Employer/Admin/get/all/loans", EmployerController, :employer_all_loans)
+    get("/Employer/Admin/get/all/distursed/loans", EmployerController, :employer_disbursed_loans)
+    get("/Employer/Admin/get/all/pending/loans", EmployerController, :employer_pending_loans)
+    get("/Employer/Admin/get/all/rejected/loans", EmployerController, :employer_rejected_loans)
+    get("/Employer/all/staffs/loans", EmployerController, :staff_all_loans)
+    post("/Employer/all/staffs/loans/handle/bulk/upload", EmployerController, :handle_staff_bulk_upload)
+    get("/Employer/all/admins/loans", EmployerController, :company_all_loans)
+    get("/Employer/reports/", EmployerController, :employer_transaction_reports)
+    post("/Employer/create/staffs", EmployerController, :employer_create_employee)
+    get("/Employer/create/staffs", EmployerController, :employer_create_employee)
+    get("/Employer/all/staffs", EmployerController, :all_staffs)
+    get("/Employer/all/admins", EmployerController, :user_mgt)
+    get("/Employer/Admin/user/logs", EmployerController, :employer_user_logs)
+    post("/Employer/view/system/employee/create", EmployerController, :employer_create_employee)
+    get("/Employer/view/system/employee/create", EmployerController, :employer_create_employee)
+    post("/Generate/Random/Password/employee", EmployerController, :generate_random_password)
+    get("/Generate/Random/Password/employee", EmployerController, :generate_random_password)
+    post("/Employer/update/staffs", EmployerController, :employer_update_employee)
+    get("/Admin/Employer/activate/employee", EmployerController, :employer_activate_employee)
+    post("/Admin/Employer/activate/employee", EmployerController, :employer_activate_employee)
+    post("/Admin/Employer/deactivate/employee", EmployerController, :employer_deactivate_employee)
+    get("/Admin/Employer/deactivate/employee", EmployerController, :employer_deactivate_employee)
+    post("/Admin/Employer/Admin/employee", EmployerController, :employer_create_admin_employee)
+    get("/Admin/Employer/Admin/employee", EmployerController, :employer_create_admin_employee)
+    post("/Admin/Employer/deactivate/Admin/employee", EmployerController, :employer_deactivate_employee )
+    get("/Employer/deactivate/Admin/employee", EmployerController, :employer_deactivate_employee)
+    get("/Employer/activate/Admin/employee", EmployerController, :employer_activate_employee)
+    post("/Employer/activate/Admin/employee", EmployerController, :employer_activate_employee)
+    post("/Employer/get/all/employee/loans", EmployerController, :employer_employee_all_loans_list_item_lookup)
+    post("/Employer/get/all/pending/employee/loans", EmployerController, :employer_employee_pending_loans_list_item_lookup)
+    post("/Employer/get/all/rejected/employee/loans", EmployerController, :employer_employee_rejected_loans_list_item_lookup)
+    post("/Employer/get/all/disbursed/employee/loans", EmployerController, :employer_employee_disbursed_loans_list_item_lookup)
+    get("/Client/Upload/Loan/Documents", EmployerController ,:client_approval_details)
+
   end
 
   scope "/", LoanmanagementsystemWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    # get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.

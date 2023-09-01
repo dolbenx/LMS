@@ -10,11 +10,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href={Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg")} />
-    <link rel="stylesheet" href={Routes.static_path(@conn, "/assets/libs/simple-datatables/style.css")} />
-    <link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/icons.css")} />
-    <link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/tailwind.css")} />
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/libs/simple-datatables/style.css") %>" />
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/css/icons.css")%>" />
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/css/tailwind.css")%>" />
 </head>
-    
+
 <body data-layout-mode="light" class="bg-gray-100 dark:bg-gray-900 bg-[url('../images/bg-body.html')] dark:bg-[url('../images/bg-body-2.html')]">
 
     <!-- leftbar-tab-menu -->
@@ -22,7 +22,7 @@
       <div class="container mx-0 flex max-w-full flex-wrap items-center lg:mx-auto">
         <div class="flex items-center">
           <a href="#" class="flex items-center outline-none">
-            <img src={Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg")} alt="" class="h-6" /> 
+            <img src={Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg")} alt="" class="h-6" />
           <!--  <img src={Routes.static_path(@conn, "/assets/images/logos/tisunge-small.png")} alt="" class="ml-2 hidden xl:block mt-1" />-->
           </a>
         </div>
@@ -30,27 +30,27 @@
         <div class="order-2 hidden w-full items-center justify-between md:order-1 md:ml-5 md:flex md:w-auto" id="mobile-menu-2">
           <ul class="font-body mt-4 flex flex-col font-medium md:mt-0 md:flex-row md:text-sm md:font-medium space-x-0 md:space-x-4 lg:space-x-6 xl:space-x-8 navbar">
             <li class="dropdown">
-              <button id="navDashboardLink" href={Routes.user_path(@conn, :admin_dashboard)} class=" flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
+              <button id="navDashboardLink" href={Routes.user_path(@conn, :employer_dashboard)} class=" flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
                 <i class="ti ti-smart-home mr-1 pb-1 text-lg"></i> Dashboards
               </button>
               <!-- Dropdown menu -->
             </li>
             <li class="dropdown">
               <button id="navAppsLink" data-dropdown-toggle="navApps" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0" >
-                <i class="ti ti-apps mr-1 pb-1 text-lg"></i> Credit Management
+                <i class="ti ti-apps mr-1 pb-1 text-lg"></i> Staff Management
                 <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
               </button>
               <!-- Dropdown menu -->
               <div id="navApps" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
                 <ul class="py-1">
-                  <li><a href="inbox.html" class="nav-link  dark:hover:bg-slate-800/70">Loan Application</a></li>
-                  <li><a href="email-read.html" class="nav-link  dark:hover:bg-slate-800/70">Repayments</a></li>
+                  <li><a href={Routes.employer_path(@conn, :all_staffs)} class="nav-link  dark:hover:bg-slate-800/70">Employee</a></li>
+                  <li><a href={Routes.employer_path(@conn, :user_mgt)} class="nav-link  dark:hover:bg-slate-800/70">User Admin</a></li>
                 </ul>
               </div>
             </li>
             <li class="dropdown">
               <button id="navUIkitLink" data-dropdown-toggle="navUIkit" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
-                <i class="ti ti-planet mr-1 pb-1 text-lg"></i>Client Management
+                <i class="ti ti-planet mr-1 pb-1 text-lg"></i>Staff Loans
                 <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
               </button>
               <!-- Dropdown menu -->
@@ -63,13 +63,13 @@
                 </ul>
               </div>
             </li>
-            <li class="dropdown"> 
-              <button id="navPagesLink" data-dropdown-toggle="navPages" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
-                <i class="ti ti-file-diff mr-1 pb-1 text-lg"></i> Change Management
+            <li class="dropdown">
+              <button id="navPagesLink" data-dropdown-toggle="reports" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
+                <i class="ti ti-file-diff mr-1 pb-1 text-lg"></i> Reports
                 <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
               </button>
               <!-- Dropdown menu -->
-              <div id="navPages" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
+              <div id="reports" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
                 <ul class="py-1">
                   <li><a href={Routes.products_path(@conn, :admin_all_products)} class="nav-link  dark:hover:bg-slate-800/70">Product Maintenance</a></li>
                   <li><a href="timeline.html" class="nav-link  dark:hover:bg-slate-800/70">Charge Maintenance</a></li>
@@ -94,7 +94,7 @@
                   <li><a href="404.html" class="nav-link  dark:hover:bg-slate-800/70">SMS Logs</a></li>
                   <li><a href="lock-screen.html" class="nav-link  dark:hover:bg-slate-800/70">Email Logs</a></li>
                   <li><a href="500.html" class="nav-link  dark:hover:bg-slate-800/70">Audit Logs</a></li>
-                </ul>            
+                </ul>
               </div>
             </li>
             <li class="dropdown">
@@ -110,7 +110,7 @@
                   <li><a href="404.html" class="nav-link  dark:hover:bg-slate-800/70">Transaction Report</a></li>
                   <li><a href="lock-screen.html" class="nav-link  dark:hover:bg-slate-800/70">Repayments Report</a></li>
                   <li><a href="500.html" class="nav-link  dark:hover:bg-slate-800/70">Overdue Report</a></li>
-                </ul>            
+                </ul>
               </div>
             </li>
           </ul>
@@ -130,7 +130,7 @@
           <div class="mr-2 lg:mr-4 dropdown relative">
             <button type="button" class="dropdown-toggle flex rounded-full md:mr-0" id="Notifications" aria-expanded="false" data-dropdown-toggle="navNotifications">
               <i class="ti ti-bell text-2xl text-gray-400"></i>
-            </button> 
+            </button>
 
             <div class="dropdown-menu dropdown-menu-right z-50 my-1 hidden w-64 list-none divide-y h-52 divide-gray-100 rounded border-slate-700 md:border-white text-base shadow dark:divide-gray-600 bg-white dark:bg-slate-800" id="navNotifications" data-simplebar>
               <ul class="py-1" aria-labelledby="navNotifications">
@@ -143,7 +143,7 @@
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K500 Loan Application Request</p>
                         </div>
                     </div>
-                  </a>              
+                  </a>
                 </li>
                 <li class="py-2 px-4">
                   <a href="javascript:void(0);" class="dropdown-item">
@@ -154,7 +154,7 @@
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">User account signup request</p>
                         </div>
                     </div>
-                  </a>     
+                  </a>
                 </li>
                 <li class="py-2 px-4">
                   <a href="javascript:void(0);" class="dropdown-item">
@@ -165,7 +165,7 @@
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K1000 Loan Application Request</p>
                         </div>
                     </div>
-                  </a>     
+                  </a>
                 </li>
                 <li class="py-2 px-4">
                   <a href="javascript:void(0);" class="dropdown-item">
@@ -176,12 +176,12 @@
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K750 Loan Application Request</p>
                         </div>
                     </div>
-                  </a>     
+                  </a>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="mr-2 lg:mr-0 dropdown relative"> 
+          <div class="mr-2 lg:mr-0 dropdown relative">
             <button type="button" class="dropdown-toggle flex items-center rounded-full text-sm focus:bg-none focus:ring-0 dark:focus:ring-0 md:mr-0" id="user-profile" aria-expanded="false" data-dropdown-toggle="navUserdata">
               <img class="h-8 w-8 rounded-full" src={Routes.static_path(@conn, "/assets/images/users/avatar-1.jpg")} alt="user photo"/>
                 <span class="ml-2 hidden text-left xl:block">
@@ -213,7 +213,7 @@
       </div>
     </nav>
 
-    <div class="container mx-auto px-2  min-h-[calc(100vh-138px)]  relative pb-14"> 
+    <div class="container mx-auto px-2  min-h-[calc(100vh-138px)]  relative pb-14">
         <%= @inner_content %>
         <!-- footer -->
         <div class="absolute bottom-0 left-2 right-2 block print:hidden">
