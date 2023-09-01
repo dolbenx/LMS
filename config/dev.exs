@@ -3,9 +3,9 @@ import Config
 # Configure your database
 config :loanmanagementsystem, Loanmanagementsystem.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "Password123$$",
   hostname: "localhost",
-  database: "loanmanagementsystem_dev",
+  database: "tisunge_loans",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

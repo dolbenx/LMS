@@ -48,7 +48,27 @@ defmodule Loanmanagementsystem.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:timex, "~> 3.7.9"},
+      {:soap, "~> 1.0"},
+      {:bamboo, "~> 1.3"},
+      {:bamboo_smtp, "~> 2.1.0"},
+      {:httpoison, "~> 1.6", override: true},
+      {:poison, "~> 3.1.0", override: true},
+      {:endon, "~> 1.0"},
+      {:number, "~> 0.5.6"},
+      {:decimal, "~> 1.9.0"},
+      {:xlsxir, "~> 1.6.2"},
+      {:csv, "~> 2.3"},
+      {:pdf_generator, ">=0.6.2"},
+      {:scrivener, "~> 2.0"},
+      {:scrivener_ecto, "~> 2.0"},
+      {:bbmustache, github: "soranoba/bbmustache"},
+      {:quantum, "~> 3.0"},
+      {:calendar, "~> 1.0.0"},
+      {:uuid, "~> 1.1" },
+      {:atomic_map, "~> 0.8"},
+      {:pipe_to, "~> 0.2"}
     ]
   end
 

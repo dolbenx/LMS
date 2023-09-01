@@ -8,10 +8,58 @@ defmodule LoanmanagementsystemWeb.Router do
     plug :put_root_layout, {LoanmanagementsystemWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug(LoanmanagementsystemWeb.Plugs.SetUser)
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :app do
+    plug(:put_layout, {LoanmanagementsystemWeb.LayoutView, :app})
+  end
+
+  pipeline :session do
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:put_secure_browser_headers)
+  end
+
+  pipeline :no_layout do
+    plug(:put_layout, false)
+  end
+
+  scope "/", LoanmanagementsystemWeb do
+    pipe_through([:session, :no_layout])
+
+    get("/", SessionController, :username)
+    post("/", SessionController, :get_username)
+    get("/admin_login", SessionController, :admin_login)
+    post("/Login", SessionController, :create)
+    get("/logout/current/user", SessionController, :signout)
+    get("/Account/Disabled", SessionController, :error_405)
+    get("/phone/number/verification", SessionController, :otp_validation)
+    post("/user/phone/number/verification", SessionController, :validate_otp)
+    get("/user/phone/number/verification", SessionController, :validate_otp)
+
+
+    get("/new-user-role-set-otp", SessionController, :get_login_validate_otp)
+    post("/Recover/Password", SessionController, :recover_password)
+    get("/Recover/Password/confirm-OTP", SessionController, :get_forgot_password_validate_otp)
+    post("/Forgot-Password/validate-otp", SessionController, :forgot_password_validate_otp)
+    get("/Forgot-Password/User/set/Password", SessionController, :forgot_password_user_set_password)
+    post("/Forgot-Password/new_user_set_password", SessionController, :forgot_password_post_new_user_set_password)
+
+    get("/New/User/Change-Password", SessionController, :new_password)
+    post("/New/User/Change-Password", SessionController, :new_password)
+    get("/New/Change-Password", SessionController, :change_password)
+  end
+
+  scope "/", LoanmanagementsystemWeb do
+    pipe_through([:browser, :app])
+    get("/Home", PageController, :index)
+    get("/Admin/Dashboard", UserController, :admin_dashboard)
   end
 
   scope "/", LoanmanagementsystemWeb do

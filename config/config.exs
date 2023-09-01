@@ -10,6 +10,9 @@ import Config
 config :loanmanagementsystem,
   ecto_repos: [Loanmanagementsystem.Repo]
 
+config :endon,
+  repo: Loanmanagementsystem.Repo
+
 # Configures the endpoint
 config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
   url: [host: "localhost"],

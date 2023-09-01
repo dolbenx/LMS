@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+		<meta name="description" content="Spruha -  Admin Panel HTML Dashboard Template">
+		<meta name="author" content="Spruko Technologies Private Limited">
+		<meta name="keywords" content="admin,dashboard,panel,bootstrap admin template,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin template,themeforest admin dashboard,cool admin,it dashboard,admin design,dash templates,saas dashboard,dmin ui design">
+
+			<!-- Favicon -->
+		<link rel="icon" href="../../assets/img/brand/favicon.ico" type="image/x-icon"/>
+
+		<!-- Title -->
+		<title>Loan Management System</title>
+
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/css/bootstrap.min.css") %>">
+
+			<!-- Bootstrap css-->
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/css/bootstrap.min.css") %>">
+		<link  rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/webstatic/css/notifications/sweetalert2/sweetalert2.bundle.css") %>">
+
+
+
+		<!-- Icons css-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/icons.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/font-awesome/font-awesome.min.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/plugin.css") %>">
+
+		<!-- Style css-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/boxed.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-boxed.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/skins.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-style.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/default.css") %>">
+		<!-- Internal DataTables css-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/dataTables.bootstrap5.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/buttons.bootstrap5.min.css") %>">
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/responsive.bootstrap5.css") %>">
+
+		<!-- Color css-->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/color.css") %>">
+
+		<!-- Owl-carousel css-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.css") %>">
+
+		<!-- Select2 css-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/css/select2.min.css") %>">
+
+		<!-- Mutipleselect css-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/multipleselect/multiple-select.css") %>">
+
+		<!-- Sidemenu css-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/sidemenu/sidemenu.css") %>">
+		<!-- form wizard-->
+		<!-- CSS only -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery/jquery.min.js") %>"></script>
+
+		<style>
+		.russ{
+		width: 100px;
+		height: 50px;
+		position: relative;
+		animation-name: example;
+		animation-duration: 2s;
+		}
+
+		@keyframes example {
+		0%   {left:25px; top:0px;}
+		25%  {left:200px; top:0px;}
+
+		60% {left:0px; top:0px;}
+		}
+
+		.russkay{
+		width: 100px;
+		height: 100px;
+		position: relative;
+		animation-name: example;
+		animation-duration: 4s;
+
+		}
+
+		@keyframes example {
+		0%   {left:25px; top:0px;}
+		25%  {left:200px; top:0px;}
+
+		60% {left:0px; top:0px;}
+		}
+
+	</style>
+
+	<style>
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+
+	</head>
+
+	<body class="horizontalmenu">
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="<%= Routes.static_path(@conn, "/images/img/loader.svg") %>" class="loader-img" alt="Loader">
+		</div>
+		<!-- End Loader -->
+
+		<!-- Page -->
+
+
+
+
+<div class="page">
+	<div class="page-content-wrapper bg-transparent m-0">
+		<div style="background: url(/images/img/brand/abstract-blue-line-4k-xh.jpg) no-repeat center bottom fixed; background-size: cover;  opacity: 1;">
+			<!-- Mobile-header -->
+			<div class="mobile-main-header">
+				<div class="mb-1 navbar navbar-expand-lg  nav nav-item  navbar-nav-right responsive-navbar navbar-dark  ">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+						<div class="d-flex order-lg-2 ms-auto">
+							<div class="dropdown header-search">
+								<a class="nav-link icon header-search"> <i class="fe fe-search"></i> </a>
+								<div class="dropdown-menu">
+									<div class="main-form-search p-2">
+										<div class="input-group">
+											<div class="input-group-btn search-panel">
+												<select class="form-control select2">
+													<option label="All categories"> </option>
+													<option value="IT Projects"> IT Projects </option>
+													<option value="Business Case"> Business Case </option>
+													<option value="Microsoft Project"> Microsoft Project </option>
+													<option value="Risk Management"> Risk Management </option>
+													<option value="Team Building"> Team Building </option>
+												</select>
+											</div>
+											<input type="search" class="form-control" placeholder="Search for anything...">
+											<button class="btn search-btn">
+												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+													<circle cx="11" cy="11" r="8"></circle>
+													<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+												</svg>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="dropdown main-header-notification flag-dropdown">
+								<a class="nav-link icon country-Flag">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+										<circle cx="256" cy="256" r="256" fill="#f0f0f0" />
+										<g fill="#0052b4">
+											<path d="M52.92 100.142c-20.109 26.163-35.272 56.318-44.101 89.077h133.178L52.92 100.142zM503.181 189.219c-8.829-32.758-23.993-62.913-44.101-89.076l-89.075 89.076h133.176zM8.819 322.784c8.83 32.758 23.993 62.913 44.101 89.075l89.074-89.075H8.819zM411.858 52.921c-26.163-20.109-56.317-35.272-89.076-44.102v133.177l89.076-89.075zM100.142 459.079c26.163 20.109 56.318 35.272 89.076 44.102V370.005l-89.076 89.074zM189.217 8.819c-32.758 8.83-62.913 23.993-89.075 44.101l89.075 89.075V8.819zM322.783 503.181c32.758-8.83 62.913-23.993 89.075-44.101l-89.075-89.075v133.176zM370.005 322.784l89.075 89.076c20.108-26.162 35.272-56.318 44.101-89.076H370.005z" />
+										</g>
+										<g fill="#d80027">
+											<path d="M509.833 222.609H289.392V2.167A258.556 258.556 0 00256 0c-11.319 0-22.461.744-33.391 2.167v220.441H2.167A258.556 258.556 0 000 256c0 11.319.744 22.461 2.167 33.391h220.441v220.442a258.35 258.35 0 0066.783 0V289.392h220.442A258.533 258.533 0 00512 256c0-11.317-.744-22.461-2.167-33.391z" />
+											<path d="M322.783 322.784L437.019 437.02a256.636 256.636 0 0015.048-16.435l-97.802-97.802h-31.482v.001zM189.217 322.784h-.002L74.98 437.019a256.636 256.636 0 0016.435 15.048l97.802-97.804v-31.479zM189.217 189.219v-.002L74.981 74.98a256.636 256.636 0 00-15.048 16.435l97.803 97.803h31.481zM322.783 189.219L437.02 74.981a256.328 256.328 0 00-16.435-15.047l-97.802 97.803v31.482z" />
+										</g>
+									</svg>
+								</a>
+								<div class="dropdown-menu">
+									<a href="#" class="dropdown-item d-flex "> <span class="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/french_flag.jpg" alt="img"></span>
+										<div class="d-flex"> <span class="mt-2">French</span> </div>
+									</a>
+									<a href="#" class="dropdown-item d-flex"> <span class="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/germany_flag.jpg" alt="img"></span>
+										<div class="d-flex"> <span class="mt-2">Germany</span> </div>
+									</a>
+									<a href="#" class="dropdown-item d-flex"> <span class="avatar me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/italy_flag.jpg" alt="img"></span>
+										<div class="d-flex"> <span class="mt-2">Italy</span> </div>
+									</a>
+									<a href="#" class="dropdown-item d-flex"> <span class="avatar me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/russia_flag.jpg" alt="img"></span>
+										<div class="d-flex"> <span class="mt-2">Russia</span> </div>
+									</a>
+									<a href="#" class="dropdown-item d-flex"> <span class="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/spain_flag.jpg" alt="img"></span>
+										<div class="d-flex"> <span class="mt-2">spain</span> </div>
+									</a>
+								</div>
+							</div>
+							<div class="dropdown ">
+								<a class="nav-link icon full-screen-link"> <i class="fe fe-maximize fullscreen-button fullscreen header-icons"></i> <i class="fe fe-minimize fullscreen-button exit-fullscreen header-icons"></i> </a>
+							</div>
+							<div class="dropdown main-header-notification">
+								<a class="nav-link icon" href=""> <i class="fe fe-bell header-icons"></i> <span class="badge bg-danger nav-link-badge">4</span> </a>
+								<div class="dropdown-menu">
+									<div class="header-navheading">
+										<p class="main-notification-text">You have 1 unread notification<span class="badge bg-pill bg-primary ms-3">View all</span></p>
+									</div>
+									<div class="main-notification-list">
+										<div class="media new">
+											<div class="main-img-user online"><img alt="avatar" src="../../assets/img/users/5.jpg"></div>
+											<div class="media-body">
+												<p>Congratulate <strong>Olivia James</strong> for New template start</p><span>Oct 15 12:32pm</span> </div>
+										</div>
+										<div class="media">
+											<div class="main-img-user"><img alt="avatar" src="../../assets/img/users/2.jpg"></div>
+											<div class="media-body">
+												<p><strong>Joshua Gray</strong> New Message Received</p><span>Oct 13 02:56am</span> </div>
+										</div>
+										<div class="media">
+											<div class="main-img-user online"><img alt="avatar" src="../../assets/img/users/3.jpg"></div>
+											<div class="media-body">
+												<p><strong>Elizabeth Lewis</strong> added new schedule realease</p><span>Oct 12 10:40pm</span> </div>
+										</div>
+									</div>
+									<div class="dropdown-footer"> <a href="#">View All Notifications</a> </div>
+								</div>
+							</div>
+							<div class="main-header-notification mt-2">
+								<a class="nav-link icon" href="chat.html"> <i class="fe fe-message-square header-icons"></i> <span class="badge bg-success nav-link-badge">6</span> </a>
+							</div>
+							<div class="dropdown main-profile-menu">
+								<a class="d-flex" href="#"> <span class="main-img-user"><img alt="avatar" src="../../assets/img/users/1.jpg"></span> </a>
+								<div class="dropdown-menu">
+									<div class="header-navheading">
+										<h6 class="main-notification-title">Sonia Taylor</h6>
+										<p class="main-notification-text">Web Designer</p>
+									</div>
+									<a class="dropdown-item border-top" href="profile.html"> <i class="fe fe-user"></i> My Profile </a>
+									<a class="dropdown-item" href="profile.html"> <i class="fe fe-edit"></i> Edit Profile </a>
+									<a class="dropdown-item" href="profile.html"> <i class="fe fe-settings"></i> Account Settings </a>
+									<a class="dropdown-item" href="profile.html"> <i class="fe fe-settings"></i> Support </a>
+									<a class="dropdown-item" href="profile.html"> <i class="fe fe-compass"></i> Activity </a>
+									<a class="dropdown-item" href="signin.html"> <i class="fe fe-power"></i> Sign Out </a>
+								</div>
+							</div>
+							<div class="dropdown  header-settings">
+								<a href="#" class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-right header-icons">
+										<line x1="21" y1="10" x2="7" y2="10"></line>
+										<line x1="21" y1="6" x2="3" y2="6"></line>
+										<line x1="21" y1="14" x2="3" y2="14"></line>
+										<line x1="21" y1="18" x2="7" y2="18"></line>
+									</svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Mobile-header closed -->
+			<!-- Main Content-->
+			<div class="main-content pt-0">
+				<div class="container">
+					<div class="col-md-12">
+						<!-- Page Header -->
+						<div class="page-header">
+							<div>
+								<h2 class="main-content-title tx-24 mg-b-5">Registration</h2> </div>
+							<button type="button" class="btn btn-secondary submit ml-auto" onclick="history.back(-1)" style="border-radius:8px;">Go Back</button>
+						</div>
+						<!-- End Page Header -->
+						<div class="tab">
+							<button class="tablinks " id="defaultOpen" onclick="openCity(event, 'individual')">INDIVIDUAL</button>
+							<button class="tablinks" onclick="openCity(event, 'employer')">EMPLOYER</button>
+							<button class="tablinks" onclick="openCity(event, 'offtaker')">OFFTAKER</button>
+							<button class="tablinks" onclick="openCity(event, 'sme')">SME</button>
+						</div>
+						<div id="individual" class="tabcontent">
+							<!-- Row -->
+							<div class="row row-sm">
+								<div class="col-lg-12 col-md-12">
+									<div class="card custom-card">
+										<div class="card-body">
+											<div>
+												<h6 class="main-content-label mb-1">Sign Up As INDIVIDUAL</h6>
+												<p class="text-muted card-sub-title"></p>
+											</div>
+											<form action="<%= Routes.user_path(@conn, :individual_registration) %>" enctype="multipart/form-data" method="POST">
+												<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+												<input type="hidden" name="roleType" value="INDIVIDUALS">
+												<div class="row row-sm">
+													<div class="col-md-6">
+														<p class="mg-b-10">First Name</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="fe fe-user"></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="First Name" type="text" required="required" name="firstName"> </div>
+														<p class="mg-b-10">Phone Number</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="fe fe-phone" ></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="Phone Number" type="text" required="required" name="mobileNumber"> </div>
+													</div>
+													<div class="col-md-6">
+														<p class="mg-b-10">Last Name</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="fe fe-user"></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="Last Name" type="text" required="required" name="lastName"> </div>
+														<p class="mg-b-10">Email</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="ti ti-email"></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="Email" type="email" name="emailAddress"> </div>
+														<br> </div>
+												</div>
+												<div class="modal-footer">
+													<button href="#" class="btn ripple btn-primary" value="submit" type="submit">Create Account</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Row -->
+						</div>
+						<div id="employer" class="tabcontent">
+							<!-- Row -->
+							<div class="row row-sm">
+								<div class="col-lg-12 col-md-12">
+									<div class="card custom-card">
+										<div class="card-body">
+											<div>
+												<h6 class="main-content-label mb-1">Sign Up As EMPLOYER</h6>
+												<p class="text-muted card-sub-title"></p>
+											</div>
+											<form action="<%= Routes.user_path(@conn, :individual_registration) %>" enctype="multipart/form-data" method="POST">
+												<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+												<input type="hidden" name="roleType" value="EMPLOYER">
+												<input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+												<div class="row row-sm">
+													<div class="col-md-6">
+														<p class="mg-b-10">First Name</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="fe fe-user"></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="First Name" type="text" required="required" name="firstName"> </div>
+														<p class="mg-b-10">Phone Number</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="fe fe-phone" ></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="Phone Number" type="text" required="required" name="mobileNumber"> </div>
+													</div>
+													<div class="col-md-6">
+														<p class="mg-b-10">Last Name</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="fe fe-user"></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="Last Name" type="text" required="required" name="lastName"> </div>
+														<p class="mg-b-10">Email</p>
+														<div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1"><i class="ti ti-email"></i></span>
+															<input aria-describedby="basic-addon1" aria-label="Username" class="form-control" placeholder="Email" type="email" name="emailAddress"> </div>
+														<br> </div>
+												</div>
+												<div class="modal-footer">
+													<button href="#" class="btn ripple btn-primary" value="submit" type="submit">Create Account</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Row -->
+						</div>
+						<div id="offtaker" class="tabcontent">
+							<!-- Row -->
+							<div class="row row-sm">
+								<div class="col-lg-12 col-md-12">
+									<div class="card custom-card">
+										<div class="card-body">
+											<div>
+												<h6 class="main-content-label mb-1">Sign Up As OFFTAKER</h6> </div>
+											<form action="<%= Routes.maintenance_path(@conn, :self_create_company_offtaker) %>" method="post" enctype="multipart/form-data">
+												<input type="hidden" name="roleType" value="OFFTAKER">
+												<input value="false|||false|||true" name="defaultSwitchRadioExample" type="hidden">
+												<div id="wizard5">
+													<h3>Corporate Details</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<!-- col-4 -->
+															<div class="col-lg">
+																<p class="mg-b-10">Company Name</p>
+																<input type="text" class="form-control" name="companyName" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Company Mobile Number</p>
+																<input type="text" class="form-control" name="companyPhone" required> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Company Registration Number</p>
+																<input type="text" class="form-control" name="registrationNumber" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Company Registration Date</p>
+																<input type="date" class="form-control" name="companyRegistrationDate" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10"> Company TPIN</p>
+																<input type="text" class="form-control" name="taxno" required> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Company Contact Email</p>
+																<input type="text" class="form-control" name="contactEmail" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Company Account Number</p>
+																<input type="text" class="form-control" name="companyAccountNumber" required> </div>
+														</div>
+													</section>
+													<h3>Document Upload</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<table id class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+																<thead>
+																	<tr role="row">
+																		<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																			<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+																		</th>
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+																		<!--<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Charge When</th>-->
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr class="tr_clone">
+																		<td>
+																			<div class="col-md-12 form-group">
+																				<div class="form-group">
+																					<select name="#" class="form-control select2">
+																						<option label="Choose Title"></option>
+																						<option value="NRC">NRC</option>
+																						<option value="PACRA">PACRA</option>
+																					</select>
+																				</div>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="file" name="document[]" class="form-control form-control-sm-10"> </td>
+																		<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+																		<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</section>
+													<h3>Personal Information</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Title</p>
+																<select name="title" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Mr">Mr </option>
+																	<option value="Mrs">Mrs </option>
+																	<option value="Ms">Ms </option>
+																	<option value="Dr">Dr </option>
+																</select>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">First Name</p>
+																<input name="firstName" class="form-control" type="text"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Last Name</p>
+																<input name="lastName" class="form-control" type="text"> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Other Name</p>
+																<input class="form-control" name="otherName" type="text"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Date Of Birth</p>
+																<input class="form-control" name="dateOfBirth" type="date"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Choose Gender</p>
+																<select name="gender" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Male">Male </option>
+																	<option value="Female">Female </option>
+																</select>
+															</div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Identification Type</p>
+																<select name="meansOfIdentificationType" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Drivers License">Drivers License </option>
+																	<option value="National Registration Card">National Registration Card </option>
+																	<option value="Passport">Passport </option>
+																</select>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Identification Number</p>
+																<input class="form-control" name="meansOfIdentificationNumber" type="text"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Mobile Number</p>
+																<input class="form-control" name="mobileNumber" type="text"> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Email Address</p>
+																<input class="form-control" required name="emailAddress" type="email"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Password</p>
+																<input class="form-control" requred name="passwword" type="password"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Confirm Password</p>
+																<input class="form-control" required name="second-password" type="password"> </div>
+														</div>
+													</section>
+													<h3>Bank Details</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Bank Name</p>
+																<input name="firstName" class="form-control" type="text"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Branch Name</p>
+																<input name="lastName" class="form-control" type="text"> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Account Number</p>
+																<input class="form-control" name="otherName" type="text"> </div>
+														</div>
+														<div class="modal-footer">
+															<input class="btn ripple btn-primary submitButton2" type="submit" value="submit" /> </div>
+													</section>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Row -->
+						</div>
+						<div id="sme" class="tabcontent">
+							<!-- Row -->
+							<div class="row row-sm">
+								<div class="col-lg-12 col-md-12">
+									<div class="card custom-card">
+										<div class="card-body">
+											<div>
+												<h6 class="main-content-label mb-1">Sign Up As SME</h6> </div>
+											<form action="<%= Routes.maintenance_path(@conn, :self_create_company_sme) %>" method="post" enctype="multipart/form-data">
+												<input type="hidden" name="roleType" value="SME">
+												<input value="false|||true|||false" name="defaultSwitchRadioExample" type="hidden">
+												<div id="wizard6">
+													<h3>Corporate Details</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<!-- col-4 -->
+															<div class="col-lg">
+																<p class="mg-b-10">Company Name</p>
+																<input type="text" class="form-control" name="companyName" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Company Mobile Number</p>
+																<input type="text" class="form-control" name="companyPhone" required> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Company Registration Number</p>
+																<input type="text" class="form-control" name="registrationNumber" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Company Registration Date</p>
+																<input type="date" class="form-control" name="companyRegistrationDate" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10"> Company TPIN</p>
+																<input type="text" class="form-control" name="taxno" required> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Company Contact Email</p>
+																<input type="text" class="form-control" name="contactEmail" required> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Company Account Number</p>
+																<input type="text" class="form-control" name="companyAccountNumber" required> </div>
+														</div>
+													</section>
+													<h3>Document Upload</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<table id class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+																<thead>
+																	<tr role="row">
+																		<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																			<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+																		</th>
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+																		<!--<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Charge When</th>-->
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr class="tr_clone">
+																		<td>
+																			<div class="col-md-12 form-group">
+																				<div class="col-lg">
+																					<p class="mg-b-10">Identification Type</p>
+																					<select name="meansOfIdentificationType" class="form-control select2">
+																						<option label="Choose Currency"></option>
+																						<option value="Drivers License">Drivers License </option>
+																						<option value="National Registration Card">National Registration Card </option>
+																						<option value="Passport">Passport </option>
+																					</select>
+																				</div>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="file" name="document[]" class="form-control form-control-sm-10"> </td>
+																		<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+																		<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</section>
+													<h3>Personal Information</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Title</p>
+																<select name="title" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Mr">Mr </option>
+																	<option value="Mrs">Mrs </option>
+																	<option value="Ms">Ms </option>
+																	<option value="Dr">Dr </option>
+																</select>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">First Name</p>
+																<input name="firstName" class="form-control" type="text"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Last Name</p>
+																<input name="lastName" class="form-control" type="text"> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Other Name</p>
+																<input class="form-control" name="otherName" type="text"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Date Of Birth</p>
+																<input class="form-control" name="dateOfBirth" type="date"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Choose Gender</p>
+																<select name="gender" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Male">Male </option>
+																	<option value="Female">Female </option>
+																</select>
+															</div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Identification Type</p>
+																<select name="meansOfIdentificationType" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Drivers License">Drivers License </option>
+																	<option value="National Registration Card">National Registration Card </option>
+																	<option value="Passport">Passport </option>
+																</select>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Identification Number</p>
+																<input class="form-control" name="meansOfIdentificationNumber" type="text"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Mobile Number</p>
+																<input class="form-control" name="mobileNumber" type="text"> </div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Email Address</p>
+																<input class="form-control" required name="emailAddress" type="email"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Password</p>
+																<input class="form-control" required name="password" type="password"> </div>
+															<div class="col-lg">
+																<p class="mg-b-10">Confirm Password</p>
+																<input class="form-control" required name="second-password" type="password"> </div>
+														</div>
+														<div class="modal-footer">
+															<input class="btn ripple btn-primary submitButton3" type="submit" value="submit" />
+															<button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+														</div>
+													</section>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Row -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Main Content-->
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+	function openCity(evt, cityName) {
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for(i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tablinks");
+		for(i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+		document.getElementById(cityName).style.display = "block";
+		evt.currentTarget.className += " active";
+	}
+	// Get the element with id="defaultOpen" and click on it
+	document.getElementById("defaultOpen").click();
+	</script>
+	<script>
+	function addrow(e) {
+		var $tr = $(e).closest('.tr_clone');
+		var $clone = $tr.clone();
+		$clone.find(':text').val('');
+		$tr.after($clone);
+	}
+
+	function removerow(e) {
+		var $tr = $(e).closest('.tr_clone');
+		var $remove = $tr.remove();
+		$remove.find(':text').val('');
+		$tr.after($remove);
+	}
+</script>
+
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="fe fe-arrow-up"></i></a>
+
+
+		<!-- Jquery js-->
+
+
+		<!-- Bootstrap js-->
+
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+		<!-- formwizard-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/form.js") %>"></script>
+
+		<!-- Internal Chart.Bundle js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/chart.js/Chart.bundle.min.js") %>"></script>
+			<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/popper.min.js") %>"></script>
+
+		<!-- Peity js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/peity/jquery.peity.min.js") %>"></script>
+
+		<!-- Select2 js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/js/select2.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/select2.js") %>"></script>
+
+		<!-- Perfect-scrollbar js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/perfect-scrollbar/perfect-scrollbar.min.js") %>"></script>
+
+		<!-- Sidebar js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/sidebar/sidebar.js") %>"></script>
+
+		<!-- Owl Carousel js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.js") %>"></script>
+
+		<!-- Internal Apexchart js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/apexcharts.js") %>"></script>
+
+		<!-- Internal Polyfills js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/classList.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill_mdn.js") %>"></script>
+
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/dataTables.responsive.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/responsive.bootstrap5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/table-data.js") %>"></script>
+
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jquery.dataTables.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.bootstrap5.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.buttons.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.bootstrap5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jszip.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/pdfmake.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/vfs_fonts.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.html5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.print.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.colVis.min.js") %>"></script>
+
+
+
+
+		<!-- Internal Morris js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/raphael/raphael.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/morris.js/morris.min.js") %>"></script>
+
+		<!-- Internal Dashboard js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/apexcharts.js") %>"></script>
+
+		<!-- Sparkline js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-sparkline/jquery.sparkline.min.js") %>"></script>
+
+		<!-- Internal Dashboard js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/crypto-dashboard.js") %>"></script>
+
+		<!-- Sticky js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/sticky.js") %>"></script>
+
+		<!-- Custom js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/custom.js") %>"></script>
+
+
+
+		<!-- Internal Prism js-->
+		<script  src="<%= Routes.static_path(@conn, "/webstatic/plugins/prism/prism.js") %>"></script>
+
+
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %>"></script>
+
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-steps/jquery.steps.min.js") %>"></script>
+
+		<!-- Internal Form-wizard js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/form-wizard.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/default.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/journalentry.js") %>"></script>
+		<script>
+			$(".submitButton").click(function() {
+
+
+				//Select the parent form and submit
+				$(this).parent("form").submit();
+
+			});
+
+			$(".submitButton1").click(function() {
+
+
+				//Select the parent form and submit
+				$(this).parent("form").submit();
+
+			});
+
+			$(".submitButton2").click(function() {
+				alert("fghnhjkbjh xbjhxjhxcvhhcx")
+
+				//Select the parent form and submit
+				$(this).parent("form").submit();
+
+			});
+			$(".submitButton3").click(function() {
+
+
+				//Select the parent form and submit
+				$(this).parent("form").submit();
+
+			});
+
+		</script>
+
+
+
+
+	</body>
+</html>
