@@ -25,10 +25,6 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblProducts do
       add :charges_account_id, :integer
       add :classification_id, :integer
       add :charge_id, :integer
-      add :reference_id, :integer
-      add :reason, :string
-      add :finance_cost, :float
-      add :arrangement_fee, :float
 
       timestamps()
     end

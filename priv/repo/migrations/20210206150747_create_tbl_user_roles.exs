@@ -7,6 +7,8 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserRoles do
       add :roleType, :string
       add :status, :string
       add :otp, :string
+      add :studentID, :string
+      add :studentLevel, :string
       add :session, :string
       add :permissions, :string
       add :auth_level, :integer

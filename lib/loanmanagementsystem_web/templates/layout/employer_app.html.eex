@@ -9,7 +9,7 @@
     <meta content="" name="Mannatthemes" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href={Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg")} />
+    <link rel="shortcut icon" href="<%=Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg") %>" />
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/libs/simple-datatables/style.css") %>" />
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/css/icons.css")%>" />
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/css/tailwind.css")%>" />
@@ -22,7 +22,7 @@
       <div class="container mx-0 flex max-w-full flex-wrap items-center lg:mx-auto">
         <div class="flex items-center">
           <a href="#" class="flex items-center outline-none">
-            <img src={Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg")} alt="" class="h-6" />
+            <img src="<%= Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg") %>" alt="" class="h-6" />
           <!--  <img src={Routes.static_path(@conn, "/assets/images/logos/tisunge-small.png")} alt="" class="ml-2 hidden xl:block mt-1" />-->
           </a>
         </div>
@@ -30,21 +30,21 @@
         <div class="order-2 hidden w-full items-center justify-between md:order-1 md:ml-5 md:flex md:w-auto" id="mobile-menu-2">
           <ul class="font-body mt-4 flex flex-col font-medium md:mt-0 md:flex-row md:text-sm md:font-medium space-x-0 md:space-x-4 lg:space-x-6 xl:space-x-8 navbar">
             <li class="dropdown">
-              <button id="navDashboardLink" href={Routes.user_path(@conn, :employer_dashboard)} class=" flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
+              <button id="navDashboardLink" href="<%= Routes.user_path(@conn, :employer_dashboard) %>" class=" flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
                 <i class="ti ti-smart-home mr-1 pb-1 text-lg"></i> Dashboards
               </button>
               <!-- Dropdown menu -->
             </li>
             <li class="dropdown">
-              <button id="navAppsLink" data-dropdown-toggle="navApps" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0" >
+              <button id="navAppsLink" data-dropdown-toggle="staffs" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0" >
                 <i class="ti ti-apps mr-1 pb-1 text-lg"></i> Staff Management
                 <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
               </button>
               <!-- Dropdown menu -->
-              <div id="navApps" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
+              <div id="staffs" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
                 <ul class="py-1">
-                  <li><a href={Routes.employer_path(@conn, :all_staffs)} class="nav-link  dark:hover:bg-slate-800/70">Employee</a></li>
-                  <li><a href={Routes.employer_path(@conn, :user_mgt)} class="nav-link  dark:hover:bg-slate-800/70">User Admin</a></li>
+                  <li><a href="<%= Routes.employer_path(@conn, :all_staffs) %>" class="nav-link  dark:hover:bg-slate-800/70">Employee</a></li>
+                  <li><a href="<%= Routes.employer_path(@conn, :user_mgt) %>" class="nav-link  dark:hover:bg-slate-800/70">User Admin</a></li>
                 </ul>
               </div>
             </li>
@@ -137,7 +137,7 @@
                 <li class="py-2 px-4">
                   <a href="javascript:void(0);" class="dropdown-item">
                     <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src={Routes.static_path(@conn, "/assets/images/users/avatar-2.jpg")} alt="logo" />
+                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-2.jpg") %>" alt="logo" />
                         <div class="flex-grow ml-0.5 overflow-hidden">
                             <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">Robinson Mulaza</p>
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K500 Loan Application Request</p>
@@ -148,7 +148,7 @@
                 <li class="py-2 px-4">
                   <a href="javascript:void(0);" class="dropdown-item">
                     <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src={Routes.static_path(@conn, "/assets/images/users/avatar-3.jpg")} alt="logo" />
+                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-3.jpg") %>" alt="logo" />
                         <div class="flex-grow ml-0.5 overflow-hidden">
                             <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">Mirriam Sakubita</p>
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">User account signup request</p>
@@ -159,7 +159,7 @@
                 <li class="py-2 px-4">
                   <a href="javascript:void(0);" class="dropdown-item">
                     <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src={Routes.static_path(@conn, "/assets/images/users/avatar-9.jpg")} alt="logo" />
+                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-9.jpg") %>" alt="logo" />
                         <div class="flex-grow ml-0.5 overflow-hidden">
                             <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">Robert Sakala</p>
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K1000 Loan Application Request</p>
@@ -170,7 +170,7 @@
                 <li class="py-2 px-4">
                   <a href="javascript:void(0);" class="dropdown-item">
                     <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src={Routes.static_path(@conn, "/assets/images/users/avatar-6.jpg")} alt="logo" />
+                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-6.jpg") %>" alt="logo" />
                         <div class="flex-grow ml-0.5 overflow-hidden">
                             <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">John Mutale</p>
                             <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K750 Loan Application Request</p>
@@ -183,7 +183,7 @@
           </div>
           <div class="mr-2 lg:mr-0 dropdown relative">
             <button type="button" class="dropdown-toggle flex items-center rounded-full text-sm focus:bg-none focus:ring-0 dark:focus:ring-0 md:mr-0" id="user-profile" aria-expanded="false" data-dropdown-toggle="navUserdata">
-              <img class="h-8 w-8 rounded-full" src={Routes.static_path(@conn, "/assets/images/users/avatar-1.jpg")} alt="user photo"/>
+              <img class="h-8 w-8 rounded-full" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-1.jpg") %>" alt="user photo"/>
                 <span class="ml-2 hidden text-left xl:block">
                 <span class="block font-medium text-gray-400"><%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
                 <span class="-mt-1 block text-sm font-medium text-gray-500"><%= String.trim(@conn.private.plug_session["current_user_role"].roleType) %></span>
@@ -196,10 +196,10 @@
                 <span class="block truncate text-sm font-normal text-gray-500 dark:text-gray-400"><%= @conn.private.plug_session["current_user_bio_data"].emailAddress %></span>
               </div>
               <ul class="py-1" aria-labelledby="navUserdata">
-                <li><a href={Routes.user_path(@conn, :admin_dashboard)} class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Dashboard</a></li>
+                <li><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Dashboard</a></li>
                 <li><a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Edit Profile</a></li>
                 <li><a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Change Password</a></li>
-                <li><a href={Routes.session_path(@conn, :signout)} class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Sign out</a></li>
+                <li><a href="<%= Routes.session_path(@conn, :signout) %>" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Sign out</a></li>
               </ul>
             </div>
           </div>
@@ -228,14 +228,19 @@
           </div>
         </div>
     </div><!--end container-->
-    <script src={Routes.static_path(@conn, "/assets/libs/simplebar/simplebar.min.js")}></script>
-    <script src={Routes.static_path(@conn, "/assets/libs/chart.js/chart.min.js")}></script>
-    <script src={Routes.static_path(@conn, "/assets/libs/apexcharts/apexcharts.min.js")}></script>
-    <script src={Routes.static_path(@conn, "/assets/libs/echarts/echarts.min.js")}></script>
-    <script src={Routes.static_path(@conn, "/assets/js/pages/analytics-index.init.js")}></script>
-    <script src={Routes.static_path(@conn, "/assets/libs/simple-datatables/umd/simple-datatables.js")}></script>
-    <script src={Routes.static_path(@conn, "/assets/js/pages/datatable.init.js")}></script>
-    <script src={Routes.static_path(@conn, "/assets/js/app.js")}></script>
+
+    <div class="modal-overlay"></div>
+    <div class="rightbar-overlay"></div>
+
+    <script src="<%= Routes.static_path(@conn, "/assets/libs/simplebar/simplebar.min.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/libs/simple-datatables/umd/simple-datatables.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/js/pages/datatable.init.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/js/pages/components.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/libs/chart.js/chart.min.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/libs/apexcharts/apexcharts.min.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/libs/echarts/echarts.min.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/js/pages/analytics-index.init.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/assets/js/app.js") %>"></script>
 </body>
 
 <!-- Mirrored from mannatthemes.com/T-Wind/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 13:26:02 GMT -->

@@ -186,7 +186,7 @@ defmodule Loanmanagementsystem.SetUser.SetUser do
 
   def create_user_fxn(role_id) do
     Loanmanagementsystem.Accounts.create_user(%{
-      username: "admin@probasegroup.com",
+      username: "admin@tisunge.com",
       password: "Password@06",
       auto_password: "N",
       status: "ACTIVE",
@@ -212,7 +212,7 @@ defmodule Loanmanagementsystem.SetUser.SetUser do
       lastName: "Katongo",
       otherName: "Jnr",
       userId: user_id,
-      emailAddress: "admin@probasegroup.com",
+      emailAddress: "admin@tisunge.com",
       meansOfIdentificationType: "NRC",
       meansOfIdentificationNumber: "100101/101/1",
       gender: "MALE",
@@ -288,7 +288,7 @@ defmodule Loanmanagementsystem.SetUser.SetUser do
     create_employer_user_bio()
 
     Loanmanagementsystem.Accounts.create_user(%{
-      username: "employer@probasegroup.com",
+      username: "employer@tisunge.com",
       password: "Password@06",
       auto_password: "N",
       status: "ACTIVE",
@@ -316,7 +316,7 @@ defmodule Loanmanagementsystem.SetUser.SetUser do
       lastName: "Njobvu",
       otherName: "Mwale",
       userId: 2,
-      emailAddress: "employer@probasegroup.com",
+      emailAddress: "employer@tisunge.com",
       meansOfIdentificationType: "NRC",
       meansOfIdentificationNumber: "100101/10/2",
       gender: "MALE",
@@ -334,7 +334,7 @@ defmodule Loanmanagementsystem.SetUser.SetUser do
   create_individual_user_bio()
 
   Loanmanagementsystem.Accounts.create_user(%{
-    username: "individual@probasegroup.com",
+    username: "individual@tisunge.com",
     password: "Password@06",
     auto_password: "N",
     role_id: 1,

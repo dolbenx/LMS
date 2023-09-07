@@ -25,6 +25,10 @@ defmodule LoanmanagementsystemWeb.SessionController do
     render(conn, "index.html")
   end
 
+  def userlogin(conn, _params) do
+    render(conn, "username.html")
+  end
+
   def forgot_password(conn, _params) do
     Logger.info(">>>>>>>")
     render(conn, "forgot_password.html")

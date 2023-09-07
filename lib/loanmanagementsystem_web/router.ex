@@ -25,6 +25,10 @@ defmodule LoanmanagementsystemWeb.Router do
     plug(:put_layout, {LoanmanagementsystemWeb.LayoutView, :employer_app})
   end
 
+  pipeline :web_app do
+    plug(:put_layout, {LoanmanagementsystemWeb.LayoutView, :web_app})
+  end
+
   pipeline :session do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -36,10 +40,27 @@ defmodule LoanmanagementsystemWeb.Router do
     plug(:put_layout, false)
   end
 
+
+  scope "/", LoanmanagementsystemWeb do
+    pipe_through([:session, :web_app])
+
+    get("/", SessionController, :username)
+    get("/About-Us", WebsiteController, :about)
+    get("/Servies", WebsiteController, :services)
+    get("/Contact-Us", WebsiteController, :contact_us)
+    get("/Our-Team", WebsiteController, :team)
+    get("/Our-Portfolio", WebsiteController, :portfolio)
+    get("/How-To-Apply", WebsiteController, :how_it_works)
+    get("/Customer-Testimonial", WebsiteController, :testimonial)
+    get("/Freqent-Asked-Questions", WebsiteController, :faq)
+  end
+
+
   scope "/", LoanmanagementsystemWeb do
     pipe_through([:session, :no_layout])
 
-    get("/", SessionController, :username)
+    get("/User/Login", SessionController, :userlogin)
+
     post("/", SessionController, :get_username)
     get("/admin_login", SessionController, :admin_login)
     post("/Login", SessionController, :create)
