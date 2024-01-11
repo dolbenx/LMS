@@ -1,0 +1,47 @@
+<!-- Horizonatal menu-->
+			<div class="main-navbar hor-menu" style="border-radius: 23px;">
+				<div class="container">
+					<ul class="nav">
+
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.client_management_path(@conn, :admin_client_classifications) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-shield sidemenu-icon"></i><span class="sidemenu-label">Client Maintenance</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.client_management_path(@conn, :customer_category) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-lock sidemenu-icon"></i><span class="sidemenu-label">Customer Category</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.client_management_path(@conn, :customer_types) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-menu sidemenu-icon"></i><span class="sidemenu-label">Customer Types</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link with-sub" href="#"><span class="shape1"></span><span class="shape2"></span><i class="ti-palette sidemenu-icon"></i><span class="sidemenu-label ">MIS</span></a>
+							<ul class="nav-sub">
+
+								<!-- <li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.client_management_path(@conn, :cost_center) %>">Cost Center</a>
+								</li> -->
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.client_management_path(@conn, :region) %>">Region</a>
+								</li>
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.client_management_path(@conn, :town_or_district) %>">Town/District</a>
+								</li>
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.client_management_path(@conn, :province) %>">Province</a>
+								</li>
+                                <li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.client_management_path(@conn, :relationship_manager) %>">Relationships Managers</a>
+								</li>
+								<!--<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.client_management_path(@conn, :relationship_officer) %>">Relationship Officers</a>
+								</li> -->
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.client_management_path(@conn, :business_type) %>">Business Types</a>
+								</li>
+							</ul>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+			<!--End  Horizonatal menu-->

@@ -10,8 +10,6 @@ defmodule LoanmanagementsystemWeb.ProductsController do
   plug LoanmanagementsystemWeb.Plugs.Authenticate,
 		       [module_callback: &LoanmanagementsystemWeb.ProductsController.authorize_role/1]
 		       when action not in [
-
-
 						:admin_activate_product,
 						:admin_add_product,
 						:admin_all_products,
@@ -33,7 +31,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 						:traverse_errors,
             :admin_edit_product,
             :admin_update_product_details
-		            ]
+		      ]
 
 		  use PipeTo.Override
 

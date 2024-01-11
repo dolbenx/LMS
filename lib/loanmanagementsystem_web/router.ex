@@ -88,6 +88,8 @@ defmodule LoanmanagementsystemWeb.Router do
     get("/Home", PageController, :index)
     get("/Admin/Dashboard", UserController, :admin_dashboard)
 
+
+    # -----------------------------------Product Management----------------------------------------------------- #
     get("/Admin/view/all/products", ProductsController, :admin_all_products)
     get("/Admin/edit/products", ProductsController, :admin_edit_product)
     # post("/Admin/view/all/products", ProductsController, :admin_all_products)
@@ -96,8 +98,6 @@ defmodule LoanmanagementsystemWeb.Router do
     get("/Admin/view/inactive/products", ProductsController, :inactive_products)
     get("/Admin/view/all/products/create", ProductsController, :admin_add_product)
     post("/Admin/view/all/products/create", ProductsController, :admin_add_product)
-
-
     get("/Admin/view/all/products/update", ProductsController, :admin_update_product)
     post("/Admin/view/all/products/update", ProductsController, :admin_update_product)
     get("/Admin/view/system/products/activate", ProductsController, :admin_activate_product)
@@ -105,10 +105,302 @@ defmodule LoanmanagementsystemWeb.Router do
     get("/Admin/view/system/products/deactivate", ProductsController, :admin_deactivate_product)
     post("/Admin/view/system/products/deactivate", ProductsController, :admin_deactivate_product)
     post("/Admin/View/product/update", ProductsController, :admin_update_product_details)
-
-
     post("/products/items/view", ProductsController, :product_item_lookup)
     post("/Admin/products/selected/charge", ProductsController, :admin_charge_lookup)
+    # -----------------------------------END Product Management----------------------------------------------------- #
+
+    # -----------------------------------Loan Management----------------------------------------------------- #
+    get("/Loan/Application", LoanController, :loans_application)
+    get("/All/Customer/Loans", LoanController, :loans)
+    get("/Credit/Management/quick_advance_application", LoanController, :quick_advance_application_datatable)
+    get("/Credit/Management/repayment_maintenance", LoanController, :repayment_maintenance)
+    post("/Credit/Management/repayment_maintenance", LoanController, :loan_repayment_item_lookup)
+    # -----------------------------------END Loan Management----------------------------------------------------- #
+
+     # -----------------------------------CLient Management-----------------------------------------------------
+     get("/admin/client/maintain/sme/maintainence", ClientManagementController, :employer_maintainence)
+     get("/admin/employee/maintainence", ClientManagementController, :employee_maintainence)
+
+    get(
+      "/admin/client/maintain/employee/maintainence",
+      ClientManagementController,
+      :client_maintainence
+    )
+
+    get("/admin/client/maintain/add", ClientManagementController, :add_client)
+
+    post("/admin/client/maintain/edit_client", ClientManagementController, :edit_client)
+    get("/admin/client/maintain/edit_client", ClientManagementController, :edit_client)
+
+    get(
+      "/admin/client/maintain/employee/create/client",
+      ClientManagementController,
+      :create_client_user
+    )
+
+    post(
+      "/admin/client/maintain/employee/create/client",
+      ClientManagementController,
+      :create_client_user
+    )
+
+    get("/admin/client/maintain/activate_client", ClientManagementController, :activate_client)
+    post("/admin/client/maintain/activate_client", ClientManagementController, :activate_client)
+
+    get(
+      "/admin/client/maintain/deactivate_client",
+      ClientManagementController,
+      :deactivate_client
+    )
+
+    post(
+      "/admin/client/maintain/deactivate_client",
+      ClientManagementController,
+      :deactivate_client
+    )
+
+    get(
+      "/admin/client/maintain/mobile/money/argent/maintainence",
+      ClientManagementController,
+      :mobile_money_argents
+    )
+
+    post(
+      "/admin/add/momo/argent/maintainence",
+      ClientManagementController,
+      :admin_create_momo_agent
+    )
+
+    get(
+      "/admin/add/momo/argent/maintainence",
+      ClientManagementController,
+      :admin_create_momo_agent
+    )
+
+    post(
+      "/admin/add/momo/merchant/maintainence",
+      ClientManagementController,
+      :admin_create_merchant
+    )
+
+    get(
+      "/admin/add/momo/merchant/maintainence",
+      ClientManagementController,
+      :admin_create_merchant
+    )
+
+    get(
+      "/admin/client/maintain/client/relationship/managers",
+      ClientManagementController,
+      :client_managers_relationship
+    )
+
+    get(
+      "/admin/client/maintain/blacklisted/client",
+      ClientManagementController,
+      :blacklisted_clients
+    )
+
+    get(
+      "/admin/client/maintain/fuel/importer/maintenance",
+      ClientManagementController,
+      :fuel_importer_maintenance
+    )
+
+    get(
+      "/admin/client/maintain/merchant/maintenance",
+      ClientManagementController,
+      :merchant_maintenance
+    )
+
+    get(
+      "/admin/client/maintain/sme/maintainence/create",
+      ClientManagementController,
+      :admin_employer_maintainence
+    )
+
+    post(
+      "/admin/client/maintain/sme/maintainence/create",
+      ClientManagementController,
+      :admin_employer_maintainence
+    )
+
+    post(
+      "/admin/view/client/relation/managers",
+      ClientManagementController,
+      :client_relationship_manager_item_lookup
+    )
+
+    get(
+      "/admin/view/client/relation/managers",
+      ClientManagementController,
+      :client_relationship_manager_item_lookup
+    )
+
+    post(
+      "/admin/change/client/relation/managers",
+      ClientManagementController,
+      :change_client_manager
+    )
+
+    get(
+      "/admin/change/client/relation/managers",
+      ClientManagementController,
+      :change_client_manager
+    )
+
+    post(
+      "/client/relation/managers/lookup",
+      ClientManagementController,
+      :client_manager_item_lookup
+    )
+
+    get(
+      "/client/relation/managers/lookup",
+      ClientManagementController,
+      :client_manager_item_lookup
+    )
+
+
+
+
+    post("/client/relation/managers/bulk/lookup", OrganizationManagementController, :client_manager_item_lookup)
+
+    get(
+      "/client/relation/managers/bulk/lookup",
+      OrganizationManagementController,
+      :client_manager_item_lookup)
+
+      # --------------------------------------------System Management-------------------------------------
+    get(
+      "/admin/change/management/system/management/user/management",
+      SystemManagementController,
+      :admin_user_maintenance
+    )
+
+    get(
+      "/admin/change/management/role/maintainence",
+      SystemManagementController,
+      :role_maintianence
+    )
+
+    get(
+      "/admin/change/management/role/maintainence/add_description",
+      SystemManagementController,
+      :add_description
+    )
+
+    post(
+      "/admin/change/management/role/maintainence/add_description",
+      SystemManagementController,
+      :add_description
+    )
+
+    get(
+      "/admin/change/management/role/maintainence/activate",
+      SystemManagementController,
+      :activate_role_description
+    )
+
+    post(
+      "/admin/change/management/role/maintainence/activate",
+      SystemManagementController,
+      :activate_role_description
+    )
+
+    post(
+      "/admin/change/management/role/maintainence/disable",
+      SystemManagementController,
+      :disable_role_description
+    )
+
+    post(
+      "/admin/change/management/create/maker/checker",
+      SystemManagementController,
+      :configure_maker_checker
+    )
+
+    post(
+      "/admin/change/management/edit/maker/checker",
+      SystemManagementController,
+      :edit_maker_checker
+    )
+
+    get(
+      "/admin/change/management/charge/maintenance",
+      SystemManagementController,
+      :charge_maintenance
+    )
+
+    get(
+      "/admin/change/management/commission/maintenance",
+      SystemManagementController,
+      :commission_maintenance
+    )
+
+    get(
+      "/admin/change/management/department/maintainence",
+      OrganizationManagementController,
+      :admin_department
+    )
+
+    get(
+      "/admin/change/management/role/permision/maintainence",
+      SystemManagementController,
+      :role_permision_maintianence
+    )
+
+    get(
+      "/admin/change/management/country/maintainence",
+      SystemManagementController,
+      :countries
+    )
+
+    get(
+      "/admin/change/management/province/maintainence",
+      SystemManagementController,
+      :province
+    )
+
+    get(
+      "/admin/change/management/town/maintainence",
+      SystemManagementController,
+      :district
+    )
+
+    get(
+      "/admin/change/management/maker/checker/configuration",
+      SystemManagementController,
+      :maker_checker_configuration
+    )
+
+    get(
+      "/admin/change/management/report/maintainence",
+      SystemManagementController,
+      :report_maintianence
+    )
+
+    get(
+      "/admin/change/management/global/configuration",
+      SystemManagementController,
+      :global_configurations
+    )
+
+    get(
+      "/admin/change/management/account/number/generation",
+      SystemManagementController,
+      :account_number_generation
+    )
+
+    get(
+      "/admin/change/management/external/service/configuration",
+      SystemManagementController,
+      :external_service_configuration
+    )
+
+    get("/admin/change/management/audit/trail", SystemManagementController, :audit_trail)
+
+    # ---------------------------------------End of System Management---------------------------------------
 
   end
 

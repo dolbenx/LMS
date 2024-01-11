@@ -20,7 +20,7 @@ defmodule LoanmanagementsystemWeb.Endpoint do
     at: "/",
     from: :loanmanagementsystem,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt web)
+    only: ~w(assets fonts images favicon.ico robots.txt web admin)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
