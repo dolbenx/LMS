@@ -112,8 +112,12 @@ defmodule LoanmanagementsystemWeb.Router do
     # -----------------------------------Loan Management----------------------------------------------------- #
     get("/Loan/Application", LoanController, :loans_application)
     get("/All/Customer/Loans", LoanController, :loans)
+    get("/Credit/Management/Loan-Repayment", LoanController, :repayment_loans)
+    get("/Credit/Management/Loan-Tracking", LoanController, :tracking_loans)
+    get("/Credit/Management/Pending-Loans", LoanController, :pending_loans)
+    get("/Credit/Management/Disbursed-Loans", LoanController, :disbursed_loans)
+    get("/Credit/Management/Written-Off-Loan", LoanController, :written_off_loans)
     get("/Credit/Management/quick_advance_application", LoanController, :quick_advance_application_datatable)
-    get("/Credit/Management/repayment_maintenance", LoanController, :repayment_maintenance)
     post("/Credit/Management/repayment_maintenance", LoanController, :loan_repayment_item_lookup)
     # -----------------------------------END Loan Management----------------------------------------------------- #
 

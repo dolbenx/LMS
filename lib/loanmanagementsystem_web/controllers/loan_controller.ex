@@ -23,6 +23,10 @@ defmodule LoanmanagementsystemWeb.LoanController do
     render(conn, "pending_loans.html")
   end
 
+  def repayment_loans(conn, _params) do
+    render(conn, "repayment_loans.html")
+  end
+
   def tracking_loans(conn, _params) do
     render(conn, "tracking_loans.html")
   end

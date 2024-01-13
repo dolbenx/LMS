@@ -12,6 +12,7 @@
       <!-- Owl Carousel  -->
       <link rel="stylesheet" href={Routes.static_path(@conn, "/admin/css/owl.carousel.min.css")} />
        <link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/icons.css")} />
+       <link rel="stylesheet" href={Routes.static_path(@conn, "/admin/css/icons.css")} />
       <script src="chrome-extension://njgehaondchbmjmajphnhlojfnbfokng/js/contentScripts/dom.js"></script>
    </head>
    <body data-sidebartype="full" style="">
@@ -833,12 +834,12 @@
                         <!-- =================== -->
                         <!-- Dashboard -->
                         <!-- =================== -->
-                        <li class="sidebar-item selected">
-                           <a class="sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                        <li class="sidebar-item">
+                           <a class="sidebar-link" href={Routes.user_path(@conn, :admin_dashboard)} aria-expanded="false">
                            <span>
-                           <i class="ti ti-home-2"></i>
+                           <i class="fa fa-home"></i>
                            </span>
-                           <span class="hide-menu">Dashboard 1</span>
+                           <span class="hide-menu">Dashboard</span>
                            </a>
                         </li>
                         <!-- ============================= -->
@@ -851,52 +852,52 @@
                         <li class="sidebar-item">
                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                            <span>
-                           <i class="ti ti-archive"></i>
+                           <i class="fa fa-wallet"></i>
                            </span>
                            <span class="hide-menu">Credit Management</span>
                            </a>
                            <ul aria-expanded="false" class="collapse first-level">
                               <li class="sidebar-item">
-                                 <a href="../horizontal/app-calendar.html" class="sidebar-link">
-                                 <i class="ti ti-calendar"></i>
+                                 <a href={Routes.loan_path(@conn, :loans_application)} class="sidebar-link">
+                                 <i class="fa fa-file"></i>
                                  <span class="hide-menu">Loan Application</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/apps-kanban.html" class="sidebar-link">
-                                 <i class="ti ti-layout-kanban"></i>
+                                 <a href={Routes.loan_path(@conn, :loans)} class="sidebar-link">
+                                 <i class="fa fa-list-alt"></i>
                                  <span class="hide-menu">Loans</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/app-chat.html" class="sidebar-link">
-                                 <i class="ti ti-message-dots"></i>
+                                 <a href={Routes.loan_path(@conn, :repayment_loans)} class="sidebar-link">
+                                 <i class="fa fa-credit-card"></i>
                                  <span class="hide-menu">Repayments</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a class="sidebar-link" href="../horizontal/app-email.html" aria-expanded="false">
+                                 <a href={Routes.loan_path(@conn, :tracking_loans)} class="sidebar-link">
+                                    <span><i class="fa fa-download"></i></span>
+                                    <span class="hide-menu">loan Tracking</span>
+                                 </a>
+                              </li>
+                              <li class="sidebar-item">
+                                 <a class="sidebar-link" href={Routes.loan_path(@conn, :pending_loans)} aria-expanded="false">
                                  <span>
-                                 <i class="ti ti-mail"></i>
+                                 <i class="fa fa-receipt"></i>
                                  </span>
                                  <span class="hide-menu">Pending Loans</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/app-contact.html" class="sidebar-link">
-                                 <i class="ti ti-phone"></i>
-                                 <span class="hide-menu">Loan Tracking</span>
+                                 <a href={Routes.loan_path(@conn, :disbursed_loans)} class="sidebar-link">
+                                    <span><i class="fa fa-upload"></i></span>
+                                    <span class="hide-menu">Disbursed Loans</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/app-contact2.html" class="sidebar-link">
-                                 <i class="ti ti-list-details"></i>
-                                 <span class="hide-menu">Disbursed Loans</span>
-                                 </a>
-                              </li>
-                              <li class="sidebar-item">
-                                 <a href="../horizontal/app-notes.html" class="sidebar-link">
-                                 <i class="ti ti-notes"></i>
+                                 <a href={Routes.loan_path(@conn, :written_off_loans)} class="sidebar-link">
+                                 <i class="fa fa-eraser"></i>
                                  <span class="hide-menu">Written Off Loans</span>
                                  </a>
                               </li>
@@ -912,33 +913,33 @@
                         <li class="sidebar-item">
                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                            <span>
-                           <i class="ti ti-notebook"></i>
+                           <i class="fa fa-users"></i>
                            </span>
                            <span class="hide-menu">Client Management</span>
                            </a>
                            <ul aria-expanded="false" class="collapse first-level">
                               <li class="sidebar-item">
-                                 <a href="../horizontal/page-faq.html" class="sidebar-link">
-                                 <i class="ti ti-help"></i>
+                                 <a href={Routes.client_management_path(@conn, :employer_maintainence)} class="sidebar-link">
+                                 <i class="fa fa-users"></i>
                                  <span class="hide-menu">Employer Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/page-account-settings.html" class="sidebar-link">
-                                 <i class="ti ti-user-circle"></i>
+                                 <a href={Routes.client_management_path(@conn, :employee_maintainence)} class="sidebar-link">
+                                 <i class="fa fa-user-circle"></i>
                                  <span class="hide-menu">Employee Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/page-pricing.html" class="sidebar-link">
-                                 <i class="ti ti-currency-dollar"></i>
+                                 <a href={Routes.client_management_path(@conn, :add_client)} class="sidebar-link">
+                                 <i class="fa fa-user"></i>
                                  <span class="hide-menu">Individual Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/widgets-cards.html" class="sidebar-link">
-                                 <i class="ti ti-cards"></i>
-                                 <span class="hide-menu">Blacklisted Client</span>
+                                 <a href={Routes.client_management_path(@conn, :blacklisted_clients)} class="sidebar-link">
+                                 <i class="fa fa-users"></i>
+                                 <span class="hide-menu">Blacklisted Clients</span>
                                  </a>
                               </li>
                            </ul>
@@ -953,50 +954,50 @@
                         <li class="sidebar-item">
                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                            <span>
-                           <i class="ti ti-notebook"></i>
+                           <i class="fa fa-cogs"></i>
                            </span>
                            <span class="hide-menu">Change Management</span>
                            </a>
                            <ul aria-expanded="false" class="collapse first-level">
                               <li class="sidebar-item">
                                  <a href={Routes.products_path(@conn, :admin_all_products)} class="sidebar-link">
-                                 <i class="ti ti-server"></i>
+                                 <i class="fa fa-server"></i>
                                  <span class="hide-menu">Product Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/page-account-settings.html" class="sidebar-link">
-                                 <i class="ti ti-share"></i>
+                                 <a href={Routes.system_management_path(@conn, :charge_maintenance)} class="sidebar-link">
+                                 <i class="fa fa-money"></i>
                                  <span class="hide-menu">Charge Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/page-pricing.html" class="sidebar-link">
-                                 <i class="ti ti-comment"></i>
+                                 <a href={Routes.system_management_path(@conn, :global_configurations)} class="sidebar-link">
+                                 <i class="fa fa-comment"></i>
                                  <span class="hide-menu">SMS Configurations</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/widgets-cards.html" class="sidebar-link">
-                                 <i class="ti ti-glob"></i>
+                                 <a href={Routes.system_management_path(@conn, :countries)} class="sidebar-link">
+                                 <i class="fa fa-globe"></i>
                                  <span class="hide-menu">Country Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/widgets-banners.html" class="sidebar-link">
-                                 <i class="ti ti-map-alt"></i>
+                                 <a href={Routes.system_management_path(@conn, :province)} class="sidebar-link">
+                                 <i class="fa fa-map"></i>
                                  <span class="hide-menu">Province Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/widgets-charts.html" class="sidebar-link">
-                                 <i class="ti ti-location-pin"></i>
+                                 <a href={ Routes.system_management_path(@conn, :district)} class="sidebar-link">
+                                 <i class="fa fa-location"></i>
                                  <span class="hide-menu">City Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../landingpage/index.html" class="sidebar-link">
-                                 <i class="ti ti-app-window"></i>
+                                 <a href={ Routes.system_management_path(@conn, :commission_maintenance)} class="sidebar-link">
+                                 <i class="fa fa-usd"></i>
                                  <span class="hide-menu">Currency Maintenance</span>
                                  </a>
                               </li>
@@ -1015,38 +1016,38 @@
                         <li class="sidebar-item">
                            <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                            <span class="rounded-3">
-                           <i class="ti ti-layout-sidebar"></i>
+                           <i class="fa fa-user"></i>
                            </span>
                            <span class="hide-menu">User Management</span>
                            </a>
                            <ul aria-expanded="false" class="collapse first-level">
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-basic.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href={ Routes.system_management_path(@conn, :admin_user_maintenance)} class="sidebar-link">
+                                 <i class="fa fa-user-plus"></i>
                                  <span class="hide-menu">User Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-dark-basic.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href={Routes.system_management_path(@conn, :role_maintianence)} class="sidebar-link">
+                                 <i class="fa fa-address-card"></i>
                                  <span class="hide-menu">Role Maintenance</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-sizing.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href="#" class="sidebar-link">
+                                 <i class="fa fa-comments"></i>
                                  <span class="hide-menu">SMS Logs</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-layout-coloured.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href="#" class="sidebar-link">
+                                 <i class="fa fa-envelope-open"></i>
                                  <span class="hide-menu">Email Logs</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-datatable-basic.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href={Routes.system_management_path(@conn, :audit_trail)} class="sidebar-link">
+                                 <i class="fa fa-list-ol"></i>
                                  <span class="hide-menu">Audit Logs</span>
                                  </a>
                               </li>
@@ -1065,38 +1066,38 @@
                         <li class="sidebar-item">
                            <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                            <span class="rounded-3">
-                           <i class="ti ti-layout-sidebar"></i>
+                           <i class="fa fa-file-archive-o"></i>
                            </span>
                            <span class="hide-menu">Reports</span>
                            </a>
                            <ul aria-expanded="false" class="collapse first-level">
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-basic.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href="#" class="sidebar-link">
+                                 <i class="fa fa-file-pdf-o"></i>
                                  <span class="hide-menu">Customer Report</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-dark-basic.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href="#" class="sidebar-link">
+                                 <i class="fa fa-file-pdf-o"></i>
                                  <span class="hide-menu">Company Report</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-sizing.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href="#" class="sidebar-link">
+                                 <i class="fa fa-file-pdf-o"></i>
                                  <span class="hide-menu">Transaction Report</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-layout-coloured.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href="#" class="sidebar-link">
+                                 <i class="fa fa-file-pdf-o"></i>
                                  <span class="hide-menu">Repayments Report</span>
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href="../horizontal/table-datatable-basic.html" class="sidebar-link">
-                                 <i class="ti ti-circle"></i>
+                                 <a href="#" class="sidebar-link">
+                                 <i class="fa fa-file-pdf-o"></i>
                                  <span class="hide-menu">Overdue Report</span>
                                  </a>
                               </li>
