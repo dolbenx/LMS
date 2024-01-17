@@ -27,8 +27,8 @@ defmodule Loanmanagementsystem.Products.Product do
     field(:charge_id, :map)
     field(:reference_id, :integer)
     field(:reason, :string)
-    field :finance_cost, :float,  default: 0.0
-    field :arrangement_fee, :float, default: 0.0
+    field(:finance_cost, :float,  default: 0.0)
+    field(:arrangement_fee, :float, default: 0.0)
 
     timestamps()
   end

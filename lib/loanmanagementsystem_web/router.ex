@@ -276,133 +276,41 @@ defmodule LoanmanagementsystemWeb.Router do
       :client_manager_item_lookup)
 
       # --------------------------------------------System Management-------------------------------------
-    get(
-      "/admin/change/management/system/management/user/management",
-      SystemManagementController,
-      :admin_user_maintenance
-    )
+    get("/admin/change/management/system/management/user/management", SystemManagementController, :admin_user_maintenance)
 
-    get(
-      "/admin/change/management/role/maintainence",
-      SystemManagementController,
-      :role_maintianence
-    )
 
-    get(
-      "/admin/change/management/role/maintainence/add_description",
-      SystemManagementController,
-      :add_description
-    )
+    get("/User/Role/View", SystemManagementController, :role_permision_maintianence)
+    get("/admin/change/management/role/maintainence", SystemManagementController, :role_maintianence)
+    get("/admin/change/management/role/maintainence/add_description", SystemManagementController, :add_description)
+    post("/admin/change/management/role/maintainence/add_description", SystemManagementController, :add_description)
+    get("/admin/change/management/role/maintainence/activate", SystemManagementController, :activate_role_description)
+    post("/admin/change/management/role/maintainence/activate", SystemManagementController, :activate_role_description)
+    post("/admin/change/management/role/maintainence/disable", SystemManagementController, :disable_role_description)
 
-    post(
-      "/admin/change/management/role/maintainence/add_description",
-      SystemManagementController,
-      :add_description
-    )
+    get("/Charge/View", SystemManagementController, :charge_maintenance)
+    get("/Charge/Maintenance", SystemManagementController, :add_charge)
+    post("/Charge/Maintenance", SystemManagementController, :add_charge)
 
-    get(
-      "/admin/change/management/role/maintainence/activate",
-      SystemManagementController,
-      :activate_role_description
-    )
+    get("/SMS/Configuration", SystemManagementController, :sms_configs)
 
-    post(
-      "/admin/change/management/role/maintainence/activate",
-      SystemManagementController,
-      :activate_role_description
-    )
-
-    post(
-      "/admin/change/management/role/maintainence/disable",
-      SystemManagementController,
-      :disable_role_description
-    )
-
-    post(
-      "/admin/change/management/create/maker/checker",
-      SystemManagementController,
-      :configure_maker_checker
-    )
-
-    post(
-      "/admin/change/management/edit/maker/checker",
-      SystemManagementController,
-      :edit_maker_checker
-    )
-
-    get(
-      "/admin/change/management/charge/maintenance",
-      SystemManagementController,
-      :charge_maintenance
-    )
-
-    get(
-      "/admin/change/management/commission/maintenance",
-      SystemManagementController,
-      :commission_maintenance
-    )
-
-    get(
-      "/admin/change/management/department/maintainence",
-      OrganizationManagementController,
-      :admin_department
-    )
-
-    get(
-      "/admin/change/management/role/permision/maintainence",
-      SystemManagementController,
-      :role_permision_maintianence
-    )
-
-    get(
-      "/admin/change/management/country/maintainence",
-      SystemManagementController,
-      :countries
-    )
-
-    get(
-      "/admin/change/management/province/maintainence",
-      SystemManagementController,
-      :province
-    )
-
-    get(
-      "/admin/change/management/town/maintainence",
-      SystemManagementController,
-      :district
-    )
-
-    get(
-      "/admin/change/management/maker/checker/configuration",
-      SystemManagementController,
-      :maker_checker_configuration
-    )
-
-    get(
-      "/admin/change/management/report/maintainence",
-      SystemManagementController,
-      :report_maintianence
-    )
-
-    get(
-      "/admin/change/management/global/configuration",
-      SystemManagementController,
-      :global_configurations
-    )
-
-    get(
-      "/admin/change/management/account/number/generation",
-      SystemManagementController,
-      :account_number_generation
-    )
-
-    get(
-      "/admin/change/management/external/service/configuration",
-      SystemManagementController,
-      :external_service_configuration
-    )
+    get("/Currency/Maintenance", SystemManagementController, :currency_maintenance)
 
     get("/admin/change/management/audit/trail", SystemManagementController, :audit_trail)
+
+    get("/Countries/View", SystemManagementController, :countries)
+    post("/Countries/Maintenance", SystemManagementController, :admin_create_country)
+    get("/Countries/Maintenance", SystemManagementController, :admin_create_country)
+
+    get("/Currency/Maintenance", SystemManagementController, :admin_create_currency)
+    post("/Currency/Maintenance", SystemManagementController, :admin_create_currency)
+
+    get("/Province/View", SystemManagementController, :province)
+    get("/Province/Maintenance", SystemManagementController, :admin_create_province)
+    post("/Province/Maintenance", SystemManagementController, :admin_create_province)
+
+    get("/District/View", SystemManagementController, :district)
+    get("/District/Maintenance", SystemManagementController, :admin_create_district)
+    post("/District/Maintenance", SystemManagementController, :admin_create_district)
 
     # ---------------------------------------End of System Management---------------------------------------
 

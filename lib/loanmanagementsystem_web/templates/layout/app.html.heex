@@ -972,7 +972,7 @@
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href={Routes.system_management_path(@conn, :global_configurations)} class="sidebar-link">
+                                 <a href={Routes.system_management_path(@conn, :sms_configs)} class="sidebar-link">
                                  <i class="fa fa-comment"></i>
                                  <span class="hide-menu">SMS Configurations</span>
                                  </a>
@@ -996,7 +996,7 @@
                                  </a>
                               </li>
                               <li class="sidebar-item">
-                                 <a href={ Routes.system_management_path(@conn, :commission_maintenance)} class="sidebar-link">
+                                 <a href={ Routes.system_management_path(@conn, :currency_maintenance)} class="sidebar-link">
                                  <i class="fa fa-usd"></i>
                                  <span class="hide-menu">Currency Maintenance</span>
                                  </a>
@@ -1111,6 +1111,30 @@
             </aside>
             <div class="body-wrapper">
                <div class="container-fluid mw-100">
+                  <div class="row">
+							<div class="col-md-12 col-lg-offset-2">
+								<div class="form-group">
+									<%= if get_flash(@conn, :info) do %>
+                           <div class="alert customize-alert alert-dismissible text-success rounded-pill alert-light-success bg-success-subtle text-success fade show remove-close-icon" role="alert">
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              <div class="d-flex align-items-center font-medium me-3 me-md-0">
+                                 <i class="ti ti-info-circle fs-5 me-2 text-success"></i>
+                                 <%= get_flash(@conn, :info) %>
+                              </div>
+                           </div>
+									<% end %>
+									<%= if get_flash(@conn, :error) do %>
+                           <div class="alert customize-alert alert-dismissible rounded-pill alert-light-danger bg-danger-subtle text-danger fade show remove-close-icon" role="alert">
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              <div class="d-flex align-items-center font-medium me-3 me-md-0">
+                                 <i class="ti ti-info-circle fs-5 me-2 text-danger"></i>
+                                 Sorry! <%= get_flash(@conn, :error) %>
+                              </div>
+                           </div>
+									<% end %>
+								</div>
+							</div>
+						</div>
                  <%= @inner_content %>
                </div>
             </div>
