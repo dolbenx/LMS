@@ -2,6 +2,8 @@ defmodule Loanmanagementsystem.Companies.Company do
   use Ecto.Schema
   import Ecto.Changeset
   use Endon
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   #
 

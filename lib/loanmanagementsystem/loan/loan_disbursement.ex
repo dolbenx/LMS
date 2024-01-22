@@ -2,6 +2,8 @@ defmodule Loanmanagementsystem.Loan.Loan_disbursement do
   use Ecto.Schema
   use Endon
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_loan_disbursement" do
     field :comp_bank_account_no, :string

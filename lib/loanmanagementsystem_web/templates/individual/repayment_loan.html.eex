@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Repayment</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Repayment</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Loan Products</li>
+                </ol>
+            </div>
+			<div class="d-flex">
+                <div class="justify-content-center">
+                    <a  href="<%= Routes.individual_path(@conn, :all_loan_repayment_datatable) %>" class="btn btn-primary my-2 btn-icon-text">
+                      <i class="si si-eye"></i> View all Loans
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    	<!-- End Page Header -->
+
+<%= if Loanmanagementsystem.Products.list_tbl_products()  |> Enum.reject(&(&1.status != "ACTIVE")) != [] do %>
+<div class="col-lg-12 col-md-12">
+
+
+			<div id="owl-demo2" class="owl-carousel owl-carousel-icons2">
+			<%= for product <- @products do %>
+
+				<div class="item card custom-card pricingTable2 overflow-hidden mb-0">
+
+					<div class="card">
+						<div class="card-body user-card text-center">
+							<div class="pricingTable2-header">
+								<h3><%= product.name %></h3>
+								<span><%= product.details %></span>
+							</div>
+							<div class="pricing-plans  bg-primary">
+								<p class="h5 ms-2">&nbsp;Between</p> <span class="pricingContent2"><%= product.currencyName %></span>&nbsp;<span class="price-value1"><%= Decimal.round(Decimal.from_float(product.minimumPrincipal)) %> - <%= Decimal.round(Decimal.from_float(product.maximumPrincipal)) %></span></span>
+							</div>
+							<div class="pricingContent2">
+								<ul>
+									<li><b>Period Type</b> - <%= product.periodType %></li>
+									<li><b>Interest Type </b> - <%= product.interestType %></li>
+								</ul>
+							</div><!-- CONTENT BOX-->
+							<div class="pricingTable2-sign-up">
+								<a href="<%= Routes.individual_path(@conn, :loan_repayment_datatable, product_id: product.id) %>" class="btn btn-block btn-success">Repay Loan</a>
+							</div><!-- BUTTON BOX-->
+						</div>
+					</div>
+
+				</div>
+			<% end %>
+			</div>
+
+</div>
+<% else %>
+
+<!-- Row -->
+<div class="row signpages ext-center">
+	<div class="col-md-7 mx-auto">
+		<div class="card alert-message">
+			<div class="card-body">
+				<div class="text-center text-white">
+
+					<h3 class="mt-4 mb-3">No Active Products</h3>
+					<p class="tx-18 text-white-50">Apologize for the Invoncenience</p>
+					<a href="<%= Routes.user_path(@conn, :individual_dashboard) %>" class="btn btn-success">Back to Home</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Row -->
+<% end %>
+
+
+
+
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Application</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Application Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+<!-- Row -->
+<div class="row row-sm">
+	<div class="col-xl-3 col-md-6 col-sm-12 col-lg-3">
+		<%= for product <-@products do %>
+			<%= if product.status=="ACTIVE" do %>
+				<div class="card custom-card pricingTable2">
+					<div class="pricingTable2-header">
+						<h3><%=product.name %> </h3>
+						<span>Lorem ipsum dolor</span>
+					</div>
+					<div class="pricing-plans  bg-primary">
+						<span class="price-value1"><%=product.currencyName %> <%=Decimal.round(Decimal.from_float(product.minimumPrincipal)) %> to <%=Decimal.round(Decimal.from_float(product.maximumPrincipal)) %></span>
+						<span class="month">/<%=product.periodType %></span>
+					</div>
+					<div class="pricingContent2">
+						<ul>
+							<li><b><%=product.interest %></b> Interest %</li>
+							<li>Product Type: <b><%=product.productType %></b></li>
+						</ul>
+					</div><!-- CONTENT BOX-->
+					<div class="pricingContent2">
+						<h5><u>Description</u></h5>
+						<p>
+							<%= product.details %>
+						</p>
+					</div><!-- CONTENT BOX-->
+					<div class="pricingTable2-sign-up">
+						<a href="<%# Routes.user_path(@conn, :employee_dashboard) %>" class="btn btn-block btn-primary">Apply</a>
+					</div><!-- BUTTON BOX-->
+				</div>
+			<% else %>
+				<div class="card custom-card pricingTable2">
+					<div class="pricingContent2">
+						<h3 class="mt-4 mb-3">No loan Product Maintained</h3>
+						<p class="tx-18 text-white-50">Apologize for the Invoncenience</p>
+					</div><!-- CONTENT BOX-->
+					<div class="pricingTable2-sign-up">
+						<a href="<%= Routes.user_path(@conn, :employee_dashboard) %>" class="btn btn-success">Back to Home</a>
+					</div><!-- BUTTON BOX-->
+				</div>
+			<%end %>
+		<% end %>
+	</div>
+
+</div>
+<!-- End Row -->
+    </div>
+</div>

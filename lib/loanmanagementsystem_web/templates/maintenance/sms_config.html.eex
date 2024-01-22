@@ -1,0 +1,346 @@
+
+
+<div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Message Configurations</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Message Configurations List
+                                    <span class="text-muted pt-2 font-size-sm d-block">List of message configurations</span></h3>
+                                </div>
+                                <div class="card-toolbar">
+
+                                    <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#modaldemo12" style="background-color: #0E75BF;">
+                                        Add Message Configurations
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-20p">Username</th>
+                                            <th class="wd-25p">Password</th>
+                                            <th class="wd-20p">Host</th>
+                                            <th class="wd-15p">Sender</th>
+                                            <th class="wd-15p">Max Attempts</th>
+                                            <th class="wd-20p">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <%= for msg_config <-@msg_configs do %>
+
+                                        <tr>
+                                            <td> <%= msg_config.username  %> </td>
+                                            <td> <%= msg_config.password  %> </td>
+                                            <td> <%= msg_config.host  %> </td>
+                                            <td> <%= msg_config.sender  %> </td>
+                                            <td> <%= msg_config.max_attempts  %> </td>
+                                            <td>
+
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">Options</button>
+                                                    <div class="dropdown-content">
+
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-target="#edit_sms"
+                                                            data-toggle="modal"
+                                                            data-id="<%= msg_config.id %>"
+                                                            data-username="<%= msg_config.username %>"
+                                                            data-password="<%= msg_config.password %>"
+                                                            data-host="<%= msg_config.host %>"
+                                                            data-sender="<%= msg_config.sender %>"
+                                                            data-max_attempts="<%= msg_config.max_attempts %>"
+                                                        >Edit</a>
+
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-target="#view_sms"
+                                                            data-toggle="modal"
+                                                            data-id="<%= msg_config.id %>"
+                                                            data-username="<%= msg_config.username %>"
+                                                            data-password="<%= msg_config.password %>"
+                                                            data-host="<%= msg_config.host %>"
+                                                            data-sender="<%= msg_config.sender %>"
+                                                            data-max_attempts="<%= msg_config.max_attempts %>"
+                                                        >View</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+
+
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Message Configurations Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.maintenance_path(@conn, :admin_configure_add_sms) %>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Username</label>
+                                    <input class="form-control" name="username" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Password</label>
+                                    <input class="form-control" name="password" required type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Host</label>
+                                    <input class="form-control" name="host" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Sender</label>
+                                    <input class="form-control" name="sender" required type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Max Attempts</label>
+                                    <input class="form-control" name="max_attempts"  required type="number">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Save</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+<!-- Tooltips and Popovers -->
+
+
+<div class="modal fade" id="edit_sms">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Update Message Configurations Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.maintenance_path(@conn, :admin_configure_update_sms) %>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Username</label>
+                                    <input class="form-control" name="username" id="username" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Password</label>
+                                    <input class="form-control" name="password" id="password" required type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Host</label>
+                                    <input class="form-control" name="host" id="host" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Sender</label>
+                                    <input class="form-control" name="sender" id="sender" required type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Max Attempts</label>
+                                    <input class="form-control" name="max_attempts" id="max_attempts"  required type="number">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Save</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="view_sms">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Message Configurations Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.maintenance_path(@conn, :admin_configure_update_sms) %>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Username</label>
+                                    <input class="form-control" name="username" id="username" required type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Password</label>
+                                    <input class="form-control" name="password" id="password" required type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Host</label>
+                                    <input class="form-control" name="host" id="host" required type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Sender</label>
+                                    <input class="form-control" name="sender" id="sender" required type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Max Attempts</label>
+                                    <input class="form-control" name="max_attempts" id="max_attempts"  required type="number" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#edit_sms').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var username = button.data('username')
+            var password = button.data('password')
+            var host = button.data('host')
+            var sender = button.data('sender')
+            var max_attempts = button.data('max_attempts')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #username').val(username);
+            modal.find('.modal-body #password').val(password);
+            modal.find('.modal-body #host').val(host);
+            modal.find('.modal-body #sender').val(sender);
+            modal.find('.modal-body #max_attempts').val(max_attempts);
+
+
+
+    });
+
+    $('#view_sms').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var username = button.data('username')
+            var password = button.data('password')
+            var host = button.data('host')
+            var sender = button.data('sender')
+            var max_attempts = button.data('max_attempts')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #username').val(username);
+            modal.find('.modal-body #password').val(password);
+            modal.find('.modal-body #host').val(host);
+            modal.find('.modal-body #sender').val(sender);
+            modal.find('.modal-body #max_attempts').val(max_attempts);
+
+
+
+    });
+});
+</script>

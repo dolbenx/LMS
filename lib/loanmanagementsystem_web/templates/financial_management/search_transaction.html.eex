@@ -1,0 +1,81 @@
+
+
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+			<%= render LoanmanagementsystemWeb.FinancialManagementView, "submenu.html", assigns %>
+		<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Transaction</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+				<!--begin::Daterange-->
+				TIME
+			</div>
+			<!--end::Toolbar-->
+		</div>
+	</div>
+	<!--end::Subheader-->
+	<!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Transaction List
+                                    <span class="text-muted pt-2 font-size-sm d-block">List of transaction</span></h3>
+                                </div>
+                                <div class="card-toolbar">
+                                    <a type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#single_repayment" style="background-color: #0E75BF;">
+                                    Single Search</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-20p">S/N#</th>
+                                            <th class="wd-25p">Due Date</th>
+                                            <th class="wd-20p">Repayment Amount</th>
+                                            <th class="wd-15p">Principle Amount</th>
+                                            <th class="wd-20p">Interest Amount</th>
+                                            <th class="wd-20p">Balance</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->

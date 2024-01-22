@@ -852,9 +852,10 @@ defmodule Loanmanagementsystem.Loan do
       [%Loans{}, ...]
 
   """
-  # def list_tbl_loans do
-  #   Repo.all(Loans)
-  # end
+  # Loanmanagementsystem.Loan.list_tbl_loans_all()
+  def list_tbl_loans_all do
+    Repo.all(Loans)
+  end
 
   def list_tbl_loans() do
     Loans
@@ -1315,7 +1316,7 @@ defmodule Loanmanagementsystem.Loan do
     [%{"" => sum}] = total
     sum
   end
-# Loanmanagementsystem.get_loan_info
+# Loanmanagementsystem.get_loan_info()
   def get_loan_info do
     Repo.all(Loans)
   end
@@ -7579,11 +7580,11 @@ defmodule Loanmanagementsystem.Loan do
     |> join(:left, [l, c], b in Bank, on: c.bank_id == b.id)
     |> join(:left, [l, c, b], pr in Product_rates, on: l.product_id == pr.product_id)
     |> join(:left, [l, c, b, pr], offk in Company, on: l.offtakerID == offk.id)
-    |> join(:left, [l, c, b, pr, offk], inv in Loan_invoice, on: l.id == inv.loanID)
-    |> join(:left, [l, c, b, pr, offk], idvdoc in Loan_application_documents, on: l.id == idvdoc.loan_id)
+    # |> join(:left, [l, c, b, pr, offk], inv in Loan_invoice, on: l.id == inv.loanID)
+    # |> join(:left, [l, c, b, pr, offk], idvdoc in Loan_application_documents, on: l.id == idvdoc.loan_id)
 
     |> where([l], l.id == ^loan_id and l.reference_no == ^ref_no)
-    |> select([l, c, b, pr, offk, inv, idvdoc], %{
+    |> select([l, c, b, pr, offk, idvdoc], %{
       requested_amount: l.requested_amount,
       loan_duration_month: l.loan_duration_month,
       monthly_installment: l.monthly_installment,
@@ -7673,21 +7674,6 @@ defmodule Loanmanagementsystem.Loan do
       bankName: b.bankName,
       repayment: pr.repayment,
       offtakerName: offk.companyName,
-
-      invoice_id: inv.id,
-      invoiceValue: inv.invoiceValue,
-      paymentTerms: inv.paymentTerms,
-      dateOfIssue: inv.dateOfIssue,
-      invoiceNo: inv.invoiceNo,
-      vendorName: inv.vendorName,
-
-      doc_id: idvdoc.id,
-      loan_id: idvdoc.loan_id,
-      docName: idvdoc.doc_name,
-      docPath: idvdoc.path,
-      docStatus: idvdoc.status,
-      docType: idvdoc.doc_type,
-      fileName: idvdoc.fileName
 
 
     })
@@ -9387,7 +9373,7 @@ defmodule Loanmanagementsystem.Loan do
 
   defp compose_consumer_loan_application_list(query) do
     query
-    |>where([lO, uS, pR, uR], lO.loan_type == "CONSUMER LOAN")
+    |>where([lO, uS, pR, uR], lO.loan_type == "SALARY ADVANCE")
     |> select([lO, uS, pR, uR],
       %{
       isStaff: uR.isStaff,

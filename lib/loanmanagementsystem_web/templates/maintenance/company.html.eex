@@ -1,0 +1,156 @@
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Company Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <button type="button" class="btn btn-white btn-icon-text my-2 me-2">
+                        <i class="fe fe-download me-2"></i> Import
+                    </button>
+                    <button type="button" class="btn btn-white btn-icon-text my-2 me-2">
+                        <i class="fe fe-filter me-2"></i> Filter
+                    </button>
+                    <button type="button" class="btn btn-primary my-2 btn-icon-text">
+                        <i class="fe fe-download-cloud me-2"></i> Download Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="card-body">
+                            <button class="btn ripple btn-primary btn-rounded mb-0" style="float: right;" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Company</button>
+                        </div>
+                        <div>
+                            <h6 class="main-content-label mb-1">Company Table</h6><br>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Company Name</th>
+                                        <th class="wd-25p">Company Mobile Number</th>
+                                        <th class="wd-20p">Company Registration Number</th>
+                                        <th class="wd-15p">Company TPIN</th>
+                                        <th class="wd-20p">Company Email</th>
+                                        <th class="wd-20p">Created By</th>
+                                        <th class="wd-15p">User Role</th>
+                                        <th class="wd-20p">Status</th>
+                                        <th class="wd-20p">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%= for company <- @companies do %>
+                                    <tr>
+                                        <td> <%= company.companyName %> </td>
+                                        <td> <%= company.companyPhone %> </td>
+                                        <td> <%= company.registrationNumber %> </td>
+                                        <td> <%= company.taxno %> </td>
+                                        <td> <%= company.contactEmail %> </td>
+
+                                        <td> <%= company.firstName %> <%= company.lastName  %> </td>
+                                        <td> <%= company.roleType %> </td>
+                                        <td> <%= company.status %> </td>
+                                        <td> No Action </td>
+                                    </tr>
+                                <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+</div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Company Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+
+           <form action=" # " method="post">
+           <div class="card-body">
+             <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+              <input type="hidden" name="status" value="INACTIVE">
+                        <div class="row row-sm">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p class="mg-b-10">Company Name</p>
+                                    <input type="text" class="form-control" name="companyName" placeholder="Enter Company Name">
+                                </div>
+                                <div class="form-group">
+                                    <p class="mg-b-10">Company Mobile Number</p>
+                                    <input type="text" class="form-control" name="companyPhone" placeholder="Enter Company Mobile Phone">
+                                </div>
+                                <div class="form-group">
+                                    <p class="mg-b-10">Company Registration Number</p>
+                                    <input type="text" class="form-control" name="registrationNumber" placeholder="Enter Company Registration Number">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p class="mg-b-10">Company TPIN</p>
+                                    <input type="text" class="form-control" name="taxno" placeholder="Enter Company TPIN">
+                                </div>
+                                <div class="form-group m-0">
+                                    <p class="mg-b-10">Company Contact Email</p>
+                                    <input type="email" class="form-control" name="contactEmail" placeholder="Enter Company Email">
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group">
+                                    <p class="mg-b">Select Company Type</p>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label class="rdiobox"><input value="false|||false|||true"  name="defaultSwitchRadioExample" type="radio"> <span padding="2px">OFFTAKER</span></label>
+                                                </div> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <div class="col-md-2">
+                                                    <label class="rdiobox"><input value="false|||true|||false"  name="defaultSwitchRadioExample" type="radio"> <span>SME</span></label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="rdiobox"><input value="true|||false|||false"  name="defaultSwitchRadioExample" type="radio"> <span>EMPLOYER</span></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success" type="submit">Save</button>
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                </div>
+
+        </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

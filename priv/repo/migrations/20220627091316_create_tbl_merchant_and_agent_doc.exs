@@ -10,6 +10,7 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblMerchantAndAgentDoc do
       add :docType, :string
       add :status, :string
       add :path, :string
+      add :file, :string
 
       timestamps()
     end

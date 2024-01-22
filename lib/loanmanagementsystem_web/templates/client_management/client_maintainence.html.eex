@@ -1,937 +1,213 @@
-<%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
 
-<div class="inner-body">
-    <div class="page-header">
-        <div>
-            <h2 class="main-content-title tx-24 mg-b-5">Client Maintenance</h2>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Client Maintenance Table</li>
-            </ol>
-        </div>
-        <div class="d-flex">
-            <div class="justify-content-center">
-                <a onclick="history.back(-1)" class="btn btn btn-sm waves-effect waves-themed" style="background-color: #fd6074; color: white;" type="button"> Back</a>
-                 <a class="btn btn btn-sm waves-effect waves-themed"  type="button" style="background-color: #004d99; color: white;" href="<%= Routes.client_management_path(@conn, :add_client) %>" > Add Client </a></li>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Row -->
-
-
-    <div class="row row-sm">
-        <div class="col-lg-12">
-            <div class="card custom-card overflow-hidden">
-
-                <div class="card-body">
-                    <div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered border-bottom" id="example1">
-                            <thead>
-                                <tr>
-                                    <th>Client Name</th>
-                                    <th>Client Number</th>
-                                    <th>NRCr</th>
-                                    <th>Email Address</th>
-                                    <th>Company Name</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            </tbody>
-                                <%= for employee <- @employee do %>
-                                    <tr>
-                                        <td><%= employee.firstName %> <%= employee.lastName %> <%= employee.otherName %> </td>
-                                        <td><%= employee.mobileNumber %></td>
-                                        <td><%= employee.meansOfIdentificationNumber %></td>
-                                        <td><%= employee.emailAddress %></td>
-                                        <td><%= employee.companyName %></td>
-                                        <%= if employee.user_status == "ACTIVE" do %>
-
-                                            <td><span class= "badge bg-pill bg-success" ><%= employee.user_status %></span> </td>
-
-                                        <% else %>
-
-                                            <%= if employee.user_status == "INACTIVE" do %>
-
-                                                <td><span class="badge bg-pill bg-danger"><%= employee.user_status %></span> </td>
-
-                                            <% end %>
-
-                                        <% end %>
-                                        <td>
-
-                                            <%=if employee.user_status == "ACTIVE" do %>
-
-                                                <a class="btn ripple deactivate-client" data-deactivate-id="<%= employee.userId %>" style="color: #ff0000" title= "Disable" ><i class="fe fe-x-circle"></i> Disable </a>
-
-                                            <% else %>
-
-                                                <a class="btn ripple activate-client" data-activate-id="<%= employee.userId %>" style="color: #008000" title= "Enable"><i class="fe fe-check-circle"></i> Enable </a>
-
-                                            <% end %>
-
-                                            <a class="btn ripple" style="color: blue" title= "Edit"
-                                                data-bs-target= "#editclient"
-                                                data-bs-toggle="modal"
-                                                data-company_id= "<%= employee.companyId%>"
-                                                data-company_bank_id= "<%= employee.company_bank_id%>"
-                                                data-company_phone= "<%= employee.companyPhone%>"
-                                                data-company_email= "<%= employee.company_contactEmail%>"
-                                                data-company_registration_number= "<%= employee.company_registrationNumber%>"
-                                                data-company_status= "<%= employee.company_status%>"
-                                                data-company_taxno= "<%= employee.company_taxno%>"
-                                                data-company_registration_date= "<%= employee.companyRegistrationDate%>"
-                                                data-company_account_number= "<%= employee.companyAccountNumber%>"
-
-                                                data-classification_id= "<%= employee.classification_id%>"
-                                                data-roletype= "<%= employee.roleType%>"
-                                                data-status= "<%= employee.status %>"
-                                                data-id= "<%= employee.userId %>"
-                                                data-dateofbirth= "<%=employee.dateOfBirth %>"
-                                                data-email_address= "<%= employee.emailAddress%>"
-                                                data-firstname = "<%= employee.firstName %>"
-                                                data-gender= "<%=  employee.gender %>"
-                                                data-lastname= "<%= employee.lastName%>"
-                                                data-meansofidentificationnumber= "<%= employee.meansOfIdentificationNumber%>"
-                                                data-meansofidentificationtype= "<%= employee.meansOfIdentificationType%>"
-                                                data-mobile_number= "<%= employee.mobileNumber%>"
-                                                data-othername= "<%= employee.otherName %>"
-                                                data-title= "<%= employee.title%>"
-                                                data-bank_id= "<%=employee.bank_id %>"
-                                                data-bank_account_number= "<%=employee.bank_account_number %>"
-                                                data-marital_status= "<%=employee.marital_status %>"
-                                                data-nationality= "<%= employee.nationality%>"
-                                                data-number_of_dependants= "<%=employee.number_of_dependants %>"
-
-                                                data-employer_area= "<%= employee.employer_area%>"
-                                                data-employer_province= "<%= employee.employer_province%>"
-                                                data-employer_town= "<%= employee.employer_town%>"
-                                                data-area= "<%= employee.area%>"
-                                                data-date_of_joining= "<%= employee.date_of_joining%>"
-                                                data-employee_number= "<%= employee.employee_number%>"
-                                                data-employername= "<%=  employee.employername%>"
-                                                data-employer_industry_type= "<%= employee.employer_industry_type%>"
-                                                data-employer_office_building_name= "<%=  employee.employer_office_building_name%>"
-                                                data-employer_officer_street_name= "<%=employee.employer_officer_street_name %>"
-                                                data-employment_status= "<%=employee.employment_status %>"
-                                                data-hr_supervisor_email= "<%=  employee.hr_supervisor_email%>"
-                                                data-hr_supervisor_mobile_number= "<%= employee.hr_supervisor_mobile_number%>"
-                                                data-hr_supervisor_name= "<%= employee.hr_supervisor_name%>"
-                                                data-job_title= "<%= employee.job_title%>"
-                                                data-employer_occupation= "<%=  employee.employer_occupation%>"
-
-                                                data-town= "<%= employee.town_personal%>"
-                                                data-accomodation_status= " <%=employee.accomodation_status %>"
-                                                data-area= " <%=employee.area %>"
-                                                data-house_number= " <%= employee.house_number %>"
-                                                data-street_name= " <%= employee.street_name %>"
-                                                data-town_personal= " <%= employee.town_personal%>"
-                                                data-year_at_current_address= " <%= employee.year_at_current_address %>"
-
-                                                data-account_name= " <%= employee.accountName %>"
-                                                data-account_number= " <%= employee.accountNumber %>"
-                                                data-bank_name= "<%= employee.bankName %>"
-                                                data-branch_name= " <%= employee.branchName%>"
-                                                data-upload_bank_statement= " <%= employee.upload_bank_statement%>"
-                                            ><i class="fe fe-edit"></i> Edit </a>
-
-                                            <a class="btn ripple" style="color: orange" title= "View"
-                                                data-bs-target="#viewclientcompany"
-                                                data-bs-toggle="modal"
-                                                data-company_id= "<%= employee.companyId%>"
-                                                data-company_bank_id= "<%= employee.company_bank_id%>"
-                                                data-company_phone= "<%= employee.companyPhone%>"
-                                                data-company_email= "<%= employee.company_contactEmail%>"
-                                                data-company_registration_number= "<%= employee.company_registrationNumber%>"
-                                                data-company_status= "<%= employee.company_status%>"
-                                                data-company_taxno= "<%= employee.company_taxno%>"
-                                                data-company_registration_date= "<%= employee.companyRegistrationDate%>"
-                                                data-company_account_number= "<%= employee.companyAccountNumber%>"
-
-                                                data-classification_id= "<%= employee.classification_id%>"
-                                                data-roletype= "<%= employee.roleType%>"
-                                                data-status= "<%= employee.status %>"
-                                                data-id= "<%= employee.userId %>"
-                                                data-dateofbirth= "<%=employee.dateOfBirth %>"
-                                                data-email_address= "<%= employee.emailAddress%>"
-                                                data-firstname = "<%= employee.firstName %>"
-                                                data-gender= "<%=  employee.gender %>"
-                                                data-lastname= "<%= employee.lastName%>"
-                                                data-meansofidentificationnumber= "<%= employee.meansOfIdentificationNumber%>"
-                                                data-meansofidentificationtype= "<%= employee.meansOfIdentificationType%>"
-                                                data-mobile_number= "<%= employee.mobileNumber%>"
-                                                data-othername= "<%= employee.otherName %>"
-                                                data-title= "<%= employee.title%>"
-                                                data-bank_id= "<%=employee.bank_id %>"
-                                                data-bank_account_number= "<%=employee.bank_account_number %>"
-                                                data-marital_status= "<%=employee.marital_status %>"
-                                                data-nationality= "<%= employee.nationality%>"
-                                                data-number_of_dependants= "<%=employee.number_of_dependants %>"
-
-                                                data-employer_area= "<%= employee.employer_area%>"
-                                                data-employer_province= "<%= employee.employer_province%>"
-                                                data-employer_town= "<%= employee.employer_town%>"
-                                                data-area= "<%= employee.area%>"
-                                                data-date_of_joining= "<%= employee.date_of_joining%>"
-                                                data-employee_number= "<%= employee.employee_number%>"
-                                                data-employername= "<%=  employee.employername%>"
-                                                data-employer_industry_type= "<%= employee.employer_industry_type%>"
-                                                data-employer_office_building_name= "<%=  employee.employer_office_building_name%>"
-                                                data-employer_officer_street_name= "<%=employee.employer_officer_street_name %>"
-                                                data-employment_status= "<%=employee.employment_status %>"
-                                                data-hr_supervisor_email= "<%=  employee.hr_supervisor_email%>"
-                                                data-hr_supervisor_mobile_number= "<%= employee.hr_supervisor_mobile_number%>"
-                                                data-hr_supervisor_name= "<%= employee.hr_supervisor_name%>"
-                                                data-job_title= "<%= employee.job_title%>"
-                                                data-employer_occupation= "<%=  employee.employer_occupation%>"
-
-                                                data-town= "<%= employee.town_personal%>"
-                                                data-accomodation_status= " <%=employee.accomodation_status %>"
-                                                data-area= " <%=employee.area %>"
-                                                data-house_number= " <%= employee.house_number %>"
-                                                data-street_name= " <%= employee.street_name %>"
-                                                data-town_personal= " <%= employee.town_personal%>"
-                                                data-year_at_current_address= " <%= employee.year_at_current_address %>"
-
-                                                data-account_name= " <%= employee.accountName %>"
-                                                data-account_number= " <%= employee.accountNumber %>"
-                                                data-bank_name= "<%= employee.bankName %>"
-                                                data-branch_name= " <%= employee.branchName%>"
-                                                data-upload_bank_statement= " <%= employee.upload_bank_statement%>"
-                                            ><i class="fe fe-eye"></i> View </a>
-
-                                        </td>
-                                    </tr>
-                                <% end %>
-                            </tbody>
-                        </table>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Row -->
-
-</div>
-
-
-<%# -----------------------------------------Edit Client-------------------------------------------------------- %>
-
-<div class="modal" id="editclient">
-	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Edit Client Personal Details</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-			</div>
-            <form action="<%= Routes.client_management_path(@conn, :edit_client)%>" enctype="multipart/form-data" id="tst" method="post">
-                <div class="modal-body">
-                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-                <input type="hidden" name="id" id="id" >
-                <input type="hidden" name="id" id="id" >
-
-
-                <div id="russ-wizard">
-
-                    <h3>Client Personal Details</h3>
-                    <section>
-
-                        <div class="row row-sm mg-b-20">
-
-                                <div class="col-lg">
-                                    <p class="mg-b-10">Title</p>
-                                    <select name="title" id="title" class="form-control select2">
-                                        <option label="Choose Currency"></option>
-                                        <option value="Mr">Mr </option>
-                                        <option value="Mrs">Mrs </option>
-                                        <option value="Ms">Ms </option>
-                                        <option value="Dr">Dr </option>
-                                    </select>
-                                </div>
-                                <div class="col-lg">
-                                    <p class="mg-b-10">First Name</p>
-                                    <input name="firstName" id="first_name" class="form-control" type="text">
-                                </div>
-                                <div class="col-lg">
-                                    <p class="mg-b-10">Last Name</p>
-                                    <input name="lastName" id="lastname" class="form-control" type="text">
-                                </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">Other Name</p>
-                                <input class="form-control" id="othername" name="otherName" type="text">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Date Of Birth</p>
-                                <input class="form-control" id="dateofbirth" name="dateOfBirth" type="date">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Personal Email</p>
-                                <input class="form-control" id="email_address" name="emailAddress" type="email">
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                        <input type="hidden" name="meansOfIdentificationType"  value="National Registration Card">
-
-                            <div class="col-lg">
-                                <p class="mg-b-10">National Registration Number</p>
-                                <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Mobile Number</p>
-                                <input class="form-control" id="mobile_number" name="mobileNumber" type="text">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Choose Gender</p>
-                                <select name="gender" id="gender" class="form-control select2">
-                                    <option label="Choose Currency"></option>
-                                    <option value="Male">Male </option>
-                                    <option value="Female">Female </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">Choose Marital</p>
-                                <select name="marital_status" id="marital_status" class="form-control select2">
-                                    <option label="Choose Currency"></option>
-                                    <option value="Single">Single </option>
-                                    <option value="Married">Married </option>
-                                    <option value="Widow">Widow </option>
-                                    <option value="Widower">Widower </option>
-                                </select>
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Number Of Dependents</p>
-                                <input class="form-control" id="number_of_dependants" name="number_of_dependants" type="number">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Nationality</p>
-                                <input class="form-control" id="nationality" name="nationality" type="text">
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">House/Plot Number</p>
-                                <input name="house_number" id="house_number" class="form-control" type="text" required>
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Road/Street Name</p>
-                                <input name="nationality" id="house_number" class="form-control" type="text" required>
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Area</p>
-                                <input name="area" id="area" class="form-control" type="text" required>
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">Town</p>
-                                <input class="form-control" id="town_personal" name="town" type="text" required>
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Accomodation Status</p>
-                                <input class="form-control" id="accomodation_status" name="accomodation_status" type="text" required>
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Years At Current Address</p>
-                                <input class="form-control" id="year_at_current_address"  name="year_at_current_address" type="text" required>
-                            </div>
-                        </div>
-                    </section>
-
-                    <h3>Corporate Details</h3>
-                    <section>
-                        <div class="row row-sm mg-b-20">
-                        <input name="employer" class="form-control" id="company_name" type="hidden">
-                            <div class="col-lg" id="">
-                            <p class="mg-b-10">Select Company</p>
-                                <select name="company_id" id="company_id" class="form-control select2 admin-company-lookup">
-                                <option label="Choose Company">
-                                </option>
-                                <%= for company <- @companies do %>
-                                    <option value="<%= company.id %>"><%= company.companyName %></option>
-                                <% end %>
-                                </select>
-                            </div>
-                            <div class="col-lg" id="">
-                                <p class="mg-b-10">Company Mobile Number</p>
-                                <input type="text" class="form-control" name="companyPhone" id="company_phone" required>
-                            </div>
-                            <div class="col-lg" id="">
-                                <p class="mg-b-10"> Pacra-Registration Number</p>
-                                <input type="text" class="form-control" name="registrationNumber" id="registration_number" required>
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                             <div class="col-lg" id="">
-                                <p class="mg-b-10"> Company Email</p>
-                                <input type="text" class="form-control" name="contactEmail" id="contact_email" required>
-                            </div>
-                            <div class="col-lg" id="">
-                                <p class="mg-b-10"> Tax Number</p>
-                                <input type="text" class="form-control" name="taxno" id="taxno" required>
-                            </div>
-                            <div class="col-lg" id="">
-                                <p class="mg-b-10"> Account Number </p>
-                                <input type="text" class="form-control" name="companyAccountNumber" id="company_accountNumber" required>
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">Employer Industry Type</p>
-                                <input name="employer_industry_type"  id="employer_industry_type" class="form-control" type="text">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Choose Employment Status</p>
-                                <select name="employment_type" id="employment_status" class="form-control">
-                                    <option label="Choose One"></option>
-                                    <option value="Employed">Employed</option>
-                                    <option value="Self-Employed">Self-Employed</option>
-                                    <option value="Un-Employed">Un-Employed</option>
-                                </select>
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Occupation</p>
-                                <input name="occupation" id="employer_occupation" class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">Date Of Joining</p>
-                                <input class="form-control" id="date_of_joining" name="date_of_joining" type="date">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Employee Number</p>
-                                <input class="form-control" id="employee_number" name="employee_number" type="text">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Job Title</p>
-                                <input class="form-control" id="job_title" name="job_title" type="text">
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">HR/Supervisor's Email ID</p>
-                                <input class="form-control" id="hr_supervisor_email" name="hr_supervisor_email" type="text">
-                            </div>
-
-                            <div class="col-lg">
-                                <p class="mg-b-10">HR/Supervisor Name</p>
-                                <input class="form-control" id="hr_supervisor_name" name="hr_supervisor_name" type="text">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">HR/Supervisor's Number</p>
-                                <input class="form-control" id="hr_supervisor_mobile_number" name="hr_supervisor_mobile_number" type="text">
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">Area</p>
-                                <input class="form-control" id="employer_area" name="employment_area" type="text">
-                            </div>
-
-                            <div class="col-lg">
-                                <p class="mg-b-10">Employer Office Build Name</p>
-                                <input class="form-control" id="employer_office_building_name" name="employer_office_building_name" type="text">
-                            </div>
-                            <div class="col-lg">
-                                <p class="mg-b-10">Employer Road/Street Name</p>
-                                <input class="form-control" id="employer_officer_street_name" name="employer_officer_street_name" type="text">
-                            </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-
-
-                            <div class="col-lg-4">
-                                <p class="mg-b-10">Town</p>
-                                <input class="form-control" id="employer_town" name="employer_town" type="text">
-                            </div>
-                            <div class="col-lg-4">
-                                <p class="mg-b-5">Province</p>
-                                <input class="form-control" id="employer_province" name="employer_province" type="text">
-                            </div>
-                        </div>
-                    </section>
-
-                    <h3> Bank Details</h3>
-                    <section>
-                        <div class="modal-body">
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Select Bank</p>
-                                        <select name="bankName" id="bank_name" class="form-control">
-                                        <option label="Choose Bank Name">
-                                        </option>
-                                        <%= for bank <- @banks do %>
-
-                                            <option value="<%= bank.bankName %>"><%= bank.bankName %>  (<%= bank.process_branch %>)
-                                            </option>
-                                            <input name="bank_id" id="bank_id" value="<%= bank.id %>" type="hidden">
-                                            <input name="branchName" value="<%= bank.process_branch %>" type="hidden">
-                                        <% end %>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Account Number</p>
-                                        <input class="form-control" id="account_number"  name="bank_account_number" type="text">
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Account Name</p>
-                                        <input class="form-control" id="account_name"  name="accountName" type="text">
-                                    </div>
-
-                                </div>
-
-                        </div>
-                    </section>
-
-                    <h3>Document Upload</h3>
-                    <section>
-                        <div class="row row-sm mg-b-20">
-                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
-                                            <label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
-
-                                        <%# <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th> %>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%= for item <- client_document_upload() do %>
-                                        <tr class="tr_clone">
-                                            <td>
-                                                <div class="col-md-12 form-group">
-                                                    <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Employee Maintenance</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Actions-->
+									<div id="datetime"></div>
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+								<div class="row">
+                                    <div class="col-md-12 col-xxl-12">
+                                        <div class="card card-custom card-stretch gutter-b">
+                                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                                <div class="card-title">
+                                                    <h3 class="card-label">Employee List
+                                                    <span class="text-muted pt-2 font-size-sm d-block">List of onboaded employee's</span></h3>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> >
-                                            </td>
-                                        </tr>
-                                    <% end %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-
-                <div>
-            </form>
-			</div>
-			</div>
-	 		</div>
-    	</div>
-  	</div>
-</div>
-
-<%# -----------------------------------------end-------------------------------------------------------- %>
-
-
-<%# -----------------------------------------View Client-------------------------------------------------------- %>
-
-<div class="modal fade" id="viewclientcompany" class="edit_country">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-        <div class="modal-content modal-content-demo">
-
-                <form action="#" method="post">
-                    <div class="modal-header">
-                        <h6 class="modal-title">View Client Details</h6>
-                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row row-sm">
-                            <div class="col-md-12 col-lg-12 col-xl-12">
-                                <h5 class="modal-title"> Personal Details </h5><br>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Title</p>
-                                        <input name="firstName" id="title" class="form-control" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">First Name</p>
-                                        <input name="firstName" id="first_name" class="form-control" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Last Name</p>
-                                        <input name="lastName" id="lastname" class="form-control" type="text" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Other Name</p>
-                                        <input class="form-control" id="othername" name="otherName" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Date Of Birth</p>
-                                        <input class="form-control" id="dateofbirth" name="dateOfBirth" type="date" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Personal Email</p>
-                                        <input class="form-control" id="email_address" name="emailAddress" type="email" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                <input type="hidden" name="meansOfIdentificationType"  value="National Registration Card" readonly>
-
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">National Registration Number</p>
-                                        <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Mobile Number</p>
-                                        <input class="form-control" id="mobile_number" name="mobileNumber" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Gender</p>
-                                        <input class="form-control" id="gender" name="mobileNumber" type="text" readonly>
-                                    </div>
-                                </div>
-                                 <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Marital Status</p>
-                                        <input class="form-control" id="marital_status" name="number_of_dependants" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Number Of Dependents</p>
-                                        <input class="form-control" id="number_of_dependants" readonly name="number_of_dependants" type="number">
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Nationality</p>
-                                        <input class="form-control" id="nationality" name="nationality" type="text" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row row-sm">
-                            <div class="col-md-12 col-lg-12 col-xl-12">
-                                <h5 class="modal-title"> Address Details </h5><br>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">House/Plot Number</p>
-                                        <input name="house_number" id="house_number" class="form-control" type="text" required readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Road/Street Name</p>
-                                        <input name="street_name" id="street_name" class="form-control" type="text" required readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Area</p>
-                                        <input name="area" id="area" class="form-control" type="text" readonly required>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Town</p>
-                                        <input class="form-control" id="town_personal" name="town" type="text" required readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Accomodation Status</p>
-                                        <input class="form-control" id="accomodation_status" name="accomodation_status" type="text" required readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Years At Current Address</p>
-                                        <input class="form-control" id="year_at_current_address"  name="year_at_current_address" type="text" required readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row row-sm">
-                            <div class="col-md-12 col-lg-12 col-xl-12">
-                                <h5 class="modal-title"> Bank Details </h5><br>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Bank</p>
-                                        <input class="form-control" id="bank_name"  name="bank_account_number" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Account Number</p>
-                                        <input class="form-control" id="account_number"  name="bank_account_number" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Account Name</p>
-                                        <input class="form-control" id="account_name"  name="accountName" type="text" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row row-sm">
-                            <div class="col-md-12 col-lg-12 col-xl-12">
-                                <h5 class="modal-title"> Company Details </h5><br>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg" id="">
-                                        <p class="mg-b-10">Company Name</p>
-                                        <input type="text" class="form-control" id="employername" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Company Mobile Number</p>
-                                        <input type="text" class="form-control" id="company_phone" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10"> Pacra-Registration Number</p>
-                                        <input type="text" class="form-control" id="company_registration_number" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Registration Date</p>
-                                        <input type="date" class="form-control" id="company_registration_date" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">TPIN</p>
-                                        <input type="text" class="form-control" id="company_taxno" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Contact Email</p>
-                                        <input type="text" class="form-control "id="company_email" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg" id="">
-                                        <p class="mg-b-10">Account Number</p>
-                                        <input class="form-control"  id="company_account_number" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row row-sm">
-                            <div class="col-md-12 col-lg-12 col-xl-12">
-                                <h5 class="modal-title"> Employment Details </h5><br>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Employer Industry Type</p>
-                                        <input name="employer_industry_type"  id="employer_industry_type" class="form-control" type="text" readonly>
-                                    </div>
-
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Employment Type</p>
-                                        <input name="employment_type" id="employment_status" class="form-control" type="text" readonly>
-                                    </div>
-
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Occupation</p>
-                                        <input name="occupation" id="employer_occupation" class="form-control" type="text" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Date Of Joining</p>
-                                        <input class="form-control" id="date_of_joining" name="date_of_joining" type="date" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Employee Number</p>
-                                        <input class="form-control" id="employee_number" name="employee_number" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Job Title</p>
-                                        <input class="form-control" id="job_title" name="job_title" type="text" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">HR/Supervisor's Email ID</p>
-                                        <input class="form-control" id="hr_supervisor_email" name="hr_supervisor_email" type="text" readonly>
-                                    </div>
-
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">HR/Supervisor Name</p>
-                                        <input class="form-control" id="hr_supervisor_name" name="hr_supervisor_name" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">HR/Supervisor's Number</p>
-                                        <input class="form-control" id="hr_supervisor_mobile_number" name="hr_supervisor_mobile_number" type="text" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Area</p>
-                                        <input class="form-control" id="employer_area" name="area" type="text" readonly>
-                                    </div>
-
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Employer Office Build Name</p>
-                                        <input class="form-control" id="employer_office_building_name" name="employer_office_building_name" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Employer Road/Street Name</p>
-                                        <input class="form-control" id="employer_officer_street_name" name="employer_officer_street_name" type="text" readonly>
-                                    </div>
-                                </div>
-                                <div class="row row-sm mg-b-20">
-                                    <div class="col-lg">
-                                        <p class="mg-b-10">Town</p>
-                                        <input class="form-control" id="employer_town" name="town" type="text" readonly>
-                                    </div>
-                                    <div class="col-lg">
-                                        <p class="mg-b-5">Province</p>
-                                        <input class="form-control" id="employer_province" name="province" type="text" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                                <div class="modal-footer">
-                                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
-                            </div>
-                        </div>
-
-                </form>
-        </div>
-    </div>
-</div>
-
-<%# -----------------------------------------end-------------------------------------------------------- %>
-
-<script>
-    $('#create_user').on('click', function (event){
-        var modal= $("#modaldemo12");
-        var acc= ""
-        $.ajax({
-            url: '/Generate/Random/Password/user',
-            type: 'POST',
-            data: {_csrf_token: $('#csrf').val()},
-            success: function(result) {
-                if (result.account){
-                    acc = result.account
-                    console.log(acc)
-                    console.log(modal.find('#password-generate').val(acc));
-                    modal.modal("show")
-                } else {
-                    modal.find('#password-gen').val("error");
-                    modal.modal("show")
-                }
-            },
-            error: function(request, msg, error) {
-                modal.find('#password-gen').val("error 2");
-                modal.modal("show")
-            }
-        })
-    });
-</script>
-
-<script>
-$(document).ready(function(){
+                                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                                                <div class="card-toolbar">
+                                                    <a href="<%= Routes.client_management_path(@conn, :add_client) %>" class="btn text-white font-weight-bolder btn-pill" style="background-color: #E30613;" >
+                                                        <span><i class="flaticon2-add-1 icon-nm text-white"></i></span>Add Employee </a>
+                                                    &nbsp;&nbsp;
+                                                    <a href="#" class="btn text-white font-weight-bolder btn-pill" style="background-color: #E30613;">
+                                                        <span><i class="flaticon2-add-1 icon-nm text-white"></i></span>Bulk Upload </a>
+                                                </div>
+                                                 <% end %>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Client Name</th>
+                                                            <th>Client Number</th>
+                                                            <th>NRC</th>
+                                                            <th>Email Address</th>
+                                                            <th>Employer</th>
+                                                            <th>Employer Tax Number</th>
+                                                            <th>Status</th>
+                                                            <th class="text-center">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    </tbody>
+                                                        <%= for employee <- @employee do %>
+                                                            <tr>
+                                                                <td><%= employee.firstName %> <%= employee.lastName %> <%= employee.otherName %> </td>
+                                                                <td><%= employee.mobileNumber %></td>
+                                                                <td><%= employee.meansOfIdentificationNumber %></td>
+                                                                <td><%= employee.emailAddress %></td>
 
 
-    $('#editclient').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
+                                                                <%= if employee.roletype == "EMPLOYEE" do %>
+                                                                    <td><%= employee.companyName %></td>
+                                                                <% else %>
+                                                                    <%= if employee.roletype == "INDIVIDUALS" do %>
+                                                                        <td><%= employee.client_company_name %></td>
+                                                                    <% end %>
+                                                                <% end %>
 
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #first_name').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email_address').val(button.data('email_address'));
-            modal.find('.modal-body #dateofbirth').val(button.data('dateofbirth'));
-            modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-            $('#title').val(button.data('title')).trigger("change")
-            $('#gender').val(button.data('gender')).trigger("change")
-            $('#marital_status').val(button.data('marital_status')).trigger("change")
-            $('#company_id').val(button.data('company_id')).trigger("change")
-            modal.find('.modal-body #house_number').val(button.data('house_number'));
-            modal.find('.modal-body #street_name').val(button.data('street_name'));
-            modal.find('.modal-body #area').val(button.data('area'));
-            modal.find('.modal-body #town_personal').val(button.data('town_personal'));
-            modal.find('.modal-body #accomodation_status').val(button.data('accomodation_status'));
-            modal.find('.modal-body #year_at_current_address').val(button.data('year_at_current_address'));
-            modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
-            modal.find('.modal-body #nationality').val(button.data('nationality'));
-            modal.find('.modal-body #company_phone').val(button.data('company_phone'));
-            modal.find('.modal-body #company_email').val(button.data('company_email'));
-            modal.find('.modal-body #company_registration_number').val(button.data('company_registration_number'));
-            modal.find('.modal-body #company_status').val(button.data('company_status'));
-            modal.find('.modal-body #company_taxno').val(button.data('company_taxno'));
-            modal.find('.modal-body #company_registration_date').val(button.data('company_registration_date'));
-            modal.find('.modal-body #company_bank_id').val(button.data('company_bank_id'));
-            modal.find('.modal-body #company_account_number').val(button.data('company_account_number'));
-            modal.find('.modal-body #date_of_joining').val(button.data('date_of_joining'));
-            modal.find('.modal-body #employee_number').val(button.data('employee_number'));
-            modal.find('.modal-body #employername').val(button.data('employername'));
-            modal.find('.modal-body #employer_industry_type').val(button.data('employer_industry_type'));
-            modal.find('.modal-body #employer_office_building_name').val(button.data('employer_office_building_name'));
-            modal.find('.modal-body #employer_officer_street_name').val(button.data('employer_officer_street_name'));
-            $('#employment_status').val(button.data('employment_status')).trigger("change")
-            modal.find('.modal-body #hr_supervisor_mobile_number').val(button.data('hr_supervisor_mobile_number'));
-            modal.find('.modal-body #hr_supervisor_name').val(button.data('hr_supervisor_name'));
-            modal.find('.modal-body #job_title').val(button.data('job_title'));
-            modal.find('.modal-body #employer_occupation').val(button.data('employer_occupation'));
-            modal.find('.modal-body #hr_supervisor_email').val(button.data('hr_supervisor_email'));
-            modal.find('.modal-body #employer_area').val(button.data('employer_area'));
-            modal.find('.modal-body #employer_province').val(button.data('employer_province'));
-            modal.find('.modal-body #employer_town').val(button.data('employer_town'));
+                                                                <%= if employee.roletype == "EMPLOYEE" do %>
+                                                                    <td><%= employee.company_taxno %></td>
+                                                                <% else %>
+                                                                    <%= if employee.roletype == "INDIVIDUALS" do %>
+                                                                        <td><%= employee.client_taxno %></td>
+                                                                    <% end %>
+                                                                <% end %>
 
-            modal.find('.modal-body #bank_name').val(button.data('bank_name'));
-            modal.find('.modal-body #account_name').val(button.data('account_name'));
-            modal.find('.modal-body #account_number').val(button.data('account_number'));
-            modal.find('.modal-body #branch_name').val(button.data('branch_name'));
-            modal.find('.modal-body #upload_bank_statement').val(button.data('upload_bank_statement'));
-        });
+                                                                <%= if employee.user_status == "ACTIVE" do %>
 
+                                                                    <td><span class= "badge bg-pill bg-success" ><%= employee.user_status %></span> </td>
 
+                                                                <% else %>
 
-    $('#viewclientcompany').on('show.bs.modal', function (event){
-             var button = $(event.relatedTarget)
+                                                                    <%= if employee.user_status == "INACTIVE" do %>
 
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #first_name').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email_address').val(button.data('email_address'));
-            modal.find('.modal-body #dateofbirth').val(button.data('dateofbirth'));
-            modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-            modal.find('.modal-body #title').val(button.data('title'));
-            modal.find('.modal-body #gender').val(button.data('gender'));
-            modal.find('.modal-body #marital_status').val(button.data('marital_status'));
-            $('#company_id').val(button.data('company_id')).trigger("change")
-            modal.find('.modal-body #house_number').val(button.data('house_number'));
-            modal.find('.modal-body #street_name').val(button.data('street_name'));
-            modal.find('.modal-body #area').val(button.data('area'));
-            modal.find('.modal-body #town_personal').val(button.data('town_personal'));
-            modal.find('.modal-body #accomodation_status').val(button.data('accomodation_status'));
-            modal.find('.modal-body #year_at_current_address').val(button.data('year_at_current_address'));
-            modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
-            modal.find('.modal-body #nationality').val(button.data('nationality'));
-            modal.find('.modal-body #company_phone').val(button.data('company_phone'));
-            modal.find('.modal-body #company_email').val(button.data('company_email'));
-            modal.find('.modal-body #company_registration_number').val(button.data('company_registration_number'));
-            modal.find('.modal-body #company_status').val(button.data('company_status'));
-            modal.find('.modal-body #company_taxno').val(button.data('company_taxno'));
-            modal.find('.modal-body #company_registration_date').val(button.data('company_registration_date'));
-            modal.find('.modal-body #company_bank_id').val(button.data('company_bank_id'));
-            modal.find('.modal-body #company_account_number').val(button.data('company_account_number'));
-            modal.find('.modal-body #date_of_joining').val(button.data('date_of_joining'));
-            modal.find('.modal-body #employee_number').val(button.data('employee_number'));
-            modal.find('.modal-body #employername').val(button.data('employername'));
-            modal.find('.modal-body #employer_industry_type').val(button.data('employer_industry_type'));
-            modal.find('.modal-body #employer_office_building_name').val(button.data('employer_office_building_name'));
-            modal.find('.modal-body #employer_officer_street_name').val(button.data('employer_officer_street_name'));
-            modal.find('.modal-body #employment_status').val(button.data('employment_status'));
-            modal.find('.modal-body #hr_supervisor_mobile_number').val(button.data('hr_supervisor_mobile_number'));
-            modal.find('.modal-body #hr_supervisor_name').val(button.data('hr_supervisor_name'));
-            modal.find('.modal-body #job_title').val(button.data('job_title'));
-            modal.find('.modal-body #employer_occupation').val(button.data('employer_occupation'));
-            modal.find('.modal-body #hr_supervisor_email').val(button.data('hr_supervisor_email'));
-            modal.find('.modal-body #employer_area').val(button.data('employer_area'));
-            modal.find('.modal-body #employer_province').val(button.data('employer_province'));
-            modal.find('.modal-body #employer_town').val(button.data('employer_town'));
+                                                                        <td><span class="badge bg-pill bg-danger"><%= employee.user_status %></span> </td>
 
-            modal.find('.modal-body #bank_name').val(button.data('bank_name'));
+                                                                    <% end %>
 
-            modal.find('.modal-body #account_name').val(button.data('account_name'));
-            modal.find('.modal-body #account_number').val(button.data('account_number'));
+                                                                <% end %>
+                                                                <td class="text-center">
+                                                                    <div class="dropdown">
+                                                                        <button class="dropbtn">Options</button>
+                                                                        <div class="dropdown-content">
 
-            modal.find('.modal-body #branch_name').val(button.data('branch_name'));
-            modal.find('.modal-body #upload_bank_statement').val(button.data('upload_bank_statement'));
-       });
+                                                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+                                                                                <%=if employee.user_status == "ACTIVE" do %>
+                                                                                    <a class="btn ripple btn-sm deactivate-client" data-activate-id="<%= employee.userId %>" title="Disable">Disable</a>
+                                                                                <% else %>
+                                                                                    <a class="btn ripple btn-sm activate-client" data-activate-id="<%= employee.userId %>" title="Enable">Enable</a>
+                                                                                <% end %>
+                                                                            <% end %>
 
-});
-</script>
+                                                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :edit) do %>
+                                                                                <a class="btn ripple btn-sm" href="#"
+                                                                                    data-target= "#editclientemployee"
+                                                                                    data-toggle="modal"
+                                                                                    data-company_id= "<%= employee.companyId%>"
+                                                                                    data-company_bank_id= "<%= employee.company_bank_id%>"
+                                                                                    data-company_phone= "<%= employee.companyPhone%>"
+                                                                                    data-company_email= "<%= employee.company_contactEmail%>"
+                                                                                    data-company_registration_number= "<%= employee.company_registrationNumber%>"
+                                                                                    data-company_status= "<%= employee.company_status%>"
+                                                                                    data-company_taxno= "<%= employee.company_taxno%>"
+                                                                                    data-company_registration_date= "<%= employee.companyRegistrationDate%>"
+                                                                                    data-company_account_number= "<%= employee.companyAccountNumber%>"
+
+                                                                                    data-classification_id= "<%= employee.classification_id%>"
+                                                                                    data-roletype= "<%= employee.roletype%>"
+                                                                                    data-status= "<%= employee.status %>"
+                                                                                    data-id= "<%= employee.userId %>"
+                                                                                    data-dateofbirth= "<%=employee.dateOfBirth %>"
+                                                                                    data-email_address= "<%= employee.emailAddress%>"
+                                                                                    data-firstname = "<%= employee.firstName %>"
+                                                                                    data-gender= "<%=  employee.gender %>"
+                                                                                    data-lastname= "<%= employee.lastName%>"
+                                                                                    data-meansofidentificationnumber= "<%= employee.meansOfIdentificationNumber%>"
+                                                                                    data-meansofidentificationtype= "<%= employee.meansOfIdentificationType%>"
+                                                                                    data-mobile_number= "<%= employee.mobileNumber%>"
+                                                                                    data-othername= "<%= employee.otherName %>"
+                                                                                    data-title= "<%= employee.title%>"
+                                                                                    data-bank_id= "<%=employee.bank_id %>"
+                                                                                    data-bank_account_number= "<%=employee.bank_account_number %>"
+                                                                                    data-marital_status= "<%=employee.marital_status %>"
+                                                                                    data-nationality= "<%= employee.nationality%>"
+                                                                                    data-number_of_dependants= "<%=employee.number_of_dependants %>"
+
+                                                                                    data-employer_area= "<%= employee.employer_area%>"
+                                                                                    data-employer_province= "<%= employee.employer_province%>"
+                                                                                    data-employer_town= "<%= employee.employer_town%>"
+                                                                                    data-area= "<%= employee.area%>"
+                                                                                    data-date_of_joining= "<%= employee.date_of_joining%>"
+                                                                                    data-employee_number= "<%= employee.employee_number%>"
+                                                                                    data-employername= "<%=  employee.employername%>"
+                                                                                    data-employer_industry_type= "<%= employee.employer_industry_type%>"
+                                                                                    data-employer_office_building_name= "<%=  employee.employer_office_building_name%>"
+                                                                                    data-employer_officer_street_name= "<%=employee.employer_officer_street_name %>"
+                                                                                    data-employment_status= "<%=employee.employment_status %>"
+                                                                                    data-hr_supervisor_email= "<%=  employee.hr_supervisor_email%>"
+                                                                                    data-hr_supervisor_mobile_number= "<%= employee.hr_supervisor_mobile_number%>"
+                                                                                    data-hr_supervisor_name= "<%= employee.hr_supervisor_name%>"
+                                                                                    data-job_title= "<%= employee.job_title%>"
+                                                                                    data-employer_occupation= "<%=  employee.employer_occupation%>"
+
+                                                                                    data-town= "<%= employee.town_personal%>"
+                                                                                    data-accomodation_status= " <%=employee.accomodation_status %>"
+                                                                                    data-area= " <%=employee.area %>"
+                                                                                    data-house_number= " <%= employee.house_number %>"
+                                                                                    data-street_name= " <%= employee.street_name %>"
+                                                                                    data-town_personal= " <%= employee.town_personal%>"
+                                                                                    data-year_at_current_address= " <%= employee.year_at_current_address %>"
+
+                                                                                    data-account_name= " <%= employee.accountName %>"
+                                                                                    data-account_number= " <%= employee.accountNumber %>"
+                                                                                    data-bank_name= "<%= employee.bankName %>"
+                                                                                    data-branch_name= " <%= employee.branchName%>"
+                                                                                    data-upload_bank_statement= " <%= employee.upload_bank_statement%>"
+                                                                                >Edit</a>
+                                                                            <% end %>
+
+                                                                            <a class="btn ripple btn-sm" href="<%= Routes.client_management_path(@conn, :view_individual_details, userid: employee.userid) %>">View</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <% end %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								<!--end::Row-->
+								<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->

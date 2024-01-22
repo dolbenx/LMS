@@ -1,68 +1,195 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="">
+<html lang="en">
 
-
-<!-- Mirrored from mannatthemes.com/T-Wind/default/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 13:27:42 GMT -->
+<!-- Mirrored from templates.seekviral.com/trimba3/forms/CompanyRegistrationPage/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 18 Apr 2023 08:23:01 GMT -->
 <head>
-    <meta charset="utf-8" />
-    <title>Tisunge - Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta content="Tisunge - Login" name="description"/>
-    <meta content="" name="Mannatthemes" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="/assets/images/logos/Tisunge-logo-JPEG.jpg"/>
-    <link rel="stylesheet" href="/assets/css/icons.css" />
-    <link rel="stylesheet" href="/assets/css/tailwind.css" />
+    <!-- <link rel="stylesheet" href="assets/css/colorvariants/default.css" id="defaultscheme"> -->
 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayKesho | Login</title>
+
+    <!-- font-awesome -->
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/all.min.css">
+
+    <!-- Bootstrap-5 -->
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/bootstrap.min.css">
+
+    <!-- custom-styles -->
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/style.css">
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/responsive.css">
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/animation.css">
 </head>
+<body>
 
-<body data-layout-mode="light" class="bg-gray-100 dark:bg-gray-900 bg-[url('../images/bg-body.html')] dark:bg-[url('../images/bg-body-2.html')]">
+    <!-- background -->
+    <div class="ls-bg">
+        <img class="ls-bg-inner" src="/images/Web.jpg" alt="">
+    </div>
 
+    <main class="overflow-hidden">
+        <div class="wrapper">
+            <div class="main-inner">
 
-        <div class="relative flex flex-col justify-center min-h-screen overflow-hidden">
-            <div class="w-full  m-auto bg-white dark:bg-slate-800/60 rounded shadow-lg ring-2 ring-slate-300/50 dark:ring-slate-700/50 lg:max-w-md">
-                <div class="text-center p-6  rounded-t" style="background-color: #5962A9;">
-                    <a href="index.html"><img src="/assets/images/logos/Tisunge-logo-JPEG.jpg" alt="" class="w-14 h-14 mx-auto mb-2"></a>
-                    <h3 class="font-semibold text-white text-xl mb-1">Always there for you</h3>
-                    <p class="text-xs text-slate-400">Sign in to continue to Tisunge.</p>
+                <!-- logo -->
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="/images/DIJIFUEL LOGO FOR BLACK BACKGROUND ON SIDE.png" style="height: 95px" alt="BeRifma">
+                    </div>
+                    <div class="logo-text">
+                        PayKesho
+                    </div>
                 </div>
+                <div class="row h-100 align-content-center">
+                    <div class="col-md-6 tab-100 order_2">
 
-                <form class="p-6" action="<%= Routes.session_path(@conn, :create)%>" method="post">
-                    <div>
-                        <label for="email" class="label">Email</label>
-                        <input type="text" id="email" name="username" class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="Your Email" required>
-                    </div>
-                    <div class="mt-4">
-                        <label for="password" class="label">Your password</label>
-                        <input type="password" name="password" id="password" class="form-control dark:bg-slate-800/60 dark:border-slate-700/50" placeholder="Password"  required>
-                    </div>
-                    <a href="#" class="text-xs text-gray-600 hover:underline">Forget Password?</a>
-                    <div class="block mt-3">
-                        <label class="custom-label">
-                            <div class="bg-white dark:bg-slate-700 dark:border-slate-600 border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                              <input type="checkbox" class="hidden">
-                              <i class="fas fa-check hidden text-xs text-slate-700 dark:text-slate-300"></i>
+                        <!-- side text -->
+                        <div class="side-text">
+                            <article>
+                                <span>Financial Service Partner</span>
+                                <h3 class="main-heading">PayKesho</h3>
+                                <p>
+                                    Paykesho is an innovative digital credit card solution that empowers customers to conveniently make
+                                    payments for their purchases and meet their financial needs. With its user-friendly interface and
+                                    secure transactions, Paykesho offers a seamless experience for customers to pay for goods and services.
+                                    This digital credit card is designed to provide flexibility and convenience, allowing users to manage
+                                    their expenses with ease. By leveraging the power of technology, Paykesho simplifies the payment process,
+                                    enabling customers to access the products and services they desire while maintaining financial stability.
+
+                                </p>
+                            </article>
+
+                            <!-- login sign up button -->
+                            <div class="logSign">
+                                <button id="showlogin" type="button" style="color: #E69E38;" class="active">Login</button>
+                                <button id="showregister" style="color: #E69E38;" type="button">register</button>
                             </div>
-                            <span class="text-sm text-slate-500 font-medium">Remember me</span>
-                        </label>
+                        </div>
                     </div>
-                    <div class="mt-6">
-                        <button class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600" style="background-color: #5BC6CC;">
-                            Login
-                        </button>
+                    <div class="col-md-6 tab-100">
+
+                        <!-- form -->
+                        <div class="form">
+                            <div class="row">
+                                <div>
+                                    <div class="form-group login-form">
+                                        <div class="form-group">
+                                            <%= if get_flash(@conn, :info) do %>
+                                                <div class="alert alert-success alert-styled-left">
+                                                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                                                    <%= get_flash(@conn, :info) %>
+                                                </div>
+                                            <% end %>
+                                            <%= if get_flash(@conn, :error) do %>
+                                                <div class="alert alert-danger alert-styled-left">
+                                                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                                                <strong>Hmm!</strong> <%= get_flash(@conn, :error) %>
+                                                </div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <h2 class="login-form form-title">
+                                    <i style="color: #0F75BD;" class="fa fa-user-circle fa-3x"></i>
+                                </h2>
+                                <h2 class="signup-form form-title">
+                                    Create your Account!
+                                </h2>
+
+                                <!-- login form -->
+                            <form id="step1" class="login-form" action="<%= Routes.session_path(@conn, :create)%>" method="post">
+                                <div class="input-field">
+                                    <input type="text" name="username" id="username" required>
+                                    <label>
+                                        Username
+                                    </label>
+                                </div>
+                                <div class="input-field delay-100ms">
+                                    <input type="password" name="password" id="password" required>
+                                    <label>
+                                        Password
+                                    </label>
+                                </div>
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="rememberme">
+                                        <input type="checkbox">
+                                        <label>Remember Me</label>
+                                    </div>
+                                    <a href="#" class="forget" style="color: #E69E38">forgot password?</a>
+                                </div>
+                                <div class="login-btn">
+                                    <button type="submit" class="login">Login</button>
+                                </div>
+                            </form>
+
+                            <!-- sign up form -->
+                            <form id="step2" class="signup-form" method="post">
+                                <div class="input-field">
+                                    <input type="text" id="mail-email" required>
+                                    <label>
+                                        Your Email
+                                    </label>
+                                </div>
+                                <div class="input-field delay-200ms">
+                                    <input type="password" id="password" required>
+                                    <label>
+                                        Password
+                                    </label>
+                                </div>
+                                <div class="input-field delay-300ms">
+                                    <input type="password" id="confirm" required>
+                                    <label>
+                                        Repeat Password
+                                    </label>
+                                </div>
+                                <div class="rememberme">
+                                    <input type="checkbox">
+                                    <label>Send me news and updates via email</label>
+                                </div>
+                                <div class="login-btn">
+                                    <button type="button" class="signup">Register Now!</button>
+                                </div>
+                            </form>
+
+                            <!-- social sign in -->
+                            <div class="login-form signup_social">
+                                <div class="divide-heading">
+                                    <span>Login with your Social Account</span>
+                                </div>
+                                <div class="social-signup">
+                                    <a class="twitch" href="#"><i class="fa-brands fa-yahoo"></i></a>
+                                    <a class="youtube" href="#"><i class="fa-brands fa-google"></i></a>
+                                </div>
+                            </div>
+
+
+                            <div class="signup-form register-text">
+                                You'll receive a confirmation email in your inbox with a link to activate your account. If you have any problems, <a href="#">contact us!</a>
+                            </div>
+                        </div>
                     </div>
-                </form>
-                <p class="mb-5 text-sm font-medium text-center text-slate-500"> Don't have an account? <a href="register.html"
-                    class="font-medium hover:underline" style="color: #5962A9;">Sign up</a>
-                </p>
+                </div>
             </div>
         </div>
+    </main>
 
-    <script src="/assets/libs/simplebar/simplebar.min.js"></script>
+
+    <div id="error">
+
+    </div>
+
+
+    <!-- Bootstrap-5 -->
+    <script defer phx-track-static type="text/javascript" src="/loginassets/js/bootstrap.min.js"></script>
+    <!-- Jquery -->
+    <script defer phx-track-static type="text/javascript" src="/loginassets/js/jquery-3.6.1.min.js"></script>
+
+    <!-- My js -->
+    <script defer phx-track-static type="text/javascript" src="/loginassets/js/custom.js"></script>
 </body>
 
-
-<!-- Mirrored from mannatthemes.com/T-Wind/default/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 13:27:42 GMT -->
+<!-- Mirrored from templates.seekviral.com/trimba3/forms/CompanyRegistrationPage/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 18 Apr 2023 08:23:07 GMT -->
 </html>

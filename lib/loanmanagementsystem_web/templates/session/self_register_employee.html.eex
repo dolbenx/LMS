@@ -1,0 +1,830 @@
+
+
+<style>
+	#select_company{display: none;}
+	#select1_company{display: none;}
+	#select2_company{display: none;}
+	#select3_company{display: none;}
+	#client_employment_Status{display: none;}
+	#mobile{display: none;}
+	#bank{display: none;}
+	#limit{display: none;}
+	#loan_amount{display: none;}
+	#employment_status{display: none;}
+</style>
+
+<head><base href="">
+	<meta charset="utf-8" />
+	<title>PayKesho | Create Employee</title>
+	<meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="canonical" href="https://keenthemes.com/metronic" />
+	<!--begin::Fonts-->
+	<style>
+	body {font-family: Luminari, fantasy;}
+	</style>
+	<!--end::Fonts-->
+	<!--begin::Page Vendors Styles(used by this page)-->
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/fullcalendar/fullcalendar.bundle.css") %>">
+	<!--end::Page Vendors Styles-->
+	<!--begin::Page Custom Styles(used by this page)-->
+	<link href="<%= Routes.static_path(@conn, "/webstatic/css/pages/wizard/wizard-3.css") %>" rel="stylesheet" type="text/css" />
+	<link href="<%= Routes.static_path(@conn, "/webstatic/css/pages/wizard/wizard-2.css") %>" rel="stylesheet" type="text/css" />
+
+	<link href="<%= Routes.static_path(@conn, "/webstatic/css/momo.css") %>" rel="stylesheet" type="text/css" />
+
+	<!--begin::Global Theme Styles(used by all pages)-->
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/global/plugins.bundle.css") %>">
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/prismjs/prismjs.bundle.css") %>">
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.bundle.css") %>">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.min.css">
+
+	<!--end::Global Theme Styles-->
+	<!--begin::Layout Themes(used by all pages)-->
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/header/base/light.css") %>">
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/header/menu/light.css") %>">
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/brand/dark.css") %>">
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/aside/dark.css") %>">
+	<!--end::Layout Themes-->
+	<link rel="shortcut icon" href="<%= Routes.static_path(@conn, "/images/DIJIFUEL LOGO FOR BLACK BACKGROUND ON SIDE.png") %>" />
+
+
+	<!--begin::Page Vendors(used by this page)-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/datatables/datatables.bundle.css") %>"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+	<style>
+		#kt_header{background-color: #0E75BF;}
+		#datetime {
+			font-size: 18px;
+			font-weight: bold;
+			margin-top: 10px;
+			color: #0E75BF;
+		}
+	</style>
+</head>
+
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+		<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Header-->
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Employee Onboading</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+				<!--begin::Daterange-->
+				TIME
+			</div>
+			<!--end::Toolbar-->
+		</div>
+	</div><br>
+	<!--end::Subheader-->
+	<!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+		<!--begin::Container-->
+		<div class="container-fluid">
+			<!--begin::Dashboard-->
+			<!--begin::Row-->
+			<div class="row">
+				<div class="col-md-12 col-xxl-12">
+					<div class="card card-custom card-stretch gutter-b">
+						<div class="card-header flex-wrap border-0 pt-6 pb-0">
+							<div class="card-title">
+								<h3 class="card-label">Create Employee
+								<span class="text-muted pt-2 font-size-sm d-block">Provide all the required details for the employee</span></h3>
+							</div>
+							<div class="card-toolbar">
+							</div>
+						</div>
+						<div class="card-body p-0">
+							<!--begin: Wizard-->
+							<div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+								<!--begin: Wizard Nav-->
+								<div class="wizard-nav">
+									<div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+										<!--begin::Wizard Step 1 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>1.</span>Personal Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 1 Nav-->
+										<!--begin::Wizard Step 4 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>3.</span>Account Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>3.</span>Employement Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 4 Nav-->
+										<!--begin::Wizard Step 3 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>2.</span>Document Upload</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 3 Nav-->
+									</div>
+								</div>
+								<!--end: Wizard Nav-->
+								<!--begin: Wizard Body-->
+								<div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+									<div class="col-xl-12 col-xxl-12">
+										<!--begin: Wizard Form-->
+										<form class="form fv-plugins-bootstrap fv-plugins-framework" id="kt_form" action="<%= Routes.user_path(@conn, :employee_customer_self_registration)%>" enctype="multipart/form-data" method="post">
+											<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+											<input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+											<input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+											<!--begin: Wizard Step 1-->
+											<div class="pb-5" data-wizard-type="step-content">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Employee Details</u></h4>
+												<!--begin::Input-->
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Title:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="title" class="form-control">
+																		<option label="Choose One"></option>
+																		<option value="Mr">Mr </option>
+																		<option value="Mrs">Mrs </option>
+																		<option value="Ms">Ms </option>
+																		<option value="Dr">Dr </option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select title.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="firstName">
+																</div>
+																<span class="form-text text-muted">Please enter first name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="lastName">
+																</div>
+																<span class="form-text text-muted">Please enter last name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Other Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="otherName">
+																</div>
+																<span class="form-text text-muted">Please enter other name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="mobileNumber">
+																</div>
+																<span class="form-text text-muted">Please enter mobile number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Date Of Birth:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="dateOfBirth">
+																</div>
+																<span class="form-text text-muted">Please Select date of birth.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="email" class="form-control" name="emailAddress">
+																</div>
+																<span class="form-text text-muted">Please enter email address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="meansOfIdentificationNumber">
+																</div>
+																<span class="form-text text-muted">Please enter ID No.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Choose Gender:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="gender" class="form-control">
+																		<option label="Choose One"></option>
+																		<option value="Male">Male </option>
+																		<option value="Female">Female </option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select gender.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">House/Plot Number</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="house_number">
+																</div>
+																<span class="form-text text-muted">Please enter House/Plot Number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Road/Street Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="street_name">
+																</div>
+																<span class="form-text text-muted">Please enter Road/Street Name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Area:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="area">
+																</div>
+																<span class="form-text text-muted">Please enter area.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Town:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="town" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for town <- @town do %>
+																			<option value="<%= town.name %>"><%= town.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Province:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="town" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for province <- @province do %>
+																			<option value="<%= province.name %>"><%= province.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Accomodation Status:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="accomodation_status">
+																</div>
+																<span class="form-text text-muted">Please enter accomodation status.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Years At Current Address:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="number" class="form-control" name="year_at_current_address">
+																</div>
+																<span class="form-text text-muted">Please enter years At current address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div><br>
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 1-->
+											<!--begin: Wizard Step 4-->
+											<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Employee Account Details</u></h4>
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>Account Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Account Type:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="payment_type" class="form-control" id="payment_type">
+																		<option value="">Select</option>
+																		<option data-payment-type="Mobile" value="Mobile">Mobile</option>
+																		<option data-payment-type="Bank" value="Bank">Bank</option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select account type.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div id="mobile">
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" name="mobile_number">
+																	</div>
+																	<span class="form-text text-muted">Please enter mobile number.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+														</div>
+														<div id="bank">
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Select Bank: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<select name="bank_id" class="form-control">
+																			<option label="Choose One"></option>
+																			<%= for bank <- @banks do %>
+																				<option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+																				</option>
+																			<% end %>
+																		</select>
+																	</div>
+																	<span class="form-text text-muted">Please select your bank.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Account Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" name="bank_account_number">
+																	</div>
+																	<span class="form-text text-muted">Please enter account number.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Account Name: </label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" name="accountName">
+																	</div>
+																	<span class="form-text text-muted">Please enter account name.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>Income Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Gross Salary (ZMW):</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="gross_pay" id="gross_pay" oninput="calculate()">
+																</div>
+																<span class="form-text text-muted">Please employee gross pay.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Total Deductions (ZMW):</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="total_deductions" id="total_deductions" oninput="calculate()">
+																</div>
+																<span class="form-text text-muted">Please enter employee total deductions.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success" >
+															<label class="col-3 col-form-label">Net Pay (ZMW):</label>
+															<div class="col-9" >
+																<div class="input-group input-group-sm" >
+																	<input type="text" class="form-control" id="net_pay" name="net_pay" readonly>
+																</div>
+																<span class="form-text text-muted">Please enter employee net pay.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Loan Limit:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="loan_limit_amount" name="loan_limit" readonly>
+																</div>
+																<span class="form-text text-muted">Please enter employee loan limit.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+																	<label class="col-3 col-form-label">Pay Day:</label>
+																	<div class="col-9">
+																		<div class="input-group input-group-sm">
+																			<select name="pay_day" class="form-control">
+																					<option label="Choose Day">1</option>
+																					<option value="1">1</option>
+																					<option value="2">2</option>
+																					<option value="3">3</option>
+																					<option value="4">4</option>
+																					<option value="5">5</option>
+																					<option value="6">6</option>
+																					<option value="7">7</option>
+																					<option value="8">8</option>
+																					<option value="9">9</option>
+																					<option value="10">10</option>
+																					<option value="11">11</option>
+																					<option value="12">12</option>
+																					<option value="13">13</option>
+																					<option value="14">14</option>
+																					<option value="15">15</option>
+																					<option value="16">16</option>
+																					<option value="17">17</option>
+																					<option value="18">18</option>
+																					<option value="19">19</option>
+																					<option value="20">20</option>
+																					<option value="21">21</option>
+																					<option value="22">22</option>
+																					<option value="23">23</option>
+																					<option value="24">24</option>
+																					<option value="25">25</option>
+																					<option value="26">26</option>
+																					<option value="27">27</option>
+																					<option value="28">28</option>
+																					<option value="29">29</option>
+																					<option value="30">30</option>
+																					<option value="31">31</option>
+																			</select>
+																		</div>
+																		<span class="form-text text-muted">Please enter other name.</span>
+																	</div>
+																	<div class="fv-plugins-message-container"></div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 4-->
+											<!--begin: Wizard Step 4-->
+											<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+												<h4 class="mb-10 font-weight-bold text-dark"><u>Enter Employee Details</u></h4>
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>About Your Employer:</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+														<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+															<label class="col-3 col-form-label">Select Company:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="company_id" id="company_id" class="form-control self-register-lookup">
+																		<option label="Choose One"></option>
+																		<%= for company <- @companies do %>
+																			<option value="<%= company.id %>"> <%= company.companyName %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select company.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Company Mobile Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="" id="company_phone" readonly>
+																</div>
+																<span class="form-text text-muted">Please enter company number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="" id="registration_number" readonly>
+																</div>
+																<span class="form-text text-muted">Please enter company registration no.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Company Email:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="" id="contact_email" readonly>
+																</div>
+																<span class="form-text text-muted">Please enter company email.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>About Your Employment</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Employer Industry Type:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="employer_industry_type">
+																</div>
+																<span class="form-text text-muted">Please enter employment industry.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Occupation:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="occupation">
+																</div>
+																<span class="form-text text-muted">Please enter occupation.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Date Joined:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), days: -1) %>" name="date_of_joining">
+																</div>
+																<span class="form-text text-muted">Please select date joined.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Employee Number:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="employee_number">
+																</div>
+																<span class="form-text text-muted">Please enter employee no.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 4-->
+											<!--begin: Wizard Step 3-->
+											<div class="pb-5" data-wizard-type="step-content">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+												<!--begin::Select-->
+												<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+													<thead>
+														<tr role="row">
+															<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																<label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+															</th>
+															<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+														</tr>
+													</thead>
+													<tbody>
+														<%= for item <- client_document_upload() do %>
+															<tr class="tr_clone">
+																<td>
+																	<div class="col-md-12 form-group">
+																		<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+																	</div>
+																</td>
+																<td>
+																	<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> >
+																</td>
+															</tr>
+														<% end %>
+													</tbody>
+												</table>
+											</div>
+											<!--end: Wizard Step 3-->
+											<!--begin: Wizard Actions-->
+											<div class="d-flex justify-content-between border-top mt-5 pt-10">
+												<div class="mr-2">
+													<button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+												</div>
+												<div>
+													<button type="submit" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+													<button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+												</div>
+											</div>
+											<!--end: Wizard Actions-->
+										<div></div><div></div><div></div><div></div></form>
+										<!--end: Wizard Form-->
+									</div>
+								</div>
+								<!--end: Wizard Body-->
+							</div>
+							<!--end: Wizard-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Row-->
+			<!--end::Dashboard-->
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->
+
+<script>
+	function calculate() {
+	// Get the values entered by the user
+	var input1 = document.getElementById("gross_pay").value;
+	var input2 = document.getElementById("total_deductions").value;
+
+	// Perform the calculation
+	if (input1 )
+	var net_pay = input1 - input2;
+
+	  if (input1 === "" || input2 === "") {
+		var net_pay = 0;
+		var loan_limit_amount = 0;
+		} else {
+			var net_pay = input1 - input2;
+
+			var loan_limit_amount = (net_pay * 0.50);
+
+
+		}
+
+	// Display the result to the user
+
+
+	document.getElementById("net_pay").value = net_pay;
+	document.getElementById("loan_limit_amount").value = loan_limit_amount;
+
+
+
+
+	}
+</script>
+
+
+		<!--begin::Global Config(global config for global JS scripts)-->
+		<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#3699FF", "secondary": "#E5EAEE", "success": "#0E75BF", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#E4E6EF", "dark": "#181C32" }, "light": { "white": "#ffffff", "primary": "#E1F0FF", "secondary": "#EBEDF3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#3F4254", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#EBEDF3", "gray-300": "#E4E6EF", "gray-400": "#D1D3E0", "gray-500": "#B5B5C3", "gray-600": "#7E8299", "gray-700": "#5E6278", "gray-800": "#3F4254", "gray-900": "#181C32" } }};</script>
+		<!--end::Global Config-->
+
+		<script type="text/javascript" src="<%= Routes.static_path(@conn, "/webstatic/js/pages/features/miscellaneous/sweetalert2.js")%> "></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/default.js") %>"></script>
+		<!--begin::Global Theme Bundle(used by all pages)-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/global/plugins.bundle.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/prismjs/prismjs.bundle.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/scripts.bundle.js") %>"></script>
+
+		<!--end::Global Theme Bundle-->
+		<!--begin::Page Scripts(used by this page)-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/pages/custom/wizard/wizard-3.js") %>"></script>
+		<!--begin::Page Vendors(used by this page)-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/fullcalendar/fullcalendar.bundle.js") %>"></script>
+		<!--end::Page Vendors-->
+		<!--begin::Page Scripts(used by this page)-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/pages/widgets.js") %>"></script>
+
+		<!--begin::Page Vendors(used by this page)-->
+		<script type="text/javascript" src="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/datatables/datatables.bundle.js") %>"></script>
+		<script type="text/javascript" src="<%= Routes.static_path(@conn, "/webstatic/js/pages/crud/datatables/basic/scrollable.js") %>"></script>
+		<script type="text/javascript" src="<%= Routes.static_path(@conn, "/webstatic/js/pages/crud/datatables/extensions/buttons.js") %>"></script>
+
+  		<script type="text/javascript" src="<%= Routes.static_path(@conn, "/webstatic/js/pages/my-script.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/momo.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/victor.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/chart-of-accounts.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/custom.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/loan-application.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/pages/crud/forms/widgets/select2.js") %>"></script>
+		 <script>
+			$('#kt_datatable').DataTable({
+				dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+					<'row'<'col-sm-12'tr>>
+					<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+				buttons:[
+					{
+						extend: 'csvHtml5',
+						text: 'CSV',
+						titleAttr: 'Generate CSV',
+						className: 'btn-outline-primary btn-sm mr-1'
+					},
+					{
+						extend: 'copyHtml5',
+						text: 'Copy',
+						titleAttr: 'Copy to clipboard',
+						className: 'btn-outline-primary btn-sm mr-1'
+					},
+					{
+						extend: 'print',
+						text: 'Print',
+						titleAttr: 'Print Table',
+						className: 'btn-outline-primary btn-sm mr-1'
+					},
+					{
+						extend: 'pdfHtml5',
+						text: 'PDF',
+						titleAttr: 'Generate PDF',
+						className: 'btn-outline-primary btn-sm mr-1'
+					},
+					{
+						extend: 'excelHtml5',
+						text: 'Excel',
+						titleAttr: 'Generate Excel',
+						className: 'btn-outline-primary btn-sm mr-1'
+					}
+
+				],
+				"responsive": true,
+				"processing": true,
+				'language': {
+					'loadingRecords': '&nbsp;',
+					processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span> ',
+					"EmptyTable": "No Records !"
+				},
+				"serverSide": false,
+				"paging": true,
+				"lengthMenu": [
+					[10, 25, 50, 100, 500, 1000],
+					[10, 25, 50, 100, 500, 1000]
+				],
+				"order": [
+					[0, 'asc']
+				],
+			});
+		</script>
+
+<script>
+	$(document).ready(function() {
+	// Function to update the date and time
+	function updateDateTime() {
+		var now = new Date();
+		var dateTime = now.toLocaleString();
+		$('#datetime').text(dateTime);
+	}
+
+	// Update the date and time initially
+	updateDateTime();
+
+	// Update the date and time every second
+	setInterval(updateDateTime, 1000);
+	});
+
+</script>

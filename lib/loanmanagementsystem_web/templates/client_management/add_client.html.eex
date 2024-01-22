@@ -1,183 +1,742 @@
-<div class="container  mx-auto px-2">
-        <div class="flex flex-wrap">
-            <div class="flex items-center py-4 w-full">
-                <div class="w-full">
-                    <div class="">
-                        <div class="flex flex-wrap justify-between">
-                            <div class="items-center ">
-                                <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">Individuals</h1>
-                                <ol class="list-reset flex text-sm">
-                                    <li><a href="#" class="text-gray-500">Individual</a></li>
-                                    <li><span class="text-gray-500 mx-2">/</span></li>
-                                    <li class="text-gray-500">Customers</li>
-                                </ol>
-                            </div>
-                            <div class="flex items-center">
-                            <button class="px-3 py-2 lg:px-4 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600">Add Client</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-        </div>
-    </div><!--end container-->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4  mb-4">
-        <div class="sm:col-span-12  md:col-span-12 lg:col-span-12 xl:col-span-12 ">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Individual Customer Table</h4>
-                </div><!--end card-header-->
-                <div class="card-body">
-                    <div class="relative overflow-x-auto  sm:rounded">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns"><div class="dataTable-top"><div class="dataTable-dropdown"><label><select class="dataTable-selector"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option></select> entries per page</label></div><div class="dataTable-search"><input class="dataTable-input" placeholder="Search..." type="text"></div></div><div class="dataTable-container"><table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 dataTable-table" id="datatable_2">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-slate-700 dark:text-gray-400">
-                                <tr><th scope="col" class="p-4" data-sortable="" style="width: 3.8961%;"><a href="#" class="dataTable-sorter">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 33.7662%;"><a href="#" class="dataTable-sorter">
-                                        Product name
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.8539%;"><a href="#" class="dataTable-sorter">
-                                        Color
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 20.3734%;"><a href="#" class="dataTable-sorter">
-                                        Category
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.6916%;"><a href="#" class="dataTable-sorter">
-                                        Price
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 12.4188%;"><a href="#" class="dataTable-sorter">
-                                        <span class="sr-only">Edit</span>
-                                    </a></th></tr>
-                            </thead>
-                            <tbody><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Apple MacBook Pro 17"
-                                    </th><td class="px-6 py-4">
-                                        Sliver
-                                    </td><td class="px-6 py-4">
-                                        Laptop
-                                    </td><td class="px-6 py-4">
-                                        $2999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr></tbody>
-                        </table></div><div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to 7 of 7 entries</div><nav class="dataTable-pagination"><ul class="dataTable-pagination-list"></ul></nav></div></div>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded csv">Export CSV</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded sql">Export SQL</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded txt">Export TXT</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded json">Export JSON</button>
-                    </div>
-                </div><!--end card-body-->
-            </div> <!--end card-->
-        </div>
-    </div>
+
+<style>
+	#select_company{display: none;}
+	#select1_company{display: none;}
+	#select2_company{display: none;}
+	#select3_company{display: none;}
+	#client_employment_Status{display: none;}
+	#mobile{display: none;}
+	#bank{display: none;}
+	#limit{display: none;}
+	#loan_amount{display: none;}
+	#employment_status{display: none;}
+</style>
+
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+			<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+		<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Employee Onboading</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+				<!--begin::Daterange-->
+				TIME
+			</div>
+			<!--end::Toolbar-->
+		</div>
+	</div>
+	<!--end::Subheader-->
+	<!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+		<!--begin::Container-->
+		<div class="container-fluid">
+			<!--begin::Dashboard-->
+			<!--begin::Row-->
+			<div class="row">
+				<div class="col-md-12 col-xxl-12">
+					<div class="card card-custom card-stretch gutter-b">
+						<div class="card-header flex-wrap border-0 pt-6 pb-0">
+							<div class="card-title">
+								<h3 class="card-label">Create Employee
+								<span class="text-muted pt-2 font-size-sm d-block">Provide all the required details for the employer</span></h3>
+							</div>
+							<div class="card-toolbar">
+							</div>
+						</div>
+						<div class="card-body p-0">
+							<!--begin: Wizard-->
+							<div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+								<!--begin: Wizard Nav-->
+								<div class="wizard-nav">
+									<div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+										<!--begin::Wizard Step 1 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>1.</span>Personal Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 1 Nav-->
+										<!--begin::Wizard Step 4 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>3.</span>Account Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>3.</span>Employement Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 4 Nav-->
+										<!--begin::Wizard Step 3 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>2.</span>Document Upload</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 3 Nav-->
+									</div>
+								</div>
+								<!--end: Wizard Nav-->
+								<!--begin: Wizard Body-->
+								<div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+									<div class="col-xl-12 col-xxl-12">
+										<!--begin: Wizard Form-->
+										<form class="form fv-plugins-bootstrap fv-plugins-framework" id="kt_form" action="<%= Routes.client_management_path(@conn, :create_client_user)%>" enctype="multipart/form-data" method="post">
+											<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+											<input type="hidden" name="roleType" value="EMPLOYER">
+											<input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+											<input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+											<!--begin: Wizard Step 1-->
+											<div class="pb-5" data-wizard-type="step-content">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Employee Details</u></h4>
+												<!--begin::Input-->
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Title:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="title" id="select_title" class="form-control admin-gender-change">
+																		<option label="Choose One"></option>
+																		<option value="Mr">Mr </option>
+																		<option value="Mrs">Mrs </option>
+																		<option value="Ms">Ms </option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select title.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="firstName">
+																</div>
+																<span class="form-text text-muted">Please enter first name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="lastName">
+																</div>
+																<span class="form-text text-muted">Please enter last name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Other Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="otherName">
+																</div>
+																<span class="form-text text-muted">Please enter other name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="mobileNumber" name="mobileNumber">
+																</div>
+																<span class="form-text text-muted">Please enter mobile number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Date Of Birth:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="dateOfBirth">
+																</div>
+																<span class="form-text text-muted">Please Select date of birth.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="email" class="form-control" id="email_address" name="emailAddress">
+																</div>
+																<span class="form-text text-muted">Please enter email address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="nrc_number" name="meansOfIdentificationNumber">
+																</div>
+																<span class="form-text text-muted">Please enter ID No.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Choose Gender:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input name="gender" id="provide_gender" class="form-control">
+																</div>
+																<span class="form-text text-muted">Please select gender.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">House/Plot Number</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="house_number">
+																</div>
+																<span class="form-text text-muted">Please enter House/Plot Number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Road/Street Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="street_name">
+																</div>
+																<span class="form-text text-muted">Please enter Road/Street Name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Area:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="area">
+																</div>
+																<span class="form-text text-muted">Please enter area.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Town:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="town" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for town <- @town do %>
+																			<option value="<%= town.name %>"><%= town.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Province:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="town" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for province <- @province do %>
+																			<option value="<%= province.name %>"><%= province.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Accomodation Status:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="accomodation_status">
+																</div>
+																<span class="form-text text-muted">Please enter accomodation status.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Years At Current Address:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="number" class="form-control" name="year_at_current_address">
+																</div>
+																<span class="form-text text-muted">Please enter years At current address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div><br>
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 1-->
+											<!--begin: Wizard Step 4-->
+											<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Employee Account Details</u></h4>
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>Account Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Account Type:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="payment_type" class="form-control" id="payment_type">
+																		<option value="">Select</option>
+																		<option data-payment-type="Mobile" value="Mobile">Mobile</option>
+																		<option data-payment-type="Bank" value="Bank">Bank</option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select account type.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div id="mobile">
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" id="address_mobileNumber" name="mobile_number">
+																	</div>
+																	<span class="form-text text-muted">Please enter mobile number.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+														</div>
+														<div id="bank">
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Select Bank: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<select name="bank_id" class="form-control">
+																			<option label="Choose One"></option>
+																			<%= for bank <- @banks do %>
+																				<option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+																				</option>
+																			<% end %>
+																		</select>
+																	</div>
+																	<span class="form-text text-muted">Please select your bank.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Account Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" name="bank_account_number">
+																	</div>
+																	<span class="form-text text-muted">Please enter account number.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Account Name: </label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" name="accountName">
+																	</div>
+																	<span class="form-text text-muted">Please enter account name.</span>
+																</div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>Income Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Gross Salary (ZMW):</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="number" class="form-control" name="gross_pay" id="gross_pay" oninput="calculate()">
+																</div>
+																<span class="form-text text-muted">Please employee gross pay.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Total Deductions (ZMW):</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="number" class="form-control" name="total_deductions" id="total_deductions" oninput="calculate()">
+																</div>
+																<span class="form-text text-muted">Please enter employee total deductions.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success" >
+															<label class="col-3 col-form-label">Net Pay (ZMW):</label>
+															<div class="col-9" >
+																<div class="input-group input-group-sm" >
+																	<input type="text" class="form-control" id="net_pay" name="net_pay" readonly>
+																</div>
+																<span class="form-text text-muted">Please enter employee net pay.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Loan Limit:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="loan_limit_amount" name="loan_limit" readonly>
+																</div>
+																<span class="form-text text-muted">Please enter employee loan limit.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Pay Day:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="pay_day" class="form-control">
+																			<option label="Choose Day">1</option>
+																			<option value="1">1</option>
+																			<option value="2">2</option>
+																			<option value="3">3</option>
+																			<option value="4">4</option>
+																			<option value="5">5</option>
+																			<option value="6">6</option>
+																			<option value="7">7</option>
+																			<option value="8">8</option>
+																			<option value="9">9</option>
+																			<option value="10">10</option>
+																			<option value="11">11</option>
+																			<option value="12">12</option>
+																			<option value="13">13</option>
+																			<option value="14">14</option>
+																			<option value="15">15</option>
+																			<option value="16">16</option>
+																			<option value="17">17</option>
+																			<option value="18">18</option>
+																			<option value="19">19</option>
+																			<option value="20">20</option>
+																			<option value="21">21</option>
+																			<option value="22">22</option>
+																			<option value="23">23</option>
+																			<option value="24">24</option>
+																			<option value="25">25</option>
+																			<option value="26">26</option>
+																			<option value="27">27</option>
+																			<option value="28">28</option>
+																			<option value="29">29</option>
+																			<option value="30">30</option>
+																			<option value="31">31</option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter other name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Account Type:</label>
+															<div class="col-9">
+
+																<select class="form-control"  name="product_name">
+																	<option label="Choose Type"></option>
+																	<option value="01">Loans</option>
+																	<option value="02">Savings</option>
+																	<option value="03">Investments</option>
+																</select>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 4-->
+											<!--begin: Wizard Step 4-->
+											<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+												<h4 class="mb-10 font-weight-bold text-dark"><u>Enter Employee Details</u></h4>
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>About Your Employer:</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Select Company:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="company_id" id="company_id" class="form-control admin-company-lookup">
+																		<option label="Choose One"></option>
+																		<%= for company <- @companies do %>
+																			<option value="<%= company.id %>"> <%= company.companyName %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select company.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Company Mobile Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="" id="company_phone">
+																</div>
+																<span class="form-text text-muted">Please enter company number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="" id="registration_number">
+																</div>
+																<span class="form-text text-muted">Please enter company registration no.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Company Email:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="" id="contact_email">
+																</div>
+																<span class="form-text text-muted">Please enter company email.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>About Your Employment</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Employer Industry Type:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="employer_industry_type">
+																</div>
+																<span class="form-text text-muted">Please enter employment industry.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Occupation:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="occupation">
+																</div>
+																<span class="form-text text-muted">Please enter occupation.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Date Joined:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), days: -1) %>" name="date_of_joining">
+																</div>
+																<span class="form-text text-muted">Please select date joined.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Employee Number:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="employee_number">
+																</div>
+																<span class="form-text text-muted">Please enter employee no.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 4-->
+											<!--begin: Wizard Step 3-->
+											<div class="pb-5" data-wizard-type="step-content">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+												<!--begin::Select-->
+												<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+													<thead>
+														<tr role="row">
+															<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																<label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+															</th>
+															<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+														</tr>
+													</thead>
+													<tbody>
+														<%= for item <- client_document_upload() do %>
+															<tr class="tr_clone">
+																<td>
+																	<div class="col-md-12 form-group">
+																		<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+																	</div>
+																</td>
+																<td>
+																	<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> >
+																</td>
+															</tr>
+														<% end %>
+													</tbody>
+												</table>
+											</div>
+											<!--end: Wizard Step 3-->
+											<!--begin: Wizard Actions-->
+											<div class="d-flex justify-content-between border-top mt-5 pt-10">
+												<div class="mr-2">
+													<button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+												</div>
+												<div>
+													<button type="submit" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+													<button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+												</div>
+											</div>
+											<!--end: Wizard Actions-->
+										<div></div><div></div><div></div><div></div></form>
+										<!--end: Wizard Form-->
+									</div>
+								</div>
+								<!--end: Wizard Body-->
+							</div>
+							<!--end: Wizard-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Row-->
+			<!--end::Dashboard-->
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->
+
+<script>
+	function calculate() {
+	// Get the values entered by the user
+	var input1 = document.getElementById("gross_pay").value;
+	var input2 = document.getElementById("total_deductions").value;
+
+	// Perform the calculation
+	if (input1 )
+	var net_pay = input1 - input2;
+
+	  if (input1 === "" || input2 === "") {
+		var net_pay = 0;
+		var loan_limit_amount = 0;
+		} else {
+			var net_pay = input1 - input2;
+
+			var loan_limit_amount = (net_pay * 0.50);
+
+
+		}
+
+	// Display the result to the user
+
+
+	document.getElementById("net_pay").value = net_pay;
+	document.getElementById("loan_limit_amount").value = loan_limit_amount;
+
+	}
+</script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var mobileNumberInput = document.getElementById("mobileNumber");
+		var address_mobileNumber_input = document.getElementById("address_mobileNumber");
+		var nrc_number_input = document.getElementById("nrc_number");
+
+
+		mobileNumberInput.addEventListener("input", function () {
+			// Remove non-digit characters and limit to 10 digits
+			let mobileNumber = mobileNumberInput.value.replace(/\D/g, '').substr(0, 10);
+
+			// Update the input value
+			mobileNumberInput.value = mobileNumber;
+		});
+
+		nrc_number_input.addEventListener("input", function () {
+			// Remove non-digit characters and limit to 10 digits
+			let nrc_number = nrc_number_input.value.replace(/[^0-9/]/g, '').substr(0, 14);
+
+			// Update the input value
+			nrc_number_input.value = nrc_number;
+		});
+
+		address_mobileNumber_input.addEventListener("input", function () {
+			// Remove non-digit characters and limit to 10 digits
+			let address_mobileNumber = address_mobileNumber_input.value.replace(/[^0-9/]/g, '').substr(0, 14);
+
+			// Update the input value
+			address_mobileNumber_input.value = address_mobileNumber;
+		});
+	});
+</script>
+
+<script>
+	var emailInput = document.getElementById("email_address");
+	var nextInput = document.getElementById("nrc_number"); // Replace with the actual ID of your next input field
+
+
+	// Create a div for displaying the error message
+	const errorMessage = document.createElement("div");
+	errorMessage.className = "error-message"; // Add CSS styles as needed
+	errorMessage.style.display = "none"; // Initially hide the error message
+
+	// Insert the error message div after the email input field
+	emailInput.parentNode.insertBefore(errorMessage, emailInput.nextSibling);
+
+	emailInput.addEventListener("blur", function () {
+	const email = emailInput.value;
+	const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	const isValidEmail = emailRegex.test(email);
+
+	if (!isValidEmail) {
+		// Invalid email address
+		errorMessage.textContent = "Invalid email address";
+		errorMessage.style.display = "block"; // Show the error message
+		emailInput.focus(); // Return focus to the email input field
+	} else {
+		// Valid email address
+		errorMessage.style.display = "none"; // Hide the error message
+	}
+	});
+
+</script>

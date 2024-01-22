@@ -1,6 +1,8 @@
 defmodule Loanmanagementsystem.Companies.SmeOfftaker do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_sme_offtaker" do
     field :contract_date, :date

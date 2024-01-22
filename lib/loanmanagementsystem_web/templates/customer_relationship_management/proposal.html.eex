@@ -1,0 +1,588 @@
+
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Proposals</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">Proposals List
+                                <span class="text-muted pt-2 font-size-sm d-block">List of proposals</span></h3>
+                            </div>
+                            <div class="card-toolbar">
+
+                                <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#add_proposal" style="background-color: #0E75BF;">
+                                    Add Proposal
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th> Customer Name </th>
+                                        <th> NRC Number </th>
+                                        <th> Date of Birth </th>
+                                        <th> Gender </th>
+                                        <th> Email Adress </th>
+                                        <th> Status </th>
+                                        <th class="text-center"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%= for proposal <- @proposal do %>
+                                        <tr>
+                                            <td> <%= proposal.first_name%> <%= proposal.last_name%> <%= proposal.other_name%> </td>
+                                            <td> <%= proposal.identification_number%> </td>
+                                            <td> <%= proposal.date_of_birth%> </td>
+                                            <td> <%= proposal.gender%> </td>
+                                            <td> <%= proposal.email_address%> </td>
+                                            <%= if proposal.status == "ACTIVE" do %>
+
+                                                <td><span class= "badge bg-pill bg-success" ><%= proposal.status %></span> </td>
+
+                                            <% else %>
+
+                                                <%= if proposal.status == "INACTIVE" do %>
+
+                                                    <td><span class="badge bg-pill bg-danger"><%= proposal.status %></span> </td>
+
+                                                <% end %>
+
+                                            <% end %>
+                                            <td class="text-center">
+
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">Options</button>
+                                                    <div class="dropdown-content">
+
+                                                        <%=if proposal.status == "ACTIVE" do %>
+                                                            <a class="btn ripple btn-sm deactivate_proposal" data-deactivate-id="<%= proposal.id %>" title="Disable">Disable</a>
+                                                        <% else %>
+                                                            <a class="btn ripple btn-sm activate_proposal" data-activate-id="<%= proposal.id %>" title="Enable">Enable</a>
+                                                        <% end %>
+
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-toggle="modal"
+                                                            data-target="#edit_proposal"
+                                                            data-id= "<%= proposal.id%>"
+                                                            data-first_name= "<%= proposal.first_name%>"
+                                                            data-last_name= "<%= proposal.last_name%>"
+                                                            data-other_name= "<%= proposal.other_name%>"
+                                                            data-gender= "<%= proposal.gender%>"
+                                                            data-title= "<%= proposal.title%>"
+                                                            data-email_address= "<%= proposal.email_address%>"
+                                                            data-date_of_birth= "<%= proposal.date_of_birth%>"
+                                                            data-identification_number= "<%= proposal.identification_number%>"
+                                                            data-marital_status= "<%= proposal.marital_status%>"
+                                                            data-mobile_number= "<%= proposal.mobile_number%>"
+                                                            data-nationality= "<%= proposal.nationality%>"
+                                                            data-number_of_dependants= "<%= proposal.number_of_dependants%>"
+                                                            title= "Edit"
+                                                        >Edit</a>
+
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-toggle="modal"
+                                                            data-target="#view_proposal"
+                                                            data-id= "<%= proposal.id%>"
+                                                            data-first_name= "<%= proposal.first_name%>"
+                                                            data-last_name= "<%= proposal.last_name%>"
+                                                            data-other_name= "<%= proposal.other_name%>"
+                                                            data-gender= "<%= proposal.gender%>"
+                                                            data-title= "<%= proposal.title%>"
+                                                            data-email_address= "<%= proposal.email_address%>"
+                                                            data-date_of_birth= "<%= proposal.date_of_birth%>"
+                                                            data-identification_number= "<%= proposal.identification_number%>"
+                                                            data-marital_status= "<%= proposal.marital_status%>"
+                                                            data-mobile_number= "<%= proposal.mobile_number%>"
+                                                            data-nationality= "<%= proposal.nationality%>"
+                                                            data-number_of_dependants= "<%= proposal.number_of_dependants%>"
+                                                            title= "View"
+                                                        >View</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+
+<!----------------------------------------- Add Lead -------------------------------------->
+
+<div class="modal" id="add_proposal">
+	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+                <h6 class="modal-title">Add A Proposal</h6>
+                <button aria-label="Close" class="btn-close" data-dismiss="modal" type="button"></button>
+			</div>
+            <form action="<%= Routes.customer_relationship_management_path(@conn, :add_proposal)%>" method="post">
+            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="modal-body">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Personal Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+                                            <select name="title" class="form-control">
+                                                <option label="Choose Title"></option>
+                                                <option value="Mr">Mr </option>
+                                                <option value="Mrs">Mrs </option>
+                                                <option value="Ms">Ms </option>
+                                                <option value="Dr">Dr </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+                                            <input name="first_name" class="form-control" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+                                            <input name="last_name" class="form-control" type="text">
+                                        </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Other Name</p>
+                                        <input class="form-control" name="other_name" type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Date Of Birth</p>
+                                        <input class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="date_of_birth" type="date">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Choose Marital</p>
+                                        <select name="marital_status" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="Single">Single </option>
+                                            <option value="Married">Married </option>
+                                            <option value="Widow">Widow </option>
+                                            <option value="Widower">Widower </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Disability Status</p>
+                                        <select name="disability_status" id="select_disability" class="form-control admin-disability-change">
+                                            <option label="Choose Disability"></option>
+                                            <option value="N/A">N/A </option>
+                                            <option value="Differently Enabled">Differently Abled </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Disability Details</p>
+                                        <input class="form-control clear_form" name="disability_detail" id="disability_disable" type="text">
+                                    </div>
+                                    <div class="col-lg" id="email">
+                                        <p class="mg-b-10">Personal Email</p>
+                                        <input class="form-control" id="email_address"  name="email_address" type="email">
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Identification Number</p>
+                                        <input class="form-control" id="nrc_number" name="identification_number" type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input class="form-control" id="mobileNumber" name="mobile_number" type="number">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Choose Gender</p>
+                                        <select name="gender" class="form-control">
+                                            <option label="Choose Gender"></option>
+                                            <option value="Male">Male </option>
+                                            <option value="Female">Female </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Nationality</p>
+                                        <select name="nationality" class="form-control">
+                                            <option label="Choose Nationality"></option>
+                                            <option value="Zambian"> Zambian </option>
+                                            <option value="Malawian"> Malawian </option>
+                                            <option value="South African"> South African </option>
+                                            <option value="Zimbabwean"> Zimbabwean </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10"> Number of Dependants</p>
+                                        <input class="form-control" min="0" name="number_of_dependants" type="number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Add Proposal</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+    	</div>
+  	</div>
+</div>
+
+<!--------------------------------------------- End ---------------------------------------->
+
+<!----------------------------------------- Edit Lead -------------------------------------->
+
+<div class="modal" id="edit_proposal">
+	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Edit A Proposal</h6><button aria-label="Close" class="btn-close" data-dismiss="modal" type="button"></button>
+                <div class="modal-body">
+                <input type="hidden" name="id" id="id" >
+
+
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Personal Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+                                            <select name="title" id="title" class="form-control">
+                                                <option label="Choose Currency"></option>
+                                                <option value="Mr">Mr </option>
+                                                <option value="Mrs">Mrs </option>
+                                                <option value="Ms">Ms </option>
+                                                <option value="Dr">Dr </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+                                            <input name="first_name" id="first_name" class="form-control" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+                                            <input name="last_name" id="last_name" class="form-control" type="text">
+                                        </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Other Name</p>
+                                        <input class="form-control" name="other_name" id="other_name"  type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Date Of Birth</p>
+                                        <input class="form-control" name="date_of_birth" id="date_of_birth" type="date">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Choose Marital</p>
+                                        <select name="marital_status" id="marital_status" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="Single">Single </option>
+                                            <option value="Married">Married </option>
+                                            <option value="Widow">Widow </option>
+                                            <option value="Widower">Widower </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Identification Number</p>
+                                        <input class="form-control" name="identification_number" id="identification_number" type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input class="form-control" name="mobile_number" id="mobile_number" type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Choose Gender</p>
+                                        <select name="gender" id="gender" class="form-control">
+                                            <option label="Choose Gender"></option>
+                                            <option value="Male">Male </option>
+                                            <option value="Female">Female </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Personal Email</p>
+                                        <input class="form-control"  name="email_address" id="email_address" type="email">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Nationality</p>
+                                        <select name="nationality" id="nationality" class="form-control">
+                                            <option label="Choose Nationality"></option>
+                                            <option value="Zambian"> Zambian </option>
+                                            <option value="Malawian"> Malawian </option>
+                                            <option value="South African"> South African </option>
+                                            <option value="Zimbabwean"> Zimbabwean </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10"> Number of Dependants</p>
+                                        <input class="form-control" min="0" name="number_of_dependants" id="number_of_dependants" type="number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Edit Proposal</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+    	</div>
+  	</div>
+</div>
+
+<!--------------------------------------------- End ---------------------------------------->
+
+<!----------------------------------------- View Lead -------------------------------------->
+
+<div class="modal" id="view_proposal">
+	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">View A Proposal</h6><button aria-label="Close" class="btn-close" data-dismiss="modal" type="button"></button>
+			</div>
+            <form action="#" enctype="multipart/form-data" id="tst" method="post">
+                <div class="modal-body">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="id" id="id" >
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+                                            <input class="form-control" name="title" id="title" type="text" readonly>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+                                            <input name="first_name" id="first_name" class="form-control" type="text" readonly>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+                                            <input name="last_name" id="last_name" class="form-control" type="text" readonly>
+                                        </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Other Name</p>
+                                        <input class="form-control" name="other_name" id="other_name"  type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Date Of Birth</p>
+                                        <input class="form-control" name="date_of_birth" id="date_of_birth" type="date" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Choose Marital</p>
+                                        <input class="form-control" name="marital_status" id="marital_status" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Identification Number</p>
+                                        <input class="form-control" name="identification_number" id="identification_number" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input class="form-control" name="mobile_number" id="mobile_number" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Choose Gender</p>
+                                        <input class="form-control" name="gender" id="gender" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Personal Email</p>
+                                        <input class="form-control"  name="email_address" id="email_address" type="email" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Nationality</p>
+                                        <input class="form-control" name="nationality" id="nationality" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10"> Number of Dependants</p>
+                                        <input class="form-control" min="0" name="number_of_dependants" id="number_of_dependants" type="number" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+    	</div>
+  	</div>
+</div>
+
+<!--------------------------------------------- End ---------------------------------------->
+
+<script>
+    $(document).ready(function(){
+
+        $('#edit_proposal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #first_name').val(button.data('first_name'));
+                modal.find('.modal-body #last_name').val(button.data('last_name'));
+                modal.find('.modal-body #other_name').val(button.data('other_name'));
+                modal.find('.modal-body #email_address').val(button.data('email_address'));
+                modal.find('.modal-body #date_of_birth').val(button.data('date_of_birth'));
+                modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
+                modal.find('.modal-body #identification_number').val(button.data('identification_number'));
+                $('#title').val(button.data('title')).trigger("change")
+                $('#gender').val(button.data('gender')).trigger("change")
+                $('#marital_status').val(button.data('marital_status')).trigger("change")
+                $('#number_of_dependants').val(button.data('number_of_dependants')).trigger("change")
+                $('#nationality').val(button.data('nationality')).trigger("change")
+        });
+
+        $('#view_proposal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #first_name').val(button.data('first_name'));
+                modal.find('.modal-body #last_name').val(button.data('last_name'));
+                modal.find('.modal-body #other_name').val(button.data('other_name'));
+                modal.find('.modal-body #email_address').val(button.data('email_address'));
+                modal.find('.modal-body #date_of_birth').val(button.data('date_of_birth'));
+                modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
+                modal.find('.modal-body #identification_number').val(button.data('identification_number'));
+                modal.find('.modal-body #title').val(button.data('title'));
+                modal.find('.modal-body #gender').val(button.data('gender'));
+                modal.find('.modal-body #marital_status').val(button.data('marital_status'));
+                modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
+                modal.find('.modal-body #nationality').val(button.data('nationality'));
+        });
+
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var mobileNumberInput = document.getElementById("mobileNumber");
+        var nrc_number_input = document.getElementById("nrc_number");
+
+
+
+        mobileNumberInput.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let mobileNumber = mobileNumberInput.value.replace(/\D/g, '').substr(0, 10);
+
+            // Update the input value
+            mobileNumberInput.value = mobileNumber;
+        });
+
+
+        nrc_number_input.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let nrc_number = nrc_number_input.value.replace(/[^0-9/]/g, '').substr(0, 14);
+
+            // Update the input value
+            nrc_number_input.value = nrc_number;
+        });
+    });
+</script>
+
+<script>
+
+    var emailInput = document.getElementById("email_address");
+    var nextInput = document.getElementById("nrc_number"); // Replace with the actual ID of your next input field
+
+    // Create a div for displaying the error message
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "error-message"; // Add CSS styles as needed
+    errorMessage.style.display = "none"; // Initially hide the error message
+
+    // Insert the error message div after the email input field
+    emailInput.parentNode.insertBefore(errorMessage, emailInput.nextSibling);
+
+    emailInput.addEventListener("blur", function () {
+    const email = emailInput.value;
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const isValidEmail = emailRegex.test(email);
+
+    if (!isValidEmail) {
+        // Invalid email address
+        errorMessage.textContent = "Invalid email address";
+        errorMessage.style.display = "block"; // Show the error message
+        emailInput.focus(); // Return focus to the email input field
+    } else {
+        // Valid email address
+        errorMessage.style.display = "none"; // Hide the error message
+    }
+    });
+
+    emailInput.addEventListener("keydown", function (event) {
+    // Check if the "Tab" key was pressed (key code 9)
+    if (event.keyCode === 9) {
+        const email = emailInput.value;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const isValidEmail = emailRegex.test(email);
+
+        if (!isValidEmail) {
+        // Invalid email address
+        errorMessage.textContent = "Invalid email address";
+        errorMessage.style.display = "block"; // Show the error message
+        emailInput.focus(); // Return focus to the email input field
+        event.preventDefault(); // Prevent moving to the next field
+        } else {
+        // Valid email address
+        errorMessage.style.display = "none"; // Hide the error message
+        }
+    }
+    });
+
+					</script>

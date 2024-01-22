@@ -1,0 +1,86 @@
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Consumer Loans</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <!--begin::Row-->
+                    <div class="row">
+                        <div class="col-md-12 col-xxl-12">
+                            <div class="card card-custom card-stretch gutter-b">
+                                <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                    <div class="card-title">
+                                        <h3 class="card-label">Loan
+                                        <span class="text-muted pt-2 font-size-sm d-block">List of loans</span></h3>
+                                    </div>
+                                    <div class="card-toolbar">
+                                        <a href="#" id="loan-listing-filter" class="btn text-white font-weight-bolder" style="background-color: #0E75BF;">
+                                            <span><i class="fe fe-filter me-2"></i></span>Filter </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                        <thead>
+                                            <tr>
+                                                <th class="wd-20p">Customer Name</th>
+                                                <th class="wd-20p">Product Name</th>
+                                                <th class="wd-15p">Date Collected </th>
+                                                <th class="wd-15p">Requested Amount (zmw)</th>
+                                                <th class="wd-15p">Disbursed Amount (zmw) </th>
+                                                <th class="wd-25p" style="text-align: center;">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                                <%= for consumser_loan <- @consumser_loans  do %>
+                                                    <tr>
+                                                        <td><%= consumser_loan.companyName %></td>
+                                                        <td><%= consumser_loan.productName %></td>
+                                                        <td><%= consumser_loan.disbursedon_date %></td>
+                                                        <td style="text-align: right;"><%= consumser_loan.principal_amount_proposed %></td>
+                                                        <td style="text-align: right;"><%= consumser_loan.principal_disbursed_derived %></td>
+                                                        <td style="text-align: center;" ><span class="label label-lg label-light-primary label-inline"><%= consumser_loan.loan_status %></span></td>
+
+                                                    </tr>
+                                                <% end %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Row-->
+                <!--end::Row-->
+                <!--end::Dashboard-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/pages/widgets.js") %>"></script>

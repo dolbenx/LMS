@@ -10,7 +10,7 @@ defmodule Loanmanagementsystem.Companies do
 
   import Ecto.Query, warn: false
   alias Loanmanagementsystem.Repo
-  alias Loanmanagementsystem.Companies.{Company, Client_company_details}
+  alias Loanmanagementsystem.Companies.{Company, Client_company_details, Employee_account}
   alias Loanmanagementsystem.Companies.Documents
   alias Loanmanagementsystem.Accounts.User
   alias Loanmanagementsystem.Accounts.UserBioData
@@ -649,7 +649,7 @@ defmodule Loanmanagementsystem.Companies do
     )
   end
 
-  # Loanmanagementsystem.Companies.otc_company_details_lookup
+  # Loanmanagementsystem.Companies.otc_company_details_lookup(1)
   def otc_company_details_lookup(company_id) do
     Company
     |> where([p], p.id == ^company_id)
@@ -971,5 +971,125 @@ defmodule Loanmanagementsystem.Companies do
         attrs \\ %{}
       ) do
     Client_company_details.changeset(client_company_details, attrs)
+  end
+
+  alias Loanmanagementsystem.Companies.Employee_account
+
+  @doc """
+  Returns the list of tbl_employee_account.
+
+  ## Examples
+
+      iex> list_tbl_employee_account()
+      [%Employee_account{}, ...]
+
+  """
+  def list_tbl_employee_account do
+    Repo.all(Employee_account)
+  end
+
+  @doc """
+  Gets a single employee_account.
+
+  Raises `Ecto.NoResultsError` if the Employee account does not exist.
+
+  ## Examples
+
+      iex> get_employee_account!(123)
+      %Employee_account{}
+
+      iex> get_employee_account!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_employee_account!(id), do: Repo.get!(Employee_account, id)
+
+  # Loanmanagementsystem.Companies.get_employee_account_by_user_id(201)
+
+  def get_employee_account_by_user_id!(employee_number) do
+    Employee_account
+    |> where([n], n.employee_id == ^employee_number)
+    |> Repo.one()
+  end
+
+  @doc """
+  Creates a employee_account.
+
+  ## Examples
+
+      iex> create_employee_account(%{field: value})
+      {:ok, %Employee_account{}}
+
+      iex> create_employee_account(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_employee_account(attrs \\ %{}) do
+    %Employee_account{}
+    |> Employee_account.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a employee_account.
+
+  ## Examples
+
+      iex> update_employee_account(employee_account, %{field: new_value})
+      {:ok, %Employee_account{}}
+
+      iex> update_employee_account(employee_account, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_employee_account(%Employee_account{} = employee_account, attrs) do
+    employee_account
+    |> Employee_account.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a employee_account.
+
+  ## Examples
+
+      iex> delete_employee_account(employee_account)
+      {:ok, %Employee_account{}}
+
+      iex> delete_employee_account(employee_account)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_employee_account(%Employee_account{} = employee_account) do
+    Repo.delete(employee_account)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking employee_account changes.
+
+  ## Examples
+
+      iex> change_employee_account(employee_account)
+      %Ecto.Changeset{data: %Employee_account{}}
+
+  """
+  def change_employee_account(%Employee_account{} = employee_account, attrs \\ %{}) do
+    Employee_account.changeset(employee_account, attrs)
+  end
+
+  # Loanmanagementsystem.Companies.get_employee_account_by_user_id(201)
+  def list_employee_account_details(user_id) do
+    Employee_account
+    |> where([n], n.employee_id == ^user_id)
+    |> select([n], %{
+      employee_id: n.employee_id,
+      employee_number: n.employee_number,
+      balance: n.balance,
+      status: n.status,
+      limit: n.limit,
+      limit_balance: n.limit_balance
+    })
+    |> limit(1)
+    |> Repo.one()
   end
 end

@@ -9,7 +9,7 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblEmployee do
       add(:userId, :integer)
       add(:status, :string)
       add(:loan_limit, :decimal)
-      add(:nrc_image, :string)
+      add(:nrc_image, :text)
 
       timestamps()
     end

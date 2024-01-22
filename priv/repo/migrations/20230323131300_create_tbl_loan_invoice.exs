@@ -1,3 +1,4 @@
+
 defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanInvoice do
   use Ecto.Migration
 
