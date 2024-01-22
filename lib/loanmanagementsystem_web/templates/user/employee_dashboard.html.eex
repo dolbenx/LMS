@@ -146,84 +146,90 @@
 			<div class="card-toolbar">
 			</div>
 
-				<div class="row row-sm ">
-					<div class="col bg-light-warning px-6 py-8 rounded-xl mr-7 mb-7">
-						<div class="card-body">
-								<div class="card-order ">
-									<label class="text-info font-weight-bold font-size-h1">Products On Promotion</label>
-									<h2 class="text-end card-item-icon card-icon">
-									<i class="mdi mdi-basket icon-size float-start text-primary"></i><span class="font-weight-bold">10% discount</span></h2>
-									<p class="mb-0 mt-4 text-muted">Save<span class="float-end">15%</span></p>
+				<div class="row">
+					<div class="container-fluid">
+						<div class="card custom-card">
+							<div class="row">
+								<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
+									<div class="card-body text-center">
+										<h6 class="mb-0">Availabe Balance</h6>
+										<h2 class="mb-1 mt-2 number-font">K <span class="counter">1,277</span></h2>
+										<p class="mb-0 text-muted"><span class="mb-0 text-danger fs-13 ms-1"><i class="fe fe-arrow-down"></i> 1.68%</span> for Last month</p>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
+									<div class="card-body text-center">
+										<h6 class="mb-0">Interest</h6>
+										<h2 class="mb-1 mt-2 number-font"><span class="counter">10</span>%</h2>
+										<p class="mb-0 text-muted"><span class="mb-0 text-success fs-13 ms-1"><i class="fe fe-arrow-up"></i> 0.27%</span> for Last month</p>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
+									<div class="card-body text-center">
+										<h6 class="mb-0">Total Loans</h6>
+										<h2 class="mb-1 mt-2 number-font"><span class="counter">17</span></h2>
+										<p class="mb-0 text-muted"><span class="mb-0 text-danger fs-13 ms-1"><i class="fe fe-arrow-down"></i> 0.87%</span> for Last month</p>
+									</div>
 								</div>
 							</div>
-						<a href="#" class="text-warning font-weight-bold font-size-h6">Promotions</a>
-					</div>
-
-					<div class="col bg-light-warning px-6 py-8 rounded-xl mr-7 mb-7">
-						<div class="card-body">
-								<div class="card-order ">
-									<label class="text-info font-weight-bold font-size-h1">Disbursed Loans</label>
-									<h2 class="text-end card-item-icon card-icon">
-									<i class="mdi mdi-basket icon-size float-start text-primary"></i><span class="font-weight-bold">ZMW 4,265</span></h2>
-									<p class="mb-0 mt-4 text-muted">Monthly Income<span class="float-end">150</span></p>
-								</div>
-							</div>
-						<a href="#" class="text-warning font-weight-bold font-size-h6">Disbused</a>
-					</div>
-
-					<div class="col bg-light-warning px-6 py-8 rounded-xl mr-7 mb-7">
-						<div class="card-body">
-								<div class="card-order "><a href="<%= Routes.products_path(@conn, :pending_products) %>">
-									<label class="text-info font-weight-bold font-size-h1">Pending Loans</label>
-									<h2 class="text-end card-item-icon card-icon">
-									<i class="mdi mdi-basket icon-size float-start text-primary"></i><span class="font-weight-bold">ZMW 0.0</span></h2>
-									<p class="mb-0 mt-4 text-muted">Monthly Loan<span class="float-end">ZMW 0.0</span></p>
-								</div>
-							</div>
-						<a href="#" class="text-warning font-weight-bold font-size-h6">Pending</a>
-					</div>
-
-					<div class="col bg-light-warning px-6 py-8 rounded-xl mr-7 mb-7">
-						<div class="card-body">
-								<div class="card-order ">
-									<label class="text-info font-weight-bold font-size-h1">Active Loans</label>
-									<h2 class="text-end card-item-icon card-icon">
-									<i class="mdi mdi-basket icon-size float-start text-primary"></i><span class="font-weight-bold">ZMW 4,625</span></h2>
-									<p class="mb-0 mt-4 text-muted">Monthly Payment<span class="float-end">150</span></p>
-								</div>
-							</div>
-						<a href="#" class="text-warning font-weight-bold font-size-h6">Active</a>
+						</div>
 					</div>
 					<!-- COL END -->
 				</div><br><br>
 
-				<div class="card card-custom card-stretch card-stretch-half gutter-b">
-										<!--begin::Body-->
-					<div class="card-body p-0">
-						<div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
-							<span class="symbol symbol-50 symbol-light-success mr-2">
-								<span class="symbol-label">
-									<span class="svg-icon svg-icon-xl svg-icon-success">
-										<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-											<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-												<rect x="0" y="0" width="24" height="24" />
-												<rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
-												<path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
-											</g>
-										</svg>
-										<!--end::Svg Icon-->
-									</span>
-								</span>
-							</span>
-							<div class="d-flex flex-column text-right">
-								<span class="text-dark-75 font-weight-bolder font-size-h3">ZMW 750</span>
-								<span class="text-muted font-weight-bold mt-2">Weekly Income</span>
+				<div class="container-fluid">
+					<div class="card custom-card mg-b-20">
+						<div class="card-body">
+							<div class="card-header pt-0 ps-0 pe-0 d-flex">
+								<div>
+									<label class="main-content-label mb-2">Last Transactions</label> <span class="d-block tx-12 mb-2 text-muted">Top last 5 transaction in the past 90 days.</span>
+								</div>
+							</div>
+							<div class="table-responsive tasks">
+								<table class="table card-table table-vcenter text-nowrap mb-0 border-top-0 border">
+									<thead>
+										<tr>
+											<th class="wd-lg-10p">Amount</th>
+											<th class="wd-lg-20p">Date</th>
+											<th class="wd-lg-20p text-center">Tnx No.</th>
+											<th class="wd-lg-20p">Prority</th>
+											<th class="wd-lg-20p">Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="">ZMW 1500</td>
+											<td class="text-nowrap">10 Mar 2022</td>
+											<td class="text-center">1099288383<i class=""></i></td>
+											<td class="text-primary">High</td>
+											<td><span class="badge bg-pill bg-primary-light">Completed</span></td>
+										</tr>
+										<tr>
+											<td class="">ZMW 2000</td>
+											<td class="text-nowrap">07 Feb 2022</td>
+											<td class="text-center">3772887788<i class=""></i></td>
+											<td class="text-secondary">Normal</td>
+											<td><span class="badge bg-pill bg-warning-light">Pending</span></td>
+										</tr>
+										<tr>
+											<td class="">ZMW 100</td>
+											<td class="text-nowrap">22 Feb 2022</td>
+											<td class="text-center">1002909388<i class=""></i></td>
+											<td class="text-warning">Low</td>
+											<td><span class="badge bg-pill bg-primary-light">Completed</span></td>
+										</tr>
+										<tr>
+											<td class="">ZMW 550</td>
+											<td class="text-nowrap">10 Jan 2022</td>
+											<td class="text-center">3889782887<i class=""></i></td>
+											<td class="text-primary">High</td>
+											<td><span class="badge bg-pill bg-danger-light">Rejected</span></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
-						<div id="kt_stats_widget_11_chart" class="card-rounded-bottom" data-color="success" style="height: 150px"></div>
 					</div>
-					<!--end::Body-->
 				</div>
 		</div>
 	</div>

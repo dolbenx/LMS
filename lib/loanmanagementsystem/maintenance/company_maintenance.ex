@@ -2,6 +2,8 @@ defmodule Loanmanagementsystem.Maintenance.Company_maintenance do
   use Ecto.Schema
   use Endon
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_company_maintanence" do
     field :address, :string

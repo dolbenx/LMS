@@ -17,6 +17,8 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
   use Ecto.Schema
   use Endon
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_user_bio_data" do
     field :dateOfBirth, :date
@@ -36,6 +38,9 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
     field :marital_status, :string
     field :nationality, :string
     field :number_of_dependants, :integer
+    field :age, :integer
+    field :disability_detail, :string
+    field :disability_status, :string
     field :employee_confirmation, :boolean, default: false
     field :applicant_declaration, :boolean, default: false
     field :applicant_signature_image, :string
@@ -64,6 +69,9 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
       :gender,
       :mobileNumber,
       :emailAddress,
+      :age,
+      :disability_detail,
+      :disability_status,
       :employee_confirmation,
       :applicant_declaration,
       :applicant_signature_image
@@ -93,7 +101,10 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
       :gender,
       :mobileNumber,
       :emailAddress,
+      :age,
       :bank_id,
+      :disability_detail,
+      :disability_status,
       :applicant_signature_image
     ])
 

@@ -10,6 +10,8 @@ defmodule LoanmanagementsystemWeb.ProductsController do
   plug LoanmanagementsystemWeb.Plugs.Authenticate,
 		       [module_callback: &LoanmanagementsystemWeb.ProductsController.authorize_role/1]
 		       when action not in [
+
+
 						:admin_activate_product,
 						:admin_add_product,
 						:admin_all_products,
@@ -31,7 +33,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 						:traverse_errors,
             :admin_edit_product,
             :admin_update_product_details
-		      ]
+		            ]
 
 		  use PipeTo.Override
 
@@ -41,6 +43,8 @@ defmodule LoanmanagementsystemWeb.ProductsController do
     render(conn, "add_products.html",
       products: products,
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
+      classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
       charges: Loanmanagementsystem.Charges.list_tbl_charges()
     )
   end
@@ -53,16 +57,23 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 
     get_product_by = Loanmanagementsystem.Products.get_product_by_product_id(params["product_id"])
     product_currency = Loanmanagementsystem.Maintenance.Currency.find_by(id: product_detail.currencyId)
+    get_product_principal_acc = Loanmanagementsystem.Chart_of_accounts.Chart_of_account.find_by(id: product_detail.principle_account_id)
+    get_product_interest_acc = Loanmanagementsystem.Chart_of_accounts.Chart_of_account.find_by(id: product_detail.interest_account_id)
+    get_product_charges_acc = Loanmanagementsystem.Chart_of_accounts.Chart_of_account.find_by(id: product_detail.charges_account_id)
     get_product_rates = Loanmanagementsystem.Products.Product_rates.find_by(product_id: params["product_id"])
 
     render(conn, "edit_products.html",
       products: products,
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
       classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
       charges: Loanmanagementsystem.Charges.list_tbl_charges(),
       product_detail: product_detail,
       get_product_by: get_product_by,
       product_currency: product_currency,
+      get_product_principal_acc: get_product_principal_acc,
+      get_product_interest_acc: get_product_interest_acc,
+      get_product_charges_acc: get_product_charges_acc,
       get_product_rates: get_product_rates
     )
   end
@@ -72,6 +83,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
       products: Loanmanagementsystem.Products.list_tbl_products(),
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
       classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
       charges: Loanmanagementsystem.Charges.list_tbl_charges()
     )
   end

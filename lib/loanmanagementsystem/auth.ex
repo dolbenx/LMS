@@ -1,3 +1,4 @@
+
 defmodule Loanmanagementsystem.Auth do
   def confirm_password(%{password: password_hash} = user, password) do
     case Base.encode16(:crypto.hash(:sha512, password)) do
@@ -5,7 +6,7 @@ defmodule Loanmanagementsystem.Auth do
         {:ok, user}
 
       _ ->
-        {:error, "Password does not match"}
+        {:error, "password/email not match"}
     end
   end
 end

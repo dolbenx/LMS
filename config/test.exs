@@ -1,4 +1,4 @@
-import Config
+use Mix.Config
 
 # Configure your database
 #
@@ -8,23 +8,15 @@ import Config
 config :loanmanagementsystem, Loanmanagementsystem.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
   database: "loanmanagementsystem_test#{System.get_env("MIX_TEST_PARTITION")}",
-  pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+  hostname: "localhost",
+  pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "xLkMpJdukNiYp5rpYm9LUQZZzn9RA6u0VpvlwJPrZoV83q6/15T334gfUk/PtrDY",
+  http: [port: 4002],
   server: false
-
-# In test we don't send emails.
-config :loanmanagementsystem, Loanmanagementsystem.Mailer, adapter: Swoosh.Adapters.Test
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Initialize plugs at runtime for faster test compilation
-config :phoenix, :plug_init_mode, :runtime

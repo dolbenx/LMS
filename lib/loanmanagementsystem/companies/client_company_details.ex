@@ -1,6 +1,8 @@
 defmodule Loanmanagementsystem.Companies.Client_company_details do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_client_company_details" do
     field :approval_trail, :string

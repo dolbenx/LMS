@@ -1,0 +1,215 @@
+
+
+<head><base href="">
+		<meta charset="utf-8" />
+		<title>PayKesho | VERIFY OTP</title>
+		<meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<link rel="canonical" href="https://keenthemes.com/metronic" />
+		<!--begin::Fonts-->
+		<style>
+		body {font-family: Luminari, fantasy;}
+		</style>
+		<!--end::Fonts-->
+		<!--begin::Page Vendors Styles(used by this page)-->
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/fullcalendar/fullcalendar.bundle.css") %>">
+		<!--end::Page Vendors Styles-->
+		<!--begin::Page Custom Styles(used by this page)-->
+		<link href="<%= Routes.static_path(@conn, "/webstatic/css/pages/wizard/wizard-3.css") %>" rel="stylesheet" type="text/css" />
+		<link href="<%= Routes.static_path(@conn, "/webstatic/css/pages/wizard/wizard-2.css") %>" rel="stylesheet" type="text/css" />
+
+		<link href="<%= Routes.static_path(@conn, "/webstatic/css/momo.css") %>" rel="stylesheet" type="text/css" />
+
+		<!--begin::Global Theme Styles(used by all pages)-->
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/global/plugins.bundle.css") %>">
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/prismjs/prismjs.bundle.css") %>">
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.bundle.css") %>">
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.min.css">
+
+		<!--end::Global Theme Styles-->
+		<!--begin::Layout Themes(used by all pages)-->
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/header/base/light.css") %>">
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/header/menu/light.css") %>">
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/brand/dark.css") %>">
+		<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/themes/layout/aside/dark.css") %>">
+		<!--end::Layout Themes-->
+		<link rel="shortcut icon" href="<%= Routes.static_path(@conn, "/images/paykesho_logos.png") %>" />
+
+
+		<!--begin::Page Vendors(used by this page)-->
+		<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/custom/datatables/datatables.bundle.css") %>"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+		<style>
+			#kt_header{background-color: #0E75BF;}
+			#datetime {
+				font-size: 18px;
+				font-weight: bold;
+				margin-top: 10px;
+				color: #0E75BF;
+			}
+		</style>
+	</head>
+
+    <style>
+        .height-100 {
+            height: 200vh
+        }
+
+        .card {
+            width: 1000px;
+            border: none;
+            height: 600px;
+            box-shadow: 0px 5px 20px 0px #0E75BF;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto; /* Center horizontally */
+        }
+
+        .card h6 {
+            color: #0E75BF;
+            font-size: 40px
+        }
+
+        .card small {
+            color: black;
+            font-size: 20px
+        }
+
+        .inputs input {
+            width: 80px;
+            height: 60px
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0
+        }
+
+        .card-2 {
+            background-color: #0E75BF;
+            padding: 100px;
+            width: 350px;
+            height: 100px;
+            bottom: -20px;
+            left: 20px;
+            position: absolute;
+            border-radius: 5px
+        }
+
+        .card-2 .content {
+            margin-top: 50px
+        }
+
+        .card-2 .content a {
+            color: #0E75BF
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border: 2px solid #0E75BF
+        }
+
+        .validate {
+            border-radius: 20px;
+            height: 60px;
+            background-color: #0E75BF;
+            color: white;
+            border: 1px solid #0E75BF;
+            width: 160px
+        }
+        .row_alert {
+        display: flex;
+        justify-content: center;
+        }
+    </style>
+
+	<div class="container">
+
+		<div class="row row_alert">
+            <div class="col-md-6" style="padding-top: 10px;">
+                <div class="form-group">
+                    <%= if get_flash(@conn, :info) do %>
+                    <div class="alert alert-success  alert-styled-center row_alert" style="border-radius:15px;" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                    <%= get_flash(@conn, :info) %>
+                    </div>
+                    <% end %>
+                    <%= if get_flash(@conn, :error) do %>
+                    <div class="alert alert-danger alert-styled-center row_alert" style="border-radius:15px;">
+                    <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                    Sorry! <%= get_flash(@conn, :error) %>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+        <div class="container height-50 d-flex justify-content-md-center align-items-center">
+			<form action="<%= Routes.session_path(@conn, :registration_validate_otp)%>" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="username" value="<%= @user_details.username %>" >
+                <input type="hidden" name="user_role" value="<%= @user_details.roleType %>" >
+                <input type="hidden" name="role_id" value="<%= @user_details.role_id %>" >
+                <input type="hidden" name="username_mobile" value="<%= @user_details.username_mobile %>" >
+                <input type="hidden" name="mobileNumber" value="<%= @user_details.mobile %>" >
+				<div class="position-relative">
+                    <div class="card p-2 text-center">
+                        <h6>Please enter the one time pin.</h6>
+                        <div>
+                        <small>One Time Pin(OTP) has been sent to your mobile line <b><%= @user_details.mobile %></small>
+				    </div>
+                    <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                        <input class="m-2 text-center form-control rounded" type="text" name="otp1" id="first" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" type="text" name="otp2" id="second" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" type="text" name="otp3" id="third" maxlength="1" />
+                        <input class="m-2 text-center form-control rounded" type="text" name="otp4" id="fourth" maxlength="1" />
+                    </div>
+					<div class="mt-4">
+				    <button class="btn btn-success font-weight-bold btn-pill font-size-h6 px-10 py-4 mr-2"><i class="flaticon2-check-mark"></i>Validate</button>
+					</div>
+				</div>
+				</div>
+			</form>
+		</div>
+
+        <script src="<%= Routes.static_path(@conn, "/webstatic/plugins/global/plugins.bundle.js") %>"></script>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function(event) {
+				function OTPInput() {
+					const inputs = document.querySelectorAll('#otp > *[id]');
+					for(let i = 0; i < inputs.length; i++) {
+						inputs[i].addEventListener('keydown', function(event) {
+							if(event.key === "Backspace") {
+								inputs[i].value = '';
+								if(i !== 0) inputs[i - 1].focus();
+							} else {
+								if(i === inputs.length - 1 && inputs[i].value !== '') {
+									return true;
+								} else if(event.keyCode > 47 && event.keyCode < 58) {
+									inputs[i].value = event.key;
+									if(i !== inputs.length - 1) inputs[i + 1].focus();
+									event.preventDefault();
+								} else if(event.keyCode > 64 && event.keyCode < 91) {
+									inputs[i].value = String.fromCharCode(event.keyCode);
+									if(i !== inputs.length - 1) inputs[i + 1].focus();
+									event.preventDefault();
+								}
+							}
+						});
+					}
+				}
+				OTPInput();
+			});
+		</script>
+
+	</div>
+</html>

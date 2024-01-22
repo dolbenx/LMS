@@ -1,0 +1,90 @@
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">All Loans Table</li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div>
+                            <h6 class="main-content-label mb-1">All Loans Table</h6><br>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Client Name</th>
+                                        <th class="wd-20p">Product Name</th>
+                                        <th class="wd-25p">Principle</th>
+                                        <th class="wd-20p">Interest</th>
+                                        <th class="wd-15p">Disbursed Date</th>
+                                        <th class="wd-20p">Applied Date</th>
+                                        <th class="wd-20p">Status</th>
+                                        <th class="wd-15p">Amount Repaid</th>
+                                        <th class="wd-20p">Maturity Date</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%= for loan <- @loans do %>
+                                    <tr>
+                                        <td> <%= loan.firstName %> <%= loan.lastName %> </td>
+                                        <td><%= loan.name %>  </td>
+                                        <td><%= Decimal.round(Decimal.from_float(loan.principal_amount_proposed)) %> </td>
+                                        <td><%= loan.interest %> </td>
+                                        <%= if loan.disbursedon_date == nil do %>
+                                         <td>N/A</td>
+                                        <% else %>
+                                             <td><%= loan.disbursedon_date %></td>
+                                        <% end %>
+
+                                        <td><%= loan.applied_date %> </td>
+
+                                        <td><%= loan.loan_status %></td>
+
+                                        <%= if loan.total_repayment_derived == nil do %>
+                                         <td>N/A</td>
+                                        <% else %>
+                                            <td><%= loan.total_repayment_derived %></td>
+                                        <% end %>
+
+
+
+                                        <%= if loan.expected_maturity_date == nil do %>
+                                         <td>N/A</td>
+                                        <% else %>
+                                            <td><%= loan.expected_maturity_date %></td>
+                                        <% end %>
+
+                                    </tr>
+                                <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+</div>

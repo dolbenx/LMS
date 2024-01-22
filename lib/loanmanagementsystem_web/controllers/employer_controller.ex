@@ -7,12 +7,14 @@ defmodule LoanmanagementsystemWeb.EmployerController do
   alias Loanmanagementsystem.Accounts.{User, UserBioData, UserRole}
   alias Loanmanagementsystem.Repo
   alias Loanmanagementsystem.Accounts
-  alias Loanmanagementsystem.Companies.Employee
+  alias Loanmanagementsystem.Companies.{Employee, Employee_account}
   alias Loanmanagementsystem.Products.Product
   alias Loanmanagementsystem.Accounts.Address_Details
   alias Loanmanagementsystem.Accounts.Customer_account
   alias Loanmanagementsystem.Employment.{Employee_Maintenance}
   alias Loanmanagementsystem.Loan.Loans
+  alias Loanmanagementsystem.Employment.Employment_Details
+  alias Loanmanagementsystem.Companies.Company
 
 
   plug LoanmanagementsystemWeb.Plugs.Authenticate,
@@ -30,6 +32,7 @@ defmodule LoanmanagementsystemWeb.EmployerController do
           :employer_create_admin_employee,
           :employer_create_employee,
           :employer_deactivate_employee,
+          :employer_deactivate_employee_admin,
           :employer_disbursed_loans,
           :employer_employee_all_loans,
           :employer_employee_all_loans_list_item_lookup,
@@ -67,7 +70,9 @@ defmodule LoanmanagementsystemWeb.EmployerController do
           :traverse_errors,
           :user_mgt,
           :client_approval_details,
-          :approve_client_invoice_discounting_application
+          :approve_client_invoice_discounting_application,
+          :employer_activate_employee_admin,
+          :handle_bulk_creation
        ]
 
 use PipeTo.Override
@@ -414,9 +419,201 @@ use PipeTo.Override
 
   def staff_all_loans(conn, _params) do
     products = Loanmanagementsystem.Products.list_tbl_products()
-    render(conn, "staff_all_loans.html")
+    render(conn, "staff_all_loans.html", products: products)
   end
-  @headers ~w/ title	firstName	lastName	otherName	 gender	idType	idNumber	mobileNumber	emailAddress	marital_status	nationality	dateOfBirth number_of_dependants accomodation_status year_at_current_address	area house_number	street_name	town province productName	loan_limit mobile_network_operator registered_name_mobile_number  /a
+
+  @headers ~w/ title	firstName	lastName	otherName	idType	idNumber	mobileNumber	emailAddress	marital_status	nationality	dateOfBirth number_of_dependants accomodation_status year_at_current_address	area house_number	street_name	town province	loan_limit mobile_network_operator registered_name_mobile_number  job_title employee_number hr_supervisor_email hr_supervisor_mobile_number hr_supervisor_name employment_type contract_start_date contract_end_date date_of_joining/a
+
+  def handle_bulk_creation(user, list) do
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.merge(fn multi -> handle_request(multi, user.company_id, list) end)
+    |> Repo.transaction()
+    |> IO.inspect(label: "-----------ID-----------")
+    |> case do
+      {:ok, _} -> {:ok, "success"}
+      {:error, _, failed_value, _} -> traverse_errors(failed_value.errors)
+    end
+  end
+
+
+  def handle_request(_multi, company_id, list) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.merge(fn _multi ->
+      Enum.with_index(list, 1)
+      |> Enum.reduce(Ecto.Multi.new(), fn {map, index}, multi ->
+          index = Integer.to_string(index)
+          insert_bulk(multi, index, map, company_id)
+      end)
+    end)
+  end
+
+
+  def prep_user(map, company_id, otp, password) do
+    %{
+      password: password,
+      status: "INACTIVE",
+      username: map.emailAddress,
+      pin: otp,
+      company_id: company_id,
+      auto_password: "Y"
+    }
+  end
+
+
+  def prep_address(_user_id, map) do
+    %{
+      accomodation_status: map.accomodation_status,
+      year_at_current_address: map.year_at_current_address,
+      area: map.area,
+      house_number: map.house_number,
+      street_name: map.street_name,
+      town: map.town,
+      userId: User.find_by(username: map.emailAddress).id,
+      province: map.province
+    }
+  end
+
+  def prep_boi_data(_user_id, map) do
+    %{
+      dateOfBirth: map.dateOfBirth,
+      emailAddress: map.emailAddress,
+      firstName: map.firstName,
+      gender: if map.title == "Mr" or map.title == "mr" or map.title == "MR" do "Male" else "Female" end,
+      lastName: map.lastName,
+      meansOfIdentificationNumber: map.idNumber,
+      meansOfIdentificationType: map.idType,
+      mobileNumber: map.mobileNumber,
+      otherName: map.otherName,
+      title: map.title,
+      userId: User.find_by(username: map.emailAddress).id,
+      # bank_id: params[""],
+      # bank_account_number: params[""],
+      marital_status: map.marital_status,
+      nationality: map.nationality,
+      number_of_dependants: map.number_of_dependants,
+      age: nil
+    }
+  end
+
+  def prep_employee_details(_user_id, map, company_id) do
+    %{
+
+      area: map.area,
+      date_of_joining: map.date_of_joining,
+      employee_number: map.employee_number,
+      employer: Company.find_by(id: company_id).companyName,
+      employment_type: map.employment_type,
+      hr_supervisor_email: map.hr_supervisor_email,
+      hr_supervisor_mobile_number: map.hr_supervisor_mobile_number,
+      hr_supervisor_name: map.hr_supervisor_name,
+      job_title: map.job_title,
+      occupation: map.job_title,
+      province: map.province,
+      town: map.town,
+      userId: User.find_by(username: map.emailAddress).id,
+      mobile_network_operator: map.mobile_network_operator,
+      registered_name_mobile_number: map.registered_name_mobile_number,
+      contract_start_date: map.contract_start_date,
+      contract_end_date: map.contract_end_date,
+      company_id: company_id,
+    }
+  end
+
+  def prep_user_role(_user_id, map, otp) do
+    %{
+      roleType: map.roleType,
+      status: "INACTIVE",
+      userId: User.find_by(username: map.emailAddress).id,
+      otp: otp,
+      isStaff: false
+    }
+  end
+
+  def prep_customer_account(_user_id, map) do
+    %{
+      account_number: "01",
+      user_id: User.find_by(username: map.emailAddress).id,
+      status: "INACTIVE"
+    }
+  end
+
+  def prep_employee(_user_id, map, company_id) do
+    %{
+      status: "INACTIVE",
+      userId: User.find_by(username: map.emailAddress).id,
+      userRoleId: UserRole.find_by(userId: User.find_by(username: map.emailAddress).id).id,
+      loan_limit: map.loan_limit,
+      companyId: company_id,
+      employerId: company_id
+    }
+  end
+
+  def prep_employee_maintenance(_user_id, map) do
+    %{
+      registered_name_mobile_number: map.registered_name_mobile_number,
+      mobile_network_operator: map.mobile_network_operator,
+      userId: User.find_by(username: map.emailAddress).id,
+      roleTypeId: UserRole.find_by(userId: User.find_by(username: map.emailAddress).id).id
+    }
+  end
+
+
+
+
+  def prep_employee_account(_user_id, map, employee_number) do
+    %{
+      employee_id: User.find_by(username: map.emailAddress).id,
+      employee_number: employee_number,
+      limit: map.loan_limit,
+      limit_balance: map.loan_limit,
+      status: "INACTIVE"
+    }
+  end
+
+  def insert_bulk(multi, index, map, company_id) do
+
+    otp = to_string(Enum.random(1111..9999))
+    password = "pass-#{Enum.random(1_000_000_000..9_999_999_999)}"
+    user = prep_user(map, company_id, otp, password)
+    employee_number = "A-#{Enum.random(10000..99999)}"
+    atn = "user" <> index
+    multi
+    |> Ecto.Multi.insert(atn, User.changeset(%User{}, user))
+    |> Ecto.Multi.run("address" <> index, fn (_repo, atn) ->
+      addr = prep_address(Map.get(atn, :id), map)
+      Repo.insert(Address_Details.changeset(%Address_Details{}, addr))
+    end)
+    |> Ecto.Multi.run("boi" <> index, fn (_repo, atn) ->
+      boi = prep_boi_data(Map.get(atn, :id), map)
+      Repo.insert(UserBioData.changeset(%UserBioData{}, boi))
+    end)
+    |> Ecto.Multi.run("user_role" <> index, fn (_repo, atn) ->
+      user_role = prep_user_role(Map.get(atn, :id), map, otp)
+      Repo.insert(UserRole.changeset(%UserRole{}, user_role))
+    end)
+    |> Ecto.Multi.run("customer_account" <> index, fn (_repo, atn) ->
+      customer_account = prep_customer_account(Map.get(atn, :id), map)
+      Repo.insert(Customer_account.changeset(%Customer_account{}, customer_account))
+    end)
+    |> Ecto.Multi.run("employee" <> index, fn (_repo, atn) ->
+      employee = prep_employee(Map.get(atn, :id), map, company_id)
+      Repo.insert(Employee.changeset(%Employee{}, employee))
+    end)
+    |> Ecto.Multi.run("employee_maintenance" <> index, fn (_repo, atn) ->
+      employee_maintenance = prep_employee_maintenance(Map.get(atn, :id), map)
+      Repo.insert(Employee_Maintenance.changeset(%Employee_Maintenance{}, employee_maintenance))
+    end)
+    |> Ecto.Multi.run("employee_details" <> index, fn (_repo, atn) ->
+      employee_details = prep_employee_details(Map.get(atn, :id), map, company_id)
+      Repo.insert(Employment_Details.changeset(%Employment_Details{}, employee_details))
+    end)
+    |> Ecto.Multi.run("employee_account" <> index, fn (_repo, atn) ->
+      employee_account = prep_employee_account(Map.get(atn, :id), map, employee_number)
+      Repo.insert(Employee_account.changeset(%Employee_account{}, employee_account))
+    end)
+  end
+
 
   def handle_staff_bulk_upload(conn, params) do
     IO.inspect(params, label: "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
@@ -435,12 +632,13 @@ use PipeTo.Override
   end
 
   defp handle_file_upload(user, params) do
+    params = Map.merge(params, %{"roleType"=> params["roleType"]})
     with {:ok, filename, destin_path, _rows} <- is_valide_file(params) do
       user
       |> process_bulk_upload(filename, destin_path)
       |> case do
-        {:ok, {invalid, _valid}} ->
-          {:info, "Staffs Uploaded Successful ", invalid}
+        {:ok, msg} ->
+          {:info, "Staffs Uploaded Successful ", ""}
 
         {:error, reason} ->
           {:error, reason, 0}
@@ -468,33 +666,18 @@ use PipeTo.Override
 
   def process_bulk_upload(user, filename, path) do
     {:ok, items} = extract_xlsx(path)
-    prepare_bulk_params(user, filename, items)
-    |> Repo.transaction(timeout: :infinity)
-    |> case do
-      {:ok, multi_records} ->
-        {invalid, valid} =
-          multi_records
-          |> Map.values()
-          |> Enum.reduce({0, 0}, fn item, {invalid, valid} ->
-            case item do
-              %{uploafile_name: _src} -> {invalid, valid + 1}
-              %{col_index: _index} -> {invalid + 1, valid}
-              _ -> {invalid, valid}
-            end
-          end)
+      handle_bulk_creation(user, items)
 
-        {:ok, {invalid, valid}}
+      # {:error, _, changeset, _}
+      #   reason = traverse_errors(changeset.errors) |> Enum.join("\r\n")
+      #   {:error, reason}
 
-      {:error, _, changeset, _} ->
-        reason = traverse_errors(changeset.errors) |> Enum.join("\r\n")
-        {:error, reason}
-
-      {:error, reason} ->
-          {:error, reason}
-    end
+      # {:error, reason} ->
+      #     {:error, reason}
   end
 
   defp prepare_bulk_params(user, filename, items) do
+
     validate_email = items |> Enum.map(fn records -> if UserBioData.exists?(emailAddress: records.emailAddress) == true do  "EXIST" else "PROCEED" end end)
     validate_idNumber = items |> Enum.map(fn records -> if UserBioData.exists?(meansOfIdentificationNumber: records.idNumber) == true do "EXIST" else "PROCEED" end end)
     validate_mobileNumber = items |> Enum.map(fn records -> if UserBioData.exists?(mobileNumber: records.mobileNumber) == true do "EXIST" else "PROCEED" end end)
@@ -543,13 +726,13 @@ use PipeTo.Override
     |> case do
       {:ok, _result} ->
         nil
-      {:error, _failed_operation, failed_value, changes_so_far} ->
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
         IO.inspect(failed_value)
         {:error, failed_value}
     end
   end
 
-  defp prepare_userbio_bulk_params(user_bio_resp, _user) when not is_nil(user_bio_resp), do: user_bio_resp
+  # defp prepare_userbio_bulk_params(user_bio_resp, _user) when not is_nil(user_bio_resp), do: user_bio_resp
   defp prepare_userbio_bulk_params(_user_bio_resp, user, _filename, items) do
       items
       |> Stream.with_index(1)
@@ -563,7 +746,7 @@ use PipeTo.Override
       |> execute_multi()
   end
 
-  defp prepare_address_detail_bulk_params(address_resp, _user) when not is_nil(address_resp), do: address_resp
+  # defp prepare_address_detail_bulk_params(address_resp, _user) when not is_nil(address_resp), do: address_resp
   defp prepare_address_detail_bulk_params(_address_resp, user, _filename, items) do
     items
     |> Stream.with_index(1)
@@ -576,7 +759,7 @@ use PipeTo.Override
     |> execute_multi()
   end
 
-  defp prepare_userrole_bulk_params(role_resp, _user) when not is_nil(role_resp), do: role_resp
+  # defp prepare_userrole_bulk_params(role_resp, _user) when not is_nil(role_resp), do: role_resp
   defp prepare_userrole_bulk_params(_role_resp, user, _filename, items) do
     items
     |> Stream.with_index(1)
@@ -605,7 +788,7 @@ use PipeTo.Override
 
   end
 
-  defp prepare_customer_account_bulk_params(acc_resp, _user) when not is_nil(acc_resp), do: acc_resp
+  # defp prepare_customer_account_bulk_params(acc_resp, _user) when not is_nil(acc_resp), do: acc_resp
   defp prepare_customer_account_bulk_params(_acc_resp, user, _filename, items) do
 
     items
@@ -623,7 +806,7 @@ use PipeTo.Override
 
   end
 
-  defp prepare_emploee_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
+  # defp prepare_emploee_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
   defp prepare_emploee_bulk_params(_emplo_resp, user, _filename, items) do
 
     items
@@ -639,7 +822,7 @@ use PipeTo.Override
 
   end
 
-  defp prepare_employee_maintenance_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
+  # defp prepare_employee_maintenance_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
   defp prepare_employee_maintenance_bulk_params(_emplo_resp, user, _filename, items) do
 
     items
@@ -656,7 +839,7 @@ use PipeTo.Override
   end
 
 
-  defp prepare_logs_bulk_params(logs_resp, _user) when not is_nil(logs_resp), do: logs_resp
+  # defp prepare_logs_bulk_params(logs_resp, _user) when not is_nil(logs_resp), do: logs_resp
   defp prepare_logs_bulk_params(_logs_resp, user, _filename, items) do
 
     items
@@ -1049,6 +1232,7 @@ use PipeTo.Override
     company_id = conn.assigns.user.company_id
     company = Loanmanagementsystem.Companies.get_company!(company_id)
     employee_account_number = LoanmanagementsystemWeb.ClientManagementController.init_acc_no_generation(params["product_name"])
+    employee_number = "A-#{Enum.random(10000..99999)}"
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(
@@ -1098,6 +1282,17 @@ use PipeTo.Override
         nationality: params["nationality"],
         number_of_dependants: params["number_of_dependants"],
         age: nil
+      })
+      |> Repo.insert()
+    end)
+    |> Ecto.Multi.run(:employee_account, fn _repo, %{add_user: add_user, add_user_role: _add_user_role} ->
+      Employee_account.changeset(%Employee_account{}, %{
+
+        employee_id: add_user.id,
+        employee_number: employee_number,
+        limit_balance: params["loan_limit"],
+        limit: params["loan_limit"],
+        status: "ACTIVE"
       })
       |> Repo.insert()
     end)
@@ -1153,7 +1348,7 @@ use PipeTo.Override
     |> Ecto.Multi.run(:user_logs, fn _repo, %{add_user: _add_user, add_user_role: _add_user_role, userBioDate: userBioDate, add_emplee_values: _add_emplee_values, add_address_address: _add_address_address} ->
       UserLogs.changeset(%UserLogs{}, %{
         activity:
-          "You have Successfully Added #{userBioDate.firstName} #{userBioDate.lastName} as a Staff of ",
+          "You have Successfully Added #{userBioDate.firstName} #{userBioDate.lastName} as a Staff of #{company.companyName}",
         user_id: conn.assigns.user.id
       })
       |> Repo.insert()
@@ -1182,7 +1377,7 @@ use PipeTo.Override
 
     userbiodate = Loanmanagementsystem.Accounts.get_user_bio_data_by_user_id!(params["id"])
 
-    employment_maintenance =Loanmanagementsystem.Employment.get_employee__maintenance_by_userId(params["id"])
+    employment_maintenance = Loanmanagementsystem.Employment.get_employee__details_by_userId(params["id"])
 
     address_details = Loanmanagementsystem.Accounts.get_address__details_by_userId(params["id"])
 
@@ -1223,15 +1418,12 @@ use PipeTo.Override
     end)
 
     |> Ecto.Multi.run(:update_employoiment_details, fn _repo, %{update_userbiodate: _update_userbiodate, update_address_details: _update_address_details} ->
-      Employee_Maintenance.changeset(employment_maintenance, %{
-
+      Employment_Details.changeset(employment_maintenance, %{
         mobile_network_operator: params["mobile_network_operator"],
         registered_name_mobile_number: params["registered_name_mobile_number"]
-
       })
       |> Repo.update()
     end)
-
     |> Ecto.Multi.run(:user_logs, fn _repo, %{update_employoiment_details: _update_employoiment_details, update_userbiodate: update_userbiodate} ->
       UserLogs.changeset(%UserLogs{}, %{
         activity: "You have Successfully Updated #{update_userbiodate.firstName} #{update_userbiodate.lastName} Staff",
@@ -1256,6 +1448,51 @@ use PipeTo.Override
   end
 
   def employer_activate_employee(conn, params) do
+    id = params["id"]
+    IO.inspect(params, label: "-----------------PARAMS----------------")
+    IO.inspect(id, label: "-----------------PARAMS----------------")
+
+    users_approve = Accounts.get_user!(params["id"])
+    IO.inspect(users_approve, label: "-----------------PARAMS----------------")
+
+    user_role_approve = Loanmanagementsystem.Accounts.get_user_role_by_user_id(params["id"])
+    user_bio_data = Loanmanagementsystem.Accounts.get_user_bio_data_by_user_id!(params["id"])
+    user_account_no = Loanmanagementsystem.Accounts.get_account_by_user_id!(params["id"])
+    update_employees_tbl = Loanmanagementsystem.Companies.get_employee_by_user_id!(params["id"])
+    update_employee_account = Loanmanagementsystem.Companies.get_employee_account_by_user_id!(params["id"])
+    current_user = conn.assigns.user.id
+    activated_user_id = params["id"]
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:users, User.changeset(users_approve, %{status: "ACTIVE"}))
+    |> Ecto.Multi.update(:user_role_approve,UserRole.changeset(user_role_approve, %{status: "ACTIVE"}))
+    |> Ecto.Multi.update(:user_account_no,Customer_account.changeset(user_account_no, %{status: "ACTIVE"}))
+    |> Ecto.Multi.update(:update_employees_tbl,Employee.changeset(update_employees_tbl, %{status: "ACTIVE"}))
+    |> Ecto.Multi.update(:user_bio_data,UserBioData.changeset(user_bio_data, %{status: "ACTIVE"}))
+    |> Ecto.Multi.update(:update_employee_account,Employee_account.changeset(update_employee_account, %{status: "ACTIVE"}))
+    |> Ecto.Multi.run(:user_log, fn _, %{users: _users} ->
+      activity = "User with id #{activated_user_id} has been Activated by user with id #{current_user}\n"
+
+      user_logs = %{
+        user_id: conn.assigns.user.id,
+        activity: activity
+      }
+      UserLogs.changeset(%UserLogs{}, user_logs)
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{users: _users, user_log: _user_log}} ->
+        json(conn, %{data: "Staff has been activated successfully"})
+
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors) |> List.first()
+        json(conn, %{error: reason})
+    end
+  end
+
+
+  def employer_activate_employee_admin(conn, params) do
     users_approve = Accounts.get_user!(params["id"])
     user_role_approve = Loanmanagementsystem.Accounts.get_user_role_by_user_id(params["id"])
     user_bio_data = Loanmanagementsystem.Accounts.get_user_bio_data_by_user_id!(params["id"])
@@ -1285,7 +1522,7 @@ use PipeTo.Override
     |> Repo.transaction()
     |> case do
       {:ok, %{users: _users, user_log: _user_log}} ->
-        json(conn, %{data: "Staff has been activated successfully"})
+        json(conn, %{data: "Administrative Staff has been activated successfully"})
 
       {:error, _failed_operation, failed_value, _changes_so_far} ->
         reason = traverse_errors(failed_value.errors) |> List.first()
@@ -1299,27 +1536,29 @@ use PipeTo.Override
     user_bio_data = Loanmanagementsystem.Accounts.get_user_bio_data_by_user_id!(params["id"])
     user_account_no = Loanmanagementsystem.Accounts.get_account_by_user_id!(params["id"])
     update_employees_tbl = Loanmanagementsystem.Companies.get_employee_by_user_id!(params["id"])
+    update_employee_account = Loanmanagementsystem.Companies.get_employee_account_by_user_id!(params["id"])
     current_user = conn.assigns.user.id
     activated_user_id = params["id"]
 
     Ecto.Multi.new()
-    |> Ecto.Multi.update(:users, User.changeset(users_approve, %{status: "INACTIVE"}))
+    |> Ecto.Multi.update(:users, User.changeset(users_approve, %{status: "DISABLED"}))
     |> Ecto.Multi.update(
       :user_role_approve,
-      UserRole.changeset(user_role_approve, %{status: "INACTIVE"})
+      UserRole.changeset(user_role_approve, %{status: "DISABLED"})
     )
     |> Ecto.Multi.update(
       :user_account_no,
-      Customer_account.changeset(user_account_no, %{status: "INACTIVE"})
+      Customer_account.changeset(user_account_no, %{status: "DISABLED"})
     )
     |> Ecto.Multi.update(
       :update_employees_tbl,
-      Employee.changeset(update_employees_tbl, %{status: "INACTIVE"})
+      Employee.changeset(update_employees_tbl, %{status: "DISABLED"})
     )
     |> Ecto.Multi.update(
       :user_bio_data,
-      UserBioData.changeset(user_bio_data, %{status: "INACTIVE"})
+      UserBioData.changeset(user_bio_data, %{status: "DISABLED"})
     )
+    |> Ecto.Multi.update(:update_employee_account,Employee_account.changeset(update_employee_account, %{status: "DISABLED"}))
     |> Ecto.Multi.run(:user_log, fn _, %{users: _users} ->
       activity =
         "User with id #{activated_user_id} has been deactivated by user with id #{current_user}\n"
@@ -1336,6 +1575,57 @@ use PipeTo.Override
     |> case do
       {:ok, %{users: _users, user_log: _user_log}} ->
         json(conn, %{data: "Staff has been deactivated successfully"})
+
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors) |> List.first()
+        json(conn, %{error: reason})
+    end
+  end
+
+
+  def employer_deactivate_employee_admin(conn, params) do
+    users_approve = Accounts.get_user!(params["id"])
+    user_role_approve = Loanmanagementsystem.Accounts.get_user_role_by_user_id(params["id"])
+    user_bio_data = Loanmanagementsystem.Accounts.get_user_bio_data_by_user_id!(params["id"])
+    user_account_no = Loanmanagementsystem.Accounts.get_account_by_user_id!(params["id"])
+    update_employees_tbl = Loanmanagementsystem.Companies.get_employee_by_user_id!(params["id"])
+    current_user = conn.assigns.user.id
+    activated_user_id = params["id"]
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:users, User.changeset(users_approve, %{status: "DISABLED"}))
+    |> Ecto.Multi.update(
+      :user_role_approve,
+      UserRole.changeset(user_role_approve, %{status: "DISABLED"})
+    )
+    |> Ecto.Multi.update(
+      :user_account_no,
+      Customer_account.changeset(user_account_no, %{status: "DISABLED"})
+    )
+    |> Ecto.Multi.update(
+      :update_employees_tbl,
+      Employee.changeset(update_employees_tbl, %{status: "DISABLED"})
+    )
+    |> Ecto.Multi.update(
+      :user_bio_data,
+      UserBioData.changeset(user_bio_data, %{status: "DISABLED"})
+    )
+    |> Ecto.Multi.run(:user_log, fn _, %{users: _users} ->
+      activity =
+        "User with id #{activated_user_id} has been deactivated by user with id #{current_user}\n"
+
+      user_logs = %{
+        user_id: conn.assigns.user.id,
+        activity: activity
+      }
+
+      UserLogs.changeset(%UserLogs{}, user_logs)
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{users: _users, user_log: _user_log}} ->
+        json(conn, %{data: "Administrative Staff has been deactivated successfully"})
 
       {:error, _failed_operation, failed_value, _changes_so_far} ->
         reason = traverse_errors(failed_value.errors) |> List.first()
@@ -1587,17 +1877,16 @@ use PipeTo.Override
 
   def employer_employee_pending_loans_list_item_lookup(conn, params) do
     companyId = conn.assigns.user.company_id
-    loan_status = "PENDING_CLIENT_CONFIRMATION"
+    # loan_status = "PENDING_CLIENT_CONFIRMATION"
 
     {draw, start, length, search_params} = search_options(params)
 
     results =
-      Loanmanagementsystem.Loan.employer_employee_loans_list(
+    Loanmanagementsystem.Operations.employer_employee_pending_loans_list(
         search_params,
         start,
         length,
-        companyId,
-        loan_status
+        companyId
       )
 
     total_entries = total_entries(results)

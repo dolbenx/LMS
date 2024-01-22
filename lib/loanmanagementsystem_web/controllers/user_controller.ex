@@ -4,9 +4,7 @@ defmodule LoanmanagementsystemWeb.UserController do
   alias Loanmanagementsystem.Repo
   import Ecto.Query, warn: false
   alias Loanmanagementsystem.Accounts
-  alias Loanmanagementsystem.Accounts.User
-  alias Loanmanagementsystem.Accounts.UserRole
-  alias Loanmanagementsystem.Accounts.UserBioData
+  alias Loanmanagementsystem.Accounts.{User, UserRole, UserBioData, Nextofkin, Address_Details, Customer_account}
   alias Loanmanagementsystem.Logs.UserLogs
   alias Loanmanagementsystem.Emails.Email
   alias Loanmanagementsystem.Auth
@@ -15,16 +13,12 @@ defmodule LoanmanagementsystemWeb.UserController do
   alias Loanmanagementsystem.Emails.Email
   # alias Loanmanagementsystem.Transactions  git
   alias Loanmanagementsystem.Loan.Loan_funder
-  alias Loanmanagementsystem.Companies.Company
+  alias Loanmanagementsystem.Companies.{Company, Client_company_details, Employee, Employee_account}
   alias Loanmanagementsystem.Loan.Customer_Balance
-  alias Loanmanagementsystem.Accounts.Address_Details
-  alias Loanmanagementsystem.Accounts.Nextofkin
-  alias Loanmanagementsystem.Companies.Client_company_details
-  alias Loanmanagementsystem.Companies.Employee
-  alias Loanmanagementsystem.Employment.Employment_Details
-  alias Loanmanagementsystem.Employment.Personal_Bank_Details
   alias Loanmanagementsystem.Loan.Loan_market_info
-  alias Loanmanagementsystem.Employment.Income_Details
+  alias Loanmanagementsystem.Employment.{Income_Details, Employment_Details, Personal_Bank_Details}
+  alias Loanmanagementsystem.Maintenance.Bank
+  alias Loanmanagementsystem.Merchants.{Merchant_account, Merchant_director, Merchant, Merchants_device}
   require Logger
 
 
@@ -45,7 +39,10 @@ defmodule LoanmanagementsystemWeb.UserController do
            :change_password,
            :user_creation,
            :student_dashboard,
-           :post_change_password
+           :post_change_password,
+           :merchant_customer_self_registration,
+           :employee_customer_self_registration,
+           :employer_customer_self_registration
          ]
   )
 
@@ -75,6 +72,9 @@ defmodule LoanmanagementsystemWeb.UserController do
           :change_pwd,
           :create_new_user_role_for_existing_user,
           :customer_self_registration,
+          :merchant_customer_self_registration,
+          :employee_customer_self_registration,
+          :employer_customer_self_registration,
           :dashboard,
           :deactivate_admin,
           :delete_admin,
@@ -120,7 +120,8 @@ defmodule LoanmanagementsystemWeb.UserController do
           :offtaker_dashboard,
           :create_funder_as_company,
           :admin_update_funders_funds,
-          :create_individual_user
+          :create_individual_user,
+          :merchant_dashboard
        ]
 
 use PipeTo.Override
@@ -169,10 +170,10 @@ use PipeTo.Override
     users = Accounts.list_tbl_users()
     get_bio_datas = Accounts.get_logged_user_details()
     user_count = Loanmanagementsystem.Accounts.count_users()
-    # disbursed_loans = Loanmanagementsystem.Loan.count_disbursed_loans()
-    # pending_loans = Loanmanagementsystem.Loan.count_pending_loans()
+    disbursed_loans = Loanmanagementsystem.Loan.count_disbursed_loans()
+    pending_loans = Loanmanagementsystem.Loan.count_pending_loans()
 
-    render(conn, "dashboard.html", users: users, get_bio_datas: get_bio_datas, user_count: user_count)
+    render(conn, "dashboard.html", users: users, get_bio_datas: get_bio_datas, user_count: user_count, disbursed_loans: disbursed_loans, pending_loans: pending_loans)
   end
 
 
@@ -182,7 +183,6 @@ use PipeTo.Override
 
     render(conn, "employer_dashboard.html", users: users, get_bio_datas: get_bio_datas)
   end
-
 
 
   def offtaker_dashboard(conn, _params) do
@@ -222,6 +222,17 @@ use PipeTo.Override
     get_bio_datas = Accounts.get_logged_user_details()
 
     render(conn, "sme_dashboard.html", users: users, get_bio_datas: get_bio_datas)
+  end
+
+  def merchant_dashboard(conn, _params) do
+    currentUserRole = get_session(conn, :current_user_role)
+    IO.inspect(currentUserRole, label: "Am here man!")
+    get_my_current_user = Loanmanagementsystem.Accounts.get_my_current_user(currentUserRole.userId)
+    banks = Loanmanagementsystem.Maintenance.list_tbl_banks()
+    users = Accounts.list_tbl_users()
+    get_bio_datas = Accounts.get_logged_user_details()
+
+    render(conn, "merchant_dashboard.html", users: users, get_bio_datas: get_bio_datas, get_my_current_user: get_my_current_user, banks: banks)
   end
 
   def user_mgt(conn, _params) do
@@ -1055,12 +1066,12 @@ use PipeTo.Override
 
             _ ->
               conn
-              |> put_flash(:error, "User with phone number #{get_user_mobile_line} already exists")
+              |> put_flash(:error, "User with phone number #{mobile_line} already exists")
               |> redirect(to: Routes.user_path(conn, :user_mgt))
           end
         _ ->
           conn
-          |> put_flash(:error, "User with ID number #{user_identification_no} Already Exists")
+          |> put_flash(:error, "User with ID number #{user_identification_no} already Exists")
           |> redirect(to: Routes.user_path(conn, :user_mgt))
       end
 
@@ -1642,6 +1653,728 @@ use PipeTo.Override
     end
   end
 
+  def merchant_customer_self_registration(conn, params) do
+
+    get_comp_email_address = params["contactEmail"]
+    get_comp_mobile_line = params["companyPhone"]
+    get_comp_identification_no = params["registrationNumber"]
+
+    mobileNumber = params["mobileNumber"]
+    emailAddress = params["emailAddress"]
+    meansOfIdentificationNumber = params["meansOfIdentificationNumber"]
+
+    comp_email_address = Repo.get_by(Merchant, contactEmail: get_comp_email_address)
+    comp_mobile_line = Repo.get_by(Merchant, companyPhone: get_comp_mobile_line)
+    comp_registration_no = Repo.get_by(Merchant, registrationNumber: get_comp_identification_no)
+
+    get_mobile_number = Repo.get_by(UserBioData, mobileNumber: mobileNumber)
+
+    get_email_address = Repo.get_by(UserBioData, emailAddress: emailAddress)
+
+    get_nrc_number = Repo.get_by(UserBioData, meansOfIdentificationNumber: meansOfIdentificationNumber)
+
+    case is_nil(comp_registration_no) do
+      true ->
+      case is_nil(comp_mobile_line) do
+        true ->
+        case is_nil(comp_email_address) do
+          true ->
+          case is_nil(get_mobile_number  || get_email_address || get_nrc_number) do
+            true ->
+              otp = to_string(Enum.random(1111..9999))
+              password = LoanmanagementsystemWeb.UserController.random_string()
+
+              Ecto.Multi.new()
+              |> Ecto.Multi.insert(
+                :add_user,
+                User.changeset(%User{}, %{
+                  password: password,
+                  status: "ACTIVE",
+                  username: params["contactEmail"],
+                  auto_password: "Y",
+                  pin: otp,
+                  username_mobile: params["mobileNumber"],
+
+                })
+              )
+
+              |> Ecto.Multi.run(:add_user_role, fn _repo, %{add_user: add_user} ->
+                UserRole.changeset(%UserRole{}, %{
+                  roleType: "MERCHANT",
+                  status: "ACTIVE",
+                  userId: add_user.id,
+                  otp: otp,
+                  client_type: params["client_type"]
+
+                })
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:add_user_bio_data, fn _repo,%{ add_user: add_user, add_user_role: _add_user_role} ->
+                UserBioData.changeset(%UserBioData{}, %{
+
+                  firstName: params["firstName"],
+                  lastName: params["lastName"],
+                  mobileNumber: params["mobileNumber"],
+                  userId: add_user.id,
+                  dateOfBirth: params["dateOfBirth"],
+                  emailAddress: params["emailAddress"],
+                  gender: params["gender"],
+                  meansOfIdentificationNumber: params["meansOfIdentificationNumber"],
+                  meansOfIdentificationType: params["meansOfIdentificationType"],
+                  otherName: params["otherName"],
+                  title: params["title"],
+                  idNo: nil,
+                  bank_account_number: params["bank_account_number"],
+                  marital_status: params["marital_status"],
+                  nationality: params["nationality"],
+                  number_of_dependants: params["number_of_dependants"],
+                  disability_status: params["disability_status"],
+                  disability_detail: params["disability_detail"],
+                  # applicant_declaration: params["applicant_declaration"],
+                  # applicant_signature_image: params["applicant_signature_image"]
+                })
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:update_address_details, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data} ->
+                Address_Details.changeset(%Address_Details{}, %{
+
+                  accomodation_status: params["accomodation_status"],
+                  area: params["area"],
+                  house_number: params["house_number"],
+                  street_name: params["street_name"],
+                  town: params["town"],
+                  province: params["province"],
+                  userId: add_user.id,
+                  year_at_current_address: params["year_at_current_address"]
+
+                })
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:customer_account, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data, update_address_details: _update_address_details} ->
+                Customer_account.changeset(%Customer_account{}, %{
+                  account_number: "01",
+                  status: "ACTIVE",
+                  user_id: add_user.id,
+                  assignment_date: Date.utc_today(),
+                })
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:sms, fn _repo,%{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: add_user_bio_data, update_address_details: _update_address_details, customer_account: _customer_account} ->
+                my_otp = add_user.pin
+
+                sms = %{
+                  mobile: add_user_bio_data.mobileNumber,
+                  msg: "Dear #{params["companyName"]}, Your Login Credentials. username: #{params["contactEmail"]}, password: #{password}, OTP: #{my_otp}",
+                  status: "READY",
+                  type: "SMS",
+                  msg_count: "1"}
+
+                  Loanmanagementsystem.Notifications.Sms.changeset(%Loanmanagementsystem.Notifications.Sms{}, sms)
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:merchant, fn _repo,%{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data, update_address_details: _update_address_details, customer_account: _customer_account, sms: _sms} ->
+
+
+                  merchant_number = "A-#{Enum.random(10000..99999)}"
+
+
+                  barcodeval = Integer.to_string(Enum.random(100000000000..999999999999))
+
+                  settings = %QRCode.SvgSettings{qrcode_color: {17, 170, 136}}
+                  file_name = "qrcode_#{barcodeval}.svg"
+                  file_path = File.cwd! <> "/priv/static/codes/qr_code/#{file_name}"
+                  _qrpath =
+                    barcodeval
+                    |> QRCode.create(:low)
+                    |> Result.and_then(&QRCode.Svg.save_as(&1, File.cwd! <> "/priv/static/codes/qr_code/#{file_name}", settings))
+
+                  merchant = %{
+                  bankId: params["bank_id"],
+                  companyAccountNumber: params["companyAccountNumber"],
+                  companyName: params["companyName"],
+                  companyPhone: params["companyPhone"],
+                  companyRegistrationDate: params["companyRegistrationDate"],
+                  contactEmail: params["contactEmail"],
+                  registrationNumber: params["registrationNumber"],
+                  status: "ACTIVE",
+                  merchantType: params["merchantType"],
+                  businessName: params["businessName"],
+                  taxno: params["taxno"],
+                  qr_code_name: file_name,
+                  merchant_number: merchant_number,
+                  qr_code_path: file_path,
+                  user_id: add_user.id}
+
+                  Loanmanagementsystem.Merchants.Merchant.changeset(%Loanmanagementsystem.Merchants.Merchant{}, merchant)
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:update_merchant, fn _repo, %{add_user: add_user, merchant: merchant} ->
+                User.changeset(add_user, %{company_id: merchant.id})
+                |> Repo.update()
+              end)
+
+              |> Ecto.Multi.run(:merchant_account, fn _repo, %{ add_user_bio_data: _add_user_bio_data, add_user: _add_user, add_user_role: _add_user_role, sms: _sms, merchant: merchant} ->
+                Merchant_account.changeset(%Merchant_account{}, %{
+
+                  merchant_id: merchant.id,
+                  merchant_number: merchant.merchant_number,
+                  status: "ACTIVE"
+                })
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:merchant_director, fn _repo, %{add_user_bio_data: _add_user_bio_data, add_user: _add_user, add_user_role: _add_user_role, sms: _sms, merchant: merchant} ->
+                Merchant_director.changeset(%Merchant_director{}, %{
+
+                  firstName: params["dr_firstName"],
+                  lastName: params["dr_lastName"],
+                  mobileNumber: params["dr_mobileNumber"],
+                  status: "ACTIVE",
+                  date_of_birth: params["dr_dateOfBirth"],
+                  emailAddress: params["dr_emailAddress"],
+                  gender: params["dr_gender"],
+                  directorIdentificationnNumber: params["dr_meansOfIdentificationNumber"],
+                  directorIdType: "National Registration Card",
+                  otherName: params["dr_otherName"],
+                  title: params["dr_title"],
+                  house_number: params["dr_house_number"],
+                  street_name: params["dr_street_name"],
+                  area: params["dr_area"],
+                  town: params["dr_town"],
+                  province: params["dr_province"],
+                  accomodation_status: params["dr_accomodation_status"],
+                  years_at_current_address: params["dr_year_at_current_address"],
+                  merchantId: merchant.id,
+                  merchantType: params["merchantType"]
+
+                })
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:merchant_device, fn _repo, %{ add_user_bio_data: _add_user_bio_data, add_user: _add_user, add_user_role: _add_user_role, sms: _sms, merchant: merchant} ->
+                Merchants_device.changeset(%Merchants_device{}, %{
+
+                  "merchantId" => merchant.id,
+                  "deviceIMEI" => params["deviceIMEI"],
+                  "deviceAgentLine" => params["deviceAgentLine"],
+                  "deviceModel" => params["deviceModel"],
+                  "deviceType" => params["deviceType"],
+                  "deviceName" => params["deviceName"],
+                  "status" => "ACTIVE"
+                })
+                |> Repo.insert()
+              end)
+
+              |> Ecto.Multi.run(:client_document, fn _repo, %{add_user_bio_data: _add_user_bio_data, add_user: add_user, add_user_role: _add_user_role, sms: _sms, merchant: merchant} ->
+                Loanmanagementsystem.Services.MerchantUploads.merchant_upload(%{ "process_documents" => params, "conn" => conn, "company_id" => merchant.id, "individualId" => add_user.id, "tax" => merchant.taxno })
+              end)
+
+              |> Ecto.Multi.run(:user_logs, fn _repo, %{ add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: add_user_bio_data, update_merchant: _update_merchant, merchant_account: _merchant_account, merchant_director: _merchant_director, client_document: _client_document } ->
+                UserLogs.changeset(%UserLogs{}, %{
+                  activity: "OTP Successfully Sent to #{add_user_bio_data.mobileNumber}",
+                  user_id: add_user.id
+                })
+                |> Repo.insert()
+              end)
+
+              |> Repo.transaction()
+              |> case do
+                # {:ok, _} ->
+                {:ok, _} ->
+                  Loanmanagementsystem.Workers.Sms.send()
+                  Email.send_email(params["emailAddress"], password, params["companyName"])
+
+                  conn
+                  |> put_flash(:info, "Log in and change password to proceed.")
+                  |> redirect(to: Routes.page_path(conn, :index))
+
+                {:error, _failed_operations, failed_value, _changes_so_far} ->
+                  reason = traverse_errors(failed_value.errors)
+
+                  conn
+                  |> put_flash(:error, reason)
+                  |> redirect(to: Routes.session_path(conn, :self_registration))
+              end
+              _ ->
+              conn
+              |> put_flash(:error, "User Already Exists")
+              |> redirect(to: Routes.session_path(conn, :self_registration))
+            end
+          _ ->
+          conn
+          |> put_flash(:error, "Merchant with email address #{get_comp_email_address} already exists")
+          |> redirect(to: Routes.session_path(conn, :self_registration))
+        end
+      _ ->
+      conn
+      |> put_flash(:error, "Merchant with phone number #{get_comp_mobile_line} already exists")
+      |> redirect(to: Routes.session_path(conn, :self_registration))
+      end
+    _ ->
+      conn
+      |> put_flash(:error, "Corporate with registration number #{get_comp_identification_no} already exists")
+      |> redirect(to: Routes.session_path(conn, :self_registration))
+    end
+  end
+
+  @spec employee_customer_self_registration(Plug.Conn.t(), nil | maybe_improper_list | map) ::
+          Plug.Conn.t()
+  def employee_customer_self_registration(conn, params) do
+
+    client_employer = try do Loanmanagementsystem.Companies.Company.find_by(id: params["company_id"]).companyName rescue _-> "" end
+
+    bank_name = try do Bank.find_by(id: params["bank_id"]).bankName rescue _-> "" end
+
+    branch_name = try do Bank.find_by(id: params["bank_id"]).process_branch rescue _-> "" end
+
+    employee_account_number = "A-#{Enum.random(10000..99999)}"
+
+    mobileNumber = params["mobileNumber"]
+    emailAddress = params["emailAddress"]
+    meansOfIdentificationNumber = params["meansOfIdentificationNumber"]
+    bank_account_number = params["bank_account_number"]
+    employee_number = params["employee_number"]
+
+    get_employee_number = Repo.get_by(Employment_Details, employee_number: employee_number)
+
+    get_bank_account_number = Repo.get_by(Personal_Bank_Details, accountNumber: bank_account_number)
+
+    get_mobile_number = Repo.get_by(UserBioData, mobileNumber: mobileNumber)
+
+    get_email_address = Repo.get_by(UserBioData, emailAddress: emailAddress)
+
+    get_nrc_number = Repo.get_by(UserBioData, meansOfIdentificationNumber: meansOfIdentificationNumber)
+
+    case is_nil(get_employee_number) do
+      true ->
+
+      case is_nil(get_bank_account_number) do
+        true ->
+
+        case is_nil(get_mobile_number || get_email_address || get_nrc_number) do
+          true ->
+            otp = to_string(Enum.random(1111..9999))
+            password = LoanmanagementsystemWeb.UserController.random_string()
+
+            Ecto.Multi.new()
+            |> Ecto.Multi.insert(
+              :add_user,
+              User.changeset(%User{}, %{
+                password: password,
+                status: "ACTIVE",
+                username: params["emailAddress"],
+                auto_password: "Y",
+                pin: otp,
+                username_mobile: params["mobileNumber"],
+                company_id: if is_integer(params["company_id"]) do params["company_id"] else String.to_integer(params["company_id"]) end,
+
+              })
+            )
+            |> Ecto.Multi.run(:add_user_role, fn _repo, %{add_user: add_user} ->
+              UserRole.changeset(%UserRole{}, %{
+                roleType: "EMPLOYEE",
+                status: "ACTIVE",
+                userId: add_user.id,
+                otp: otp,
+                client_type: params["client_type"]
+
+              })
+              |> Repo.insert()
+            end)
+            |> Ecto.Multi.run(:add_user_bio_data, fn _repo,%{ add_user: add_user, add_user_role: _add_user_role} ->
+              UserBioData.changeset(%UserBioData{}, %{
+
+                firstName: params["firstName"],
+                lastName: params["lastName"],
+                mobileNumber: params["mobileNumber"],
+                userId: add_user.id,
+                dateOfBirth: params["dateOfBirth"],
+                emailAddress: params["emailAddress"],
+                gender: params["gender"],
+                meansOfIdentificationNumber: params["meansOfIdentificationNumber"],
+                meansOfIdentificationType: params["meansOfIdentificationType"],
+                otherName: params["otherName"],
+                title: params["title"],
+                idNo: nil,
+                bank_account_number: params["bank_account_number"],
+                marital_status: params["marital_status"],
+                nationality: params["nationality"],
+                number_of_dependants: params["number_of_dependants"],
+                disability_status: params["disability_status"],
+                disability_detail: params["disability_detail"],
+                # applicant_declaration: params["applicant_declaration"],
+                # applicant_signature_image: params["applicant_signature_image"]
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:update_employment_details, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data} ->
+              Employment_Details.changeset(%Employment_Details{}, %{
+
+                area: params["area"],
+                date_of_joining: params["date_of_joining"],
+                employee_number: params["employee_number"],
+                employer: client_employer,
+                employer_industry_type: params["employer_industry_type"],
+                employer_office_building_name: params["employer_office_building_name"],
+                employer_officer_street_name: params["employer_officer_street_name"],
+                employment_type: params["employment_type"],
+                hr_supervisor_email: params["hr_supervisor_email"],
+                hr_supervisor_mobile_number: params["hr_supervisor_mobile_number"],
+                hr_supervisor_name: params["hr_supervisor_name"],
+                job_title: params["job_title"],
+                occupation: params["occupation"],
+                province: params["province"],
+                town: params["town"],
+                userId: add_user.id,
+                departmentId: params["departmentId"],
+                contract_start_date: params["contract_start_date"],
+                contract_end_date: params["contract_end_date"],
+                company_id: if is_integer(params["company_id"]) do params["company_id"] else String.to_integer(params["company_id"]) end,
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:update_address_details, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data, update_employment_details: _update_employment_details} ->
+              Address_Details.changeset(%Address_Details{}, %{
+
+                accomodation_status: params["accomodation_status"],
+                area: params["area"],
+                house_number: params["house_number"],
+                street_name: params["street_name"],
+                town: params["town"],
+                userId: add_user.id,
+                year_at_current_address: params["year_at_current_address"]
+
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:update_personal_bank, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data, update_employment_details: _update_employment_details} ->
+              Personal_Bank_Details.changeset(%Personal_Bank_Details{}, %{
+
+                accountName: params["accountName"],
+                accountNumber: params["bank_account_number"],
+                bankName: bank_name,
+                branchName: branch_name,
+                upload_bank_statement: nil,
+                userId: add_user.id,
+                bank_id: params["bank_id"],
+                mobile_number: params["mobile_number"],
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:update_employee, fn _repo, %{add_user: add_user, add_user_role: add_user_role, add_user_bio_data: _add_user_bio_data, update_employment_details: _update_employment_details} ->
+              Employee.changeset(%Employee{}, %{
+
+                companyId: if is_integer(params["company_id"]) do params["company_id"] else String.to_integer(params["company_id"]) end,
+                employerId: if is_integer(params["company_id"]) do params["company_id"] else String.to_integer(params["company_id"]) end,
+                status: "ACTIVE",
+                userId: add_user.id,
+                userRoleId: add_user_role.id,
+                loan_limit: params["loan_limit"],
+
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:push_to_income, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data, update_employment_details: _update_employment_details, update_employee: _update_employee} ->
+            Income_Details.changeset(%Income_Details{}, %{
+
+              pay_day: params["pay_day"],
+              gross_pay: params["gross_pay"],
+              total_deductions: params["total_deductions"],
+              net_pay: params["net_pay"],
+              total_expenses: params["total_expenses"],
+              upload_payslip: params["upload_payslip"],
+              userId: add_user.id,
+
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:customer_account, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data, update_employment_details: _update_employment_details, update_employee: _update_employee} ->
+              Customer_account.changeset(%Customer_account{}, %{
+                account_number: "01",
+                status: "ACTIVE",
+                user_id: add_user.id,
+                assignment_date: Date.utc_today(),
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:employee_account, fn _repo, %{ add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: _add_user_bio_data, update_employment_details: _update_employment_details, update_employee: _update_employee} ->
+
+              gross_1 = params["gross_pay"]
+              deduction_1 = params["total_deductions"]
+
+              gross = try do
+                case String.contains?(String.trim(gross_1), ".") do
+                  true ->  String.trim(gross_1) |> String.to_float()
+                  false ->  String.trim(gross_1) |> String.to_integer() end
+              rescue _-> 0 end
+
+              deduction = try do
+                case String.contains?(String.trim(deduction_1), ".") do
+                  true ->  String.trim(deduction_1) |> String.to_float()
+                  false ->  String.trim(deduction_1) |> String.to_integer() end
+              rescue _-> 0 end
+
+              net = gross - deduction
+              limit = net * 0.50
+
+              Employee_account.changeset(%Employee_account{}, %{
+                employee_id: add_user.id,
+                employee_number: employee_account_number,
+                status: "ACTIVE",
+                limit: limit,
+                limit_balance: limit
+              })
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:client_document, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: add_user_bio_data, update_employment_details: _update_employment_details, update_employee: _update_employee} ->
+              Loanmanagementsystem.Services.ClientUploads.client_upload(%{ "process_documents" => params, "conn" => conn, "company_id" => String.to_integer(params["company_id"]), "individualId" => add_user.id, "nrc" => add_user_bio_data.meansOfIdentificationNumber })
+            end)
+
+            |> Ecto.Multi.run(:sms, fn _repo,%{ add_user_bio_data: add_user_bio_data,add_user: add_user, add_user_role: _add_user_role} ->
+              my_otp = add_user.pin
+
+              sms = %{
+                mobile: add_user_bio_data.mobileNumber,
+                msg: "Dear #{params["firstName"]}, Your Login Credentials. username: #{params["emailAddress"]}, password: #{password}, OTP: #{my_otp}",
+                status: "READY",
+                type: "SMS",
+                msg_count: "1"}
+
+                Loanmanagementsystem.Notifications.Sms.changeset(%Loanmanagementsystem.Notifications.Sms{}, sms)
+              |> Repo.insert()
+            end)
+
+            |> Ecto.Multi.run(:user_logs, fn _repo, %{ add_user: add_user, add_user_role: _add_user_role, add_user_bio_data: add_user_bio_data } ->
+              UserLogs.changeset(%UserLogs{}, %{
+                activity: "OTP Successfully Sent to #{add_user_bio_data.mobileNumber}",
+                user_id: add_user.id
+              })
+              |> Repo.insert()
+            end)
+
+            |> Repo.transaction()
+            |> case do
+              # {:ok, _} ->
+              {:ok, %{add_user: _add_user, add_user_bio_data: _add_user_bio_data}} ->
+                Loanmanagementsystem.Workers.Sms.send()
+                Email.send_email(params["emailAddress"], password, params["firstName"])
+
+                conn
+                |> put_flash(:info, "Log in and change password to proceed.")
+                |> redirect(to: Routes.page_path(conn, :index))
+
+              {:error, _failed_operations, failed_value, _changes_so_far} ->
+                reason = traverse_errors(failed_value.errors)
+
+                conn
+                |> put_flash(:error, reason)
+                |> redirect(to: Routes.session_path(conn, :self_registration))
+            end
+
+          _ ->
+          conn
+          |> put_flash(:error, "User Already Exists.")
+          |> redirect(to: Routes.session_path(conn, :self_registration))
+        end
+        _ ->
+          conn
+          |> put_flash(:error, "Employee with this account number already exists.")
+          |> redirect(to: Routes.session_path(conn, :self_registration))
+      end
+      _ ->
+        conn
+        |> put_flash(:error, "Employee with this employee number already exists.")
+        |> redirect(to: Routes.session_path(conn, :self_registration))
+    end
+  end
+
+  def employer_customer_self_registration(conn, params) do
+    comp_email_address = params["contactEmail"]
+    rep_email_address = params["emailAddress"]
+    comp_mobile_line = params["companyPhone"]
+    comp_identification_no = params["registrationNumber"]
+    get_comp_email_address = Repo.get_by(Company, contactEmail: comp_email_address)
+    get_rep_email_address = Repo.get_by(UserBioData, emailAddress: rep_email_address)
+    get_comp_mobile_line = Repo.get_by(Company, companyPhone: comp_mobile_line)
+    get_comp_identification_no = Repo.get_by(Company, registrationNumber: comp_identification_no)
+
+    account_number = "accno-#{Enum.random(1_000_000_000..9_999_999_999)}"
+    otp = to_string(Enum.random(1111..9999))
+    password = LoanmanagementsystemWeb.UserController.random_string()
+    bank_id = String.to_integer(params["bank_id"])
+    case is_nil(get_rep_email_address) do
+      true ->
+      case is_nil(get_comp_email_address) do
+        true ->
+          case is_nil(get_comp_mobile_line) do
+            true ->
+              case is_nil(get_comp_identification_no) do
+                true ->
+                    Ecto.Multi.new()
+                    |> Ecto.Multi.insert(:add_user,
+                      User.changeset(%User{}, %{
+                        password: password,
+                        status: "ACTIVE",
+                        username: params["contactEmail"],
+                        auto_password: "Y",
+                        pin: otp,
+                        username_mobile: params["mobileNumber"],
+
+                      })
+                    )
+
+                    |> Ecto.Multi.run(:add_user_role, fn _repo, %{add_user: add_user} ->
+                      UserRole.changeset(%UserRole{}, %{
+                        roleType: "EMPLOYER",
+                        status: "ACTIVE",
+                        userId: add_user.id,
+                        otp: otp
+                      })
+                      |> Repo.insert()
+                    end)
+
+                    |> Ecto.Multi.run(:add_user_bio_data, fn _repo, %{add_user_role: _add_user_role, add_user: add_user} ->
+                      UserBioData.changeset(%UserBioData{}, %{
+                        dateOfBirth: params["dateOfBirth"],
+                        emailAddress: params["emailAddress"],
+                        firstName: params["firstName"],
+                        gender: params["gender"],
+                        lastName: params["lastName"],
+                        meansOfIdentificationNumber: params["meansOfIdentificationNumber"],
+                        meansOfIdentificationType: "National Registration Card",
+                        mobileNumber: params["mobileNumber"],
+                        otherName: params["otherName"],
+                        title: params["title"],
+                        userId: add_user.id,
+                        idNo: nil
+                      })
+                      |> Repo.insert()
+                    end)
+
+                    |> Ecto.Multi.run(:add_company, fn _repo, %{add_user: add_user, add_user_role: add_user_role, add_user_bio_data: add_user_bio_data} ->
+                      Company.changeset(%Company{}, %{
+
+                        companyName: params["companyName"],
+                        companyPhone: params["companyPhone"],
+                        contactEmail: params["contactEmail"],
+                        registrationNumber: comp_identification_no,
+                        taxno: params["taxno"],
+                        status: "ACTIVE",
+                        companyRegistrationDate: params["companyRegistrationDate"],
+                        companyAccountNumber: params["companyAccountNumber"],
+                        bank_id: bank_id,
+                        user_bio_id: add_user_bio_data.id,
+                        createdByUserId: add_user.id,
+                        createdByUserRoleId: add_user_role.id,
+                        isEmployer: true,
+                        isOfftaker: false,
+                        isSme: false
+                      })
+                      |> Repo.insert()
+                    end)
+
+                    |> Ecto.Multi.run(:update_company, fn (_repo, %{add_user: user_data, add_company: company_data}) ->
+                      Repo.update(User.changeset(user_data, %{company_id: company_data.id}))
+                    end)
+
+                    |> Ecto.Multi.run(:customer_balance, fn _repo, %{add_user_role: _add_user_role, add_company: _add_company, add_user: add_user} ->
+                      Customer_Balance.changeset(%Customer_Balance{}, %{
+                        account_number: account_number,
+                        user_id: add_user.id
+                      })
+                      |> Repo.insert()
+                    end)
+
+                    |> Ecto.Multi.run(:add_address_details, fn _repo, %{add_user_role: _add_user_role, add_company: _add_company, add_user: add_user, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance} ->
+                      Address_Details.changeset(%Address_Details{}, %{
+                        accomodation_status: params["accomodation_status"],
+                        area: params["area"],
+                        house_number: params["house_number"],
+                        street_name: params["street_name"],
+                        town: params["town"],
+                        userId: add_user.id,
+                        year_at_current_address: params["year_at_current_address"]
+                      })
+                      |> Repo.insert()
+                    end)
+
+                    |> Ecto.Multi.run(:sms, fn _repo,%{add_user_role: _add_user_role, add_company: _add_company, add_user: add_user, add_user_bio_data: add_user_bio_data, customer_balance: _customer_balance} ->
+                      my_otp = add_user.pin
+
+                      sms = %{
+                        mobile: add_user_bio_data.mobileNumber,
+                        msg: "Dear #{params["companyName"]}, Your Login Credentials. username: #{params["contactEmail"]}, password: #{password}, OTP: #{my_otp}",
+                        status: "READY",
+                        type: "SMS",
+                        msg_count: "1"}
+
+                        Loanmanagementsystem.Notifications.Sms.changeset(%Loanmanagementsystem.Notifications.Sms{}, sms)
+                      |> Repo.insert()
+                    end)
+
+                    |> Ecto.Multi.run(:user_logs, fn _repo,%{add_user_role: add_user_role, add_company: _add_company, add_user: add_user, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance, add_address_details: _add_address_details} ->
+                      UserLogs.changeset(%UserLogs{}, %{
+                        activity: "Added #{add_user_role.roleType} Successfully",
+                        user_id: add_user.id
+                      })
+                      |> Repo.insert()
+                    end)
+
+                    |> Ecto.Multi.run(:document, fn _repo, %{add_user: add_user, add_user_role: _add_user_role, add_company: add_company, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance, add_address_details: _add_address_details} ->
+                      Loanmanagementsystem.Services.EmployerUploads.employer_upload(%{"process_documents" => params, "conn" => conn, "companyId" => add_company.id, "user_id" => add_user.id})
+                    end)
+                    |> Repo.transaction()
+                    |> case do
+                      {:ok, %{add_user_role: _add_user_role, add_company: _add_company, add_user: _add_user, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance, user_logs: _user_logs, document: _document}} ->
+                        Loanmanagementsystem.Workers.Sms.send()
+                        Email.send_email(params["emailAddress"], password, params["companyName"])
+                        conn
+                        |> put_flash(:info, "Log in and change password to proceed.")
+                        |> redirect(to: Routes.page_path(conn, :index))
+
+                      {:error, _failed_operation, failed_value, _changes_so_far} ->
+                        reason = traverse_errors(failed_value.errors) |> List.first()
+                        conn
+                        |> put_flash(:error, reason)
+                        |> redirect(to: Routes.session_path(conn, :self_registration))
+                    end
+                _ ->
+                conn
+                |> put_flash(:error, "Corporate with registration number #{comp_identification_no} already exists")
+                |> redirect(to: Routes.session_path(conn, :self_registration))
+              end
+            _ ->
+            conn
+            |> put_flash(:error, "Corporate with phone number #{comp_mobile_line} already exists")
+            |> redirect(to: Routes.session_path(conn, :self_registration))
+          end
+        _ ->
+        conn
+        |> put_flash(:error, "Corporate with email address #{comp_email_address} already exists")
+        |> redirect(to: Routes.session_path(conn, :self_registration))
+      end
+      _ ->
+      conn
+      |> put_flash(:error, " Email address #{rep_email_address} already exists")
+      |> redirect(to: Routes.session_path(conn, :self_registration))
+    end
+  end
+
+
   def traverse_errors(errors) do
     for {key, {msg, _opts}} <- errors, do: "#{String.upcase(to_string(key))} #{msg}"
   end
@@ -1655,40 +2388,40 @@ use PipeTo.Override
         |> put_flash(:error, "Invalid Current Password")
         |> redirect(to: Routes.user_path(conn, :new_password))
      {:ok, _reason} ->
-    case Auth.confirm_password(user,  String.trim(params["new_password"])) do
-      {:ok, _reason} ->
-        conn
-        |> put_flash(:error, "Current Password and New Password can't be the same")
-        |> redirect(to: Routes.user_path(conn, :new_password))
-      {:error, _reason} ->
-      param = Map.merge(params, %{
-        "password" => params["new_password"], "auto_password" => "N"})
-    Ecto.Multi.new()
-    |> Ecto.Multi.update(:user, User.changeset(user, param))
-    |> Ecto.Multi.run(:user_log, fn (_, %{user:  user}) ->
-      activity = "Changed Password successful "
-      user_log = %{
-          user_id: conn.private.plug_session["current_user"],
-          activity: activity
-      }
-      UserLogs.changeset(%UserLogs{}, user_log)
-      |> Repo.insert()
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{user: user, user_log: user_log}} ->
-        conn
-        |> put_flash(:info, "Changed Password Successfully")
-        |> redirect(to: Routes.session_path(conn, :username))
-      {:error, failed_operation, failed_value, changes_so_far} ->
-        reason = traverse_errors(failed_value.errors) |> List.first()
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: Routes.user_path(conn, :new_password))
+      case Auth.confirm_password(user,  String.trim(params["new_password"])) do
+        {:ok, _reason} ->
+          conn
+          |> put_flash(:error, "Current Password and New Password can't be the same")
+          |> redirect(to: Routes.user_path(conn, :new_password))
+        {:error, _reason} ->
+        param = Map.merge(params, %{
+          "password" => params["new_password"], "auto_password" => "N"})
+      Ecto.Multi.new()
+      |> Ecto.Multi.update(:user, User.changeset(user, param))
+      |> Ecto.Multi.run(:user_log, fn (_, %{user:  user}) ->
+        activity = "Changed Password successful "
+        user_log = %{
+            user_id: conn.private.plug_session["current_user"],
+            activity: activity
+        }
+        UserLogs.changeset(%UserLogs{}, user_log)
+        |> Repo.insert()
+      end)
+      |> Repo.transaction()
+      |> case do
+        {:ok, %{user: user, user_log: user_log}} ->
+          conn
+          |> put_flash(:info, "Changed Password Successfully")
+          |> redirect(to: Routes.session_path(conn, :username))
+        {:error, failed_operation, failed_value, changes_so_far} ->
+          reason = traverse_errors(failed_value.errors) |> List.first()
+          conn
+          |> put_flash(:error, reason)
+          |> redirect(to: Routes.user_path(conn, :new_password))
+      end
+      end
     end
   end
-end
-end
 
 ########################################################################### FUNDER #############################################################
 
@@ -1738,6 +2471,15 @@ def create_funder(conn, params) do
           }
 
           UserRole.changeset(%UserRole{}, user_role)
+          |> Repo.insert()
+        end)
+
+        |> Ecto.Multi.run(:push_to_funder, fn _repo, %{create_user: create_user} ->
+          Loanmanagementsystem.Loan.Loan_funder.changeset(%Loanmanagementsystem.Loan.Loan_funder{}, %{
+            funderID: create_user.id,
+            status: "ACTIVE",
+            funder_type: params["funder_type"],
+          })
           |> Repo.insert()
         end)
         |> Ecto.Multi.run(:user_bio_data, fn _, %{create_user: user, push_to_funder: _push_to_funder} ->
@@ -1808,12 +2550,50 @@ def create_funder(conn, params) do
     end
 end
 
+  def admin_fund_funder(conn, params) do
 
 
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :add_loan_funder,
+      Loan_funder.changeset(%Loan_funder{}, %{
+        FunderID: params["funder_id"],
+        TotalAmountFunded: params["TotalAmountFunded"],
+        totalinterest_accumulated: 0,
+        Totalbalance: 0,
+        status: "ACTIVE",
+        payment_mode: params["payment_mode"],
+      })
+    )
 
+    |> Ecto.Multi.run(:user_logs, fn _repo,
+                                    %{
+                                      add_loan_funder: _add_loan_funder,
 
+                                    } ->
+      UserLogs.changeset(%UserLogs{}, %{
+        activity: "Added New User Successfully",
+        user_id: conn.assigns.user.id
+      })
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
+    |> case do
+      # {:ok, _} ->
+      {:ok, %{add_loan_funder: _add_user}} ->
 
+        conn
+        |> put_flash(:info, "You have Successfully Added a New User")
+        |> redirect(to: Routes.user_path(conn, :funder_mgt))
 
+      {:error, _failed_operations, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors)
+
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: Routes.user_path(conn, :funder_mgt))
+    end
+  end
 
   def authorize_role(conn) do
     case Phoenix.Controller.action_name(conn) do
@@ -1824,7 +2604,6 @@ end
       _ -> {:user, :unknown}
     end
   end
-
 
   def create_funder_as_company(conn, params) do
 
@@ -1878,8 +2657,38 @@ end
       |> Repo.insert()
     end)
 
+    |> Ecto.Multi.run(:add_company, fn _repo, %{add_user: _add_user, add_user_bio_data: add_user_bio_data} ->
+      Company.changeset(%Company{}, %{
+
+        companyName: params["companyName"],
+        companyPhone: params["companyPhone"],
+        contactEmail: params["contactEmail"],
+        registrationNumber: reg_number,
+        taxno: params["taxno"],
+        status: "INACTIVE",
+        companyRegistrationDate: params["companyRegistrationDate"],
+        companyAccountNumber: params["companyAccountNumber"],
+        bank_id: bank_id,
+        user_bio_id: add_user_bio_data.id,
+        createdByUserId: conn.assigns.user.id,
+        createdByUserRoleId: "1",
+        isEmployer: true,
+        isOfftaker: false,
+        isSme: false
+      })
+      |> Repo.insert()
+    end)
+
     |> Ecto.Multi.run(:update_company, fn (_repo, %{add_user: user_data, add_company: company_data}) ->
       Repo.update(User.changeset(user_data, %{company_id: company_data.id}))
+    end)
+
+    |> Ecto.Multi.run(:customer_balance, fn _repo, %{add_user_role: _add_user_role, add_company: _add_company, add_user: add_user} ->
+      Customer_Balance.changeset(%Customer_Balance{}, %{
+        account_number: account_number,
+        user_id: add_user.id
+      })
+      |> Repo.insert()
     end)
 
     |> Ecto.Multi.run(:add_address_details, fn _repo, %{add_user_role: _add_user_role, add_company: _add_company, add_user: add_user, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance} ->
@@ -1895,6 +2704,15 @@ end
       |> Repo.insert()
     end)
 
+    |> Ecto.Multi.run(:push_to_funder, fn _repo, %{add_user_role: _add_user_role, add_company: _add_company, add_user: add_user, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance} ->
+      Loanmanagementsystem.Loan.Loan_funder.changeset(%Loanmanagementsystem.Loan.Loan_funder{}, %{
+        funderID: add_user.id,
+        status: "ACTIVE",
+        funder_type: params["funder_type"],
+      })
+      |> Repo.insert()
+    end)
+
     |> Ecto.Multi.run(:user_logs, fn _repo,%{add_user_role: add_user_role, add_company: _add_company, add_user: _add_user, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance, add_address_details: _add_address_details, push_to_funder: _push_to_funder} ->
       UserLogs.changeset(%UserLogs{}, %{
         activity: "Added #{add_user_role.roleType} Successfully",
@@ -1905,11 +2723,11 @@ end
     |> Ecto.Multi.run(:document, fn _repo, %{add_user_role: _add_user_role, add_company: add_company, add_user: _add_user, add_user_bio_data: _add_user_bio_data, customer_balance: _customer_balance, add_address_details: _add_address_details, push_to_funder: _push_to_funder} ->
       Loanmanagementsystem.Services.EmployerUploads.employer_upload(%{"process_documents" => params, "conn" => conn, "companyId" => add_company.id})
     end)
-    |> Ecto.Multi.run(:sms, fn _,  %{add_user_role: _add_user_role, add_company: add_company, add_user: _add_user, add_user_bio_data: add_user_bio_data, customer_balance: _customer_balance, add_address_details: _add_address_details, push_to_funder: _push_to_funder} ->
+    |> Ecto.Multi.run(:sms, fn _,  %{add_user_role: _add_user_role, add_company: _add_company, add_user: _add_user, add_user_bio_data: add_user_bio_data, customer_balance: _customer_balance, add_address_details: _add_address_details, push_to_funder: _push_to_funder} ->
       sms = %{
         mobile: add_user_bio_data.mobileNumber,
         msg:
-        "Dear #{params["firstName"]}, Your Login Credentials. username: #{params["emailAddress"]}, password: #{params["password"]}, OTP: #{generate_otp}",
+        "Dear #{params["firstName"]}, Your Login Credentials. username: #{params["emailAddress"]}, password: #{params["password"]}, OTP: #{otp}",
         status: "READY",
         type: "SMS",
         msg_count: "1"
@@ -1935,8 +2753,6 @@ end
         |> redirect(to: Routes.user_path(conn, :funder_mgt))
     end
   end
-
-
 
 
   def admin_update_funders_funds(conn, params) do
@@ -2003,161 +2819,296 @@ end
     #     IO.inspect("invalid format")
     # end
 
-if Enum.dedup(params["file"]) != [""] do
-    myemail = Repo.all(from m in UserBioData, where: m.emailAddress == ^mail)
+    if Enum.dedup(params["file"]) != [""] do
+        myemail = Repo.all(from m in UserBioData, where: m.emailAddress == ^mail)
 
-      if Enum.count(myemail) == 0 do
+          if Enum.count(myemail) == 0 do
 
-          password = "pass-#{Enum.random(1_000_000_000..9_999_999_999)}"
-          account_number = "accno-#{Enum.random(1_000_000_000..9_999_999_999)}"
+              password = "pass-#{Enum.random(1_000_000_000..9_999_999_999)}"
+              account_number = "accno-#{Enum.random(1_000_000_000..9_999_999_999)}"
 
-          IO.inspect(params, label: "Param print out")
-          otp = to_string(Enum.random(1111..9999))
+              IO.inspect(params, label: "Param print out")
+              otp = to_string(Enum.random(1111..9999))
 
-          client_type = "INDIVIDUAL"
-          employment_type = params["employment_type"]
+              client_type = "INDIVIDUAL"
+              employment_type = params["employment_type"]
 
-          params = Map.put(params, "status", "INACTIVE")
-          params = Map.put(params, "password", password)
-          params = Map.put(params, "username", params["emailAddress"])
-          params = Map.put(params, "auto_password", "Y")
-          params = Map.put(params, "pin", otp)
+              params = Map.put(params, "status", "INACTIVE")
+              params = Map.put(params, "password", password)
+              params = Map.put(params, "username", params["emailAddress"])
+              params = Map.put(params, "auto_password", "Y")
+              params = Map.put(params, "pin", otp)
 
-              Ecto.Multi.new()
-              |> Ecto.Multi.insert(:add_employer_user, User.changeset(%User{}, params))
-              |> Ecto.Multi.run(:add_user_bio_data, fn _repo, %{add_employer_user: add_employer_user} ->
-                UserBioData.changeset(%UserBioData{}, %{
-                  dateOfBirth: params["dateOfBirth"],
-                  emailAddress: params["emailAddress"],
-                  firstName: params["firstName"],
-                  gender: params["gender"],
-                  lastName: params["lastName"],
-                  meansOfIdentificationNumber: params["meansOfIdentificationNumber"],
-                  meansOfIdentificationType: params["meansOfIdentificationType"],
-                  mobileNumber: params["mobileNumber"],
-                  otherName: params["otherName"],
-                  title: params["title"],
-                  userId: add_employer_user.id,
-                  idNo: nil,
-                  bank_id: if params["bank_id"] == "" do nil else params["bank_id"] end,
-                  bank_account_number: params["bank_account_number"],
-                  marital_status: params["marital_status"],
-                  nationality: "ZAMBIAN",
-                  number_of_dependants: params["number_of_dependants"],
-                  disability_status: params["disability_status"],
-                  disability_detail: params["disability_detail"],
-                  # applicant_signature_image: applicant_signature_encode_img
-                })
-                |> Repo.insert()
-              end)
+                  Ecto.Multi.new()
+                  |> Ecto.Multi.insert(:add_employer_user, User.changeset(%User{}, params))
+                  |> Ecto.Multi.run(:add_user_bio_data, fn _repo, %{add_employer_user: add_employer_user} ->
+                    UserBioData.changeset(%UserBioData{}, %{
+                      dateOfBirth: params["dateOfBirth"],
+                      emailAddress: params["emailAddress"],
+                      firstName: params["firstName"],
+                      gender: params["gender"],
+                      lastName: params["lastName"],
+                      meansOfIdentificationNumber: params["meansOfIdentificationNumber"],
+                      meansOfIdentificationType: params["meansOfIdentificationType"],
+                      mobileNumber: params["mobileNumber"],
+                      otherName: params["otherName"],
+                      title: params["title"],
+                      userId: add_employer_user.id,
+                      idNo: nil,
+                      bank_id: if params["bank_id"] == "" do nil else params["bank_id"] end,
+                      bank_account_number: params["bank_account_number"],
+                      marital_status: params["marital_status"],
+                      nationality: "ZAMBIAN",
+                      number_of_dependants: params["number_of_dependants"],
+                      disability_status: params["disability_status"],
+                      disability_detail: params["disability_detail"],
+                      # applicant_signature_image: applicant_signature_encode_img
+                    })
+                    |> Repo.insert()
+                  end)
 
-              |> Ecto.Multi.run(:add_kin_data, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data} ->
-                Nextofkin.changeset(%Nextofkin{}, %{
-                  applicant_nrc: params["meansOfIdentificationNumber"],
-                  kin_ID_number: params["kin_ID_number"],
-                  kin_first_name: params["kin_first_name"],
-                  kin_gender: params["kin_gender"],
-                  kin_last_name: params["kin_last_name"],
-                  kin_mobile_number: params["kin_mobile_number"],
-                  kin_other_name: params["kin_other_name"],
-                  kin_personal_email: params["kin_personal_email"],
-                  kin_relationship: params["kin_relationship"],
-                  kin_status: "ACTIVE",
-                  userID: add_employer_user.id,
-                })
-                |> Repo.insert()
-              end)
+                  |> Ecto.Multi.run(:add_kin_data, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data} ->
+                    Nextofkin.changeset(%Nextofkin{}, %{
+                      applicant_nrc: params["meansOfIdentificationNumber"],
+                      kin_ID_number: params["kin_ID_number"],
+                      kin_first_name: params["kin_first_name"],
+                      kin_gender: params["kin_gender"],
+                      kin_last_name: params["kin_last_name"],
+                      kin_mobile_number: params["kin_mobile_number"],
+                      kin_other_name: params["kin_other_name"],
+                      kin_personal_email: params["kin_personal_email"],
+                      kin_relationship: params["kin_relationship"],
+                      kin_status: "ACTIVE",
+                      userID: add_employer_user.id,
+                    })
+                    |> Repo.insert()
+                  end)
 
-              |> Ecto.Multi.run(:add_user_role, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data} ->
-                UserRole.changeset(%UserRole{}, %{
-                  roleType: "INDIVIDUALS",
-                  status: "INACTIVE",
-                  client_type: client_type,
-                  userId: add_employer_user.id,
-                  otp: otp
-                })
-                |> Repo.insert()
-              end)
-              |> Ecto.Multi.run(:add_address_details, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee} ->
-                Address_Details.changeset(%Address_Details{}, %{
+                  |> Ecto.Multi.run(:add_user_role, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data} ->
+                    UserRole.changeset(%UserRole{}, %{
+                      roleType: "INDIVIDUALS",
+                      status: "INACTIVE",
+                      client_type: client_type,
+                      userId: add_employer_user.id,
+                      otp: otp
+                    })
+                    |> Repo.insert()
+                  end)
+                  |> Ecto.Multi.run(:add_client_company, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: add_user_role} ->
+                    Client_company_details.changeset(%Client_company_details{},
+                      if params["company_name"] == "" do
+                            %{
+                              company_name: params["business_name"],
+                              company_account_number: params["company_account_number"],
+                              company_phone: params["company_phone"],
+                              company_registration_date: params["company_registration_date"],
+                              contact_email: params["contact_email"],
+                              registration_number: params["registration_number"],
+                              company_bank_name: params["company_bank_name"],
+                              company_account_name: params["company_account_name"],
+                              taxno: params["taxno"],
+                              bank_id: params["bank_id"],
+                              company_department: params["company_department"],
+                              status: "INACTIVE",
+                              createdByUserId: add_employer_user.id,
+                              createdByUserRoleId: add_user_role.id,
+                              userId: add_employer_user.id,
+                            }
+                      else
+                        %{
+                          company_name: params["company_name"],
+                          company_account_number: params["company_account_number"],
+                          company_phone: params["company_phone"],
+                          company_registration_date: params["company_registration_date"],
+                          contact_email: params["contact_email"],
+                          registration_number: params["registration_number"],
+                          company_bank_name: params["company_bank_name"],
+                          company_account_name: params["company_account_name"],
+                          taxno: params["taxno"],
+                          bank_id: params["bank_id"],
+                          company_department: params["company_department"],
+                          status: "INACTIVE",
+                          createdByUserId: add_employer_user.id,
+                          createdByUserRoleId: add_user_role.id,
+                          userId: add_employer_user.id,
+                        }
 
-                  accomodation_status: params["rdio"],
-                  area: params["area"],
-                  house_number: params["house_number"],
-                  street_name: params["street_name"],
-                  town: params["town"],
-                  province: params["province"],
-                  userId: add_employer_user.id,
-                  year_at_current_address: params["year_at_current_address"],
-                  land_mark: params["land_mark"],
+                      end
+                    )
+                    |> Repo.insert()
+                  end)
+                  |> Ecto.Multi.run(:add_employer_employee, fn _repo,%{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: add_user_role, add_client_company: add_client_company} ->
+                    Employee.changeset(%Employee{}, %{
+                      companyId: add_client_company.id,
+                      employerId: add_client_company.id,
+                      status: "INACTIVE",
+                      userId: add_employer_user.id,
+                      userRoleId: add_user_role.id,
+                      loan_limit: nil
+                    })
+                    |> Repo.insert()
+                  end)
+                  |> Ecto.Multi.run(:add_address_details, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee} ->
+                    Address_Details.changeset(%Address_Details{}, %{
 
-                })
-                |> Repo.insert()
-              end)
-              |> Ecto.Multi.run(:user_logs, fn _repo, %{push_to_income: _push_to_income, add_employer_user: _add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details, customer_balance: _customer_balance} ->
-                UserLogs.changeset(%UserLogs{}, %{
-                  activity: "#{conn.assigns.user.username} added an Individual client #{params["firstName"]}(#{params["meansOfIdentificationNumber"]}) Successfully",
-                  user_id: conn.assigns.user.id
-                })
-                |> Repo.insert()
-              end)
+                      accomodation_status: params["rdio"],
+                      area: params["area"],
+                      house_number: params["house_number"],
+                      street_name: params["street_name"],
+                      town: params["town"],
+                      province: params["province"],
+                      userId: add_employer_user.id,
+                      year_at_current_address: params["year_at_current_address"],
+                      land_mark: params["land_mark"],
+
+                    })
+                    |> Repo.insert()
+                  end)
+
+                  |> Ecto.Multi.run(:add_employment_details, fn _repo,%{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details} ->
+                    Employment_Details.changeset(%Employment_Details{}, %{
+                      area: params["area"],
+                      date_of_joining: params["date_of_joining"],
+                      employee_number: params["employee_number"],
+                      employement_type: params["employement_type"],
+                      employer: add_client_company.company_name,
+                      employer_industry_type: params["employer_industry_type"],
+                      employer_office_building_name: params["employer_office_building_name"],
+                      employer_officer_street_name: params["employer_officer_street_name"],
+                      employment_type: employment_type,
+                      hr_supervisor_email: params["hr_supervisor_email"],
+                      hr_supervisor_mobile_number: params["hr_supervisor_mobile_number"],
+                      hr_supervisor_name: params["hr_supervisor_name"],
+                      job_title: params["job_title"],
+                      occupation: params["occupation"],
+                      province: params["province"],
+                      town: params["town"],
+                      userId: add_employer_user.id,
+                      departmentId: params["departmentId"],
+                    })
+                    |> Repo.insert()
+                  end)
+
+                  |> Ecto.Multi.run(:add_Personal_details, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details} ->
+                    Personal_Bank_Details.changeset(%Personal_Bank_Details{}, %{
+                      accountName: params["accountName"],
+                      accountNumber: params["bank_account_number"],
+                      bankName: if bank_details == nil do "" else  bank_details.bankName end,
+                      branchName: if bank_details == nil do "" else bank_details.process_branch end,
+                      upload_bank_statement: nil,
+                      bank_id: if bank_details == nil do "" else bank_details.id end,
+                      mobile_number: params["mobileNumber"],
+                      userId: add_employer_user.id
+                    })
+                    |> Repo.insert()
+                  end)
+
+                  |> Ecto.Multi.run(:push_to_income, fn _repo, %{add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details} ->
+                    Income_Details.changeset(%Income_Details{}, %{
+                      pay_day: params["pay_day"],
+                      gross_pay: params["gross_pay"],
+                      total_deductions: params["total_deductions"],
+                      net_pay: params["net_pay"],
+                      total_expenses: params["total_expenses"],
+                      upload_payslip: params["upload_payslip"],
+                      userId: add_employer_user.id,
+
+                    })
+                    |> Repo.insert()
+                  end)
 
 
-              |> Ecto.Multi.run(:sms, fn _, %{push_to_income: _push_to_income, add_employer_user: _add_employer_user, add_user_bio_data: add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details, user_logs: _user_logs} ->
-                sms = %{
-                  mobile: add_user_bio_data.mobileNumber,
-                  msg:
-                  "Dear #{params["firstName"]}, Your Login Credentials. username: #{params["emailAddress"]}, password: #{params["password"]}, OTP: #{otp}",
-                  status: "READY",
-                  type: "SMS",
-                  msg_count: "1"
-                }
-
-                Sms.changeset(%Sms{}, sms)
-                |> Repo.insert()
-              end)
-
-
-
-              |> Repo.transaction()
-              |> case do
-                {:ok, %{push_to_income: _push_to_income, add_employer_user: _add_employer_user, add_user_bio_data: add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details, user_logs: _user_logs, client_document: _client_document}} ->
-                  Email.send_email(params["emailAddress"], password, params["password"])
-
-                    if (params["name_of_market"] != "") do
-                      LoanmanagementsystemWeb.UserController.push_to_Loan_market_info_table(params, %{
-                        "customer_id" => add_user_bio_data.userId
-                      })
-                      IO.inspect(params, label: "push_to_Loan_market_info_table")
+                  |> Ecto.Multi.run(:customer_balance, fn _repo, %{push_to_income: _push_to_income, add_employer_user: add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details} ->
+                    customer_balance = %{
+                      account_number: account_number,
+                      user_id: add_employer_user.id
+                    }
+                    case Repo.insert(Customer_Balance.changeset(%Customer_Balance{}, customer_balance)) do
+                      {:ok, message} -> {:ok, message}
+                      {:error, response} -> {:error, response}
                     end
+                  end)
+                  |> Ecto.Multi.run(:user_logs, fn _repo, %{push_to_income: _push_to_income, add_employer_user: _add_employer_user, add_user_bio_data: _add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details, customer_balance: _customer_balance} ->
+                    UserLogs.changeset(%UserLogs{}, %{
+                      activity: "#{conn.assigns.user.username} added an Individual client #{params["firstName"]}(#{params["meansOfIdentificationNumber"]}) Successfully",
+                      user_id: conn.assigns.user.id
+                    })
+                    |> Repo.insert()
+                  end)
 
-                  conn
-                  |> put_flash(:info,"You have Successfully Created #{add_user_bio_data.firstName} #{add_user_bio_data.lastName} As An Individual")
-                  |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
+                  |> Ecto.Multi.run(:client_document, fn _repo, %{push_to_income: _push_to_income, add_employer_user: add_employer_user, add_user_bio_data: add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details, user_logs: _user_logs} ->
+                    Loanmanagementsystem.Services.ClientUploads.client_upload(%{ "process_documents" => params, "conn" => conn, "company_id" => params["company_id"], "individualId" => add_employer_user.id, "nrc" => add_user_bio_data.meansOfIdentificationNumber })
+                  end)
 
-                {:error, _failed_operations, failed_value, _changes_so_far} ->
-                  reason = traverse_errors(failed_value.errors)
+                  |> Ecto.Multi.run(:sms, fn _, %{push_to_income: _push_to_income, add_employer_user: _add_employer_user, add_user_bio_data: add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details, user_logs: _user_logs} ->
+                    sms = %{
+                      mobile: add_user_bio_data.mobileNumber,
+                      msg:
+                      "Dear #{params["firstName"]}, Your Login Credentials. username: #{params["emailAddress"]}, password: #{params["password"]}, OTP: #{otp}",
+                      status: "READY",
+                      type: "SMS",
+                      msg_count: "1"
+                    }
 
-                  conn
-                  |> put_flash(:error, reason)
-                  |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
-                end
-        else
-          conn
-          |> put_flash(:error,"Another User with the email address #{mail} already exists.")
-          |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
-        end
+                    Sms.changeset(%Sms{}, sms)
+                    |> Repo.insert()
+                  end)
 
-  else
-    conn
-    |> put_flash(:error,"Kindly attach document(s) and Try again")
-    |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
+
+
+                  |> Repo.transaction()
+                  |> case do
+                    {:ok, %{push_to_income: _push_to_income, add_employer_user: _add_employer_user, add_user_bio_data: add_user_bio_data, add_kin_data: _add_kin_data, add_user_role: _add_user_role, add_client_company: _add_client_company, add_employer_employee: _add_employer_employee, add_address_details: _add_address_details, add_employment_details: _add_employment_details, add_Personal_details: _add_Personal_details, user_logs: _user_logs, client_document: _client_document}} ->
+                      Email.send_email(params["emailAddress"], password, params["password"])
+
+                        if (params["name_of_market"] != "") do
+                          LoanmanagementsystemWeb.UserController.push_to_Loan_market_info_table(params, %{
+                            "customer_id" => add_user_bio_data.userId
+                          })
+                          IO.inspect(params, label: "push_to_Loan_market_info_table")
+                        end
+
+                      conn
+                      |> put_flash(:info,"You have Successfully Created #{add_user_bio_data.firstName} #{add_user_bio_data.lastName} As An Individual")
+                      |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
+
+                    {:error, _failed_operations, failed_value, _changes_so_far} ->
+                      reason = traverse_errors(failed_value.errors)
+
+                      conn
+                      |> put_flash(:error, reason)
+                      |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
+                    end
+            else
+              conn
+              |> put_flash(:error,"Another User with the email address #{mail} already exists.")
+              |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
+            end
+
+      else
+      conn
+      |> put_flash(:error,"Kindly attach document(s) and Try again")
+      |> redirect(to: Routes.client_management_path(conn, :individual_maintainence))
+    end
   end
-
-end
 
   def push_to_Loan_market_info_table(params, %{"customer_id" => customer_id}) do
 
+      markert_info = %{
+        customer_id: customer_id,
+        name_of_market: params["name_of_market"],
+        location_of_market: params["location_of_market"],
+        duration_at_market: params["duration_at_market"],
+        type_of_business: params["type_of_business"],
+        name_of_market_leader: params["name_of_market_leader"],
+        mobile_of_market_leader: params["mobile_of_market_leader"],
+        name_of_market_vice: params["name_of_market_vice"],
+        mobile_of_market_vice: params["mobile_of_market_vice"],
+        stand_number: params["stand_number"],
+      }
+
+    Loan_market_info.changeset(%Loan_market_info{}, markert_info)
+    |> Repo.insert()
   end
 
 

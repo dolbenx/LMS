@@ -2,6 +2,8 @@ defmodule Loanmanagementsystem.Accounts.Nextofkin do
   use Ecto.Schema
   import Ecto.Changeset
   use Endon
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_next_of_kin" do
     field :applicant_nrc, :string

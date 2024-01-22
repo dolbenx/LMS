@@ -4,255 +4,55 @@ defmodule LoanmanagementsystemWeb.SystemManagementController do
   alias Loanmanagementsystem.Logs.UserLogs
   alias Loanmanagementsystem.Accounts.RoleDescription
   alias Loanmanagementsystem.Maintenance.Maker_checker
-  alias Loanmanagementsystem.Maintenance.{Currency, Country, Province, District}
-  alias Loanmanagementsystem.Charges.Charge
   alias Loanmanagementsystem.Repo
+  alias Loanmanagementsystem.Companies.Department
+  alias Loanmanagementsystem.Charges.Charge
+  alias Loanmanagementsystem.Maintenance.Country
+  alias Loanmanagementsystem.Accounts
   import Ecto.Query, warn: false
 
+  plug LoanmanagementsystemWeb.Plugs.Authenticate,
+        [module_callback: &LoanmanagementsystemWeb.SystemManagementController.authorize_role/1]
+        when action not in [
+          :account_number_generation,
+          :activate_role_description,
+          :add_charge,
+          :add_description,
+          :admin_add_department,
+          :admin_user_maintenance,
+          :audit_trail,
+          :change_status,
+          :charge_maintenance,
+          :commission_maintenance,
+          :configure_maker_checker,
+          :countries,
+          :create_user_role,
+          :csv,
+          :default_dir,
+          :disable_role_description,
+          :district,
+          :edit_maker_checker,
+          :edit_user_roles,
+          :extract_xlsx,
+          :global_configurations,
+          :handle__country_bulk_upload,
+          :init,
+          :is_valide_file,
+          :maker_checker_configuration,
+          :persist,
+          :process_bulk_upload,
+          :process_csv,
+          :province,
+          :report_maintianence,
+          :role_maintianence,
+          :role_permision_maintianence,
+          :traverse_errors,
+          :update,
+          :update_charge,
+          :view_user_roles,
+       ]
 
-  #################################################################################################################################
-  #################################################################################################################################
-
-  def charge_maintenance(conn, _params) do
-    currencies = Loanmanagementsystem.Maintenance.list_tbl_currency()
-    charges = Loanmanagementsystem.Charges.list_tbl_charges()
-    render(conn, "charge_maintenance.html", currencies: currencies, charges: charges)
-  end
-
-  def add_charge(conn, params) do
-
-    IO.inspect(params["currency"])
-    currency_ = String.split(params["currency"], "|||")
-
-    params = Map.merge(params, %{
-              "currency" => Enum.at(currency_, 1),
-              "currencyId" => Enum.at(currency_, 0)
-            })
-    chargeChangeSet = Charge.changeset(%Charge{}, params)
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:charges, chargeChangeSet)
-    |> Ecto.Multi.run(:user_logs, fn _repo, %{charges: charges} ->
-      UserLogs.changeset(%UserLogs{}, %{
-        activity: "Created new Charge with ID \"#{charges.id}\"",
-        user_id: conn.assigns.user.id
-      })
-      |> Repo.insert()
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, _} ->
-        conn
-        |> put_flash(:info, "Charge Created successfully.")
-        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
-
-      {:error, _failed_operation, failed_value, _changes_so_far} ->
-        reason = traverse_errors(failed_value.errors) |> List.first()
-
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
-    end
-  end
-
-  def update_charge(conn, params) do
-    charges = Loanmanagementsystem.Charges.get_charge!(params["id"])
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.update(:charges, Charge.changeset(charges, params))
-    |> Ecto.Multi.run(:user_logs, fn _repo, %{charges: charges} ->
-      UserLogs.changeset(%UserLogs{}, %{
-        activity: "updated  Charges with ID \"#{charges.id}\"",
-        user_id: conn.assigns.user.id
-      })
-      |> Repo.insert()
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{charges: _charges, user_log: _user_log}} ->
-        conn
-        |> put_flash(:info, "Charge updated successfully")
-        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
-
-      {:error, _failed_operation, failed_value, _changes_so_far} ->
-        reason = traverse_errors(failed_value.errors) |> List.first()
-
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
-    end
-  end
-
-  def sms_configs(conn, _params) do
-    render(conn, "sms_configs.html")
-  end
-
-
-  def countries(conn, _params) do
-    countries = Loanmanagementsystem.Maintenance.list_tbl_country()
-    render(conn, "country.html", countries: countries)
-  end
-
-  def admin_create_country(conn, params) do
-    IO.inspect(params, label: "ffffffffffffffffffffffffffffffffff")
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:add_country, Country.changeset(%Country{}, params))
-    |> Ecto.Multi.run(:user_logs, fn _repo, %{add_country: _add_country} ->
-      UserLogs.changeset(%UserLogs{}, %{
-        activity: "Admin with id #{conn.assigns.user.id} Added A Country Successfully",
-        user_id: conn.assigns.user.id
-      })
-      |> Repo.insert()
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{add_country: _add_country, user_logs: _user_logs}} ->
-        conn
-        |> put_flash(:info, "You Have Successfully added a Country")
-        |> redirect(to: Routes.system_management_path(conn, :countries))
-
-      {:error, _failed_operation, failed_value, _changes_so_far} ->
-        reason = traverse_errors(failed_value.errors) |> List.first()
-
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: Routes.system_management_path(conn, :countries))
-    end
-  end
-
-  def province(conn, _params) do
-    provinces = Loanmanagementsystem.Maintenance.list_tbl_province()
-    countries = Loanmanagementsystem.Maintenance.list_tbl_country()
-    render(conn, "province.html", countries: countries, provinces: provinces)
-  end
-
-  def admin_create_province(conn, params) do
-    province_ = String.split(params["country"], "|||")
-
-    params =
-      Map.merge(params, %{
-        "countryId" => Enum.at(province_, 0),
-        "countryName" => Enum.at(province_, 1)
-      })
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:add_province, Province.changeset(%Province{}, params))
-    |> Ecto.Multi.run(:user_logs, fn _repo, %{add_province: _add_province} ->
-      UserLogs.changeset(%UserLogs{}, %{
-        activity: "Admin with id #{conn.assigns.user.id} Added Province Successfully",
-        user_id: conn.assigns.user.id
-      })
-      |> Repo.insert()
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{add_province: _add_province, user_logs: _user_logs}} ->
-        conn
-        |> put_flash(:info, "You Have Successfully added a Province")
-        |> redirect(to: Routes.system_management_path(conn, :province))
-
-      {:error, _failed_operation, failed_value, _changes_so_far} ->
-        reason = traverse_errors(failed_value.errors) |> List.first()
-
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: Routes.system_management_path(conn, :province))
-    end
-  end
-
-  def district(conn, _params) do
-    districts = Loanmanagementsystem.Maintenance.list_tbl_district()
-    provinces = Loanmanagementsystem.Maintenance.list_tbl_province()
-    countries = Loanmanagementsystem.Maintenance.list_tbl_country()
-    render(conn, "district.html", districts: districts, provinces: provinces, countries: countries)
-  end
-
-  def admin_create_district(conn, params) do
-    province_ = String.split(params["province"], "|||")
-
-    params =
-      Map.merge(params, %{
-        "provinceId" => Enum.at(province_, 0),
-        "provinceName" => Enum.at(province_, 1)
-      })
-
-    country_ = String.split(params["country"], "|||")
-
-    params =
-      Map.merge(params, %{
-        "countryId" => Enum.at(country_, 0),
-        "countryName" => Enum.at(country_, 1)
-      })
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :add_district,
-      District.changeset(%District{}, %{
-        countryId: params["countryId"],
-        countryName: params["countryName"],
-        name: params["name"],
-        provinceId: params["provinceId"],
-        provinceName: params["provinceName"]
-      })
-    )
-    |> Ecto.Multi.run(:user_logs, fn _repo, %{add_district: _add_district} ->
-      UserLogs.changeset(%UserLogs{}, %{
-        activity: "Added District Successfully",
-        user_id: conn.assigns.user.id
-      })
-      |> Repo.insert()
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{add_district: _add_district, user_logs: _user_logs}} ->
-        conn
-        |> put_flash(:info, "You Have Successfully added a District")
-        |> redirect(to: Routes.system_management_path(conn, :district))
-
-      {:error, _failed_operation, failed_value, _changes_so_far} ->
-        reason = traverse_errors(failed_value.errors) |> List.first()
-
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: Routes.system_management_path(conn, :district))
-    end
-  end
-
-  def currency_maintenance(conn, _params) do
-    render(conn, "currency_maintenance.html")
-  end
-
-  def admin_create_currency(conn, params) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:add_currency, Currency.changeset(%Currency{}, params))
-    |> Ecto.Multi.run(:user_logs, fn _repo, %{add_currency: _add_currency} ->
-      UserLogs.changeset(%UserLogs{}, %{
-        activity: "Add Currency Successfully",
-        user_id: conn.assigns.user.id
-      })
-      |> Repo.insert()
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{add_currency: _add_currency, user_logs: _user_logs}} ->
-        conn
-        |> put_flash(:info, "You Have Successfully added a currency")
-        |> redirect(to: Routes.system_management_path(conn, :currency))
-
-      {:error, _failed_operation, failed_value, _changes_so_far} ->
-        reason = traverse_errors(failed_value.errors) |> List.first()
-
-        conn
-        |> put_flash(:error, reason)
-        |> redirect(to: Routes.system_management_path(conn, :currency))
-    end
-  end
-
-
-
-  #################################################################################################################################
-  #################################################################################################################################
-
+use PipeTo.Override
 
   def admin_user_maintenance(conn, _params) do
     render(conn, "admin_user_maintenance.html",
@@ -263,7 +63,8 @@ defmodule LoanmanagementsystemWeb.SystemManagementController do
 
   def role_maintianence(conn, _params) do
     role = Loanmanagementsystem.Accounts.list_tbl_role_description()
-    render(conn, "role_maintainence.html", role: role)
+    user_roles = Loanmanagementsystem.Accounts.list_tbl_roles()
+    render(conn, "role_maintainence.html", role: role, user_roles: user_roles)
   end
 
   def add_description(conn, params) do
@@ -450,12 +251,495 @@ defmodule LoanmanagementsystemWeb.SystemManagementController do
     end
   end
 
-  def audit_trail(conn, _params) do
-    userlogs = Loanmanagementsystem.Logs.list_tbl_user_activity_logs()
-    render(conn, "audit_trail.html", userlogs: userlogs)
+  def audit_trail(conn, _params),
+    do:
+      render(conn, "audit_trail.html",
+        userlogs: Loanmanagementsystem.Logs.list_tbl_user_activity_logs()
+      )
+
+  def report_maintianence(conn, _params), do: render(conn, "report_maintainence.html")
+
+  def global_configurations(conn, _params), do: render(conn, "global_configurations.html")
+
+  def account_number_generation(conn, _params) do
+    products = Loanmanagementsystem.Products.list_tbl_products()
+    branchid = Loanmanagementsystem.Maintenance.list_tbl_branch()
+    render(conn, "account_number_generation.html", products: products, branchid: branchid)
+  end
+
+  def charge_maintenance(conn, _params) do
+    render(conn, "charge_maintenance.html",
+      currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
+      charges: Loanmanagementsystem.Charges.list_tbl_charges()
+    )
+  end
+
+  def commission_maintenance(conn, _params) do
+    render(conn, "commission_maintenance.html")
+  end
+
+  def countries(conn, _params) do
+    countries = Loanmanagementsystem.Maintenance.list_tbl_country()
+      render(conn, "country.html", countries: countries)
+  end
+
+  @headers ~w/ countryName	countryCode	countryAbreviation /a
+
+  def handle__country_bulk_upload(conn, params) do
+    user = conn.assigns.user
+    {key, msg, _invalid} = handle_file_upload(user, params)
+
+    if key == :info do
+      conn
+      |> put_flash(key, msg)
+      |> redirect(to: Routes.system_management_path(conn, :countries))
+    else
+      conn
+      |> put_flash(key, msg)
+      |> redirect(to: Routes.system_management_path(conn, :countries))
+    end
+  end
+
+  defp handle_file_upload(user, params) do
+    with {:ok, filename, destin_path, _rows} <- is_valide_file(params) do
+      user
+      |> process_bulk_upload(filename, destin_path)
+      |> case do
+        {:ok, {invalid, valid}} ->
+          {:info, "#{valid} Successful entrie(s) and #{invalid} invalid entrie(s)", invalid}
+
+        {:error, reason} ->
+          {:error, reason, 0}
+      end
+    else
+      {:error, reason} ->
+        {:error, reason, 0}
+    end
+  end
+
+  def process_csv(file) do
+    case File.exists?(file) do
+      true ->
+        data =
+          File.stream!(file)
+          |> CSV.decode!(separator: ?,, headers: true)
+          |> Enum.map(& &1)
+
+        {:ok, data}
+
+      false ->
+        {:error, "File does not exist"}
+    end
+  end
+
+  def process_bulk_upload(user, filename, path) do
+    {:ok, items} = extract_xlsx(path)
+
+    prepare_bulk_params(user, filename, items)
+    |> Repo.transaction(timeout: 290_000)
+    |> case do
+      {:ok, multi_records} ->
+        {invalid, valid} =
+          multi_records
+          |> Map.values()
+          |> Enum.reduce({0, 0}, fn item, {invalid, valid} ->
+            case item do
+              %{countryfile_name: _src} -> {invalid, valid + 1}
+              %{col_index: _index} -> {invalid + 1, valid}
+              _ -> {invalid, valid}
+            end
+          end)
+
+        {:ok, {invalid, valid}}
+
+      {:error, _, changeset, _} ->
+        reason = traverse_errors(changeset.errors) |> Enum.join("\r\n")
+        {:error, reason}
+    end
+  end
+
+  defp prepare_bulk_params(_user, _filename, items) do
+    items
+    |> Stream.with_index(2)
+    |> Stream.map(fn {item, index} ->
+      other_details = %{
+        name: item.countryName,
+        code: item.countryCode,
+        country_file_name: item.countryAbreviation
+      }
+
+      changeset = Country.changeset(%Country{}, Map.merge(item, other_details))
+      Ecto.Multi.insert(Ecto.Multi.new(), Integer.to_string(index), changeset)
+    end)
+    |> Enum.reject(fn
+      %{operations: [{_, {:run, _}}]} -> false
+      %{operations: [{_, {_, changeset, _}}]} -> changeset.valid? == false
+    end)
+    |> Enum.reduce(Ecto.Multi.new(), &Ecto.Multi.append/2)
+  end
+
+  # ---------------------- file persistence --------------------------------------
+  def is_valide_file(%{"countryfile_name" => params}) do
+    if upload = params do
+      case Path.extname(upload.filename) do
+        ext when ext in ~w(.xlsx .XLSX .xls .XLS .csv .CSV) ->
+          with {:ok, destin_path} <- persist(upload) do
+            case ext not in ~w(.csv .CSV) do
+              true ->
+                case Xlsxir.multi_extract(destin_path, 0, false, extract_to: :memory) do
+                  {:ok, table_id} ->
+                    row_count = Xlsxir.get_info(table_id, :rows)
+                    Xlsxir.close(table_id)
+                    {:ok, upload.filename, destin_path, row_count - 1}
+
+                  {:error, reason} ->
+                    {:error, reason}
+                end
+
+              _ ->
+                {:ok, upload.filename, destin_path, "N(count)"}
+            end
+          else
+            {:error, reason} ->
+              {:error, reason}
+          end
+
+        _ ->
+          {:error, "Invalid File Format"}
+      end
+    else
+      {:error, "No File Uploaded"}
+    end
+  end
+
+  def csv(path, upload) do
+    case process_csv(path) do
+      {:ok, data} ->
+        row_count = Enum.count(data)
+
+        case row_count do
+          rows when rows in 1..100_000 ->
+            {:ok, upload.filename, path, row_count}
+
+          _ ->
+            {:error, "File records should be between 1 to 100,000"}
+        end
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  def persist(%Plug.Upload{filename: filename, path: path}) do
+    destin_path = "C:/CountriesUploads/file" |> default_dir()
+    destin_path = Path.join(destin_path, filename)
+
+    {_key, _resp} =
+      with true <- File.exists?(destin_path) do
+        {:error, "File with the same name aready exists"}
+      else
+        false ->
+          File.cp(path, destin_path)
+          {:ok, destin_path}
+      end
+  end
+
+  def default_dir(path) do
+    File.mkdir_p(path)
+    path
+  end
+
+  def extract_xlsx(path) do
+    case Xlsxir.multi_extract(path, 0, false, extract_to: :memory) do
+      {:ok, id} ->
+        items =
+          Xlsxir.get_list(id)
+          |> Enum.reject(&Enum.empty?/1)
+          |> Enum.reject(&Enum.all?(&1, fn item -> is_nil(item) end))
+          |> List.delete_at(0)
+          |> Enum.map(
+            &Enum.zip(
+              Enum.map(@headers, fn h -> h end),
+              Enum.map(&1, fn v -> strgfy_term(v) end)
+            )
+          )
+          |> Enum.map(&Enum.into(&1, %{}))
+          |> Enum.reject(&(Enum.join(Map.values(&1)) == ""))
+
+        Xlsxir.close(id)
+        {:ok, items}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  defp strgfy_term(term) when is_tuple(term), do: term
+  defp strgfy_term(term) when not is_tuple(term), do: String.trim("#{term}")
+
+
+  def province(conn, _params),
+    do:
+      render(conn, "province.html",
+        provinces: Loanmanagementsystem.Services.Services.get_all_provinces(),
+        countries: Loanmanagementsystem.Maintenance.list_tbl_country()
+      )
+
+  def district(conn, _params),
+    do:
+      render(conn, "district.html",
+        districts: Loanmanagementsystem.Services.Services.get_all_districts(),
+        provinces: Loanmanagementsystem.Maintenance.list_tbl_province(),
+        countries: Loanmanagementsystem.Maintenance.list_tbl_country()
+      )
+
+  def admin_add_department(conn, params) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:add_department, Department.changeset(%Department{}, params))
+    |> Ecto.Multi.run(:user_logs, fn _repo, %{add_department: add_department} ->
+      UserLogs.changeset(%UserLogs{}, %{
+        activity: "You have Successfully added #{add_department.name} as Department",
+        user_id: conn.assigns.user.id
+      })
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, add_department} ->
+        conn
+        |> put_flash(:info, "You have Successfully Added #{add_department.name}")
+        |> redirect(to: Routes.system_management_path(conn, :admin_department))
+
+      {:error, _failed_operations, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors)
+
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: Routes.system_management_path(conn, :admin_department))
+    end
+  end
+
+  def add_charge(conn, params) do
+    # host = conn.host
+    # query = from cl in LoanSavingsSystem.SystemSetting.ClientTelco, where: (cl.domain== ^host), select: cl
+    # clientTelco = Repo.one(query);
+
+    code = to_string(Enum.random(1111..9999))
+
+    account = to_string(Enum.random(1111..9999))
+
+    IO.inspect(params["currency"])
+    currency_ = String.split(params["currency"], "|||")
+
+    IO.inspect(currency_)
+
+    params =
+      Map.merge(params, %{
+        "currency" => Enum.at(currency_, 1),
+        "currencyId" => Enum.at(currency_, 0),
+
+        "code" => code,
+        "accountToCredit" => account
+      })
+
+    IO.inspect(params)
+    chargeChangeSet = Charge.changeset(%Charge{}, params)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:charges, chargeChangeSet)
+    |> Ecto.Multi.run(:user_logs, fn _repo, %{charges: charges} ->
+      UserLogs.changeset(%UserLogs{}, %{
+        activity: "Created new Charges with ID \"#{charges.id}\"",
+        user_id: conn.assigns.user.id
+      })
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "Charge Created successfully.")
+        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
+
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors) |> List.first()
+
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
+    end
+
+    # rescue
+    #   _ ->
+    #     conn
+    #     |> put_flash(:error, "An error occurred, reason unknown. try again")
+    #     |> redirect(to: Routes.branch_path(conn, :index))
+  end
+
+  def update_charge(conn, params) do
+
+    currency_ = String.split(params["currency"], "|||")
+
+    params =
+      Map.merge(params, %{
+        "currency" => Enum.at(currency_, 1),
+        "currencyId" => Enum.at(currency_, 0),
+        "effectiveDate" => params["effectiveDate"]
+      })
+
+    chargeChangeSet = Charge.changeset(%Charge{}, params)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:charges, chargeChangeSet)
+    |> Ecto.Multi.run(:user_logs, fn _repo, %{charges: charges} ->
+      UserLogs.changeset(%UserLogs{}, %{
+        activity: "Updated Charges with ID \"#{charges.id}\"",
+        user_id: conn.assigns.user.id
+      })
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "Charge Updated successfully.")
+        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
+
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors) |> List.first()
+
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: Routes.system_management_path(conn, :charge_maintenance))
+    end
+
+    # rescue
+    #   _ ->
+    #     conn
+    #     |> put_flash(:error, "An error occurred, reason unknown. try again")
+    #     |> redirect(to: Routes.branch_path(conn, :index))
+  end
+
+  alias Loanmanagementsystem.Accounts.Role
+
+  def create_user_role(conn, %{"user_role" => params, "role_str" => role_str}) do
+    IO.inspect(role_str, label: "Am here ba TEDDY Masumbi\n\n\n\n\n\n\n\n\n\n")
+    params = Map.put(params, "role_str", role_str)
+
+    conn.assigns.user
+    |> handle_create(params)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user_role: user_role, user_log: _user_log}} ->
+        json(conn, %{info: "#{user_role.role_desc} role creation successful"})
+
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors) |> List.first()
+        json(conn, %{error: reason})
+    end
+  end
+
+  defp handle_create(user, params) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :user_role,
+      Role.changeset(%Role{status: "INACTIVE"}, params)
+    )
+    |> Ecto.Multi.run(:user_log, fn repo, %{user_role: user_role} ->
+      activity = "Created new user role with user role desc: \"#{user_role.role_desc}\""
+
+      user_log = %{
+        user_id: user.id,
+        activity: activity
+      }
+
+      UserLogs.changeset(%UserLogs{}, user_log)
+      |> repo.insert()
+    end)
+  end
+
+  def edit_user_roles(conn, %{"id" => id}) do
+    role =
+      id
+      |> Accounts.get_role!()
+      |> Map.update!(:role_str, &AtomicMap.convert(&1, %{safe: false}))
+
+    render(conn, "edit_roles.html", role: role)
+  end
+
+  def view_user_roles(conn, %{"id" => id}) do
+    role =
+      id
+      |> Accounts.get_role!()
+      |> Map.update!(:role_str, &AtomicMap.convert(&1, %{safe: false}))
+
+    render(conn, "view_roles.html", role: role)
+  end
+
+  def update(conn, %{"user_role" => params, "role_str" => role_str, "id" => id}) do
+    IO.inspect(params["id"], label: "check user_role updates here $$$$$$$$$$ \n\n\n\n\n\n\n\n")
+    IO.inspect(id, label: "check user_role updates here $$$$$$$$$$ \n\n\n\n\n\n\n\n")
+
+    user_role = Accounts.get_role!(id)
+    params = Map.put(params, "role_str", role_str)
+
+    conn.assigns.user
+    |> handle_update(user_role, params)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{update: _update, insert: _insert}} ->
+        json(conn, %{info: "Changes applied successfully!"})
+
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors) |> List.first()
+        json(conn, %{error: reason})
+    end
+  end
+
+  def change_status(conn, %{"id" => id} = params) do
+    user_role = Accounts.get_role!(id)
+    user = conn.assigns.user
+
+    handle_update(user, user_role, Map.put(params, "checker_id", user.id))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{update: _update, insert: _insert}} ->
+        json(conn, %{"info" => "Changes applied successfully!"})
+
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
+        reason = traverse_errors(failed_value.errors) |> List.first()
+        json(conn, %{"error" => reason})
+    end
+  end
+
+  defp handle_update(user, user_role, params) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:update, Role.changeset(user_role, params))
+    |> Ecto.Multi.run(:insert, fn repo, %{update: _update} ->
+      activity = "Modified user role with user role ID #{user_role.id}"
+
+      user_log = %{
+        user_id: user.id,
+        activity: activity
+      }
+
+      UserLogs.changeset(%UserLogs{}, user_log)
+      |> repo.insert()
+    end)
   end
 
 
   def traverse_errors(errors),
     do: for({key, {msg, _opts}} <- errors, do: "#{String.upcase(to_string(key))} #{msg}")
+
+    def authorize_role(conn) do
+      case Phoenix.Controller.action_name(conn) do
+        act when act in ~w(new create)a -> {:system_mgt, :create}
+        act when act in ~w(index view)a -> {:system_mgt, :view}
+        act when act in ~w(update edit)a -> {:system_mgt, :edit}
+        act when act in ~w(change_status)a -> {:system_mgt, :change_status}
+        _ -> {:system_mgt, :unknown}
+      end
+    end
+
 end

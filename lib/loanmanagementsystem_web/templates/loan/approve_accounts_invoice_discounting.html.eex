@@ -1,0 +1,905 @@
+
+    <style>
+       .boorderless{
+            border-width:0px;
+            border:none;
+        }
+    </style>
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Loan Application</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="flex-wrap border-0 pt-6 pb-0">
+                                <div class="text-center">
+                                    <h3 class="card-label "><u>INVOICE DISCOUNTING APPLICATION APPROVAL (ACCOUNTS)</u>
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span></h3>
+                                </div>
+
+
+
+                            </div>
+                            <div class="card-body">
+								<!--begin: Wizard-->
+                                <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+                                    <!--begin: Wizard Nav-->
+                                    <div class="wizard-nav">
+                                        <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                                            <!--begin::Wizard Step 1 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>1.</span>Company Details</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 1 Nav-->
+                                            <!--begin::Wizard Step 3 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>2.</span>Acceptance & Interest</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 3 Nav-->
+                                            <!--begin::Wizard Step 4 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>3.</span>Conditions Precedent & Consent</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>4.</span>Costs and Expenses</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>5.</span>Document Upload</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                        </div>
+                                    </div>
+                                    <!--end: Wizard Nav-->
+
+                                        <!--begin: Wizard Body-->
+                                        <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                                            <div class="col-xl-12 col-xxl-12">
+                                                <!--begin: Wizard Form-->
+                                                <form class="form fv-plugins-bootstrap fv-plugins-framework" id="accountant_invoice_approve" enctype="multipart/form-data" method="post">
+                                                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <input value="<%= @loan_details.has_mou %>" name="has_mou" id="has_mou" type="hidden">
+                                                    <input value="<%= @loan_details.id %>" name="id" type="hidden">
+                                                     <input value="<%= @loan_details.id %>" name="loan_id" type="hidden">
+                                                    <input value="<%= @loan_details.customer_id %>" name="customer_id" type="hidden">
+                                                    <!--begin: Wizard Step 1-->
+                                                    <div class="pb-5" data-wizard-type="step-content">
+                                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Company Details</u></h4>
+                                                        <!--begin::Input-->
+                                                        <div class="row">
+                                                            <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Company Details</u> </h5><br>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Company Name: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" name="companyName" value="<%= @loan_details.companyName %>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Company Number:</label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @loan_details.client_company_line %>" name="companyPhone" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Contact Email: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @loan_details.contactEmail %>" name="contactEmail" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Registration Date:</label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @loan_details.companyRegistrationDate %>" name="companyRegistrationDate" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">TPIN:</label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @loan_details.taxno %>" name="taxno" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Pacra-Registration Number: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @loan_details.registrationNumber %>" name="registrationNumber" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Bank Name:</label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @loan_details.bankName %>(<%= @loan_details.companyAccountNumber %>)" name="companyBank" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 border">
+                                                                <br><h5 class="text-center"> <u>Loan Details</u> </h5><br>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Principle Loan Amount: <span style="color: red;">*</span></label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="number" class="form-control principal_amount" value="<%= round(@loan_details.principal_amount) %>" id="amount" name="amount" readonly>
+                                                                        </div>
+                                                                        <span class="form-text text-muted">Please enter amount.</span>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Tenure (Days): <span style="color: red;">*</span></label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input class="form-control" value="<%= @loan_details.tenor %>"  name="tenor_log" readonly>
+                                                                        </div>
+                                                                        <span class="form-text text-muted">Select the Tenure.</span>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Interest: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" id="total_interest" value="<%= :erlang.float_to_binary((@loan_details.interest_amount), [{:decimals, 2}]) %>"  class="form-control" name="total_interest" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Repayment Period(months):</label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= round((@loan_details.tenor)/30 ) %>"  name="repayment" readonly>
+                                                                        </div>
+                                                                        <span class="form-text text-muted">Please enter periods.</span>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Monthly Instalmen:</label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" value="<%= @loan_details.monthly_installment %>"  class="form-control" id="total_monthly_payment" name="monthly_installment" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Total Loan: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" id="total_amount" value="<%= :erlang.float_to_binary((@loan_details.repayment_amount), [{:decimals, 2}]) %>"  class="form-control" name="totalPayment" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Offtaker:</label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" id="total_amount" value="<%= @loan_details.offtakerName %>"  class="form-control" name="totalPayment" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--begin: Wizard Step 3-->
+                                                    <div class="pb-5" data-wizard-type="step-content">
+                                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Acceptance & Interest</u></h4>
+                                                        <div class="row">
+                                                            <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Acceptance</u> </h5><br>
+
+                                                                1. <b>Acceptance</b> <br><br>
+                                                                    <p align="justify">We refer to your application and are now pleased to advise that <b>Pangaea ADD Capital</b> whose
+                                                                    registered office is <b>suite 3, 1st floor, FNB Building, ZMART City Office/Stand no. 2711 President avenue,
+                                                                    Ndola</b> (herein after called Lender) has approved <b><%= @loan_details.companyName %></b> whose registered
+                                                                    office is XXXXXXXX (hereinafter called the Borrower) application for an Invoice Discounting
+                                                                    Facility (herein after called “the Facility”). The Following terms shall apply to this Agreement.</p>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;1.1 &emsp;&emsp;<b>Nature of Facility</b>&emsp;&emsp; : Invoice Discounting Facility <br><br>
+                                                                    &emsp;&emsp;&emsp;&ensp;1.2 &emsp;&emsp;<b>Facility Amount</b>&emsp;&emsp;&nbsp; : ZMW <input class="boorderless principal_amount_second" type="text" readonly> (<b id="stringOutput"></b>)  <br><br>
+                                                                    &emsp;&emsp;&emsp;&ensp;1.3 &emsp;&emsp;<b>Purpose</b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; : The Borrower requests for funds for working capital and/or <br>
+                                                                    &emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&nbsp;operational costs by way of invoice discounting.<br><br>
+                                                                    &emsp;&emsp;&emsp;&nbsp;1.4 &emsp;&emsp;<b>Invoice description</b>&emsp;&emsp;<br><br>
+
+                                                                    <table  class="table table-bordered table-hover">
+                                                                    <thead>
+                                                                        <tr role="row">
+                                                                            <th>Vendor</th>
+                                                                            <th>Invoice No</th>
+                                                                            <th >Value</th>
+                                                                            <th>Date of Issue</th>
+                                                                            <th>Payment Terms</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr class="tr_clone">
+
+                                                                            <td>
+                                                                                <input class="form-control" value="<%= @loan_details.vendorName %>" name="vendorName" type="text" readonly>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control" name="invoiceNo" value="<%= @loan_details.invoiceNo %>" type="text" readonly>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control" name="invoiceValue" value="<%= Number.Delimit.number_to_delimited(@loan_details.invoiceValue) %>" type="text" readonly>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control" name="dateOfIssue" value="<%= @loan_details.dateOfIssue %>" type="text" readonly>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control" name="paymentTerms" value="<%= @loan_details.paymentTerms %>" type="text" readonly>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                                &emsp;&emsp;&emsp;&ensp;1.5  &emsp;&emsp;<b>Repayment</b>&emsp;&emsp; : This Facility shall be repayable no later than <b id="repay_value"></b> (Ninety) Days<br>
+                                                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;from date of funds disbursement. This Facility is repayable on demand after it <br>
+                                                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; becomes due.
+                                                            </div>
+                                                            <div class="col-md-6 border">
+                                                                <br><h5 class="text-center"> <u>Interest rate and Charges </u> </h5><br>
+                                                                2. <b>Interest rate and Charges </b> <br><br>
+                                                                    <p align="justify">The following charges will apply on the Facility Amount during the subsistence of the Facility;</p>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;2.1 &emsp;&emsp;The Borrower shall be charged interest and management fees pegged at 7% on the outstanding Amount
+                                                                                                            &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;every month until full and final payment of the Loan pegged as
+                                                                                                            below stipulated: <br><br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;i) &emsp;&emsp;&emsp;&ensp;Interest 4%<br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;ii) &emsp;&emsp;&emsp;&ensp;Management fee 5%<br><br>
+                                                                    &emsp;&emsp;&emsp;&ensp;2.2 &emsp;&emsp; The Lender shall continue to charge interest and management fee stipulated herein in the event of Default
+                                                                                                            &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;as described in clause 6 below until the Facility Amount is settled
+                                                                                                            in full.  <br><br>
+                                                                3. <b>Description Security</b>&emsp;&emsp;<br>
+
+                                                                    <table  class="table table-bordered table-hover">
+                                                                    <thead>
+                                                                        <tr role="row">
+                                                                            <th>Security Number</th>
+                                                                            <th>Security Type</th>
+                                                                            <th>Security Description</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr class="">
+                                                                            <td>1</td>
+                                                                            <td>Board Resolution</td>
+                                                                            <td>Resolution authorizing the directors to borrow and requiste Special resolution in respect of any borrowing beyond mandate as per company articles of association</td>
+                                                                        </tr>
+                                                                        <tr class="tr_clone">
+                                                                            <td>2</td>
+                                                                            <td>Personal guaranteeForm</td>
+                                                                            <td>Directors personal guarantee on behalf of XYZ Limited for the sum of ZMW XXXXXXX plus interest </td>
+                                                                        </tr>
+                                                                        <tr class="tr_clone">
+                                                                            <td>3</td>
+                                                                            <td>Debenture</td>
+                                                                            <td>Floating charge over all the assets of XYZ Limited for the sum of ZMW XXXXXX plus interest</td>
+                                                                        </tr>
+                                                                        <tr class="tr_clone">
+                                                                            <td>4</td>
+                                                                            <td>Consent to assign Invoices</td>
+                                                                            <td>Consent to assign invoice(S) instruction to <b><%= @loan_details.companyName %></b></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                                4. <b>Perfection of Security</b><br><br> It is a Condition of this Facility that all Security must be perfected before the grant of this Facility. This
+                                                                                shall include the execution of a personal guarantee and (where application), registration of mortgage
+                                                                                and/ or debenture. All fees and costs associated with the perfection of the security will be on the account
+                                                                                of the Borrower and may be debited from the Borrowers Facility amount to be disbursed.<br><br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--begin: Wizard Step 4-->
+                                                    <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Conditions Precedent & Consent</u></h4>
+                                                        <div class="row">
+                                                            <div class="col-md-6 border">
+                                                                <br><h5 class="text-center"> <u>Conditions precedent</u> </h5><br>
+
+                                                                5. <b>Conditions precedent</b> <br><br>
+                                                                    <p align="justify">The Lender will make the funds available to the Borrower subject to the fulfilment of the following
+                                                                        conditions to the satisfaction of the Lender.</p>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;5.1 &emsp;&emsp;Certified copies of the Borrowers certificate of registration or incorporation and Articles
+                                                                                                            of Association.  <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;5.2 &emsp;&emsp;A signed copy of this facility letter, dully acknowledging and accepting the terms
+                                                                                                                stipulated herein: within seven days from hereof and in default thereof this facility will
+                                                                                                                lapse. <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;5.3 &emsp;&emsp; A supporting board resolution by the Borrower in the format acceptable to the Lender
+                                                                                                                authorising the application for the Facility.<br>
+                                                                    &emsp;&emsp;&emsp;&nbsp;5.4 &emsp;&emsp; Signed Personal Guarantee by the guarantors. <br><br>
+
+
+                                                                6. <b>Default</b> <br><br>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;6.1 &emsp;&emsp;The Borrower shall be in Default in the event of failure to meet the repayment timelines
+                                                                                                            after the expiry of this Agreement.<br>
+                                                                    &emsp;&emsp;&emsp;&ensp;6.2 &emsp;&emsp;In the event of Default aforesaid the full amount outstanding under the Facility, together
+                                                                                                            with all interest accrued thereon and any other charges payable or outstanding in
+                                                                                                            relation to the Facility shall become immediately due and payable. The Lender shall be
+                                                                                                            entitled to demand for payment forthwith. <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;6.3 &emsp;&emsp; The Borrower shall also be deemed to be in default in event of the following;<br>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;i) &emsp;&emsp;&emsp;&ensp;<b>Insolvency</b> - – if the Borrower is unable to pay its debts as they fall due with
+                                                                                                                                                                                                                    one or more creditors. <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;ii) &emsp;&emsp;&emsp;&ensp;<b>Winding Up</b> - if the Borrower is a corporate entity and legal proceedings are
+                                                                                                                                                                                                    commenced against it for its winding up, dissolution, administration, care and
+                                                                                                                                                                                                    maintenance or receivership<br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;ii) &emsp;&emsp;&emsp;&ensp;<b>Execution - is there is any execution or distress levied against the Borrower. </b><br>
+                                                                    <br><br>
+
+
+                                                                7. <b> General Undertaking</b> <br><br>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;7.1 &emsp;&emsp;The Borrower undertakes not to guarantee or take on any other loans without the prior
+                                                                                                            written consent of the Lender after the commencement of this Agreement. <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;7.2 &emsp;&emsp;The Borrower will not alienate or encumber any of the assets provided as security
+                                                                                                            under this Facility. <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;7.3 &emsp;&emsp; In the event of the Borrower is a company, the said company shall provide a full board
+                                                                                                            resolution authorising the company to borrow the amount so stated before being
+                                                                                                            availed with the Facility.<br>
+                                                                    &emsp;&emsp;&emsp;&nbsp;7.4 &emsp;&emsp; The Borrower shall also provide the Lender, as soon as possible with such information
+                                                                                                                as the it may reasonably require from time to time.<br>
+                                                                    &emsp;&emsp;&emsp;&nbsp;7.5 &emsp;&emsp; The Lender will perform its obligations with reasonable care and in good faith and in
+                                                                                                                accordance with its set practices and those of the financial services Industry in general.  <br><br>
+                                                            </div>
+                                                            <div class="col-md-6 border">
+                                                                <br><h5 class="text-center"> <u>Consent</u> </h5><br>
+                                                                8. <b>Consent </b> <br><br>
+                                                                    <p align="justify">By accepting this Facility the Borrower consents that the Lender may disclose information
+                                                                        relating to the Borrower for prevention of fraud, to licensed credit reference agencies, external
+                                                                        lawyers, auditors, the Bank of Zambia and other financial institutions in assessing credit
+                                                                        applications and for debt tracing or where compelled by law.</p>
+
+                                                                9. <b> Electronic Communications</b> <br><br>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;9.1 &emsp;&emsp;The Borrower and the Lender Consent to use electronic communications in relation
+                                                                                                            to the Facility.  <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;9.2 &emsp;&emsp;The Borrower acknowledges and consents to the use of electronic communication
+                                                                                                            with full understanding of the risks relating to it.  <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;9.3 &emsp;&emsp; The Borrowers authorisation includes:<br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;9.3.1&emsp;&ensp; That the Borrower will allow the Lender to accept and act upon instructions or
+                                                                                                                communications given by the various modes of electronic communication. <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&ensp;9.3.2&emsp;&ensp; The Borrower allows the Lender to correspond with the Customer via electronic
+                                                                                                            communication and this will include but not be limited to the issuing of statement,
+                                                                                                            and general correspondence.  <br>
+                                                                10. <b>Indemnity</b><br><br>
+                                                                    &emsp;&emsp;&emsp;&ensp;10.1 &emsp;&emsp;The Lender covenants to irrevocably and unconditionally indemnify the Lender against
+                                                                                                            all loss, damage, legal action and expense whatsoever, whether suffered or incurred
+                                                                                                            by the Lender, or third parties (hereinafter called loss).  <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;10.2 &emsp;&emsp;Loss for the purposes of this agreement shall be any loss arising from or in connection
+                                                                                                            with the Lenders direct or indirect use of or reliance upon electronic communication
+                                                                                                            from the Borrower for the conveyance of instructions and/or communications, whether
+                                                                                                            or not such instructions and/or communications are fraudulent, forged or in any way
+                                                                                                            defective; provided that such loss was not occasioned by the gross negligence or willful
+                                                                                                            misconduct on the part of the Lender. <br>
+                                                                11. <b>Severance </b> <br><br>
+                                                                <p align="justify">
+                                                                Any provision of this agreement that is invalid or unenforceable will be read down where possible
+                                                                so as to be valid and enforceable, or, if that is not possible will be severed from this agreement to
+                                                                the extent of its invalidity of unenforceability without affecting the remaining provisions, which will
+                                                                remain binding on the parties .</p><br><br>
+
+                                                                12. <b>Indemnity</b><br><br>
+                                                                    &emsp;&emsp;&emsp;&ensp;12.1 &emsp;&emsp;This Agreement contains the full terms and no addition to or variation to it shall be in
+                                                                                                            effect unless made in writing and signed by consent of the parties hereto.  <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;12.2 &emsp;&emsp;Notwithstanding the foregoing, this agreement may be signed in counterparts and the
+                                                                                                            copies signed in counterpart shall constitute the Agreement. This shall include faxed
+                                                                                                            copies of this document. <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--begin: Wizard Step 4-->
+                                                    <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Costs and Expenses</u></h4>
+                                                        <div class="row">
+                                                            <div class="col-md-6 border">
+                                                                <br><h5 class="text-center"> <u>Costs and Expenses</u> </h5><br>
+
+                                                                13. <b>Costs and Expenses</b> <br><br>
+
+                                                                    &emsp;&emsp;&emsp;&ensp;13.1 &emsp;&emsp;The Lender shall be entitled in addition to any other rights it may have in terms of this
+                                                                                                                Agreement or in law to recover from the Borrower on demand:-
+                                                                                                                <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; 1. All Advocate and client costs, charges, disbursements and legal fees of a like
+                                                                                                                                    nature incurred by the Lender irrespective of whether action has been instituted
+                                                                                                                                    or not; <br>
+                                                                    &emsp;&emsp;&emsp;&ensp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; 2. Any amounts paid by the Lender in discharging any lien or security interest created
+                                                                                                                                    in breach of this Agreement and/or in performing any other obligations of the
+                                                                                                                                    Borrower in terms of this Agreement on the Borrower behalf; and <br><br>
+
+
+                                                                14. <b>Offer and acceptance</b> <br><br>
+                                                                    <p align="justify">
+                                                                    Please confirm your acceptance of these terms and conditions by having the enclosed copy of this letter
+                                                                    signed by the duly authorised officials and returned officials and returned to us PayKesho ADD Capital
+                                                                    the financial service providers.</p>
+                                                                <br><br>
+
+
+                                                                Yours Faithfully <br><br>
+
+                                                                <p>For and on Behalf of <b>PANGAEA ADD CAPITAL</b></p>
+                                                                <p><b>Authorized signatory</b></p>
+                                                                <p>...........................................</p></b></p>
+                                                            </div>
+                                                            <div class="col-md-6 border">
+                                                                <br><h5 class="text-center"> <u>Agreement</u> </h5><br>
+                                                                <br><br>
+                                                                    <p align="justify">We ______________________________________ in the terms agreed above dated hereby confirm our agreement
+                                                                        with and acceptance of the terms and Conditions of the foregoing and undertake to carry out the
+                                                                        obligations set out herein. We further warrant that the persons signing this document are duly authorized
+                                                                        to do so. </p><br><br>
+                                                                Yours Faithfully <br><br>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <p><b>Authorized signatory</b></p>
+                                                                        <p>...........................................</p>
+                                                                        <p>Date <%= Timex.today %></p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <p><b>Authorized signatory</b></p>
+                                                                        <p>...........................................</p>
+                                                                        <p>Date <%= Timex.today %></p>
+                                                                    </div>
+                                                                </div><br><br>
+                                                                <div class="">
+                                                                    <p><b>As Witnesse; </b></p>
+                                                                    <p>Name :_________________________________________</p>
+                                                                    <p>ID :_________________________________________</p>
+                                                                    <p>Date <%= Timex.today %></p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--begin: Wizard Step 3-->
+                                                    <div class="pb-5" data-wizard-type="step-content">
+                                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Attached Documents From Sales and Credit</u></h4>
+                                                        <!--begin::Select-->
+                                                        <table class="table table-bordered border-bottom" id="example1">
+                                                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>File Name</th>
+                                                                    <th>Document Name</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <%= for loanDocs <- @loanDocs do %>
+                                                                    <tr>
+                                                                        <td> <%= loanDocs.fileName %> </td>
+                                                                        <td> <%= loanDocs.docName %> </td>
+                                                                        <td>  <a class="btn ripple btn-info btn-sm" data-target="#viewDocument" data-id="<%= loanDocs.id%>" data-path="<%= loanDocs.docPath %>" data-content_type="<%= loanDocs.docType %>"data-toggle="modal" title= "Edit" href= "#"><i class="flaticon-eye icon-sm"></i> View </a></td>
+                                                                    </tr>
+                                                                <% end %>
+                                                            </tbody>
+                                                        </table>
+                                                        <%= if @loan_details.has_mou == "YES" do %>
+                                                            <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+                                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                                <thead>
+                                                                    <tr role="row">
+                                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                                            <label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+                                                                        </th>
+                                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <%= for item <- approve_accounts_invoice_loan_document_upload_mou() do %>
+                                                                    <tr class="tr_clone">
+                                                                        <td>
+                                                                            <div class="col-md-12 form-group">
+                                                                                <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="receiver form-control" id="loan_document_upload" name="file[<%= item.name %>]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+                                                                        </td>
+                                                                    </tr>
+                                                                <% end %>
+                                                                </tbody>
+                                                            </table>
+                                                        <% end %>
+
+                                                        <%= if @loan_details.has_mou == "NO" do %>
+                                                            <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+                                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                                <thead>
+                                                                    <tr role="row">
+                                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                                            <label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+                                                                        </th>
+                                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <%= for item <- approve_accounts_loan_document_upload_no_mou() do %>
+                                                                    <tr class="tr_clone">
+                                                                        <td>
+                                                                            <div class="col-md-12 form-group">
+                                                                                <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="receiver form-control" id="loan_document_upload" name="file[<%= item.name %>]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+                                                                        </td>
+                                                                    </tr>
+                                                                <% end %>
+                                                                </tbody>
+                                                            </table>
+                                                        <% end %>
+
+                                                        <h5 class="text-center"> <strong><u>DISBURSEMENT</u></strong> </h5><br>
+                                                        <div class="row">
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label>DISBURSEMENT TYPE</label>
+                                                                        <select  class="form-control form-control-solid form-control-lg" type="text" id="" name="disbursement_method">
+                                                                            <option label="Choose One"></option>
+                                                                            <option value="CASH">CASH</option>
+                                                                            <option value="CHEAQUE">CHEAQUE</option>
+                                                                            <option value="BANK">BANK</option>
+                                                                            <option value="MOBILE MONEY">MOBILE MONEY</option>
+                                                                        </select>
+                                                                    <span class="form-text text-muted">Please enter disbursement method</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label>DISBURSEMENT STATUS</label>
+                                                                        <select  class="form-control form-control-solid form-control-lg" type="text" name="disbursement_status">
+                                                                            <option label="Choose One"></option>
+                                                                            <option value="FULL PAYMENT">FULL PAYMENT</option>
+                                                                            <option value="PARTIAL PAYMENT">PARTIAL PAYMENT</option>
+                                                                        </select>
+                                                                    <span class="form-text text-muted">Please enter disbursement status</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label>DISBURSEMENT AMOUNT</label>
+                                                                    <input type="text" class="form-control form-control-solid form-control-lg" id="disbursement_amount" name="disbursement_amount">
+                                                                    <span class="form-text text-muted">Please enter DIsbursement Amount</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <h3 class="mb-10 font-weight-bold text-dark text-center">Accountant Feedback</h3>
+                                                        <div class="row">
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label>FEEDBACK DESCRIPTION</label>
+                                                                        <input class="form-control form-control-solid form-control-lg" type="text" id="" name="feedback_name" value="ACCOUNTANT" readonly>
+                                                                    <span class="form-text text-muted">Accountant Feedback</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label>FEEDBACK</label>
+                                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="feedback">
+                                                                    <span class="form-text text-muted">Please enter your feedback</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <div class="form-group">
+                                                                    <label>COMMENT</label>
+                                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="comment">
+                                                                    <span class="form-text text-muted">Please enter your comment</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--begin: Wizard Actions-->
+                                                    <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                                        <div class="mr-2">
+                                                            <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                                        </div>
+                                                        <div>
+                                                            <button type="button" id="accountant_invoice_approve_button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">DISBURSE</button>
+
+                                                            <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                                        </div>
+                                                    </div>
+                                                    <!--end: Wizard Actions-->
+                                                <div></div><div></div><div></div><div></div></form>
+                                                <!--end: Wizard Form-->
+                                            </div>
+                                        </div>
+                                        <!--end: Wizard Body-->
+                                </div>
+                                <!--end: Wizard-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+    <div class="col-sm-4 col-md-4">
+        <div class="card custom-card">
+            <div class="modal" id="viewDocument" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="main-content-label mb-3">View Document</h6>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i aria-hidden="true" class="ki ki-close"></i>
+                            </button>
+                        </div>
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div class="modal-body">
+                            <div class="row row-lg">
+                                <div class="col-sm-12 col-md-12 col-lg-12" id="theDocumentView"> </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    $(document).ready(function(){
+        //JS FOR VIEWING USER PROFILE
+        $('#viewDocument').on('show.bs.modal', function (event){
+            console.log("qwertyuiop")
+            let button = $(event.relatedTarget)
+            let id = button.data('id')
+            let content_type = button.data('content_type')
+            let path = button.data('path')
+
+
+            let portocal = location.protocol;
+            let host = portocal+"//" + window.location.host
+            let route = host + "<%= Routes.loan_path(@conn, :display_pdf) %>";
+            let url = route + "?path="+path+"&content_type="+content_type;
+
+
+            let the_document = '<embed src="'+ url +'" width="100%" height="870px" />';
+
+
+            var modal = $(this)
+            modal.find('.modal-body #theDocumentView').html(the_document);
+        });
+    });
+
+</script>
+
+<script>
+    function computeLoan(){
+
+        var loanAmount = document.getElementById('numberInput').value;
+        var interestRate = document.getElementById('interest_rate').value / 100;
+        var loanTerm = document.getElementById('months').value;
+
+        var monthlyInterestRate = interestRate / 12;
+        var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTerm));
+        var totalPayment = monthlyPayment * loanTerm;
+        var totalInterest = totalPayment - loanAmount;
+
+        //document.getElementById('total_monthly_payment').innerHTML = monthlyPayment.toFixed(2);
+        //  document.getElementById('total_interest').innerHTML = totalInterest.toFixed(2);
+        // document.getElementById('total_amount').innerHTML = totalPayment.toFixed(2);
+        $('#total_monthly_payment').val(monthlyPayment.toFixed(2));
+        $('#total_interest').val(totalInterest.toFixed(2));
+        $('#total_amount').val(totalPayment.toFixed(2));
+
+    }
+
+</script>
+    <script>
+    $(document).ready(function(){
+        $(".principal_amount").keyup(function(){
+            $(".principal_amount_second").val($(".principal_amount").val());
+        });
+
+        function computeLoan(){
+            var loanTerm = document.getElementById('months').value;
+
+            if (loanTerm == "1"){
+                document.getElementById('repay_value').innerHTML = '30';
+            }
+            if (loanTerm == "2"){
+                document.getElementById('repay_value').innerHTML = '60';
+            }
+         }
+    });
+    </script>
+
+    <script>
+
+     (function() {
+        const numbers = {
+        0: "Zero", 1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen", 14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen", 19: "Nineteen", 20: "Twenty", 30: "Thirty", 40: "Forty", 50: "Fifty", 60: "Sixty", 70: "Seventy", 80: "Eighty", 90: "Ninety"
+        };
+        const numberScales = [
+        '', '', 'Thousand', 'Million', 'Billion', 'Trillion', 'Quadrillion', 'Quintillion', 'Sextillion', 'Septillion', 'Octillion', 'Nonillion', 'Decillion', 'undecillion', 'duodecilion', 'tredecilion', 'quattuordecilion', 'quindecilion', 'sexdecillion', 'septendecilion', 'octodecilion', 'novemdecilion', 'vigintilion'
+        ];
+
+        const convertNumberToString = amount => {
+        let result = '';
+        let isString = typeof amount === 'string' || amount instanceof String;
+
+        if (isNaN(amount)) {
+            return `'${amount}' is not a valid number.`;
+        }
+        if (!isNaN(amount) && !isString && amount > Number.MAX_SAFE_INTEGER) {
+            return `'${amount}' is past the bounds of MAX_SAFE_INTEGER. Please pass in the number wrapped in quotes (ex: '954.34') for an accurate conversion.`;
+        }
+
+        const amountString = amount.toString();
+        const splitAmountArray = amountString.split('.');
+        const amountIntegerString = splitAmountArray[0];
+        const amountDecimalString = splitAmountArray[1] || 0;
+        if (amountDecimalString > 99) {
+            return `'${amount}' contains an invalid decimal amount. Please re-enter a value of 0-99 cents.`;
+        }
+
+        const tripleStack = [];
+
+        for (let i = amountIntegerString.length; i > 0; i -= 3) {
+            const startIndex = (i - 3) < 0 ? 0 : i - 3;
+            const tripleString = amountIntegerString.slice(startIndex, i);
+            const tripleNum = parseInt(tripleString, 10);
+
+            tripleStack.push(tripleNum);
+        }
+
+        tripleStack.reverse();
+        tripleStack.forEach(function(triple, index) {
+            const scalePosition = tripleStack.length - index;
+
+            if (triple < 20) {
+            result += ` ${numbers[triple]}`;
+            } else if (triple < 100) {
+            const tensValue = Math.floor(triple / 10) * 10;
+            const onesValue = triple - tensValue;
+            if (onesValue === 0) {
+                result += ` ${numbers[tensValue]}`;
+            } else {
+                result += ` ${numbers[tensValue]}-${numbers[onesValue]}`;
+            }
+            } else {
+            const hundredsValue = Math.floor(triple / 100) * 100;
+            const realTensValue = triple - hundredsValue;
+            console.log('triple ' + triple + ' hundreds: ' + hundredsValue + ' realTens: ' + realTensValue);
+            const tensValue = Math.floor(realTensValue / 10) * 10;
+            const onesValue = realTensValue - tensValue;
+
+            if (hundredsValue > 0) {
+                result += ` ${numbers[hundredsValue / 100]} hundred and`;
+            }
+            if (realTensValue < 20) {
+                result += ` ${numbers[realTensValue]}`;
+            } else {
+                if (onesValue === 0) {
+                result += ` ${numbers[tensValue]}`;
+                } else {
+                result += ` ${numbers[tensValue]}-${numbers[onesValue]}`;
+                }
+            }
+            }
+            let scale = numberScales[scalePosition];
+            if (scale === undefined) scale = 'bajillion';
+            result += ` ${scale}`;
+        })
+
+        if (result) {
+            result += ` Kwacha`;
+        }
+
+        return result;
+        }
+
+        const convertAndDisplay = event => {
+        const amount = event.currentTarget.value;
+        const output = convertNumberToString(amount);
+        const outputContainer = document.getElementById('stringOutput');
+        outputContainer.innerHTML = output;
+        }
+
+        const searchInput = document.getElementById('numberInput');
+        searchInput.addEventListener('change', convertAndDisplay);
+        searchInput.addEventListener('keyup', convertAndDisplay);
+
+        const outputContainer = document.getElementById('stringOutput');
+        })();
+    </script>

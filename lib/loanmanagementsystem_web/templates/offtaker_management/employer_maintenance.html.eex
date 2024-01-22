@@ -1,0 +1,240 @@
+
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Employer Maintenance</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Employer List
+                                    <span class="text-muted pt-2 font-size-sm d-block">List of onboaded employers</span></h3>
+                                </div>
+                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                                <div class="card-toolbar">
+                                    <a href="<%= Routes.offtaker_management_path(@conn, :add_employer) %>" class="btn text-white font-weight-bolder" style="background-color: #0E75BF;">
+                                        <span><i class="flaticon2-add-1 text-white"></i></span>Add Employer </a>
+                                </div>
+                                <% end %>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-20p">Company Name</th>
+                                            <th class="wd-25p">Company Number</th>
+                                            <th class="wd-20p">Registration Number</th>
+                                            <th class="wd-15p">TPIN</th>
+                                            <th class="wd-20p">Email</th>
+                                            <th class="wd-20p">Status</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <%= for company <- @companies do %>
+                                        <tr>
+                                            <td> <%= company.companyName %> </td>
+                                            <td> <%= company.companyPhone %> </td>
+                                            <td> <%= company.registrationNumber %> </td>
+                                            <td> <%= company.taxno %> </td>
+                                            <td> <%= company.contactEmail %> </td>
+                                            <%= if company.companystatus == "ACTIVE" do %>
+                                                <td><span class= "badge bg-pill bg-success" ><%= company.companystatus %></span> </td>
+                                            <% else %>
+                                                <%= if company.companystatus == "INACTIVE" do %>
+                                                    <td><span class="badge bg-pill bg-danger"><%= company.companystatus %></span> </td>
+                                                <% end %>
+                                            <% end %>
+                                            <td class="text-center">
+
+
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">Options</button>
+                                                    <div class="dropdown-content">
+
+                                                         <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+                                                            <%=if company.companystatus == "ACTIVE" do %>
+                                                                <a class="btn ripple btn-sm deactivate-company" data-activate-id="<%= company.id %>" title="Disable Company">Disable</a>
+                                                            <% else %>
+                                                                <a class="btn ripple btn-sm activate-company" data-activate-id="<%= company.id %>" title="Disable Company">Enable</a>
+                                                            <% end %>
+                                                        <% end %>
+
+                                                        <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :edit) do %>
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-target= "#edit-employer"
+                                                                data-toggle="modal"
+                                                                data-id ="<%= company.id %>"
+                                                                data-companyname="<%= company.companyName %>"
+                                                                data-company_phone ="<%= company.companyPhone%>"
+                                                                data-company_account_number="<%= company.companyAccountNumber %>"
+                                                                data-company_registration_number ="<%= company.registrationNumber %>"
+                                                                data-company_email="<%= company.contactEmail%>"
+                                                                data-taxno ="<%= company.taxno %>"
+                                                                data-company_bank_id="<%= company.bank_id %>"
+                                                                data-company_bank="<%= company.bankName %>"
+                                                                data-company_registration_date="<%= company.companyRegistrationDate %>">Edit</a>
+                                                        <% end %>
+
+                                                        <a class="btn ripple btn-sm" href="<%= Routes.offtaker_management_path(@conn, :view_employer_details, userid: company.id) %>">View</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+    <div class="modal fade" id="edit-employer" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">Edit Employer</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                </div>
+                <form action="<%= Routes.offtaker_management_path(@conn, :edit_company_employer) %>" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="id" id="id">
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Name</p>
+                                <input type="text" class="form-control" name="companyName" id="companyname">
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Mobile Number</p>
+                                <input type="text" class="form-control" name="companyPhone" id="company_phone">
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10"> Pacra-Registration Number</p>
+                                <input type="text" class="form-control" id="company_registration_number" name="registrationNumber">
+                            </div>
+
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Registration Date</p>
+                                <input type="date" class="form-control" name="companyRegistrationDate" id="company_registration_date">
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">TPIN</p>
+                                <input type="text" class="form-control" id="taxno" name="taxno">
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Contact Email</p>
+                                <input type="text" class="form-control" id="company_email" name="contactEmail">
+                            </div>
+
+                        </div>
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Bank</p>
+                                <select class="form-control" id="company_bank"  name="bank_id" type="text">
+                                    <option>Choose Bank Name</option>
+                                        <%= for bank <- @banks do %>
+                                            <option value="<%= bank.id %>"><%= bank.bankName %>  (<%= bank.process_branch %>)</option>
+                                        <% end %>
+                                    </select>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Account Number</p>
+                                <input class="form-control" id="company_account_number"  name="companyAccountNumber" type="text">
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Update</button>
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#edit-employer').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                var companyname = button.data('companyname')
+                var company_phone = button.data('company_phone')
+                var company_account_number = button.data('company_account_number')
+                var company_registration_number = button.data('company_registration_number')
+                var company_email = button.data('company_email')
+                var taxno = button.data('taxno')
+                var company_bank_id = button.data('company_bank_id')
+                var company_bank = button.data('company_bank')
+                var company_registration_date = button.data('company_registration_date')
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(id);
+                modal.find('.modal-body #companyname').val(companyname);
+                modal.find('.modal-body #company_phone').val(company_phone);
+                modal.find('.modal-body #company_account_number').val(company_account_number);
+                modal.find('.modal-body #company_registration_number').val(company_registration_number);
+                modal.find('.modal-body #company_email').val(company_email);
+                modal.find('.modal-body #taxno').val(taxno);
+                modal.find('.modal-body #company_bank_id').val(company_bank_id);
+                modal.find('.modal-body #company_bank').val(company_bank);
+                modal.find('.modal-body #company_registration_date').val(company_registration_date);
+
+        });
+
+    });
+</script>

@@ -1,0 +1,333 @@
+
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Loan Appraisals</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Actions-->
+									<div id="datetime"></div>
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+								<div class="row">
+                                    <div class="col-md-12 col-xxl-12">
+                                        <div class="card card-custom card-stretch gutter-b">
+                                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                                <div class="card-title">
+                                                    <h3 class="card-label">Loan Appraisals
+                                                    <span class="text-muted pt-2 font-size-sm d-block">List of loans</span></h3>
+                                                </div>
+                                                <div class="card-toolbar">
+                                                    <a href="#" id="loan-listing-filter" class="btn text-white font-weight-bolder" style="background-color: #0E75BF;">
+                                                        <span><i class="fe fe-filter me-2"></i></span>Filter </a>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-bordered table-hover table-striped w-100" id="dt-loan-application">
+                                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="wd-20p">Customer Name</th>
+                                                            <th class="wd-20p">Company Name</th>
+                                                            <th class="wd-20p">Product Name</th>
+                                                            <th class="wd-15p">Date Disbursed</th>
+                                                            <th class="wd-15p">Requested Amount </th>
+                                                            <th class="wd-25p">Status</th>
+                                                            <th class="wd-15p">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								<!--end::Row-->
+								<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Loans Apraisal</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            	<!-- Row -->
+						<div class="row row-sm">
+							<div class="col-lg-12 col-md-12">
+								<div class="card custom-card">
+                                    <form >
+                                        <div class="card-body">
+                                            <div class="d-lg-flex">
+                                                <h2 class="main-content-label mb-1"id="nrc" >NRC#: </h2>
+                                                <div class="ms-auto">
+                                                    <p class="mb-1"><span class="font-weight-bold">Date:</span> <%= Timex.today %></p>
+
+                                                </div>
+
+                                            </div>
+                                            <hr class="mg-b-40">
+                                            <div class="row row-sm">
+                                                <div class="col-lg-6">
+                                                    <p class="h3"> Personal Info:</p>
+                                                   <p class="mb-1"><span class="font-weight-bold" id="fullname">Name:  </span></p>
+                                                    <p class="mb-0"><span class="font-weight-bold" id="mobile">Mobile Number: </span > </p>
+                                                    <p class="mb-0"><span class="font-weight-bold" id="email">Email Address: </span > </p>
+                                                </div>
+                                                <div class="col-lg-6 text-end">
+                                                    <div class="col-sm">
+                                                    <label class="form-label">Loan Amount Limit Granted:<span style="color: red;">*</span></label>
+                                                        <input class="form-control" name="number"  type="text" placeholder="Add Limit">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive mg-t-40">
+                                                <table class="table table-invoice table-bordered">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th class="wd-15p">Loan Ref#</th>
+                                                            <th class="wd-15p">Product Name</th>
+                                                            <th class="wd-15p">Date Collected </th>
+                                                            <th class="wd-15p">Principle</th>
+                                                            <th class="wd-15p">Period </th>
+                                                            <th class="wd-15p">Maturity Date</th>
+                                                            <th class="wd-15p">Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Ref#1234</td>
+                                                            <td class="tx-center" id="product_name">Loan</td>
+                                                            <td class="tx-center" id="cllecteddate">2022-07-16</td>
+                                                            <td class="tx-center" id="principle">K 10,340</td>
+                                                            <td class="tx-center" id="period">12 months</td>
+                                                            <td class="tx-center" id="expected_maturity_date"></td>
+                                                            <td class="tx-center" id="">ACTIVE</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						<!-- End Row -->
+
+            <div class="modal-footer">
+                <div class="card-footer text-end">
+                    <button type="button" class="btn ripple btn-secondary mb-1"><i class="fe fe-send me-1"></i> Update Limit</button>
+                    <button type="button" class="btn ripple btn-info mb-1" ><i class="fe fe-printer me-1"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+<!-- loan Filter  -->
+<div class="modal fade" id="loan-listing-filter-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filter Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+         </div>
+         <form >
+            <div class="modal-body">
+               <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+
+               <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>First Name:</label>
+                     <div class="input-group">
+                        <input type="text" name="first_name" id="first_name_filter" class="form-control" autocomplete="off">
+                        <div class="input-group-append">
+
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter first name</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>Last Name:</label>
+                     <div class="input-group">
+                        <input type="text" name="last_name" id="last_name_filter" class="form-control"  autocomplete="off">
+                        <div class="input-group-append">
+
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter last name</span>
+                  </div>
+               </div>
+               <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Requested Amount:</label>
+                        <div class="input-group">
+                            <input type="text" name="requested_amount" id="requested_amount_filter" class="form-control" autocomplete="off">
+                            <div class="input-group-append">
+
+                            </div>
+                        </div>
+                        <span class="form-text text-muted">Please enter Requested amount</span>
+                    </div>
+
+                     <div class="col-lg-6">
+                     <label>Product Type:</label>
+                     <div class="input-group">
+                         <select name="loan_type" id="loan_type_filter" required class="form-control">
+                            <option label="Choose product"></option>
+                           <%= for product <- Loanmanagementsystem.Products.Product.all do %>
+                             <option  value="<%= product.productType %>"><%= product.productType %> </option>
+                            <% end %>
+                        </select>
+
+                     </div>
+
+                  </div>
+
+               </div>
+               <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>Start Date:</label>
+                     <div class="input-group">
+                         <input type="date" class="form-control m-input" placeholder="" name="from" id="from">
+                         <input type="hidden" name="usertype" id="usertype" value="<%= String.trim(@conn.private.plug_session["current_user_role"].roleType) %>">
+                        <input type="hidden" name="create" id="create" value="<%= String.trim(@conn.assigns.user.role.loan.create) %>">
+                        <input type="hidden" name="edit" id="edit" value="<%= String.trim(@conn.assigns.user.role.loan.edit) %>">
+                        <input type="hidden" name="view" id="view" value="<%= String.trim(@conn.assigns.user.role.loan.view) %>">
+                        <input type="hidden" name="change_status" id="change_status" value="<%= String.trim(@conn.assigns.user.role.loan.change_status) %>">
+
+                     </div>
+                     <span class="form-text text-muted">Please enter start date</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>End Date:</label>
+                     <div class="input-group">
+                         <input type="date" class="form-control m-input" placeholder="" name="to" id="to">
+
+
+                     </div>
+                     <span class="form-text text-muted">Please enter end date</span>
+                  </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="loan_application_listing_filter" style="margin:2px;">filter</button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<!-- Filter end -->
+
+<!-- Reject Modal  -->
+<div class="modal fade" id="loan-reject-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Reject Loan</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+             <form>
+                <div class="modal-body">
+                 <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                 <input type="hidden" name="id" id="id" >
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="col-sm-12">
+                                <p class="mg-b-10">Enter Reject reason</p>
+                                <textarea name="reason" id="reason" class="form-control" placeholder="Enter reject reason" required> </textarea>
+                            </div>
+
+                        </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success" id="reject-loan" type="button">Reject</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal"  type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Reject End -->
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+      $('#modaldemo12').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            modal.find('.card-body #id').val(button.data('id'));
+            modal.find('.card-body #first_name').val(button.data('firstname'));
+            modal.find('.card-body #lastname').val(button.data('lastname'));
+            document.getElementById('nrc').innerHTML += button.data('nrc');
+            document.getElementById('expected_maturity_date').innerHTML += button.data('expected_maturity_date');
+            document.getElementById('mobile').innerHTML += button.data('mobile');
+            document.getElementById('fullname').innerHTML += button.data('firstname') + " " + button.data('lastname');
+            document.getElementById('email').innerHTML += button.data('email');
+       });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+
+    $('#loan-reject-modal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+
+    });
+});
+</script>

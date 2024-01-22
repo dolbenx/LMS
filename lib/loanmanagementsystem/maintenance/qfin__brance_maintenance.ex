@@ -1,6 +1,8 @@
 defmodule Loanmanagementsystem.Maintenance.Qfin_Brance_maintenance do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_qfin_branches" do
     field :branchAddress, :string

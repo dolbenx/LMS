@@ -1,0 +1,87 @@
+<script>
+	function hide_user_role() {
+		$( "#user_role" ).hide();
+	}
+</script>
+
+
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Individuals Table</li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- End Page Header -->
+
+        <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div>
+                            <h6 class="main-content-label mb-1">Add Address Details</h6>
+                            <p class="text-muted card-sub-title"></p>
+                        </div>
+                        <form action="<%= Routes.branch_registration_path(@conn, :admin_branch_registration_add_address_details)%>" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                                 <input type="hidden" name="id" value="<%# @created_user %>">
+                                <section>
+                                    <div class="row row-sm mg-b-20">
+
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">House/Plot Number</p>
+                                            <input name="house_number" class="form-control" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Road/Street Name</p>
+                                            <input name="street_name" class="form-control" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Area</p>
+                                            <input name="area" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Town</p>
+                                            <input class="form-control" name="town" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Accomodation Status</p>
+                                            <input class="form-control" name="accomodation_status" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Years At Current Address</p>
+                                            <input class="form-control" name="year_at_current_address" type="number">
+                                        </div>
+                                    </div>
+
+
+                                </section>
+
+                                </div>
+                                    <div class="modal-footer">
+                                    <button class="btn ripple btn-success" type="submit">Proceed to Final Step</button>
+                                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>

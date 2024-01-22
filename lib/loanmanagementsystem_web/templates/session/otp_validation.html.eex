@@ -150,7 +150,7 @@
 											<input class="otp" type="text" oninput='digitValidate(this)'onkeyup='tabChange(4)' maxlength=1 name="otp4">
 											<input type="hidden" name="username" value="<%= @user_details.username %>" >
 											<input type="hidden" name="user_role" value="<%= @user_details.roleType %>" >
-											<input type="hidden" name="roleType" value="<%= @user_details.role_id %>" >  
+											<input type="hidden" name="roleType" value="<%= @user_details.role_id %>" >
 
 
 

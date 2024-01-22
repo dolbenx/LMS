@@ -1,6 +1,8 @@
 defmodule Loanmanagementsystem.Maintenance.Holiday_mgt do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_holiday_maintenance" do
     field :holiday_date, :date

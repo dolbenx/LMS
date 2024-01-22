@@ -1,0 +1,219 @@
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render  "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Employer's Report</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">Employer's Report
+                                <span class="text-muted pt-2 font-size-sm d-block">Employer's Report Table</span></h3>
+                            </div>
+                            <div class="card-toolbar">
+                                <a class="btn text-white font-weight-bolder" id="corperate-listing-filter_clear" style="background-color: #011941;" type="button"> Reset Filter </a>&nbsp;
+                                <a href="#" id="corperate-listing-filter" class="btn text-white font-weight-bolder" style="background-color: #011941;">
+                                    <span><i class="fe fe-filter me-2"></i></span>Filter </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover table-striped w-100" id="employers_report_miz">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th>Employer ID</th>
+                                        <th>Employer Name</th>
+                                        <th>Number of Employee's</th>
+                                        <th>Registration Date</th>
+                                        <th>Number of Loans</th>
+                                        
+                                        <th>Number of Approved Loans</th>
+                                        <th>Number of Pending Loans</th>
+                                        <th>Number of Rejected Loans</th>
+                                        <th>Company Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+<!--end::Content-->
+
+
+
+
+
+
+<!-- loan Filter  -->
+<div class="modal fade" id="corperate-customer-filter-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filter Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+         </div>
+         <form >
+            <div class="modal-body">
+               <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+
+               <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>First Name:</label>
+                     <div class="input-group">
+                        <input type="text" name="first_name" id="first_name_filter" class="form-control" autocomplete="off">
+                        <div class="input-group-append">
+
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter first name</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>Last Name:</label>
+                     <div class="input-group">
+                        <input type="text" name="last_name" id="last_name_filter" class="form-control"  autocomplete="off">
+                        <div class="input-group-append">
+
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter last name</span>
+                  </div>
+               </div>
+               <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Requested Amount:</label>
+                        <div class="input-group">
+                            <input type="text" name="requested_amount" id="requested_amount_filter" class="form-control" autocomplete="off">
+                            <div class="input-group-append">
+
+                            </div>
+                        </div>
+                        <span class="form-text text-muted">Please enter Requested amount</span>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Product Type:</label>
+                        <div class="input-group">
+                            <select name="loan_type" id="loan_type_filter" required class="form-control">
+                                <option label="Choose product"></option>
+                                <%= for product <- Loanmanagementsystem.Products.Product.all do %>
+                                <option  value="<%= product.productType %>"><%= product.productType %> </option>
+                                <% end %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Registration Number:</label>
+                        <div class="input-group">
+                            <input type="text" name="registration_number" id="registration_number_filter" class="form-control" autocomplete="off">
+                            <div class="input-group-append">
+                            </div>
+                        </div>
+                        <span class="form-text text-muted">Please enter Company Registation Number</span>
+                    </div>
+               </div>
+               <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>Start Date:</label>
+                     <div class="input-group">
+                        <input type="date" class="form-control m-input" name="from" id="from">
+                        <input type="hidden" name="usertype" id="usertype" value="<%= String.trim(@conn.private.plug_session["current_user_role"].roleType) %>">
+                        <input type="hidden" name="create" id="create" value="<%= String.trim(@conn.assigns.user.role.loan.create) %>">
+                        <input type="hidden" name="edit" id="edit" value="<%= String.trim(@conn.assigns.user.role.loan.edit) %>">
+                        <input type="hidden" name="view" id="view" value="<%= String.trim(@conn.assigns.user.role.loan.view) %>">
+                        <input type="hidden" name="change_status" id="change_status" value="<%= String.trim(@conn.assigns.user.role.loan.change_status) %>">
+                     </div>
+                     <span class="form-text text-muted">Please enter start date</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>End Date:</label>
+                     <div class="input-group">
+                         <input type="date" class="form-control m-input" name="to" id="to">
+
+
+                     </div>
+                     <span class="form-text text-muted">Please enter end date</span>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>Disbursement Start Date:</label>
+                     <div class="input-group">
+                         <input type="date" class="form-control m-input" name="disbursement_from" id="disbursement_from">
+                         <input type="hidden" name="usertype" id="usertype" value="<%= String.trim(@conn.private.plug_session["current_user_role"].roleType) %>">
+                        <input type="hidden" name="create" id="create" value="<%= String.trim(@conn.assigns.user.role.loan.create) %>">
+                        <input type="hidden" name="edit" id="edit" value="<%= String.trim(@conn.assigns.user.role.loan.edit) %>">
+                        <input type="hidden" name="view" id="view" value="<%= String.trim(@conn.assigns.user.role.loan.view) %>">
+                        <input type="hidden" name="change_status" id="change_status" value="<%= String.trim(@conn.assigns.user.role.loan.change_status) %>">
+
+                     </div>
+                     <span class="form-text text-muted">Please enter Disbursement start date</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>Disbursement End Date:</label>
+                     <div class="input-group">
+                         <input type="date" class="form-control m-input" name="disbursement_to" id="disbursement_to">
+
+
+                     </div>
+                     <span class="form-text text-muted">Please enter Disbursement end date</span>
+                  </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                <button type="button" class="btn btn-primary" id="corperate_customer_listing_filter" style="margin:2px;">filter</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<!-- Filter end -->
+
