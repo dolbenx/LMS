@@ -1,0 +1,468 @@
+
+  <!--begin::Subheader-->
+
+
+    <div class="subheader py-2 py-lg-6  subheader-transparent " id="kt_subheader">
+      <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-1">
+          <!--begin::Page Heading-->
+          <div class="d-flex align-items-baseline flex-wrap mr-5">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold my-1 mr-5">Customer Table</h5>
+            <!--end::Page Title-->
+          </div>
+          <!--end::Page Heading-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+          <!--begin::Actions-->
+          <div href="#" id="myDiv" ></div>
+          <!--end::Actions-->
+        </div>
+        <!--end::Toolbar-->
+      </div>
+    </div>
+  <!--end::Subheader-->
+
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+	<div class=" container-fluid ">
+		<div class="row">
+			<div class="col-lg-12 col-xxl-12">
+                <div class="card card-custom">
+					<div class="card-header flex-wrap border-0 pt-6 pb-0">
+						<div class="card-title">
+							<h3 class="card-label">Customers List
+							<span class="text-muted pt-2 font-size-sm d-block">Customer</span></h3>
+						</div>
+						<div class="card-toolbar">
+							<button href="#" class="btn btn-primary font-weight-bolder" id="customer-filter">
+							<span>
+								<i class="flaticon2-add-1"></i>
+							</span>Filter </button>
+						</div>
+					</div>
+					<div class="card-body table-responsive">
+						<table class="table table-bordered table-hover table-striped w-100" id="dt-customer-list">
+							<thead>
+							<tr>
+								<th>Customer Name</th>
+								<th>Mobile Phone</th>
+								<th>Account Type</th>
+								<th>Total Deposits(zmw)</th>
+								<th>Total Interest(zmw)</th>
+								<th>Total Withdraws(zmw)</th>
+								<th>Balance(zmw)</th>
+								<th>Account Status</th>
+								<th>Action</th>
+							</tr>
+							</thead>
+
+						</table>
+					</div>
+					<!--end: Datatable-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="customer_filter_model" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="card card-custom gutter-b example example-compact">
+					<div class="card-header">
+						<h3 class="card-title">Filter Details</h3>
+						<div class="card-toolbar">
+							<div class="example-tools justify-content-center">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+							</div>
+						</div>
+					</div>
+					<!--begin::Form-->
+					<form class="form">
+						<input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+						<div class="card-body">
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label>First Name:</label>
+									<div class="input-group">
+										<input type="text" id="txn_client_first_name" name="chargeName"class="form-control" placeholder="Enter first name" />
+										<div class="input-group-append"> <span class="input-group-text">
+												<i class="flaticon2-tag"></i>
+											</span>
+										</div>
+									</div> <span class="form-text text-muted">Please enter first name</span>
+								</div>
+								<div class="col-lg-6">
+									<label>Last Name:</label>
+									<div class="input-group">
+										<input type="text" id="txn_client_last_name" name="chargeWhen"class="form-control" placeholder="Enter last when" />
+										<div class="input-group-append"> <span class="input-group-text">
+												<i class="flaticon-interface-9"></i>
+											</span>
+										</div>
+									</div> <span class="form-text text-muted">Please enter last name</span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label>Phone Number:</label>
+									<div class="input-group">
+										<input type="text" id="txn_client_phone_number" name="chargeType"class="form-control" placeholder="Enter phone number" />
+										<div class="input-group-append"> <span class="input-group-text">
+												<i class="flaticon2-tag"></i>
+											</span>
+										</div>
+									</div> <span class="form-text text-muted">Please enter charge type</span>
+								</div>
+								<div class="col-lg-6">
+									<label>Account Status:</label>
+									<div class="input-group">
+										<select class="form-control" id="kt_select2_1" name="currencyId">
+										<option value="">All</option>
+										<option value="ACTIVE">ACTIVE</option>
+                 						 <option value="DEACTIVATED">INACTIVE</option>
+									</select>
+									</div> <span class="form-text text-muted">select option</span>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary font-weight-bold" id="customer_report_filter">Filter</button>
+							</div>
+						</div>
+					</form>
+					<!--end::Form-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<!--end::Container-->
+</div>
+
+<!-- Button trigger modal-->
+
+	<!--begin::Page Scripts(used by this page)-->
+
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script>
+
+
+$(document).ready(function(){
+
+	var customer_data_records_dt = $('#dt-customer-list').DataTable({
+
+		dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+			<'row'<'col-sm-12'tr>>
+			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+		buttons: [
+			{
+				extend: 'csvHtml5',
+				text: '<i class="la la-file-csv mr-1"></i> CSV',
+				titleAttr: 'Generate CSV',
+				className: 'btn-outline-warning btn-sm mr-1',
+				action: function (e, dt, node, config) {
+					this.processing( true );
+					fetch('/Download/CSV/Customer/Export',
+						{ keepalive: true})
+						.then(response => response.blob())
+						.then(blob => {
+							if (blob.type === "application/json"){
+								this.processing( false )
+								Swal.fire(
+									'Success',
+									'The CSV report is been processed.\n When done, a download url link will be send to you via email',
+									'success'
+								)
+							} else {
+								let url = window.URL.createObjectURL(blob);
+								let a = document.createElement('a');
+								a.href = url;
+								a.download = 'Customer Report '+ new Date() +'.csv';
+								document.body.appendChild(a);
+								a.click();
+								a.remove();
+								this.processing( false );
+							}
+						}).catch(_ => {
+						this.processing(false);
+					});
+				}
+			},
+			{ 
+				title: '',
+				extend: 'copy',
+				className: 'btn-sm mr-1',
+				text: '<i class="la la-print mr-1"></i>Copy',
+				className: 'btn-outline-dark btn-sm mr-1',
+				exportOptions: {
+					modifier : {
+							order : 'index', // 'current', 'applied','index', 'original'
+							page : 'all', // 'all', 'current'
+							search : 'none' // 'none', 'applied', 'removed'
+						}
+				}
+			},
+			{ 
+				title: '',
+				extend: 'print', 
+				text: '<i class="la la-print mr-1"></i> Print',
+				className: 'btn-sm mr-1',
+				className: 'btn-outline-info btn-sm mr-1',
+				exportOptions: {
+					modifier: {
+							page: 'all', // Export all pages
+							search: 'none'
+						}
+				}
+			},
+			{
+				extend: 'pdfHtml5',
+				text: '<i class="la la-file-pdf mr-1"></i> PDF',
+				titleAttr: 'Generate PDF',
+				className: 'btn-outline-danger btn-sm mr-1',
+				action: function (e, dt, node, config) {
+					this.processing( true );
+					fetch('/Download/Customer/PDF',
+						{ keepalive: true})
+						.then(response => response.blob())
+						.then(blob => {
+							if (blob.type === "application/json"){
+								this.processing( false )
+								Swal.fire(
+									'Success',
+									'The PDF report is been processed.\n When done, a download url link will be send to you via email',
+									'success'
+								)
+							} else {
+								let url = window.URL.createObjectURL(blob);
+								let a = document.createElement('a');
+								a.href = url;
+								a.download = 'Customer Report '+ new Date() +'.pdf';
+								document.body.appendChild(a);
+								a.click();
+								a.remove();
+								this.processing( false );
+							}
+						}).catch(_ => {
+						this.processing(false);
+					});
+				}
+			},
+			{
+				extend: 'excelHtml5',
+				text: '<i class="fa fa-file-excel mr-1"></i>Excel',
+				titleAttr: 'Generate Excel',
+				className: 'btn-outline-success btn-sm mr-1',
+				action: function (e, dt, node, config) {
+					this.processing( true );
+					fetch('/Download/Excel/Customer/Export',
+						{ keepalive: true})
+						.then(response => response.blob())
+						.then(blob => {
+							if (blob.type === "application/json"){
+								this.processing( false )
+								Swal.fire(
+									'Success',
+									'The Excel report is been processed.\n When done, a download url link will be send to you via email',
+									'success'
+								)
+							} else {
+								let url = window.URL.createObjectURL(blob);
+								let a = document.createElement('a');
+								a.href = url;
+								a.download = 'Customer Report '+ new Date() +'.xlsx';
+								document.body.appendChild(a);
+								a.click();
+								a.remove();
+								this.processing( false );
+							}
+						}).catch(_ => {
+						this.processing(false);
+					});
+				}
+			},
+			{ 
+				title: '',
+				extend: 'colvis',
+				className: 'btn-sm mr-1',
+				text: 'Column Visibility',
+				className: 'btn-outline-primary btn-sm mr-1'
+				
+			}
+		],
+
+		"responsive": true,
+		"processing": true,
+		'language': {
+			'loadingRecords': '&nbsp;',
+			processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span> ',
+			"sEmptyTable": "No Wagon found !"
+		},
+		"serverSide": true,
+		"paging": true,
+		'ajax': {
+			"type": "POST",
+			"url": '/Lookup/Customer/List',
+			"data": {
+				"_csrf_token": $("#csrf").val(),
+				// "wagon_symbol": $("#rpt_wagon_symbol").val(),
+				// "wagon_owner": $("#rpt_wagon_owner").val(),
+				// "wagon_type": $("#rpt_wagon_type").val(),
+				// "code": $("#rpt_code").val(),
+				// "description": $("#rpt_description").val()
+
+			}
+		},
+		"columns": [
+			{ "data": "customer_names" },
+			{ "data": "mobileNumber" },
+			{ "data": "accountType" },
+			{ "data": "total_deposits" },
+			{ "data": "total_interest" },
+			{ "data": "total_withdrawals" },
+			{ "data": "total_balance" },
+			{
+				"data": "account_status",
+				"render": function ( data, type, row ) {
+					if (data == 'ACTIVE'){
+						return "<span class='m-badge m-badge--success m-badge--wide'>Active</span>"
+					} else {
+						return "<span class='m-badge m-badge--danger m-badge--wide'>Disabled</span>"
+					}
+				},
+				"defaultContent": "<span class='text-danger'>No Actions</span>"
+			},
+
+			{
+                "data": "id",
+                "render": function(data, type, row) {
+					var opt_1 = row["account_status"]  == 'ACTIVE' ? "display: block;" : "display: none;";
+                    var opt_2 = row["account_status"]  == 'INACTIVE' ? "display: block;" : "display: none;";
+
+                    return '<span class="dropdown">' +
+                                '<a href="#" class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown" aria-expanded="true">' +
+                                '<i class="la la-ellipsis-h"></i>' +
+                                '</a>'+
+                                '<div class="dropdown-menu dropdown-menu-right">' +
+									  '<a class="status dropdown-item text-success change-status" href="#" data-id= "' + row["id"] + '" data-status="A" style="'+ opt_2 +'" ><i class="la la-check"></i>Activate</a>' +
+                                    '<a class="status dropdown-item text-warning change-status" href="#" data-id= "' + row["id"] + '" data-status="D" style="'+ opt_1 +'"><i class="la la-close"></i>Disable</a>' +
+
+
+
+                                ' </div>' +
+                            '</span>'
+
+
+                },
+                "defaultContent": "<span class='text-danger'>No Actions</span>",
+                "width": "60",
+                "className": "text-center"
+            },
+		],
+		"lengthMenu": [
+			[10, 25, 50, 100, 500, 1000],
+			[10, 25, 50, 100, 500, 1000]
+		],
+		"order": [
+			[0, 'asc']
+		]
+	});
+
+
+	$('#dt-customer-list').on('click', '.change-status', function(e){
+        e.preventDefault();
+        var button = $(this);
+        // prompt("Are you sure")
+		alert()
+        Swal.fire({
+            title: 'Are sure you?',
+            text: "You want to Approve This Question!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#23b05d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            showLoaderOnConfirm: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Activate/Security/Questions/',
+                    type: 'POST',
+                    data: { id: button.attr("data-id"), _csrf_token: $("#csrf").val() },
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 0) {
+                            Swal.fire(
+                                'Success',
+                                result.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(true);
+                                spinner.hide();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            )
+                        }
+                    },
+                    error: function(request, msg, error) {
+                        Swal.fire(
+                            'Oops..',
+                            error,
+                            'error'
+                        )
+                    },
+                });
+            } else {
+                Swal.fire(
+                    'Cancelled',
+                    'User Not Approved :)',
+                    'error'
+                )
+            }
+        });
+    });
+
+	$("#customer-filter").on("click", function() {
+			$("#customer_filter_model").modal("show");
+	});
+
+	$("#customer_report_filter").on("click", function() {
+		customer_data_records_dt.on("preXhr.dt", function(e, settings, data) {
+			data._csrf_token = $("#csrf").val();
+			data.txn_client_first_name = $("#txn_client_first_name").val();
+			data.txn_client_last_name = $("#txn_client_last_name").val();
+			data.txn_client_phone_number = $("#txn_client_phone_number").val();
+			data.client_txn_status = $("#client_txn_status").val();
+			data.txn_product_name = $("#txn_product_name").val();
+			data.transaction_type = $("#transaction_type").val();
+			data.txn_product_minimum_amount = $("#txn_product_minimum_amount").val();
+			data.txn_product_maximum_amount = $("#txn_product_maximum_amount").val();
+			data.txn_date_from = $("#txn_date_from").val();
+			data.txn_date_to = $("#txn_date_to").val();
+
+		});
+		$("#customer_filter_model").modal("hide");
+		customer_data_records_dt.draw();
+	});
+
+});
+
+</script>

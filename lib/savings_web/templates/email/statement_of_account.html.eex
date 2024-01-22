@@ -1,0 +1,13 @@
+<html>
+ <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ </head>
+<body><div>
+<p>Dear <%= @userBioData.firstName %> <%= @userBioData.lastName %>,</p>
+<p>Your requested ZIPAKE statement of account is now available (see attached).</p><br>
+<p>For any feedback or enquiries, please call our Contact Center on 260-960-000-000  or send an email to <a href="info@mfz.co.zm" target="_blank">info@mfz.co.zm</a></p>
+<p>Thank you for choosing Microfinance Zambia</p>
+<br>
+<p><font color="green">You can still register for a bank account at any of our branches in Lusaka, Ndola and other Microfinance Zambia Branches across the country.<br>
+Please visit our website <a href="https://www.microfinancezambialtd.com" target="_blank">www.microfinancezambialtd.com/</a> for a full list of our branches</font></p>
+</div></body></html>

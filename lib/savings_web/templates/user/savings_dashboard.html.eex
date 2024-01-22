@@ -1,0 +1,744 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <style>
+        #container {
+        height: 270px;
+         width: 100%;
+        }
+
+        .highcharts-figure, .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 800px;
+        margin: 1em auto;
+        }
+
+        .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+        }
+        .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+        }
+        .highcharts-data-table th {
+            font-weight: 600;
+        padding: 0.5em;
+        }
+        .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+        }
+        .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+        }
+        .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+        }
+
+
+
+        #div_container {
+                height: 270px;
+                width: 100%;
+                }
+
+                .highcharts-figure, .highcharts-data-table table {
+                min-width: 310px;
+                max-width: 800px;
+                margin: 1em auto;
+                }
+
+                .highcharts-data-table table {
+                font-family: Verdana, sans-serif;
+                border-collapse: collapse;
+                border: 1px solid #EBEBEB;
+                margin: 10px auto;
+                text-align: center;
+                width: 100%;
+                max-width: 500px;
+                }
+                .highcharts-data-table caption {
+                padding: 1em 0;
+                font-size: 1.2em;
+                color: #555;
+                }
+                .highcharts-data-table th {
+                    font-weight: 600;
+                padding: 0.5em;
+                }
+                .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+                padding: 0.5em;
+                }
+                .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+                background: #f8f8f8;
+                }
+                .highcharts-data-table tr:hover {
+                background: #f1f7ff;
+            }
+
+
+
+
+        #fixed_divestment_container {
+            height: 400px;
+                }
+
+                .highcharts-figure, .highcharts-data-table table {
+                    min-width: 350px;
+                    max-width: 1400px;
+                    margin: 1em auto;
+                }
+
+                .highcharts-data-table table {
+                    font-family: Verdana, sans-serif;
+                    border-collapse: collapse;
+                    border: 1px solid #EBEBEB;
+                    margin: 10px auto;
+                    text-align: center;
+                    width: 100%;
+                    max-width: 500px;
+                }
+                .highcharts-data-table caption {
+                    padding: 1em 0;
+                    font-size: 1.2em;
+                    color: #555;
+                }
+                .highcharts-data-table th {
+                    font-weight: 600;
+                    padding: 0.5em;
+                }
+                .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+                    padding: 0.5em;
+                }
+                .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+                    background: #f8f8f8;
+                }
+                .highcharts-data-table tr:hover {
+                    background: #ADD8E6;
+        }
+
+
+
+        .highcharts-figure, .highcharts-data-table table {
+                min-width: 350px;
+                max-width: 1400px;
+                margin: 1em auto;
+                    }
+
+                    #grouped_container {
+                        height: 400px;
+                    }
+
+                    .highcharts-data-table table {
+                        font-family: Verdana, sans-serif;
+                        border-collapse: collapse;
+                        border: 1px solid #EBEBEB;
+                        margin: 10px auto;
+                        text-align: center;
+                        width: 100%;
+                        max-width: 500px;
+                    }
+                    .highcharts-data-table caption {
+                        padding: 1em 0;
+                        font-size: 1.2em;
+                        color: #555;
+                    }
+                    .highcharts-data-table th {
+                        font-weight: 600;
+                        padding: 0.5em;
+                    }
+                    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+                        padding: 0.5em;
+                    }
+                    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+                        background: #f8f8f8;
+                    }
+                    .highcharts-data-table tr:hover {
+                        background: #f1f7ff;
+            }
+
+
+	</style>
+	<!--begin::Subheader-->
+		<div class="subheader py-2 py-lg-6  subheader-transparent " id="kt_subheader">
+			<div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+
+				<!--begin::Info-->
+                    <div class="d-flex align-items-center flex-wrap mr-1">
+                        <!--begin::Page Heading-->
+                            <div class="d-flex align-items-baseline flex-wrap mr-5">
+                                <!--begin::Page Title-->
+                                    <h5 class="text-dark font-weight-bold my-1 mr-5">Dashboard</h5>
+                                <!--end::Page Title-->
+                            </div>
+                        <!--end::Page Heading-->
+                    </div>
+				<!--end::Info-->
+
+				<!--begin::Toolbar-->
+				<div class="d-flex align-items-center">
+
+					<!--begin::Actions-->
+						<div href="#" id="myDiv" ></div>
+
+					<!--end::Actions-->
+				</div>
+
+				<!--end::Toolbar-->
+			</div>
+		</div>
+
+		<!--end::Subheader-->
+
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+
+	<!--begin::Container-->
+	<div class=" container-fluid ">
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--begin::Dashboard-->
+
+		<!--begin::Row-->
+		<div class="row">
+			<div class="col-lg-12 col-xxl-12">
+				<div class="card card-custom card-stretch gutter-b">
+					<div class="card-header align-items-center border-0 mt-4" style="text-align: center;">
+						<h3 class="card-title align-items-start flex-column">
+							<span class="font-weight-bolder text-dark">Fixed Deposit vs Divestment</span>
+							<span class="text-muted mt-3 font-weight-bold font-size-sm">over the last 12 months</span>
+						</h3>
+					</div>
+					<div class="card-body pt-4">
+						<figure class="highcharts-figure">
+							<div id="fixed_divestment_container"></div>
+						</figure>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6 col-xxl-6">
+				<div class="card card-custom card-stretch gutter-b">
+					<div class="card-header align-items-center border-0 mt-4">
+						<h3 class="card-title align-items-start flex-column">
+							<span class="font-weight-bolder text-dark">Fixed Deposits</span>
+							<span class="text-muted mt-3 font-weight-bold font-size-sm">over the last 12 months</span>
+						</h3>
+					</div>
+					<div class="card-body pt-4">
+						<figure class="highcharts-figure">
+							<div id="container"></div>
+						</figure>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6 col-xxl-6">
+				<div class="card card-custom card-stretch gutter-b">
+					<div class="card-header align-items-center border-0 mt-4">
+						<h3 class="card-title align-items-start flex-column">
+							<span class="font-weight-bolder text-dark">Divestments</span>
+							<span class="text-muted mt-3 font-weight-bold font-size-sm">over the last 12 months</span>
+						</h3>
+					</div>
+					<div class="card-body pt-4">
+						<figure class="highcharts-figure">
+							<div id="div_container"></div>
+						</figure>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-lg-12 col-xxl-12">
+				<div class="card card-custom card-stretch gutter-b">
+					<div class="card-header align-items-center border-0 mt-4">
+						<h3 class="card-title align-items-start flex-column">
+							<span class="font-weight-bolder text-dark">Fixed Deposit vs Divestment</span>
+							<span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
+						</h3>
+					</div>
+					<div class="card-body pt-4">
+						<figure class="highcharts-figure">
+							<div id="grouped_container"></div>
+						</figure>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12 col-xxl-12">
+				<div class="card card-custom card-stretch gutter-b">
+					<div class="card-header align-items-center border-0 mt-4">
+						<h3 class="card-title align-items-start flex-column">
+							<span class="font-weight-bolder text-dark">Transactions</span>
+							<span class="text-muted mt-3 font-weight-bold font-size-sm">(Today)</span>
+						</h3>
+					</div>
+					<div class="card-body pt-4">
+						<table id="dt_my_datatable" class="table table-bordered table-hover table-striped w-100">
+							<thead class="p-3 bg-success-900 rounded overflow-hidden position-relative mb-g">
+								<tr>
+
+								<th class="text-center border-top-0 table-scale-border-bottom">  Customer Name</th>
+								<th class=" border-top-0 table-scale-border-bottom">Transaction Date</th>
+								<th class=" border-top-0 table-scale-border-bottom">Phone No.</th>
+								<th class=" border-top-0 table-scale-border-bottom">Total Amount</th>
+								<th class="border-top-0 table-scale-border-bottom">Transaction Type</th>
+								<th class="border-top-0 table-scale-border-bottom">Reference No</th>
+								<th class="border-top-0 table-scale-border-bottom">Order Reference</th>
+								<th class="border-top-0 table-scale-border-bottom">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							<%= for transaction <- @todays_transactions do %>
+								<tr>
+									<td><%= transaction.customerName %></td>
+									<td><%= transaction.inserted_at %></td>
+									<td><%= transaction.accountNo %></td>
+									<td><%= :erlang.float_to_binary((Float.ceil(transaction.totalAmount, 2)), [{:decimals, 2}]) %></td>
+									<td><%= transaction.transactionType %></td>
+									<td><%= transaction.referenceNo %></td>
+									<td><%= transaction.orderRef %></td>
+									<td><%= transaction.status %></td>
+								</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-12 col-xxl-12">
+				<div class="card card-custom card-stretch gutter-b">
+					<div class="card-header align-items-center border-0 mt-4">
+						<h3 class="card-title align-items-start flex-column">
+							<span class="font-weight-bolder text-dark">Fixed Deposits</span>
+							<span class="text-muted mt-3 font-weight-bold font-size-sm">(Today)</span>
+						</h3>
+					</div>
+					<div class="card-body pt-4">
+						<table id="dt_my_datatable_fd" class="table table-bordered table-hover table-striped w-100">
+							<thead class="p-3 bg-success-900 rounded overflow-hidden position-relative mb-g">
+								<tr>
+
+								<th class="text-center border-top-0 table-scale-border-bottom">  Customer Name</th>
+								<th class=" border-top-0 table-scale-border-bottom">Transaction Date</th>
+								<th class=" border-top-0 table-scale-border-bottom">Phone No.</th>
+								<th class=" border-top-0 table-scale-border-bottom">Total Amount</th>
+								<th class="border-top-0 table-scale-border-bottom">Transaction Type</th>
+								<th class="border-top-0 table-scale-border-bottom">Reference No</th>
+								<th class="border-top-0 table-scale-border-bottom">Order Reference</th>
+								<th class="border-top-0 table-scale-border-bottom">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							<%= for transaction <- @todays_transactions do %>
+								<tr>
+									<td><%= transaction.firstName %> <%= transaction.lastName %></td>
+									<td><%= transaction.inserted_at %></td>
+									<td><%= transaction.accountNo %></td>
+									<td><%= :erlang.float_to_binary((Float.ceil(transaction.totalAmount, 2)), [{:decimals, 2}]) %></td>
+									<td><%= transaction.transactionType %></td>
+									<td><%= transaction.referenceNo %></td>
+									<td><%= transaction.orderRef %></td>
+									<td><%= transaction.status %></td>
+								</tr>
+								<% end %>
+
+							</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!--end::Row-->
+
+		<!--end::Dashboard-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+	</div>
+
+	<!--end::Container-->
+</div>
+
+<!--end::Entry-->
+
+
+<script>
+    var fxdjanstats = '<%= @fxdjanstats %>';
+    var fxdfebstats = '<%= @fxdfebstats %>';
+    var fxdmrcstats = '<%= @fxdmrcstats %>';
+    var fxdaprstats = '<%= @fxdaprstats %>';
+    var fxdmaystats = '<%= @fxdmaystats %>';
+    var fxdjunstats = '<%= @fxdjunstats %>';
+    var fxdjulstats = '<%= @fxdjulstats %>';
+    var fxdaugstats = '<%= @fxdaugstats %>';
+    var fxdsepstats = '<%= @fxdsepstats %>';
+    var fxdoctstats = '<%= @fxdoctstats %>';
+    var fxdnovstats = '<%= @fxdnovstats %>';
+    var fxddecstats = '<%= @fxddecstats %>';
+
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Fixed Deposit Transactions'
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+        text: 'Value Of Transaction(s)'
+        },
+        stackLabels: {
+        enabled: true,
+        style: {
+            fontWeight: 'bold',
+            color: ( // theme
+            Highcharts.defaultOptions.title.style &&
+            Highcharts.defaultOptions.title.style.color
+            ) || 'gray'
+        }
+        }
+    },
+    legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor:
+        Highcharts.defaultOptions.legend.backgroundColor || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+            column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    series: [{
+        name: 'Fixed Deposits',
+        data: [+fxdjanstats, +fxdfebstats, +fxdmrcstats, +fxdaprstats, +fxdmaystats, +fxdjunstats, +fxdjulstats, +fxdaugstats, +fxdsepstats, +fxdoctstats, +fxdnovstats, +fxddecstats]
+    }]
+    });
+
+</script>
+
+<script>
+
+    Highcharts.chart('d_container', {
+        chart: {
+            type: 'scatter',
+            margin: [70, 50, 60, 80],
+            events: {
+                click: function (e) {
+                    // find the clicked values and the series
+                    var x = Math.round(e.xAxis[0].value),
+                        y = Math.round(e.yAxis[0].value),
+                        series = this.series[0];
+
+                    // Add it
+                    series.addPoint([x, y]);
+
+                }
+            }
+        },
+        title: {
+            text: 'User supplied data'
+        },
+        subtitle: {
+            text: 'Click to view statistics.'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            gridLineWidth: 1,
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            maxZoom: 60
+        },
+        yAxis: {
+            title: {
+                text: 'Value'
+            },
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            maxZoom: 60,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                lineWidth: 1,
+                point: {
+                    events: {
+                        click: function () {
+                            if (this.series.data.length > 1) {
+                                this.remove();
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            data: [[20, 20], [80, 80]]
+        }]
+    });
+
+
+
+
+</script>
+
+
+<script>
+
+    var divjanstats = '<%= @divjanstats %>';
+    var divfebstats = '<%= @divfebstats %>';
+    var divmrcstats = '<%= @divmrcstats %>';
+    var divaprstats = '<%= @divaprstats %>';
+    var divmaystats = '<%= @divmaystats %>';
+    var divjunstats = '<%= @divjunstats %>';
+    var divjulstats = '<%= @divjulstats %>';
+    var divaugstats = '<%= @divaugstats %>';
+    var divsepstats = '<%= @divsepstats %>';
+    var divoctstats = '<%= @divoctstats %>';
+    var divnovstats = '<%= @divnovstats %>';
+    var divdecstats = '<%= @divdecstats %>';
+
+
+    Highcharts.chart('div_container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Divestment Transactions'
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+        text: 'Value Of Transaction(s)'
+        },
+        stackLabels: {
+        enabled: true,
+        style: {
+            fontWeight: 'bold',
+            color: ( // theme
+            Highcharts.defaultOptions.title.style &&
+            Highcharts.defaultOptions.title.style.color
+            ) || 'gray'
+        }
+        }
+    },
+    legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor:
+        Highcharts.defaultOptions.legend.backgroundColor || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+            column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    series: [{
+        name: 'Divestment',
+        data: [+divjanstats, +divfebstats, +divmrcstats, +divaprstats, +divmaystats, +divjunstats, +divjulstats, +divaugstats, +divsepstats, +divoctstats, +divnovstats, +divdecstats]
+    }]
+    });
+</script>
+
+
+<script>
+
+    var divjanstats = '<%= @divjanstats %>';
+    var divfebstats = '<%= @divfebstats %>';
+    var divmrcstats = '<%= @divmrcstats %>';
+    var divaprstats = '<%= @divaprstats %>';
+    var divmaystats = '<%= @divmaystats %>';
+    var divjunstats = '<%= @divjunstats %>';
+    var divjulstats = '<%= @divjulstats %>';
+    var divaugstats = '<%= @divaugstats %>';
+    var divsepstats = '<%= @divsepstats %>';
+    var divoctstats = '<%= @divoctstats %>';
+    var divnovstats = '<%= @divnovstats %>';
+    var divdecstats = '<%= @divdecstats %>';
+
+    var fxdjanstats = '<%= @fxdjanstats %>';
+    var fxdfebstats = '<%= @fxdfebstats %>';
+    var fxdmrcstats = '<%= @fxdmrcstats %>';
+    var fxdaprstats = '<%= @fxdaprstats %>';
+    var fxdmaystats = '<%= @fxdmaystats %>';
+    var fxdjunstats = '<%= @fxdjunstats %>';
+    var fxdjulstats = '<%= @fxdjulstats %>';
+    var fxdaugstats = '<%= @fxdaugstats %>';
+    var fxdsepstats = '<%= @fxdsepstats %>';
+    var fxdoctstats = '<%= @fxdoctstats %>';
+    var fxdnovstats = '<%= @fxdnovstats %>';
+    var fxddecstats = '<%= @fxddecstats %>';
+
+    Highcharts.chart('fixed_divestment_container', {
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Fixed Deposit vs Divestment Transactions '
+        },
+        subtitle: {
+            text: '',
+            align: 'right',
+            verticalAlign: 'bottom'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor:
+                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'Value of Transactions'
+            }
+        },
+        plotOptions: {
+            area: {
+                fillOpacity: 0.5
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Divestment',
+            data: [+divjanstats, +divfebstats, +divmrcstats, +divaprstats, +divmaystats, +divjunstats, +divjulstats, +divaugstats, +divsepstats, +divoctstats, +divnovstats, +divdecstats]
+        }, {
+            name: 'Fixed Deposit',
+            data: [+fxdjanstats, +fxdfebstats, +fxdmrcstats, +fxdaprstats, +fxdmaystats, +fxdjunstats, +fxdjulstats, +fxdaugstats, +fxdsepstats, +fxdoctstats, +fxdnovstats, +fxddecstats]
+        }]
+    });
+</script>
+
+<script>
+
+    Highcharts.chart('grouped_container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Transactions'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec'
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Value of Transactions'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Divestment',
+                data: [+divjanstats, +divfebstats, +divmrcstats, +divaprstats, +divmaystats, +divjunstats, +divjulstats, +divaugstats, +divsepstats, +divoctstats, +divnovstats, +divdecstats]
+                     }, {
+                    name: 'Fixed Deposit',
+                    data: [+fxdjanstats, +fxdfebstats, +fxdmrcstats, +fxdaprstats, +fxdmaystats, +fxdjunstats, +fxdjulstats, +fxdaugstats, +fxdsepstats, +fxdoctstats, +fxdnovstats, +fxddecstats]
+            }]
+        });
+
+</script>

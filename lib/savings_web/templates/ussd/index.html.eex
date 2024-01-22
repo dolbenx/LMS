@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+<div class="d-flex flex-column-fluid">
+    <div class="container">
+        <div class="card card-custom overflow-hidden">
+            <div class="card-body p-0">
+                <div class="row justify-content-center bgi-size-cover bgi-no-repeat py-8 px-8 py-md-27 px-md-0" style="background-image: url(assets/media/bg/bg-6.jpg);">
+                    <div class="col-md-9">
+                        <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
+                            <h3 class="text-white">Customer Statement Of Account</h3>
+                            <div class="d-flex flex-column align-items-md-end px-0">
+                                <a href="#" class="mb-5">
+                                    <img src="images/Microfinance.png" style="width: 400px; hight: 400px;" alt="">
+                                </a>
+                                <span class="text-white d-flex flex-column align-items-md-end opacity-70">
+
+                                    <span>Suite 2 Stand No. 19028/B Mulungushi Building</span>
+                                    <span>Great East Road 10101 Lusaka, Zambia</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="border-bottom w-100 opacity-20"></div>
+                        <div class="d-flex justify-content-between text-white pt-6">
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolde mb-2r opacity-70"><u>Date</u></span>
+                                <span class="font-weight-bolde mb-2r"><%= Date.utc_today %></span>
+                            </div>
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 opacity-70"><u>Account</u></span>
+                                <span class="font-weight-bolder mb-2">ZIPAKE Savings</span>
+                            </div>
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 opacity-70"><u>Customer Details</u></span>
+                                <span class="font-weight-bolder mb-2">Customer Name: DAVIES PHIRI</span>
+                                <span class="font-weight-bolder mb-2">Mobile No: 260978242442
+                                <br>Account Type: SAVINGS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                    <div class="col-md-9">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-muted text-uppercase">Date</th>
+                                        <th class="text-muted text-uppercase">Transaction Description</th>
+                                        <th class="text-right font-weight-bold text-muted text-uppercase">Debit</th>
+                                        <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Credit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="font-weight-boldest font-size-lg">
+                                        <td class="">Creative Design</td>
+                                        <td class="">80</td>
+                                        <td class="text-right pt-7">$40.00</td>
+                                        <td class="text-right pt-7">$40.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                    <div class="col-md-9">
+                        <div class="d-flex justify-content-between">
+                            <span style="color: #D41316">@microfinancezambialtd.com</span>
+                            <span>Statement as at <%= Date.utc_today %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>

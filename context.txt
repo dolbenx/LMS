@@ -1,0 +1,5 @@
+mix phx.gen.context Maintenance Branch tbl_branch branchName:string branchCode:string isDefaultUSSDBranch:boolean status
+
+mix phx.gen.context Maintenance Charge tbl_charge chargeName:string currencyId:integer chargeType:string chargeAmount:decimal status
+
+

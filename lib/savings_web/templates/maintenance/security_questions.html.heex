@@ -1,0 +1,498 @@
+
+  <!--begin::Subheader-->
+
+
+    <div class="subheader py-2 py-lg-6  subheader-transparent " id="kt_subheader">
+      <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-1">
+          <!--begin::Page Heading-->
+          <div class="d-flex align-items-baseline flex-wrap mr-5">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold my-1 mr-5">Security Question Maintenance</h5>
+            <!--end::Page Title-->
+          </div>
+          <!--end::Page Heading-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+          <!--begin::Actions-->
+          <div href="#" id="myDiv" ></div>
+          <!--end::Actions-->
+        </div>
+        <!--end::Toolbar-->
+      </div>
+    </div>
+  <!--end::Subheader-->
+
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+
+	<!--begin::Container-->
+	<div class=" container-fluid ">
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--begin::Dashboard-->
+
+		<!--begin::Row-->
+		<div class="row">
+			<div class="col-lg-12 col-xxl-12">
+                <div class="card card-custom">
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title">
+                            <h3 class="card-label">Question List
+                            <span class="text-muted pt-2 font-size-sm d-block">Question</span></h3>
+                        </div>
+                        <div class="card-toolbar">
+
+                            <!--begin::Button-->
+                            <%= if Savings.Accounts.User.has_role?(@user, :sec_quesstion, :create) do %>
+                                <button href="#" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#create_setting">
+                                <span>
+                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                    <i class="flaticon2-add-1"></i>
+                                    <!--end::Svg Icon-->
+                                </span>Add Question </button>
+                            <% end %>
+                            <!--end::Button-->
+                        </div>
+                    </div>
+
+                        <!--begin: Datatable-->
+
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered table-hover table-striped w-100" id="dt_my_datatable">
+                                <thead>
+                                <tr>
+                                    <th style="width: 230px; text-align: center;">Question </th>
+                                    <th style="width: 130px; text-align: center;">Status</th>
+                                    <th style="width: 150px; text-align: center;">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody class="datatable-body" style="">
+
+                                    <%= for questions <- @questions do %>
+                                        <tr>
+                                            <td style="width: 150px; text-align: center;"><%= questions.question %></td>
+                                            <td style="width: 130px; text-align: center;"><%= if questions.status == "ACTIVE" do %>
+                                                    <span style="width: 110px;"><span class="label font-weight-bold label-lg  label-light-success label-inline"><%= questions.status %></span></span>
+                                                <% else %>
+                                                    <%= if questions.status == "INACTIVE" or questions.status == "DISABLED" do %>
+                                                    <span style="width: 110px;"><span class="label font-weight-bold label-lg  label-light-danger label-inline"><%= questions.status %></span></span>
+                                                    <% else %>
+                                                        <%= if questions.status == "PENDING" or questions.status == "PENDING_APPROVAL" do %>
+                                                        <span style="width: 110px;"><span class="label font-weight-bold label-lg  label-light-warning label-inline"><%= questions.status %></span></span>
+                                                        <% end %>
+                                                    <% end %>
+                                                <% end %>
+
+
+                                            </td>
+                                            <td style="width: 150px; text-align: center;">
+                                                <div class="dropdown dropdown-inline mr-4">
+                                                    <button type="button" class="btn btn-light-primary btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="ki ki-bold-more-hor"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <%= if Savings.Accounts.User.has_role?(@user, :sec_quesstion, :edit) do %>
+                                                            <a class="dropdown-item" data-id={questions.id} data-edit_question={questions.question} data-toggle="modal" data-target="#edit_question">Edit </a>
+                                                        <% end %>
+                                                        <%= if Savings.Accounts.User.has_role?(@user, :sec_quesstion, :view) do %>
+                                                            <a class="dropdown-item" data-toggle="modal" data-target="#view_question">View</a>
+                                                        <% end %>
+                                                        <%= if Savings.Accounts.User.has_role?(@user, :sec_quesstion, :change_status) do %>
+                                                            <%= if questions.status == "ACTIVE" do %>
+                                                                <a class="dropdown-item js-sweetalert2-deactivate_question" href="#" data-id={questions.id}>Disable</a>
+                                                            <% else %>
+                                                                <a class="dropdown-item js-sweetalert2-activate_question" href="#" data-id={questions.id}>Activate</a>
+                                                            <% end %>
+                                                        <% end %>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    <% end %>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--end: Datatable-->
+                </div>
+			</div>
+		</div>
+
+		<!--end::Row-->
+
+
+		<!--end::Dashboard-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+	</div>
+
+
+
+
+
+	<!--end::Container-->
+</div>
+
+<!-- Button trigger modal-->
+
+
+		<!-- Modal-->
+			<div class="modal fade" id="create_question" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="card card-custom gutter-b example example-compact">
+							<div class="card-header">
+								<h3 class="card-title">Branch Details</h3>
+								<div class="card-toolbar">
+									<div class="example-tools justify-content-center">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+									</div>
+								</div>
+							</div>
+							<!--begin::Form-->
+							<form class="form" action={Routes.maintenance_path(@conn, :add_security_questions)} method="post">
+							 <input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+								<div class="card-body">
+									<div class="form-group row">
+										<div class="col-lg-6">
+											<label>Branch Name:</label>
+											<div class="input-group">
+												<input type="text" name="branchName"class="form-control" placeholder="Enter branch name" />
+												<div class="input-group-append"> <span class="input-group-text">
+														<i class="flaticon2-tag"></i>
+													</span>
+												</div>
+											</div> <span class="form-text text-muted">Please enter branch name</span>
+										</div>
+										<div class="col-lg-6">
+											<label>Branch Code:</label>
+											<div class="input-group">
+												<input type="text" name="branchCode"class="form-control" placeholder="Enter branch code" />
+												<div class="input-group-append"> <span class="input-group-text">
+														<i class="flaticon-interface-9"></i>
+													</span>
+												</div>
+											</div> <span class="form-text text-muted">Please enter branch code</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-lg-6">
+											<label>isDefaultUSSDBranch:</label>
+											<div class="input-group">
+												<select class="form-control" id="kt_select2_1" name="isDefaultUSSDBranch">
+												<option value=""></option>
+												<option value="true">Yes</option>
+												<option value="false">No</option>
+											</select>
+											</div> <span class="form-text text-muted">select option</span>
+										</div>
+									</div>
+								</div>
+								<div class="card-footer">
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
+									</div>
+								</div>
+							</form>
+							<!--end::Form-->
+						</div>
+					</div>
+				</div>
+			</div>
+		<!--end::Entry-->
+	<!--begin::Page Scripts(used by this page)-->
+
+
+
+<div class="modal fade" id="create_setting" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Security Questions</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action={Routes.maintenance_path(@conn, :add_security_questions)} method="post" method="post">
+					  <input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+                    <div class="modal-body">
+                        <div class="row">
+							<table class="table table-bordered">
+
+                                <input type="hidden" name="status[]" value="ACTIVE">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Question?</label></th>
+                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="tr_clone">
+                                        <td>
+                                            <div class="col-md-12 form-group">
+                                                <div class="form-group">
+                                                   <input type="textarea" name="question[]" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        <i style="cursor:pointer" onclick="addrow(this)" class="adder flaticon2-add-1 tr_clone_add"></i>
+                                        <i style="cursor:pointer" onclick="removerow(this)" class="minus flaticon2-line"></i>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+							</table>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit_question" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Security Questions</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action={Routes.maintenance_path(@conn, :update_questions)} method="post" method="post">
+					  <input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+                    <div class="modal-body">
+                        <div class="row">
+							<table class="table table-bordered">
+								<input type="hidden" id="id" name="id" >
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Question?</label></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="tr_clone">
+                                        <td>
+                                            <div class="col-md-12 form-group">
+                                                <div class="form-group">
+                                                   <input type="textarea" id="edit_question" name="question" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+							</table>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/widgets.js")}></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src={Routes.static_path(@conn, "/js/jquery-1.11.2.min.js")}></script>
+
+
+
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find('input').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>
+
+<script>
+$(document).ready(function(){
+    $('#edit_question').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var edit_question = button.data('edit_question')
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #edit_question').val(edit_question);
+
+    });
+
+     $('#view_question').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var edit_question = button.data('edit_question')
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #edit_question').val(edit_question);
+
+    });
+
+});
+
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+    $('#dt_my_datatable').on('click', '.js-sweetalert2-activate_question', function(e){
+        e.preventDefault();
+        var button = $(this);
+        // prompt("Are you sure")
+        Swal.fire({
+            title: 'Are sure you?',
+            text: "You want to Approve This Question!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#23b05d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            showLoaderOnConfirm: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Activate/Security/Questions/',
+                    type: 'POST',
+                    data: { id: button.attr("data-id"), _csrf_token: $("#csrf").val() },
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 0) {
+                            Swal.fire(
+                                'Success',
+                                result.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(true);
+                                spinner.hide();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            )
+                        }
+                    },
+                    error: function(request, msg, error) {
+                        Swal.fire(
+                            'Oops..',
+                            error,
+                            'error'
+                        )
+                    },
+                });
+            } else {
+                Swal.fire(
+                    'Cancelled',
+                    'User Not Approved :)',
+                    'error'
+                )
+            }
+        });
+    });
+
+
+    $('#dt_my_datatable').on('click', '.js-sweetalert2-deactivate_question', function(e){
+        e.preventDefault();
+        var button = $(this);
+        // prompt("Are you sure")
+        Swal.fire({
+            title: 'Are sure you?',
+            text: "You want to Deactivate This Question!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#23b05d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            showLoaderOnConfirm: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Disable/Security/Questions/',
+                    type: 'POST',
+                    data: { id: button.attr("data-id"), _csrf_token: $("#csrf").val() },
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 0) {
+                            Swal.fire(
+                                'Success',
+                                result.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(true);
+                                spinner.hide();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            )
+                        }
+                    },
+                    error: function(request, msg, error) {
+                        Swal.fire(
+                            'Oops..',
+                            error,
+                            'error'
+                        )
+                    },
+                });
+            } else {
+                Swal.fire(
+                    'Cancelled',
+                    'User Not Deactivated :)',
+                    'error'
+                )
+            }
+        });
+    });
+
+
+});
+</script>

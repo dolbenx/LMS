@@ -1,0 +1,33 @@
+<h1>Show Flex cube config</h1>
+
+<ul>
+
+  <li>
+    <strong>Flex cube gl:</strong>
+    <%= @flex_cube_config.flex_cube_gl_id %>
+  </li>
+
+  <li>
+    <strong>Flex cube gl code:</strong>
+    <%= @flex_cube_config.flex_cube_gl_code %>
+  </li>
+
+  <li>
+    <strong>Flex cube gl name:</strong>
+    <%= @flex_cube_config.flex_cube_gl_name %>
+  </li>
+
+  <li>
+    <strong>Action type:</strong>
+    <%= @flex_cube_config.action_type %>
+  </li>
+
+  <li>
+    <strong>Dr cr:</strong>
+    <%= @flex_cube_config.dr_cr %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.flex_cube_config_path(@conn, :edit, @flex_cube_config) %></span>
+<span><%= link "Back", to: Routes.flex_cube_config_path(@conn, :index) %></span>

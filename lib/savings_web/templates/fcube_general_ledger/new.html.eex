@@ -1,0 +1,132 @@
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Posting To Flexcube
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <form role="form" action="/Savings/New-Flexcube-Account/Create" method="post">
+					<input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<input type="hidden" name="clientId" value='<%= @conn.private.plug_session["client_id"] %>'>
+					<div class="row setup-content" id="step-1" style="width: 100% !important">
+						<div class="col-xs-12" style="width: 100% !important">
+							<div class="col-md-8" style="width: 100% !important">
+								<h3 style="text-align:left"> Flexcube GL Accounts</h3>
+								<div class="row">
+									<table id="userlogs" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+										<thead>
+										<tr role="row">
+											<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Account Name<span style="color: red;">*</span></label></th>
+											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-label="Office: activate to sort column ascending">Account Number</th>
+											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+										</tr>
+										</thead>
+										<tbody>
+											<tr class="tr_clone">
+												<td>
+													<input required type="text" id="example-input-small" name="account_name[]" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+												</td>
+												<td>
+													<input required type="text" id="example-input-small" name="gl_account_no[]" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+												</td>
+												<td>
+													<i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+													<i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+								<input type="submit" class="btn btn-primary btn-sm pull-right" value="Save">
+							</div>
+						</div>
+					</div>
+				</form>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="edit_setting" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add New GL Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="#" method="post">
+                    <div class="modal-body">
+                        <div class="row">
+                           	<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+								<thead>
+								<tr role="row">
+									<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Account Name<span style="color: red;">*</span></label></th>
+									<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-label="Office: activate to sort column ascending">Account Number</th>
+									<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr class="tr_clone">
+										<td>
+											<input required type="text" id="example-input-small" name="account_name[]" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+										</td>
+										<td>
+											<input required type="text" id="example-input-small" name="gl_account_no[]" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+										</td>
+										<td>
+											<i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+											<i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-success" type="submit"> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>

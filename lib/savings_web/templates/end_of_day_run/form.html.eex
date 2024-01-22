@@ -1,0 +1,47 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :date_ran %>
+  <%= datetime_select f, :date_ran %>
+  <%= error_tag f, :date_ran %>
+
+  <%= label f, :total_interest_accrued %>
+  <%= number_input f, :total_interest_accrued, step: "any" %>
+  <%= error_tag f, :total_interest_accrued %>
+
+  <%= label f, :penalties_incurred %>
+  <%= number_input f, :penalties_incurred, step: "any" %>
+  <%= error_tag f, :penalties_incurred %>
+
+  <%= label f, :end_of_day_type %>
+  <%= text_input f, :end_of_day_type %>
+  <%= error_tag f, :end_of_day_type %>
+
+  <%= label f, :start_date %>
+  <%= datetime_select f, :start_date %>
+  <%= error_tag f, :start_date %>
+
+  <%= label f, :end_date %>
+  <%= datetime_select f, :end_date %>
+  <%= error_tag f, :end_date %>
+
+  <%= label f, :status %>
+  <%= text_input f, :status %>
+  <%= error_tag f, :status %>
+
+  <%= label f, :currencyId %>
+  <%= number_input f, :currencyId %>
+  <%= error_tag f, :currencyId %>
+
+  <%= label f, :currencyName %>
+  <%= text_input f, :currencyName %>
+  <%= error_tag f, :currencyName %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

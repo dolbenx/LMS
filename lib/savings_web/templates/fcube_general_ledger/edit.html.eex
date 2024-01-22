@@ -1,0 +1,5 @@
+<h1>Edit Fcube general ledger</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.fcube_general_ledger_path(@conn, :update, @fcube_general_ledger)) %>
+
+<span><%= link "Back", to: Routes.fcube_general_ledger_path(@conn, :index) %></span>

@@ -1,9 +1,9 @@
-defmodule Loanmanagementsystem.MixProject do
+defmodule Savings.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :loanmanagementsystem,
+      app: :savings,
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Loanmanagementsystem.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Loanmanagementsystem.Application, []},
+      mod: {Savings.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -49,26 +49,36 @@ defmodule Loanmanagementsystem.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:timex, "~> 3.7.9"},
-      {:soap, "~> 1.0"},
+      {:tds, ">= 0.0.0"},
+      {:endon, "~> 1.0"},
+      {:csv, "~> 2.3"},
       {:bamboo, "~> 1.3"},
       {:bamboo_smtp, "~> 2.1.0"},
-      {:httpoison, "~> 1.6", override: true},
-      {:poison, "~> 3.1.0", override: true},
-      {:endon, "~> 1.0"},
-      {:number, "~> 0.5.6"},
-      {:decimal, "~> 1.9.0"},
+      {:poison, "~> 3.1"},
+      {:httpoison, "~> 0.13.0"},
       {:xlsxir, "~> 1.6.2"},
-      {:csv, "~> 2.3"},
-      {:pdf_generator, ">=0.6.2"},
-      {:scrivener, "~> 2.0"},
-      {:scrivener_ecto, "~> 2.0"},
-      {:bbmustache, github: "soranoba/bbmustache"},
       {:quantum, "~> 3.0"},
-      {:calendar, "~> 1.0.0"},
-      {:uuid, "~> 1.1" },
+      {:elixlsx, "~>  0.1.1"},
+      {:arc_ecto, "~> 0.11.3"},
+      {:calendar, "~> 0.17.0"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:gettext, "~> 0.11"},
+      {:jason, "~> 1.0"},
+      {:plug_cowboy, "~> 2.0"},
+      {:cachex, "~> 3.2"},
+      {:timer, "~> 0.1.0"},
+      {:sweet_xml, "~> 0.6.6"},
+      {:email_checker, "~> 0.1.2"},
+      {:pdf_generator, ">=0.6.0"},
+      {:scrivener, "~> 2.0"},
+      {:scrivener_ecto, "~> 2.7", override: true},
+      {:pipe_to, "~> 0.2"},
       {:atomic_map, "~> 0.8"},
-      {:pipe_to, "~> 0.2"}
+      {:timex, "~> 3.7"},
+      {:uuid, "~> 1.1"},
+      {:cors_plug, "~> 2.0"},
+      {:bbmustache, github: "soranoba/bbmustache"},
+      {:logger_file_backend, "~> 0.0.10"},
     ]
   end
 

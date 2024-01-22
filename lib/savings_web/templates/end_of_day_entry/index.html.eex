@@ -1,0 +1,38 @@
+<h1>Listing Tbl end of day entries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>End of day</th>
+      <th>Interest accrued</th>
+      <th>Penalties incurred</th>
+      <th>End of day date</th>
+      <th>Status</th>
+      <th>Currencyid</th>
+      <th>Currencyname</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for end_of_day_entry <- @tbl_end_of_day_entries do %>
+    <tr>
+      <td><%= end_of_day_entry.end_of_day_id %></td>
+      <td><%= end_of_day_entry.interest_accrued %></td>
+      <td><%= end_of_day_entry.penalties_incurred %></td>
+      <td><%= end_of_day_entry.end_of_day_date %></td>
+      <td><%= end_of_day_entry.status %></td>
+      <td><%= end_of_day_entry.currencyId %></td>
+      <td><%= end_of_day_entry.currencyName %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.end_of_day_entry_path(@conn, :show, end_of_day_entry) %></span>
+        <span><%= link "Edit", to: Routes.end_of_day_entry_path(@conn, :edit, end_of_day_entry) %></span>
+        <span><%= link "Delete", to: Routes.end_of_day_entry_path(@conn, :delete, end_of_day_entry), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New End of day entry", to: Routes.end_of_day_entry_path(@conn, :new) %></span>

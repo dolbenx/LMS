@@ -1,0 +1,271 @@
+  <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-6  subheader-transparent " id="kt_subheader">
+      <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-1">
+          <!--begin::Page Heading-->
+          <div class="d-flex align-items-baseline flex-wrap mr-5">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold my-1 mr-5">GL Account Maintenance</h5>
+            <!--end::Page Title-->
+          </div>
+          <!--end::Page Heading-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+          <!--begin::Actions-->
+          <div href="#" id="myDiv" ></div>
+          <!--end::Actions-->
+        </div>
+        <!--end::Toolbar-->
+      </div>
+    </div>
+  <!--end::Subheader-->
+
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+
+	<!--begin::Container-->
+	<div class=" container-fluid ">
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--begin::Dashboard-->
+
+		<!--begin::Row-->
+		<div class="row">
+			<div class="col-lg-12 col-xxl-12">
+        <div class="card card-custom">
+          <div class="card-header flex-wrap border-0 pt-6 pb-0">
+            <div class="card-title">
+              <h3 class="card-label">GL List
+              <span class="text-muted pt-2 font-size-sm d-block">List of all GL maintained</span></h3>
+            </div>
+            <div class="card-toolbar">
+              <!--begin::Button-->
+              <%= if Savings.Accounts.User.has_role?(@user, :eod, :create) do %>
+                <a href="#" class="btn text-white" style="background-color: #1D2444;"  data-toggle="modal" data-target="#create_gl">
+                <span class="svg-icon svg-icon-md">
+                  <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                  <i class="ki ki-plus icon-md text-white"></i>
+                  <!--end::Svg Icon-->
+                </span>Add GL</a>
+               <% end %>
+              <!--end::Button-->
+            </div>
+          </div>
+          <div class="card-body">
+            <!--begin: Datatable-->
+            <!--begin: Datatable-->
+              <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable" style="">
+                <table id="userlogs" class="table table-bordered table-hover table-striped w-100">
+                    <thead class="datatable-head">
+                      <tr>
+                          <th>GL Account Name</th>
+                          <th>GL Account Number</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="datatable-body" style="">
+                      <%= for fcube_general_ledger <- @fcube_general_ledger do %>
+                        <tr>
+                            <td><%= fcube_general_ledger.accountname %></td>
+                            <td><%= fcube_general_ledger.glaccountno %></td>
+                            <td>
+                              <%= if fcube_general_ledger.status == "ACTIVE" do %>
+                              <span class="label label-success label-pill label-inline mr-2"><%= fcube_general_ledger.status %></span>
+                              <% else %>
+                              <span class="label label-warning label-pill label-inline mr-2"><%= fcube_general_ledger.status %></span>
+                              <% end %>
+                                </td>
+                            <td>
+                              <div class="dropdown dropdown-inline mr-4">
+																	<button type="button" class="btn btn-light-primary btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																		<i class="ki ki-bold-more-hor"></i>
+																	</button>
+																	<div class="dropdown-menu">
+                                    <%= if Savings.Accounts.User.has_role?(@user, :eod, :change_status) do %>
+                                      <a class="dropdown-item btn ripple" href="<%= Routes.fcube_general_ledger_path(@conn, :enable_gl_account, id: fcube_general_ledger.id)%>"><i class="ki ki-circle"></i> Enable </a>
+                                    <% end %>
+                                    <%= if Savings.Accounts.User.has_role?(@user, :eod, :edit) do %>
+                                      <a class="dropdown-item btn ripple" title= "Edit"
+                                        data-target= "#edit_gl" data-toggle="modal"
+                                        data-id="<%= fcube_general_ledger.id %>"
+                                        data-accountname="<%= fcube_general_ledger.accountname %>"
+                                        data-glaccountno="<%= fcube_general_ledger.glaccountno %>"
+                                      ><i class="ki ki-edit"></i> Edit </a>
+                                    <% end %>
+																	</div>
+																</div>
+                            </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                </table>
+              </div>
+              <!--end: Datatable-->
+            <!--end: Datatable-->
+          </div>
+        </div>
+			</div>
+		</div>
+
+		<!--end::Row-->
+
+		<!--end::Dashboard-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+	</div>
+
+	<!--end::Container-->
+</div>
+
+<!--end::Entry-->
+
+<div class="modal fade" id="create_gl" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h3 class="modal-title">Add New GL Account</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true"><i class="fal fa-times"></i></span>
+              </button>
+          </div>
+          <form action=<%= Routes.fcube_general_ledger_path(@conn, :create_gl) %> method="POST">
+            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+            <input type="hidden" name="status" value="ACTIVE">
+              <div class="modal-body">
+                  <div class="row">
+                      <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                        <thead>
+                          <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Account Name <span style="color: red;">*</span></label></th>
+                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-label="Office: activate to sort column ascending">Account Number <span style="color: red;">*</span></th>
+                            <th class="sorting text-center" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="tr_clone">
+                              <td>
+                                <input required type="text" id="example-input-small" name="account_name[]" class="form-control form-control-sm">
+                              </td>
+                              <td>
+                                <input required type="text" id="example-input-small" name="gl_account_no[]" class="form-control form-control-sm">
+                              </td>
+                              <td class="text-center">
+                                <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder ki ki-plus tr_clone_add"></i>&nbsp;&nbsp;&nbsp;
+                                <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus ki ki-minus"></i>
+                              </td>
+                            </tr>
+                        </tbody>
+                      </table>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button class="btn" type="submit" style="background-color: #1D2444; color: white;"> Submit</button>
+              </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit_gl" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit GL Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                  <form action="/Savings/Update/Flexcube/Account" method="post">
+                   <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="modal-body">
+                        <div class="row">
+                           	<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                              <thead>
+                              <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Account Name<span style="color: red;">*</span></label></th>
+                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-label="Office: activate to sort column ascending">Account Number</th>
+
+                              </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="tr_clone">
+                                  <td>
+                                    <input required type="hidden" name="id" id="id" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+                                    <input required type="text" name="account_name" id="accountname" class="form-control form-control-sm">
+                                  </td>
+                                  <td>
+                                    <input required type="text" name="gl_account_no" id="glaccountno" class="form-control form-control-sm">
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn" style="background-color: #1D2444; color: white;" type="submit"> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>
+
+<script>
+$(document).ready(function(){
+    $('#edit_gl').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var accountname = button.data('accountname')
+        var glaccountno = button.data('glaccountno')
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #accountname').val(accountname);
+        modal.find('.modal-body #glaccountno').val(glaccountno);
+
+        console.log("+++++++++++++++++++++++=");
+        console.log(id);
+
+    });
+});
+
+</script>

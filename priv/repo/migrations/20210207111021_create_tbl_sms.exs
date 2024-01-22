@@ -1,4 +1,4 @@
-defmodule Loanmanagementsystem.Repo.Migrations.CreateTblSms do
+defmodule Savings.Repo.Migrations.CreateTblSms do
   use Ecto.Migration
 
   def change do
@@ -9,9 +9,9 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblSms do
       add :status, :string
       add :msg, :string
       add :date_sent, :naive_datetime
-      add :transactionRef, :string
 
       timestamps()
     end
+
   end
 end

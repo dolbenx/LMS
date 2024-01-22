@@ -1,4 +1,4 @@
-defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserLogs do
+defmodule Savings.Repo.Migrations.CreateTblUserLogs do
   use Ecto.Migration
 
   def change do
@@ -8,5 +8,6 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserLogs do
 
       timestamps()
     end
+
   end
 end

@@ -1,0 +1,5 @@
+<h1>Edit Flex cube config</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.flex_cube_config_path(@conn, :update, @flex_cube_config)) %>
+
+<span><%= link "Back", to: Routes.flex_cube_config_path(@conn, :index) %></span>

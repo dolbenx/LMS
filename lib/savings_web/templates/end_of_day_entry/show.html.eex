@@ -1,0 +1,43 @@
+<h1>Show End of day entry</h1>
+
+<ul>
+
+  <li>
+    <strong>End of day:</strong>
+    <%= @end_of_day_entry.end_of_day_id %>
+  </li>
+
+  <li>
+    <strong>Interest accrued:</strong>
+    <%= @end_of_day_entry.interest_accrued %>
+  </li>
+
+  <li>
+    <strong>Penalties incurred:</strong>
+    <%= @end_of_day_entry.penalties_incurred %>
+  </li>
+
+  <li>
+    <strong>End of day date:</strong>
+    <%= @end_of_day_entry.end_of_day_date %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @end_of_day_entry.status %>
+  </li>
+
+  <li>
+    <strong>Currencyid:</strong>
+    <%= @end_of_day_entry.currencyId %>
+  </li>
+
+  <li>
+    <strong>Currencyname:</strong>
+    <%= @end_of_day_entry.currencyName %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.end_of_day_entry_path(@conn, :edit, @end_of_day_entry) %></span>
+<span><%= link "Back", to: Routes.end_of_day_entry_path(@conn, :index) %></span>

@@ -1,0 +1,18 @@
+<h1>Show Fcube general ledger</h1>
+
+<ul>
+
+  <li>
+    <strong>Account name:</strong>
+    <%= @fcube_general_ledger.account_name %>
+  </li>
+
+  <li>
+    <strong>Gl account no:</strong>
+    <%= @fcube_general_ledger.gl_account_no %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.fcube_general_ledger_path(@conn, :edit, @fcube_general_ledger) %></span>
+<span><%= link "Back", to: Routes.fcube_general_ledger_path(@conn, :index) %></span>

@@ -1,0 +1,468 @@
+  <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-6  subheader-transparent " id="kt_subheader">
+      <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-1">
+          <!--begin::Page Heading-->
+          <div class="d-flex align-items-baseline flex-wrap mr-5">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold my-1 mr-5">End Of Day Configuration</h5>
+            <!--end::Page Title-->
+          </div>
+          <!--end::Page Heading-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+          <!--begin::Actions-->
+          <div href="#" id="myDiv" ></div>
+          <!--end::Actions-->
+        </div>
+        <!--end::Toolbar-->
+      </div>
+    </div>
+  <!--end::Subheader-->
+
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+
+	<!--begin::Container-->
+	<div class=" container-fluid ">
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--begin::Dashboard-->
+
+		<!--begin::Row-->
+		<div class="row">
+			<div class="col-lg-12 col-xxl-12">
+        <div class="card card-custom">
+          <div class="card-header flex-wrap border-0 pt-6 pb-0">
+            <div class="card-title">
+              <h3 class="card-label">GL Mapping
+              <span class="text-muted pt-2 font-size-sm d-block">Map GL Accounts</span></h3>
+            </div>
+            <div class="card-toolbar">
+              <!--begin::Dropdown-->
+              <!--end::Dropdown-->
+              <!--begin::Button-->
+				<%= if Savings.Accounts.User.has_role?(@user, :eod, :create) do %>
+					<a href="#" class="btn text-white" style="background-color: #011941;"  data-toggle="modal" data-target="#add_mapping">
+					<span class="svg-icon svg-icon-md">
+						<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+						<i class="ki ki-plus icon-md text-white"></i>
+						<!--end::Svg Icon-->
+					</span>Add Mapping</a>
+				<% end %>
+              <!--end::Button-->
+            </div>
+          </div>
+          <div class="card-body">
+            <!--begin: Datatable-->
+            <!--begin: Datatable-->
+              <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable" style="">
+					<table id="userlogs" class="table table-bordered table-hover table-striped w-100">
+						<thead class="p-3 bg-success-900 rounded overflow-hidden position-relative mb-g">
+						<tr>
+							<th class="border-top-0 table-scale-border-bottom fw-700">S/N</th>
+							<th class="border-top-0 table-scale-border-bottom fw-700">Action</th>
+							<th class="text-center border-top-0 table-scale-border-bottom fw-700">DR</th>
+							<th class="text-center border-top-0 table-scale-border-bottom fw-700">CR</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Principal On Deposits</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "DR" && gl.action_type == "PRINCIPAL_DEPOSIT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "CR" && gl.action_type == "PRINCIPAL_DEPOSIT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Interest On Deposits</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "DR" && gl.action_type == "INTEREST_DEPOSIT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "CR" && gl.action_type == "INTEREST_DEPOSIT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Charge On Deposits</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "DR" && gl.action_type == "DEPOSIT_CHARGE" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "CR" && gl.action_type == "DEPOSIT_CHARGE" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>Principal on Divestment</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "DR" && gl.action_type == "PRINCIPAL_DIVESTMENT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "CR" && gl.action_type == "PRINCIPAL_DIVESTMENT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>Interest on Divestment</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "DR" && gl.action_type == "INTEREST_DIVESTMENT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "CR" && gl.action_type == "INTEREST_DIVESTMENT" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>Principal on Maturity Withdrawal</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "DR" && gl.action_type == "PRINCIPAL_WITHDRAWAL" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "CR" && gl.action_type == "PRINCIPAL_WITHDRAWAL" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+							</tr>
+							<tr>
+								<td>7</td>
+								<td>Interest on Maturity Withdrawal</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "DR" && gl.action_type == "INTEREST_WITHDRAWAL" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+								<td class="text-center">
+									<%= for gl <- @getconfigs do %>
+										<%= if gl.dr_cr == "CR" && gl.action_type == "INTEREST_WITHDRAWAL" do %>
+											<%= gl.flex_cube_gl_name %> - <%= gl.flex_cube_gl_code %>
+										<% end %>
+									<% end %>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+              </div>
+              <!--end: Datatable-->
+            <!--end: Datatable-->
+          </div>
+        </div>
+			</div>
+		</div>
+
+		<!--end::Row-->
+
+		<!--end::Dashboard-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+	</div>
+
+	<!--end::Container-->
+</div>
+
+<!--end::Entry-->
+
+<div class="modal fade" id="add_mapping" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h3 class="modal-title">GL MAPPINGS</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true"><i class="fal fa-times"></i></span>
+              </button>
+          </div>
+        	<form action="/Savings/End-Of-Day-Configurations" method="post" class="">
+				<table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+					<thead class="p-3 bg-success-900 rounded overflow-hidden position-relative mb-g">
+					<tr>
+						<th class="border-top-0 table-scale-border-bottom fw-700">S/N</th>
+						<th class="border-top-0 table-scale-border-bottom fw-700">Action</th>
+						<th class="text-center border-top-0 table-scale-border-bottom fw-700">DR</th>
+						<th class="text-center border-top-0 table-scale-border-bottom fw-700">CR</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Principal On Deposits</td>
+							<td class="text-center">
+
+								<select class="form-control form-control-sm" name="deposit_principal_dr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("PRINCIPAL_DEPOSIT_DR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="deposit_principal_cr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("PRINCIPAL_DEPOSIT_CR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Interest On Deposits</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="deposit_interest_dr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("INTEREST_DEPOSIT_DR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="deposit_interest_cr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("INTEREST_DEPOSIT_CR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Charge On Deposits</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="deposit_charge_dr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("DEPOSIT_CHARGE_DR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="deposit_charge_cr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+										<%= if(Enum.member?(@existingConfig, ("DEPOSIT_CHARGE_CR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>Principal on Divestment</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="divestment_principal_dr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("PRINCIPAL_DIVESTMENT_DR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="divestment_principal_cr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("PRINCIPAL_DIVESTMENT_CR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>Interest on Divestment</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="divestment_interest_dr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("INTEREST_DIVESTMENT_DR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="divestment_interest_cr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("INTEREST_DIVESTMENT_CR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>Principal on Maturity Withdrawal</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="withdrawal_principal_dr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("PRINCIPAL_WITHDRAWAL_DR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="withdrawal_principal_cr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("PRINCIPAL_WITHDRAWAL_CR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>7</td>
+							<td>Interest on Maturity Withdrawal</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="withdrawal_interest_dr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("INTEREST_WITHDRAWAL_DR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+							<td class="text-center">
+								<select class="form-control form-control-sm" name="withdrawal_interest_cr">
+									<option value="-1">--Select One--</option>
+									<%= for gl <- @glAccounts do %>
+
+										<%= if(Enum.member?(@existingConfig, ("INTEREST_WITHDRAWAL_CR#{gl.id}#{gl.gl_account_no}"))) do %>
+											<option selected value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% else %>
+											<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+										<% end %>
+									<% end %>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button class="btn" type="submit" style="background-color: #1D2444; color: white;"> Save</button>
+				</div>
+			</form>
+        </div>
+    </div>
+</div>

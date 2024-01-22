@@ -1,0 +1,5 @@
+<h1>Edit End of day entry</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.end_of_day_entry_path(@conn, :update, @end_of_day_entry)) %>
+
+<span><%= link "Back", to: Routes.end_of_day_entry_path(@conn, :index) %></span>

@@ -1,4 +1,4 @@
-defmodule LoanmanagementsystemWeb.ConnCase do
+defmodule SavingsWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule LoanmanagementsystemWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use LoanmanagementsystemWeb.ConnCase, async: true`, although
+  by setting `use SavingsWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,17 +22,17 @@ defmodule LoanmanagementsystemWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import LoanmanagementsystemWeb.ConnCase
+      import SavingsWeb.ConnCase
 
-      alias LoanmanagementsystemWeb.Router.Helpers, as: Routes
+      alias SavingsWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint LoanmanagementsystemWeb.Endpoint
+      @endpoint SavingsWeb.Endpoint
     end
   end
 
   setup tags do
-    Loanmanagementsystem.DataCase.setup_sandbox(tags)
+    Savings.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

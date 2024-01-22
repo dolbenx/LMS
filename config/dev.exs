@@ -1,11 +1,13 @@
 import Config
 
 # Configure your database
-config :loanmanagementsystem, Loanmanagementsystem.Repo,
+config :savings, Savings.Repo,
   username: "postgres",
   password: "Password123$$",
+  # password: "incorrect",
   hostname: "localhost",
-  database: "tisunge_loans",
+  database: "Zipakeee",
+  # database: "zipake",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -16,18 +18,26 @@ config :loanmanagementsystem, Loanmanagementsystem.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
+config :savings, SavingsWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+
+  http: [port: 5000],
+  https: [
+    port: 443,
+    cipher_suite: :strong,
+    certfile: "priv/cert/selfsigned.pem",
+    keyfile: "priv/cert/selfsigned_key.pem"
+  ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "zvklr7MYoJn8EExOR7bCLY6pJfGPuOADhN3cW52uaTFkd7J4+n1mktCe1bDKrfRu",
+  secret_key_base: "TroPaiyZKoqUqMtzOgeTtf2BTWy4OpVkz7oErUxYZbBleRrEtxk8qjN7YQ38iU2I",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
+
 
 # ## SSL Support
 #
@@ -54,13 +64,13 @@ config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
+config :savings, SavingsWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/loanmanagementsystem_web/(live|views)/.*(ex)$",
-      ~r"lib/loanmanagementsystem_web/templates/.*(eex)$"
+      ~r"lib/savings_web/(live|views)/.*(ex)$",
+      ~r"lib/savings_web/templates/.*(eex)$"
     ]
   ]
 

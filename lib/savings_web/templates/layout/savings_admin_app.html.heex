@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+<!--
+Template Name: Metronic - Bootstrap 4 HTML, React, Angular 11 & VueJS Admin Dashboard Theme
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: https://1.envato.market/EA4JP
+Renew Support: https://1.envato.market/EA4JP
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<html lang="en">
+
+	<!--begin::Head-->
+	<head>
+		<base href="">
+		<meta charset="utf-8" />
+		<title>ZIPAKE | SAVINGS</title>
+		<meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets. " />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<!--begin::Fonts-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+		<link rel="canonical" href="https://keenthemes.com/metronic" />
+
+		<!--end::Fonts-->
+
+		<!--begin::Page Vendors Styles(used by this page)-->
+    	<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css")}/>
+		    <link rel="stylesheet" media="screen, print" href={Routes.static_path(@conn, "/assets/css/notifications/sweetalert2/sweetalert2.bundle.css")}>
+
+
+
+		<!--end::Page Vendors Styles-->
+
+		<!--begin::Global Theme Styles(used by all pages)-->
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/plugins/global/plugins.bundle.css")}/>
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/plugins/custom/prismjs/prismjs.bundle.css")}/>
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/style.bundle.css")}/>
+
+		<!--end::Global Theme Styles-->
+
+		<!--begin::Layout Themes(used by all pages)-->
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/themes/layout/header/base/light.css")}/>
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/themes/layout/header/menu/light.css")}/>
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/themes/layout/brand/light.css")}/>
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/themes/layout/aside/dark.css")}/>
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/css/pages/wizard/wizard-6.css")}/>
+
+
+		<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/plugins/custom/datatables/datatables.bundle.css")}/>
+
+
+		<!--end::Layout Themes-->
+    	<link rel="stylesheet" href={Routes.static_path(@conn, "/assets/media/logos/favicon.ico")}/>
+	</head>
+
+	<!--end::Head-->
+
+	<!--begin::Body-->
+	<body id="kt_body" class="header-fixed subheader-enabled page-loading">
+
+		<!--begin::Main-->
+
+			<!--begin::Header Mobile-->
+				<div id="kt_header_mobile" class="header-mobile align-items-center ">
+
+					<!--begin::Logo-->
+					<a href="index.html">
+						<img alt="Logo" src={Routes.static_path(@conn, "/images/Microfinance-logo2.jpg")} style="height: 40px"/>
+					</a>
+
+					<!--end::Logo-->
+
+					<!--begin::Toolbar-->
+					<div class="d-flex align-items-center">
+
+						<!--begin::Header Menu Mobile Toggle-->
+						<button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+							<span></span>
+						</button>
+
+						<!--end::Header Menu Mobile Toggle-->
+
+						<!--begin::Topbar Mobile Toggle-->
+						<button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
+							<span class="svg-icon svg-icon-xl">
+
+								<!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+									<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+										<polygon points="0 0 24 0 24 24 0 24" />
+										<path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+										<path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+									</g>
+								</svg>
+
+								<!--end::Svg Icon-->
+							</span> </button>
+
+						<!--end::Topbar Mobile Toggle-->
+					</div>
+
+					<!--end::Toolbar-->
+				</div>
+			<!--end::Header Mobile-->
+			<div class="d-flex flex-column flex-root">
+
+				<!--begin::Page-->
+				<div class="d-flex flex-row flex-column-fluid page">
+
+					<!--begin::Wrapper-->
+					<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+
+
+						<!--begin::Header-->
+						<div id="kt_header" class="header  header-fixed" style="background-color: #011942">
+
+							<!--begin::Container-->
+							<div class=" container-fluid  d-flex align-items-stretch justify-content-between">
+
+								<!--begin::Header Menu Wrapper-->
+								<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+
+									<!--begin::Header Logo-->
+									<div class="header-logo">
+										<a href="index.html">
+											<img alt="Logo" src={Routes.static_path(@conn, "/images/Microfinance.png")} style="height: 50px; filter: brightness(0) invert(1);"/>
+										</a>
+									</div>
+
+									<!--end::Header Logo-->
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									<!--begin::Header Menu-->
+									<div id="kt_header_menu" class="header-menu header-menu-mobile  header-menu-layout-tab header-menu-root-arrow ">
+
+										<!--begin::Header Nav-->
+										<ul class="menu-nav ">
+											<li class="menu-item menu-item-open menu-item-here menu-item-rel menu-item-open menu-item-here"><a href={Routes.user_path(@conn, :savings_dashboard)} class="menu-link"><span class="menu-text text-white">Home</span></a></li>
+											<%= if Savings.Accounts.User.has_role?(@user, :product, :view) do %>
+												<li class="menu-item menu-item-rel"><a href={Routes.product_path(@conn, :savings_product)} class="menu-link"><span class="menu-text text-white">Products</span></a></li>
+											<% end %>
+											<%= if Savings.Accounts.User.has_role?(@user, :customer, :view) do %>
+												<li class="menu-item menu-item-rel"><a href={Routes.customer_path(@conn, :customer_list)} class="menu-link"><span class="menu-text text-white">Customers</span></a></li>
+											<% end %>
+											<%= if Savings.Accounts.User.has_role?(@user, :transaction, :view) do %>
+												<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text text-white">Transactions</span><i class="menu-arrow"></i></a>
+													<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+														<ul class="menu-subnav">
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.transaction_path(@conn, :fixed_deposits)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-alt icon-xl"></i>
+																</span>
+																<span class="menu-text">Fixed Deposits</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.transaction_path(@conn, :partial_divestment_withdraws)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-import icon-xl"></i>
+																</span>
+																<span class="menu-text">Partial Divestment</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.transaction_path(@conn, :full_divestment_withdraws)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-export icon-xl"></i>
+																</span>
+																<span class="menu-text">Full Divestment</span><span class="menu-label"></span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.transaction_path(@conn, :all_withdrawals_transactions)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-export icon-xl"></i>
+																</span>
+																<span class="menu-text">Mature Withdrawals</span><span class="menu-label"></span>
+															</a>
+															</li>
+
+
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.transaction_path(@conn, :all_transactions)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-invoice-dollar icon-xl"></i>
+																</span>
+																<span class="menu-text">All Transactions</span><span class="menu-label"></span>
+															</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+											<% end %>
+											<%= if Savings.Accounts.User.has_role?(@user, :report, :view) do %>
+												<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text text-white">Reports</span><i class="menu-arrow"></i></a>
+													<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+														<ul class="menu-subnav">
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.report_path(@conn, :divestment_reports)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-export icon-xl"></i>
+																</span>
+																<span class="menu-text">Divestments</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.report_path(@conn, :transaction_reports)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-invoice-dollar icon-xl"></i>
+																</span>
+																<span class="menu-text">Transactions</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.report_path(@conn, :fixed_deposit_reports)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-invoice icon-xl"></i>
+																</span>
+																<span class="menu-text">Fixed Deposits</span><span class="menu-label"></span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.report_path(@conn, :customer_reports)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-alt icon-xl"></i>
+																</span>
+																<span class="menu-text">Customer Reports</span><span class="menu-label"></span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.report_path(@conn, :liqudated_reports)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-medical-alt icon-xl"></i>
+																</span>
+																<span class="menu-text">Liqudated Reports</span><span class="menu-label"></span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.report_path(@conn, :deposit_reports_interest)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-csv icon-xl"></i>
+																</span>
+																<span class="menu-text">Deposits Report Interest</span><span class="menu-label"></span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.report_path(@conn, :deposits_reports_summury)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-file-pdf icon-xl"></i>
+																</span>
+																<span class="menu-text">Deposits Report Summury</span><span class="menu-label"></span>
+															</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+											<% end %>
+											<%= if Savings.Accounts.User.has_role?(@user, :maintenance, :view) do %>
+												<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text text-white">Maintenance</span><i class="menu-arrow"></i></a>
+													<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+														<ul class="menu-subnav">
+															<%= if Savings.Accounts.User.has_role?(@user, :calendar, :view) do %>
+																<li class="menu-item " aria-haspopup="true">
+																<a href={Routes.maintenance_path(@conn, :calender_maintenance)} class="menu-link ">
+																	<span class="svg-icon menu-icon">
+																	<i class="la la-calendar icon-xl"></i>
+																	</span>
+																	<span class="menu-text">Calendar</span>
+																</a>
+																</li>
+															<% end %>
+															<%= if Savings.Accounts.User.has_role?(@user, :chargers, :view) do %>
+																<li class="menu-item " aria-haspopup="true">
+																	<a href={Routes.maintenance_path(@conn, :charge_maintenance)} class="menu-link ">
+																		<span class="svg-icon menu-icon">
+																			<i class="la la-unlock-alt icon-xl"></i>
+																		</span>
+																		<span class="menu-text">Charges</span>
+																	</a>
+																</li>
+															<% end %>
+															<%= if Savings.Accounts.User.has_role?(@user, :branches, :view) do %>
+																<li class="menu-item " aria-haspopup="true">
+																	<a href={Routes.maintenance_path(@conn, :branch_maintenance)} class="menu-link ">
+																		<span class="svg-icon menu-icon">
+																			<i class="la la-map-marker icon-xl"></i>
+																		</span>
+																		<span class="menu-text">Branches</span><span class="menu-label"></span>
+																	</a>
+																</li>
+															<% end %>
+															<%= if Savings.Accounts.User.has_role?(@user, :countries, :view) do %>
+																<li class="menu-item " aria-haspopup="true">
+																	<a href={Routes.maintenance_path(@conn, :countries_maintenance)} class="menu-link ">
+																		<span class="svg-icon menu-icon">
+																			<i class="la la-globe-africa icon-xl"></i>
+																		</span>
+																		<span class="menu-text">Countries</span><span class="menu-label"></span>
+																	</a>
+																</li>
+															<% end %>
+															<%= if Savings.Accounts.User.has_role?(@user, :currency, :view) do %>
+																<li class="menu-item " aria-haspopup="true">
+																	<a href={Routes.maintenance_path(@conn, :currency_maintenance)} class="menu-link ">
+																		<span class="svg-icon menu-icon">
+																			<i class="la la-money-bill icon-xl"></i>
+																		</span>
+																		<span class="menu-text">Currency</span><span class="menu-label"></span>
+																	</a>
+																</li>
+															<% end %>
+															<%= if Savings.Accounts.User.has_role?(@user, :sec_quesstion, :view) do %>
+																<li class="menu-item " aria-haspopup="true">
+																	<a href={Routes.maintenance_path(@conn, :security_questions)} class="menu-link ">
+																		<span class="svg-icon menu-icon">
+																			<i class="la la-user-lock icon-xl"></i>
+																		</span>
+																		<span class="menu-text">Security Questions</span><span class="menu-label"></span>
+																	</a>
+																</li>
+															<% end %>
+														</ul>
+													</div>
+												</li>
+											<% end %>
+											<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+												<a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text text-white">User Management</span><i class="menu-arrow"></i></a>
+												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+													<ul class="menu-subnav">
+														<%= if Savings.Accounts.User.has_role?(@user, :system_users, :view) do %>
+															<li class="menu-item " aria-haspopup="true">
+																<a href={Routes.user_path(@conn, :user_mgt)} class="menu-link ">
+																	<span class="svg-icon menu-icon">
+																		<i class="la la-users icon-xl"></i>
+																	</span>
+																	<span class="menu-text">System Users</span>
+																</a>
+															</li>
+														<% end %>
+														<%= if Savings.Accounts.User.has_role?(@user, :role_maintenance, :view) do %>
+															<li class="menu-item " aria-haspopup="true">
+																<a href={Routes.user_path(@conn, :user_roles)} class="menu-link ">
+																	<span class="svg-icon menu-icon">
+																		<i class="la la-users-cog icon-xl"></i>
+																	</span>
+																	<span class="menu-text">Role Maintenance</span>
+																</a>
+															</li>
+														<% end %>
+													</ul>
+												</div>
+											</li>
+											<%= if Savings.Accounts.User.has_role?(@user, :eod, :view) do %>
+												<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text text-white">End Of Day</span><i class="menu-arrow"></i></a>
+													<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+														<ul class="menu-subnav">
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.fcube_general_ledger_path(@conn, :index)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-book icon-xl"></i>
+																</span>
+																<span class="menu-text">View Flexcube GL</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.end_of_day_run_path(@conn, :create_end_of_day_configurations)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-cog icon-xl"></i>
+																</span>
+																<span class="menu-text">EOD Configurations</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.end_of_day_run_path(@conn, :new)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Mail-at.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																		<rect x="0" y="0" width="24" height="24" />
+																		<path d="M11.575,21.2 C6.175,21.2 2.85,17.4 2.85,12.575 C2.85,6.875 7.375,3.05 12.525,3.05 C17.45,3.05 21.125,6.075 21.125,10.85 C21.125,15.2 18.825,16.925 16.525,16.925 C15.4,16.925 14.475,16.4 14.075,15.65 C13.3,16.4 12.125,16.875 11,16.875 C8.25,16.875 6.85,14.925 6.85,12.575 C6.85,9.55 9.05,7.1 12.275,7.1 C13.2,7.1 13.95,7.35 14.525,7.775 L14.625,7.35 L17,7.35 L15.825,12.85 C15.6,13.95 15.85,14.825 16.925,14.825 C18.25,14.825 19.025,13.725 19.025,10.8 C19.025,6.9 15.95,5.075 12.5,5.075 C8.625,5.075 5.05,7.75 5.05,12.575 C5.05,16.525 7.575,19.1 11.575,19.1 C13.075,19.1 14.625,18.775 15.975,18.075 L16.8,20.1 C15.25,20.8 13.2,21.2 11.575,21.2 Z M11.4,14.525 C12.05,14.525 12.7,14.35 13.225,13.825 L14.025,10.125 C13.575,9.65 12.925,9.425 12.3,9.425 C10.65,9.425 9.45,10.7 9.45,12.375 C9.45,13.675 10.075,14.525 11.4,14.525 Z" fill="#000000" />
+																		</g>
+																	</svg>
+																	<!--end::Svg Icon-->
+																</span>
+																<span class="menu-text">Run End Of Day</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.end_of_day_run_path(@conn, :index)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-clipboard-list icon-xl"></i>
+																</span>
+																<span class="menu-text">End Of Day History</span>
+															</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+											<% end %>
+											<%= if Savings.Accounts.User.has_role?(@user, :user_logs, :view) do %>
+												<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text text-white">Audit Logs</span><i class="menu-arrow"></i></a>
+													<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+														<ul class="menu-subnav">
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.user_path(@conn, :user_logs)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-list-alt icon-xl"></i>
+																</span>
+																<span class="menu-text">User Logs</span>
+															</a>
+															</li>
+															<li class="menu-item " aria-haspopup="true">
+															<a href={Routes.user_path(@conn, :ussd_logs)} class="menu-link ">
+																<span class="svg-icon menu-icon">
+																	<i class="la la-list-ol icon-xl"></i>
+																</span>
+																<span class="menu-text">USSD Logs</span>
+															</a>
+															</li>
+														</ul>
+													</div>
+												</li>
+											<% end %>
+											</ul>
+
+										<!--end::Header Nav-->
+									</div>
+
+									<!--end::Header Menu-->
+								</div>
+
+								<!--end::Header Menu Wrapper-->
+
+								<!--begin::Topbar-->
+								<div class="topbar">
+
+									<!--begin::Languages-->
+									<div class="dropdown">
+
+										<!--begin::Toggle-->
+										<div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
+											<div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
+												<img class="h-40px w-40px rounded-sm" src={Routes.static_path(@conn, "/images/imgingest.png")} alt="" />
+											</div>
+										</div>
+
+										<!--end::Toggle-->
+
+										<!--begin::Dropdown-->
+										<div class="dropdown-menu p-0 m-0 dropdown-menu-anim-up dropdown-menu-sm dropdown-menu-right">
+											<!--begin::Nav-->
+												<ul class="navi navi-hover py-4">
+													<!--begin::Item-->
+													<li class="navi-item">
+														<a href="#" class="navi-link">
+															<span class="symbol symbol-20 mr-3">
+																<i class="far fa-hand-paper icon-md"></i>
+															</span>
+															<span class="navi-text">Hi <%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
+														</a>
+													</li>
+													<!--end::Item-->
+													<!--begin::Item-->
+													<li class="navi-item active">
+														<a href={Routes.user_path(@conn, :new_password)} class="navi-link">
+															<span class="symbol symbol-20 mr-3">
+																<i class="fas fa-lock icon-md"></i>
+															</span>
+															<span class="navi-text">Change Password</span>
+														</a>
+													</li>
+													<!--end::Item-->
+													<!--begin::Item-->
+													<li class="navi-item">
+														<a href={Routes.session_path(@conn, :signout)} class="navi-link">
+															<span class="symbol symbol-20 mr-3">
+																<i class="fas fa-key icon-md"></i>
+															</span>
+															<span class="navi-text">Logout</span>
+														</a>
+													</li>
+													<!--end::Item-->
+												</ul>
+											<!--end::Nav-->
+										</div>
+
+										<!--end::Dropdown-->
+									</div>
+
+									<!--end::Languages-->
+								</div>
+
+								<!--end::Topbar-->
+							</div>
+
+							<!--end::Container-->
+						</div>
+
+						<!--end::Header-->
+
+						<!--begin::Content-->
+						<div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+
+							<!--Content area here-->
+							<div class="row">
+								<div class="col-md-12 col-lg-offset-2">
+								<div class="form-group">
+									<%= if get_flash(@conn, :info) do %>
+									<div class="alert alert-success  alert-styled-left" role="alert">
+									<button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+									<%= get_flash(@conn, :info) %>
+									</div>
+									<% end %>
+									<%= if get_flash(@conn, :error) do %>
+									<div class="alert alert-danger alert-styled-left">
+									<button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+									Sorry! <%= get_flash(@conn, :error) %>
+									</div>
+									<% end %>
+								</div>
+								</div>
+							</div>
+
+
+							<%= @inner_content %>
+						</div>
+
+						<!--end::Content-->
+
+						<!--begin::Footer-->
+							<div class="footer bg-white py-4 d-flex flex-lg-column " id="kt_footer">
+
+								<!--begin::Container-->
+								<div class=" container-fluid  d-flex flex-column flex-md-row align-items-center justify-content-between">
+
+									<!--begin::Copyright-->
+									<div class="text-dark order-2 order-md-1">
+										<span class="text-muted font-weight-bold mr-2">2022 &copy;</span>
+										<a href="http://www.probasegroup.com/" target="_blank" class="text-dark-75 text-hover-primary"><img src={Routes.static_path(@conn, "/images/2.png")} width="60"></a>
+									</div>
+
+									<!--end::Copyright-->
+
+									<!--begin::Nav-->
+									<div class="nav nav-dark">
+										<a href="https://www.microfinancezambialtd.com/" target="_blank" class="nav-link pl-0 pr-5 opacity-60 fw-500" style="color: red;">Micro Finance Zambia Limited</a>
+									</div>
+
+									<!--end::Nav-->
+								</div>
+
+								<!--end::Container-->
+							</div>
+
+							<!--end::Footer-->
+					</div>
+
+					<!--end::Wrapper-->
+				</div>
+
+				<!--end::Page-->
+			</div>
+
+			<!--end::Main-->
+
+		<!--[html-partial:include:{"file":"partials/_extras/offcanvas/quick-user.html"}]/-->
+
+		<!--[html-partial:include:{"file":"partials/_extras/offcanvas/quick-cart.html"}]/-->
+
+		<!--[html-partial:include:{"file":"partials/_extras/offcanvas/quick-panel.html"}]/-->
+
+		<!--[html-partial:include:{"file":"partials/_extras/chat.html"}]/-->
+
+		<!--[html-partial:include:{"file":"partials/_extras/scrolltop.html"}]/-->
+
+		<!--[html-partial:include:{"file":"partials/_extras/toolbar.html"}]/-->
+
+		<!--[html-partial:include:{"file":"partials/_extras/offcanvas/demo-panel.html"}]/-->
+
+		<!--begin::Global Config(global config for global JS scripts)-->
+		<script>
+			var KTAppSettings = {
+				"breakpoints": {
+					"sm": 576,
+					"md": 768,
+					"lg": 992,
+					"xl": 1200,
+					"xxl": 1400
+				},
+				"colors": {
+					"theme": {
+						"base": {
+							"white": "#ffffff",
+							"primary": "#3699FF",
+							"secondary": "#E5EAEE",
+							"success": "#1BC5BD",
+							"info": "#8950FC",
+							"warning": "#FFA800",
+							"danger": "#F64E60",
+							"light": "#E4E6EF",
+							"dark": "#181C32"
+						},
+						"light": {
+							"white": "#ffffff",
+							"primary": "#E1F0FF",
+							"secondary": "#EBEDF3",
+							"success": "#C9F7F5",
+							"info": "#EEE5FF",
+							"warning": "#FFF4DE",
+							"danger": "#FFE2E5",
+							"light": "#F3F6F9",
+							"dark": "#D6D6E0"
+						},
+						"inverse": {
+							"white": "#ffffff",
+							"primary": "#ffffff",
+							"secondary": "#3F4254",
+							"success": "#ffffff",
+							"info": "#ffffff",
+							"warning": "#ffffff",
+							"danger": "#ffffff",
+							"light": "#464E5F",
+							"dark": "#ffffff"
+						}
+					},
+					"gray": {
+						"gray-100": "#F3F6F9",
+						"gray-200": "#EBEDF3",
+						"gray-300": "#E4E6EF",
+						"gray-400": "#D1D3E0",
+						"gray-500": "#B5B5C3",
+						"gray-600": "#7E8299",
+						"gray-700": "#5E6278",
+						"gray-800": "#3F4254",
+						"gray-900": "#181C32"
+					}
+				},
+				"font-family": "Poppins"
+			};
+		</script>
+
+		<!--end::Global Config-->
+
+		<!--begin::Global Theme Bundle(used by all pages)-->
+      	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/scripts.bundle.js")}></script>
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/plugins/global/plugins.bundle.js")}></script>
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/plugins/custom/prismjs/prismjs.bundle.js")}></script>
+
+		<!--end::Global Theme Bundle-->
+
+		<!--begin::Page Vendors(used by this page)-->
+    	<script type="text/javascript" src={Routes.static_path(@conn, "/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js")}></script>
+
+		<!--end::Page Vendors-->
+
+		<!--begin::Page Scripts(used by this page)-->
+    	<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/widgets.js")}></script>
+
+
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/custom/wizard/wizard-6.js")}></script>
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/custom/wizard/wizard-6.min.js")}></script>
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/notifications/sweetalert2/sweetalert2.bundle.js")}></script>
+
+		<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#8950FC", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#F3F6F9", "dark": "#212121" }, "light": { "white": "#ffffff", "primary": "#E1E9FF", "secondary": "#ECF0F3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#212121", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#ECF0F3", "gray-300": "#E5EAEE", "gray-400": "#D6D6E0", "gray-500": "#B5B5C3", "gray-600": "#80808F", "gray-700": "#464E5F", "gray-800": "#1B283F", "gray-900": "#212121" } }, "font-family": "Poppins" };</script>
+
+
+		<!--begin::Page Vendors(used by this page)-->
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/plugins/custom/datatables/datatables.bundle.js")}></script>
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/crud/datatables/basic/scrollable.js")}></script>
+		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/crud/datatables/extensions/buttons.js")}></script>
+
+  		<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/my-script.js")}></script>
+
+		<script>
+			$(document).ready(function showDateTime() {
+				var myDiv = document.getElementById("myDiv");
+				var date = new Date();
+				var dayList = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+				var monthNames = [
+					"January",
+					"February",
+					"March",
+					"April",
+					"May",
+					"June",
+					"July",
+					"August",
+					"September",
+					"October",
+					"November",
+					"December"
+				];
+				var dayName = dayList[date.getDay()];
+				var monthName = monthNames[date.getMonth()];
+				var today = `${dayName}, ${monthName} ${date.getDate()}, ${date.getFullYear()}`;
+
+				var hour = date.getHours();
+				var min = date.getMinutes();
+				var sec = date.getSeconds();
+
+				var time = hour + ":" + min + ":" + sec;
+				myDiv.innerText = `${today}`;
+
+				setInterval(showDateTime, 1000);
+			});
+
+			$('#dt_my_datatable').DataTable({
+				dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+					<'row'<'col-sm-12'tr>>
+					<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+				buttons: [
+						'print',
+						'copyHtml5',
+						'excelHtml5',
+						'csvHtml5',
+						'pdfHtml5',
+						'colvis',
+					],
+				"responsive": true,
+				"processing": true,
+				'language': {
+					'loadingRecords': '&nbsp;',
+					processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span> ',
+					"EmptyTable": "No Records !"
+				},
+				"serverSide": false,
+				"paging": true,
+				"lengthMenu": [
+					[10, 25, 50, 100, 500, 1000],
+					[10, 25, 50, 100, 500, 1000]
+				],
+				"order": [
+					[0, 'asc']
+				],
+			});
+
+			$('#dt_my_datatable_fd').DataTable({
+				dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+					<'row'<'col-sm-12'tr>>
+					<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+				buttons: [
+						'print',
+						'copyHtml5',
+						'excelHtml5',
+						'csvHtml5',
+						'pdfHtml5',
+						'colvis',
+					],
+				"responsive": true,
+				"processing": true,
+				'language': {
+					'loadingRecords': '&nbsp;',
+					processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span> ',
+					"EmptyTable": "No Records !"
+				},
+				"serverSide": false,
+				"paging": true,
+				"lengthMenu": [
+					[10, 25, 50, 100, 500, 1000],
+					[10, 25, 50, 100, 500, 1000]
+				],
+				"order": [
+					[0, 'asc']
+				],
+			});
+		</script>
+
+
+
+
+		<!--end::Page Scripts-->
+	</body>
+
+	<!--end::Body-->
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <style>
+      #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+      #customers tr:hover {background-color: #ddd;}
+
+      #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #787878;
+        color: white;
+      }
+      </style>
+      <!-- Optional theme -->
+   </head>
+   <body>
+      <br><br>
+      <div class="div2" style = "margin-left: auto;">
+         <div class="container ">
+            <div data-size="A4">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="d-flex align-items-center mb-5">
+                        <div class="pull-left" style = "margin-right: -50px;">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <br>
+            </div>
+            <div class="row">
+               <div class="col-sm-12">
+                  <div class="card mb-g">
+                     <h5>
+                        <strong class="text-center" style="text-transform: uppercase;"> FIXED DEPOSITS REPORT</strong>
+                     </h5>
+                     <div>
+                        <hr style="border-color:black; width: auto;margin-left:0">
+                     </div>
+                  </div>
+               </div>
+               <div style = "position:relative; left:-100px; top:13px;">
+               </div>
+               <div class="card-body">
+                     <table  id="customers" class="table m-0">
+                          <tr style=" padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #787878; color: white;">
+                           <th>Customer Name</th>
+                           <th>Mobile Phone</th>
+                           <th>ID</th>
+                           <th>Account Status</th>
+                           <th>Account #</th>
+                           <th>Deposit Amount</th>
+                           <th>Deposited Date</th>
+                           <th>Txn Status</th>
+                          </tr>
+                        <tbody></tbody>
+                     </table> <br><br>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+   <h5 style=" padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #D3D3D3; color: white;">
+           <strong> Generated on: {{ today_date}} </strong>
+        </h5>
+</html>

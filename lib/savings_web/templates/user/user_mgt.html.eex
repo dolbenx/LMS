@@ -1,0 +1,847 @@
+
+  <!--begin::Subheader-->
+
+
+    <div class="subheader py-2 py-lg-6  subheader-transparent " id="kt_subheader">
+      <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-1">
+          <!--begin::Page Heading-->
+          <div class="d-flex align-items-baseline flex-wrap mr-5">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold my-1 mr-5">System Users</h5>
+            <!--end::Page Title-->
+          </div>
+          <!--end::Page Heading-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+          <!--begin::Actions-->
+          <div href="#" id="myDiv" ></div>
+          <!--end::Actions-->
+        </div>
+        <!--end::Toolbar-->
+      </div>
+    </div>
+  <!--end::Subheader-->
+
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+
+	<!--begin::Container-->
+	<div class=" container-fluid ">
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--begin::Dashboard-->
+
+		<!--begin::Row-->
+		<div class="row">
+			<div class="col-lg-12 col-xxl-12">
+                <div class="card card-custom">
+									<div class="card-header flex-wrap border-0 pt-6 pb-0">
+										<div class="card-title">
+											<h3 class="card-label">System Users List
+											<span class="text-muted pt-2 font-size-sm d-block">Users</span></h3>
+										</div>
+										<div class="card-toolbar">
+
+											<!--begin::Button-->
+                                            <%= if Savings.Accounts.User.has_role?(@user, :system_users, :create) do %>
+                                                <button href="#" class="btn btn-primary font-weight-bolder" id="create_user">
+                                                <span>
+                                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                                    <i class="fas fa-upload"></i>
+                                                    <!--end::Svg Icon-->
+                                                </span>Add User </button>
+                                             <% end %>
+											<!--end::Button-->
+										</div>
+									</div>
+
+										<!--begin: Datatable-->
+
+										<div class="card-body table-responsive">
+											<table class="table table-bordered table-hover table-striped w-100" id="dt_my_datatable">
+
+
+												<thead>
+												<tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email</th>
+                                                    <th>Date Of Birth</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Role Desc</th>
+                                                    <th>Status</th>
+                                                    <th style="text-align: center;">Actions</th>
+												</tr>
+												</thead>
+												<tbody class="datatable-body" style="">
+                                                     <%= for get_bio_data <- @get_bio_datas  do %>
+                                                        <tr>
+                                                            <td><%= get_bio_data.firstname %></td>
+                                                            <td> <%= get_bio_data.lastname %></td>
+                                                            <td><%= get_bio_data.emailaddress %></td>
+                                                            <td><%= get_bio_data.dateofbirth %></td>
+                                                            <td><%= get_bio_data.mobilenumber %></td>
+                                                            <td>
+                                                                    <%= if get_bio_data.role_desc != nil do
+                                                                            case String.contains?(get_bio_data.role_desc, "_") do
+                                                                            true -> String.replace(get_bio_data.role_desc, "_", " ")
+                                                                            false -> get_bio_data.role_desc
+
+                                                                            end
+                                                                            else
+                                                                            "Not Set"
+
+                                                                        end
+                                                                    %>
+                                                            </td>
+                                                            <td>
+                                                                <%= if get_bio_data.status == "ACTIVE" do %>
+                                                                    <span class="badge badge-success badge-pill"><%= get_bio_data.status %></span>
+                                                                <% else %>
+                                                                    <span class="badge badge-danger badge-pill"><%= get_bio_data.status %></span>
+                                                                <% end %>
+                                                            </td>
+                                                            <td style="text-align: center;">
+
+
+                                                                <div class="dropdown dropdown-inline mr-4">
+                                                                    <button type="button" class="btn btn-light-primary btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="ki ki-bold-more-hor"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <%= if Savings.Accounts.User.has_role?(@user, :system_users, :view) do %>
+                                                                            <a class="dropdown-item" href="#"
+                                                                                data-id="<%= get_bio_data.id %>"
+                                                                                data-bio_id="<%= get_bio_data.bio_id %>"
+                                                                                data-firstname="<%= get_bio_data.firstname %>"
+                                                                                data-lastname="<%= get_bio_data.lastname %>"
+                                                                                data-username="<%= get_bio_data.username %>"
+                                                                                data-emailaddress="<%= get_bio_data.emailaddress %>"
+                                                                                data-meansofidentificationtype="<%= get_bio_data.meansofidentificationtype %>"
+                                                                                data-meansofidentificationnumber="<%= get_bio_data.meansofidentificationnumber %>"
+                                                                                data-status="<%= get_bio_data.status %>"
+                                                                                data-othername="<%= get_bio_data.othername %>"
+                                                                                data-title="<%= get_bio_data.title %>"
+                                                                                data-dateofbirth="<%= get_bio_data.dateofbirth %>"
+                                                                                data-gender="<%= get_bio_data.gender %>"
+                                                                                data-roletype="<%= get_bio_data.roletype %>"
+                                                                                data-mobilenumber="<%= get_bio_data.mobilenumber %>"
+                                                                                data-role_desc="<%= get_bio_data.role_desc %>"
+                                                                                data-toggle="modal" data-target="#view_admin"> View</a>
+                                                                        <% end %>
+                                                                        <%= if Savings.Accounts.User.has_role?(@user, :system_users, :edit) do %>
+                                                                            <a class="dropdown-item" href="#"
+                                                                            data-id="<%= get_bio_data.id %>"
+                                                                            data-bio_id="<%= get_bio_data.bio_id %>"
+                                                                            data-firstname="<%= get_bio_data.firstname %>"
+                                                                            data-lastname="<%= get_bio_data.lastname %>"
+                                                                            data-username="<%= get_bio_data.username %>"
+                                                                            data-mobilenumber="<%= get_bio_data.mobilenumber %>"
+                                                                            data-emailaddress="<%= get_bio_data.emailaddress %>"
+                                                                            data-meansofidentificationtype="<%= get_bio_data.meansofidentificationtype %>"
+                                                                            data-meansofidentificationnumber="<%= get_bio_data.meansofidentificationnumber %>"
+                                                                            data-status="<%= get_bio_data.status %>"
+                                                                            data-othername="<%= get_bio_data.othername %>"
+                                                                            data-title="<%= get_bio_data.title %>"
+                                                                            data-dateofbirth="<%= get_bio_data.dateofbirth %>"
+                                                                            data-gender="<%= get_bio_data.gender %>"
+                                                                            data-roletype="<%= get_bio_data.roletype %>"
+                                                                            data-role_desc="<%= get_bio_data.role_desc %>"
+
+                                                                            data-toggle="modal" data-target="#edit_admin"> Edit</a>
+                                                                        <% end %>
+                                                                        <%= if Savings.Accounts.User.has_role?(@user, :system_users, :change_status) do %>
+                                                                            <%= if get_bio_data.status == "ACTIVE" do %>
+                                                                                <a class="dropdown-item js-sweetalert2-deactivate_admin" href="#" data-id="<%= get_bio_data.id %>"> Deactivate</a>
+                                                                            <% else %>
+                                                                                <a class="dropdown-item js-sweetalert2-activate_admin" href="#" data-id="<%= get_bio_data.id %>"> Activate</a>
+                                                                            <% end %>
+                                                                        <% end %>
+                                                                    </div>
+                                                                </div>
+                                                                </td>
+                                                            </tr>
+                                                        <% end %>
+
+
+												</tbody>
+											</table>
+										</div>
+										<!--end: Datatable-->
+								</div>
+			</div>
+		</div>
+
+		<!--end::Row-->
+
+
+		<!--end::Dashboard-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+	</div>
+
+
+
+	<div class="modal fade" id="create_users" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="card card-custom gutter-b example example-compact">
+					<div class="card-header">
+						<h3 class="card-title">User Details</h3>
+						<div class="card-toolbar">
+							<div class="example-tools justify-content-center">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+							</div>
+						</div>
+					</div>
+					<!--begin::Form-->
+
+                <form class="form" action="<%= Routes.user_path(@conn, :create_user)%>" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="password" id="password-gen" >
+						<div class="card-body">
+							 <div class="modal-body">
+                        <input type="hidden" name="approval_status" value="ACTIVE">
+                        <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="example-input-small">Title</label>
+                                <select class="form-control form-control-sm" id="title" name="title" required="required">
+                                    <option value="Mr">Mr.</option>
+                                    <option value="Mrs">Mrs.</option>
+                                    <option value="Ms"> Ms</option>
+                                </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="firstName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="lastName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Other Name</label>
+                                <input type="text" id="last_name" name="otherName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone</label>
+                                <input type="text" id="phone_number" name="phone_number" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="emailAddress" name="emailAddress" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="example-input-small">ID Type</label>
+                                <select class="form-control form-control-sm" id="meansOfIdentificationType" name="meansOfIdentificationType" required="required">
+                                    <option value="NRC">NRC</option>
+                                    <option value="DriversLicense">Drivers License</option>
+                                    <option value="Passport"> Passport</option>
+                                </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">ID No.</label>
+                                <input class="form-control form-control-sm" id="meansOfIdentificationNumber" name="meansOfIdentificationNumber" required="required" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">Gender</label>
+                                <select class="form-control form-control-sm" id="gender" name="gender" required="required">
+                                    <option value="MALE"> Male</option>
+                                    <option value="FEMALE"> Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">User Role</label>
+
+                                <select class="form-control form-control-sm" id="roleType" name="role_id" required="required">
+                                    <option></option>
+                                    <%= for user_role <- @user_roles do %>
+                                        <option value="<%= user_role.id %>"> <%= user_role.role_desc %></option>
+                                    <% end %>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group ">
+                                <label for="example-input-small"> Date Of Birth</label>
+                                <input class="form-control form-control-sm" id="dateOfBirth" name="dateOfBirth" type="date">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+						</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
+							</div>
+					</form>
+					<!--end::Form-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+    <div class="modal fade" id="edit_admin" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="card card-custom gutter-b example example-compact">
+                    <div class="card-header">
+                        <h3 class="card-title">User Details</h3>
+                        <div class="card-toolbar">
+                            <div class="example-tools justify-content-center">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--begin::Form-->
+                    <form action="<%= Routes.user_path(@conn, :admin_edit_user)%>" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <input type="hidden" name="id" id="bio_id">
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label for="example-input-small">Title</label>
+                                    <input type="text" id="title" name="title" class="form-control form-control-sm"> </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">First Name</label>
+                                        <input type="text" id="firstname" name="firstName" class="form-control form-control-sm"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Last Name</label>
+                                        <input type="text" id="lastname" name="lastName" class="form-control form-control-sm"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Other Name</label>
+                                        <input type="text" id="othername" name="otherName" class="form-control form-control-sm"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Phone</label>
+                                        <input type="text" id="mobilenumber" name="mobileNumber" class="form-control form-control-sm"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Email</label>
+                                        <input type="text" id="emailaddress" name="emailAddress" class="form-control form-control-sm"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="example-input-small">ID Type</label>
+                                    <select class="form-control form-control-sm" id="meansofidentificationtype" name="meansOfIdentificationType" required="required">
+                                        <option value="NRC">NRC</option>
+                                        <option value="DriversLicense">Drivers License</option>
+                                        <option value="Passport"> Passport</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small">ID No.</label>
+                                        <input class="form-control form-control-sm" id="meansofidentificationnumber" name="meansOfIdentificationNumber" required="required" type="text"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Address</label>
+                                        <input type="text" id="address" name="address" class="form-control form-control-sm"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="example-input-small">Select Gender</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-append"> <span class="input-group-text">
+                                                        Curr - Gender
+                                                    </span> </div>
+                                        <input type="text" aria-label="role_desc" class="form-control form-control-sm" name="gender" placeholder="gender" id="gender" disabled="true">
+                                        <select class="form-control form-control-sm" name="gender">
+                                            <option value=""></option>
+                                            <option value="MALE"> Male</option>
+                                            <option value="FEMALE"> Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="form-group ">
+                                        <label for="example-input-small"> Date Of Birth</label>
+                                        <input class="form-control form-control-sm" id="dateofbirth" name="dateOfBirth" type="date"> </div>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="example-input-small">Select Role</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-append"> <span class="input-group-text">
+                                                        Curr - Role
+                                                    </span> </div>
+                                        <input type="text" aria-label="role_desc" class="form-control form-control-sm" placeholder="role_desc" id="role_desc" disabled="true">
+                                        <select class="form-control form-control-sm" name="roleType">
+                                            <option value=""></option>
+                                            <%= for user_role <- @user_roles do %>
+                                                <option value="<%= user_role.id %>">
+                                                    <%= user_role.role_desc %>
+                                                </option>
+                                                <% end %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button class="btn btn-success" type="submit"> Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!--end::Form-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="modal fade" id="view_admin" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="card card-custom gutter-b example example-compact">
+                    <div class="card-header">
+                        <h3 class="card-title">User Details</h3>
+                        <div class="card-toolbar">
+                            <div class="example-tools justify-content-center">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--begin::Form-->
+                        <form action="" method="post">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <input type="hidden" name="id" id="id">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        <label for="example-input-small">Title</label>
+                                        <input type="text" id="title" name="title" class="form-control form-control-sm" readonly> </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">User Name</label>
+                                            <input type="text" id="username" name="username" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">First Name</label>
+                                            <input type="text" id="firstname" name="firstname" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">Last Name</label>
+                                            <input type="text" id="lastname" name="lastName" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">Other Name</label>
+                                            <input type="text" id="othername" name="othername" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">Phone</label>
+                                            <input type="text" id="mobilenumber" name="mobilenumber" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">Email</label>
+                                            <input type="text" id="emailaddress" name="emailAddress" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="example-input-small">ID Type</label>
+                                        <input type="text" id="meansofidentificationtype" name="meansOfIdentificationType" class="form-control form-control-sm" readonly> </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small">ID No.</label>
+                                            <input class="form-control form-control-sm" id="meansofidentificationnumber" name="meansOfIdentificationNumber" required="required" type="text" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">Address</label>
+                                            <input type="text" id="address" name="address" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small">Gender</label>
+                                            <input type="text" id="gender" name="gender" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small">User Role</label>
+                                            <input type="text" id="role_desc" name="roleType" class="form-control form-control-sm" readonly> </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <div class="form-group ">
+                                            <label for="example-input-small"> Date Of Birth</label>
+                                            <input class="form-control form-control-sm" id="dateofbirth" name="dateOfBirth" type="date" readonly> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    <!--end::Form-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+	<!--end::Container-->
+</div>
+
+<!-- Button trigger modal-->
+
+	<!--begin::Page Scripts(used by this page)-->
+
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/widgets.js")}></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src={Routes.static_path(@conn, "/js/jquery-1.11.2.min.js")}></script>
+
+
+
+<script>
+$(document).ready(function(){
+    $('#view_admin').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var bio_id = button.data('bio_id')
+            var firstname = button.data('firstname')
+            var role_desc = button.data('role_desc')
+            var username = button.data('username')
+            var title = button.data('title')
+            var status = button.data('status')
+            var lastname = button.data('lastname')
+            var mobilenumber = button.data('mobilenumber')
+            var othername = button.data('othername')
+            var gender = button.data('gender')
+            var emailaddress = button.data('emailaddress')
+            var roletype = button.data('roletype')
+            var dateofbirth = button.data('dateofbirth')
+            var meansofidentificationnumber = button.data('meansofidentificationnumber')
+            var meansofidentificationtype = button.data('meansofidentificationtype')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #bio_id').val(bio_id);
+            modal.find('.modal-body #firstname').val(firstname);
+            modal.find('.modal-body #username').val(username);
+            modal.find('.modal-body #role_desc').val(role_desc);
+            modal.find('.modal-body #title').val(title);
+            modal.find('.modal-body #status').val(status);
+            modal.find('.modal-body #lastname').val(lastname);
+            modal.find('.modal-body #mobilenumber').val(mobilenumber);
+            modal.find('.modal-body #othername').val(othername);
+            modal.find('.modal-body #gender').val(gender);
+            modal.find('.modal-body #emailaddress').val(emailaddress);
+            modal.find('.modal-body #roletype').val(roletype);
+            modal.find('.modal-body #dateofbirth').val(dateofbirth);
+            modal.find('.modal-body #meansofidentificationnumber').val(meansofidentificationnumber);
+            modal.find('.modal-body #meansofidentificationtype').val(meansofidentificationtype);
+
+
+
+    });
+
+    $('#edit_admin').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var bio_id = button.data('bio_id')
+            var firstname = button.data('firstname')
+            var role_desc = button.data('role_desc')
+            var username = button.data('username')
+            var title = button.data('title')
+            var status = button.data('status')
+            var lastname = button.data('lastname')
+            var mobilenumber = button.data('mobilenumber')
+            var othername = button.data('othername')
+            var gender = button.data('gender')
+            var emailaddress = button.data('emailaddress')
+            var roletype = button.data('roletype')
+            var dateofbirth = button.data('dateofbirth')
+            var meansofidentificationnumber = button.data('meansofidentificationnumber')
+            var meansofidentificationtype = button.data('meansofidentificationtype')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #bio_id').val(bio_id);
+            modal.find('.modal-body #firstname').val(firstname);
+            modal.find('.modal-body #username').val(username);
+            modal.find('.modal-body #role_desc').val(role_desc);
+            modal.find('.modal-body #title').val(title);
+            modal.find('.modal-body #status').val(status);
+            modal.find('.modal-body #lastname').val(lastname);
+            modal.find('.modal-body #mobilenumber').val(mobilenumber);
+            modal.find('.modal-body #othername').val(othername);
+            modal.find('.modal-body #gender').val(gender);
+            modal.find('.modal-body #emailaddress').val(emailaddress);
+            modal.find('.modal-body #roletype').val(roletype);
+            modal.find('.modal-body #dateofbirth').val(dateofbirth);
+            modal.find('.modal-body #meansofidentificationnumber').val(meansofidentificationnumber);
+            modal.find('.modal-body #meansofidentificationtype').val(meansofidentificationtype);
+
+            console.log("CHeck my role");
+            console.log(role_desc);
+
+
+
+    });
+});
+
+console.log('id');
+</script>
+
+
+
+
+<script>
+    $('#create_user').on('click', function (event){
+        var modal= $("#create_users");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $('#kt_datatable1').on('click', '.js-sweetalert2-activate_admin', function(e){
+        e.preventDefault();
+        var button = $(this);
+        // prompt("Are you sure")
+        Swal.fire({
+            title: 'Are sure you?',
+            text: "You want to Approve This User!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#23b05d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            showLoaderOnConfirm: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Admin/Activate/User',
+                    type: 'POST',
+                    data: { id: button.attr("data-id"), _csrf_token: $("#csrf").val() },
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 0) {
+                            Swal.fire(
+                                'Success',
+                                result.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(true);
+                                spinner.hide();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            )
+                        }
+                    },
+                    error: function(request, msg, error) {
+                        Swal.fire(
+                            'Oops..',
+                            error,
+                            'error'
+                        )
+                    },
+                });
+            } else {
+                Swal.fire(
+                    'Cancelled',
+                    'User Not Approved :)',
+                    'error'
+                )
+            }
+        });
+
+    });
+
+
+    $('#kt_datatable1').on('click', '.js-sweetalert2-deactivate_admin', function(e){
+        e.preventDefault();
+        var button = $(this);
+        // prompt("Are you sure")
+        Swal.fire({
+            title: 'Are sure you?',
+            text: "You want to Deactivate This User!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#23b05d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            showLoaderOnConfirm: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Admin/Deactivate/User',
+                    type: 'POST',
+                    data: { id: button.attr("data-id"), _csrf_token: $("#csrf").val() },
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 0) {
+                            Swal.fire(
+                                'Success',
+                                result.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(true);
+                                spinner.hide();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            )
+                        }
+                    },
+                    error: function(request, msg, error) {
+                        Swal.fire(
+                            'Oops..',
+                            error,
+                            'error'
+                        )
+                    },
+                });
+            } else {
+                Swal.fire(
+                    'Cancelled',
+                    'User Not Deactivated :)',
+                    'error'
+                )
+            }
+        });
+    });
+
+
+
+    $('#kt_datatable1').on('click', '.js-sweetalert2-delete_admin', function(e){
+        e.preventDefault();
+        var button = $(this);
+        // prompt("Are you sure")
+        Swal.fire({
+            title: 'Are sure you?',
+            text: "You want to Block This User!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#23b05d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            showLoaderOnConfirm: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Admin/Delete',
+                    type: 'POST',
+                    data: { id: button.attr("data-id"), _csrf_token: $("#csrf").val() },
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 0) {
+                            Swal.fire(
+                                'Success',
+                                result.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(true);
+                                spinner.hide();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            )
+                        }
+                    },
+                    error: function(request, msg, error) {
+                        Swal.fire(
+                            'Oops..',
+                            error,
+                            'error'
+                        )
+                    },
+                });
+            } else {
+                Swal.fire(
+                    'Cancelled',
+                    'User Not Blocked :)',
+                    'error'
+                )
+            }
+        });
+    });
+});
+</script>

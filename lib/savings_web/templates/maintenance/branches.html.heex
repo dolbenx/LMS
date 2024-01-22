@@ -1,0 +1,344 @@
+
+  <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-6  subheader-transparent " id="kt_subheader">
+      <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-1">
+          <!--begin::Page Heading-->
+          <div class="d-flex align-items-baseline flex-wrap mr-5">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold my-1 mr-5">Branch Maintenance</h5>
+            <!--end::Page Title-->
+          </div>
+          <!--end::Page Heading-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+          <!--begin::Actions-->
+          <div href="#" id="myDiv" ></div>
+          <!--end::Actions-->
+        </div>
+        <!--end::Toolbar-->
+      </div>
+    </div>
+  <!--end::Subheader-->
+
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+
+	<!--begin::Container-->
+	<div class=" container-fluid ">
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+
+		<!--[html-partial:begin:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--begin::Dashboard-->
+
+		<!--begin::Row-->
+		<div class="row">
+			<div class="col-lg-12 col-xxl-12">
+                <div class="card card-custom">
+					<div class="card-header flex-wrap border-0 pt-6 pb-0">
+						<div class="card-title">
+							<h3 class="card-label">Branch List
+							<span class="text-muted pt-2 font-size-sm d-block">Branch</span></h3>
+						</div>
+						<div class="card-toolbar">
+
+							<!--begin::Button-->
+							<%= if Savings.Accounts.User.has_role?(@user, :branches, :create) do %>
+								<button href="#" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#create_branch">
+								<span>
+									<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+									<i class="flaticon2-add-1"></i>
+									<!--end::Svg Icon-->
+								</span>Add branch </button>
+							<% end %>
+							<!--end::Button-->
+						</div>
+					</div>
+
+					<!--begin: Datatable-->
+					<div class="card-body table-responsive">
+						<table class="table table-bordered table-hover table-striped w-100" id="dt_my_datatable">
+							<thead>
+							<tr>
+								<th style="width: 150px; text-align: center;">Branch Name</th>
+								<th style="width: 150px; text-align: center;">Branch Code</th>
+								<th style="width: 120px; text-align: center;">DefaultUSSDBranch</th>
+								<th style="width: 130px; text-align: center;">Status</th>
+								<th style="width: 150px; text-align: center;">Actions</th>
+							</tr>
+							</thead>
+							<tbody class="datatable-body" style="">
+
+								<%= for branch <- @branches do %>
+									<tr>
+										<td style="width: 150px; text-align: center;"><%= branch.branchName %></td>
+										<td style="width: 150px; text-align: center;"><%= branch.branchCode %></td>
+										<td style="width: 110px; text-align: center;"><%= if branch.isDefaultUSSDBranch == true do %> Yes <% else %> No<% end %></td>
+										<td style="width: 130px; text-align: center;"><%= if branch.status == "ACTIVE" do %>
+												<span style="width: 110px;"><span class="label font-weight-bold label-lg  label-light-success label-inline"><%= branch.status %></span></span>
+											<% else %>
+												<%= if branch.status == "INACTIVE" or branch.status == "DISABLED" do %>
+												<span style="width: 110px;"><span class="label font-weight-bold label-lg  label-light-danger label-inline"><%= branch.status %></span></span>
+												<% else %>
+													<%= if branch.status == "PENDING" or branch.status == "PENDING_APPROVAL" do %>
+													<span style="width: 110px;"><span class="label font-weight-bold label-lg  label-light-warning label-inline"><%= branch.status %></span></span>
+													<% end %>
+												<% end %>
+											<% end %>
+
+
+										</td>
+										<td style="width: 150px; text-align: center;">
+											<div class="dropdown dropdown-inline mr-4">
+												<button type="button" class="btn btn-light-primary btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<i class="ki ki-bold-more-hor"></i>
+												</button>
+												<div class="dropdown-menu">
+													<%= if Savings.Accounts.User.has_role?(@user, :branches, :edit) do %>
+														<a class="dropdown-item" data-toggle="modal" data-target="#edit_branch">Edit </a>
+													<% end %>
+													<%= if Savings.Accounts.User.has_role?(@user, :branches, :view) do %>
+														<a class="dropdown-item" data-toggle="modal" data-target="#view_branch">View</a>
+													<% end %>
+													<%= if Savings.Accounts.User.has_role?(@user, :branches, :change_status) do %>
+														<a class="dropdown-item" href="#">Activate</a>
+													<% end %>
+												</div>
+											</div>
+
+										</td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+					<!--end: Datatable-->
+				</div>
+			</div>
+		</div>
+
+		<!--end::Row-->
+
+
+		<!--end::Dashboard-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/partials/content/dashboards/demo1","page":"index"}]/-->
+
+		<!--[html-partial:end:{"id":"demo1/dist/inc/view/demos/pages/index","page":"index"}]/-->
+	</div>
+
+
+
+
+
+	<!--end::Container-->
+</div>
+
+<!-- Button trigger modal-->
+
+
+		<!-- Modal-->
+			<div class="modal fade" id="create_branch" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="card card-custom gutter-b example example-compact">
+							<div class="card-header">
+								<h3 class="card-title">Branch Details</h3>
+								<div class="card-toolbar">
+									<div class="example-tools justify-content-center">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+									</div>
+								</div>
+							</div>
+							<!--begin::Form-->
+							<form class="form" action={Routes.maintenance_path(@conn, :create_branch)} method="post">
+							 <input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+								<div class="card-body">
+									<div class="form-group row">
+										<div class="col-lg-6">
+											<label>Branch Name:</label>
+											<div class="input-group">
+												<input type="text" name="branchName"class="form-control" placeholder="Enter branch name" />
+												<div class="input-group-append"> <span class="input-group-text">
+														<i class="flaticon2-tag"></i>
+													</span>
+												</div>
+											</div> <span class="form-text text-muted">Please enter branch name</span>
+										</div>
+										<div class="col-lg-6">
+											<label>Branch Code:</label>
+											<div class="input-group">
+												<input type="text" name="branchCode"class="form-control" placeholder="Enter branch code" />
+												<div class="input-group-append"> <span class="input-group-text">
+														<i class="flaticon-interface-9"></i>
+													</span>
+												</div>
+											</div> <span class="form-text text-muted">Please enter branch code</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-lg-6">
+											<label>isDefaultUSSDBranch:</label>
+											<div class="input-group">
+												<select class="form-control" id="kt_select2_1" name="isDefaultUSSDBranch">
+												<option value=""></option>
+												<option value="true">Yes</option>
+												<option value="false">No</option>
+											</select>
+											</div> <span class="form-text text-muted">select option</span>
+										</div>
+									</div>
+								</div>
+								<div class="card-footer">
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
+									</div>
+								</div>
+							</form>
+							<!--end::Form-->
+						</div>
+					</div>
+				</div>
+			</div>
+		<!--end::Entry-->
+	<!--begin::Page Scripts(used by this page)-->
+
+
+	<div class="modal fade" id="view_branch" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="card card-custom gutter-b example example-compact">
+					<div class="card-header">
+						<h3 class="card-title">Branch Details</h3>
+						<div class="card-toolbar">
+							<div class="example-tools justify-content-center">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+							</div>
+						</div>
+					</div>
+					<!--begin::Form-->
+					<form class="form" >
+						<input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+						<div class="card-body">
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label>Branch Name:</label>
+									<div class="input-group">
+										<input type="text" name="branchName"class="form-control" placeholder="Enter branch name" />
+										<div class="input-group-append"> <span class="input-group-text">
+												<i class="flaticon2-tag"></i>
+											</span>
+										</div>
+									</div> <span class="form-text text-muted">Please enter branch name</span>
+								</div>
+								<div class="col-lg-6">
+									<label>Branch Code:</label>
+									<div class="input-group">
+										<input type="text" name="branchCode"class="form-control" placeholder="Enter branch code" />
+										<div class="input-group-append"> <span class="input-group-text">
+												<i class="flaticon-interface-9"></i>
+											</span>
+										</div>
+									</div> <span class="form-text text-muted">Please enter branch code</span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label>isDefaultUSSDBranch:</label>
+									<div class="input-group">
+										<select class="form-control" id="kt_select2_1" name="isDefaultUSSDBranch">
+										<option value=""></option>
+										<option value="true">Yes</option>
+										<option value="false">No</option>
+									</select>
+									</div> <span class="form-text text-muted">select option</span>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</form>
+					<!--end::Form-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<div class="modal fade" id="edit_branch" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="card card-custom gutter-b example example-compact">
+					<div class="card-header">
+						<h3 class="card-title">Branch Details</h3>
+						<div class="card-toolbar">
+							<div class="example-tools justify-content-center">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <i aria-hidden="true" class="ki ki-close"></i> </button>
+							</div>
+						</div>
+					</div>
+					<!--begin::Form-->
+					<form class="form" >
+						<input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+						<div class="card-body">
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label>Branch Name:</label>
+									<div class="input-group">
+										<input type="text" name="branchName"class="form-control" placeholder="Enter branch name" />
+										<div class="input-group-append"> <span class="input-group-text">
+												<i class="flaticon2-tag"></i>
+											</span>
+										</div>
+									</div> <span class="form-text text-muted">Please enter branch name</span>
+								</div>
+								<div class="col-lg-6">
+									<label>Branch Code:</label>
+									<div class="input-group">
+										<input type="text" name="branchCode"class="form-control" placeholder="Enter branch code" />
+										<div class="input-group-append"> <span class="input-group-text">
+												<i class="flaticon-interface-9"></i>
+											</span>
+										</div>
+									</div> <span class="form-text text-muted">Please enter branch code</span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label>isDefaultUSSDBranch:</label>
+									<div class="input-group">
+										<select class="form-control" id="kt_select2_1" name="isDefaultUSSDBranch">
+										<option value=""></option>
+										<option value="true">Yes</option>
+										<option value="false">No</option>
+									</select>
+									</div> <span class="form-text text-muted">select option</span>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary font-weight-bold">Submit</button>
+							</div>
+						</div>
+					</form>
+					<!--end::Form-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    	<script type="text/javascript" src={Routes.static_path(@conn, "/assets/js/pages/widgets.js")}></script>

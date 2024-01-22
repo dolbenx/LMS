@@ -7,18 +7,24 @@
 # General application configuration
 import Config
 
-config :loanmanagementsystem,
-  ecto_repos: [Loanmanagementsystem.Repo]
+config :savings,
+  ecto_repos: [Savings.Repo]
 
+# Endon library cinfigured
 config :endon,
-  repo: Loanmanagementsystem.Repo
+  repo: Savings.Repo
 
 # Configures the endpoint
-config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
+config :savings, SavingsWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: LoanmanagementsystemWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Loanmanagementsystem.PubSub,
-  live_view: [signing_salt: "QoSEg5va"]
+  render_errors: [view: SavingsWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Savings.PubSub,
+  live_view: [signing_salt: "1H5mYR0+"]
+
+config :pdf_generator,
+  raise_on_missing_wkhtmltopdf_binary: false,
+  # wkhtml_path: "/usr/local/bin/wkhtmltopdf"
+  wkhtml_path: "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
 
 # Configures the mailer
 #
@@ -27,7 +33,7 @@ config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :loanmanagementsystem, Loanmanagementsystem.Mailer, adapter: Swoosh.Adapters.Local
+config :savings, Savings.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
@@ -47,9 +53,60 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+  # Application logs
+config :logger, :console,
+  format: "[$level] $message\n",
+  colors: [enabled: true]
+
+
+
+config :logger,
+  backends: [:console, {LoggerFileBackend, :info}, {LoggerFileBackend, :error}],
+  format: "[$level] $message\n"
+
+log_file_path =
+  # "D:/Elixir/Logs/#{Calendar.strftime(Date.utc_today(), "%Y/%b/%x")}"
+  File.cwd!<>"/Logs/#{Calendar.strftime(Date.utc_today(), "%Y/%b/%x")}"
+
+config :logger, :info,
+  path: "#{log_file_path}/info.log",
+  level: :info
+
+config :logger, :error,
+  path: "#{log_file_path}/error.log",
+  level: :error
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
+
+config :savings, Savings.Emails.Mailer,
+  adapter: Bamboo.MailgunAdapter,
+  api_key: "b18b44a232efe203364b1b59fbd00b2f-2de3d545-e2705a80", # or {:system, "MAILGUN_API_KEY"},
+  domain: "report.probasegroup.com",  # or {:system, "MAILGUN_DOMAIN"},
+  hackney_opts: [
+    recv_timeout: :timer.minutes(1)
+]
+
+
+# Configure Cron Jobs
+# config :savings, Savings.Scheduler,
+#  overlap: false,
+#  timeout: 30_000,
+#  jobs: [
+#   #  send_sms: [
+#   #   #  schedule: "* * * * *",
+#   #    schedule: {:extended, "*/10"},
+#   #    # schedule: "@monthly",
+#   #    task: {Savings.Workers.Sms, :send, []}
+#   #  ],
+#     transaction_inquiry: [
+#       # schedule: "*/5 * * * *",
+#         schedule: {:extended, "*/5"},
+#       	task: {Savings.Workers.TransactionInquiry, :inquire_pending_transaction_status, []}
+#     ],
+
+#  ]
