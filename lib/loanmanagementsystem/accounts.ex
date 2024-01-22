@@ -1,4 +1,6 @@
 defmodule Loanmanagementsystem.Accounts do
+
+
   @moduledoc """
   The Accounts context.
 
@@ -112,8 +114,8 @@ defmodule Loanmanagementsystem.Accounts do
     |> join(:left, [uA], uX in "tbl_address_details", on: uA.id == uX.userId)
     |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
     |> join(:left, [uA], uS in "tbl_employee", on: uA.id == uS.userId)
-    |> join(:left, [uA], uT in "tbl_employee_maintenance", on: uA.id == uT.userId)
-    |> where([uA, uB, uX, uR, uS, uT], uA.company_id == ^id and uR.roleType != ^"EMPLOYER")
+    |> join(:left, [uA], uT in "tbl_employment_details", on: uA.id == uT.userId)
+    |> where([uA, uB, uX, uR, uS, uT], uA.company_id == ^id and uR.roleType == ^"EMPLOYEE")
     |> select([uA, uB, uX, uR, uS, uT], %{
       id: uA.id,
       company_id: uA.company_id,
@@ -1081,7 +1083,7 @@ defmodule Loanmanagementsystem.Accounts do
   """
   # Loanmanagementsystem.Accounts.get_user_bio_data!(28)
   def get_user_bio_data!(userId), do: Repo.get!(UserBioData, userId)
-  # Loanmanagementsystem.Accounts.get_user_bio_data_by_user_id!(121)
+  # Loanmanagementsystem.Accounts.get_user_bio_data_by_user_id!(1)
   def get_user_bio_data_by_user_id!(userId), do: Repo.get_by!(UserBioData, userId: userId)
 
   @doc """
@@ -1987,6 +1989,38 @@ defmodule Loanmanagementsystem.Accounts do
     |> Repo.one()
   end
 
+
+  # Loanmanagementsystem.Accounts.get_client_by_user_number()
+  def get_client_by_user_number(user_id) do
+    UserBioData
+    |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserRole, on: c.userId == u.userId)
+    |> join(:left, [c], emp in Loanmanagementsystem.Employment.Employment_Details, on: c.userId == emp.userId)
+    |> join(:left, [c], inv in Loanmanagementsystem.Employment.Income_Details, on: c.userId == inv.userId)
+    |> where([c, u], c.userId == ^user_id)
+    |> select([c, u, emp, inv], %{
+      firstName: c.firstName,
+      lastName: c.lastName,
+      userId: c.userId,
+      otherName: c.otherName,
+      dateOfBirth: c.dateOfBirth,
+      meansOfIdentificationType: c.meansOfIdentificationType,
+      meansOfIdentificationNumber: c.meansOfIdentificationNumber,
+      title: c.title,
+      gender: c.gender,
+      mobileNumber: c.mobileNumber,
+      emailAddress: c.emailAddress,
+      role_id: u.id,
+      marital_status: c.marital_status,
+      nationality: c.nationality,
+      employer: emp.employer,
+      employee_number: emp.employee_number,
+      net_pay: inv.net_pay,
+      pay_day: inv.pay_day,
+      company_id: emp.company_id
+    })
+    |> Repo.one()
+  end
+
   def get_client_by_line!(client_line) do
     UserRole
     |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserBioData, on: c.userId == u.userId)
@@ -2007,6 +2041,7 @@ defmodule Loanmanagementsystem.Accounts do
     |> Repo.one()
   end
 
+  # Loanmanagementsystem.Accounts.get_client_by_nrc("3703242/51/11311")
   def get_client_by_nrc(nrc) do
     UserBioData
     |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserRole, on: c.userId == u.userId)
@@ -2561,5 +2596,86 @@ defmodule Loanmanagementsystem.Accounts do
   #   })
   #   |> Repo.one()
   # end
+
+  # Loanmanagementsystem.Accounts.otp_validate_by_phone("0978242441")
+
+  def otp_validate_by_phone(mobile) do
+    User
+    |> join(:left, [u], uB in "tbl_user_bio_data", on: u.id == uB.userId)
+    |> join(:left, [u], uR in "tbl_user_roles", on: u.id == uR.userId)
+    |> where([u, uB], uB.mobileNumber == ^mobile)
+    |> select([u, uB, uR], %{
+      username: u.username,
+      mobile: uB.mobileNumber,
+      name: uB.firstName,
+      last_name: uB.lastName,
+      email: uB.emailAddress,
+      roleType: uR.roleType,
+      role_id: uR.id,
+      username_mobile: u.username_mobile
+
+    })
+    |> Repo.one()
+  end
+
+  # Loanmanagementsystem.Accounts.get_client_employee_details()
+  def get_client_employee_details do
+    User
+    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+    |> join(:left, [uA], uX in "tbl_address_details", on: uA.id == uX.userId)
+    |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    |> join(:left, [uA], uS in "tbl_employee", on: uA.id == uS.userId)
+    |> join(:left, [uA], uT in "tbl_employment_details", on: uA.id == uT.userId)
+    |> where([uA, uB, uX, uR, uS, uT], uR.roleType == ^"EMPLOYEE")
+    |> select([uA, uB, uX, uR, uS, uT], %{
+      id: uA.id,
+      company_id: uA.company_id,
+      status: uA.status,
+      username: uA.username,
+
+      roletype: uR.roleType,
+      bio_id: uB.userId,
+      role_id: uR.userId,
+
+      bio_data_id: uB.id,
+      firstname: uB.firstName,
+      lastname: uB.lastName,
+      othername: uB.otherName,
+      dateofbirth: uB.dateOfBirth,
+      meansofidentificationtype: uB.meansOfIdentificationType,
+      meansofidentificationnumber: uB.meansOfIdentificationNumber,
+      bio_title: uB.title,
+      nationality: uB.nationality,
+      gender: uB.gender,
+      marital_status: uB.marital_status,
+      number_of_dependants: uB.number_of_dependants,
+      mobilenumber: uB.mobileNumber,
+      emailaddress: uB.emailAddress,
+
+      accomodation_status: uX.accomodation_status,
+      area: uX.area,
+      house_number: uX.house_number,
+      street_name: uX.street_name,
+      town: uX.town,
+      year_at_current_address: uX.year_at_current_address,
+      province: uX.province,
+
+      nrc_image: uS.nrc_image,
+
+      mobile_network_operator: uT.mobile_network_operator,
+      registered_name_mobile_number: uT.registered_name_mobile_number
+
+    })
+    |> distinct(true)
+    |> Repo.all()
+  end
+
+
+
+  def parse_image(path) do
+    path
+    |> File.read!()
+    |> Base.encode64()
+  end
 
 end

@@ -3,6 +3,7 @@
         <!--begin::Container-->
         <div class="container-fluid d-flex align-items-stretch justify-content-between">
             <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
             <!--end::Header Menu Wrapper-->
         </div>
         <!--end::Container-->
@@ -49,7 +50,7 @@
                                 </div>
                                 <div class="card-toolbar">
                                     <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :create) do %>
-                                        <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" id="create_user" style="background-color: #011941;">
+                                        <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" id="create_user" style="background-color: #0E75BF;">
                                             Add New User
                                         </button>
                                     <% end %>
@@ -85,61 +86,75 @@
                                                 <% end %>
                                             </td>
                                             <td>
-                                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :edit) do %>
-                                                    <a class="btn ripple btn-info btn-sm" data-target="#edituseradmin" data-toggle="modal"
-                                                    data-id ="<%= get_bio_data.id %>"
-                                                    data-firstname= "<%= get_bio_data.firstname%>"
-                                                    data-lastname="<%= get_bio_data.lastname%>"
-                                                    data-othername="<%= get_bio_data.othername%>"
-                                                    data-email ="<%= get_bio_data.emailaddress%> "
-                                                    data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                    data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                    data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                    data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                    data-title = "<%=get_bio_data.title %>"
-                                                    data-gender = "<%=get_bio_data.gender %>"
-                                                    data-roletype = "<%=get_bio_data.roletype %>"
-                                                    ><i class="fe fe-edit"></i> Edit </a>
 
-                                                <% end %>
 
-                                                <a class="btn ripple btn-warning btn-sm" data-target="#viewuseradmin" data-toggle="modal"
-                                                data-id ="<%= get_bio_data.id %>"
-                                                data-firstname= "<%= get_bio_data.firstname%>"
-                                                data-lastname="<%= get_bio_data.lastname%>"
-                                                data-othername="<%= get_bio_data.othername%>"
-                                                data-email ="<%= get_bio_data.emailaddress%> "
-                                                data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                data-title = "<%=get_bio_data.title %>"
-                                                data-gender = "<%=get_bio_data.gender %>"
-                                                data-roletype = "<%=get_bio_data.roletype %>"
-                                                ><i class="fe fe-edit"></i> View </a>
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">Options</button>
+                                                    <div class="dropdown-content">
 
-                                                <%= if get_bio_data.status == "INACTIVE"   do %>
-                                                    <!-- <a class="dropdown-item activate-user"  data-activate-id="<%= get_bio_data.id %>" ><i class="fe fe-eye"></i> Enable </a>-->
-                                                    <a class="btn ripple btn-success btn-sm" data-target="#enableusermodal" data-toggle="modal"
-                                                    data-id ="<%= get_bio_data.id %>"
-                                                    data-firstname= "<%= get_bio_data.firstname%>"
-                                                    data-lastname="<%= get_bio_data.lastname%>"
-                                                    data-othername="<%= get_bio_data.othername%>"
-                                                    data-email ="<%= get_bio_data.emailaddress%> "
-                                                    data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                    data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                    data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                    data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                    data-title = "<%=get_bio_data.title %>"
-                                                    data-gender = "<%=get_bio_data.gender %>"
-                                                    data-roletype = "<%=get_bio_data.roletype %>"
-                                                    ><i class="fe fe-edit"></i> Enable</a>
-                                                <% end %>
-                                                <%= if get_bio_data.status == "ACTIVE" && get_bio_data.classification_id !== nil  do %>
-                                                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :change_status) do %>
-                                                        <a class="btn ripple btn-danger btn-sm deactivate-user" data-activate-id="<%= get_bio_data.id %>" ><i class="fe fe-eye"></i> Disable </a>
-                                                    <% end %>
-                                                <% end %>
+                                                        <%=if get_bio_data.status == "INACTIVE" do %>
+                                                            <a class="btn ripple btn-sm"
+                                                                data-activate-id="<%= get_bio_data.id %>"
+                                                                title="Enable"
+                                                                data-target="#enableusermodal"
+                                                                data-toggle="modal"
+                                                                data-id ="<%= get_bio_data.id %>"
+                                                                data-firstname= "<%= get_bio_data.firstname%>"
+                                                                data-lastname="<%= get_bio_data.lastname%>"
+                                                                data-othername="<%= get_bio_data.othername%>"
+                                                                data-email ="<%= get_bio_data.emailaddress%> "
+                                                                data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                                data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                                data-title = "<%=get_bio_data.title %>"
+                                                                data-gender = "<%=get_bio_data.gender %>"
+                                                                data-roletype = "<%=get_bio_data.roletype %>"
+                                                            >Enable</a>
+                                                        <% end %>
+                                                        <%= if get_bio_data.status == "ACTIVE" && get_bio_data.classification_id !== nil do %>
+                                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :change_status) do %>
+                                                            <a class="btn ripple btn-sm deactivate-user" data-activate-id="<%= get_bio_data.id %>" title="Enable">Disable</a>
+                                                            <% end %>
+                                                        <% end %>
+
+                                                        <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :edit) do %>
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-target="#edituseradmin"
+                                                                data-toggle="modal"
+                                                                data-id ="<%= get_bio_data.id %>"
+                                                                data-firstname= "<%= get_bio_data.firstname%>"
+                                                                data-lastname="<%= get_bio_data.lastname%>"
+                                                                data-othername="<%= get_bio_data.othername%>"
+                                                                data-email ="<%= get_bio_data.emailaddress%> "
+                                                                data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                                data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                                data-title = "<%=get_bio_data.title %>"
+                                                                data-gender = "<%=get_bio_data.gender %>"
+                                                                data-roletype = "<%=get_bio_data.roletype %>"
+                                                            >Edit</a>
+                                                        <% end %>
+
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-target="#viewuseradmin"
+                                                            data-toggle="modal"
+                                                            data-id ="<%= get_bio_data.id %>"
+                                                            data-firstname= "<%= get_bio_data.firstname%>"
+                                                            data-lastname="<%= get_bio_data.lastname%>"
+                                                            data-othername="<%= get_bio_data.othername%>"
+                                                            data-email ="<%= get_bio_data.emailaddress%> "
+                                                            data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                            data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                            data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                            data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                            data-title = "<%=get_bio_data.title %>"
+                                                            data-gender = "<%=get_bio_data.gender %>"
+                                                            data-roletype = "<%=get_bio_data.roletype %>"
+                                                        >View</a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     <% end %>
@@ -177,12 +192,11 @@
                     <div class="row row-sm mg-b-20">
                         <div class="col-lg">
                             <p class="mg-b-10">Title</p>
-                            <select name="title" class="form-control">
+                            <select name="title" id="select_title" class="form-control admin-gender-change">
                                 <option label="Select Title"></option>
                                 <option value="Mr">Mr</option>
                                 <option value="Mrs">Mrs</option>
                                 <option value="Ms">Ms</option>
-                                <option value="Dr">Dr</option>
                             </select>
                         </div>
                         <div class="col-lg">
@@ -201,18 +215,18 @@
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Date Of Birth</p>
-                            <input class="form-control" name="dateOfBirth" type="date">
+                            <input class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="dateOfBirth" type="date">
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Personal Email</p>
-                            <input class="form-control" name="emailAddress" placeholder="Enter Email" type="email">
+                            <input class="form-control" name="emailAddress" id="email_address" placeholder="Enter Email" type="email">
                         </div>
 
                     </div>
                     <div class="row row-sm mg-b-20">
                         <div class="col-lg">
                             <p class="mg-b-10">Identification Type</p>
-                            <select name="meansOfIdentificationType" class="form-control">
+                            <select name="meansOfIdentificationType" id="nrc_number" class="form-control">
                                 <option label="Select Type"></option>
                                 <option value="Drivers License">Drivers License</option>
                                 <option value="National Registration Card">National Registration Card</option>
@@ -221,21 +235,17 @@
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Identification Number</p>
-                            <input class="form-control" name="meansOfIdentificationNumber" placeholder="Enter Card Number" type="text">
+                            <input class="form-control" id="id_number" name="meansOfIdentificationNumber" placeholder="Enter Card Number" type="text">
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Mobile Number</p>
-                            <input class="form-control" name="mobileNumber" placeholder="Enter Mobile Number" type="text">
+                            <input class="form-control" id="mobileNumber" name="mobileNumber" pattern="[0-9]" placeholder="Enter Mobile Number" type="number">
                         </div>
                     </div>
                     <div class="row row-sm mg-b-20">
                         <div class="col-lg">
                             <p class="mg-b-10">Choose Gender</p>
-                            <select name="gender" id="gender" class="form-control">
-                                <option label="Select Gender"></option>
-                                <option value="MALE">MALE</option>
-                                <option value="FEMALE">FEMALE</option>
-                            </select>
+                            <input name="gender" id="provide_gender" class="form-control">
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Choose Role Type</p>
@@ -248,8 +258,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Add User</button>
                         <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-                        <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Add User</button>
                     </div>
                 </div>
             </form>
@@ -335,7 +345,7 @@
 									</div>
 
                                     <div class="modal-footer">
-                                         <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Enable User</button>
+                                         <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Enable User</button>
                                         <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
                                     </div>
                                 </div>
@@ -447,7 +457,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Update User info!</button>
+                        <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Update User info!</button>
                         <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
                     </div>
                 </div>
@@ -542,6 +552,81 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var mobileNumberInput = document.getElementById("mobileNumber");
+        var nrc_number_input = document.getElementById("id_number");
+
+
+        mobileNumberInput.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let mobileNumber = mobileNumberInput.value.replace(/\D/g, '').substr(0, 10);
+
+            // Update the input value
+            mobileNumberInput.value = mobileNumber;
+        });
+
+        nrc_number_input.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let nrc_number = nrc_number_input.value.replace(/[^0-9/]/g, '').substr(0, 14);
+
+            // Update the input value
+            nrc_number_input.value = nrc_number;
+        });
+    });
+</script>
+
+<script>
+
+    var emailInput = document.getElementById("email_address");
+    var nextInput = document.getElementById("nrc_number"); // Replace with the actual ID of your next input field
+
+    // Create a div for displaying the error message
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "error-message"; // Add CSS styles as needed
+    errorMessage.style.display = "none"; // Initially hide the error message
+
+    // Insert the error message div after the email input field
+    emailInput.parentNode.insertBefore(errorMessage, emailInput.nextSibling);
+
+    emailInput.addEventListener("blur", function () {
+    const email = emailInput.value;
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const isValidEmail = emailRegex.test(email);
+
+    if (!isValidEmail) {
+        // Invalid email address
+        errorMessage.textContent = "Invalid email address";
+        errorMessage.style.display = "block"; // Show the error message
+        emailInput.focus(); // Return focus to the email input field
+    } else {
+        // Valid email address
+        errorMessage.style.display = "none"; // Hide the error message
+    }
+    });
+
+    emailInput.addEventListener("keydown", function (event) {
+    // Check if the "Tab" key was pressed (key code 9)
+    if (event.keyCode === 9) {
+        const email = emailInput.value;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const isValidEmail = emailRegex.test(email);
+
+        if (!isValidEmail) {
+        // Invalid email address
+        errorMessage.textContent = "Invalid email address";
+        errorMessage.style.display = "block"; // Show the error message
+        emailInput.focus(); // Return focus to the email input field
+        event.preventDefault(); // Prevent moving to the next field
+        } else {
+        // Valid email address
+        errorMessage.style.display = "none"; // Hide the error message
+        }
+    }
+    });
+
+</script>
+
 
 <script>
     $('#create_user').on('click', function (event){
@@ -573,72 +658,72 @@
 
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function(){
 
-    $('#edituseradmin').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
+        $('#edituseradmin').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
 
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #firstname').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email').val(button.data('email'));
-            modal.find('.modal-body #dob').val(button.data('dob'));
-            modal.find('.modal-body #phone').val(button.data('phone'));
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-
-
-            $('#edit-title').val(button.data('title')).trigger("change")
-            $('#meansofidentificationtype').val(button.data('meansofidentificationtype')).trigger("change")
-            $('#gender').val(button.data('gender')).trigger("change")
-            $('#roletype').val(button.data('roletype')).trigger("change")
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #firstname').val(button.data('firstname'));
+                modal.find('.modal-body #lastname').val(button.data('lastname'));
+                modal.find('.modal-body #othername').val(button.data('othername'));
+                modal.find('.modal-body #email').val(button.data('email'));
+                modal.find('.modal-body #dob').val(button.data('dob'));
+                modal.find('.modal-body #phone').val(button.data('phone'));
+                modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
 
 
+                $('#edit-title').val(button.data('title')).trigger("change")
+                $('#meansofidentificationtype').val(button.data('meansofidentificationtype')).trigger("change")
+                $('#gender').val(button.data('gender')).trigger("change")
+                $('#roletype').val(button.data('roletype')).trigger("change")
 
+
+
+        });
+
+        $('#enableusermodal').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #firstname').val(button.data('firstname'));
+                modal.find('.modal-body #lastname').val(button.data('lastname'));
+                modal.find('.modal-body #othername').val(button.data('othername'));
+                modal.find('.modal-body #email').val(button.data('email'));
+                modal.find('.modal-body #dob').val(button.data('dob'));
+                modal.find('.modal-body #phone').val(button.data('phone'));
+                modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+                modal.find('.modal-body #gender').val(button.data('gender'));
+                modal.find('.modal-body #edit-title').val(button.data('title'));
+                modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+                modal.find('.modal-body #roletype').val(button.data('roletype'));
+
+
+
+        });
+
+        $('#viewuseradmin').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #firstname').val(button.data('firstname'));
+                modal.find('.modal-body #lastname').val(button.data('lastname'));
+                modal.find('.modal-body #othername').val(button.data('othername'));
+                modal.find('.modal-body #email').val(button.data('email'));
+                modal.find('.modal-body #dob').val(button.data('dob'));
+                modal.find('.modal-body #phone').val(button.data('phone'));
+
+                modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+
+
+                modal.find('.modal-body #edit-title').val(button.data('title'));
+                modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+                modal.find('.modal-body #gender').val(button.data('gender'));
+                modal.find('.modal-body #roletype').val(button.data('roletype'));
+
+        });
     });
-
-      $('#enableusermodal').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
-
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #firstname').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email').val(button.data('email'));
-            modal.find('.modal-body #dob').val(button.data('dob'));
-            modal.find('.modal-body #phone').val(button.data('phone'));
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-            modal.find('.modal-body #gender').val(button.data('gender'));
-            modal.find('.modal-body #edit-title').val(button.data('title'));
-            modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
-            modal.find('.modal-body #roletype').val(button.data('roletype'));
-
-
-
-    });
-
-      $('#viewuseradmin').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
-
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #firstname').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email').val(button.data('email'));
-            modal.find('.modal-body #dob').val(button.data('dob'));
-            modal.find('.modal-body #phone').val(button.data('phone'));
-
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-
-
-            modal.find('.modal-body #edit-title').val(button.data('title'));
-            modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
-            modal.find('.modal-body #gender').val(button.data('gender'));
-            modal.find('.modal-body #roletype').val(button.data('roletype'));
-
-    });
-});
 </script>

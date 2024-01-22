@@ -1,0 +1,594 @@
+<%= render "submenu.html", assigns %>
+<div class="container-fluid">
+    <div class="inner-body">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Employee Maintenance</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Employee Maintenance Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :system_user, :create) do %>
+                        <a class="btn ripple btn-primary mb-0" href="<%= Routes.organization_management_path(@conn, :view_qfin_add_employee) %>" > Add Employee</a>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Employee Number</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Name</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Owners</th>
+
+                                        <th class="wd-15p" style="text-align: center; vertical-align: middle;">Department</th>
+                                        <th class="wd-15p" style="text-align: center; vertical-align: middle;">Job Title</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Employment Status</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Action</th>
+                                    </tr>
+                                </thead>
+                                <%= for employee <-@employees do %>
+                                    <tr>
+                                        <td> <%= employee.employee_number %> </td>
+                                        <td> <%= employee. firstName %> <%= employee.otherName %> <%= employee.lastName %> </td>
+                                        <td> <%= employee.company_name %> </td>
+                                        <td> <%= employee.department_name %> </td>
+                                        <td> <%= employee.job_title %> </td>
+                                        <td> <%= employee.employee_status %> </td>
+                                        <td> <%= employee.status %> </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-info" style="color:white;" data-bs-target="#viewcompany" data-bs-toggle="modal"
+                                                data-company_id= "<%= employee.company_id%>"
+                                                data-company_phone= "<%= employee.companyPhone%>"
+                                                data-company_email= "<%= employee.company_contactEmail%>"
+                                                data-company_registration_number= "<%= employee.company_registrationNumber%>"
+                                                data-company_taxno= "<%= employee.company_taxno%>"
+                                                data-roletype= "<%= employee.roleType%>"
+                                                data-status= "<%= employee.status %>"
+                                                data-id= "<%= employee.userId %>"
+                                                data-dateofbirth= "<%=employee.dateOfBirth %>"
+                                                data-email_address= "<%= employee.emailAddress%>"
+                                                data-firstname = "<%= employee.firstName %>"
+                                                data-gender= "<%=  employee.gender %>"
+                                                data-lastname= "<%= employee.lastName%>"
+                                                data-meansofidentificationnumber= "<%= employee.meansOfIdentificationNumber%>"
+                                                data-meansofidentificationtype= "<%= employee.meansOfIdentificationType%>"
+                                                data-mobile_number= "<%= employee.mobileNumber%>"
+                                                data-othername= "<%= employee.otherName %>"
+                                                data-title= "<%= employee.title%>"
+                                                data-bank_id= "<%=employee.bank_id %>"
+                                                data-bank_account_number= "<%=employee.bank_account_number %>"
+                                                data-marital_status= "<%=employee.marital_status %>"
+                                                data-nationality= "<%= employee.nationality%>"
+                                                data-number_of_dependants= "<%=employee.number_of_dependants %>"
+                                                data-employer_province= "<%= employee.qfin_province%>"
+                                                data-employer_town= "<%= employee.employer_town%>"
+                                                data-area= "<%= employee.area%>"
+                                                data-employee_number= "<%= employee.employee_number%>"
+                                                data-employer= "<%=  employee.company_name%>"
+                                                data-job_title= "<%= employee.job_title%>"
+                                                data-town= "<%= employee.employee_town%>"
+                                                data-accomodation_status= " <%=employee.accomodation_status %>"
+                                                data-area= " <%=employee.area %>"
+                                                data-house_number= " <%= employee.house_number %>"
+                                                data-street_name= " <%= employee.street_name %>"
+                                                data-town_personal= " <%= employee.employee_town%>"
+                                                data-year_at_current_address= " <%= employee.year_at_current_address %>"
+                                                data-account_number= " <%= employee.bank_account_number %>"
+                                            ><i class="fe fe-eye"></i> View </a>
+                                            <a class="btn btn-sm btn-primary" style="color:white;" data-bs-target="#qfinemployee" data-bs-toggle="modal"
+
+                                                data-id= "<%= employee.userId %>"
+                                                data-dateofbirth= "<%=employee.dateOfBirth %>"
+                                                data-email_address= "<%= employee.emailAddress%>"
+                                                data-firstname = "<%= employee.firstName %>"
+                                                data-gender= "<%=  employee.gender %>"
+                                                data-lastname= "<%= employee.lastName%>"
+                                                data-meansofidentificationnumber= "<%= employee.meansOfIdentificationNumber%>"
+                                                data-meansofidentificationtype= "<%= employee.meansOfIdentificationType%>"
+                                                data-mobilenumber= "<%= employee.mobileNumber%>"
+                                                data-othername= "<%= employee.otherName %>"
+                                                data-title= "<%= employee.title%>"
+                                                data-bank_account_number= "<%=employee.bank_account_number %>"
+                                                data-marital_status= "<%=employee.marital_status %>"
+                                                data-nationality= "<%= employee.nationality%>"
+                                                data-number_of_dependants= "<%=employee.number_of_dependants %>"
+                                                data-mobile_network_operator ="<%= employee.mobile_network_operator %> "
+                                                data-house_number ="<%= employee.house_number %> "
+                                                data-street_name = "<%= employee.street_name %> "
+                                                data-registered_name_mobile_number= "<%= employee.registered_name_mobile_number %>"
+                                                data-area= "<%= employee.area %> "
+                                                data-town ="<%= employee.employee_town %> "
+                                                data-accomodation_status ="<%= employee.accomodation_status %> "
+                                                data-year_at_current_address ="<%= employee.year_at_current_address %>"
+                                                data-province = "<%= employee.province %>"
+                                                data-employee_number = "<%=employee.employee_number %> "
+                                                data-bank_account_number = "<%= employee.bank_account_number %> "
+                                                data-bank_id = "<%= employee.bank_id %>"
+                                                data-departmentid = "<%= employee.departmentId %>"
+                                                data-employee_status = "<%= employee.employee_status %>"
+                                                data-branchid = "<%= employee.branchId %>"
+                                                data-job_title ="<%= employee.job_title %>"
+                                            ><i class="fe fe-edit"></i> Edit </a>
+                                            <%= if employee.status == "INACTIVE"   do %>
+                                            <a class="btn btn-sm btn-success admin-activate-user-employee"  data-activate-id="<%= employee.userId %>"
+                                            ><i class="fe fe-check-circle" style="color:white;"> Enable</i></a>
+                                            <% end %>
+                                            <%= if employee.status == "ACTIVE"  do %>
+                                            <a class="btn btn-sm btn-danger admin-deactivate-user" data-deactivate-id="<%= employee.userId %>" ><i class="fe fe-eye" style="color:white;"> Disable</i></a>
+                                            <% end %>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+
+
+
+
+
+<!-- Grid modal -->
+<div class="modal" id="qfinemployee">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+            <h6 class="modal-title">Edit Product</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                </div>
+                   <form action="<%= Routes.organization_management_path(@conn, :admin_qfin_update_employee) %>" id="tst" method="post"  enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div id="wizard3">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <input type="hidden" id="id" name="id">
+                                <h3>Employee Personal Details</h3>
+                                <section>
+                                    <input type="hidden" name="password" id="password-generate">
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12 col-xl-12">
+                                            <h5 class="modal-title"> Personal Details </h5><br>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Title</p>
+                                                    <select id="title" name="title"  class="form-control select2">
+                                                        <option label="Choose Title"></option>
+                                                        <option value="Mr">Mr</option>
+                                                        <option value="Mrs">Mrs</option>
+                                                        <option value="Ms">Ms</option>
+                                                        <option value="Dr">Dr </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">First Name</p>
+                                                    <input id="firstname" name="firstName" class="form-control" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Last Name</p>
+                                                    <input id="lastname" name="lastName" class="form-control" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Choose Gender</p>
+                                                    <select id="gender" name="gender" class="form-control select2">
+                                                        <option label="Choose Currency"></option>
+                                                        <option value="Male">Male </option>
+                                                        <option value="Female">Female </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Nationality</p>
+                                                    <input class="form-control" id="nationality" name="nationality" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">National Registration Card Number</p>
+                                                    <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Date Of Birth</p>
+                                                    <input class="form-control" id="dateofbirth" name="dateOfBirth" type="date" max="<%= Timex.shift(Timex.today(), years: -18) %>">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Choose Marital Status</p>
+                                                    <select id="marital_status" name="marital_status" class="form-control select2">
+                                                        <option label="Choose Marital Status"></option>
+                                                        <option value="Single">Single </option>
+                                                        <option value="Married">Married </option>
+                                                        <option value="Widow">Widow </option>
+                                                        <option value="Widower">Widower </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Number Of Dependents</p>
+                                                    <input class="form-control" id="number_of_dependants" name="number_of_dependants" type="number">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Mobile Network Operator</p>
+                                                    <input class="form-control" id="mobile_network_operator" name="mobile_network_operator" type="email">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Mobile Number</p>
+                                                    <input class="form-control" id="mobilenumber" name="mobileNumber" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Registered Names for the Mobile Number</p>
+                                                    <input class="form-control" id="registered_name_mobile_number" name="registered_name_mobile_number" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Email Address</p>
+                                                    <input class="form-control" id="email_address" name="emailAddress" type="email">
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Is relationship Manager ?</p>
+
+                                                    <label class="toggle">
+                                                        <input id="toggleswitch" type="checkbox" id="isrm" name="isRm">
+                                                        <span class="roundbutton">
+                                                            <p  id="status" style="font-size:10px; color:white; text-align: center;"></p>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </section>
+                                    <h3>Address Details</h3>
+                                    <section>
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12 col-xl-12">
+                                            <h5 class="modal-title"> Address Details </h5><br>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">House/Plot Number</p>
+                                                    <input id="house_number" name="house_number" class="form-control" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Road/Street Name</p>
+                                                    <input id="street_name" name="street_name" class="form-control" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Area</p>
+                                                    <input id="area" name="area" class="form-control" type="text" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Town</p>
+                                                    <input class="form-control" id="town" name="town" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Accomodation Status</p>
+                                                    <input class="form-control" id="accomodation_status" name="accomodation_status" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Years At Current Address</p>
+                                                    <input class="form-control" id="year_at_current_address" name="year_at_current_address" type="number" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Select Province</p>
+                                                    <select id="province" name="province" class="form-control select2">
+                                                        <option label="Choose province"></option>
+                                                        <%= for province <- @provinces do %>
+                                                        <option value="<%= province.name %>"><%= province.name %> </option>
+                                                        <% end %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <h3>Employee Details</h3>
+                                    <section>
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12 col-xl-12">
+                                            <h5 class="modal-title"> Employee Details </h5><br>
+
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Employee Number</p>
+                                                    <input class="form-control" id="employee_number" name="employee_number" type="text" required>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Select Department</p>
+                                                    <select id="departmentid" name="departmentId" class="form-control select2">
+                                                        <option label="Choose Currency"></option>
+                                                        <%= for department <- @departments do %>
+                                                        <option value="<%= department.id %>"><%= department.name %> </option>
+                                                        <% end %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Employee Status</p>
+                                                    <select id="employee_status" name="employee_status" class="form-control select2">
+                                                        <option label="Choose Employee Status"></option>
+                                                        <option value="PROBATION">Probation</option>
+                                                        <option value="EMPLOYED">Employed</option>
+                                                        <option value="CONTRACT">Contract </option>
+                                                        <option value="SHORT_CONTRACT">Short Time Contract </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Select Qfin Branch</p>
+                                                    <select id="branchid" name="branchId" class="form-control select2">
+                                                        <option label="Choose Currency"></option>
+                                                        <%= for branch <- @branches do %>
+                                                            <option value="<%= branch.id %>"><%= branch.name %> </option>
+                                                        <% end %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Select Qfin Bank</p>
+                                                    <select id="bankid" name="bank_id" class="form-control select2">
+                                                        <option label="Choose Bank"></option>
+                                                        <%= for bank <- @banks do %>
+                                                            <option value="<%= bank.id %>"><%= bank.bankName %></option>
+                                                        <% end %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Account Number</p>
+                                                    <input class="form-control" id="bank_account_number" name="bank_account_number" type="text" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                               <div class="col-lg-4">
+                                                    <p class="mg-b-10">Job Title</p>
+                                                    <input class="form-control" id="job_title" name="job_title" type="text" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Grid modal -->
+
+
+
+<script>
+$('#create_user').on('click', function (event){
+    var modal= $("#modaldemo12");
+    var acc= ""
+    $.ajax({
+        url: '/Generate/Random/Password/user',
+        type: 'POST',
+        data: {_csrf_token: $('#csrf').val()},
+        success: function(result) {
+            if (result.account){
+                acc = result.account
+                console.log(acc)
+                console.log(modal.find('#password-generate').val(acc));
+                modal.modal("show")
+            } else {
+                modal.find('#password-gen').val("error");
+                modal.modal("show")
+            }
+        },
+        error: function(request, msg, error) {
+            modal.find('#password-gen').val("error 2");
+            modal.modal("show")
+        }
+    })
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    var input = document.getElementById('toggleswitch');
+    var outputtext = document.getElementById('status');
+
+    input.addEventListener('change',function(){
+        if(this.checked) {
+            outputtext.innerHTML = "Yes";
+        } else {
+            outputtext.innerHTML = "No";
+        }
+    });
+})
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+      $('#viewcompany').on('show.bs.modal', function (event){
+             var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #first_name').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #email_address').val(button.data('email_address'));
+            modal.find('.modal-body #dob').val(button.data('dateofbirth'));
+            modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
+            modal.find('.modal-body #nrcid').val(button.data('meansofidentificationnumber'));
+            modal.find('.modal-body #title').val(button.data('title'));
+            modal.find('.modal-body #gender').val(button.data('gender'));
+            modal.find('.modal-body #marital_status').val(button.data('marital_status'));
+            $('#company_id').val(button.data('company_id')).trigger("change")
+            modal.find('.modal-body #house_number').val(button.data('house_number'));
+            modal.find('.modal-body #street_name').val(button.data('street_name'));
+            modal.find('.modal-body #area').val(button.data('area'));
+            modal.find('.modal-body #town_personal').val(button.data('town_personal'));
+            modal.find('.modal-body #accomodation_status').val(button.data('accomodation_status'));
+            modal.find('.modal-body #year_at_current_address').val(button.data('year_at_current_address'));
+            modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
+            modal.find('.modal-body #nationality').val(button.data('nationality'));
+            modal.find('.modal-body #company_phone').val(button.data('company_phone'));
+            modal.find('.modal-body #company_email').val(button.data('company_email'));
+            modal.find('.modal-body #company_registration_number').val(button.data('company_registration_number'));
+            modal.find('.modal-body #company_status').val(button.data('company_status'));
+            modal.find('.modal-body #company_taxno').val(button.data('company_taxno'));
+            modal.find('.modal-body #company_registration_date').val(button.data('company_registration_date'));
+            modal.find('.modal-body #company_bank_id').val(button.data('company_bank_id'));
+            modal.find('.modal-body #company_account_number').val(button.data('company_account_number'));
+            modal.find('.modal-body #date_of_joining').val(button.data('date_of_joining'));
+            modal.find('.modal-body #employee_number').val(button.data('employee_number'));
+            modal.find('.modal-body #employer').val(button.data('employer'));
+            modal.find('.modal-body #employer_industry_type').val(button.data('employer_industry_type'));
+            modal.find('.modal-body #employer_office_building_name').val(button.data('employer_office_building_name'));
+            modal.find('.modal-body #employer_officer_street_name').val(button.data('employer_officer_street_name'));
+            modal.find('.modal-body #employment_type').val(button.data('employment_type'));
+            modal.find('.modal-body #hr_supervisor_mobile_number').val(button.data('hr_supervisor_mobile_number'));
+            modal.find('.modal-body #hr_supervisor_name').val(button.data('hr_supervisor_name'));
+            modal.find('.modal-body #job_title').val(button.data('job_title'));
+            modal.find('.modal-body #employer_occupation').val(button.data('employer_occupation'));
+            modal.find('.modal-body #hr_supervisor_email').val(button.data('hr_supervisor_email'));
+            modal.find('.modal-body #employer_area').val(button.data('employer_area'));
+            modal.find('.modal-body #employer_province').val(button.data('employer_province'));
+            modal.find('.modal-body #employer_town').val(button.data('employer_town'));
+
+            modal.find('.modal-body #bank_name').val(button.data('bank_name'));
+
+            modal.find('.modal-body #account_name').val(button.data('account_name'));
+            modal.find('.modal-body #account_number').val(button.data('account_number'));
+
+            modal.find('.modal-body #branch_name').val(button.data('branch_name'));
+            modal.find('.modal-body #upload_bank_statement').val(button.data('upload_bank_statement'));
+       });
+
+
+
+    $('#qfinemployee').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var modal = $(this)
+        modal.find('.modal-body #id').val(button.data('id'));
+        $('#title').val(button.data('title')).trigger("change")
+        modal.find('.modal-body #firstname').val(button.data('firstname'));
+        modal.find('.modal-body #lastname').val(button.data('lastname'));
+        modal.find('.modal-body #othername').val(button.data('othername'));
+        modal.find('.modal-body #email_address').val(button.data('email_address'));
+        modal.find('.modal-body #dateofbirth').val(button.data('dateofbirth'));
+        modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
+        modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+        $('#roletypeid').val(button.data('roletypeid')).trigger("change")
+        $('#gender').val(button.data('gender')).trigger("change")
+        $('#marital_status').val(button.data('marital_status')).trigger("change")
+        $('#company_id').val(button.data('company_id')).trigger("change")
+        modal.find('.modal-body #house_number').val(button.data('house_number'));
+        modal.find('.modal-body #mobile_network_operator').val(button.data('mobile_network_operator'));
+        modal.find('.modal-body #house_number').val(button.data('house_number'));
+        modal.find('.modal-body #street_name').val(button.data('street_name'));
+        modal.find('.modal-body #registered_name_mobile_number').val(button.data('registered_name_mobile_number'));
+        modal.find('.modal-body #area').val(button.data('area'));
+        modal.find('.modal-body #town').val(button.data('town'));
+        modal.find('.modal-body #accomodation_status').val(button.data('accomodation_status'));
+        modal.find('.modal-body #year_at_current_address').val(button.data('year_at_current_address'));
+        modal.find('.modal-body #mobilenumber').val(button.data('mobilenumber'));
+        $('#province').val(button.data('province')).trigger("change")
+        $('#bankid').val(button.data('bank_id')).trigger("change")
+        $('#departmentid').val(button.data('departmentid')).trigger("change")
+        $('#employee_status').val(button.data('employee_status')).trigger("change")
+        $('#branchid').val(button.data('branchid')).trigger("change")
+        modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
+        modal.find('.modal-body #nationality').val(button.data('nationality'));
+        modal.find('.modal-body #employee_number').val(button.data('employee_number'));
+        modal.find('.modal-body #job_title').val(button.data('job_title'));
+        modal.find('.modal-body #employer_town').val(button.data('employer_town'));
+        modal.find('.modal-body #bank_account_number').val(button.data('bank_account_number'));
+        modal.find('.modal-body #account_name').val(button.data('account_name'));
+        modal.find('.modal-body #account_number').val(button.data('account_number'));
+        modal.find('.modal-body #job_title').val(button.data('job_title'));
+    });
+});
+</script>
+
+
+
+<style>
+
+
+.ergebnis {
+    font-size: 2rem;
+    font-family: sans-serif;
+    padding: 0.2rem 0 0,2rem 0.2rem;
+    color: white;
+}
+
+.toggle {
+    margin:0 0 0 2rem;
+    position: relative;
+    display: inline-block;
+    width: 4.8rem;
+    height: 2rem;
+}
+
+.toggle input {
+    display: none;
+}
+
+.roundbutton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    background-color: #33455e;
+    display: block;
+    transition: all 0.3s;
+    border-radius: 3.4rem;
+    cursor: pointer;
+}
+
+.roundbutton:before {
+    position: absolute;
+    content: "";
+    height: 1rem;
+    width: 1rem;
+    border-radius: 100%;
+    display: block;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    background-color: white;
+    transition: all 0.3s;
+}
+
+
+input:checked + .roundbutton {
+    background-color: #6259ca;
+}
+
+input:checked + .roundbutton:before  {
+    transform: translate(2.6rem, 0);
+}
+
+
+</style>

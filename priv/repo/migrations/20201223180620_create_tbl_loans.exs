@@ -82,6 +82,7 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoans do
       add :offtakerID, :integer
       add :has_mou, :string
       add :funderID, :integer
+      add :application_date, :date
 
       timestamps()
     end

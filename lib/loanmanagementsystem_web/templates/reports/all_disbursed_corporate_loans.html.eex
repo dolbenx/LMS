@@ -1,0 +1,165 @@
+
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render  "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5"> Corporate Disbused Loans </h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label"> Disbursed Loans
+                                    <span class="text-muted pt-2 font-size-sm d-block">  Corporate Disbursed Loans Table </span></h3>
+                                </div>
+                                <div class="card-toolbar">
+                                    <a class="btn text-white font-weight-bolder" id="all_disbursed_loans_corporate_filter_clear" style="background-color: #0E75BF;" type="button"> <i class="flaticon2-refresh"></i> Reset Filter </a>&nbsp;
+                                    <button class="btn ripple"  type="button" style="background-color: #0E75BF; color: white;" id="admin-all-disbursed-loans-corporate"><i class="la la-filter"></i> Filter</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="dt-all-disbursed-corporate-loans">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Date of Disbursed</th>
+                                             <th class="wd-20p" style="text-align: center; vertical-align: middle;">Corparate Name </th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Contact Person </th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Contact Line </th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Loan Type</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Offtaker</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Principal Amount(ZMW)</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Interest Amount(ZMW)</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Finance Cost(ZMW)</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Total Repayment Amount(ZMW)</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Tenure (Days)</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Funder</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="corpate_disbused_filter">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Filter Report</h6>
+                <button aria-label="Close" class="btn-close" data-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label"> Rep Fist Name </label>
+                                <input  name="rep_f_name" id="rep_f_name" class="form-control select2-with-search clear_form">
+                            </div>
+                            <div class="col-sm">
+                                <label class="form-label"> Rep Last Name </label>
+                                <input  name="rep_l_name" id="rep_l_name" class="form-control select2-with-search clear_form">
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label"> Corparate Name </label>
+                                <input  name="corparate_name" id="corparate_name" class="form-control select2-with-search clear_form">
+                            </div>
+                            <div class="col-sm">
+                                <label class="form-label"> OffTaker Name </label>
+                                <input  name="offtaker_name" id="offtaker_name" class="form-control select2-with-search clear_form" >
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label"> Funder Name</label>
+                                    <select name="funder_id" id="funder_id" class="form-control clear_form">
+                                        <option label="Select Funder"></option>
+                                            <%= for get_loan_funder <- @get_loan_funder do %>
+                                                <option value="<%= get_loan_funder.funderID %>"><%= get_loan_funder.firstName %> - <%= get_loan_funder.funder_type %></option>
+                                            <% end %>
+                                    </select>
+                            </div>
+                            <div class="col-sm">
+                                <label class="form-label"> Loan Type</label>
+                                    <select name="loan_type" id="loan_type" class="form-control clear_form">
+                                        <option label="Select Loan Type"></option>
+                                            <%= for product <- @products do %>
+                                                <option value="<%= product.productType %>"><%= product.productType %> </option>
+                                            <% end %>
+                                    </select>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-sm">
+                             <div class="col-sm">
+                                <label class="form-label"> Interest Amount </label>
+                                <input  name="interest_amount" id="interest_amount" class="form-control select2-with-search clear_form" >
+                            </div>
+                            <div class="col-sm">
+                                <label class="form-label"> Principal Amount </label>
+                                <input  name="principal_amount" id="principal_amount" class="form-control select2-with-search clear_form" >
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label"> Disbursed Start Date</label>
+                                <input class="form-control clear_form" name="from" id="from"  type="date" >
+                            </div>
+                            <div class="col-sm">
+                                <label class="form-label"> Disbursed End Date </label>
+                                <input class="form-control clear_form" name="to" id="to"  type="date" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="all_disbursed_loans_corporate" data-dismiss="modal" class="btn ripple " style="background-color: #0E75BF; color: white;" id=""><span><i class="la la-search"></i><span>Search</span></span></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,11 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUsers do
       add :classification_id, :integer
       add :login_attempt, :integer
       add(:role_id, :integer)
+      add :username_mobile, :string
+<<<<<<< HEAD
 
+=======
+>>>>>>> 52f9d22a72b70099fd2fc0aed1dca23e85bd09cc
       timestamps()
     end
   end

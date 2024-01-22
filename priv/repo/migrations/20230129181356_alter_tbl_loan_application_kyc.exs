@@ -9,7 +9,7 @@ defmodule Loanmanagementsystem.Repo.Migrations.AlterTblLoanApplicationKyc do
       add :monthly_installment, :string
       add :proposed_repayment_date, :date
       add :loan_purpose, :string
-      add :application_date, :date
+      # add :application_date, :date
 
 
     end

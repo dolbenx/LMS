@@ -1,0 +1,1254 @@
+
+
+<style>
+	#select_company{display: none;}
+	#select1_company{display: none;}
+	#select2_company{display: none;}
+	#select3_company{display: none;}
+	#client_employment_Status{display: none;}
+	#mobile{display: none;}
+	#bank{display: none;}
+	#limit{display: none;}
+	#loan_amount{display: none;}
+	#employment_status{display: none;}
+
+	.icon-container {
+    display: absolute; /* Ensures the icons stack vertically */
+    text-align: center; /* Centers the icons horizontally within the container */
+	}
+
+</style>
+
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+		<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+		<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Header-->
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Update Merchant Details</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+				<!--begin::Daterange-->
+				TIME
+			</div>
+			<!--end::Toolbar-->
+		</div>
+	</div>
+	<!--end::Subheader-->
+	<!--begin::Entry--><br>
+	<div class="d-flex flex-column-fluid">
+		<!--begin::Container-->
+		<div class="container-fluid">
+			<!--begin::Dashboard-->
+			<!--begin::Row-->
+			<div class="row">
+				<div class="col-md-12 col-xxl-12">
+					<div class="card card-custom card-stretch gutter-b">
+						<div class="card-header flex-wrap border-0 pt-6 pb-0">
+							<div class="card-title">
+								<h3 class="card-label">Create Merchant
+								<span class="text-muted pt-2 font-size-sm d-block">Provide all the required details for the merchant</span></h3>
+							</div>
+							<div class="card-toolbar">
+							</div>
+						</div>
+						<div class="card-body p-0">
+							<!--begin: Wizard-->
+							<div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+								<!--begin: Wizard Nav-->
+								<div class="wizard-nav">
+									<div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>1.</span>Merchant Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+
+										<!--begin::Wizard Step 1 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>2.</span>Repesentative Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 1 Nav-->
+										<!--begin::Wizard Step 4 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>3.</span>Director Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 4 Nav-->
+										<!--begin::Wizard Step 3 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+												<span>4	.</span>Document Upload</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 3 Nav-->
+									</div>
+								</div>
+								<!--end: Wizard Nav-->
+								<!--begin: Wizard Body-->
+								<div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+									<div class="col-xl-12 col-xxl-12">
+										<!--begin: Wizard Form-->
+										<form class="form fv-plugins-bootstrap fv-plugins-framework" id="kt_form" action="<%= Routes.offtaker_management_path(@conn, :create_merchant_maintenance)%>" enctype="multipart/form-data" method="post">
+											<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+											<input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+											<input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+											<!--begin: Wizard Step 1-->
+
+											<div class="pb-5" data-wizard-type="step-content">
+                                                <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter merchant Details</u></h4>
+                                                <!--begin::Input-->
+                                                <div class="row">
+                                                    <div class="col-md-6 border">
+                                                    <br><h5 class="text-center"> <u>Merchant Details</u> </h5><br>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Company Name: <span style="color: red;">*</span></label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" name="companyName">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter company name.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Business Name: <span style="color: red;">*</span></label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" name="businessName">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter business name.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Company Phone Number: <span style="color: red;">*</span></label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" id="disable_mobile_number" name="companyPhone">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter company mobile.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Contact Email: <span style="color: red;">*</span></label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" id="email" name="contactEmail">
+                                                                </div>
+                                                                <div id="error-message" style="color: red; display: none;">Invalid email address</div>
+                                                                <span class="form-text text-muted">Please enter company email.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Registration Date:</label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="date" class="form-control" id="disable_date" name="companyRegistrationDate">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please Select company registration date.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">TPIN:</label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" id="disable_tpin" name="taxno">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter company TPin.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" id="disable_reg_number" name="registrationNumber">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter company registration No.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Merchant Type:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="merchantType" id="disable_merchant_type" class="form-control">
+																		<option label="Choose One"></option>
+																		<option value="Wholesale Merchant">Wholesale Merchant</option>
+																		<option value="Retail Merchant">Retail Merchant</option>
+																		<option value="eCommerce Merchant">eCommerce Merchant</option>
+																		<option value="Affiliate Merchant">Affiliate Merchant</option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select merchant type.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+                                                    </div>
+                                                    <div class="col-md-6 border">
+                                                        <br><h5 class="text-center"> <u>Bank Details</u> </h5><br>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Select Bank:</label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <select name="bank_id" id="disable_bank" class="form-control">
+                                                                    <option value="">Select</option>
+                                                                    <%= for bank <- @banks do %>
+                                                                        <option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)</option>
+                                                                    <% end %>
+                                                            </select>
+                                                                </div>
+                                                                <span class="form-text text-muted">Please select your bank.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Account Number:</label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" id="disable_account" name="companyAccountNumber">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter your account No.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+														<br><h5 class="text-center"> <u>Device Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Device Name:</label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input name="deviceName" id="disable_device_name" class="form-control">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter your device name.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Device Type:</label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input name="deviceType" id="disable_device_type" class="form-control">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter your device type.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+                                                        <div class="form-group row fv-plugins-icon-container has-success">
+                                                            <label class="col-3 col-form-label">Device Model:</label>
+                                                            <div class="col-9">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control" id="disable_device_model" name="deviceModel">
+                                                                </div>
+                                                                <span class="form-text text-muted">Please enter your device model.</span>
+                                                            </div>
+                                                            <div class="fv-plugins-message-container"></div>
+                                                        </div>
+														<div class="row row-sm mg-b-20 col-lg-12">
+															<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+																<thead>
+																	<tr role="row">
+																		<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																			<label for="example-input-small" class="form-label">Agent Details<span style="color: red;">*</span></label>
+																		</th>
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+																		<!---------<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>-------->
+																	</tr>
+																</thead>
+																<tbody>
+																<!-------<p class="mg-b-10">NOTE: <span style="color: red;">include both IMEI if dual sim</span></p>-------->
+																	<tr class="tr_clone">
+																		<td>
+																			<div class="col-md-12 form-group">
+																				<div class="col-lg">
+																					<p class="mg-b-10">Agent Number</p>
+																					<input name="deviceAgentLine" id="device_agent_line" class="form-control" type="number">
+																				</div>
+																			</div>
+																		</td>
+																		<td>
+																			<div class="col-md-12 form-group">
+																				<div class="col-lg">
+																					<p class="mg-b-10">Phone IMEI</p>
+																					<input name="deviceIMEI" id="disable_phone_imei" class="form-control" type="text">
+																				</div>
+																			</div>
+																		</td>
+																		<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+
+																		<!----------<td class="fitwidth">
+																		<div class="icon-container">
+                                                                            <div class="form-group">
+                                                                                <i style="cursor:pointer; color:#053032; font-size: 25px;" onclick="addrow(this)" class="adder flaticon-plus tr_clone_add"></i><br>
+                                                                                <i style="cursor:pointer; font-size: 25px;" onclick="removerow(this)" class="minus text-danger flaticon-cancel tr_clone_minus"></i>
+                                                                            </div>
+																			</div>
+                                                                        </td>------>
+
+
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+											<div class="pb-5" data-wizard-type="step-content">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Representative Details</u></h4>
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Title:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="title" id="rep_select_title" class="form-control rep_admin-gender-change">
+																		<option label="Choose One"></option>
+																		<option value="Mr">Mr </option>
+																		<option value="Mrs">Mrs </option>
+																		<option value="Ms">Ms </option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select title.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="firstName">
+																</div>
+																<span class="form-text text-muted">Please enter first name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="lastName">
+																</div>
+																<span class="form-text text-muted">Please enter last name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Other Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="otherName">
+																</div>
+																<span class="form-text text-muted">Please enter other name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="rep_mobile_number" name="mobileNumber">
+																</div>
+																<span class="form-text text-muted">Please enter mobile number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Date Of Birth:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="dateOfBirth">
+																</div>
+																<span class="form-text text-muted">Please Select date of birth.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="email" class="form-control" id="rep_email" name="emailAddress">
+																</div>
+                                                                <div id="rep_error-message" style="color: red; display: none;">Invalid email address</div>
+																<span class="form-text text-muted">Please enter email address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" id="disable_id_number"  class="form-control" name="meansOfIdentificationNumber">
+																</div>
+																<span class="form-text text-muted">Please enter ID No.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Gender:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input name="gender" id="rep_provide_gender" class="form-control" readonly>
+																</div>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">House/Plot Number</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="rep_house_number" name="house_number">
+																</div>
+																<span class="form-text text-muted">Please enter House/Plot Number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Road/Street Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="rep_street_name" name="street_name">
+																</div>
+																<span class="form-text text-muted">Please enter Road/Street Name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Area:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="rep_area" name="area">
+																</div>
+																<span class="form-text text-muted">Please enter area.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Town:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="town" id="rep_town" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for town <- @town do %>
+																			<option value="<%= town.name %>"><%= town.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Province:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="province" id="rep_province" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for province <- @province do %>
+																			<option value="<%= province.name %>"><%= province.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Accomodation Status:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select type="text" class="form-control" id="rep_accomodation_status" name="accomodation_status">
+                                                                        <option> Choose One</option>
+                                                                        <option> Rentend </option>
+                                                                        <option> Owned </option>
+                                                                    </select>
+																</div>
+																<span class="form-text text-muted">Please select accomodation status.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Years At Current Address:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="number" id="rep_years_at_address" class="form-control" name="year_at_current_address">
+																</div>
+																<span class="form-text text-muted">Please enter years At current address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div><br>
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 1-->
+											<!--begin: Wizard Step 4-->
+											<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Director Details</u></h4>
+												<div class="row">
+													<div class="col-md-6 border">
+													<br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Title:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="dr_title" id="dr_select_title" class="form-control director-gender-change">
+																		<option label="Choose One"></option>
+																		<option value="Mr">Mr </option>
+																		<option value="Mrs">Mrs </option>
+																		<option value="Ms">Ms </option>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please select title.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="dr_firstName">
+																</div>
+																<span class="form-text text-muted">Please enter first name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="dr_lastName">
+																</div>
+																<span class="form-text text-muted">Please enter last name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Other Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" name="dr_otherName">
+																</div>
+																<span class="form-text text-muted">Please enter other name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="dr_mobile_number" name="dr_mobileNumber">
+																</div>
+																<span class="form-text text-muted">Please enter mobile number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Date Of Birth:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="dr_dateOfBirth">
+																</div>
+																<span class="form-text text-muted">Please Select date of birth.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="email" class="form-control" id="dr_emailAddress" name="dr_emailAddress">
+																</div>
+                                                                <div id="dr_error-message" style="color: red; display: none;">Invalid email address</div>
+																<span class="form-text text-muted">Please enter email address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="dr_id_number" name="dr_meansOfIdentificationNumber">
+																</div>
+																<span class="form-text text-muted">Please enter ID No.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Gender:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input name="dr_gender" id="dr_provide_gender" class="form-control" readonly>
+																</div>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+													</div>
+													<div class="col-md-6 border">
+														<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">House/Plot Number</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="dr_house_number" name="dr_house_number">
+																</div>
+																<span class="form-text text-muted">Please enter House/Plot Number.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Road/Street Name:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="dr_street_name" name="dr_street_name">
+																</div>
+																<span class="form-text text-muted">Please enter Road/Street Name.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Area:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="dr_area" name="dr_area">
+																</div>
+																<span class="form-text text-muted">Please enter area.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Town:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="dr_town" id="dr_town" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for town <- @town do %>
+																			<option value="<%= town.name %>"><%= town.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Province:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select name="dr_province" id="dr_province" class="form-control">
+																		<option label="Choose One"></option>
+																		<%= for province <- @province do %>
+																			<option value="<%= province.name %>"><%= province.name %> </option>
+																		<% end %>
+																	</select>
+																</div>
+																<span class="form-text text-muted">Please enter town.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Accomodation Status:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<select type="text" class="form-control" id="dr_accomodation_status" name="dr_accomodation_status">
+                                                                        <option> Choose One</option>
+                                                                        <option> Rentend </option>
+                                                                        <option> Owned </option>
+                                                                    </select>
+																</div>
+																<span class="form-text text-muted">Please select accomodation status.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div>
+														<div class="form-group row fv-plugins-icon-container has-success">
+															<label class="col-3 col-form-label">Years At Current Address:</label>
+															<div class="col-9">
+																<div class="input-group input-group-sm">
+																	<input type="number" class="form-control" id="dr_year_at_current_address" name="dr_year_at_current_address">
+																</div>
+																<span class="form-text text-muted">Please enter years At current address.</span>
+															</div>
+															<div class="fv-plugins-message-container"></div>
+														</div><br>
+													</div>
+												</div>
+											</div>
+											<!--end: Wizard Step 4-->
+											<!--begin: Wizard Step 4-->
+											<!--end: Wizard Step 4-->
+											<!--begin: Wizard Step 3-->
+											<div class="pb-5" data-wizard-type="step-content">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+												<!--begin::Select-->
+												<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+													<thead>
+														<tr role="row">
+															<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																<label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+															</th>
+															<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+														</tr>
+													</thead>
+													<tbody>
+														<%= for item <- client_document_upload() do %>
+															<tr class="tr_clone">
+																<td>
+																	<div class="col-md-12 form-group">
+																		<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+																	</div>
+																</td>
+																<td>
+																	<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> >
+																</td>
+															</tr>
+														<% end %>
+													</tbody>
+												</table>
+											</div>
+											<!--end: Wizard Step 3-->
+											<!--begin: Wizard Actions-->
+											<div class="d-flex justify-content-between border-top mt-5 pt-10">
+												<div class="mr-2">
+													<button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+												</div>
+												<div>
+													<button type="submit" id="submitButton" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+													<button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+												</div>
+											</div>
+											<!--end: Wizard Actions-->
+										<div></div><div></div><div></div><div></div></form>
+										<!--end: Wizard Form-->
+									</div>
+								</div>
+								<!--end: Wizard Body-->
+							</div>
+							<!--end: Wizard-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Row-->
+			<!--end::Dashboard-->
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->
+
+<script>
+	function calculate() {
+	// Get the values entered by the user
+	var input1 = document.getElementById("gross_pay").value;
+	var input2 = document.getElementById("total_deductions").value;
+
+	// Perform the calculation
+	if (input1 )
+	var net_pay = input1 - input2;
+
+	  if (input1 === "" || input2 === "") {
+		var net_pay = 0;
+		var loan_limit_amount = 0;
+		} else {
+			var net_pay = input1 - input2;
+
+			var loan_limit_amount = (net_pay * 0.50);
+
+
+		}
+
+	// Display the result to the user
+
+
+	document.getElementById("net_pay").value = net_pay;
+	document.getElementById("loan_limit_amount").value = loan_limit_amount;
+
+
+
+
+	}
+</script>
+
+<script>
+    $(document).ready(function() {
+    // Function to update the date and time
+    function updateDateTime() {
+        var now = new Date();
+        var dateTime = now.toLocaleString();
+        $('#datetime').text(dateTime);
+    }
+
+    // Update the date and time initially
+    updateDateTime();
+
+    // Update the date and time every second
+    setInterval(updateDateTime, 1000);
+    });
+</script>
+
+<script>
+    // Select the form and input elements
+    var form = document.getElementById("myForm");
+    var emailInput = document.getElementById("email");
+    var rep_email = document.getElementById("rep_email");
+    var dr_email = document.getElementById("dr_emailAddress");
+
+
+    var disable_date = document.getElementById("disable_date");
+    var disable_account = document.getElementById("disable_account");
+    var disable_bank = document.getElementById("disable_bank");
+    var disable_reg_number = document.getElementById("disable_reg_number");
+    var disable_tpin = document.getElementById("disable_tpin");
+    var disable_merchant_type = document.getElementById("disable_merchant_type");
+    var disable_device_name = document.getElementById("disable_device_name");
+    var disable_device_type = document.getElementById("disable_device_type");
+    var disable_device_model = document.getElementById("disable_device_model");
+    var device_agent_line = document.getElementById("device_agent_line");
+    var disable_phone_imei = document.getElementById("disable_phone_imei");
+    var disable_mobile_number = document.getElementById("disable_mobile_number");
+    var errorMessage = document.getElementById("error-message");
+
+
+
+
+    var disable_id_number = document.getElementById("disable_id_number");
+    var disable_years_at_address = document.getElementById("rep_years_at_address");
+    var disable_accomodation_status = document.getElementById("rep_accomodation_status");
+    var disable_town = document.getElementById("rep_town");
+    var disable_province = document.getElementById("rep_province");
+    var disable_area = document.getElementById("rep_area");
+    var disable_street_name = document.getElementById("rep_street_name");
+    var disable_house_number = document.getElementById("rep_house_number");
+	var rep_mobile_number = document.getElementById("rep_mobile_number");
+    var rep_errorMessage = document.getElementById("rep_error-message");
+
+
+
+
+
+	var dr_id_number = document.getElementById("dr_id_number");
+    var dr_house_number = document.getElementById("dr_house_number");
+    var dr_street_name = document.getElementById("dr_street_name");
+    var dr_area = document.getElementById("dr_area");
+    var dr_town = document.getElementById("dr_town");
+    var dr_province = document.getElementById("dr_province");
+    var dr_accomodation_status = document.getElementById("dr_accomodation_status");
+    var dr_year_at_current_address = document.getElementById("dr_year_at_current_address");
+    var dr_mobile_number = document.getElementById("dr_mobile_number");
+
+    var dr_errorMessage = document.getElementById("dr_error-message");
+
+    var submitButton = document.getElementById("submitButton");
+    // Function to validate email
+    function isEmailValid(email) {
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return emailPattern.test(email);
+    }
+
+    // Event listener for the email input field
+    emailInput.addEventListener("input", function () {
+        const email = emailInput.value;
+        const isValid = isEmailValid(email);
+
+        if (isValid) {
+            disable_date.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+            } else {
+            disable_date.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_tpin.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+
+            disable_tpin.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let tpin = disable_tpin.value.replace(/\D/g, '').substr(0, 10);
+            // Update the input value
+            disable_tpin.value = tpin;
+            });
+
+            } else {
+            disable_tpin.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_reg_number.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+
+            disable_reg_number.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let registration_number = disable_reg_number.value.replace(/\D/g, '').substr(0, 10);
+
+            // Update the input value
+            disable_reg_number.value = registration_number;
+            });
+            } else {
+            disable_reg_number.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_bank.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+            } else {
+            disable_bank.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_account.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+            } else {
+            disable_account.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            disable_device_name.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+            } else {
+            disable_device_name.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            disable_device_type.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+            } else {
+            disable_device_type.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            disable_device_model.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+            } else {
+            disable_device_model.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            device_agent_line.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+
+			 device_agent_line.addEventListener("input", function () {
+				// Remove non-digit characters and limit to 10 digits
+				let device_line = device_agent_line.value.replace(/\D/g, '').substr(0, 10);
+
+				// Update the input value
+				device_agent_line.value = device_line;
+			});
+
+            } else {
+            device_agent_line.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            disable_phone_imei.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            errorMessage.style.display = "none";
+
+			disable_phone_imei.addEventListener("input", function () {
+				// Remove non-digit characters and limit to 10 digits
+				let device_imei = disable_phone_imei.value.replace(/\D/g, '').substr(0, 19);
+
+				// Update the input value
+				disable_phone_imei.value = device_imei;
+			});
+
+            } else {
+            disable_phone_imei.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            errorMessage.style.display = "block";
+        }
+    });
+
+    rep_email.addEventListener("input", function () {
+        const email = rep_email.value;
+        const isValid = isEmailValid(email);
+
+        if (isValid) {
+            disable_id_number.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+
+            disable_id_number.addEventListener("input", function () {
+
+				let nrc_number = disable_id_number.value.replace(/[^0-9]/g, '').substr(0, 10);
+
+                // Add slashes to the formatted NRC number
+                let formattedNRC = nrc_number.replace(/(\d{6})(\d{2})(\d{1})/, '$1/$2/$3');
+
+                // Update the input value with the formatted NRC
+                disable_id_number.value = formattedNRC;
+            });
+
+            } else {
+            disable_id_number.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_years_at_address.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+            } else {
+            disable_years_at_address.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_accomodation_status.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+            } else {
+            disable_accomodation_status.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_town.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+            } else {
+            disable_town.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_area.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+            } else {
+            disable_area.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_street_name.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+            } else {
+            disable_street_name.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+
+        if (isValid) {
+            disable_house_number.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+            } else {
+            disable_house_number.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            disable_province.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            rep_errorMessage.style.display = "none";
+            } else {
+            disable_province.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            rep_errorMessage.style.display = "block";
+        }
+    });
+
+	dr_email.addEventListener("input", function () {
+        const email = dr_email.value;
+        const isValid = isEmailValid(email);
+
+		if (isValid) {
+            dr_id_number.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+
+			dr_id_number.addEventListener("input", function () {
+
+				let dr_nrc_number = dr_id_number.value.replace(/[^0-9]/g, '').substr(0, 10);
+
+                // Add slashes to the formatted NRC number
+                let formattedNRC = dr_nrc_number.replace(/(\d{6})(\d{2})(\d{1})/, '$1/$2/$3');
+
+                // Update the input value with the formatted NRC
+                dr_id_number.value = formattedNRC;
+            });
+
+            } else {
+            dr_id_number.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            dr_house_number.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+            } else {
+            dr_house_number.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            dr_street_name.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+            } else {
+            dr_street_name.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            dr_area.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+            } else {
+            dr_area.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            dr_province.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+            } else {
+            dr_province.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            dr_accomodation_status.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+            } else {
+            dr_accomodation_status.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            dr_year_at_current_address.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+            } else {
+            dr_year_at_current_address.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+
+		if (isValid) {
+            dr_town.removeAttribute("disabled");
+            submitButton.removeAttribute("disabled");
+            dr_errorMessage.style.display = "none";
+            } else {
+            dr_town.setAttribute("disabled", true);
+            submitButton.setAttribute("disabled", true);
+            dr_errorMessage.style.display = "block";
+        }
+	});
+
+    document.addEventListener("DOMContentLoaded", function () {
+        rep_mobile_number.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let mobileNumber = rep_mobile_number.value.replace(/\D/g, '').substr(0, 10);
+
+            // Update the input value
+            rep_mobile_number.value = mobileNumber;
+        });
+
+		disable_mobile_number.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let mobileNumber = disable_mobile_number.value.replace(/\D/g, '').substr(0, 10);
+
+            // Update the input value
+            disable_mobile_number.value = mobileNumber;
+        });
+
+		dr_mobile_number.addEventListener("input", function () {
+            // Remove non-digit characters and limit to 10 digits
+            let dr_mobileNumber = dr_mobile_number.value.replace(/\D/g, '').substr(0, 10);
+
+            // Update the input value
+            dr_mobile_number.value = dr_mobileNumber;
+        });
+    });
+
+    // Event listener for the form submission (optional)
+    form.addEventListener("submit", function (event) {
+        if (!isEmailValid(emailInput.value)) {
+            event.preventDefault(); // Prevent form submission if email is invalid
+            errorMessage.style.display = "block";
+        }
+    });
+</script>

@@ -2,6 +2,9 @@ defmodule Loanmanagementsystem.Maintenance.Bank do
   use Ecto.Schema
   use Endon
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
+  @derive {Jason.Encoder, only: [:id, :bankName, :process_branch, :center_code, :bank_descrip, :bank_code, :acronym]}
 
   schema "tbl_banks" do
     field :acronym, :string

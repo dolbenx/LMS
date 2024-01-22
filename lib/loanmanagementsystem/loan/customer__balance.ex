@@ -1,6 +1,8 @@
 defmodule Loanmanagementsystem.Loan.Customer_Balance do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_customer_balance" do
     field :account_number, :string

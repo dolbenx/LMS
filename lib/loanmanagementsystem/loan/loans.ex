@@ -365,6 +365,9 @@ defmodule Loanmanagementsystem.Loan.Loans do
   defmodule Localtime do
     def autogenerate,
       do:
-        Timex.now() |> DateTime.truncate(:second) |> DateTime.to_naive() |> Timex.shift(hours: 2)
+      Timex.local()
+      |> NaiveDateTime.truncate(:second)
   end
+
+
 end

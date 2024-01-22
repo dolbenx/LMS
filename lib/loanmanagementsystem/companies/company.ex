@@ -2,6 +2,8 @@ defmodule Loanmanagementsystem.Companies.Company do
   use Ecto.Schema
   import Ecto.Changeset
   use Endon
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   #
 
@@ -23,6 +25,7 @@ defmodule Loanmanagementsystem.Companies.Company do
     field :companyAccountNumber, :string
     field :bank_id, :integer
     field :user_bio_id, :integer
+    field :employer_code, :string
 
     timestamps()
   end
@@ -47,7 +50,8 @@ defmodule Loanmanagementsystem.Companies.Company do
       :approval_trail,
       :auth_level,
       :companyRegistrationDate,
-      :companyAccountNumber
+      :companyAccountNumber,
+      :employer_code
     ])
     |> validate_required([
       :bank_id,

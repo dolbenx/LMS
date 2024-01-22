@@ -1,6 +1,8 @@
 defmodule Loanmanagementsystem.Employment.Employee_Maintenance do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
 
   schema "tbl_employee_maintenance" do
     field :branchId, :integer

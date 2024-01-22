@@ -424,6 +424,9 @@ defmodule Loanmanagementsystem.Employment do
   def get_employee__maintenance_by_userId(userId),
     do: Repo.get_by(Employee_Maintenance, userId: userId)
 
+
+    def get_employee__details_by_userId(userId),
+    do: Repo.get_by(Employment_Details, userId: userId)
   @doc """
   Creates a employee__maintenance.
 

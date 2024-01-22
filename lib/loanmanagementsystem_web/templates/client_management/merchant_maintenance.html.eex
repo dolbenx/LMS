@@ -1,621 +1,1271 @@
-<%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
-<div class="container">
-    <div class="inner-body">
 
-        <!-- Page Header -->
-        <div class="page-header">
-            <div>
-                <h2 class="main-content-title tx-24 mg-b-5">Merchant Maintenance</h2>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Merchant Maintenance</li>
-                </ol>
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+			<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+		<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Merchant Maintenance</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+				<!--begin::Actions-->
+				<div id="datetime"></div>
+			</div>
+			<!--end::Toolbar-->
+		</div>
+	</div>
+	<!--end::Subheader-->
+	<!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+		<!--begin::Container-->
+		<div class="container-fluid">
+			<!--begin::Dashboard-->
+			<!--begin::Row-->
+			<div class="row">
+				<div class="col-md-12 col-xxl-12">
+					<div class="card card-custom card-stretch gutter-b">
+						<div class="card-header flex-wrap border-0 pt-6 pb-0">
+							<div class="card-title">
+								<h3 class="card-label">Merchant List
+								<span class="text-muted pt-2 font-size-sm d-block">List of onboaded Merchants</span></h3>
+							</div>
+							<%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+								<div class="card-toolbar">
+									<a href="<%= Routes.offtaker_management_path(@conn, :merchant_maintenance) %>" class="btn text-white font-weight-bolder" style="background-color: #0E75BF;">
+										<span><i class="flaticon2-add-1 text-white"></i></span>Add Merchant </a>
+								</div>
+							<% end %>
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered border-bottom" id="kt_datatable">
+								<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+								<thead>
+									<tr>
+											<th class="wd-20p" style="text-align: center; vertical-align: middle;">Company Name</th>
+											<th class="wd-20p" style="text-align: center; vertical-align: middle;">Company Dir</th>
+											<th class="wd-20p" style="text-align: center; vertical-align: middle;">Business Name</th>
+											<th class="wd-15p" style="text-align: center; vertical-align: middle;">Phone</th>
+											<th class="wd-20p" style="text-align: center; vertical-align: middle;">Pacra Number</th>
+											<th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
+											<th class="wd-20p" style="text-align: center; vertical-align: middle;">Action</th>
+
+
+										</tr>
+								</thead>
+								<%= for merchant <- @agent_merchant_list  do %>
+									<tr>
+										<td><%= merchant.companyName %></td>
+										<td><%= merchant.dirFirstName %> <%= merchant.dirLastName %></td>
+										<td><%= merchant.businessName %></td>
+										<td><%= merchant.companyPhone %></td>
+										<td><%= merchant.registrationNumber %></td>
+											<%= if merchant.merchantstatus == "ACTIVE" do %>
+											<td><span class= "badge bg-pill bg-success" ><%= merchant.merchantstatus %></span> </td>
+										<% else %>
+											<%= if merchant.merchantstatus == "INACTIVE" do %>
+												<td><span class="badge bg-pill bg-danger"><%= merchant.merchantstatus %></span> </td>
+											<% end %>
+										<% end %>
+										<td>
+
+											<div class="dropdown">
+												<button class="dropbtn">Options</button>
+												<div class="dropdown-content">
+													<%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :edit) do %>
+														<a class="btn ripple btn-sm" href="#"
+															title="edit"
+															data-target="#edit_merchant_modal"
+															data-toggle="modal"
+															data-user_id="<%= merchant.id %>"
+														>Edit</a>
+													<% end %>
+
+													<a class="btn ripple btn-sm" href="#"
+														title="view"
+														data-target="#view_merchant_modal"
+														data-toggle="modal"
+														data-id ="<%=merchant.id %>"
+														data-company_name="<%= merchant.companyName %>"
+													>View</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+								<% end %>
+
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Row-->
+			<!--end::Dashboard-->
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->
+
+
+
+
+
+
+
+<div class="modal fade" id="edit_merchant_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Merchant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
             </div>
-             <div class="d-flex">
-                <div class="justify-content-center">
-                    <button class="btn ripple btn-primary mb-0" id="create_merchant_agent" data-bs-toggle="modal" > Add Agent</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- End Page Header -->
-
-        <!-- Row -->
-           <div class="row row-sm">
-            <div class="col-lg-12">
-                <div class="card custom-card overflow-hidden">
-
-                    <div class="card-body">
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered border-bottom" id="example1">
-                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-                                 <thead>
-                                       <tr>
-                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Company Name</th>
-                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Company Dir</th>
-                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Business Nature</th>
-                                            <th class="wd-15p" style="text-align: center; vertical-align: middle;">Phone</th>
-                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Pacra Number</th>
-                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
-                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Action</th>
-
-
-                                        </tr>
-                                </thead>
-                                 <%= for merchant <- @agent_merchant_list  do %>
-                                    <tr>
-                                        <td><%= merchant.companyName %></td>
-                                        <td><%= merchant.dirFirstName %> <%= merchant.dirLastName %></td>
-                                        <td><%= merchant.businessNature %></td>
-                                        <td><%= merchant.companyPhone %></td>
-                                        <td><%= merchant.registrationNumber %></td>
-                                        <td><%= merchant.merchantstatus %></td>
-                                         <td>
-                                            <button class="btn ripple " title="view" data-bs-target="#view_merchant_modal" data-bs-toggle="modal" data-id ="<%=merchant.id %>" data-company_name="<%= merchant.companyName %>"><i class="si si-eye"></i></button>
-                                            <button class="btn ripple " title="edit" data-bs-target="#view_merchant_modal" data-bs-toggle="modal" data-id ="<%=merchant.id %>"> <i class="si si-note"></i></button>
-                                        </td>
-                                    </tr>
-                                <% end %>
-
-                            </table>
+                            <!--begin: Wizard-->
+            <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="step-first" data-wizard-clickable="true">
+                <!--begin: Wizard Nav-->
+                <div class="wizard-nav">
+                    <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                        <!--begin::Wizard Step 1 Nav-->
+                        <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>1.</span>Company Details</h3>
+                                <div class="wizard-bar"></div>
+                            </div>
                         </div>
+
+                        <div class="wizard-step" data-wizard-type="step">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>2.</span>Representative Details</h3>
+                                <div class="wizard-bar"></div>
+                            </div>
+                        </div>
+
+                        <div class="wizard-step" data-wizard-type="step">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>3.</span>Director Details</h3>
+                                <div class="wizard-bar"></div>
+                            </div>
+                        </div>
+                        <!--end::Wizard Step 4 Nav-->
+                    </div>
+                </div>
+
+                <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                    <div class="col-xl-12 col-xxl-13">
+                        <!--begin: Wizard Form-->
+                        <form class="form" action="<%= Routes.offtaker_management_path(@conn, :edit_merchant_maintenance)%>" enctype="multipart/form-data" method="post" id="tst">
+                        	<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <!--begin: Wizard Step 1-->
+								<%= for merchant <- @agent_merchant_list  do %>
+
+                            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                            	<input type="hidden" name="password" id="password-generate">
+                            	<input type="hidden" name="id" value="<%= merchant.id %>">
+                            	<input type="hidden" name="user_id_merchant" value="<%= merchant.user_id %>">
+
+                                <!--begin::Input-->
+                                <div class="row">
+									<div class="col-md-6 border"><br>
+									<br><h5 class="text-center"> <u>Merchant Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Company Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%= merchant.companyName %>" id="company_name" name="companyName">
+												</div>
+												<span class="form-text text-muted">Please enter company name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Business Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%= merchant.businessName %>" name="businessName">
+												</div>
+												<span class="form-text text-muted">Please enter business name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Business Nature: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.businessNature %>" name="businessNature">
+												</div>
+												<span class="form-text text-muted">Please enter business nature.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Company Phone Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.companyPhone %>" maxlength="10" name="companyPhone">
+												</div>
+												<span class="form-text text-muted">Please enter company mobile.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Contact Email: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="email" class="form-control" value="<%=merchant.contactEmail %>" name="contactEmail">
+												</div>
+												<span class="form-text text-muted">Please enter company email.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Registration Date:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="date" class="form-control" value="<%=merchant.companyRegistrationDate %>" name="companyRegistrationDate" readonly>
+												</div>
+												<span class="form-text text-muted">Please Select company registration date.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">TPIN:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" maxlength="10" class="form-control" value="<%=merchant.taxno %>" name="taxno" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter company TPin.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.registrationNumber %>" name="registrationNumber" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter company registration No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Merchant Type:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="merchantType" value="<%=merchant.merchantType %>" class="form-control">
+														<option label="Choose One"></option>
+														<option value="Wholesale Merchant">Wholesale Merchant</option>
+														<option value="Retail Merchant">Retail Merchant</option>
+														<option value="eCommerce Merchant">eCommerce Merchant</option>
+														<option value="Affiliate Merchant">Affiliate Merchant</option>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please select merchant type.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+									</div>
+									<div class="col-md-6 border">
+										<br><h5 class="text-center"> <u>Bank Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Select Bank:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="bank_id" class="form-control">
+													<option value="">Select</option>
+													<%= for bank <- @banks do %>
+														<option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)</option>
+													<% end %>
+											</select>
+												</div>
+												<span class="form-text text-muted">Please select your bank.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Account Number:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.companyAccountNumber %>" name="companyAccountNumber">
+												</div>
+												<span class="form-text text-muted">Please enter your account No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+									</div>
+								</div>
+                            </div>
+
+                            <div class="pb-5" data-wizard-type="step-content">
+								<div class="row">
+									<div class="col-md-6 border">
+									<br><h5 class="text-center"> <u>Representative Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Title:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="title" value="<%=merchant.rep_title %>" class="form-control">
+														<option label="Choose One"></option>
+														<option value="Mr">Mr </option>
+														<option value="Mrs">Mrs </option>
+														<option value="Ms">Ms </option>
+														<option value="Dr">Dr </option>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please select title.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.rep_firstName %>" name="firstName">
+												</div>
+												<span class="form-text text-muted">Please enter first name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" value="<%=merchant.rep_lastName %>" class="form-control" name="lastName">
+												</div>
+												<span class="form-text text-muted">Please enter last name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Other Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" value="<%=merchant.rep_otherName %>" class="form-control" name="otherName">
+												</div>
+												<span class="form-text text-muted">Please enter other name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" maxlength="10" value="<%=merchant.rep_mobileNumber %>" name="mobileNumber">
+												</div>
+												<span class="form-text text-muted">Please enter mobile number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Date Of Birth:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" value="<%=merchant.rep_dateOfBirth %>" name="dateOfBirth">
+												</div>
+												<span class="form-text text-muted">Please Select date of birth.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="email" class="form-control" value="<%=merchant.rep_emailAddress %>" name="emailAddress">
+												</div>
+												<span class="form-text text-muted">Please enter email address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.rep_meansOfIdentificationNumber %>" name="meansOfIdentificationNumber">
+												</div>
+												<span class="form-text text-muted">Please enter ID No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Choose Gender:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="gender" value="<%=merchant.rep_gender %>" class="form-control">
+														<option label="Choose One"></option>
+														<option value="Male">Male </option>
+														<option value="Female">Female </option>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please select gender.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+									</div>
+									<div class="col-md-6 border">
+										<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">House/Plot Number</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_house_number %>" name="house_number">
+												</div>
+												<span class="form-text text-muted">Please enter House/Plot Number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Road/Street Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_street_name %>" name="street_name">
+												</div>
+												<span class="form-text text-muted">Please enter Road/Street Name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Area:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_area %>" name="area">
+												</div>
+												<span class="form-text text-muted">Please enter area.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Town:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="town" value="<%=merchant.addr_town %>" class="form-control">
+														<option label="Choose One"></option>
+														<%= for town <- @town do %>
+															<option value="<%= town.name %>"><%= town.name %> </option>
+														<% end %>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please enter town.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Province:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="town" value="<%=merchant.addr_province %>" class="form-control">
+														<option label="Choose One"></option>
+														<%= for province <- @province do %>
+															<option value="<%= province.name %>"><%= province.name %> </option>
+														<% end %>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please enter town.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Accomodation Status:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_accomodation_status %>" name="accomodation_status">
+												</div>
+												<span class="form-text text-muted">Please enter accomodation status.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Years At Current Address:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="number" class="form-control" value="<%=merchant.addr_year_at_current_address %>" name="year_at_current_address">
+												</div>
+												<span class="form-text text-muted">Please enter years At current address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div><br>
+									</div>
+								</div>
+							</div>
+
+                            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+								<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Director Details</u></h4>
+								<div class="row">
+									<div class="col-md-6 border">
+									<br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Title:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="dr_title" value="<%=merchant.dirTitle %>" class="form-control">
+														<option label="Choose One"></option>
+														<option value="Mr">Mr </option>
+														<option value="Mrs">Mrs </option>
+														<option value="Ms">Ms </option>
+														<option value="Dr">Dr </option>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please select title.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirFirstName %>" name="dr_firstName">
+												</div>
+												<span class="form-text text-muted">Please enter first name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirLastName %>" name="dr_lastName">
+												</div>
+												<span class="form-text text-muted">Please enter last name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Other Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirOtherName %>" name="dr_otherName">
+												</div>
+												<span class="form-text text-muted">Please enter other name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" maxlength="10" value="<%=merchant.dirMobileNumber %>" name="dr_mobileNumber">
+												</div>
+												<span class="form-text text-muted">Please enter mobile number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Date Of Birth:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="date" class="form-control" value="<%=merchant.dirDate_of_birth %>" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="dr_dateOfBirth">
+												</div>
+												<span class="form-text text-muted">Please Select date of birth.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="email" class="form-control" value="<%=merchant.dirEmailAddress %>" name="dr_emailAddress">
+												</div>
+												<span class="form-text text-muted">Please enter email address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirDirectorIdentificationnNumber %>" name="dr_meansOfIdentificationNumber">
+												</div>
+												<span class="form-text text-muted">Please enter ID No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Choose Gender:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="dr_gender" value="<%=merchant.dirGender %>" class="form-control">
+														<option label="Choose One"></option>
+														<option value="Male">Male </option>
+														<option value="Female">Female </option>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please select gender.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+									</div>
+									<div class="col-md-6 border">
+										<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">House/Plot Number</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirHouse_number %>" name="dr_house_number">
+												</div>
+												<span class="form-text text-muted">Please enter House/Plot Number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Road/Street Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirStreet_name %>" name="dr_street_name">
+												</div>
+												<span class="form-text text-muted">Please enter Road/Street Name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Area:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirArea %>" name="dr_area">
+												</div>
+												<span class="form-text text-muted">Please enter area.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Town:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="dr_town" value="<%=merchant.dirTown %>" class="form-control">
+														<option label="Choose One"></option>
+														<%= for town <- @town do %>
+															<option value="<%= town.name %>"><%= town.name %> </option>
+														<% end %>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please enter town.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Province:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<select name="dr_province" value="<%=merchant.dirProvince %>" class="form-control">
+														<option label="Choose One"></option>
+														<%= for province <- @province do %>
+															<option value="<%= province.name %>"><%= province.name %> </option>
+														<% end %>
+													</select>
+												</div>
+												<span class="form-text text-muted">Please enter province.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Accomodation Status:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirAccomodation_status %>" name="dr_accomodation_status">
+												</div>
+												<span class="form-text text-muted">Please enter accomodation status.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Years At Current Address:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="number" class="form-control" value="<%=merchant.dirYears_at_current_address %>" name="dr_year_at_current_address">
+												</div>
+												<span class="form-text text-muted">Please enter years At current address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div><br>
+									</div>
+								</div>
+							</div>
+							<% end %>
+                            <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                <div class="mr-2">
+                                    <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+                                    <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Row -->
     </div>
 </div>
 
 
-
-
-<div class="modal" id="create_merchant_modal">
-	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Create Merchant</h6>
-				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-			</div>
-			<form action="<%= Routes.client_management_path(@conn, :admin_create_merchant) %>" enctype="multipart/form-data" id="tst" method="post">
-				<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-				<input type="hidden" name="merchantType" value="MERCHANT">
-				<div id="wizard1">
-                    <h3>Corporate Details</h3>
-					<section>
-						<div class="row row-sm mg-b-20">
-							<%# <input name="employer" class="form-control" id="company_name" type="hidden"> %>
-							<!-- col-4 -->
-                            <div class="col-lg">
-								<p class="mg-b-10">Company Name</p>
-								<input type="text" class="form-control" name="companyName" id="" required>
-                            </div>
-                            <div class="col-lg">
-								<p class="mg-b-10">Business Name</p>
-								<input type="text" class="form-control" name="businessName" id="" required>
-                            </div>
-                            <div class="col-lg">
-								<p class="mg-b-10">Business Nature</p>
-								<input type="text" class="form-control" name="businessNature" id="" required>
+<div class="modal fade" id="view_merchant_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Merchant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+                            <!--begin: Wizard-->
+            <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="step-first" data-wizard-clickable="true">
+                <!--begin: Wizard Nav-->
+                <div class="wizard-nav">
+                    <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                        <!--begin::Wizard Step 1 Nav-->
+                        <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>1.</span>Company Details</h3>
+                                <div class="wizard-bar"></div>
                             </div>
                         </div>
-                        <div class="row row-sm mg-b-20">
-                             <div class="col-lg">
-								<p class="mg-b-10">Address</p>
-								<input type="text" class="form-control" name="" id="" required>
-                            </div>
-							<div class="col-lg">
-								<p class="mg-b-10">Company Mobile Number</p>
-								<input type="text" class="form-control" name="companyPhone" id="" required>
-                            </div>
-                            <div class="col-lg-4">
-								<p class="mg-b-10">Company Contact Email</p>
-								<input type="text" class="form-control" name="contactEmail" id="" required>
-                            </div>
 
-						</div>
-						<div class="row row-sm mg-b-20">
-                            <div class="col-lg-4">
-								<p class="mg-b-10">Company TPIN</p>
-								<input type="text" class="form-control" name="taxno" id="" required>
+                        <div class="wizard-step" data-wizard-type="step">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>2.</span>Representative Details</h3>
+                                <div class="wizard-bar"></div>
                             </div>
-							<div class="col-lg">
-								<p class="mg-b-10"> Pacra-Registration Number</p>
-								<input type="text" class="form-control" name="registrationNumber" id="" required>
-                            </div>
-                            <div class="col-lg-4">
-								<p class="mg-b-10">Registration Date</p>
-								<input type="date" class="form-control" name="companyRegistrationDate" id="" required>
-                            </div>
-						</div>
-                        <h5>Director's Details</h5>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">First Name</p>
-                                <input name="dirFirstName" class="form-control" type="text">
-                            </div>
-							<div class="col-lg">
-								<p class="mg-b-10">Last Name</p>
-								<input name="dirLastName" class="form-control" type="text">
-                            </div>
-                            <div class="col-lg">
-								<p class="mg-b-10">Other Name</p>
-								<input class="form-control" name="dirOtherName" type="text">
-                            </div>
-						</div>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg-4">
-								<p class="mg-b-10">Mobile Number</p>
-								<input class="form-control" name="dirMobileNumber" type="text">
-                            </div>
-							<div class="col-lg-4">
-								<p class="mg-b-10">Email</p>
-								<input class="form-control" name="dirEmailAddress" type="email">
-                            </div>
-                            <div class="col-lg-4">
-								<p class="mg-b-10">Identification Number</p>
-								<input class="form-control" name="dirDirectorIdentificationnNumber" type="text">
-                                <input class="form-control" name="dirDirectorIdType" value="NRC" type="hidden">
-                            </div>
-						</div>
+                        </div>
 
-                        <h5>Device Details</h5>
-                        <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">Device Type</p>
-                                <input name="deviceType" class="form-control" type="text">
+                        <div class="wizard-step" data-wizard-type="step">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>3.</span>Director Details</h3>
+                                <div class="wizard-bar"></div>
                             </div>
-							<div class="col-lg">
-								<p class="mg-b-10">Device Model</p>
-								<input name="deviceModel" class="form-control" type="text">
-                            </div>
-						</div>
-                        <div class="row row-sm mg-b-20 col-lg-12">
-                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
-								<thead>
-									<tr role="row">
-										<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
-											<label for="example-input-small" class="form-label">Agent Details<span style="color: red;">*</span></label>
-										</th>
-										<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
-										<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
-									</tr>
-								</thead>
-								<tbody>
-                                 <p class="mg-b-10">NOTE: <span style="color: red;">include both IMEI if dual sim</span></p>
-									<tr class="tr_clone">
-										<td>
-											<div class="col-md-12 form-group">
-												<div class="col-lg">
-                                                    <p class="mg-b-10">Agent Number</p>
-                                                    <input name="deviceAgentLine[]" class="form-control" type="text">
-                                                </div>
+                        </div>
+                        <!--end::Wizard Step 4 Nav-->
+                    </div>
+                </div>
+
+                <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                    <div class="col-xl-12 col-xxl-13">
+                        <!--begin: Wizard Form-->
+                        <form class="form" action="#" enctype="multipart/form-data" method="post" id="tst">
+                        	<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <!--begin: Wizard Step 1-->
+								<%= for merchant <- @agent_merchant_list  do %>
+
+                            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                            	<input type="hidden" name="password" id="password-generate">
+                            	<input type="hidden" name="id" value="<%= merchant.id %>">
+                            	<input type="hidden" name="user_id_merchant" value="<%= merchant.user_id %>">
+
+                                <!--begin::Input-->
+                                <div class="row">
+									<div class="col-md-6 border"><br>
+									<br><h5 class="text-center"> <u>Merchant Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Company Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%= merchant.companyName %>" id="company_name" name="companyName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter company name.</span>
 											</div>
-										</td>
-										<td>
-											<div class="col-md-12 form-group">
-												<div class="col-lg">
-                                                    <p class="mg-b-10">Phone IMEI</p>
-                                                    <input name="deviceIMEI[]" class="form-control" type="text">
-                                                </div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Business Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%= merchant.businessName %>" name="businessName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter business name.</span>
 											</div>
-										</td>
-										<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
-										<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
-									</tr>
-								</tbody>
-							</table>
-
-						</div>
-
-
-					</section>
-
-					<h3>Contact Person Details</h3>
-					<section>
-
-						<div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                                <p class="mg-b-10">First Name</p>
-                                <input name="firstName" class="form-control" type="text">
-                            </div>
-							<div class="col-lg">
-								<p class="mg-b-10">Last Name</p>
-								<input name="lastName" class="form-control" type="text">
-                            </div>
-                            <div class="col-lg">
-								<p class="mg-b-10">Other Name</p>
-								<input class="form-control" name="otherName" type="text">
-                            </div>
-						</div>
-						<div class="row row-sm mg-b-20">
-							<div class="col-lg">
-								<p class="mg-b-10">Date Of Birth</p>
-								<input class="form-control" name="dateOfBirth" type="date">
-                            </div>
-                            <div class="col-lg">
-								<p class="mg-b-10">Mobile Number</p>
-								<input class="form-control" name="mobileNumber" type="text">
-                            </div>
-							<div class="col-lg">
-								<p class="mg-b-10">Personal Email</p>
-								<input class="form-control" name="emailAddress" type="email">
-                            </div>
-						</div>
-						<div class="row row-sm mg-b-20">
-							<input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
-							<div class="col-lg-4">
-								<p class="mg-b-10">Identification Number</p>
-								<input class="form-control" name="meansOfIdentificationNumber" type="text">
-                            </div>
-
-							<div class="col-lg-4">
-								<p class="mg-b-10">Choose Gender</p>
-								<select name="gender" class="form-control select2">
-									<option label="Choose Currency"></option>
-									<option value="Male">Male </option>
-									<option value="Female">Female </option>
-								</select>
-							</div>
-						</div>
-					</section>
-
-					<h3> Bank Details</h3>
-					<section>
-						<div class="card-body">
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg">
-									<p class="mg-b-10">Select Bank</p>
-									<select name="bank_id" class="form-control select2">
-										<option label="Choose Bank"> </option>
-                                        <%= for bank <- @banks do %>
-
-                                            <option name="bankId" value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
-                                            </option>
-                                            <input name="bankName" value="<%= bank.bankName %>" type="hidden">
-                                            <input name="branchName" value="<%= bank.process_branch %>" type="hidden">
-                                        <% end %>
-
-									</select>
-								</div>
-								<div class="col-lg">
-									<p class="mg-b-10">Account Number</p>
-									<input class="form-control" name="companyAccountNumber" type="text"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Account Name</p>
-									<input class="form-control" name="accountName" type="text">
-                                </div>
-							</div>
-						</div>
-					</section>
-					<h3>Document Upload</h3>
-					<section>
-						<div class="row row-sm mg-b-20">
-							<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
-								<thead>
-									<tr role="row">
-										<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
-											<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
-										</th>
-										<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
-
-									</tr>
-								</thead>
-								<tbody>
-									<%= for item <- required_document() do %>
-										<tr class="tr_clone">
-											<td>
-												<div class="col-md-12 form-group">
-													<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Business Nature: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.businessNature %>" name="businessNature" readonly>
 												</div>
-											</td>
-											<td>
-												<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> >
-											</td>
-										</tr>
-									<% end %>
-								</tbody>
-							</table>
-						</div>
-					</section>
-				<div>
-			</form>
-
-		</div>
-	</div>
-</div>
-	</div>
-</div>
-
-
-
-<div class="modal" id="view_merchant_modal">
-	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">View Merchant</h6>
-				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-			</div>
-			<div class="modal-body">
-				<form action="<%= Routes.client_management_path(@conn, :admin_create_merchant) %>" enctype="multipart/form-data" id="tst" method="post">
-					<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-					<input type="hidden" name="merchantType" value="MERCHANT">
-					<div id="wizard2">
-						<h3>Corporate Details</h3>
-						<section>
-							<div class="row row-sm mg-b-20">
-								<%# <input name="employer" class="form-control" id="company_name" type="hidden"> %>
-									<!-- col-4 -->
-									<div class="col-lg">
-										<p class="mg-b-10">Company Name</p>
-										<input type="text" class="form-control" name="companyName" id="company_name" required> </div>
-									<div class="col-lg">
-										<p class="mg-b-10">Business Name</p>
-										<input type="text" class="form-control" name="businessName" id="company_phone" required> </div>
-									<div class="col-lg">
-										<p class="mg-b-10">Business Nature</p>
-										<input type="text" class="form-control" name="businessNature" id="company_phone" required> </div>
-							</div>
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg">
-									<p class="mg-b-10">Address</p>
-									<input type="text" class="form-control" name="" id="company_phone" required> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Company Mobile Number</p>
-									<input type="text" class="form-control" name="companyPhone" id="company_phone" required> </div>
-								<div class="col-lg-4">
-									<p class="mg-b-10">Company Contact Email</p>
-									<input type="text" class="form-control" name="contactEmail" id="company_phone" required> </div>
-							</div>
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg-4">
-									<p class="mg-b-10">Company TPIN</p>
-									<input type="text" class="form-control" name="taxno" id="company_phone" required> </div>
-								<div class="col-lg">
-									<p class="mg-b-10"> Pacra-Registration Number</p>
-									<input type="text" class="form-control" name="registrationNumber" id="registration_number" required> </div>
-								<div class="col-lg-4">
-									<p class="mg-b-10">Registration Date</p>
-									<input type="date" class="form-control" name="companyRegistrationDate" id="company_phone" required> </div>
-							</div>
-							<h5>Director's Details</h5>
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg">
-									<p class="mg-b-10">First Name</p>
-									<input name="dirFirstName" class="form-control" type="text"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Last Name</p>
-									<input name="dirLastName" class="form-control" type="text"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Other Name</p>
-									<input class="form-control" name="dirOtherName" type="text"> </div>
-							</div>
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg-4">
-									<p class="mg-b-10">Mobile Number</p>
-									<input class="form-control" name="dirMobileNumber" type="text"> </div>
-								<div class="col-lg-4">
-									<p class="mg-b-10">Email</p>
-									<input class="form-control" name="dirEmailAddress" type="email"> </div>
-								<div class="col-lg-4">
-									<p class="mg-b-10">Identification Number</p>
-									<input class="form-control" name="dirDirectorIdentificationnNumber" type="text">
-									<input class="form-control" name="dirDirectorIdType" value="NRC" type="hidden"> </div>
-							</div>
-							<h5>Device Details</h5>
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg">
-									<p class="mg-b-10">Device Type</p>
-									<input name="deviceType" class="form-control" type="text"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Device Model</p>
-									<input name="deviceModel" class="form-control" type="text"> </div>
-							</div>
-							<div class="row row-sm mg-b-20 col-lg-12">
-								<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
-									<thead>
-										<tr role="row">
-											<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
-												<label for="example-input-small" class="form-label">Agent Details<span style="color: red;">*</span></label>
-											</th>
-											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
-											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
-										</tr>
-									</thead>
-									<tbody>
-										<p class="mg-b-10">NOTE: <span style="color: red;">include both IMEI if dual sim</span></p>
-										<tr class="tr_clone">
-											<td>
-												<div class="col-md-12 form-group">
-													<div class="col-lg">
-														<p class="mg-b-10">Agent Number</p>
-														<input name="deviceAgentLine[]" class="form-control" type="text"> </div>
+												<span class="form-text text-muted">Please enter business nature.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Company Phone Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.companyPhone %>" maxlength="10" name="companyPhone" readonly>
 												</div>
-											</td>
-											<td>
-												<div class="col-md-12 form-group">
-													<div class="col-lg">
-														<p class="mg-b-10">Phone IMEI</p>
-														<input name="deviceIMEI[]" class="form-control" type="text"> </div>
+												<span class="form-text text-muted">Please enter company mobile.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Contact Email: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="email" class="form-control" value="<%=merchant.contactEmail %>" name="contactEmail" readonly>
 												</div>
-											</td>
-											<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
-											<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</section>
-						<h3>Contact Person Details</h3>
-						<section>
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg">
-									<p class="mg-b-10">First Name</p>
-									<input name="firstName" class="form-control" type="text"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Last Name</p>
-									<input name="lastName" class="form-control" type="text"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Other Name</p>
-									<input class="form-control" name="otherName" type="text"> </div>
-							</div>
-							<div class="row row-sm mg-b-20">
-								<div class="col-lg">
-									<p class="mg-b-10">Date Of Birth</p>
-									<input class="form-control" name="dateOfBirth" type="date"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Mobile Number</p>
-									<input class="form-control" name="mobileNumber" type="text"> </div>
-								<div class="col-lg">
-									<p class="mg-b-10">Personal Email</p>
-									<input class="form-control" name="emailAddress" type="email"> </div>
-							</div>
-							<div class="row row-sm mg-b-20">
-								<input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
-								<div class="col-lg-4">
-									<p class="mg-b-10">Identification Number</p>
-									<input class="form-control" name="meansOfIdentificationNumber" type="text"> </div>
-								<div class="col-lg-4">
-									<p class="mg-b-10">Choose Gender</p>
-									<select name="gender" class="form-control select2">
-										<option label="Choose Currency"></option>
-										<option value="Male">Male </option>
-										<option value="Female">Female </option>
-									</select>
-								</div>
-							</div>
-						</section>
-						<h3> Bank Details</h3>
-						<section>
-							<div class="card-body">
-								<div class="row row-sm mg-b-20">
-									<div class="col-lg">
-										<p class="mg-b-10">Select Bank</p>
-										<select name="bank_id" class="form-control select2">
-											<option label="Choose Bank"> </option>
-											<%= for bank <- @banks do %>
-												<option name="bankId" value="<%= bank.id %>">
-													<%= bank.bankName %> (
-														<%= bank.process_branch %>) </option>
-												<input name="bankName" value="<%= bank.bankName %>" type="hidden">
-												<input name="branchName" value="<%= bank.process_branch %>" type="hidden">
-												<% end %>
-										</select>
+												<span class="form-text text-muted">Please enter company email.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Registration Date:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="date" class="form-control" value="<%=merchant.companyRegistrationDate %>" name="companyRegistrationDate" readonly>
+												</div>
+												<span class="form-text text-muted">Please Select company registration date.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">TPIN:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" maxlength="10" class="form-control" value="<%=merchant.taxno %>" name="taxno" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter company TPin.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.registrationNumber %>" name="registrationNumber" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter company registration No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Merchant Type:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="merchantType" value="<%=merchant.merchantType %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please select merchant type.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
 									</div>
-									<div class="col-lg">
-										<p class="mg-b-10">Account Number</p>
-										<input class="form-control" name="companyAccountNumber" type="text"> </div>
-									<div class="col-lg">
-										<p class="mg-b-10">Account Name</p>
-										<input class="form-control" name="accountName" type="text"> </div>
+									<div class="col-md-6 border">
+										<br><h5 class="text-center"> <u>Bank Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Select Bank:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="bank_id" value="<%=merchant.bankName %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please select your bank.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Account Number:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.companyAccountNumber %>" name="companyAccountNumber" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter your account No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+									</div>
+								</div>
+                            </div>
+
+                            <div class="pb-5" data-wizard-type="step-content">
+								<div class="row">
+									<div class="col-md-6 border">
+									<br><h5 class="text-center"> <u>Representative Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Title:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="title" value="<%=merchant.rep_title %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please select title.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.rep_firstName %>" name="firstName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter first name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" value="<%=merchant.rep_lastName %>" class="form-control" name="lastName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter last name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Other Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" value="<%=merchant.rep_otherName %>" class="form-control" name="otherName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter other name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" maxlength="10" value="<%=merchant.rep_mobileNumber %>" name="mobileNumber" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter mobile number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Date Of Birth:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="date" class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" value="<%=merchant.rep_dateOfBirth %>" name="dateOfBirth" readonly>
+												</div>
+												<span class="form-text text-muted">Please Select date of birth.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="email" class="form-control" value="<%=merchant.rep_emailAddress %>" name="emailAddress" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter email address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.rep_meansOfIdentificationNumber %>" name="meansOfIdentificationNumber" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter ID No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Choose Gender:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="gender" value="<%=merchant.rep_gender %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please select gender.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+									</div>
+									<div class="col-md-6 border">
+										<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">House/Plot Number</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_house_number %>" name="house_number" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter House/Plot Number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Road/Street Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_street_name %>" name="street_name" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter Road/Street Name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Area:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_area %>" name="area" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter area.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Town:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="town" value="<%=merchant.addr_town %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter town.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Province:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="town" value="<%=merchant.addr_province %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter town.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Accomodation Status:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.addr_accomodation_status %>" name="accomodation_status" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter accomodation status.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Years At Current Address:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="number" class="form-control" value="<%=merchant.addr_year_at_current_address %>" name="year_at_current_address" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter years At current address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div><br>
+									</div>
 								</div>
 							</div>
-						</section>
-						<h3>Document Upload</h3>
-						<section>
-							<div class="row row-sm mg-b-20">
-								<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
-									<thead>
-										<tr role="row">
-											<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
-												<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
-											</th>
-											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
-										</tr>
-									</thead>
-									<tbody>
-										<%= for item <- required_document() do %>
-											<tr class="tr_clone">
-												<td>
-													<div class="col-md-12 form-group">
-														<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
-													</div>
-												</td>
-												<td>
-													<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> > </td>
-											</tr>
-											<% end %>
-									</tbody>
-								</table>
+
+                            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+								<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter Director Details</u></h4>
+								<div class="row">
+									<div class="col-md-6 border">
+									<br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Title:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="dr_title" value="<%=merchant.dirTitle %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please select title.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirFirstName %>" name="dr_firstName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter first name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirLastName %>" name="dr_lastName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter last name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Other Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirOtherName %>" name="dr_otherName" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter other name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" maxlength="10" value="<%=merchant.dirMobileNumber %>" name="dr_mobileNumber" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter mobile number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Date Of Birth:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="date" class="form-control" value="<%=merchant.dirDate_of_birth %>" max="<%= Timex.shift(Timex.today(), years: -18) %>" name="dr_dateOfBirth" readonly>
+												</div>
+												<span class="form-text text-muted">Please Select date of birth.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="email" class="form-control" value="<%=merchant.dirEmailAddress %>" name="dr_emailAddress" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter email address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirDirectorIdentificationnNumber %>" name="dr_meansOfIdentificationNumber" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter ID No.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Choose Gender:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="dr_gender" value="<%=merchant.dirGender %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please select gender.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+									</div>
+									<div class="col-md-6 border">
+										<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">House/Plot Number</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirHouse_number %>" name="dr_house_number" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter House/Plot Number.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Road/Street Name:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirStreet_name %>" name="dr_street_name" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter Road/Street Name.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Area:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirArea %>" name="dr_area" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter area.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Town:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="dr_town" value="<%=merchant.dirTown %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter town.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Province:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input name="dr_province" value="<%=merchant.dirProvince %>" class="form-control" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter province.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Accomodation Status:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="text" class="form-control" value="<%=merchant.dirAccomodation_status %>" name="dr_accomodation_status" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter accomodation status.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div>
+										<div class="form-group row fv-plugins-icon-container has-success">
+											<label class="col-3 col-form-label">Years At Current Address:</label>
+											<div class="col-9">
+												<div class="input-group input-group-sm">
+													<input type="number" class="form-control" value="<%=merchant.dirYears_at_current_address %>" name="dr_year_at_current_address" readonly>
+												</div>
+												<span class="form-text text-muted">Please enter years At current address.</span>
+											</div>
+											<div class="fv-plugins-message-container"></div>
+										</div><br>
+									</div>
+								</div>
 							</div>
-						</section>
-						<div>
-				</form>
-				</div>
-				</div>
-			</div>
-		</div>
-	</div>
+							<% end %>
+                            <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                <div class="mr-2">
+                                    <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script>
-
-    $('#create_merchant_agent').on('click', function (event){
-        var modal= $("#create_merchant_modal");
-        var acc= ""
-        $.ajax({
-            url: '/Generate/Random/Password/user',
-            type: 'POST',
-            data: {_csrf_token: $('#csrf').val()},
-            success: function(result) {
-                if (result.account){
-                    acc = result.account
-                    console.log(acc)
-                    console.log(modal.find('#password-generate').val(acc));
-                    modal.modal("show")
-                } else {
-                    modal.find('#password-gen').val("error");
-                    modal.modal("show")
-                }
-            },
-            error: function(request, msg, error) {
-                modal.find('#password-gen').val("error 2");
-                modal.modal("show")
-            }
-        })
-    });
-
-
-</script>
-
 
 <script>
-  function addrow(e)
-  {
-      var $tr    = $(e).closest('.tr_clone');
-      var $clone = $tr.clone();
-      $clone.find(':text').val('');
-      $tr.after($clone);
-  }
-
-  function removerow(e)
-  {
-      var $tr    = $(e).closest('.tr_clone');
-      var $remove = $tr.remove();
-      $remove.find(':text').val('');
-      $tr.after($remove);
-  }
-</script>
-
-
-
-
-<script>
-$(document).ready(function(){
-
-      $('#view_merchant_modal').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
-            var id = button.data('id')
-            var company_name = button.data('company_name')
-
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #company_name').val(button.data('company_name'));
-            console.log("here man!!!!!");
-            console.log(company_name);
-
-
-    });
-});
+	$(document).ready(function(){
+		$('#edit_merchant_modal').on('show.bs.modal', function (event){
+			var button = $(event.relatedTarget)
+			var modal = $(this)
+			modal.find('.modal-body #user_id').val(button.data('user_id'));
+		});
+	});
 </script>

@@ -1,66 +1,90 @@
 
-<div class="container  mx-auto px-2">
-        <div class="flex flex-wrap">
-            <div class="flex items-center py-4 w-full">
-                <div class="w-full">
-                    <div class="">
-                        <div class="flex flex-wrap justify-between">
-                            <div class="items-center ">
-                                <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">Audit Trail</h1>
-                                <ol class="list-reset flex text-sm">
-                                    <li><a href="#" class="text-gray-500">System</a></li>
-                                    <li><span class="text-gray-500 mx-2">/</span></li>
-                                    <li class="text-gray-500">Trails</li>
-                                </ol>
+
+<div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Audit Trail</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Audit Trail List
+                                    <span class="text-muted pt-2 font-size-sm d-block">Audit trail</span></h3>
+                                </div>
+                                <div class="card-toolbar">
+
+                                </div>
                             </div>
-                            <div class="flex items-center">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>User</th>
+                                            <th>Role</th>
+                                            <th>Activity</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%= for logs <- @userlogs  do %>
+                                            <tr>
+                                                <td><%= logs.id %></td>
+                                                <td><%= logs.username %></td>
+                                                <td><%= logs.roleType %></td>
+                                                <td><%= logs.activity %></td>
+                                                <td><%= logs.inserted_at %></td>
+
+                                            </tr>
+                                        <% end %>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--end::Row-->
             </div>
-
+            <!--end::Container-->
         </div>
-    </div><!--end container-->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4  mb-4">
-        <div class="sm:col-span-12  md:col-span-12 lg:col-span-12 xl:col-span-12 ">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">System Audit Trails</h4>
-                </div><!--end card-header-->
-                <div class="card-body">
-                    <div class="relative overflow-x-auto  sm:rounded">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns"><div class="dataTable-top"><div class="dataTable-dropdown"><label><select class="dataTable-selector"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option></select> entries per page</label></div><div class="dataTable-search"><input class="dataTable-input" placeholder="Search..." type="text"></div></div><div class="dataTable-container"><table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 dataTable-table" id="datatable_2">
-                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-                                <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>User</th>
-                                    <th>Role</th>
-                                    <th>Activity</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <%= for logs <- @userlogs  do %>
-                                <tr>
-                                    <td><%= logs.id %></td>
-                                    <td><%= logs.username %></td>
-                                    <td><%= logs.roleType %></td>
-                                    <td><%= logs.activity %></td>
-                                    <td><%= logs.inserted_at %></td>
-
-                                </tr>
-                            <% end %>
-                            </tbody>
-
-                        </table></div><div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to 7 of 7 entries</div><nav class="dataTable-pagination"><ul class="dataTable-pagination-list"></ul></nav></div></div>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded csv">Export CSV</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded sql">Export SQL</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded txt">Export TXT</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded json">Export JSON</button>
-                    </div>
-                </div><!--end card-body-->
-            </div> <!--end card-->
-        </div>
+        <!--end::Entry-->
     </div>
