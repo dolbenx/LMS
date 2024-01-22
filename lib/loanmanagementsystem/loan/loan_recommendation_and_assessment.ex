@@ -18,7 +18,6 @@ defmodule Loanmanagementsystem.Loan.Loan_recommendation_and_assessment do
     field :time_out, :string
     field :time_received, :string
     field :user_type, :string
-    field :loan_id, :integer
 
 
     timestamps()
@@ -27,7 +26,7 @@ defmodule Loanmanagementsystem.Loan.Loan_recommendation_and_assessment do
   @doc false
   def changeset(loan_recommendation_and_assessment, attrs) do
     loan_recommendation_and_assessment
-    |> cast(attrs, [:loan_id,:customer_id, :reference_no, :recommended, :on_hold, :file_sent_to_sale, :comments, :name, :signature, :position, :date, :time_received, :time_out, :date_received, :user_type])
+    |> cast(attrs, [:customer_id, :reference_no, :recommended, :on_hold, :file_sent_to_sale, :comments, :name, :signature, :position, :date, :time_received, :time_out, :date_received, :user_type])
     # |> validate_required([:customer_id, :reference_no, :recommended, :on_hold, :file_sent_to_sale, :comments, :name, :signature, :position, :date, :time_received, :time_out, :date_received])
   end
 end

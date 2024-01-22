@@ -25,12 +25,18 @@ defmodule LoanmanagementsystemWeb.Plugs.SetUser do
   #             |> Map.put(user, :role, _)
   #             |> Map.put(:role_desc, role_desc)
   #         end
-  #       assign(conn,:user,user)
+
+  #       assign(
+  #         conn,
+  #         :user,
+  #         user
+  #       )
+
+
   #     true ->
   #       assign(conn, :user, nil)
   #   end
   # end
-
 
 
   def call(conn, _params) do
@@ -50,7 +56,6 @@ defmodule LoanmanagementsystemWeb.Plugs.SetUser do
                   |> AtomicMap.convert(%{safe: false})
                   |> Map.put(user, :role, _)
                   |> Map.put(:role_desc, role_desc)
-
             end
           assign(conn,:user,users)
         end

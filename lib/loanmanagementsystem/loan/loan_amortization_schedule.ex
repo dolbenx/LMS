@@ -1,7 +1,7 @@
 defmodule Loanmanagementsystem.Loan.Loan_amortization_schedule do
   use Ecto.Schema
-  import Ecto.Changeset
   use Endon
+  import Ecto.Changeset
 
   schema "tbl_loan_amortization_schedule" do
     field :beginning_balance, :float
@@ -20,14 +20,13 @@ defmodule Loanmanagementsystem.Loan.Loan_amortization_schedule do
     field :calculation_date, :date
 
 
-
     timestamps()
   end
 
   @doc false
   def changeset(loan_amortization_schedule, attrs) do
     loan_amortization_schedule
-    |> cast(attrs, [:date, :calculation_date, :customer_id, :loan_id, :reference_no, :loan_amount, :interest_rate, :term_in_months, :month, :beginning_balance, :payment, :interest, :principal, :ending_balance])
-    |> validate_required([:customer_id, :loan_id, :reference_no, :loan_amount, :interest_rate, :term_in_months, :month, :beginning_balance, :payment, :interest, :principal, :ending_balance])
+    |> cast(attrs, [:customer_id, :loan_id, :calculation_date, :reference_no, :loan_amount, :interest_rate, :term_in_months, :month, :beginning_balance, :payment, :interest, :principal, :ending_balance, :date])
+    # |> validate_required([:customer_id, :loan_id, :reference_no, :loan_amount, :interest_rate, :term_in_months, :month, :beginning_balance, :payment, :interest, :principal, :ending_balance])
   end
 end

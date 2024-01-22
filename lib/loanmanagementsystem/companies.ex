@@ -1,21 +1,13 @@
 defmodule Loanmanagementsystem.Companies do
   @moduledoc """
   The Companies context.
-
-
-  Loanmanagementsystem.Companies.get_company!()
-
-
   """
 
   import Ecto.Query, warn: false
   alias Loanmanagementsystem.Repo
   alias Loanmanagementsystem.Companies.{Company, Client_company_details}
   alias Loanmanagementsystem.Companies.Documents
-  alias Loanmanagementsystem.Accounts.User
-  alias Loanmanagementsystem.Accounts.UserBioData
-  alias Loanmanagementsystem.Accounts.UserRole
-  alias Loanmanagementsystem.Maintenance.Bank
+
   @doc """
   Returns the list of tbl_company.
 
@@ -36,55 +28,6 @@ defmodule Loanmanagementsystem.Companies do
       companyPhone: c.companyPhone
     })
     |> Repo.all()
-  end
-
-  def offtaker_details_list do
-    Company
-    |> where([c], c.isOfftaker == true and c.status == "ACTIVE")
-    |> select([c], %{
-      id: c.id,
-      companyName: c.companyName,
-      companyPhone: c.companyPhone
-    })
-    |> Repo.all()
-  end
-
-  # Loanmanagementsystem.Companies.get_company_by_regNo(45634564745)
-  def get_company_by_regNo(registrationNumber) do
-    Company
-    |> join(:left, [c], u in User, on: c.id == u.company_id)
-    |> join(:left, [c, u], uB in UserBioData, on: u.id == uB.userId)
-    |> join(:left, [c, u, uB], uR in UserRole, on: u.id == uR.userId)
-    |> join(:left, [c, u, uB, uR], cB in Bank, on: c.bank_id == cB.id)
-    |> where([c, u, uB, uR, cB], c.registrationNumber == ^registrationNumber)
-    |> select([c, u, uB, uR, cB], %{
-      id: c.id,
-      customer_id: u.id,
-      companyName: c.companyName,
-      firstName: uB.firstName,
-      lastName: uB.lastName,
-      userId: uB.userId,
-      otherName: uB.otherName,
-      dateOfBirth: uB.dateOfBirth,
-      meansOfIdentificationType: uB.meansOfIdentificationType,
-      meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-      title: uB.title,
-      gender: uB.gender,
-      mobileNumber: uB.mobileNumber,
-      emailAddress: uB.emailAddress,
-      nationality: uB.nationality,
-      role_id: uR.id,
-      companyPhone: c.companyPhone,
-      contactEmail: c.contactEmail,
-      registrationNumber: c.registrationNumber,
-      taxno: c.taxno,
-      companyRegistrationDate: c.companyRegistrationDate,
-      companyAccountNumber: c.companyAccountNumber,
-      bankName: cB.bankName,
-      user_bio_id: c.user_bio_id,
-    })
-    |> limit(1)
-    |> Repo.one()
   end
 
   def list_tbl_company do
@@ -244,6 +187,23 @@ defmodule Loanmanagementsystem.Companies do
       country: u.country,
       staff_id: u.staff_id,
       id_type: u.id_type
+    })
+    |> Repo.all()
+  end
+
+
+  def get_company_details(company_id) do
+    Company
+    |> where([c], c.id == ^company_id)
+    |> select([c], %{
+      companyName: c.companyName,
+      companyPhone: c.companyPhone,
+      contactEmail: c.contactEmail,
+      registrationNumber: c.registrationNumber,
+      companyRegistrationDate: c.companyRegistrationDate,
+      taxno: c.taxno,
+      companyAccountNumber: c.companyAccountNumber
+
     })
     |> Repo.all()
   end
@@ -972,4 +932,9 @@ defmodule Loanmanagementsystem.Companies do
       ) do
     Client_company_details.changeset(client_company_details, attrs)
   end
+
+  # Loanmanagementsystem.Companies.PDFReader("e:/Work/Elixir/GNC/gnc-loans/priv/static/individual_uploads/2023-2-10/fcc3f3bc-797f-42f9-b7a6-e7180a2c1dee_EASTERNPROVINCE.pdf")
+
+
+
 end

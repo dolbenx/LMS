@@ -29,6 +29,10 @@ defmodule Loanmanagementsystem.Loan.Loan_applicant_guarantor do
     field :staff_signature, :string
     field :total_income_expense, :float
     field :reference_no, :string
+    field :salary, :float
+    field :other_income, :float
+    field :business_sales, :float
+    field :total_income, :float
 
     timestamps()
   end
@@ -36,7 +40,7 @@ defmodule Loanmanagementsystem.Loan.Loan_applicant_guarantor do
   @doc false
   def changeset(loan_applicant_guarantor, attrs) do
     loan_applicant_guarantor
-    |> cast(attrs, [:customer_id, :salary_loan, :other_income_bills, :sale_business_rentals, :cost_of_sales, :other_expenses, :total_income_expense, :net_profit_loss, :guarantor_name, :nrc, :loan_applicant_name, :relationship, :gaurantor_signature, :gaurantor_sign_date, :occupation, :employer, :guarantor_phone_no, :email, :name_of_witness, :name_of_cro_staff, :staff_signature, :staff_sign_date, :reference_no, :guarantor_witness_signature, :witness_sign_date])
+    |> cast(attrs, [:customer_id, :salary, :other_income, :business_sales, :total_income, :salary_loan, :other_income_bills, :sale_business_rentals, :cost_of_sales, :other_expenses, :total_income_expense, :net_profit_loss, :guarantor_name, :nrc, :loan_applicant_name, :relationship, :gaurantor_signature, :gaurantor_sign_date, :occupation, :employer, :guarantor_phone_no, :email, :name_of_witness, :name_of_cro_staff, :staff_signature, :staff_sign_date, :reference_no, :guarantor_witness_signature, :witness_sign_date])
     # |> validate_required([:customer_id, :salary_loan, :other_income_bills, :sale_business_rentals, :cost_of_sales, :other_expenses, :total_income_expense, :net_profit_loss, :guarantor_name, :nrc, :loan_applicant_name, :relationship, :gaurantor_signature, :gaurantor_sign_date, :occupation, :employer, :guarantor_phone_no, :email, :name_of_witness, :name_of_cro_staff, :staff_signature, :staff_sign_date])
   end
 end

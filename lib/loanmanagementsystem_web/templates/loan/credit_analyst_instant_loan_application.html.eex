@@ -1,0 +1,2233 @@
+
+
+<style>
+
+   .rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}
+    .doubleUnderline { border-bottom: 1px dotted; width: 200px; height: 100px;}
+    .my_align
+    {
+        float: right;
+    }
+</style>
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+
+
+    <div class="col-md-12">
+
+
+        <!-- End Page Header -->
+        <body  onload="hide_receiver_number()">
+            <div class="row row-sm">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card custom-card">
+                        <div class="container-fluid"><br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                                </div>
+                                <div class="col-md-10"><br>
+                                    <div class="parallelogram"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <h5 class="main-content-label mb-1 text-center">Loan Application</h5>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <img src="<%= Routes.static_path(@conn, "/images/user-128.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                        <img src="<%= Routes.static_path(@conn, "/images/qrcode.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <form action=" <%= Routes.loan_path(@conn, :credit_analyst_loan_approval) %>" enctype="multipart/form-data"  id="tst" method="post">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <input type="hidden" name="customer_id" value="<%= @client_data.userId %>"  >
+                            <input type="hidden" name="company_id" >
+                            <div id="russ-wizard">
+                               <h3></h3>
+                                <section>
+                                <h3>PERSONAL DETAILS</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Customer Details</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Surname:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="surname" value="<%= @client_kyc.surname %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">First Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="firstname" value="<%= @client_kyc.firstname %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Other Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="othername" value="<%= @client_kyc.othername %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant ID Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="id_number" value="<%= @client_kyc.id_number %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant ID Type:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="id_type" value="<%= @client_kyc.id_type %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Gender:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="gender" value="<%= @client_kyc.gender %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Cell Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="cell_number" value="<%= @client_kyc.cell_number %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Email address:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="email" value="<%= @client_kyc.email %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Date of Birth:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="dob" value="<%= @client_kyc.dob %>" type="text" readonly>
+
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Consent To be listed on CRB:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_status" value="<%= @nextofkin.kin_status %>"  type="text" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Customer Address</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Residential Address:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="residential_address" value="<%= @client_kyc.residential_address %>"  type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Landmark:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="landmark" value="<%= @client_kyc.landmark %>"  type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Town:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="town" value="<%= @client_kyc.town %>"  type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Province:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="province" value="<%= @client_kyc.province %>"   type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Marital Status:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="marital_status" value="<%= @client_kyc.marital_status %>"  type="text" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <h3></h3>
+                                <section>
+                                 <h3>REFEREES</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Next Of Kin</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Surname:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_last_name" value="<%= @nextofkin.kin_last_name %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">First Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_first_name" value="<%= @nextofkin.kin_first_name %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Relationship:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_relationship" value="<%= @nextofkin.kin_relationship %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Contact Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_mobile_number" value="<%= @nextofkin.kin_mobile_number %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Gender:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_gender" value="<%= @nextofkin.kin_gender %>"  type="text" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Reference</u></h6>
+                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Contact Number</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <%= for client_reference <- @client_references do %>
+                                                    <tr class="tr_clone">
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="name" value="<%= client_reference.name %>" class="form-control form-control-sm" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="contact_no"  value="<%= client_reference.contact_no %>" class="form-control form-control-sm" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                     <% end %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                <%= for product_detail <- @product_details do %>
+
+                                <h3></h3>
+                                <section>
+                                 <h3>LOAN DETAILS</h3>
+                                    <div class="row">
+                                         <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Loan Details</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Requested Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="requested_amount" value="<%= Decimal.new(Float.to_string(@loan_details.requested_amount))  %>" type="number" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Loan Duration (months):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                 <input class="form-control input-sm" name="loan_duration_month" value="<%= @loan_details.loan_duration_month %>" type="text" readonly>
+
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Monthly installments(ZMK):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="monthly_installment" value="<%= @loan_details.monthly_installment %>" type="number" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Proposed Repayment Date:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="proposed_repayment_date" value="<%= @loan_details.proposed_repayment_date %>" type="date" readonly>
+                                                    <input class="form-control input-sm" name="application_date" type="hidden">
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Type of Loan:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="" value="<%= @loan_details.term_frequency_type %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Loan Purpose:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control mg-t-20" name="loan_purpose"  placeholder="Textarea (success state)" readonly required="" rows="3"><%= @loan_details.loan_purpose %></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Product Details</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Product Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= product_detail.product_name %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Interest Rate(%):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= product_detail.interest %>%" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Min Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= Decimal.round(Decimal.from_float(product_detail.min_amount)) %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Max Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= Decimal.round(Decimal.from_float(product_detail.max_amount)) %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Product Type:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_type" value="<%= product_detail.product_type %>" type="text" readonly>
+                                                    <input type="hidden" name="product_id" value="<%= product_detail.id %>"  >
+                                                    <input type="hidden" name="loan_id" value="<%= @loan_details.id %>" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                 <h3></h3>
+                                <section>
+                                 <h3> BUSINESS /MARKET INFORMATION</h3>
+                                    <div class="row">
+                                        <div class="col-md-12 border"><br>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Name of the Market:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="name_of_market" type="text" value="<%= if is_nil(@market_info) do else @market_info.name_of_market end %>" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Location:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="location_of_market" type="text" value="<%= if is_nil(@market_info) do else @market_info.location_of_market end %>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Duration at the market:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="duration_at_market" type="text" value="<%=if is_nil(@market_info) do else  @market_info.duration_at_market end %>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Type of Business:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="type_of_business" type="text" value="<%=if is_nil(@market_info) do else  @market_info.type_of_business end %>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Name of the Market Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="name_of_market_leader" type="text" value="<%= if is_nil(@market_info) do else @market_info.name_of_market_leader end%>" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Contact Details for the market Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="mobile_of_market_leader" type="text" value="<%= if is_nil(@market_info) do else  @market_info.mobile_of_market_leader end %>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Name of the Vice Market  Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="name_of_market_vice" type="text" value="<%=if is_nil(@market_info) do else  @market_info.name_of_market_vice end %>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Contact Details for the Vice market Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="mobile_of_market_vice" type="text" value="<%=if is_nil(@market_info) do else  @market_info.mobile_of_market_vice end%>" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Stand Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="stand_number" type="text" value="<%= if is_nil(@market_info) do else  @market_info.stand_number end%>" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                 <h3></h3>
+                                <section>
+                                 <h3>CLIENT COLLATERAL</h3>
+                                    <div class="row">
+                                        <div class="col-md-7 border"><br>
+                                            <h6 class="text-center"><u>Colleteral Details</u></h6>
+                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name Of Collateral</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">ID Number</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Color</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Asset Value (K)</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                 <%= for collateral_detail <- @collateral_details do %>
+                                                    <tr class="tr_clone">
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                 <input type="text" name="name_of_collateral" value="<%= collateral_detail.name_of_collateral %>" class="form-control form-control-sm" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="id_number_collateral" value="<%= collateral_detail.id_number %>" class="form-control form-control-sm"readonly>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="color" value="<%= collateral_detail.color %>" class="form-control form-control-sm" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="asset_value"  value="<%= collateral_detail.asset_value |> Number.Delimit.number_to_delimited %>" class="form-control form-control-sm" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                 <% end %>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-md-4 border"><br>
+                                            <p>I <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span>, of NRC Number <span class="doubleUnderline"><%= @client_data.meansOfIdentificationNumber %></span> Date <span class="doubleUnderline"><%= @loan_details.application_date %></span></p>
+                                            <p>Declare the asset above as collateral to great north credit towards my loan facility advanced to me and I authorize the institution to confiscate and dispose the pledged asset in case of any default with the view of offsetting my outstanding balance in arrears</p>
+
+                                            <p>I shall not at any stage sale or dispose any of the asset pledged as collateral without the knowledge and consent of GNC</p>
+
+
+                                            <p>I also acknowledge that all the cost incurred by GNC during confiscation will be added to the loan</p>
+
+
+                                            <p>I understand and agree to the above loan condition and authorize GNC to disburse the loan and I give consent to be listed on the CRB</p>
+
+
+
+                                            <p>Clients Name :   <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span>    NRC Number : <%= @client_data.meansOfIdentificationNumber %></span> Date : <input type="text" class="input-line" placeholder="" Value="<%= @loan_details.application_date  %>" ></p>
+
+
+                                            <p>Name of the witness : <input type="text" class="input-line" name="name_of_witness" value="<%= @extracted_other_collateral_details.name_of_witness %>" placeholder="" > Date : <input type="text" class="input-line" name="" placeholder="" value="<%= @loan_details.application_date  %>" > </p>
+
+
+
+                                           <p> Name of the CRO (Staff) : <input type="text" class="input-line" name="cro_staff_name" value="<%= @extracted_other_collateral_details.cro_staff_name %>" placeholder="" > Date : <input type="text" class="input-line" name="" placeholder="" value="<%= @loan_details.application_date %>" ></p>
+
+                                        </div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                 <h3> </h3>
+                                <section>
+                                 <h3>CLIENT INCOME ASSESSMENT </h3>
+                                      <div class="row">
+                                        <div class="col-md-12 border"><br>
+                                            <h6 class="text-center"><u>Client Simple Income Statement </u></h6>
+                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 100%;">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">MONTH</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">CASHFLOW</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending"></th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">TOTAL</th>
+                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        
+                                                        <td>Business Type</td>
+                                                        <td><input type="text" name="business_type" value="<%= @client_income_statement.business_type %>" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                        
+                                                    </tr>
+                                                     <tr>
+                                                        
+                                                        <td></td>
+                                                        <td>Income from bank statement </td>
+                                                        <td>Income from mobile money statement</td>
+                                                        <td></td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                    
+                                                        <td><input type="text" name="jan" value="<%= @client_income_statement.jan %>" readonly class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="jan_bank_stat" value="<%= if is_nil(@client_income_statement.jan_bank_stat) do else @client_income_statement.jan_bank_stat|> Number.Delimit.number_to_delimited end %>" readonly id="jan_bank_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="jan_mobile_stat"  value="<%= if is_nil(@client_income_statement.jan_mobile_stat) do else @client_income_statement.jan_mobile_stat|> Number.Delimit.number_to_delimited end%>" readonly id="jan_mobile_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="jan_total"  value="<%= if is_nil(@client_income_statement.jan_total) do else @client_income_statement.jan_total|> Number.Delimit.number_to_delimited end%>" id="jan_total" readonly class="form-control form-control-sm"></td>
+
+                                                    </tr>
+                                                     <tr>
+                                                        
+                                                        <td><input type="text" name="dec" value="<%= @client_income_statement.dec %>" readonly class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="dec_bank_stat"  value="<%= if is_nil(@client_income_statement.dec_bank_stat) do 0.0 else @client_income_statement.dec_bank_stat|> Number.Delimit.number_to_delimited end%>" readonly id="dec_bank_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="dec_mobile_stat"  value="<%= if is_nil(@client_income_statement.dec_mobile_stat) do 0.0 else @client_income_statement.dec_mobile_stat|> Number.Delimit.number_to_delimited end%>" readonly id="dec_mobile_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="dec_total"  value="<%= if is_nil(@client_income_statement.dec_total) do 0.0 else @client_income_statement.dec_total|> Number.Delimit.number_to_delimited end%>" id="dec_total" readonly class="form-control form-control-sm"></td>
+                                                    </tr>
+                                                     <tr>
+                                                
+                                                        <td><input type="text" name="nov" value="<%= @client_income_statement.nov %>" readonly class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="nov_bank_stat"  value="<%= if is_nil(@client_income_statement.nov_bank_stat) do 0.0 else @client_income_statement.nov_bank_stat|> Number.Delimit.number_to_delimited end%>" readonly id="nov_bank_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="nov_mobile_stat"  value="<%= if is_nil(@client_income_statement.nov_mobile_stat) do 0.0 else @client_income_statement.nov_mobile_stat|> Number.Delimit.number_to_delimited end%>" readonly id="nov_mobile_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="text" name="nov_total"  value="<%= if is_nil(@client_income_statement.nov_total) do 0.0 else @client_income_statement.nov_total|> Number.Delimit.number_to_delimited end%>" id="nov_total" readonly class="form-control form-control-sm"></td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td>AVERAGE INCOME</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><input type="text" name="average_income"  value="<%= if is_nil(@client_income_statement.average_income) do 0.0 else @client_income_statement.average_income|> Number.Delimit.number_to_delimited end%>" readonly id="average_income" class="form-control form-control-sm"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>FAMILY EXPENSES</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>DSTV</td>
+                                                        <td><input type="text" name="dstv"  value="<%= if is_nil(@client_income_statement.dstv) do 0.0 else @client_income_statement.dstv|> Number.Delimit.number_to_delimited end%>" id="dstv" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>FOOD</td>
+                                                        <td><input type="text" name="food"  value="<%= if is_nil(@client_income_statement.food) do 0.0 else @client_income_statement.food|> Number.Delimit.number_to_delimited end%>" id="food" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>SCHOOL</td>
+                                                        <td><input type="text" name="school"  value="<%= if is_nil(@client_income_statement.school) do 0.0 else @client_income_statement.school|> Number.Delimit.number_to_delimited end%>" id="school" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>UTILITIES</td>
+                                                        <td><input type="text" name="utilities"  value="<%= if is_nil(@client_income_statement.utilities) do 0.0 else @client_income_statement.utilities|> Number.Delimit.number_to_delimited end%>" id="utilities" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>OPERATION EXEPENSES</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>LOAN INSTALMENT</td>
+                                                        <td><input type="text" name="loan_installment"  value="<%= if is_nil(@client_income_statement.loan_installment) do 0.0 else @client_income_statement.loan_installment|> Number.Delimit.number_to_delimited end%>" readonly id="loan_installment" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>SALARIES</td>
+                                                        <td><input type="text" name="salaries"  value="<%=if is_nil(@client_income_statement.salaries) do 0.0 else  @client_income_statement.salaries|> Number.Delimit.number_to_delimited end%>" id="salaries" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>STATIONERY</td>
+                                                        <td><input type="text" name="stationery"  value="<%= if is_nil(@client_income_statement.stationery) do 0.0 else @client_income_statement.stationery|> Number.Delimit.number_to_delimited end%>" id="stationery" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>TRANSPORT</td>
+                                                        <td><input type="text" name="transport"  value="<%=if is_nil(@client_income_statement.transport) do 0.0 else  @client_income_statement.transport|> Number.Delimit.number_to_delimited end%>" id="transport" readonly class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>TOTAL EXPENSES</td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="text" name="total_expenses"  value="<%= if is_nil(@client_income_statement.total_expenses) do 0.0 else @client_income_statement.total_expenses|> Number.Delimit.number_to_delimited end%>" readonly id="total_expenses" class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>AVAILABLE INCOME </td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="text" name="available_income"  value="<%= if is_nil(@client_income_statement.available_income) do 0.0 else @client_income_statement.available_income|> Number.Delimit.number_to_delimited end%>" readonly id="available_income" class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>LOAN INSTALMENT </td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="text" name="loan_installment_total"  value="<%=if is_nil(@client_income_statement.loan_installment_total) do 0.0 else  @client_income_statement.loan_installment_total|> Number.Delimit.number_to_delimited end%>" readonly id="loan_installment_total" class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><b> DSR </b> </td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="text" name="dsr"  value="<%=if is_nil(@client_income_statement.dsr) do 0.0 else @client_income_statement.dsr|> Number.Delimit.number_to_delimited end %>" id="dsr" readonly class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                 <h3></h3>
+                                <section>
+                                 <h3>DOCUMENTS</h3>
+                                    <div class="border-top"></div>
+                                        <div class="row row-sm">
+                                        <div class="card-body">
+                                        <div>
+                                        <div class="table-responsive">
+                                            <h4 class="tx-15 text-uppercase mb-3 text-center">Documents</h4>
+                                            <table class="table table-bordered border-bottom" id="example5">
+                                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Document Name</th>
+                                                        <th style="width: 50px;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <%= for docs <- @loan_documents do %>
+                                                    <tr>
+                                                        <td> <%= docs.docName %> </td>
+                                                        <td>  <a class="btn ripple btn-info btn-sm" data-bs-target="#viewDocument" data-id="<%= docs.id%>" data-path="<%= docs.docPath %>" data-content_type="<%= docs.docType %>"data-bs-toggle="modal" title= "Edit" href= "#" style="color: #1d212f"><i class="fe fe-eys"></i> View </a></td>
+                                                    </tr>
+                                                <% end %>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                  <h3></h3>
+                                <section>
+                                 <h3>DISCLOSURE, CONSENT AND AUTHORISATION</h3>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+
+                                        <div class="col-md-8 border"><br>
+                                            <h6 class="text-center"><u>Disclosure, Consent And Authorisation By Applicant</u></h6><br>
+                                            <p>By appending my signature hereunder, I  <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span> (Full Names) declare and agree that:</p>
+                                            <p>1.	GNC may make enquiries from any Bank, Financial Institution, or approved Credit Reference Agency in Zambia to confirm any information I have provided when considering this application to get a loan from GNC.
+                                            <p>2.	GNC is allowed to disclose information about me to any person in connection with an actual or proposed contract which relates to this agreement, including disclosing information under the terms of such contract and this includes the assignment and/or transfer of all or part of the company’s rights under this agreement.
+                                            <p>3.	In the event of any default in repayment, unless the amount in default is fully repaid before the expiry of sixty (60) days from the date such default occurred, GNC shall notify the Credit Reference Agency and the borrower shall be liable to have the account data retained by the Credit Reference Agency until the expiry of seven (7) years from the date of final settlement of the amount in default. GNC shall then retain its rights to enforce payment of the unpaid loan amount, together with the accrued interest. For the purpose of this Clause and any Party that may be appointed by GNC to collect its debts, I waive the confidentiality requirements of the Banking and Financial Services (Microfinance) Regulations, 2006 and those of Banking and Financial Services Act of 2017 or amended from time to time.
+                                            <p>4.	Upon termination of the account by full repayment and on condition that there has not been, within seven (7) years immediately before account termination, any material default on the account, the borrower will have the right to instruct GNC who shall oblige, to make a request to the Credit Reference Agency to delete from its data any account data detailing to the termination account.
+                                            <p>5.	You are free to be informed, upon request about which items of data are routinely so disclosed and to be provided with further information to enable the making of a data access and correction request to the relevant Credit Reference Agency or Debt Collection Agency.
+                                            <p>6.	I make an irrevocable personal undertaking to pay the balance of the loan together with accrued interest of <%= product_detail.interest %>%  per month as agreed in the event of default, being terminated from my employer’s payroll on account of my resignation, dismissal or other event not covered by insurance.
+                                            <p> 7.	GNC reserves the right to loan an amount lower than the amount applied for in this Application Form; and to effect deductions commensurate to the amount loaned and tenure agreed at that applicable interest rate.
+                                            <p> 8.	By drawing funds credited to my bank account number indicated in this Loan Application and Agreement Form by GNC or by my failure to notify GNC (either directly or through its partner bank) of my lack of interest in accessing this loan within 48 hours of the same being credited to my bank account, being the approved and disbursed loan amount, I indicate acceptance of all Terms and Conditions of this Facility, including:
+                                            <p>a.	That the applicable interest rate at the time of approval shall be applied and amortised over the term of the loan.
+                                            <p>b.	That all costs such as insurance, Credit Reference Bureau fees, arrangement fees and other costs incidental hereto may be passed on to me at GNC’s discretion.
+                                            <p>c.	That the first instalment shall be due on the pay day immediately following the disbursement of loan, and every pay day thereafter until full settlement of the loan with accrued interest.
+                                            <p>d.	That this Application Form becomes a binding Contract when GNC approves and pays out the loan to my Bank Account indicated in this Application Form; and shall be governed and construed in accordance with the Laws of Zambia.
+                                            <p>e.	That early payment of loan with accrued interest shall NOT attract any penalties but interest accrued as at that date shall be paid to GNC.
+                                            <p>f.	That in accordance with banking practice, this loan with accrued interest is payable on demand.
+                                            <p>g.	That the approved amount, tenure of the loan and the monthly repayment amount shall be communicated to me via registered mail to the address indicated in this Application Form; and that GNC shall be deemed to have discharged this obligation under this Clause by delivery to the Zambia Postal Services Corporation (ZAMPOST) or its successors and paying for delivery of mail.
+                                            <p>9.	In pursuance of the conditions under which this loan was granted, I hereby irrevocably authorise GNC, acting on its own or through its agents, to communicate my obligation to pay to my employer, and authorise my employer to deduct such amount as indicated by GNC from my salary and remit the amount so deducted to GNC until the loan amount with accrued interest is fully paid; In case of unforeseen incidents, other than those in Clause 6, that may disrupt loan recoveries through payroll deductions, I hereby authorise my employer to make recoveries from my terminal benefits and/or gratuity.
+                                            <p>I  <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span> (Full name) hereby certify that the information contained in this Loan Application is true and correct and I have the capacity to repay the Loan. I understand that this Loan Application may be rejected at any stage should any information contained herein be found to be incorrect.
+                                            <br><br>
+                                            <div class="row">
+                                                <div class="col-md-6"><input type="text" class="input-line" name="" placeholder="" ></div>
+                                                <div class="col-md-6"> <input type="date" class="input-line" name="" placeholder="" value="<%= Timex.today %>" ></div>
+                                                <%# <div class="col-md-6">Applicants Signature	 </div> <div class="col-md-6">Date</div> %>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                 <h3> </h3>
+                                <section>
+                                 <%# <h3>UPLOAD CRB REPORT  </h3> %>
+
+                                    <div class="row">
+
+                                        <!--<div class="table-responsive">
+                                            <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                            <table class="table table-bordered border-bottom" id="example1">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Document Name</th>
+                                                        <th scope="row">File</th>
+
+                                                        <th>Add</th>
+                                                    </tr>
+                                                    <tr class="tr_clone">
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <input class="form-control"  name="filename[]" type="text" > </div>
+                                                        </td>
+                                                        <td scope="row">
+                                                            <div class="form-group">
+                                                                <input class="form-control" id="tenor" id="phx-FuvZHeMu4hedhwED" name="file[]" multiple type="file" > </div>
+                                                        </td>
+                                                        <td class="fitwidth">
+                                                            <div class="form-group"> <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder fe fe-plus-circle tr_clone_add"></i> &nbsp;&nbsp;&nbsp; <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus fe fe-x-circle"></i> </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div> -->
+                                        <hr>
+                                      <div class="col-md-12 border"><br>
+                                         <h3>Analyzes the 5Cs of the loan </h3>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Character:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control mg-t-20" name="character"  placeholder="Textarea (success state)"  required="" rows="3"></textarea>
+                                                </div>
+                                         </div>
+
+                                         <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Capacity:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control mg-t-20" name="capacity"  placeholder="Textarea (success state)"  required="" rows="3"></textarea>
+                                                </div>
+                                         </div>
+
+                                         <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Capital:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control mg-t-20" name="capital"  placeholder="Textarea (success state)"  required="" rows="3"></textarea>
+                                                </div>
+                                         </div>
+
+                                         <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Condition:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control mg-t-20" name="condition"  placeholder="Textarea (success state)"  required="" rows="3"></textarea>
+                                                </div>
+                                         </div>
+
+                                         <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Collateral:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control mg-t-20" name="collateral"  placeholder="Textarea (success state)"  required="" rows="3"></textarea>
+                                                </div>
+                                         </div>
+                                      </div>
+
+
+                                    </div>
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                 <%= if product_detail.product_type == "Instant Loan" do %>
+                                <h3> </h3>
+                                <section>
+                                 <h3>LOAN APPLICATION CHECK LIST  </h3>
+
+                                    <div class="row">
+
+                                      <div class="col-md-12 border"><br>
+                                         <h3>Personal contact information </h3>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Social Security Number or Tax clearance certificate:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"   name="social_security_no" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Passport Size Photo:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="passport_size_photo" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">National Registration card (NRC) / Passport:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="id_no" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Citizenship status:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="citizenship_status" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Marital status :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="marital_status" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Email address:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="email_address" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Primary telephone number:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="telephone" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Permanent address or proof of resident:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="prood_of_resident" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+                                           <h3>Employment and income information</h3>
+
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Employment Status:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="employment_status" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">3 months verified   Payslip with SMART Zambia if applicable?:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="payslip_3months_verified" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Employer name:</label>
+                                                </div>
+                                                 <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="employer_name" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Gross monthly income amount Checked:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="gross_monthly_income" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Monthly mortgage or rent payment amount:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="rent_payment" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Original Introduction Letter from the employer :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="employer_letter" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Client has a running loan?:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="has_running_loan" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+                                           <h3>Personal Loan information</h3>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Full completed application GNC application form :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="completed_application_form" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Credit reference bureau report (CRB):</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="crb" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Loan purpose:</label>
+                                                </div>
+                                                 <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="loan_purpose_checklist" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Call memo on file :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="call_memo" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Desired term:</label>
+                                                </div>
+                                                 <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="desired_term" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Loan amount:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="loan_amount_checklist" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">3 months Sales record :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="sales_record" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Collateral Pictures on File :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="collateral_pictures" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Compressive insurance for motor vehicle :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="insurance_for_motor_vehicle" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Loan Verified?:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="loan_verified" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Home Visit Done?:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="home_visit_done" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+                                          <h3>Banking Details </h3>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">3 months Bank statement :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="bank_statement" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Bank Name :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="bank_name" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Correct Account Number:</label>
+                                                </div>
+                                                 <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="correct_account_number" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Standing Payment Order from the Bank:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="bank_standing_payment_order" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Preferred Loan Repayment Method:</label>
+                                                </div>
+                                                 <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="preferred_loan_repayment_method" >
+                                                        <option>Choose Option</option>
+                                                        <option value="CASH">CASH</option>
+                                                        <option value="BANK">BANK</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <h3>Company requirements   </h3>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Trading License :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="trading_license" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Certificate of incorporation:</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="certificate_of_incorporation" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Latest PACRA print out :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="latest_pacra_print_out" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">1 passport size photo for each director :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="passport_size_photo_from_director" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Latest audited financial statement :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="latest_audited_financial_statement" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Contract agreements or purchase order :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="contract_agreements" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">3 months Company Bank statement :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                      <select class="form-control select2-with-search"  name="company_bank_statement" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0">Board resolutions allowing the company to borrow funds  :</label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                     <select class="form-control select2-with-search"  name="board_allow_company_to_borrow" >
+                                                        <option>Choose Option</option>
+                                                        <option value="YES">YES</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </div>
+                                          </div>
+
+
+                                      </div>
+
+
+                                    </div>
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section> 
+
+                                <% end %>
+
+                                <h3> </h3>
+                                <section>
+                                 <h3>CREDIT SCORE SHEET  </h3>
+
+                                   <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-3">
+                                            <label class="mg-b-0">Name of Applicant:</label>
+                                        </div>
+                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="applicant_name" type="text" value="<%= @applicant_name %>" readonly>
+                                        </div>
+                                    </div>
+
+                                     <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-3">
+                                            <label class="mg-b-0">Type of Loan:</label>
+                                        </div>
+                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="type_of_loan" type="text" value="<%= product_detail.product_name %>" readonly>
+                                        </div>
+                                    </div>
+
+                                     <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-3">
+                                            <label class="mg-b-0">Loan Amount:</label>
+                                        </div>
+                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="loan_amount" type="text" value="<%= Decimal.new(Float.to_string(@loan_details.requested_amount))  %>" readonly>
+                                        </div>
+                                    </div>
+
+                                     <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-3">
+                                            <label class="mg-b-0">Name of CRO:</label>
+                                        </div>
+                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="cro_staff" type="text" value="<%= @cro_staff.name %>" readonly>
+                                        </div>
+                                    </div>
+
+                                     <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-3">
+                                            <label class="mg-b-0">Date:</label>
+                                        </div>
+                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="date_of_credit_score" type="date" value="<%= Timex.today %>" readonly>
+                                        </div>
+                                    </div>
+
+                                     <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-3">
+                                            <label class="mg-b-0">Weighted Credit Score:</label>
+                                        </div>
+                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="weighted_credit_score" id="weighted_credit_score" type="text"  readonly>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+
+
+                                      <div class="col-md-6 border"><br>
+
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Business/Employment history : Weight </b></label> <label class="mg-b-0 my_align badge bg pill bg-info"><b> Score  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">New business or employee  </label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Less than a year in business or employment </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Between 1 and 5 years in business or employment </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">More than five years in business or employment </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                         </div>
+                                         <hr>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Budgeting : Weight </b></label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Expenses are more than 50% of net salary </label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Expenses are between 40% and 49% of net salary </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Expenses are between 30% to 39% of net salary/PMEC </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Expenses are between 20% and 29% of net salary </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                                  <div class="col-md-12">
+                                                    <label class="mg-b-0">Expenses are below 19% of the net salary </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+                                         </div>
+                                         <hr>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Credit history : Weight</b></label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Borrowed from more than 3 institutions before </label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Borrowed from 2 institutions before </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Borrowed from 1 institution before </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Has never borrowed before from any institutions </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                                  <div class="col-md-12">
+                                                    <label class="mg-b-0">GNC existing borrower with good credit history </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+                                         </div>
+                                         <hr>
+                                         <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Capacity to pay : Weight</b></label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Above 60% </label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Between 50% and 60% </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Between 40% to 49% </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Between 20% and 39% </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                                  <div class="col-md-12">
+                                                    <label class="mg-b-0">Between 0 and 20% </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+                                         </div>
+                                         <hr>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Collateral : Weight</b></label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Loan to Value Ratio is above 100% </label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Loan to Value Ratio is between 81% and 100%</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Loan to Value Ration is between 61% and 80% </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Loan to Value Ratio is between 41% and 60%</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Loan to Value Ratio is between 21% and 40%/Payroll Backed </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Loan to Value Ratio is between 0 and 20%/MOU Backed loans </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+                                         </div>
+                                         <hr>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Collateral : type</b></label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">House hold goods</label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Motor vehicle</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Landed property (shops)/Guarantor </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Landed property (house)</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Payroll backed/MOU </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+
+
+                                         </div>
+                                         <hr>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Character : Weight</b></label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Has more than 3 NPLs on CRB</label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Has 3 NPLs on CRB</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Has 2 NPLs on CRB </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Has 1 NPL on CRB</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Has 0 NPL on CRB </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+
+
+                                         </div>
+                                         <hr>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                 <div class="col-lg-12">
+                                                    <label class="mg-b-0"> <b> Character : Weight</b></label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Only 1 referee provided</label>  <label class="mg-b-0 my_align badge bg pill bg-success"><b> 1  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Two (2) references provided</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 2  </b> </label>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Three (3) references provided</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 3 </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">Four (4) references provided</label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 4  </b> </label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class="mg-b-0">More than five (5) references provided </label> <label class="mg-b-0 my_align badge bg pill bg-success"><b> 5  </b> </label>
+                                                </div>
+
+
+
+                                         </div>
+
+
+
+
+
+
+                                      </div>
+
+
+                                      <div class="col-md-6 border"><br>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b> Business/employment experience?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control "  onchange="calculate_credit_score();"  name="business_employment_experience" id="business_employment_experience" >
+                                                        <option label="Choose Option"></option>
+                                                        <option value="1">New business or employee</option>
+                                                        <option value="2">Less than a year in business or employment </option>
+                                                        <option value="3">Between 1 and 5 years in business or employment </option>
+                                                        <option value="4">More than five years in business or employment  </option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                         <hr><br><br><br>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b> Family situation?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control " onchange="calculate_credit_score();"   name="family_situation" id="family_situation" >
+                                                        <option label="Choose Option"></option>
+                                                        <option value="1">Expenses are more than 50% of net salary</option>
+                                                        <option value="2">Expenses are between 40% and 49% of net salary </option>
+                                                        <option value="3">Expenses are between 30% to 39% of net salary/PMEC </option>
+                                                        <option value="4">Expenses are between 20% and 29% of net salary </option>
+                                                        <option value="5">Expenses are below 19% of the net salary </option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                         <hr><br><br><br><br>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b> How is the borrowing history of the applicant?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control " onchange="calculate_credit_score();"  name="borrowing_history" id="borrowing_history" >
+                                                       <option label="Choose Option"></option>
+                                                        <option value="1">Borrowed from more than 3 institutions before</option>
+                                                        <option value="2">Borrowed from 2 institutions before </option>
+                                                        <option value="3">Borrowed from 1 institution before </option>
+                                                        <option value="4">Has never borrowed before from any institutions</option>
+                                                        <option value="5">GNC existing borrower with good credit history</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                          <hr><br><br><br><br>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b> What is the DTI Ratio?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control " onchange="calculate_credit_score();"   name="dti_ratio" id="dti_ratio">
+                                                       <option label="Choose Option"></option>
+                                                        <option value="1">Above 60%</option>
+                                                        <option value="2">Between 50% and 60% </option>
+                                                        <option value="3">Between 40% to 49% </option>
+                                                        <option value="4">Between 20% and 39% </option>
+                                                        <option value="5">Between 0 and 20% </option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                           <hr><br><br><br><br>
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b> What is your assessment on the collateral?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control " onchange="calculate_credit_score();"   name="collateral_assessment" id="collateral_assessment" >
+                                                        <option label="Choose Option"></option>
+                                                        <option value="1">Loan to Value Ratio is above 100%</option>
+                                                        <option value="2">Loan to Value Ratio is between 81% and 100% </option>
+                                                        <option value="3">Loan to Value Ration is between 61% and 80%</option>
+                                                        <option value="4">Loan to Value Ratio is between 41% and 60%</option>
+                                                        <option value="5">Loan to Value Ratio is between 21% and 40%/Payroll Backed </option>
+                                                        <option value="6">Loan to Value Ratio is between 0 and 20%/MOU Backed loans </option>
+                                                    </select>
+                                                </div>
+                                           </div>
+                                           <hr><br><br><br><br><br>
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b> What is the type of collateral?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control " onchange="calculate_credit_score();"  name="type_of_collateral" id="type_of_collateral">
+                                                        <option label="Choose Option"></option>
+                                                        <option value="1">House hold goods</option>
+                                                        <option value="2">Motor vehicle </option>
+                                                        <option value="3">Landed property (shops)/Guarantor </option>
+                                                        <option value="4">Landed property (house) </option>
+                                                        <option value="5">Payroll backed/MOU </option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                         <hr><br><br><br><br>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b>How is the applicant's character?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control " onchange="calculate_credit_score();"  name="applicant_character" id="applicant_character" >
+                                                        <option label="Choose Option"></option>
+                                                        <option value="1">Has more than 3 NPLs on CRB</option>
+                                                        <option value="2">Has 3 NPLs on CRB </option>
+                                                        <option value="3">Has 2 NPLs on CRB</option>
+                                                        <option value="4">Has 1 NPL on CRB </option>
+                                                        <option value="5">Has 0 NPL on CRB</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                          <hr><br><br><br><br><br>
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-lg-6">
+                                                    <label class="mg-b-0"> <b>How many references has the applicant provided?: </b></label>
+                                                </div>
+                                                <div class="col-lg-6 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control " onchange="calculate_credit_score();"  name="number_of_reference" id="number_of_reference" >
+                                                        <option label="Choose Option"></option>
+                                                        <option value="1">Only 1 referee provided</option>
+                                                        <option value="2">Two (2) references provided </option>
+                                                        <option value="3">Three (3) references provided</option>
+                                                        <option value="4">Four (4) references provided </option>
+                                                        <option value="5">More than five (5) references provided</option>
+                                                    </select>
+                                                </div>
+                                         </div>
+                                      </div>
+                                     <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-6">
+                                            <label class="mg-b-0">Total Score:</label>
+                                        </div>
+                                        <div class="col-md-6 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="total_score"  type="text"  id="total_score" readonly>
+                                        </div>
+                                    </div> <br>
+                                    <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-3">
+                                            <label class="mg-b-0">Credit Analyst:</label>
+                                        </div>
+                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <input class="form-control input-sm" name="credit_analyst"  type="text"  value="<%=  @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>" id="credit_analyst" readonly>
+                                             <input class="form-control input-sm" name="signature"  type="hidden"   readonly>
+                                        </div>
+                                    </div>
+                                     <div class="row row-xs align-items-center mg-b-20">
+                                        <div class="col-md-12">
+                                            <label class="mg-b-0">NOTE: Cut off point for making lending decision is above 50%</label>
+                                        </div>
+
+                                    </div>
+
+
+                                    </div>
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                              
+
+                                 <h3> </h3>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+
+                                        <div class="col-md-8 border"><br>
+                                          <h3 style="text-align: center;">CREDIT ANALYST </h3>
+                                           <p>Loan Recommendation and assessment Feedback from Credit Analyst </p>
+
+
+                                           <div class="row row-sm">
+                                                <div class="col-lg-6">
+                                                    <label class="ckbox" ><input type="checkbox" name="recommended_feedback" value="YES" ><span>Recommended</span></label>
+                                                    <br>
+                                                    <label class="ckbox" ><input type="checkbox" name="on_hold_feedback" value="YES" ><span>On Hold</span></label>
+                                                </div>
+                                                 <div class="col-lg-6">
+                                                    <label class="ckbox" ><input type="checkbox" name="file_sent_to_sale_feedback" value="YES" ><span>File sent Back to Sale </span></label>
+                                                </div>
+										    </div> <br>
+
+                                            <p>Comments and   Recommendation on the findings  </p>
+                                             <textarea class="form-control mg-t-20" name="comments_feedback"  placeholder="Write Comments and Recommendation"  required="" rows="3"></textarea>
+                                            <div class="row row-sm">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                      <p>Name :  <input type="text" name="name_feedback"  class="form-control form-control-sm" value="<%=  @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>" >  </p>
+                                                    </div>
+                                                    <%# <div class="form-group">
+                                                      <p>Signature :  <input type="file" name="signature_feedback"  class="form-control form-control-sm" >  </p>
+                                                    </div> %>
+                                                    <div class="form-group">
+                                                      <p>Position :  <input type="text" name="position_feedback"  class="form-control form-control-sm" value="<%=  @conn.assigns.user.role_desc %>" >  </p>
+                                                    </div>
+                                                </div>
+                                                 <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                       <input type="hidden" name="date_feedback"   class="form-control form-control-sm" value="<%= Timex.today %>" >
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <input type="hidden" name=""   class="form-control form-control-sm" >
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <input type="hidden" name=""   class="form-control form-control-sm" >
+                                                    </div>
+
+                                                </div>
+										    </div> <br>
+
+                                            <div class="row row-sm">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                      <p>Time Recieved :  <input type="time" readonly name="time_received_feedback"  class="form-control form-control-sm" value="<%= @current_time %>" >  </p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <p>Time Out :  <input type="time" name="time_out_feedback"  class="form-control form-control-sm" value="<%= @current_time %>" >  </p>
+                                                    </div>
+
+                                                </div>
+                                                 <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                       <p>Date Recieved : <input type="date" readonly name="date_received_feedback"   class="form-control form-control-sm" value="<%= Timex.today %>" > </p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <p>Date : <input type="date" readonly name=""   class="form-control form-control-sm" value="<%= Timex.today %>">  </p>
+                                                    </div>
+
+                                                </div>
+										    </div>
+
+
+
+                                        </div>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                <% end %>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+
+
+
+     <div class="col-sm-4 col-md-4">
+	<div class="card custom-card">
+		<div class="modal" id="viewDocument" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="main-content-label mb-3">View Document</h6>
+						<button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+					</div>
+					<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<div class="modal-body">
+						<div class="row row-lg">
+							<div class="col-sm-12 col-md-12 col-lg-12" id="theDocumentView"> </div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function(){
+        //JS FOR VIEWING USER PROFILE
+        $('#viewDocument').on('show.bs.modal', function (event){
+            console.log("qwertyuiop")
+            let button = $(event.relatedTarget)
+            let id = button.data('id')
+            let content_type = button.data('content_type')
+            let path = button.data('path')
+
+
+            let portocal = location.protocol;
+            let host = portocal+"//" + window.location.host
+            let route = host + "<%= Routes.client_management_path(@conn, :display_pdf) %>";
+            let url = route + "?path="+path+"&content_type="+content_type;
+
+
+            let the_document = '<embed src="'+ url +'" width="100%" height="870px" />';
+
+
+            var modal = $(this)
+            modal.find('.modal-body #theDocumentView').html(the_document);
+        });
+    });
+
+</script>
+
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

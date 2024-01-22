@@ -1,0 +1,134 @@
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Pending Loans</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :sme_dashboard) %>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Pending</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+
+                    <%# <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #003651; color: white;" type="button" data-bs-target="#modaldemo12" data-bs-toggle="modal"> Filter </button> %>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+
+                        <form class="m-form m-form--fit m--margin-bottom-20" id = "">
+
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h6 class="modal-title">Filter OffTaker</h6>
+                                    <br>
+                                        <div class="form-group">
+                                            <div class="row row-sm">
+                                                <div class="col-sm-4">
+                                                    <label class="">Phone Number</label>
+                                                    <div class="input-group-prepend">
+                                                        <input class="form-control clear_form" required="" type="text" name="from" id="from">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <button type="button" id="sme_filter_search" class="btn ripple " style="background-color: #003651; color: white;" id="">
+                                            <span>
+                                                <i class="la la-search"></i>
+                                                <span>Search</span>
+                                            </span>
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <button  type="button" id="mini-statement-filter-clear" class="btn btn-danger m-btn m-btn--icon" id="">
+                                            <span>
+                                                <i class="la la-close"></i>
+                                                <span>Reset</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div><br>
+                            </div>
+                             <br>
+                        </form>
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Customer Name</th>
+                                        <th class="wd-25p">Email</th>
+
+                                        <th class="wd-20p">Product Code</th>
+                                        <th class="wd-15p">Loan Amount</th>
+                                        <th class="wd-20p">Total Interest</th>
+                                        <th class="wd-20p">Paid Amount</th>
+                                        <th class="wd-20p">Outstanding Bal</th>
+                                        <th class="wd-25p">Status</th>
+                                        <th class="wd-15p">Action</th>
+
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+</div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal" id="modaldemo12">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                <h6 class="modal-title">Add User</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+            <form action=" # " id="tst" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <p class="mg-b-10">Other Name</p>
+                                <input type="text" class="form-control" name="companyPhone" required>
+                            </div>
+                            <div class="col-sm">
+                                <p class="mg-b-10">Phone</p>
+                                <input type="text" class="form-control" name="companyPhone" required>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">Submit</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+            </form>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

@@ -1,0 +1,137 @@
+
+<script>
+	function hide_user_role() {
+		$( "#user_role" ).hide();
+	}
+</script>
+
+
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Individuals Registration </li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- End Page Header -->
+
+        <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div>
+                            <h6 class="main-content-label mb-1">Add Employer Details</h6>
+                            <p class="text-muted card-sub-title"></p>
+                        </div>
+                        <form action="<%= Routes.branch_registration_path(@conn, :branch_registration_add_employment_details)%>" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                                 <input type="hidden" name="id" value="<%= @created_user %>">
+                                <section>
+                                    <div class="row row-sm mg-b-20">
+
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Employee Type</p>
+                                            <input name="employment_type" class="form-control" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Employer</p>
+                                            <input name="employer" class="form-control" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Occupation</p>
+                                            <input name="occupation" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Date Of Joining</p>
+                                            <input class="form-control" name="date_of_joining" type="date">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Employer Industry Type</p>
+                                            <input class="form-control" name="employer_industry_type" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Employment Type</p>
+                                            <input class="form-control" name="employment_type" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Employee Number</p>
+                                            <input class="form-control" name="employee_number" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Job Title</p>
+                                            <input class="form-control" name="job_title" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">HR/Supervisor Name</p>
+                                            <input class="form-control" name="hr_supervisor_name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">HR/Supervisor's Number</p>
+                                            <input class="form-control" name="hr_supervisor_mobile_number" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">HR/Supervisor's Email ID</p>
+                                            <input class="form-control" name="hr_supervisor_email" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Employer Office Build Name</p>
+                                            <input class="form-control" name="employer_office_building_name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Employer Road/Street Name</p>
+                                            <input class="form-control" name="employer_officer_street_name" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Area</p>
+                                            <input class="form-control" name="area" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Town</p>
+                                            <input class="form-control" name="town" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-10">
+                                        <div class="col-lg">
+                                            <p class="mg-b-5">Province</p>
+                                            <input class="form-control" name="province" type="text">
+                                        </div>
+
+                                    </div>
+
+
+                                </section>
+
+                                </div>
+                                    <div class="modal-footer">
+                                    <button class="btn ripple btn-success" type="submit">Proceed to Final Step</button>
+                                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>

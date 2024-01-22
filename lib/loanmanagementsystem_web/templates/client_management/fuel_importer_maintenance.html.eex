@@ -1,6 +1,6 @@
 <%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
 
-    <div class="inner-body">
+    <div class="col-md-12">
 
         <!-- Page Header -->
         <div class="page-header">
@@ -13,7 +13,7 @@
             </div>
             <div class="d-flex">
                 <div class="justify-content-center">
-                    
+
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
                 <h6 class="modal-title">Loans Details</h6>
-                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
             </div>
             <div class="modal-body">
                 <div class="row row-lg">

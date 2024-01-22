@@ -1,0 +1,121 @@
+<%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+<div class="col-md-12">
+  <div class="inner-body">
+    <div class="page-header">
+      <div>
+        <h2 class="main-content-title tx-24 mg-b-5"> Company Maintenance</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Organization Mgt</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Company Maintenance</li>
+        </ol>
+      </div>
+      <div class="d-flex">
+        <div class="justify-content-center">
+          <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add/Edit Company Info!</button>
+        </div>
+      </div>
+    </div>
+    <div class="row row-sm">
+      <div class="col-lg-12">
+        <div class="card custom-card overflow-hidden">
+          <div class="table-responsive">
+            <table class="table table-bordered border-bottom" id="example1">
+              <thead>
+                <tr>
+                  <th class="wd-20p">Name</th>
+                  <th class="wd-25p">Registration Number</th>
+                  <th class="wd-20p">Phone Number</th>
+                  <th class="wd-15p">TPIN</th>
+                </tr>
+              </thead>
+              <tr>
+                <td> <%=  @company && @company.company_name %> </td>
+                <td><%= @company && @company.company_reg_no %></td>
+                <td><%= @company && @company.phone_no %> </td>
+                <td> <%= @company && @company.tpin %> </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+          <h6 class="modal-title">Add/Edit Company Info!</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <form class="m-form m-form--fit m--margin-bottom-20" enctype="multipart/form-data" action="<%= Routes.change_management_path(@conn, :create_company_info)%>" method="POST">
+            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="col-sm">
+                  <label class="form-label"> Company Name <span style="color: red;">*</span></label>
+                    <input class="form-control" name="company_name" value="<%= @company && @company.company_name %>" required type="text">
+                </div>
+                <div class="col-sm">
+                  <label class="form-label">Tax Payer Identification Number<span style="color: red;">*</span></label>
+                    <input class="form-control" name="tpin" value="<%= @company && @company.tpin %>" required type="text">
+                </div>
+                <div class="col-sm">
+                  <label class="form-label">country<span style="color: red;">*</span></label>
+                  <select  name="country" class="form-control select2-with-search select2-hidden-accessible" required>
+                    <option><%= @company && @company.country %></option>
+                      <%= for country <- @countries do %>
+                          <option></option>
+                          <option value="<%= country.name %>"><%= country.name %></option>
+                      <% end %>
+                  </select>
+                </div>
+                <div class="col-sm">
+                  <label class="form-label">Address<span style="color: red;">*</span></label>
+                    <input class="form-control" name="address" value="<%= @company && @company.address %>" required type="text">
+                </div>
+                <div class="col-sm">
+                  <label class="form-label">Company Logo<span style="color: red;">*</span></label>
+                    <input type="file" class="form-control" name="company_logo_img" value="<%= @company && @company.company_logo %>" >
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="col-sm">
+                  <label class="form-label">Company Registration Number<span style="color: red;">*</span></label>
+                    <input class="form-control" name="company_reg_no" value="<%= @company && @company.company_reg_no %>" required type="text">
+                </div>
+                <div class="col-sm">
+                  <label class="form-label">Currency<span style="color: red;">*</span></label>
+                      <select  name="currency" class="form-control select2-with-search select2-hidden-accessible" required>
+                      <option><%= @company && @company.currency %></option>
+                        <%= for currency <- @currencies do %>
+                          <option></option>
+                          <option value="<%= currency.name %>"><%= currency.name %></option>
+                        <% end %>
+                    </select>
+                </div>
+                <div class="col-sm">
+                  <label class="form-label">Town<span style="color: red;">*</span></label>
+                  <input class="form-control" name="town" value="<%= @company && @company.town %>" required type="text">
+                </div>
+                <div class="col-sm">
+                  <label class="form-label">Phone Number<span style="color: red;">*</span></label>
+                    <input class="form-control" name="phone_no" value="<%= @company && @company.phone_no %>" required type="tel">
+                </div>
+              </div>
+            </div>
+            <div style="float: right;" >
+                    <button class="btn ripple btn-success" type="submit">Submit</button>
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Back</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--End Tooltips and Popovers -->

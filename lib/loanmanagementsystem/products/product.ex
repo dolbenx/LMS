@@ -24,11 +24,13 @@ defmodule Loanmanagementsystem.Products.Product do
     field(:principle_account_id, :integer)
     field(:interest_account_id, :integer)
     field(:charges_account_id, :integer)
+    field(:classification_id, :integer)
     field(:charge_id, :map)
     field(:reference_id, :integer)
     field(:reason, :string)
-    field(:finance_cost, :float,  default: 0.0)
-    field(:arrangement_fee, :float, default: 0.0)
+    field :insurance, :float
+    field :proccessing_fee, :float
+    field :crb_fee, :float
 
     timestamps()
   end
@@ -40,6 +42,10 @@ defmodule Loanmanagementsystem.Products.Product do
       :charge_id,
       :reference_id,
       :reason,
+      :insurance,
+      :proccessing_fee,
+      :crb_fee,
+      :classification_id,
       :charges_account_id,
       :interest_account_id,
       :principle_account_id,
@@ -59,10 +65,9 @@ defmodule Loanmanagementsystem.Products.Product do
       :maximumPrincipal,
       :clientId,
       :yearLengthInDays,
-      :finance_cost,
-      :arrangement_fee,
       :status
     ])
+    |> unique_constraint(:tbl_products_pkey, name: :name)
 
     # |> validate_required([
     #   :classification_id,

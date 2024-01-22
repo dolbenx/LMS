@@ -1,0 +1,700 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+<style>
+.doubleUnderline { border-bottom: 1px dotted; width: 200px; height: 100px;}
+</style>
+<div class="col-md-12 col-md-12">
+
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mg-b-5">Offtaker Onboading</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Offtaker Onboading</li>
+            </ol>
+        </div>
+        <div class="d-flex">
+            <div class="justify-content-center">
+                <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+            </div>
+        </div>
+    </div>
+        <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+                <div class="card custom-card">
+                    <div class="container-fluid"><br>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                            </div>
+                            <div class="col-md-10"><br>
+                                <div class="parallelogram"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <div>
+                        <h6 class="mb-1 text-center">View Offtaker</h6>
+                        <p class="text-muted card-sub-title"></p>
+                    </div>
+                    <form action="#" enctype="multipart/form-data" id="tst" method="post">
+                        <input type="hidden" readonly name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div id="wizard-1">
+                        <%= for companies <- @companies do%>
+                            <h3>Corporate Details</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Company Details</u></h6>
+                                        <input type="hidden" readonly name="company_id" value="<%=companies.id %>">
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Company Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="companyName" value="<%=companies.companyName %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Company Phone Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="companyPhone" value="<%=companies.companyPhone %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Contact Email:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="contactEmail" value="<%=companies.contactEmail %>" class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Registration Date:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="companyRegistrationDate" value="<%=companies.companyRegistrationDate %>" class="form-control input-sm" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">TPIN:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="taxno" value="<%=companies.taxno %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Pacra-Registration Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="registrationNumber" value="<%=companies.companyAccountNumber %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Bank Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Select Bank:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="bank_id" class="form-control select2">
+                                                <%= for bank <- @banks do %>
+                                                    <%= if companies.bank_id == bank.id do  %>
+                                                        <option value="<%= companies.bank_id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+                                                        </option>
+                                                        <option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+                                                        </option>                                                        
+                                                    <% end %>
+                                                <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Account Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="companyAccountNumber" value="<%=companies.companyAccountNumber %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <h6 class="text-center"><u>Company Address Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Physical Address:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="house_number_company" value="<%=companies.house_number %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Street Name</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="street_name_company" value="<%=companies.street_name %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Area</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="area_company" value="<%=companies.area %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Town</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="town_company" value="<%=companies.town %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Years At Current Location:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="year_at_current_address_company" value="<%=companies.year_at_current_address %>" class="form-control input-sm" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Land Mark:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="land_mark_company" value="<%=companies.land_mark %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Accomodation Status</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="accomodation_status_company" class="form-control select2" required>
+                                                <%= if companies.accomodation_status == "OWNED" do %>
+                                                    <option value="<%=companies.accomodation_status %>"><%=companies.accomodation_status %></option>
+                                                    <option value="RENTED">RENTED </option>
+                                                <% else %>
+                                                    <option value="<%=companies.accomodation_status %>"><%=companies.accomodation_status %></option>
+                                                    <option value="OWNED">OWNED </option>                                              
+                                                <% end%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <hr style="border: 2px solid #F6000F;">
+                                <div class="row" style="opacity: 0.6;">
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                    </div>
+                                </div>
+                            </section>                        
+                            <h3>First Representative Details</h3>
+                            <section>
+                           <%= for representatives <-@representatives |> Enum.reject(&(&1.representative_1 != true)) do %>
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                        
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                        <input type="hidden" readonly name="user_id_rep_1" vaule="<%= representatives.user_userId%>">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Title:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="title_rep_1" class="form-control select2" required>
+                                                <%= if representatives.user_title == "Mr" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Ms">Ms </option>
+                                                    <option value="Dr">Dr </option>
+                                                <% end %>
+                                                <%= if representatives.user_title == "Mrs" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Ms">Ms </option>
+                                                    <option value="Dr">Dr </option>
+                                                <% end %>
+                                                <%= if representatives.user_title == "Ms" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Dr">Dr </option>
+                                                <% end %>
+                                                <%= if representatives.user_title == "Dr" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Ms">Ms </option>
+                                                <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">First Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="firstName_rep_1" value="<%= representatives.user_firstName %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Last Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="lastName_rep_1" value="<%= representatives.user_lastName %>" class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Other Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="otherName_rep_1" value="<%= representatives.user_otherName %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Date Of Birth:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="dateOfBirth_rep_1" value="<%= representatives.user_dateOfBirth %>" class="form-control input-sm" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Personal Email:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="emailAddress_rep_1" value="<%= representatives.user_emailAddress %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Type:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="meansOfIdentificationType_rep_1" class="form-control select2" required>
+                                                <%= if representatives.user_meansOfIdentificationType == "NRC" do %>
+                                                    <option value="<%= representatives.user_meansOfIdentificationType %>"><%= representatives.user_meansOfIdentificationType %></option>
+                                                    <option value="DRIVER LICENSE">DRIVER LICENSE </option>
+                                                    <option value="PASSPORT">PASSPORT</option>
+                                                <% end %>
+                                                <%= if representatives.user_meansOfIdentificationType == "DRIVER LICENSE" do %>
+                                                    <option value="<%=representatives.user_meansOfIdentificationType %>"><%=representatives.user_meansOfIdentificationType %> </option>
+                                                    <option value="PASSPORT">PASSPORT</option>
+                                                    <option value="NRC">NRC</option>
+                                                <% end %>
+                                                <%= if representatives.user_meansOfIdentificationType == "PASSPORT" do %>
+                                                    <option value="<%=representatives.user_meansOfIdentificationType %>"><%=representatives.user_meansOfIdentificationType %></option>
+                                                    <option value="NRC">NRC</option>
+                                                    <option value="DRIVER LICENSE">DRIVER LICENSE </option>
+                                                <% end %>                                                
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="meansOfIdentificationNumber_rep_1" value="<%= representatives.user_meansOfIdentificationNumber %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Mobile Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="mobileNumber_rep_1" value="<%= representatives.user_mobileNumber %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Choose Gender:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="gender_rep_1" class="form-control select2" required>
+                                                <%= if representatives.user_gender == "Female" do %>
+                                                    <option value="<%=representatives.user_gender %>"><%=representatives.user_gender %> </option>
+                                                    <option value="Male">Male</option>
+                                                <% else %>
+                                                    <option value="<%=representatives.user_gender %>"><%=representatives.user_gender %> </option>
+                                                    <option value="Female">Female</option>
+                                                <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Address Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">House/Plot Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="house_number_rep_1" value="<%= representatives.house_number %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Road/Street Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="street_name_rep_1" value="<%= representatives.street_name %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Area:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="area_rep_1" value="<%= representatives.area %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Town:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="town_rep_1" value="<%= representatives.town %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Accomodation Status</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="accomodation_status_rep_1" class="form-control select2" required>
+                                                <%= if representatives.accomodation_status == "OWNED" do %>
+                                                    <option value="<%=representatives.accomodation_status %>"><%=representatives.accomodation_status %></option>
+                                                    <option value="RENTED">RENTED </option>
+                                                <% else %>
+                                                    <option value="<%=representatives.accomodation_status %>"><%=representatives.accomodation_status %></option>
+                                                    <option value="OWNED">OWNED </option>                                              
+                                                <% end%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Land Mark:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="land_mark_rep_1" value="<%= representatives.land_mark %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Years At Current Address:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="year_at_current_address_rep_1" value="<%= representatives.year_at_current_address %>" class="form-control input-sm" type="number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% end %>
+                                <hr style="border: 2px solid #F6000F;">
+                                <div class="row" style="opacity: 0.6;">
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                    </div>
+                                </div>
+                            </section>
+
+
+                            <h3>Second Representative Details</h3>
+                            <section>
+                            <%= for representatives <-@representatives |> Enum.reject(&(&1.representative_2 != true)) do %>
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                       
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                        <input type="hidden" readonly name="user_id_rep_2" vaule="<%= representatives.user_userId%>">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Title:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="title_rep_2" class="form-control select2" required>
+                                                <%= if representatives.user_title == "Mr" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Ms">Ms </option>
+                                                    <option value="Dr">Dr </option>
+                                                <% end %>
+                                                <%= if representatives.user_title == "Mrs" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Ms">Ms </option>
+                                                    <option value="Dr">Dr </option>
+                                                <% end %>
+                                                <%= if representatives.user_title == "Ms" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Dr">Dr </option>
+                                                <% end %>
+                                                <%= if representatives.user_title == "Dr" do%>
+                                                    <option value="<%= representatives.user_title%>"><%= representatives.user_title%> </option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Ms">Ms </option>
+                                                <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">First Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="firstName_rep_2" value="<%= representatives.user_firstName %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Last Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="lastName_rep_2" value="<%= representatives.user_lastName %>" class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Other Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="otherName_rep_2" value="<%= representatives.user_otherName %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Date Of Birth:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="dateOfBirth_rep_2" value="<%= representatives.user_dateOfBirth %>" class="form-control input-sm" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Personal Email:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="emailAddress_rep_2" value="<%= representatives.user_emailAddress %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Type:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="meansOfIdentificationType_rep_2" class="form-control select2" required>
+                                                <%= if representatives.user_meansOfIdentificationType == "NRC" do %>
+                                                    <option value="<%= representatives.user_meansOfIdentificationType %>"><%= representatives.user_meansOfIdentificationType %></option>
+                                                    <option value="DRIVER LICENSE">DRIVER LICENSE </option>
+                                                    <option value="PASSPORT">PASSPORT</option>
+                                                <% end %>
+                                                <%= if representatives.user_meansOfIdentificationType == "DRIVER LICENSE" do %>
+                                                    <option value="<%=representatives.user_meansOfIdentificationType %>"><%=representatives.user_meansOfIdentificationType %> </option>
+                                                    <option value="PASSPORT">PASSPORT</option>
+                                                    <option value="NRC">NRC</option>
+                                                <% end %>
+                                                <%= if representatives.user_meansOfIdentificationType == "PASSPORT" do %>
+                                                    <option value="<%=representatives.user_meansOfIdentificationType %>"><%=representatives.user_meansOfIdentificationType %></option>
+                                                    <option value="NRC">NRC</option>
+                                                    <option value="DRIVER LICENSE">DRIVER LICENSE </option>
+                                                <% end %>                                                
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="meansOfIdentificationNumber_rep_2" value="<%= representatives.user_meansOfIdentificationNumber %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Mobile Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="mobileNumber_rep_2" value="<%= representatives.user_mobileNumber %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Choose Gender:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="gender_rep_2" class="form-control select2" required>
+                                                <%= if representatives.user_gender == "Female" do %>
+                                                    <option value="<%=representatives.user_gender %>"><%=representatives.user_gender %> </option>
+                                                    <option value="Male">Male </option>
+                                                <% else %>
+                                                    <option value="<%=representatives.user_gender %>"><%=representatives.user_gender %> </option>
+                                                    <option value="Female">Female </option>
+                                                <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Address Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">House/Plot Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="house_number_rep_2" value="<%= representatives.house_number %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Road/Street Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="street_name_rep_2"value="<%= representatives.street_name %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Area:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="area_rep_2" value="<%= representatives.area %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Town:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="town_rep_2" value="<%= representatives.town %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Accomodation Status</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select readonly name="accomodation_status_rep_2" class="form-control select2" required>
+                                                <%= if representatives.accomodation_status == "OWNED" do %>
+                                                    <option value="<%=representatives.accomodation_status %>"><%=representatives.accomodation_status %></option>
+                                                    <option value="RENTED">RENTED </option>
+                                                <% else %>
+                                                    <option value="<%=representatives.accomodation_status %>"><%=representatives.accomodation_status %></option>
+                                                    <option value="OWNED">OWNED </option>                                              
+                                                <% end%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Land Mark:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="land_mark_rep_2" value="<%= representatives.land_mark %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Years At Current Address:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input readonly name="year_at_current_address_rep_2" value="<%= representatives.year_at_current_address %>" class="form-control input-sm" type="number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% end %>
+                                <hr style="border: 2px solid #F6000F;">
+                                <div class="row" style="opacity: 0.6;">
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                    </div>
+                                </div>
+                            </section>
+                        <% end %>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

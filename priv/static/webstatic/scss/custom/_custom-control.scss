@@ -1,0 +1,155 @@
+/* ###### Custom-control ###### */
+
+.custom-control {
+  position: relative;
+  display: block;
+  min-height: 1.3125rem;
+  padding-left: 1.5rem;
+}
+
+.custom-control-inline {
+  display: inline-flex;
+  margin-right: 1rem;
+}
+
+.custom-control-input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+
+  &:checked ~ .custom-control-label::before {
+    color: $white;
+  }
+
+  &:focus {
+    ~ .custom-control-label::before {
+      box-shadow: none;
+    }
+  }
+
+  &:not(:disabled):active ~ .custom-control-label::before {
+    color: $white;
+    background-color: #e6ecff;
+    border-color: #e6ecff;
+  }
+
+  &:disabled ~ .custom-control-label {
+    color: #a8afc7;
+
+    &::before {
+      background-color: $background;
+    }
+  }
+}
+
+.custom-control-label {
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: top;
+
+  &::before {
+    position: absolute;
+    top: 0.15625rem;
+    left: -1.5rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    content: "";
+    background-color: $white;
+    border: #dedef5 solid 1px;
+    border-radius: 4px;
+  }
+
+  &::after {
+    position: absolute;
+    top: 0.15625rem;
+    left: -1.5rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    content: "";
+    background: no-repeat 50% / 50% 50%;
+  }
+}
+.custom-control-input.is-valid ~ .valid-feedback, input.custom-control-input.parsley-success ~ .valid-feedback, textarea.custom-control-input.parsley-success ~ .valid-feedback, .custom-control-input.is-valid ~ .valid-tooltip, input.custom-control-input.parsley-success ~ .valid-tooltip, textarea.custom-control-input.parsley-success ~ .valid-tooltip, .custom-control-input.is-invalid ~ .invalid-feedback, input.custom-control-input.parsley-error ~ .invalid-feedback, textarea.custom-control-input.parsley-error ~ .invalid-feedback, .custom-control-input.is-invalid ~ .invalid-tooltip, input.custom-control-input.parsley-error ~ .invalid-tooltip, textarea.custom-control-input.parsley-error ~ .invalid-tooltip {
+  display: block;
+}
+.custom-control-label::before, .custom-file-label, .custom-select {
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-control-label::before, .custom-file-label, .custom-select {
+    transition: none;
+  }
+}
+.custom-control-md {
+    min-height: 2rem !important;
+}
+.custom-control-label-md {
+    padding-left: 8px;
+    padding-top: 6px;
+}
+.custom-control-label-md::before, .custom-control-label-md::after {
+    top: 0.25rem !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+}
+.custom-control-lg {
+    min-height: 2rem !important;
+}
+.custom-control-label-lg {
+    padding-left: 15px;
+    padding-top: 10px;
+}
+.custom-control-label-lg::before, .custom-control-label-lg::after {
+    top: 0.25rem !important;
+    width: 2rem !important;
+    height: 2rem !important;
+}
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before, .custom-checkbox .custom-control-input:disabled:indeterminate~.custom-control-label::before {
+    background-color: rgb(169, 164, 236);
+    border-color: #a9a4ec;
+}
+.custom-radio .custom-control-input:disabled:checked~.custom-control-label::before{
+    background-color: rgb(169, 164, 236);
+    border-color: #a9a4ec;
+}
+.custom-switch-indicator-md {
+    display: inline-block;
+    height: 1.5rem;
+    width: 2.8rem;
+    background: #f5f6fb;
+    border-radius: 50px;
+    position: relative;
+    vertical-align: bottom;
+    border: 1px solid #ebeaf1;
+    transition: .3s border-color, .3s background-color;
+}
+.custom-switch-input:checked~.custom-switch-indicator-md:before {
+    left: calc(1.46rem + -1px);
+}
+.custom-switch-indicator-md:before {
+    top: 2px;
+    height: calc(1.25rem - 1px);
+    width: calc(1.25rem - 1px);
+}
+
+.custom-switch-indicator-lg {
+    height: 1.9rem;
+    width: 3.3rem;
+}
+.custom-switch-input:checked~.custom-switch-indicator-lg:before {
+    left: calc(1.46rem + 1px);
+}
+.custom-switch-indicator-lg:before {
+    height: calc(1.25rem - -4px);
+    width: calc(1.25rem - -4px);
+    top: 2px;
+}
+.custom-switch-description {
+    color: #1d212f;
+}
+
+/* ###### Custom-control ###### */

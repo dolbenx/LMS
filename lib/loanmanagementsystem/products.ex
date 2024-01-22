@@ -18,32 +18,6 @@ defmodule Loanmanagementsystem.Products do
       [%Product{}, ...]
 
   """
-  #Loanmanagementsystem.Products.application_by_product
-  def application_by_product() do
-    Product
-    |> join(:left, [p], l in Loanmanagementsystem.Loan.Loans, on: p.id == l.product_id)
-    |> where([p], p.status == ^"ACTIVE")
-    |> select([p, l], %{
-      principal_amount_proposed: l.principal_amount_proposed,
-      clientId: p.clientId,
-      product_code: p.code,
-      currency_decimals: p.currencyDecimals,
-      currency_name: p.currencyName,
-      defaultPeriod: p.defaultPeriod,
-      details: p.details,
-      interest: p.interest,
-      interestMode: p.interestMode,
-      interestType: p.interestType,
-      max_amount: p.maximumPrincipal,
-      min_amount: p.minimumPrincipal,
-      product_name: p.name,
-      period_type: p.periodType,
-      product_type: p.productType,
-      status: p.status,
-      yearLengthInDays: p.yearLengthInDays,
-    })
-    |> Repo.all()
-  end
 
   # Loanmanagementsystem.Products.list_tbl_products()
 
@@ -51,26 +25,33 @@ defmodule Loanmanagementsystem.Products do
     Repo.all(Product)
   end
 
-  def get_products() do
+
+  def product_details_listing do
     Product
-    |> where([p], p.status == ^"ACTIVE")
+    |> where([p], p.status == "ACTIVE")
     |> select([p], %{
-      id: p.id,
-      name: p.name,
-      code: p.code,
+      clientId: p.clientId,
+      product_code: p.code,
       currencyDecimals: p.currencyDecimals,
-      currencyName: p.currencyName,
+      currencyId: p.currencyId,
       defaultPeriod: p.defaultPeriod,
       details: p.details,
       interest: p.interest,
       interestMode: p.interestMode,
       interestType: p.interestType,
-      maximumPrincipal: p.maximumPrincipal,
-      minimumPrincipal: p.minimumPrincipal,
+      max_amount: p.maximumPrincipal,
+      min_amount: p.minimumPrincipal,
       periodType: p.periodType,
       productType: p.productType,
       status: p.status,
       yearLengthInDays: p.yearLengthInDays,
+      product_id: p.id,
+      id: p.id,
+      code: p.code,
+      name: p.name,
+      currencyName: p.currencyName,
+      minimumPrincipal: p.minimumPrincipal,
+      maximumPrincipal: p.maximumPrincipal,
     })
     |> Repo.all()
   end
@@ -91,6 +72,30 @@ defmodule Loanmanagementsystem.Products do
   """
   # Loanmanagementsystem.Products.get_product!
   def get_product!(id), do: Repo.get!(Product, id)
+
+
+
+  def loan_product_details_listing do
+    Product
+    |> where([p], p.status == "ACTIVE")
+    |> select([p], %{
+      id: p.id,
+      product_name: p.name,
+      product_code: p.code,
+      description: p.details,
+      currency: p.currencyName,
+      interest_rate: p.interest,
+      interest_mode: p.interestMode,
+      max_amount: fragment("select ROUND(CAST(  \"maximumPrincipal\"   AS numeric), 2) from  tbl_products where id = ? ", p.id),
+      min_amount: fragment("select ROUND(CAST( \"minimumPrincipal\"   AS numeric), 2) from  tbl_products where id = ? ", p.id),
+      product_type: p.productType,
+      insurance: fragment("select ROUND(CAST(  \"insurance\" * 100   AS numeric), 2) from  tbl_products where id = ? ", p.id),
+      procesing_fee: fragment("select ROUND(CAST(  \"proccessing_fee\" * 100   AS numeric), 2) from  tbl_products where id = ? ", p.id),
+      crb_fee: p.crb_fee
+
+    })
+    |> Repo.all()
+  end
 
   @doc """
   Creates a product.
@@ -208,10 +213,7 @@ defmodule Loanmanagementsystem.Products do
       yearLengthInDays: p.yearLengthInDays,
       product_id: p.id,
       id: p.id,
-      code: p.code,
-      currencyName: p.currencyName,
-      finance_cost: p.finance_cost,
-      arrangement_fee: p.arrangement_fee,
+      code: p.code
     })
     |> Repo.all()
   end
@@ -254,7 +256,7 @@ defmodule Loanmanagementsystem.Products do
 
   def product_list(search_params, page, size) do
     Product
-    |> handle_product_filter(search_params)
+    # |> handle_product_filter(search_params)
     |> order_by([p], desc: p.inserted_at)
     |> compose_product_list()
     |> Repo.paginate(page: page, page_size: size)
@@ -262,17 +264,16 @@ defmodule Loanmanagementsystem.Products do
 
   def product_list(_source, search_params) do
     Product
-    |> handle_product_filter(search_params)
+    # |> handle_product_filter(search_params)
     |> order_by([p], desc: p.inserted_at)
     |> compose_product_list()
   end
 
   defp compose_product_list(query) do
     query
-    |>join(:left, [p], pR in Product_rates, on: p.id == pR.product_id)
-    # |> where([a], a.studentInfosStatus == "Student")
+    # |>join(:left, [p], pR in Product_rates, on: p.id == pR.product_id)
     |> select(
-      [p, pR],
+      [p, _pR],
       %{
         clientId: p.clientId,
         product_code: p.code,
@@ -302,12 +303,15 @@ defmodule Loanmanagementsystem.Products do
         interest_account_id: p.interest_account_id,
         charges_account_id: p.charges_account_id,
         classification_id: p.classification_id,
-        interest_rates: pR.interest_rates,
-        processing_fee: pR.processing_fee,
-        repayment: pR.repayment,
-        tenor: pR.tenor,
-        price_rate_id: pR.id,
-        product_charge_id: p.charge_id
+        # interest_rates: pR.interest_rates,
+        # processing_fee: pR.processing_fee,
+        # repayment: pR.repayment,
+        # tenor: pR.tenor,
+        # price_rate_id: pR.id,
+        product_charge_id: p.charge_id,
+        insurance: p.insurance,
+        crb_fee: p.crb_fee,
+        proccessing_fee: p.proccessing_fee
       }
     )
   end
@@ -528,7 +532,6 @@ defmodule Loanmanagementsystem.Products do
     Product_rates.changeset(product_rates, attrs)
   end
 
-  # Loanmanagementsystem.Products.product_rate_details_list(1)
   def product_rate_details_list(product_id) do
     Product_rates
     |> where([p], p.product_id == ^product_id)
@@ -545,52 +548,99 @@ defmodule Loanmanagementsystem.Products do
     |> Repo.all()
   end
 
+  alias Loanmanagementsystem.Products.Product_charges
 
-  def get_product_by_product_id(product_id) do
-    Product
-    |> where([p], p.id == ^product_id)
-    |> select(
-      [p],
-      %{
-        clientId: p.clientId,
-        product_code: p.code,
-        currency_decimals: p.currencyDecimals,
-        currencyId: p.currencyId,
-        currency_name: p.currencyName,
-        defaultPeriod: p.defaultPeriod,
-        details: p.details,
-        interest: p.interest,
-        interestMode: p.interestMode,
-        interest_type: p.interestType,
-        # max_amount: fragment("SELECT  cast((?) as text) FROM tbl_products", p.maximumPrincipal),
-        max_amount: p.maximumPrincipal,
-        min_amount: p.minimumPrincipal,
-        profit: fragment("concat(?, concat(' To ', ?))", p.minimumPrincipal, p.maximumPrincipal),
-        product_name: p.name,
-        period_type: p.periodType,
-        product_type: p.productType,
-        status: p.status,
-        yearLengthInDays: p.yearLengthInDays,
-        product_id: p.id,
-        id: p.id,
-        inserted_at: p.inserted_at,
-        updated_at: p.updated_at,
-        code: p.code,
-        principle_account_id: p.principle_account_id,
-        interest_account_id: p.interest_account_id,
-        charges_account_id: p.charges_account_id,
-        classification_id: p.classification_id,
-        # interest_rates: pR.interest_rates,
-        # processing_fee: pR.processing_fee,
-        # repayment: pR.repayment,
-        # tenor: pR.tenor,
-        # price_rate_id: pR.id,
-        product_charge_id: p.charge_id
-      }
-    )
-    |> Repo.all()
+  @doc """
+  Returns the list of product_id.
+
+  ## Examples
+
+      iex> list_product_id()
+      [%Product_charges{}, ...]
+
+  """
+  def list_product_id do
+    Repo.all(Product_charges)
   end
 
+  @doc """
+  Gets a single product_charges.
 
+  Raises `Ecto.NoResultsError` if the Product charges does not exist.
 
+  ## Examples
+
+      iex> get_product_charges!(123)
+      %Product_charges{}
+
+      iex> get_product_charges!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_product_charges!(id), do: Repo.get!(Product_charges, id)
+
+  @doc """
+  Creates a product_charges.
+
+  ## Examples
+
+      iex> create_product_charges(%{field: value})
+      {:ok, %Product_charges{}}
+
+      iex> create_product_charges(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_product_charges(attrs \\ %{}) do
+    %Product_charges{}
+    |> Product_charges.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a product_charges.
+
+  ## Examples
+
+      iex> update_product_charges(product_charges, %{field: new_value})
+      {:ok, %Product_charges{}}
+
+      iex> update_product_charges(product_charges, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_product_charges(%Product_charges{} = product_charges, attrs) do
+    product_charges
+    |> Product_charges.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a product_charges.
+
+  ## Examples
+
+      iex> delete_product_charges(product_charges)
+      {:ok, %Product_charges{}}
+
+      iex> delete_product_charges(product_charges)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_product_charges(%Product_charges{} = product_charges) do
+    Repo.delete(product_charges)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking product_charges changes.
+
+  ## Examples
+
+      iex> change_product_charges(product_charges)
+      %Ecto.Changeset{data: %Product_charges{}}
+
+  """
+  def change_product_charges(%Product_charges{} = product_charges, attrs \\ %{}) do
+    Product_charges.changeset(product_charges, attrs)
+  end
 end

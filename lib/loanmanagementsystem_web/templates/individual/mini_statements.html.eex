@@ -1,0 +1,101 @@
+<div class="container-fluid">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Mini Statement Report</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mini Statement</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                        <form class="m-form m-form--fit m--margin-bottom-20" id = "loan_statement_reportfilter">
+
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h6 class="modal-title">Filter Report</h6>
+                                    <br>
+                                        <div class="form-group">
+                                            <div class="row row-sm">
+                                                <div class="col-sm-5">
+                                                    <label class="">Loan Start Date</label>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text ">
+                                                            From
+                                                        </span>
+                                                        <input class="form-control clear_form" required="" type="date" name="from" id="from">
+                                                        <span class="input-group-text ">
+                                                            To
+                                                        </span>
+                                                        <input class="form-control clear_form" required="" type="date" name="to" id="to">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <button type="button" id="statement-filter-search-statement" class="btn ripple " style="background-color: #003651; color: white;" id="">
+                                            <span>
+                                                <i class="la la-search"></i>
+                                                <span>Search</span>
+                                            </span>
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <button  type="button" id="statement-filter-clear-statement" class="btn btn-danger m-btn m-btn--icon" id="">
+                                            <span>
+                                                <i class="la la-close"></i>
+                                                <span>Reset</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div><br>
+                            </div>
+                             <br>
+                        </form>
+                            <table class="table table-bordered border-bottom" id="dt-mini-statement-individual-role">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                       <tr>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">S/N</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Due Date</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Product</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Repayment Amount</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Principal Amount</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Interest Amount</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Balance</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
+                                        
+
+                                    </tr>
+                                </thead>
+
+                                    <body>
+                                    </body>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>

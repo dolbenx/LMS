@@ -1,0 +1,172 @@
+<%= render "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Prospects Engaged</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Prospects Engaged</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                       <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th> Customer Name </th>
+                                        <th> NRC Number </th>
+                                        <th> Gender </th>
+                                        <th> Email Adress </th>
+                                        <th> Status </th>
+                                        <th class="text-center"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%= for leeds <- @lead do %>
+                                    <tr>
+                                        <td> <%= leeds.first_name%> <%= leeds.last_name%> </td>
+                                        <td> <%= leeds.identification_number%> </td>
+                                        <td> <%= leeds.gender %> </td>
+                                        <td> <%= leeds.email_address%> </td>
+                                        <%= if leeds.status == "Converted" do %>
+
+                                            <td><span class= "badge bg-pill bg-success" ><%= leeds.status %></span> </td>
+
+                                        <% else %>
+
+                                            <%= if leeds.status == "INACTIVE" do %>
+
+                                                <td><span class="badge bg-pill bg-danger"><%= leeds.status %></span> </td>
+                                            <% else %>
+
+
+                                                        <td><span class="badge bg-pill bg-warning"><%= leeds.status %></span> </td>
+
+
+
+                                            <% end %>
+
+                                        <% end %>
+                                        <td class="text-center">
+                                            <!-- <%=if leeds.status == "ACTIVE" do %>
+
+                                                <a class="btn ripple btn-danger btn-sm deactivate_lead" data-deactivate-id="<%= leeds.id%>"  title= "Disable" ><i class="fe fe-x-circle"></i> Disable </a>
+
+                                            <% else %>
+
+                                                <a class="btn ripple btn-success btn-sm activate_lead" data-activate-id="<%= leeds.id%>" title= "Enable"><i class="fe fe-check-circle"></i> Enable </a>
+
+
+                                            <% end %>
+                                            -->
+
+                                            <a class="btn ripple btn-info btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#edit_leads"
+                                            data-id= "<%= leeds.id%>"
+                                            data-first_name= "<%= leeds.first_name %>"
+                                            data-last_name= "<%= leeds.last_name %>"
+                                            data-other_name= "<%= leeds.other_name %>"
+                                            data-gender= "<%= leeds.gender %>"
+                                            data-title= "<%= leeds.title %>"
+                                            data-email_address= "<%= leeds.email_address %>"
+                                            data-date_of_birth= "<%= leeds.date_of_birth %>"
+                                            data-identification_number= "<%= leeds.identification_number %>"
+                                            data-marital_status= "<%= leeds.marital_status %>"
+                                            data-mobile_number= "<%= leeds.mobile_number %>"
+                                            data-nationality= "<%= leeds.nationality %>"
+                                             data-comment= "<%= leeds.comment %>"
+                                            data-number_of_dependants= "<%= leeds.number_of_dependants %>"
+                                            title= "Edit" ><i class="fe fe-edit"></i> Edit </a>
+
+                                            <a class="btn ripple btn-warning btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#view_leads"
+                                            data-id= "<%= leeds.id%>"
+                                            data-first_name= "<%= leeds.first_name%>"
+                                            data-last_name= "<%= leeds.last_name%>"
+                                            data-other_name= "<%= leeds.other_name%>"
+                                            data-gender= "<%= leeds.gender%>"
+                                            data-title= "<%= leeds.title%>"
+                                            data-email_address= "<%= leeds.email_address%>"
+                                            data-date_of_birth= "<%= leeds.date_of_birth%>"
+                                            data-identification_number= "<%= leeds.identification_number%>"
+                                            data-marital_status= "<%= leeds.marital_status%>"
+                                            data-mobile_number= "<%= leeds.mobile_number%>"
+                                            data-nationality= "<%= leeds.nationality%>"
+                                            data-number_of_dependants= "<%= leeds.number_of_dependants%>"
+                                            title= "View" ><i class="fe fe-eye"></i> View </a>
+
+                                            <%= if leeds.status != "Converted" do %>
+                                                <a class="btn ripple btn-sm" style="background-color: #003651; color: white;"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#update_lead" data-id="<%= leeds.id %>"
+                                                    title= "Edit" ><i class="fe fe-arrow-up-circle"></i> Convert </a>
+
+                                            <% end %>
+
+
+                                        </td>
+                                    </tr>
+                                <% end %>
+                                <tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Loans Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                            <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                             <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

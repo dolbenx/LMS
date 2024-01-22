@@ -7,12 +7,10 @@ defmodule Loanmanagementsystem.Employment do
   alias Loanmanagementsystem.Repo
 
   alias Loanmanagementsystem.Employment.Employment_Details
-  alias Loanmanagementsystem.Employment.Income_Details
+  alias Loanmanagementsystem.Accounts.Address_Details
 
   @doc """
   Returns the list of employment_type.
-
-  # Loanmanagementsystem.Employment.list_employement(79)
 
   ## Examples
 
@@ -20,56 +18,6 @@ defmodule Loanmanagementsystem.Employment do
       [%Employment_Details{}, ...]
 
   """
-
-  def list_employement(user_id) do
-    Employment_Details
-    |> where([n], n.userId == ^user_id)
-    |> select([n], %{
-      area: n.area,
-      date_of_joining: n.date_of_joining,
-      employee_number: n.employee_number,
-      employer: n.employer,
-      employer_industry_type: n.employer_industry_type,
-      employer_office_building_name: n.employer_office_building_name,
-      employer_officer_street_name: n.employer_officer_street_name,
-      employment_type: n.employment_type,
-      hr_supervisor_email: n.hr_supervisor_email,
-      hr_supervisor_mobile_number: n.hr_supervisor_mobile_number,
-      hr_supervisor_name: n.hr_supervisor_name,
-      job_title: n.job_title,
-      occupation: n.occupation,
-      province: n.province,
-      town: n.town,
-      userId: n.userId,
-      departmentId: n.departmentId,
-      mobile_network_operator: n.mobile_network_operator,
-      registered_name_mobile_number: n.registered_name_mobile_number,
-      contract_start_date: n.contract_start_date,
-      contract_end_date: n.contract_end_date,
-
-    })
-    |> limit(1)
-    |> Repo.one()
-  end
-
-  def list_income_details(user_id) do
-    Income_Details
-    |> where([n], n.userId == ^user_id)
-    |> select([n], %{
-      gross_pay: n.gross_pay,
-      net_pay: n.net_pay,
-      pay_day: n.pay_day,
-      total_deductions: n.total_deductions,
-      total_expenses: n.total_expenses,
-      upload_payslip: n.upload_payslip,
-      userId: n.userId,
-
-    })
-    |> limit(1)
-    |> Repo.one()
-  end
-
-
   def list_employment_type do
     Repo.all(Employment_Details)
   end
@@ -107,6 +55,38 @@ defmodule Loanmanagementsystem.Employment do
   end
 
 
+  def list_customer_reference_details_validation(userId) do
+    try do list_customer_reference_details(userId) ||
+    %{
+      area: "",
+      date_of_joining: "",
+      employee_number: "",
+      employer: "",
+      employer_industry_type: "",
+      employer_office_building_name: "",
+      employer_officer_street_name: "",
+      employment_type: "",
+      hr_supervisor_email: "",
+      hr_supervisor_mobile_number: "",
+      hr_supervisor_name: "",
+      job_title: "",
+      occupation: "",
+      province: "",
+      town: "",
+      userId: "",
+      departmentId: "",
+      mobile_network_operator: "",
+      registered_name_mobile_number: "",
+      contract_start_date: "",
+      contract_end_date: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+
   @doc """
   Gets a single employment__details.
 
@@ -121,10 +101,51 @@ defmodule Loanmanagementsystem.Employment do
       ** (Ecto.NoResultsError)
 
   """
+  # Loanmanagementsystem.Employment.get_employment__details_by_userId(1269)
   def get_employment__details!(id), do: Repo.get!(Employment_Details, id)
   # Loanmanagementsystem.Employment.get_employment__details_by_userId
-  def get_employment__details_by_userId(userId),
-    do: Repo.get_by(Employment_Details, userId: userId)
+  def get_employment__details_by_userId(userId) do
+    Employment_Details
+    |>join(:left, [eD], aD in Address_Details, on: eD.userId == aD.userId)
+    |> where([eD, aD], eD.userId == ^userId)
+    |> select([eD, aD], %{
+      accomodation_status: aD.accomodation_status,
+      area: aD.area,
+      house_number: aD.house_number,
+      street_name: aD.street_name,
+      personal_town: aD.town,
+      personal_province: aD.province,
+      land_mark: aD.land_mark,
+      area: eD.area,
+      date_of_joining: eD.date_of_joining,
+      employee_number: eD.employee_number,
+      employer: eD.employer,
+      employer_industry_type: eD.employer_industry_type,
+      employer_office_building_name: eD.employer_office_building_name,
+      employer_officer_street_name: eD.employer_officer_street_name,
+      employment_type: eD.employment_type,
+      hr_supervisor_email: eD.hr_supervisor_email,
+      hr_supervisor_mobile_number: eD.hr_supervisor_mobile_number,
+      hr_supervisor_name: eD.hr_supervisor_name,
+      job_title: eD.job_title,
+      occupation: eD.occupation,
+      province: eD.province,
+      town: eD.town,
+      userId: aD.userId,
+      departmentId: eD.departmentId,
+      # departmentIdinteger
+      mobile_network_operator: eD.mobile_network_operator,
+      registered_name_mobile_number: eD.registered_name_mobile_number,
+      contract_start_date: eD.contract_start_date,
+      contract_end_date: eD.contract_end_date,
+
+    })
+    |> Repo.all()
+
+  end
+
+
+
 
   @doc """
   Creates a employment__details.
@@ -389,6 +410,25 @@ defmodule Loanmanagementsystem.Employment do
     Personal_Bank_Details.changeset(personal__bank__details, attrs)
   end
 
+      # Loanmanagementsystem.Employment.get_user_bank_details_by_user_id(61)
+      def get_user_bank_details_by_user_id(userId) do
+        Personal_Bank_Details
+        |> where([bk], bk.userId == ^userId)
+        |> select([bk], %{
+          bankName: bk.bankName,
+          branchName: bk.branchName,
+          accountNumber: bk.accountNumber,
+          accountName: bk.accountName,
+          upload_bank_statement: bk.upload_bank_statement,
+          userId: bk.userId,
+          bank_id: bk.bank_id,
+          mobile_number: bk.mobile_number,
+          bank_name_branch: fragment("CONCAT(?, ' (', ?, ')')", bk.bankName, bk.branchName),
+          id: bk.id
+        })
+        |> Repo.all()
+      end
+
   alias Loanmanagementsystem.Employment.Employee_Maintenance
 
   @doc """
@@ -488,6 +528,4 @@ defmodule Loanmanagementsystem.Employment do
   def change_employee__maintenance(%Employee_Maintenance{} = employee__maintenance, attrs \\ %{}) do
     Employee_Maintenance.changeset(employee__maintenance, attrs)
   end
-
-
 end

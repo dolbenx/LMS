@@ -1,0 +1,358 @@
+
+
+<style>
+
+   .rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}
+    .doubleUnderline { border-bottom: 1px dotted; width: 200px; height: 100px;}
+</style>
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+
+
+    <div class="col-md-12">
+        <div class="d-flex" >
+            <a href="<%= Routes.loan_path(@conn, :quick_advance_application_datatable) %>" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+        </div>
+
+
+        <!-- End Page Header -->
+        <body  onload="hide_receiver_number()">
+            <div class="row row-sm">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card custom-card">
+                        <div class="container-fluid"><br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                                </div>
+                                <div class="col-md-10"><br>
+                                    <div class="parallelogram"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <h5 class="main-content-label mb-1 text-center">PAYMENT REQUISITION FORM </h5>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <img src="<%= Routes.static_path(@conn, "/images/user-128.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                        <img src="<%= Routes.static_path(@conn, "/images/qrcode.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <form action=" <%= Routes.loan_path(@conn, :ceo_approve_loan_payment_requisition) %>" enctype="multipart/form-data"  id="tst" method="post">
+                              <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                               <input type="hidden" name="reference_no" id="id" value="<%= @reference_no %>">
+
+                                    <div class="row">
+
+                                        <div class="col-md-12 border"><br>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">PAYABLE TO:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="payable_to" value="<%= @disbursement_details.payable_to %>"  required type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Address / Designation:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="address_or_designation"  value="<%= @disbursement_details.address_or_designation %> " required type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">AMOUNT REQUESTED:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                     <input class="form-control input-sm" name="amount_requested" value="<%= Decimal.new(Float.to_string(@disbursement_details.amount_requested)) %>" required  type="number">
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">PURPOSE FOR THE FUNDS REQUESTED :</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control input-sm" name="loan_purpose"  required  ><%= @disbursement_details.loan_purpose %></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">SPECIAL INSTRUCTIONS:_As per Attached_</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+
+                                                    <label class="mg-b-0">The requester must Attach Motivation, Invoice, PO, email, quotations to support this request before Approval.</label>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                    </div>  <br>
+                                    <div class="row">
+
+
+                                                <div class="col-md-6">
+                                                   <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">REQUESTED BY:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="requested_by"  value="<%=  @disbursement_details.requested_by %>" required type="text">
+                                                        </div>
+                                                    </div>
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">CHECKED  BY:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="checked_by"  value="<%=  @disbursement_details.checked_by %>"  type="text">
+                                                        </div>
+                                                    </div>
+
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">APPROVED BY:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="approved_by"  value="<%=  @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>"   type="text">
+                                                        </div>
+                                                    </div>
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">GL Account:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="gl_account" value="<%=  @disbursement_details.gl_account %>"  type="text">
+                                                        </div>
+                                                    </div>
+
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Date Paid:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="date_paid" value="<%= @disbursement_details.date_paid %>" required type="date">
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                    <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Net Disbursed:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="net_disbursed_amount" value="<%= Decimal.new(Float.to_string(@disbursement_details.net_disbursed_amount)) %>" readonly  required type="number">
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                                 <div class="col-md-6">
+                                                   <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Position:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="requested_by_position" value="<%=  @disbursement_details.requested_by_position %>"  type="text">
+                                                        </div>
+                                                    </div>
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Position:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="checked_by_position" value="<%=  @disbursement_details.checked_by_position %>"  type="text">
+                                                            <input class="form-control input-sm"name="loan_type"  value="<%=  @loan_details.loan_type %>" required type="hidden">
+                                                            <input class="form-control input-sm" name="customer_id"  value="<%=  @loan_details.customer_id %>" required type="hidden">
+                                                        </div>
+                                                    </div>
+
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Position:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="approved_by_position" value="<%=  @conn.assigns.user.role_desc %>"   type="text">
+                                                        </div>
+                                                    </div>
+
+                                                      <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Cheque No:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="cheque_no"  value="<%=  @disbursement_details.cheque_no %>"  type="text">
+                                                        </div>
+                                                    </div>
+
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Amount Paid:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input class="form-control input-sm" name="amount_paid" value="<%= Decimal.new(Float.to_string(@disbursement_details.amount_paid)) %>" readonly  required type="number">
+                                                        </div>
+                                                    </div>
+
+
+                                                     <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0"></label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                              <button class="btn ripple btn-success"  type="submit">Approve</button>&nbsp
+                                                              <a href="<%= Routes.loan_path(@conn, :quick_advance_application_datatable) %>" class="btn ripple btn-danger"  type="submit">Cancel</a>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+
+
+
+
+
+
+
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+
+  <div class="col-sm-4 col-md-4">
+	<div class="card custom-card">
+		<div class="modal" id="viewDocument" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="main-content-label mb-3">View Document</h6>
+						<button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+					</div>
+					<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<div class="modal-body">
+						<div class="row row-lg">
+							<div class="col-sm-12 col-md-12 col-lg-12" id="theDocumentView"> </div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+    $(document).ready(function(){
+        //JS FOR VIEWING USER PROFILE
+        $('#viewDocument').on('show.bs.modal', function (event){
+            console.log("qwertyuiop")
+            let button = $(event.relatedTarget)
+            let id = button.data('id')
+            let content_type = button.data('content_type')
+            let path = button.data('path')
+
+
+            let portocal = location.protocol;
+            let host = portocal+"//" + window.location.host
+            let route = host + "<%= Routes.client_management_path(@conn, :display_pdf) %>";
+            let url = route + "?path="+path+"&content_type="+content_type;
+
+
+            let the_document = '<embed src="'+ url +'" width="100%" height="870px" />';
+
+
+            var modal = $(this)
+            modal.find('.modal-body #theDocumentView').html(the_document);
+        });
+    });
+
+</script>
+
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

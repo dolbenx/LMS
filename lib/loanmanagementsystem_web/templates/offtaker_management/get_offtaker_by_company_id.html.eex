@@ -1,0 +1,567 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Offtaker Representative</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Users Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                  <tr>
+                                        <th >First Name</th>
+                                        <th >Last Name</th>
+                                        <th class="wd-20p">Email</th>
+                                        <th class="wd-15p">Date Of Birth</th>
+                                        <th class="wd-20p">Mobile Number</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <%= for get_bio_data <- @get_bio_datas  do %>
+                                    <tr>
+                                        <td><%= get_bio_data.firstname %></td>
+                                        <td><%= get_bio_data.lastname %></td>
+                                        <td><%= get_bio_data.emailaddress %></td>
+                                        <td><%= get_bio_data.dateofbirth %></td>
+                                        <td><%= get_bio_data.mobilenumber %></td>
+                                        <td style="text-align: center; ">
+                                            <%= if get_bio_data.status == "ACTIVE" do %>
+                                                <span class="badge bg-pill bg-success"><%= get_bio_data.status %></span>
+                                            <% else %>
+                                                <span class="badge bg-pill bg-danger"><%= get_bio_data.status %></span>
+                                            <% end %>
+                                        </td>
+                                        <td>
+                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+                                                <%=if  get_bio_data.status == "ACTIVE" do %>
+                                                    <a class="btn ripple btn-danger btn-sm offtaker-user" data-activate-id="<%= get_bio_data.id %>" data-status ="INACTIVE" style="color:white;"> <i class="fe fe-x-circle" style="color:white;"></i>  Disable</a>
+                                                <% else %>
+                                                    <a class="btn ripple btn-success btn-sm offtaker-user"  data-activate-id="<%= get_bio_data.id %>" data-status="ACTIVE" style="color:white;"> <i class="fe fe-check-circle" style="color:white;"></i>  Enable</a>
+                                                <% end %>
+                                            <% end %>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+
+
+			<!--End Grid modal -->
+
+
+
+            <!-- Grid modal -->
+<div class="modal" id="create_users">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Create User</h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+                   <form action=" <%= Routes.user_path(@conn, :admin_create_user) %> " method="post"  enctype="multipart/form-data" id="tst" >
+                        <div id="wizard1">
+                            <h3> User Details</h3>
+                            <section>
+                                <div class="card-body">
+
+                                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                        <input type="hidden" name="password" id="password-gen" >
+										<div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+												<select name="title" class="form-control select2">
+													<option label="Choose Currency"></option>
+													<option value="Mr">Mr
+													</option>
+													<option value="Mrs">Mrs
+													</option>
+                                                    <option value="Ms">Ms
+													</option>
+                                                    <option value="Dr">Dr
+													</option>
+                                         		</select>
+                                            </div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+												<input name="firstName" class="form-control" placeholder="Enter First Name " type="text">
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+												<input name="lastName" class="form-control" placeholder="Enter Last Name " type="text">
+											</div>
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Other Name</p>
+												<input class="form-control" name="otherName" placeholder="Enter Other Name " type="text">
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Date Of Birth</p>
+												<input class="form-control" name="dateOfBirth" type="date">
+											</div>
+                                             <div class="col-lg">
+                                            <p class="mg-b-10">Personal Email</p>
+												<input class="form-control" name="emailAddress" placeholder="Enter Email" type="email">
+											</div>
+
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Identification Type</p>
+												<select name="meansOfIdentificationType" class="form-control select2">
+
+													<option value="Drivers License">Drivers License
+													</option>
+													<option value="National Registration Card">National Registration Card
+													</option>
+                                                    <option value="Passport">Passport
+													</option>
+                                         		</select>
+                                            </div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Identification Number</p>
+												<input class="form-control" name="meansOfIdentificationNumber" placeholder="Enter Card Number" type="text">
+											</div>
+                                             <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Number</p>
+												<input class="form-control" name="mobileNumber" placeholder="Enter Mobile Number" type="text">
+											</div>
+
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Choose Gender</p>
+												<select name="gender" id="gender" class="form-control select2">
+
+													<option value="MALE">MALE
+													</option>
+													<option value="FEMALE">FEMALE
+													</option>
+
+                                         		</select>
+                                            </div>
+										</div>
+									</div>
+                            </section>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<%#  the edit a user %>
+<!--
+<div class="modal fade" id="enableusermodal" >
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+							<h6 class="modal-title"> Enable  User </h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+						</div>
+                <form action="<%= Routes.user_path(@conn, :admin_activate_user) %>" method="post">
+                                <div class="modal-body">
+                                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <input type="hidden" name="id" id="id">
+
+                         <div class="row row-sm mg-b-20">
+
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+												<input class="form-control" id="edit-title" name="title" type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+												<input name="firstName" id="firstname" class="form-control"  type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+												<input name="lastName" id="lastname" class="form-control" type="text" readonly>
+											</div>
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Other Name</p>
+												<input class="form-control" id="othername" name="otherName"  type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Date Of Birth</p>
+												<input class="form-control" id="dob" name="dateOfBirth" type="date" readonly>
+											</div>
+                                             <div class="col-lg">
+                                            <p class="mg-b-10">Personal Email</p>
+												<input class="form-control" id="email" name="emailAddress"  type="email" readonly>
+											</div>
+
+										</div>
+                                        <div class="row row-sm mg-b-20">
+
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Identification Type</p>
+												<input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType" type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Identification Number</p>
+												<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Number</p>
+												<input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
+											</div>
+
+										</div>
+                                        <div class="row row-sm mg-b-20">
+
+
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Gender</p>
+												<input class="form-control" id="gender" name="gender" type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Role Type</p>
+												<input class="form-control" id="roletype" name="roleType" type="text" readonly>
+											</div>
+										</div>
+									</div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn ripple btn-primary" type="submit">Enable User</button>
+                                        <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                                    </div>
+                                </div>
+                        </form>
+        </div>
+    </div>
+</div>
+-->
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+
+
+
+
+
+
+
+
+
+<%#  the edit a user %>
+
+<div class="modal fade" id="edituseradmin" >
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+							<h6 class="modal-title">Edit User Details</h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+						</div>
+                <form action="<%= Routes.user_path(@conn, :admin_update_user) %>" method="post">
+                                <div class="modal-body">
+                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <input type="hidden" name="id" id="id">
+
+                         <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+												<select name="title" id="edit-title"class="form-control select2">
+
+													<option value="Mr">Mr
+													</option>
+													<option value="Mrs">Mrs
+													</option>
+                                                    <option value="Ms">Ms
+													</option>
+                                                    <option value="Dr">Dr
+													</option>
+                                         		</select>
+                                            </div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+												<input name="firstName" id="firstname" class="form-control"  type="text">
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+												<input name="lastName" id="lastname" class="form-control" type="text">
+											</div>
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Other Name</p>
+												<input class="form-control" id="othername" name="otherName"  type="text">
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Date Of Birth</p>
+												<input class="form-control" id="dob" name="dateOfBirth" type="date">
+											</div>
+                                             <div class="col-lg">
+                                            <p class="mg-b-10">Personal Email</p>
+												<input class="form-control" id="email" name="emailAddress"  type="email">
+											</div>
+
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Identification Type</p>
+												<select name="meansOfIdentificationType" id ="meansofidentificationtype"class="form-control select2">
+													<option label="Choose Currency"></option>
+													<option value="Drivers License">Drivers License
+													</option>
+													<option value="National Registration Card">National Registration Card
+													</option>
+                                                    <option value="Passport">Passport
+													</option>
+                                         		</select>
+                                            </div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Identification Number</p>
+												<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text">
+											</div>
+                                             <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Number</p>
+												<input class="form-control" id="phone" name="mobileNumber" type="text">
+											</div>
+
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Choose Gender</p>
+												<select name="gender" id="gender" class="form-control select2">
+
+													<option value="Male">Male
+													</option>
+													<option value="Female">Female
+													</option>
+
+                                         		</select>
+                                            </div>
+										</div>
+									</div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn ripple btn-primary" type="submit">Update User info!</button>
+                                        <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                                    </div>
+                                </div>
+                        </form>
+        </div>
+    </div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<%#  the View a user %>
+
+<div class="modal fade" id="viewuseradmin" >
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+							<h6 class="modal-title">View User Details</h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+						</div>
+                <form action="#" method="post">
+                                <div class="modal-body">
+                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <input type="hidden" name="id" id="id">
+
+                         <div class="row row-sm mg-b-20">
+                                              <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+												<input name="title" id="edit-title" class="form-control"  type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+												<input name="firstName" id="firstname" class="form-control"  type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+												<input name="lastName" id="lastname" class="form-control" type="text" readonly>
+											</div>
+										</div>
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Other Name</p>
+												<input class="form-control" id="othername" name="otherName"  type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Date Of Birth</p>
+												<input class="form-control" id="dob" name="dateOfBirth" type="date" readonly>
+											</div>
+                                             <div class="col-lg">
+                                            <p class="mg-b-10">Personal Email</p>
+												<input class="form-control" id="email" name="emailAddress"  type="email" readonly>
+											</div>
+
+										</div>
+
+                                        <div class="row row-sm mg-b-20">
+                                        	<div class="col-lg">
+                                            <p class="mg-b-10">Identification Type</p>
+												<input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType"  type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Gender</p>
+												<input class="form-control" id="gender" name="gender" type="text" readonly>
+											</div>
+                                             <div class="col-lg">
+                                            <p class="mg-b-10">Role Type</p>
+												<input class="form-control" id="roletype" name="roleType"  type="email" readonly>
+											</div>
+
+										</div>
+                                        <div class="row row-sm mg-b-20">
+
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Identification Number</p>
+												<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
+											</div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Mobile Number</p>
+												<input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
+											</div>
+
+										</div>
+
+									</div>
+
+                                    <div class="modal-footer">
+
+                                        <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                                    </div>
+                                </div>
+                        </form>
+        </div>
+    </div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+    $('#create_user').on('click', function (event){
+        var modal= $("#create_users");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+</script>
+
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#edituseradmin').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #firstname').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #email').val(button.data('email'));
+            modal.find('.modal-body #dob').val(button.data('dob'));
+            modal.find('.modal-body #phone').val(button.data('phone'));
+            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+
+
+            $('#edit-title').val(button.data('title')).trigger("change")
+            $('#meansofidentificationtype').val(button.data('meansofidentificationtype')).trigger("change")
+            $('#gender').val(button.data('gender')).trigger("change")
+            $('#roletype').val(button.data('roletype')).trigger("change")
+
+
+
+    });
+
+      $('#enableusermodal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #firstname').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #email').val(button.data('email'));
+            modal.find('.modal-body #dob').val(button.data('dob'));
+            modal.find('.modal-body #phone').val(button.data('phone'));
+            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+            modal.find('.modal-body #gender').val(button.data('gender'));
+            modal.find('.modal-body #edit-title').val(button.data('title'));
+            modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+            modal.find('.modal-body #roletype').val(button.data('roletype'));
+
+
+
+    });
+
+      $('#viewuseradmin').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #firstname').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #email').val(button.data('email'));
+            modal.find('.modal-body #dob').val(button.data('dob'));
+            modal.find('.modal-body #phone').val(button.data('phone'));
+
+            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+
+
+            modal.find('.modal-body #edit-title').val(button.data('title'));
+            modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+            modal.find('.modal-body #gender').val(button.data('gender'));
+            modal.find('.modal-body #roletype').val(button.data('roletype'));
+
+    });
+});
+</script>

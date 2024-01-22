@@ -16,6 +16,6 @@ defmodule Loanmanagementsystem.Companies.SmeOfftaker do
   def changeset(sme_offtaker, attrs) do
     sme_offtaker
     |> cast(attrs, [:smeId, :offtakerId, :status, :contract_date, :end_contract_date])
-    |> validate_required([:smeId, :offtakerId, :status, :contract_date, :end_contract_date])
+    # |> validate_required([:smeId, :offtakerId, :status, :contract_date, :end_contract_date])
   end
 end

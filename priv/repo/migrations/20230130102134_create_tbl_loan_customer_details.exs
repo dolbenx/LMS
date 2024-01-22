@@ -13,7 +13,7 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanCustomerDetails do
       add :marital_status, :string
       add :cell_number, :string
       add :email, :string
-      add :dob, :date
+      add :dob, :string
       add :residential_address, :string
       add :landmark, :string
       add :town, :string

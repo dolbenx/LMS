@@ -1,0 +1,430 @@
+
+
+<%= render "submenu.html", assigns %>
+
+
+   <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Leads</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Leads Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+
+                    <a class="btn ripple btn-primary" style="background-color: #003651; color: white;" type="button" data-bs-target="#leads" data-bs-toggle="modal" href="" > Add Lead </a>
+
+                    <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th> Customer Name </th>
+                                        <th> NRC Number </th>
+                                        <th> Gender </th>
+                                        <th> Email Adress </th>
+                                        <th> Status </th>
+                                        <th class="text-center"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%= for leeds <- @lead do %>
+                                    <tr>
+                                        <td> <%= leeds.first_name%> <%= leeds.last_name%> </td>
+                                        <td> <%= leeds.identification_number%> </td>
+                                        <td> <%= leeds.gender %> </td>
+                                        <td> <%= leeds.email_address%> </td>
+                                        <%= if leeds.status == "Converted" do %>
+
+                                            <td><span class= "badge bg-pill bg-success" ><%= leeds.status %></span> </td>
+
+                                        <% else %>
+
+                                            <%= if leeds.status == "INACTIVE" do %>
+
+                                                <td><span class="badge bg-pill bg-danger"><%= leeds.status %></span> </td>
+                                            <% else %>
+
+
+                                                        <td><span class="badge bg-pill bg-warning"><%= leeds.status %></span> </td>
+
+
+
+                                            <% end %>
+
+                                        <% end %>
+                                        <td class="text-center">
+                                            <!-- <%=if leeds.status == "ACTIVE" do %>
+
+                                                <a class="btn ripple btn-danger btn-sm deactivate_lead" data-deactivate-id="<%= leeds.id%>"  title= "Disable" ><i class="fe fe-x-circle"></i> Disable </a>
+
+                                            <% else %>
+
+                                                <a class="btn ripple btn-success btn-sm activate_lead" data-activate-id="<%= leeds.id%>" title= "Enable"><i class="fe fe-check-circle"></i> Enable </a>
+
+
+                                            <% end %>
+                                            -->
+
+                                            <a class="btn ripple btn-info btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#edit_leads"
+                                            data-id= "<%= leeds.id%>"
+                                            data-first_name= "<%= leeds.first_name %>"
+                                            data-last_name= "<%= leeds.last_name %>"
+                                            data-other_name= "<%= leeds.other_name %>"
+                                            data-gender= "<%= leeds.gender %>"
+                                            data-title= "<%= leeds.title %>"
+                                            data-email_address= "<%= leeds.email_address %>"
+                                            data-date_of_birth= "<%= leeds.date_of_birth %>"
+                                            data-identification_number= "<%= leeds.identification_number %>"
+                                            data-marital_status= "<%= leeds.marital_status %>"
+                                            data-mobile_number= "<%= leeds.mobile_number %>"
+                                            data-nationality= "<%= leeds.nationality %>"
+                                             data-comment= "<%= leeds.comment %>"
+                                            data-number_of_dependants= "<%= leeds.number_of_dependants %>"
+                                            title= "Edit" ><i class="fe fe-edit"></i> Edit </a>
+
+                                            <a class="btn ripple btn-warning btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#view_leads"
+                                            data-id= "<%= leeds.id%>"
+                                            data-first_name= "<%= leeds.first_name%>"
+                                            data-last_name= "<%= leeds.last_name%>"
+                                            data-other_name= "<%= leeds.other_name%>"
+                                            data-gender= "<%= leeds.gender%>"
+                                            data-title= "<%= leeds.title%>"
+                                            data-email_address= "<%= leeds.email_address%>"
+                                            data-date_of_birth= "<%= leeds.date_of_birth%>"
+                                            data-identification_number= "<%= leeds.identification_number%>"
+                                            data-marital_status= "<%= leeds.marital_status%>"
+                                            data-mobile_number= "<%= leeds.mobile_number%>"
+                                            data-nationality= "<%= leeds.nationality%>"
+                                            data-number_of_dependants= "<%= leeds.number_of_dependants%>"
+                                            title= "View" ><i class="fe fe-eye"></i> View </a>
+
+                                            <%= if leeds.status != "Converted" do %>
+                                                <a class="btn ripple btn-sm" style="background-color: #003651; color: white;"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#update_lead" data-id="<%= leeds.id %>"
+                                                    title= "Edit" ><i class="fe fe-arrow-up-circle"></i> Convert </a>
+
+                                            <% end %>
+
+
+                                        </td>
+                                    </tr>
+                                <% end %>
+                                <tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+<!----------------------------------------- Add Lead -------------------------------------->
+
+    <div class="modal" id="leads">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Add Lead</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+                </div>
+                <form action="<%= Routes.customer_relationship_management_path(@conn, :create_lead)%>" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="modal-body">
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h5 class="modal-title"> Personal Details </h5><br>
+                                    <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">First Name</p>
+                                                <input name="first_name" class="form-control" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Last Name</p>
+                                                <input name="last_name" class="form-control" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Choose Gender</p>
+                                                <select name="gender" class="form-control select2">
+                                                    <option label="Choose Gender"></option>
+                                                    <option value="Male">Male </option>
+                                                    <option value="Female">Female </option>
+                                                </select>
+                                            </div>
+                                    </div>
+
+
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Identification Number</p>
+                                            <input class="form-control" name="identification_number" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Number</p>
+                                            <input class="form-control" name="mobile_number" type="text">
+                                        </div>
+                                        <div class="col-lg" id="email">
+                                            <p class="mg-b-10">Personal Email</p>
+                                            <input class="form-control"  name="email_address" type="email">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #003651; color: white;" type="submit">Add Lead</button>
+                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!------------------------------------------ End ---------------------------------------->
+
+
+<!----------------------------------------- Edit Lead -------------------------------------->
+
+    <div class="modal" id="edit_leads">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Edit A Lead</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+                </div>
+                <form action="<%= Routes.customer_relationship_management_path(@conn, :update_lead)%>" enctype="multipart/form-data" id="tst" method="post">
+                    <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id" >
+
+
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h5 class="modal-title"> Personal Details </h5><br>
+                                    <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">First Name</p>
+                                                <input name="first_name" id="first_name" class="form-control" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Last Name</p>
+                                                <input name="last_name" id="last_name" class="form-control" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Choose Gender</p>
+                                            <select name="gender" id="gender" class="form-control select2">
+                                                <option label="Choose Gender"></option>
+                                                <option value="Male">Male </option>
+                                                <option value="Female">Female </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Identification Number</p>
+                                            <input class="form-control" name="identification_number" id="identification_number" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Number</p>
+                                            <input class="form-control" name="mobile_number" id="mobile_number" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Personal Email</p>
+                                            <input class="form-control"  name="email_address" id="email_address" type="email">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #003651; color: white;" type="submit">Edit Lead</button>
+                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!--------------------------------------------- End ---------------------------------------->
+
+<!----------------------------------------- View Lead -------------------------------------->
+
+    <div class="modal" id="view_leads">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">View A Lead</h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+                </div>
+                <form action="#" enctype="multipart/form-data" id="tst" method="post">
+                    <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id" >
+
+
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h5 class="modal-title"> Personal Details </h5><br>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+                                            <input name="first_name" id="first_name" class="form-control" type="text" readonly>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+                                            <input name="last_name" id="last_name" class="form-control" type="text" readonly>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Choose Gender</p>
+                                            <input class="form-control" name="gender" id="gender" type="text" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Identification Number</p>
+                                            <input class="form-control" name="identification_number" id="identification_number" type="text" readonly>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Number</p>
+                                            <input class="form-control" name="mobile_number" id="mobile_number" type="text" readonly>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Personal Email</p>
+                                            <input class="form-control"  name="email_address" id="email_address" type="email" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- Select2 modal -->
+
+    <div class="modal" id="update_lead">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">View A Lead</h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+                </div>
+                <form action="<%= Routes.customer_relationship_management_path(@conn, :admin_update_lead)%>" method="post" method="post">
+                    <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id" >
+                            <div class="col-lg">
+                                <p class="mg-b-10">Action</p>
+                                <select name="lead_status" id="title" class="form-control select2">
+                                    <option label="Choose Currency"></option>
+                                    <option value="Converted">Converted </option>
+                                    <option value="Refused">Refused </option>
+                                    <option value="Follow up">Follow up </option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="col-lg">
+                                <textarea class="form-control" name="Comment" placeholder="Comment" rows="3"></textarea>
+                            </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #003651; color: white;" type="submit">Save changes</button>
+                        <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- End Select2 modal -->
+
+<!--------------------------------------------- End ---------------------------------------->
+
+
+    <script>
+        $(document).ready(function(){
+
+            $('#edit_leads').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                    var modal = $(this)
+                    modal.find('.modal-body #id').val(button.data('id'));
+                    modal.find('.modal-body #first_name').val(button.data('first_name'));
+                    modal.find('.modal-body #last_name').val(button.data('last_name'));
+                    modal.find('.modal-body #other_name').val(button.data('other_name'));
+                    modal.find('.modal-body #email_address').val(button.data('email_address'));
+                    modal.find('.modal-body #date_of_birth').val(button.data('date_of_birth'));
+                    modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
+                    modal.find('.modal-body #identification_number').val(button.data('identification_number'));
+                    $('#title').val(button.data('title')).trigger("change")
+                    $('#gender').val(button.data('gender')).trigger("change")
+                    $('#marital_status').val(button.data('marital_status')).trigger("change")
+                    $('#number_of_dependants').val(button.data('number_of_dependants')).trigger("change")
+                    $('#nationality').val(button.data('nationality')).trigger("change")
+            });
+
+            $('#view_leads').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                    var modal = $(this)
+                    modal.find('.modal-body #id').val(button.data('id'));
+                    modal.find('.modal-body #first_name').val(button.data('first_name'));
+                    modal.find('.modal-body #last_name').val(button.data('last_name'));
+                    modal.find('.modal-body #other_name').val(button.data('other_name'));
+                    modal.find('.modal-body #email_address').val(button.data('email_address'));
+                    modal.find('.modal-body #date_of_birth').val(button.data('date_of_birth'));
+                    modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
+                    modal.find('.modal-body #identification_number').val(button.data('identification_number'));
+                    modal.find('.modal-body #title').val(button.data('title'));
+                    modal.find('.modal-body #gender').val(button.data('gender'));
+                    modal.find('.modal-body #marital_status').val(button.data('marital_status'));
+                    modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
+                    modal.find('.modal-body #nationality').val(button.data('nationality'));
+            });
+
+
+
+              $('#update_lead').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                    var modal = $(this)
+                    modal.find('.modal-body #id').val(button.data('id'));
+
+            });
+
+        });
+    </script>

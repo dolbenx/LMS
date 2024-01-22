@@ -1,0 +1,119 @@
+
+<div class="container-fluid">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Tracker</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tracker</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <button type="button" class="btn btn-primary my-2 btn-icon-text">
+                        <i class="fe fe-download-cloud me-2"></i> Download Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                  <tr>
+                                        <th class="wd-20p">S/N</th>
+                                        <th class="wd-25p">Due Date</th>
+                                        <th class="wd-20p">Product</th>
+                                        <th class="wd-15p">Repayment Amount</th>
+                                        <th class="wd-15p">Principal Amount</th>
+                                        <th class="wd-20p">Interest Amount</th>
+                                        <th class="wd-20p">Balance</th>
+                                        <th class="wd-25p">Status</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%=for loan_details <- @loan_details do %>
+                                    <tr>
+                                        <td>L<%= loan_details.id %> </td>
+                                        <td><%= if is_nil(loan_details.due_date) do "Not Set" else loan_details.due_date  end %></td>
+                                        <td><%= loan_details.product_name %></td>
+                                        <td>
+                                        <%= if is_nil(loan_details.repayment_amount) do "Not Set" else loan_details.repayment_amount |> Number.Delimit.number_to_delimited end %>
+                                        </td>
+                                        <td>
+                                            <%=if is_nil(loan_details.principal_amount_proposed) do "-" else loan_details.principal_amount_proposed |> Number.Delimit.number_to_delimited  end %>
+                                        </td>
+
+                                        <td>
+                                            <%= if is_nil(loan_details.interest_amount) do "Pending Approval" else  loan_details.interest_amount |> Number.Delimit.number_to_delimited  end %>
+                                        </td>
+                                        <td>
+                                             <%=if is_nil(loan_details.balance) do "Pending Disbursement" else  loan_details.balance  |> Number.Delimit.number_to_delimited end %>
+                                        </td>
+                                        <td><%= String.replace(loan_details.loan_status, "_", " ") %> </td>
+
+
+                                    </tr>
+                                <% end %>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+</div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Loans Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                            <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                             <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

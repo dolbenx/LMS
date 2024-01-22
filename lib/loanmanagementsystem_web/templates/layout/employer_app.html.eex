@@ -1,247 +1,932 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="">
-<!-- Mirrored from mannatthemes.com/T-Wind/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 13:25:13 GMT -->
-<head>
-    <meta charset="utf-8" />
-    <title>Tisunge - Loan System </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta content="Tisunge Loan System" name="description"/>
-    <meta content="" name="Mannatthemes" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="<%=Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg") %>" />
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/libs/simple-datatables/style.css") %>" />
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/css/icons.css")%>" />
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/css/tailwind.css")%>" />
-</head>
+<html lang="en">
+	<head>
 
-<body data-layout-mode="light" class="bg-gray-100 dark:bg-gray-900 bg-[url('../images/bg-body.html')] dark:bg-[url('../images/bg-body-2.html')]">
 
-    <!-- leftbar-tab-menu -->
-    <nav  class="border-gray-200 bg-gray-900 px-2.5 py-2.5 shadow-sm dark:bg-slate-800 sm:px-4 block print:hidden">
-      <div class="container mx-0 flex max-w-full flex-wrap items-center lg:mx-auto">
-        <div class="flex items-center">
-          <a href="#" class="flex items-center outline-none">
-            <img src="<%= Routes.static_path(@conn, "/assets/images/logos/Tisunge-logo-JPEG.jpg") %>" alt="" class="h-6" />
-          <!--  <img src={Routes.static_path(@conn, "/assets/images/logos/tisunge-small.png")} alt="" class="ml-2 hidden xl:block mt-1" />-->
-          </a>
-        </div>
 
-        <div class="order-2 hidden w-full items-center justify-between md:order-1 md:ml-5 md:flex md:w-auto" id="mobile-menu-2">
-          <ul class="font-body mt-4 flex flex-col font-medium md:mt-0 md:flex-row md:text-sm md:font-medium space-x-0 md:space-x-4 lg:space-x-6 xl:space-x-8 navbar">
-            <li class="dropdown">
-              <button id="navDashboardLink" href="<%= Routes.user_path(@conn, :employer_dashboard) %>" class=" flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
-                <i class="ti ti-smart-home mr-1 pb-1 text-lg"></i> Dashboards
-              </button>
-              <!-- Dropdown menu -->
-            </li>
-            <li class="dropdown">
-              <button id="navAppsLink" data-dropdown-toggle="staffs" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0" >
-                <i class="ti ti-apps mr-1 pb-1 text-lg"></i> Staff Management
-                <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
-              </button>
-              <!-- Dropdown menu -->
-              <div id="staffs" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
-                <ul class="py-1">
-                  <li><a href="<%= Routes.employer_path(@conn, :all_staffs) %>" class="nav-link  dark:hover:bg-slate-800/70">Employee</a></li>
-                  <li><a href="<%= Routes.employer_path(@conn, :user_mgt) %>" class="nav-link  dark:hover:bg-slate-800/70">User Admin</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="dropdown">
-              <button id="navUIkitLink" data-dropdown-toggle="navUIkit" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
-                <i class="ti ti-planet mr-1 pb-1 text-lg"></i>Staff Loans
-                <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
-              </button>
-              <!-- Dropdown menu -->
-              <div id="navUIkit" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
-                <ul class="py-1">
-                  <li><a href="inbox.html" class="nav-link  dark:hover:bg-slate-800/70">Employer Maintenance</a></li>
-                  <li><a href="email-read.html" class="nav-link  dark:hover:bg-slate-800/70">Employee Maintenance</a></li>
-                  <li><a href="chat.html" class="nav-link  dark:hover:bg-slate-800/70">Individual Maintenance</a></li>
-                  <li><a href="contact-list.html" class="nav-link  dark:hover:bg-slate-800/70">Blacklisted Client</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="dropdown">
-              <button id="navPagesLink" data-dropdown-toggle="reports" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
-                <i class="ti ti-file-diff mr-1 pb-1 text-lg"></i> Reports
-                <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
-              </button>
-              <!-- Dropdown menu -->
-              <div id="reports" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
-                <ul class="py-1">
-                  <li><a href={Routes.products_path(@conn, :admin_all_products)} class="nav-link  dark:hover:bg-slate-800/70">Product Maintenance</a></li>
-                  <li><a href="timeline.html" class="nav-link  dark:hover:bg-slate-800/70">Charge Maintenance</a></li>
-                  <li><a href="pricing.html" class="nav-link  dark:hover:bg-slate-800/70">SMS Configurations</a></li>
-                  <li><a href="blogs.html" class="nav-link  dark:hover:bg-slate-800/70">Country Maintenance</a></li>
-                  <li><a href="faqs.html" class="nav-link  dark:hover:bg-slate-800/70">Province Maintenance</a></li>
-                  <li><a href="faqs.html" class="nav-link  dark:hover:bg-slate-800/70">City Maintenance</a></li>
-                  <li><a href="faqs.html" class="nav-link  dark:hover:bg-slate-800/70">Currency Maintenance</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="dropdown">
-              <button id="navAuthLink" data-dropdown-toggle="navAuth" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
-                <i class="ti ti-shield-lock mr-1 pb-1 text-lg"></i> User Management
-                <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
-              </button>
-              <!-- Dropdown menu -->
-              <div id="navAuth" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
-                <ul class="py-1">
-                  <li><a href="login.html" class="nav-link  dark:hover:bg-slate-800/70">User Maintenance</a></li>
-                  <li><a href="register.html" class="nav-link  dark:hover:bg-slate-800/70">Role Maintenance</a></li>
-                  <li><a href="404.html" class="nav-link  dark:hover:bg-slate-800/70">SMS Logs</a></li>
-                  <li><a href="lock-screen.html" class="nav-link  dark:hover:bg-slate-800/70">Email Logs</a></li>
-                  <li><a href="500.html" class="nav-link  dark:hover:bg-slate-800/70">Audit Logs</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="dropdown">
-              <button id="navAuthLink" data-dropdown-toggle="navAuth" class="dropdown-toggle flex w-full items-center border-b border-gray-800 py-2 px-3 font-medium md:border-0 md:p-0">
-                <i class="ti ti-shield-lock mr-1 pb-1 text-lg"></i> Reports
-                <i class="ti ti-chevron-down ml-auto lg:ml-1"></i>
-              </button>
-              <!-- Dropdown menu -->
-              <div id="navAuth" class="dropdown-menu z-10 my-1 hidden w-full list-none divide-y divide-gray-100 rounded bg-gray-800 md:bg-white text-base shadow dark:divide-gray-600 border border-slate-700 md:border-white dark:border-slate-700/50 dark:bg-gray-900 md:w-44 dropdown-menu">
-                <ul class="py-1">
-                  <li><a href="login.html" class="nav-link  dark:hover:bg-slate-800/70">Customer Report</a></li>
-                  <li><a href="register.html" class="nav-link  dark:hover:bg-slate-800/70">Company Report</a></li>
-                  <li><a href="404.html" class="nav-link  dark:hover:bg-slate-800/70">Transaction Report</a></li>
-                  <li><a href="lock-screen.html" class="nav-link  dark:hover:bg-slate-800/70">Repayments Report</a></li>
-                  <li><a href="500.html" class="nav-link  dark:hover:bg-slate-800/70">Overdue Report</a></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="order-1 ml-auto flex items-center md:order-2">
-          <div class="relative mr-2 hidden lg:mr-4 lg:block">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <i class="ti ti-search text-gray-400 z-10"></i>
-            </div>
-            <input type="text" id="email-adress-icon" class="block w-full rounded-lg border border-gray-700 bg-gray-900 p-2 pl-10 text-gray-300 outline-none focus:border-gray-700 focus:ring-gray-700 dark:bg-slate-800 sm:text-sm" placeholder="Search..."/>
-          </div>
-          <div class="mr-2 lg:mr-4">
-            <button id="toggle-theme" class="flex rounded-full md:mr-0 relative">
-              <i class="ti ti-sun top-icon"></i>
-            </button>
-          </div>
-          <div class="mr-2 lg:mr-4 dropdown relative">
-            <button type="button" class="dropdown-toggle flex rounded-full md:mr-0" id="Notifications" aria-expanded="false" data-dropdown-toggle="navNotifications">
-              <i class="ti ti-bell text-2xl text-gray-400"></i>
-            </button>
 
-            <div class="dropdown-menu dropdown-menu-right z-50 my-1 hidden w-64 list-none divide-y h-52 divide-gray-100 rounded border-slate-700 md:border-white text-base shadow dark:divide-gray-600 bg-white dark:bg-slate-800" id="navNotifications" data-simplebar>
-              <ul class="py-1" aria-labelledby="navNotifications">
-                <li class="py-2 px-4">
-                  <a href="javascript:void(0);" class="dropdown-item">
-                    <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-2.jpg") %>" alt="logo" />
-                        <div class="flex-grow ml-0.5 overflow-hidden">
-                            <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">Robinson Mulaza</p>
-                            <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K500 Loan Application Request</p>
-                        </div>
-                    </div>
-                  </a>
-                </li>
-                <li class="py-2 px-4">
-                  <a href="javascript:void(0);" class="dropdown-item">
-                    <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-3.jpg") %>" alt="logo" />
-                        <div class="flex-grow ml-0.5 overflow-hidden">
-                            <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">Mirriam Sakubita</p>
-                            <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">User account signup request</p>
-                        </div>
-                    </div>
-                  </a>
-                </li>
-                <li class="py-2 px-4">
-                  <a href="javascript:void(0);" class="dropdown-item">
-                    <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-9.jpg") %>" alt="logo" />
-                        <div class="flex-grow ml-0.5 overflow-hidden">
-                            <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">Robert Sakala</p>
-                            <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K1000 Loan Application Request</p>
-                        </div>
-                    </div>
-                  </a>
-                </li>
-                <li class="py-2 px-4">
-                  <a href="javascript:void(0);" class="dropdown-item">
-                    <div class="flex align-items-start">
-                        <img class="object-cover rounded-full h-8 w-8 shrink-0 mr-3" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-6.jpg") %>" alt="logo" />
-                        <div class="flex-grow ml-0.5 overflow-hidden">
-                            <p class="text-sm font-medium text-gray-800 truncate dark:text-gray-300">John Mutale</p>
-                            <p class="text-gray-500 mb-0 text-xs  truncate dark:text-gray-400">K750 Loan Application Request</p>
-                        </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="mr-2 lg:mr-0 dropdown relative">
-            <button type="button" class="dropdown-toggle flex items-center rounded-full text-sm focus:bg-none focus:ring-0 dark:focus:ring-0 md:mr-0" id="user-profile" aria-expanded="false" data-dropdown-toggle="navUserdata">
-              <img class="h-8 w-8 rounded-full" src="<%= Routes.static_path(@conn, "/assets/images/users/avatar-1.jpg") %>" alt="user photo"/>
-                <span class="ml-2 hidden text-left xl:block">
-                <span class="block font-medium text-gray-400"><%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
-                <span class="-mt-1 block text-sm font-medium text-gray-500"><%= String.trim(@conn.private.plug_session["current_user_role"].roleType) %></span>
-              </span>
-            </button>
+  <link rel="icon" href="<%= Routes.static_path(@conn, "/img/brand/favicon.ico") %>" type="image/x-icon"/>
 
-            <div class="dropdown-menu dropdown-menu-right z-50 my-1 hidden list-none divide-y divide-gray-100 rounded border-slate-700 md:border-white text-base shadow dark:divide-gray-600 bg-white dark:bg-slate-800" id="navUserdata">
-              <div class="py-3 px-4">
-                <span class="block text-sm font-medium text-gray-900 dark:text-white"><%= @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %></span>
-                <span class="block truncate text-sm font-normal text-gray-500 dark:text-gray-400"><%= @conn.private.plug_session["current_user_bio_data"].emailAddress %></span>
-              </div>
-              <ul class="py-1" aria-labelledby="navUserdata">
-                <li><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Dashboard</a></li>
-                <li><a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Edit Profile</a></li>
-                <li><a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Change Password</a></li>
-                <li><a href="<%= Routes.session_path(@conn, :signout) %>" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-900/20 dark:hover:text-white">Sign out</a></li>
-              </ul>
-            </div>
-          </div>
+    <!-- Title -->
+    <title>Loan Management System</title>
 
-          <button data-collapse-toggle="mobile-menu-2" type="button" id="toggle-menu" class="ml-1 inline-flex items-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-0 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden" aria-controls="mobile-menu-2" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <i class="ti ti-menu-2 h-6 w-6 text-lg leading-6"></i>
-            <i class="ti ti-X hidden h-6 w-6 text-lg leading-6"></i>
-          </button>
-        </div>
-      </div>
-    </nav>
+	<!-- Internal DataTables css-->
+    <!-- Bootstrap css-->
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/css/bootstrap.min.css") %>">
+	<link  rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/webstatic/css/notifications/sweetalert2/sweetalert2.bundle.css") %>">
 
-    <div class="container mx-auto px-2  min-h-[calc(100vh-138px)]  relative pb-14">
-        <%= @inner_content %>
-        <!-- footer -->
-        <div class="absolute bottom-0 left-2 right-2 block print:hidden">
-          <div class="container mx-auto">
-            <!-- Footer Start -->
-            <footer class="footer mt-4 rounded-tr-md rounded-tl-md bg-white dark:bg-slate-800 p-4 text-center font-medium text-slate-600 dark:text-slate-400 shadow md:text-left"> &copy;
-              <script> document.write(new Date().getFullYear()); </script>
-                Tisunge
-              <span class="float-right hidden text-slate-600 dark:text-slate-400 md:inline-block" >Crafted with <i class="ti ti-heart text-red-500"></i>@Tisunge.com</span>
-            </footer>
-            <!-- end Footer -->
-          </div>
-        </div>
-    </div><!--end container-->
 
-    <div class="modal-overlay"></div>
-    <div class="rightbar-overlay"></div>
 
-    <script src="<%= Routes.static_path(@conn, "/assets/libs/simplebar/simplebar.min.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/libs/simple-datatables/umd/simple-datatables.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/js/pages/datatable.init.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/js/pages/components.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/libs/chart.js/chart.min.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/libs/apexcharts/apexcharts.min.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/libs/echarts/echarts.min.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/js/pages/analytics-index.init.js") %>"></script>
-    <script src="<%= Routes.static_path(@conn, "/assets/js/app.js") %>"></script>
-</body>
+	<!-- Icons css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/icons.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/font-awesome/font-awesome.min.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/plugin.css") %>">
 
-<!-- Mirrored from mannatthemes.com/T-Wind/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 13:26:02 GMT -->
+	<!-- Style css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/skins.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/default.css") %>">
+	<!-- Internal DataTables css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/dataTables.bootstrap5.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/buttons.bootstrap5.min.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/responsive.bootstrap5.css") %>">
+
+	<!-- Color css-->
+	<link id="theme" rel="stylesheet" type="text/css" media="all" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/color.css") %>">
+
+	<!-- Owl-carousel css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.css") %>">
+
+	<!-- Select2 css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/css/select2.min.css") %>">
+
+	<!-- Mutipleselect css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/multipleselect/multiple-select.css") %>">
+
+	<!-- Sidemenu css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/sidemenu/sidemenu.css") %>">
+	<!-- form wizard-->
+	<!-- CSS only -->
+	<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery/jquery.min.js") %>"></script>
+
+
+
+  </head>
+	<body class="horizontalmenu">
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="<%= Routes.static_path(@conn, "/images/img/loader.svg") %>" class="loader-img" alt="Loader">
+
+		</div>
+		<!-- End Loader -->
+
+		<!-- Page -->
+		<div class="page">
+
+					<!-- Main Header-->
+			<div class="main-header side-header header top-header">
+				<div class="container">
+					<div class="main-header-left">
+						<a class="main-header-menu-icon d-lg-none" href="" id="mainNavShow"><span></span></a>
+						<a class="main-logo"  href="<%= Routes.user_path(@conn, :employer_dashboard) %>">
+							<img src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>" class="header-brand-img desktop-logo" style="width: 10%;" alt="logo">
+							<img src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>" class="header-brand-img desktop-logo theme-logo" alt="logo"  style="width: 18%;">
+						</a>
+					</div>
+					<div class="main-header-center">
+						<div class="responsive-logo">
+
+							<a  href="<%= Routes.user_path(@conn, :employer_dashboard) %>"><img src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>" class="mobile-logo" alt="logo"  style="width: 18%;"></a>
+							<a  href="<%= Routes.user_path(@conn, :employer_dashboard) %>"><img src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>" class="mobile-logo-dark" alt="logo"  style="width: 18%;"></a>
+						</div>
+					</div>
+					<div class="main-header-right">
+						<div class="dropdown header-search">
+							<a class="nav-link icon header-search">
+								<i class="fe fe-search"></i>
+							</a>
+							<div class="dropdown-menu">
+								<div class="main-form-search p-2">
+									<div class="input-group">
+										<div class="input-group-btn search-panel">
+											<select class="form-control select2">
+												<option label="All categories">
+												</option>
+												<option value="IT Projects">
+													IT Projects
+												</option>
+												<option value="Business Case">
+													Business Case
+												</option>
+												<option value="Microsoft Project">
+													Microsoft Project
+												</option>
+												<option value="Risk Management">
+													Risk Management
+												</option>
+												<option value="Team Building">
+													Team Building
+												</option>
+											</select>
+										</div>
+										<input type="search" class="form-control" placeholder="Search for anything...">
+										<button class="btn search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="dropdown d-md-flex">
+							<a class="nav-link icon full-screen-link" href="">
+								<i class="fe fe-maximize fullscreen-button fullscreen header-icons"></i>
+								<i class="fe fe-minimize fullscreen-button exit-fullscreen header-icons"></i>
+							</a>
+						</div>
+						<div class="dropdown main-header-notification">
+							<a class="nav-link icon" href="">
+								<i class="fe fe-bell header-icons"></i>
+								<span class="badge bg-danger nav-link-badge">4</span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<p class="main-notification-text">You have 1 unread notification<span class="badge bg-pill bg-primary ms-3">View all</span></p>
+								</div>
+								<div class="main-notification-list">
+									<div class="media new">
+										<div class="main-img-user online"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/5.jpg") %>"></div>
+										<div class="media-body">
+											<p>Congratulate <strong>Olivia James</strong> for New template start</p><span>Oct 15 12:32pm</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/2.jpg") %>"></div>
+										<div class="media-body">
+											<p><strong>Joshua Gray</strong> New Message Received</p><span>Oct 13 02:56am</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user online"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/3.jpg") %>"></div>
+										<div class="media-body">
+											<p><strong>Elizabeth Lewis</strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+										</div>
+									</div>
+								</div>
+								<div class="dropdown-footer">
+									<a href="#">View All Notifications</a>
+								</div>
+							</div>
+						</div>
+						<div class="dropdown main-profile-menu">
+							<a class="d-flex" href="">
+								<span class="main-img-user" ><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/pngs/upgrade.png") %>"></span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<h6 class="main-notification-title">Sonia Taylor</h6>
+									<p class="main-notification-text">Web Designer</p>
+								</div>
+								<a class="dropdown-item border-top" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-user"></i> My Profile
+								</a>
+								<a class="dropdown-item" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-edit"></i> Edit Profile
+								</a>
+								<a class="dropdown-item" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-settings"></i> Account Settings
+								</a>
+								<a class="dropdown-item" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-settings"></i> Support
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-compass"></i> Activity
+								<a class="dropdown-item" href="<%= Routes.session_path(@conn, :signout) %>" >
+									<i class="fe fe-power"></i> Sign Out
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Main Header-->
+
+			<!-- Centerlogo Header-->
+			<div class="main-header side-header hor-header top-header">
+				<div class="container">
+					<div class="main-header-left">
+						<a class="main-header-menu-icon d-lg-none" href="" id="mainNavShow"><span></span></a>
+						<a class="main-logo" href="index.html">
+
+							<img src="<%= Routes.static_path(@conn, "/images/img/brand/logo.png") %>" class="header-brand-img desktop-logo" alt="logo">
+							<img src="<%= Routes.static_path(@conn, "/images/img/brand/logo-light3.jpg") %>" class="header-brand-img desktop-logo theme-logo" alt="logo">
+						</a>
+					</div>
+					<div class="main-header-center">
+						<div class="responsive-logo">
+							<a href="index.html"><img src="<%= Routes.static_path(@conn, "/images/img/brand/logo.png") %>" class="mobile-logo" alt="logo"></a>
+							<a href="index.html"><img src="<%= Routes.static_path(@conn, "/images/img/brand/logo-light3.jpg") %>" class="mobile-logo-dark" alt="logo"></a>
+						</div>
+						<div class="input-group">
+							<div class="input-group-btn search-panel">
+								<select class="form-control select2">
+									<option label="All categories">
+									</option>
+									<option value="IT Projects">
+										IT Projects
+									</option>
+									<option value="Business Case">
+										Business Case
+									</option>
+									<option value="Microsoft Project">
+										Microsoft Project
+									</option>
+									<option value="Risk Management">
+										Risk Management
+									</option>
+									<option value="Team Building">
+										Team Building
+									</option>
+								</select>
+							</div>
+							<input type="search" class="form-control rounded-0" placeholder="Search for anything...">
+							<button class="btn search-btn"><i class="fe fe-search"></i></button>
+						</div>
+					</div>
+					<div class="main-header-right">
+						<div class="dropdown header-search">
+							<a class="nav-link icon header-search">
+								<i class="fe fe-search"></i>
+							</a>
+							<div class="dropdown-menu">
+								<div class="main-form-search p-2">
+									<div class="input-group">
+										<div class="input-group-btn search-panel">
+											<select class="form-control select2">
+												<option label="All categories">
+												</option>
+												<option value="IT Projects">
+													IT Projects
+												</option>
+												<option value="Business Case">
+													Business Case
+												</option>
+												<option value="Microsoft Project">
+													Microsoft Project
+												</option>
+												<option value="Risk Management">
+													Risk Management
+												</option>
+												<option value="Team Building">
+													Team Building
+												</option>
+											</select>
+										</div>
+										<input type="search" class="form-control" placeholder="Search for anything...">
+										<button class="btn search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<a class="header-brand2" href="index.html">
+								<img src="<%= Routes.static_path(@conn, "/images/img/brand/logo.png") %>" class="logo-white top-header-logo1">
+								<img src="<%= Routes.static_path(@conn, "/images/img/brand/logo-light3.jpg") %>"  class="logo-default top-header-logo2">
+						</a>
+						<div class="dropdown main-header-notification flag-dropdown">
+							<a class="nav-link icon country-Flag">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><circle cx="256" cy="256" r="256" fill="#f0f0f0"/><g fill="#0052b4"><path d="M52.92 100.142c-20.109 26.163-35.272 56.318-44.101 89.077h133.178L52.92 100.142zM503.181 189.219c-8.829-32.758-23.993-62.913-44.101-89.076l-89.075 89.076h133.176zM8.819 322.784c8.83 32.758 23.993 62.913 44.101 89.075l89.074-89.075H8.819zM411.858 52.921c-26.163-20.109-56.317-35.272-89.076-44.102v133.177l89.076-89.075zM100.142 459.079c26.163 20.109 56.318 35.272 89.076 44.102V370.005l-89.076 89.074zM189.217 8.819c-32.758 8.83-62.913 23.993-89.075 44.101l89.075 89.075V8.819zM322.783 503.181c32.758-8.83 62.913-23.993 89.075-44.101l-89.075-89.075v133.176zM370.005 322.784l89.075 89.076c20.108-26.162 35.272-56.318 44.101-89.076H370.005z"/></g><g fill="#d80027"><path d="M509.833 222.609H289.392V2.167A258.556 258.556 0 00256 0c-11.319 0-22.461.744-33.391 2.167v220.441H2.167A258.556 258.556 0 000 256c0 11.319.744 22.461 2.167 33.391h220.441v220.442a258.35 258.35 0 0066.783 0V289.392h220.442A258.533 258.533 0 00512 256c0-11.317-.744-22.461-2.167-33.391z"/><path d="M322.783 322.784L437.019 437.02a256.636 256.636 0 0015.048-16.435l-97.802-97.802h-31.482v.001zM189.217 322.784h-.002L74.98 437.019a256.636 256.636 0 0016.435 15.048l97.802-97.804v-31.479zM189.217 189.219v-.002L74.981 74.98a256.636 256.636 0 00-15.048 16.435l97.803 97.803h31.481zM322.783 189.219L437.02 74.981a256.328 256.328 0 00-16.435-15.047l-97.802 97.803v31.482z"/></g></svg>
+							</a>
+							<div class="dropdown-menu">
+								<a href="#" class="dropdown-item d-flex ">
+
+									<span class="avatar  me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/french_flag.jpg") %>"  alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">French</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+									<span class="avatar  me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/germany_flag.jpg") %>"  alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">Germany</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+									<span class="avatar me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/italy_flag.jpg") %>"  alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">Italy</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+
+									<span class="avatar me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/russia_flag.jpg") %>"  alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">Russia</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+									<span class="avatar  me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/spain_flag.jpg") %>" alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">spain</span>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="dropdown d-md-flex">
+							<a class="nav-link icon full-screen-link" href="">
+								<i class="fe fe-maximize fullscreen-button fullscreen header-icons"></i>
+								<i class="fe fe-minimize fullscreen-button exit-fullscreen header-icons"></i>
+							</a>
+						</div>
+						<div class="dropdown main-header-notification">
+							<a class="nav-link icon" href="">
+								<i class="fe fe-bell header-icons"></i>
+								<span class="badge bg-danger nav-link-badge">4</span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<p class="main-notification-text">You have 1 unread notification<span class="badge bg-pill bg-primary ms-3">View all</span></p>
+								</div>
+								<div class="main-notification-list">
+									<div class="media new">
+
+										<div class="main-img-user online"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/5.jpg") %>"></div>
+										<div class="media-body">
+											<p>Congratulate <strong>Olivia James</strong> for New template start</p><span>Oct 15 12:32pm</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/2.jpg") %>"></div>
+										<div class="media-body">
+											<p><strong>Joshua Gray</strong> New Message Received</p><span>Oct 13 02:56am</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user online"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/3.jpg") %>"></div>
+										<div class="media-body">
+											<p><strong>Elizabeth Lewis</strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+										</div>
+									</div>
+								</div>
+								<div class="dropdown-footer">
+									<a href="#">View All Notifications</a>
+								</div>
+							</div>
+						</div>
+						<div class="main-header-notification">
+							<a class="nav-link icon" href="chat.html">
+								<i class="fe fe-message-square header-icons"></i>
+								<span class="badge bg-success nav-link-badge">6</span>
+							</a>
+						</div>
+						<div class="dropdown main-profile-menu">
+							<a class="d-flex" href="">
+
+								<span class="main-img-user" ><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/1.jpg") %>"></span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<h6 class="main-notification-title">Sonia Taylor</h6>
+									<p class="main-notification-text">Web Designer</p>
+								</div>
+								<a class="dropdown-item border-top" href="profile.html">
+									<i class="fe fe-user"></i> My Profile
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-edit"></i> Edit Profile
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-settings"></i> Account Settings
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-settings"></i> Support
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-compass"></i> Activity
+								</a>
+								<a class="dropdown-item" href="signin.html">
+									<i class="fe fe-power"></i> Sign Out
+								</a>
+							</div>
+						</div>
+						<div class="dropdown d-md-flex header-settings">
+							<a href="#" class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right">
+								<i class="fe fe-align-right header-icons"></i>
+							</a>
+						</div>
+						<button class="navbar-toggler navresponsive-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent-4"
+							aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+							<i class="fe fe-more-vertical header-icons navbar-toggler-icon"></i>
+						</button><!-- Navresponsive closed -->
+					</div>
+				</div>
+			</div>
+			<!-- End Centerlogo Header-->
+
+			<!-- Mobile-header -->
+			<div class="mobile-main-header">
+				<div class="mb-1 navbar navbar-expand-lg  nav nav-item  navbar-nav-right responsive-navbar navbar-dark  ">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+						<div class="d-flex order-lg-2 ms-auto">
+							<div class="dropdown header-search">
+								<a class="nav-link icon header-search">
+									<i class="fe fe-search"></i>
+								</a>
+								<div class="dropdown-menu">
+									<div class="main-form-search p-2">
+										<div class="input-group">
+											<div class="input-group-btn search-panel">
+												<select class="form-control select2">
+													<option label="All categories">
+													</option>
+													<option value="IT Projects">
+														IT Projects
+													</option>
+													<option value="Business Case">
+														Business Case
+													</option>
+													<option value="Microsoft Project">
+														Microsoft Project
+													</option>
+													<option value="Risk Management">
+														Risk Management
+													</option>
+													<option value="Team Building">
+														Team Building
+													</option>
+												</select>
+											</div>
+											<input type="search" class="form-control" placeholder="Search for anything...">
+											<button class="btn search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="dropdown main-header-notification flag-dropdown">
+							<a class="nav-link icon country-Flag">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><circle cx="256" cy="256" r="256" fill="#f0f0f0"/><g fill="#0052b4"><path d="M52.92 100.142c-20.109 26.163-35.272 56.318-44.101 89.077h133.178L52.92 100.142zM503.181 189.219c-8.829-32.758-23.993-62.913-44.101-89.076l-89.075 89.076h133.176zM8.819 322.784c8.83 32.758 23.993 62.913 44.101 89.075l89.074-89.075H8.819zM411.858 52.921c-26.163-20.109-56.317-35.272-89.076-44.102v133.177l89.076-89.075zM100.142 459.079c26.163 20.109 56.318 35.272 89.076 44.102V370.005l-89.076 89.074zM189.217 8.819c-32.758 8.83-62.913 23.993-89.075 44.101l89.075 89.075V8.819zM322.783 503.181c32.758-8.83 62.913-23.993 89.075-44.101l-89.075-89.075v133.176zM370.005 322.784l89.075 89.076c20.108-26.162 35.272-56.318 44.101-89.076H370.005z"/></g><g fill="#d80027"><path d="M509.833 222.609H289.392V2.167A258.556 258.556 0 00256 0c-11.319 0-22.461.744-33.391 2.167v220.441H2.167A258.556 258.556 0 000 256c0 11.319.744 22.461 2.167 33.391h220.441v220.442a258.35 258.35 0 0066.783 0V289.392h220.442A258.533 258.533 0 00512 256c0-11.317-.744-22.461-2.167-33.391z"/><path d="M322.783 322.784L437.019 437.02a256.636 256.636 0 0015.048-16.435l-97.802-97.802h-31.482v.001zM189.217 322.784h-.002L74.98 437.019a256.636 256.636 0 0016.435 15.048l97.802-97.804v-31.479zM189.217 189.219v-.002L74.981 74.98a256.636 256.636 0 00-15.048 16.435l97.803 97.803h31.481zM322.783 189.219L437.02 74.981a256.328 256.328 0 00-16.435-15.047l-97.802 97.803v31.482z"/></g></svg>
+							</a>
+							<div class="dropdown-menu">
+								<a href="#" class="dropdown-item d-flex ">
+
+									<span class="avatar  me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/french_flag.jpg") %>" alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">French</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+									<span class="avatar  me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/germany_flag.jpg") %>" alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">Germany</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+									<span class="avatar me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/italy_flag.jpg") %>" alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">Italy</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+									<span class="avatar me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/russia_flag.jpg") %>" alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">Russia</span>
+									</div>
+								</a>
+								<a href="#" class="dropdown-item d-flex">
+									<span class="avatar  me-3 align-self-center bg-transparent"><img src="<%= Routes.static_path(@conn, "/images/img/flags/spain_flag.jpg") %>" alt="img"></span>
+									<div class="d-flex">
+										<span class="mt-2">spain</span>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="dropdown ">
+							<a class="nav-link icon full-screen-link">
+								<i class="fe fe-maximize fullscreen-button fullscreen header-icons"></i>
+								<i class="fe fe-minimize fullscreen-button exit-fullscreen header-icons"></i>
+							</a>
+						</div>
+						<div class="dropdown main-header-notification">
+							<a class="nav-link icon" href="">
+								<i class="fe fe-bell header-icons"></i>
+								<span class="badge bg-danger nav-link-badge">4</span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<p class="main-notification-text">You have 1 unread notification<span class="badge bg-pill bg-primary ms-3">View all</span></p>
+								</div>
+								<div class="main-notification-list">
+									<div class="media new">
+
+										<div class="main-img-user online"><img alt="avatar"src="<%= Routes.static_path(@conn, "/images/img/users/5.jpg") %>"></div>
+										<div class="media-body">
+											<p>Congratulate <strong>Olivia James</strong> for New template start</p><span>Oct 15 12:32pm</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/2.jpg") %>"></div>
+										<div class="media-body">
+											<p><strong>Joshua Gray</strong> New Message Received</p><span>Oct 13 02:56am</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user online"><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/3.jpg") %>"></div>
+										<div class="media-body">
+											<p><strong>Elizabeth Lewis</strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+										</div>
+									</div>
+								</div>
+								<div class="dropdown-footer">
+									<a href="#">View All Notifications</a>
+								</div>
+							</div>
+						</div>
+						<div class="main-header-notification mt-2">
+							<a class="nav-link icon" href="chat.html">
+								<i class="fe fe-message-square header-icons"></i>
+								<span class="badge bg-success nav-link-badge">6</span>
+							</a>
+						</div>
+						<div class="dropdown main-profile-menu">
+							<a class="d-flex" href="#">
+								<span class="main-img-user" ><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/users/1.jpg") %>"></span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<h6 class="main-notification-title">Sonia Taylor</h6>
+									<p class="main-notification-text">Web Designer</p>
+								</div>
+								<a class="dropdown-item border-top" href="profile.html">
+									<i class="fe fe-user"></i> My Profile
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-edit"></i> Edit Profile
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-settings"></i> Account Settings
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-settings"></i> Support
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-compass"></i> Activity
+								</a>
+								<a class="dropdown-item" href="signin.html">
+									<i class="fe fe-power"></i> Sign Out
+								</a>
+							</div>
+						</div>
+						<div class="dropdown  header-settings">
+							<a href="#" class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-right header-icons"><line x1="21" y1="10" x2="7" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="7" y2="18"></line></svg>
+							</a>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Mobile-header closed -->
+
+			<!-- Horizonatal menu-->
+			<div class="main-navbar hor-menu sticky">
+				<div class="container">
+					<ul class="nav">
+						<li class="nav-item"> <a class="nav-link" href="<%= Routes.user_path(@conn, :employer_dashboard) %>"><i class="ti-home"></i>Dashboard</a> </li>
+						<li class="nav-item"> <a class="nav-link with-sub" href=""><i class="si si-user"></i> Staff Management</a>
+							<ul class="nav-sub">
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :all_staffs) %>">Staff</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :user_mgt) %>">Administrators</a> </li>
+							</ul>
+						</li>
+						<li class="nav-item"> <a class="nav-link with-sub" href=""><i class="ti-package"></i>Staff Loans</a>
+							<ul class="nav-sub">
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_employee_disbursed_loans) %>">Disbursed Loans</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_employee_pending_loans) %>">Pending Loans</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_employee_rejected_loans) %>">Rejected Loans</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_employee_all_loans) %>">All Loans</a> </li>
+							</ul>
+						</li>
+						<!--<li class="nav-item"> <a class="nav-link with-sub" href=""><i class="ti-package"></i>Company Loans</a>
+							<ul class="nav-sub">
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_employee_loan_products) %>">Apply Loan</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_disbursed_loans) %>">Disbursed Loans</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_pending_loans) %>">Pending Loans</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_rejected_loans) %>">Rejected Loans</a> </li>
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_all_loans) %>">All Loans</a> </li>
+
+							</ul>
+						</li> -->
+						<li class="nav-item"> <a class="nav-link with-sub" href=""><i class="ti-bar-chart-alt"></i>Reports</a>
+							<ul class="nav-sub">
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_transaction_reports) %>" >Transactions</a> </li>
+							</ul>
+						</li>
+						<!-- <li class="nav-item"> <a class="nav-link with-sub" href=""><i class="ti-wallet"></i>Audit Logs</a>
+							<ul class="nav-sub">
+								<li class="nav-sub-item"> <a class="nav-sub-link" href="<%= Routes.employer_path(@conn, :employer_user_logs) %>">User Logs</a> </li>
+							</ul>
+						</li> -->
+
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--End  Horizonatal menu-->
+
+			<!-- Main Content-->
+			<div class="main-content pt-0">
+					<div class="m-content">
+							<div class="row">
+								<div class="col-md-12 col-lg-offset-2">
+								<div class="form-group">
+									<%= if get_flash(@conn, :info) do %>
+									<div class="alert alert-info alert-styled-left">
+									<button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+									<%= get_flash(@conn, :info) %>
+									</div>
+									<% end %>
+									<%= if get_flash(@conn, :error) do %>
+									<div class="alert alert-danger alert-styled-left">
+									<button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+									Opps! <%= get_flash(@conn, :error) %>
+									</div>
+									<% end %>
+								</div>
+								</div>
+							</div>
+
+						<%= @inner_content %>
+						<!--End::Section-->
+					</div>
+			</div>
+			<!-- End Main Content-->
+
+
+			<!-- Sidebar -->
+			<div class="sidebar sidebar-right sidebar-animate">
+				<div class="sidebar-icon">
+					<a href="#" class="text-end float-end fs-20" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right"><i class="fe fe-x"></i></a>
+				</div>
+				<div class="sidebar-body">
+					<h5>Todo</h5>
+					<div class="d-flex p-3">
+						<label class="ckbox"><input checked  type="checkbox"><span>Hangout With friends</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<div class="d-flex p-3 border-top">
+						<label class="ckbox"><input type="checkbox"><span>Prepare for presentation</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<div class="d-flex p-3 border-top">
+						<label class="ckbox"><input type="checkbox"><span>Prepare for presentation</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<div class="d-flex p-3 border-top">
+						<label class="ckbox"><input checked type="checkbox"><span>System Updated</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<div class="d-flex p-3 border-top">
+						<label class="ckbox"><input type="checkbox"><span>Do something more</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<div class="d-flex p-3 border-top">
+						<label class="ckbox"><input  type="checkbox"><span>System Updated</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<div class="d-flex p-3 border-top">
+						<label class="ckbox"><input  type="checkbox"><span>Find an Idea</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<div class="d-flex p-3 border-top mb-0">
+						<label class="ckbox"><input  type="checkbox"><span>Project review</span></label>
+						<span class="ms-auto">
+							<i class="fe fe-edit-2 text-primary me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Edit"></i>
+							<i class="fe fe-trash-2 text-danger me-2" data-bs-toggle="tooltip" title="" data-bs-placement="top" data-bs-original-title="Delete"></i>
+						</span>
+					</div>
+					<h5>Overview</h5>
+					<div class="p-4">
+						<div class="main-traffic-detail-product-item">
+							<div>
+								<span>Founder &amp; CEO</span> <span>24</span>
+							</div>
+							<div class="progress">
+								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" class="progress-bar progress-bar-xs wd-20p" role="progressbar"></div>
+							</div><!-- progress -->
+						</div>
+						<div class="main-traffic-detail-product-item">
+							<div>
+								<span>UX Designer</span> <span>1</span>
+							</div>
+							<div class="progress">
+								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" class="progress-bar progress-bar-xs bg-secondary wd-15p" role="progressbar"></div>
+							</div><!-- progress -->
+						</div>
+						<div class="main-traffic-detail-product-item">
+							<div>
+								<span>Recruitment</span> <span>87</span>
+							</div>
+							<div class="progress">
+								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="45" class="progress-bar progress-bar-xs bg-success wd-45p" role="progressbar"></div>
+							</div><!-- progress -->
+						</div>
+						<div class="main-traffic-detail-product-item">
+							<div>
+								<span>Software Engineer</span> <span>32</span>
+							</div>
+							<div class="progress">
+								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar progress-bar-xs bg-product-info wd-25p" role="progressbar"></div>
+							</div><!-- progress -->
+						</div>
+						<div class="main-traffic-detail-product-item">
+							<div>
+								<span>Project Manager</span> <span>32</span>
+							</div>
+							<div class="progress">
+								<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar progress-bar-xs bg-danger wd-25p" role="progressbar"></div>
+							</div><!-- progress -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Sidebar -->
+
+
+
+		</div>
+
+		<!-- Main Footer-->
+
+			<div class="main-footer text-center">
+				<div class="container">
+					<div class="row row-sm">
+						<div class="col-md-12">
+							<span><%= Timex.today.year %> © Loan Management System Powered By&nbsp;</span>
+                        	<a href="https://www.probasegroup.com/" target="_blank" class="font-weight-bold text-hover-primary">Probase</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--End Footer-->
+
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="fe fe-arrow-up"></i></a>
+
+		<!-- Jquery js-->
+
+		<!-- Jquery js-->
+
+
+		<!-- Bootstrap js-->
+
+
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+
+
+			<!-- formwizard-->
+	<script src="<%= Routes.static_path(@conn, "/webstatic/js/form.js") %>"></script>
+
+
+
+
+		<!-- Select2 js-->
+
+
+
+	<!-- Perfect-scrollbar js -->
+
+
+
+
+		<!-- Owl Carousel js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.js") %>"></script>
+
+	<!-- Internal Apexchart js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/apexcharts.js") %>"></script>
+
+
+		<!-- Internal Polyfills js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/classList.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill_mdn.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/dataTables.responsive.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/responsive.bootstrap5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/table-data.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jquery.dataTables.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.bootstrap5.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.buttons.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.bootstrap5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jszip.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/pdfmake.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/vfs_fonts.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.html5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.print.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.colVis.min.js") %>"></script>
+
+
+
+
+
+
+
+
+		<!-- Sparkline js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-sparkline/jquery.sparkline.min.js") %>"></script>
+
+		<!-- Internal Dashboard js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/crypto-dashboard.js") %>"></script>
+
+
+
+
+				<!-- Internal Prism js-->
+			<script  src="<%= Routes.static_path(@conn, "/webstatic/plugins/prism/prism.js") %>"></script>
+
+			<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-steps/jquery.steps.min.js") %>"></script>
+
+
+				<!-- Internal Form-wizard js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/form-wizard.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/default.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/journalentry.js") %>"></script>
+
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/financial_statement.js") %>"></script>
+
+
+
+
+			<!-- Internal Jquery-Ui js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-ui/ui/widgets/datepicker.js") %>"></script>
+
+		<!--Bootstrap-datepicker js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap-datepicker/bootstrap-datepicker.js") %>"></script>
+		<!-- Internal TelephoneInput js-->
+		<script src="<%= Routes.static_path(@conn, "/assets/plugins/telephoneinput/telephoneinput.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/assets/plugins/telephoneinput/inttelephoneinput.js") %>"></script>
+
+
+
+
+
+		<!-- Bootstrap js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/popper.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+
+		<!-- Internal Chart.Bundle js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/chart.js/Chart.bundle.min.js") %>"></script>
+
+		<!-- Peity js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/peity/jquery.peity.min.js") %>"></script>
+
+		<!-- Select2 js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/js/select2.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/select2.js") %>"></script>
+
+		<!-- Perfect-scrollbar js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/perfect-scrollbar/perfect-scrollbar.min.js") %>"></script>
+
+		<!-- Sidemenu js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/sidemenu/sidemenu.js") %>"></script>
+
+		<!-- Sidebar js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/sidebar/sidebar.js") %>"></script>
+
+		<!-- Internal Morris js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/raphael/raphael.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/morris.js/morris.min.js") %>"></script>
+
+		<!-- Circle Progress js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/circle-progress.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/chart-circle.js") %>"></script>
+
+		<!-- Internal Dashboard js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/index.js") %>"></script>
+
+		<!-- Sticky js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/sticky.js") %>"></script>
+
+		<!-- Custom js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/custom.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/loan-application.js") %>"></script>
+
+
+
+		<!-- Victor js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/victor.js") %>"></script>
+		<!-- Jquery-Ui js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-ui/ui/widgets/datepicker.js") %>"></script>
+
+		<!-- Internal Daternagepicker js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap-daterangepicker/moment.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap-daterangepicker/daterangepicker.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/advanced-form-elements.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/change-mgt.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/chart-of-accounts.js") %>"></script>
+
+
+
+	</body>
 </html>

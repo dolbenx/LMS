@@ -1,0 +1,659 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+<style>
+.doubleUnderline { border-bottom: 1px dotted; width: 200px; height: 100px;}
+</style>
+<div class="col-md-12 col-md-12">
+
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mg-b-5">Offtaker Onboading</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Offtaker Onboading</li>
+            </ol>
+        </div>
+        <div class="d-flex">
+            <div class="justify-content-center">
+                <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+            </div>
+        </div>
+    </div>
+        <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+                <div class="card custom-card">
+                    <div class="container-fluid"><br>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                            </div>
+                            <div class="col-md-10"><br>
+                                <div class="parallelogram"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <div>
+                        <h6 class="mb-1 text-center">Create Offtaker</h6>
+                        <p class="text-muted card-sub-title"></p>
+                    </div>
+                    <form action="<%= Routes.offtaker_management_path(@conn, :create_offtaker_maintenance) %>" enctype="multipart/form-data" id="tst" method="post">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div id="wizard1">
+                            <h3>Corporate Details</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Company Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Company Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="companyName" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Company Phone Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="companyPhone" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Contact Email:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="contactEmail"required  class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Registration Date:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="companyRegistrationDate" required class="form-control input-sm" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">TPIN:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="taxno" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Pacra-Registration Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="registrationNumber" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Bank Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Select Bank:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="bank_id" class="form-control select2" required>
+                                                <%= for bank <- @banks do %>
+                                                    <option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+                                                    </option>
+                                                <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Account Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="companyAccountNumber" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <h6 class="text-center"><u>Company Address Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Physical Address:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="house_number_company" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Street Name</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="street_name_company" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Area</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="area_company" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Town</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="town_company" class="form-control input-sm"required  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Years At Current Location:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="year_at_current_address_company" class="form-control input-sm" required type="number">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Land Mark:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="land_mark_company" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Accomodation Status</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="accomodation_status_company" class="form-control select2" required>
+                                                    <option label="Choose Accomodation Status"></option>
+                                                    <option value="OWNED">OWNED </option>
+                                                    <option value="RENTED">RENTED </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <hr style="border: 2px solid #F6000F;">
+                                <div class="row" style="opacity: 0.6;">
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>Document Upload</h3>
+                            <section>
+                                <div class="row row-sm mg-b-20">
+                                    <table class="table table-bordered border-bottom" id="example1">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Document Name</th>
+                                                <th scope="row">File</th>
+
+                                                <th>Add</th>
+                                            </tr>
+                                            <tr class="tr_clone">
+
+
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control"  name="filename[]" required type="text" > </div>
+                                                </td>
+                                                <td scope="row">
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="tenor" id="phx-FuvZHeMu4hedhwED" name="file[]" required multiple type="file" > </div>
+                                                </td>
+                                                <td class="fitwidth">
+                                                    <div class="form-group"> <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder fe fe-plus-circle tr_clone_add"></i> &nbsp;&nbsp;&nbsp; <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus fe fe-x-circle"></i> </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <hr style="border: 2px solid #F6000F;">
+                                <div class="row" style="opacity: 0.6;">
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>First Representative Details</h3>
+                            <section>
+
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                        
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Title:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="title_rep_1" class="form-control select2" required>
+                                                    <option label="Choose Currency"></option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Ms">Ms </option>
+                                                    <option value="Dr">Dr </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">First Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="firstName_rep_1" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Last Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="lastName_rep_1" class="form-control input-sm" required  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Other Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="otherName_rep_1" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Date Of Birth:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="dateOfBirth_rep_1" class="form-control input-sm" required type="date">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Personal Email:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="emailAddress_rep_1" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Type:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="meansOfIdentificationType_rep_1" class="form-control select2" required>
+                                                    <option label="Choose Currency"></option>
+                                                    <option value="NRC">NRC</option>
+                                                    <option value="DRIVER LICENSE">DRIVER LICENSE </option>
+                                                    <option value="PASSPORT">PASSPORT</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="meansOfIdentificationNumber_rep_1" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Mobile Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="mobileNumber_rep_1" class="form-control input-sm" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Choose Gender:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="gender_rep_1" class="form-control select2" required>
+                                                    <option label="Choose Currency"></option>
+                                                    <option value="Male">Male </option>
+                                                    <option value="Female">Female </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Address Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">House/Plot Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="house_number_rep_1" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Road/Street Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="street_name_rep_1" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Area:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="area_rep_1" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Town:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="town_rep_1" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Accomodation Status</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="accomodation_status_rep_1" class="form-control select2" required>
+                                                    <option label="Choose Accomodation Status"></option>
+                                                    <option value="OWNED">OWNED </option>
+                                                    <option value="RENTED">RENTED </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Land Mark:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="land_mark_rep_1" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Years At Current Address:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="year_at_current_address_rep_1" required class="form-control input-sm" type="number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr style="border: 2px solid #F6000F;">
+                                <div class="row" style="opacity: 0.6;">
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                    </div>
+                                </div>
+                            </section>
+
+
+                            <h3>Second Representative Details</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                       
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Title:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="title_rep_2" class="form-control select2" required>
+                                                    <option label="Choose Currency"></option>
+                                                    <option value="Mr">Mr </option>
+                                                    <option value="Mrs">Mrs </option>
+                                                    <option value="Ms">Ms </option>
+                                                    <option value="Dr">Dr </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">First Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="firstName_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Last Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="lastName_rep_2" required class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Other Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="otherName_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Date Of Birth:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="dateOfBirth_rep_2"  required class="form-control input-sm" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Personal Email:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="emailAddress_rep_2"required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Type:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="meansOfIdentificationType_rep_2" class="form-control select2" required>
+                                                    <option label="Choose Currency"></option>
+                                                    <option value="NRC">NRC</option>
+                                                    <option value="DRIVER LICENSE">DRIVER LICENSE </option>
+                                                    <option value="PASSPORT">PASSPORT</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Identification Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="meansOfIdentificationNumber_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Mobile Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="mobileNumber_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Choose Gender:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="gender_rep_2" class="form-control select2" required>
+                                                    <option label="Choose Currency"></option>
+                                                    <option value="Male">Male </option>
+                                                    <option value="Female">Female </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Address Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">House/Plot Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="house_number_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Road/Street Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="street_name_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Area:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="area_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Town:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="town_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Accomodation Status</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="accomodation_status_rep_2" class="form-control select2" required>
+                                                    <option label="Choose Accomodation Status"></option>
+                                                    <option value="OWNED">OWNED </option>
+                                                    <option value="RENTED">RENTED </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Land Mark:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="land_mark_rep_2" required class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Years At Current Address:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="year_at_current_address_rep_2" required class="form-control input-sm" type="number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr style="border: 2px solid #F6000F;">
+                                <div class="row" style="opacity: 0.6;">
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                    </div>
+                                    <div class="col-md-3">
+                                        <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

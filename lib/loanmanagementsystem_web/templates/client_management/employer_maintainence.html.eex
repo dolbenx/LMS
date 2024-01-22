@@ -1,183 +1,613 @@
-<div class="container  mx-auto px-2">
-        <div class="flex flex-wrap">
-            <div class="flex items-center py-4 w-full">
-                <div class="w-full">
-                    <div class="">
-                        <div class="flex flex-wrap justify-between">
-                            <div class="items-center ">
-                                <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">Employers</h1>
-                                <ol class="list-reset flex text-sm">
-                                    <li><a href="#" class="text-gray-500">Employer</a></li>
-                                    <li><span class="text-gray-500 mx-2">/</span></li>
-                                    <li class="text-gray-500">Management</li>
-                                </ol>
-                            </div>
-                            <div class="flex items-center">
-							<button class="px-3 py-2 lg:px-4 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600">Add Employer</button>
-                            </div>
+<%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">MSME Maintenance</h2>
+                <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">MSME Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+					<%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                  		<button class="btn ripple btn-primary mb-0" id="create_user" data-bs-toggle="modal" href=""> Add MSME</button>
+					<% end %>
+				</div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+
+						    <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Name</th>
+                                        <th class="wd-25p">Mobile Number</th>
+                                        <th class="wd-20p">Registration Number</th>
+                                        <th class="wd-15p">TPIN</th>
+                                        <th class="wd-20p">Email</th>
+
+                                        <th class="wd-20p">Status</th>
+                                        <th class="wd-20p">Action</th>
+                                    </tr>
+                                </thead>
+
+                                 <%= for company <- @companies do %>
+                                    <tr>
+                                        <td> <%= company.companyName %> </td>
+                                        <td> <%= company.companyPhone %> </td>
+                                        <td> <%= company.registrationNumber %> </td>
+                                        <td> <%= company.taxno %> </td>
+                                        <td> <%= company.contactEmail %> </td>
+                                        <td> <%= company.status %> </td>
+                                        <td>
+											<div class="input-group">
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fe fe-chevron-down"></i> </span>
+															<div class="dropdown-menu">
+
+																	<a class="dropdown-item"
+																		data-bs-target="#viewcompany"
+																		data-bs-toggle="modal"
+																		data-id ="<%= company.id %>"
+																		data-companyname="<%= company.companyName %>"
+
+																		data-company_phone ="<%= company.companyPhone%>"
+																		data-company_account_number="<%= company.companyAccountNumber %>"
+																		data-company_registration_number ="<%= company.registrationNumber %>"
+																		data-company_email="<%= company.contactEmail%>"
+																		data-taxno ="<%= company.taxno %>"
+																		data-company_bank_id="<%= company.bank_id %>"
+																		data-company_bank="<%= company.bankName %>"
+																		data-company_registration_date="<%= company.companyRegistrationDate %>"
+																	><i class="fe fe-edit"></i> View </a>
+															<%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :edit) do %>
+																	<a class="dropdown-item"
+																		data-bs-target="#editcompany"
+																		data-bs-toggle="modal"
+																		data-id ="<%= company.id %>"
+																		data-companyname="<%= company.companyName %>"
+
+																		data-company_phone ="<%= company.companyPhone%>"
+																		data-company_account_number="<%= company.companyAccountNumber %>"
+																		data-company_registration_number ="<%= company.registrationNumber %>"
+																		data-company_email="<%= company.contactEmail%>"
+																		data-taxno ="<%= company.taxno %>"
+																		data-company_bank_id="<%= company.bank_id %>"
+																		data-company_bank="<%= company.bankName %>"
+																		data-company_registration_date="<%= company.companyRegistrationDate %>"
+																	><i class="fe fe-edit"></i> Edit </a>
+
+															<% end %>
+												<%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+																<%=if company.status == "ACTIVE" do %>
+
+																	<a class="dropdown-item deactivate-company" data-activate-id="<%= company.id %>" ><i class="fe fe-eye"></i> Disable </a>
+																<% else %>
+																	<a class="dropdown-item activate-company" data-activate-id="<%= company.id %>" ><i class="fe fe-eye"></i> Enable </a>
+																<% end %>
+												<% end %>
+															</div>
+														</div>
+													</div>
+											</div>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </div><!--end container-->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4  mb-4">
-        <div class="sm:col-span-12  md:col-span-12 lg:col-span-12 xl:col-span-12 ">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Repaymets Table</h4>
-                </div><!--end card-header-->
-                <div class="card-body">
-                    <div class="relative overflow-x-auto  sm:rounded">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns"><div class="dataTable-top"><div class="dataTable-dropdown"><label><select class="dataTable-selector"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option></select> entries per page</label></div><div class="dataTable-search"><input class="dataTable-input" placeholder="Search..." type="text"></div></div><div class="dataTable-container"><table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 dataTable-table" id="datatable_2">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-slate-700 dark:text-gray-400">
-                                <tr><th scope="col" class="p-4" data-sortable="" style="width: 3.8961%;"><a href="#" class="dataTable-sorter">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 33.7662%;"><a href="#" class="dataTable-sorter">
-                                        Product name
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.8539%;"><a href="#" class="dataTable-sorter">
-                                        Color
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 20.3734%;"><a href="#" class="dataTable-sorter">
-                                        Category
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.6916%;"><a href="#" class="dataTable-sorter">
-                                        Price
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 12.4188%;"><a href="#" class="dataTable-sorter">
-                                        <span class="sr-only">Edit</span>
-                                    </a></th></tr>
-                            </thead>
-                            <tbody><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Apple MacBook Pro 17"
-                                    </th><td class="px-6 py-4">
-                                        Sliver
-                                    </td><td class="px-6 py-4">
-                                        Laptop
-                                    </td><td class="px-6 py-4">
-                                        $2999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr></tbody>
-                        </table></div><div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to 7 of 7 entries</div><nav class="dataTable-pagination"><ul class="dataTable-pagination-list"></ul></nav></div></div>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded csv">Export CSV</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded sql">Export SQL</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded txt">Export TXT</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded json">Export JSON</button>
-                    </div>
-                </div><!--end card-body-->
-            </div> <!--end card-->
+        <!-- End Row -->
+    </div>
+
+
+
+
+<div class="modal" id="modaldemo12">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+						<h6 class="modal-title">Create Company</h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+			</div>
+										<form action="<%= Routes.client_management_path(@conn, :admin_employer_maintainence)%>" enctype="multipart/form-data" id="tst" method="post">
+											<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+											<input type="hidden" name="roleType" value="EMPLOYER">
+											<input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+											<div id="wizard1">
+												<h3>Corporate Details</h3>
+												<section>
+													<div class="row row-sm mg-b-20">
+														<!-- col-4 -->
+														<div class="col-lg">
+															<p class="mg-b-10">Name</p>
+															<input type="text" class="form-control" name="companyName" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10">Mobile Number</p>
+															<input type="text" class="form-control" name="companyPhone" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10"> Pacra-Registration Number</p>
+															<input type="text" class="form-control" name="registrationNumber" required>
+														</div>
+
+													</div>
+													<div class="row row-sm mg-b-20">
+
+														<div class="col-lg">
+															<p class="mg-b-10">Registration Date</p>
+															<input type="date" class="form-control" name="companyRegistrationDate" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10">TPIN</p>
+															<input type="text" class="form-control" name="taxno" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10">Contact Email</p>
+															<input type="text" class="form-control" name="contactEmail" required>
+														</div>
+
+													</div>
+												</section>
+													<h3> Bank Details</h3>
+													<section>
+														<div class="card-body">
+																<div class="row row-sm mg-b-20">
+																	<div class="col-lg">
+																	<p class="mg-b-10">Select Bank</p>
+																		<select name="bank_id" class="form-control select2">
+																		<option label="Choose Bank">
+																		</option>
+																		<%= for bank <- @banks do %>
+
+																			<option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+																			</option>
+																		<% end %>
+																		</select>
+																	</div>
+																	<div class="col-lg">
+																		<p class="mg-b-10">Account Number</p>
+																		<input class="form-control"  name="companyAccountNumber" type="text">
+																	</div>
+
+																</div>
+
+														</div>
+													</section>
+													<h3>Document Upload</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+																<thead>
+																	<tr role="row">
+																		<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																			<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+																		</th>
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr class="tr_clone">
+																		<td>
+																			<div class="col-md-12 form-group">
+																				<div class="form-group">
+																					<select name="meansOfIdentificationType" class="form-control select2">
+																						<option value="NRC">NRC</option>
+																					</select>
+																				</div>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="file" name="document" class="form-control form-control-sm-10"> </td>
+																			<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+																		<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i><i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</section>
+													<h3>Representative Details</h3>
+													<section>
+                                                        <input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+														<div class="row row-sm mg-b-20">
+																<input type="hidden" name="password" id="password-gen">
+																<div class="col-lg">
+																	<p class="mg-b-10">Title</p>
+																	<select name="title" class="form-control select2" required>
+																		<option label="Choose Currency"></option>
+																		<option value="Mr">Mr </option>
+																		<option value="Mrs">Mrs </option>
+																		<option value="Ms">Ms </option>
+																		<option value="Dr">Dr </option>
+																	</select>
+																</div>
+																<div class="col-lg">
+																	<p class="mg-b-10">First Name</p>
+																	<input name="firstName" class="form-control" type="text" required>
+																</div>
+																<div class="col-lg">
+																	<p class="mg-b-10">Last Name</p>
+																	<input name="lastName" class="form-control" type="text" required>
+																</div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Other Name</p>
+																<input class="form-control" name="otherName" type="text" required>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Date Of Birth</p>
+																<input class="form-control" name="dateOfBirth" type="date" required>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Personal Email</p>
+																<input class="form-control" name="emailAddress" type="email" required>
+															</div>
+														</div>
+														<div class="row row-sm mg-b-20">
+
+															<div class="col-lg">
+																<p class="mg-b-10">Identification Number</p>
+																<input class="form-control" name="meansOfIdentificationNumber" type="text" required>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Mobile Number</p>
+																<input class="form-control" name="mobileNumber" type="text" required>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Choose Gender</p>
+																<select name="gender" class="form-control select2" required>
+																	<option label="Choose Currency"></option>
+																	<option value="Male">Male </option>
+																	<option value="Female">Female </option>
+																</select>
+															</div>
+														</div>
+
+                                                        <div class="row row-sm mg-b-20">
+
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">House/Plot Number</p>
+                                                                <input name="house_number" class="form-control" type="text" required>
+                                                            </div>
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">Road/Street Name</p>
+                                                                <input name="street_name" class="form-control" type="text" required>
+                                                            </div>
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">Area</p>
+                                                                <input name="area" class="form-control" type="text" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row row-sm mg-b-20">
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">Town</p>
+                                                                <input class="form-control" name="town" type="text" required>
+                                                            </div>
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">Accomodation Status</p>
+                                                                <input class="form-control" name="accomodation_status" type="text" required>
+                                                            </div>
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">Years At Current Address</p>
+                                                                <input class="form-control" name="year_at_current_address" type="number" required>
+                                                            </div>
+                                                        </div>
+
+													</section>
+
+												<div>
+										</form>
+			            </div>
+			        </div>
+			    </div>
+	 		</div>
+    	</div>
+  	</div>
+</div>
+
+
+
+
+<div class="modal fade" id="viewcompany" class="edit_country">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View MSME Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+                <form action="<%# Routes.maintenance_path(@conn, :admin_update_country)%>" method="post">
+                                <div class="modal-body">
+                                   <div class="row row-sm mg-b-20">
+										<!-- col-4 -->
+										<div class="col-lg">
+											<p class="mg-b-10">Name</p>
+											<input type="text" class="form-control" name="companyName" id="companyname" required readonly>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10">Mobile Number</p>
+											<input type="text" class="form-control" name="companyPhone" id="company_phone" required readonly>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10"> Pacra-Registration Number</p>
+											<input type="text" class="form-control" id="company_registration_number" name="registrationNumber" required readonly>
+										</div>
+
+									</div>
+									<div class="row row-sm mg-b-20">
+
+										<div class="col-lg">
+											<p class="mg-b-10">Registration Date</p>
+											<input type="date" class="form-control" name="companyRegistrationDate" id="company_registration_date" required readonly>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10">TPIN</p>
+											<input type="text" class="form-control" id="taxno" name="taxno" required readonly>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10">Contact Email</p>
+											<input type="text" class="form-control" id="company_email" name="contactEmail" required readonly>
+										</div>
+
+									</div>
+									<div class="row row-sm mg-b-20">
+										<div class="col-lg-4">
+											<p class="mg-b-10">Bank</p>
+											<input class="form-control" id="company_bank"  name="company_bank" type="text" readonly>
+										</div>
+										<div class="col-lg-4">
+											<p class="mg-b-10">Account Number</p>
+											<input class="form-control" id="company_account_number"  name="companyAccountNumber" type="text" readonly>
+										</div>
+
+									</div>
+
+
+                                </div>
+                                    <div class="modal-footer">
+
+                                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                                </div>
+                        </form>
         </div>
     </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="modal fade" id="editcompany" class="edit_country">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+
+                <form action="<%= Routes.client_management_path(@conn, :admin_update_employer_maintainence)%>" enctype="multipart/form-data" method="post">
+					<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                 <div class="modal-header">
+                    <h6 class="modal-title">Edit Company Details</h6>
+                    <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+                </div>
+
+                                <div class="modal-body">
+								<input type="hidden" name="id" id="cid" >
+                                    <div class="row row-sm mg-b-20">
+														<!-- col-4 -->
+										<div class="col-lg">
+											<p class="mg-b-10">Name</p>
+											<input type="text" class="form-control" name="companyName" id="companyname" required>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10">Mobile Number</p>
+											<input type="text" class="form-control" name="companyPhone" id="company_phone" required>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10"> Pacra-Registration Number</p>
+											<input type="text" class="form-control" id="company_registration_number" name="registrationNumber" required>
+										</div>
+
+									</div>
+									<div class="row row-sm mg-b-20">
+
+										<div class="col-lg">
+											<p class="mg-b-10">Registration Date</p>
+											<input type="date" class="form-control" name="companyRegistrationDate" id="company_registration_date" required>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10">TPIN</p>
+											<input type="text" class="form-control" id="taxno" name="taxno" required>
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10">Contact Email</p>
+											<input type="text" class="form-control" id="company_email" name="contactEmail" required>
+										</div>
+
+									</div>
+									<div class="row row-sm mg-b-20">
+										<div class="col-lg-4">
+										<p class="mg-b-10">Select Bank</p>
+											<select name="company_bank" id="company_bank" class="form-control">
+											<option label="Choose Bank">
+											</option>
+											<%= for bank <- @banks do %>
+
+												<option value="<%= bank.bankName%>"><%= bank.bankName %> (<%= bank.process_branch %>)
+												</option>
+												<input type="hidden" value="<%= bank.id%>" name="bank_id">
+
+											<% end %>
+											</select>
+										</div>
+										<div class="col-lg-4">
+											<p class="mg-b-10">Account Number</p>
+											<input class="form-control" id="company_account_number"  name="companyAccountNumber" type="text">
+										</div>
+
+									</div>
+									<div class="row row-sm mg-b-20">
+										<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+											<thead>
+												<tr role="row">
+													<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+														<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+													</th>
+													<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+													<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="tr_clone">
+													<td>
+														<div class="col-md-12 form-group">
+															<div class="form-group">
+																<select name="meansOfIdentificationType" class="form-control select2">
+																	<option value="NRC">NRC</option>
+																</select>
+															</div>
+														</div>
+													</td>
+													<td>
+														<input type="file" name="document" class="form-control form-control-sm-10"> </td>
+														<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+													<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i><i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+
+
+                                </div>
+                                    <div class="modal-footer">
+										<button class="btn ripple btn-primary" data-bs-dismiss="modal" type="submit">Update</button>
+										<button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+									</div>
+                        </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#create_user').on('click', function (event){
+        var modal= $("#modaldemo12");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+</script>
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>
+
+
+<script>
+$(document).ready(function(){
+
+
+
+    $('#editcompany').on('show.bs.modal', function (event){
+		var button = $(event.relatedTarget)
+
+		var modal = $(this)
+		modal.find('.modal-body #cid').val(button.data('id'));
+		modal.find('.modal-body #companyname').val(button.data('companyname'));
+
+		modal.find('.modal-body #company_phone').val(button.data('company_phone'));
+		modal.find('.modal-body #company_account_number').val(button.data('company_account_number'));
+		modal.find('.modal-body #company_registration_number').val(button.data('company_registration_number'));
+		modal.find('.modal-body #company_email').val(button.data('company_email'));
+		modal.find('.modal-body #taxno').val(button.data('taxno'));
+		modal.find('.modal-body #company_registration_date').val(button.data('company_registration_date'));
+		modal.find('.modal-body #company_bank').val(button.data('company_bank'));
+	});
+
+	$('#viewcompany').on('show.bs.modal', function (event){
+		var button = $(event.relatedTarget)
+
+		var modal = $(this)
+		modal.find('.modal-body #id').val(button.data('id'));
+		modal.find('.modal-body #companyname').val(button.data('companyname'));
+
+		modal.find('.modal-body #company_phone').val(button.data('company_phone'));
+		modal.find('.modal-body #company_account_number').val(button.data('company_account_number'));
+		modal.find('.modal-body #company_registration_number').val(button.data('company_registration_number'));
+		modal.find('.modal-body #company_email').val(button.data('company_email'));
+		modal.find('.modal-body #taxno').val(button.data('taxno'));
+		modal.find('.modal-body #company_registration_date').val(button.data('company_registration_date'));
+		modal.find('.modal-body #company_bank').val(button.data('company_bank'));
+	});
+
+
+
+
+});
+</script>

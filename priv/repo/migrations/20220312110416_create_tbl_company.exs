@@ -19,7 +19,6 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblCompany do
       add :companyRegistrationDate, :date
       add :companyAccountNumber, :string
       add :bank_id, :integer
-      add :user_bio_id, :integer
 
       timestamps()
     end

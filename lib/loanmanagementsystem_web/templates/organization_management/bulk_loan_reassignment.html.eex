@@ -1,0 +1,62 @@
+<%= render "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Bulk Loan Re-Assignment</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bulk Loan Re-Assignment Table</li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Department Name</th>
+                                        <th>Company Branch</th>
+                                        <th>Job Title</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <%= for crm <-@crms do %>
+                                    <tr>
+                                        <td><%= crm.firstName %> <%= crm.lastName %></td>
+                                        <td><%= crm.department_name %> </td>
+                                        <td> <%= crm.qfin_name  %> </td>
+                                        <td> <%= crm.job_title  %> </td>
+                                        <td>
+
+                                            <a href="<%= Routes.organization_management_path(@conn, :admin_bulk_re_assignment, crm_branch: crm.branch_name, userId: crm.userId, firstname:  crm.firstName , lastname: crm.lastName  ) %>" class="btn btn-sm btn-info"
+                                            >
+                                                <i class="fe fe-edit-2">Bulk Assignemtn</i>
+                                            </a>
+
+                                        </td>
+
+
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>

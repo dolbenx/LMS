@@ -1,0 +1,8 @@
+<h1>Show Ussd</h1>
+
+<ul>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.ussd_path(@conn, :edit, @ussd) %></span>
+<span><%= link "Back", to: Routes.ussd_path(@conn, :index) %></span>

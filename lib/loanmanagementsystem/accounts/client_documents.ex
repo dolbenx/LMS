@@ -1,6 +1,7 @@
 defmodule Loanmanagementsystem.Accounts.Client_Documents do
   use Ecto.Schema
   import Ecto.Changeset
+  use Endon
 
   schema "tbl_client_documents" do
     field :name, :string
@@ -13,6 +14,8 @@ defmodule Loanmanagementsystem.Accounts.Client_Documents do
     field :createdBy, :string
     field :approvedBy, :string
     field :file, :string
+    field :loan_id, :integer
+    field :file_category, :string
 
     timestamps()
   end
@@ -23,14 +26,16 @@ defmodule Loanmanagementsystem.Accounts.Client_Documents do
     |> cast(attrs, [
       :name,
       :path,
-      :company_id,
+      # :company_id,
       :userID,
       :docType,
       :status,
       :clientID,
       :createdBy,
       :approvedBy,
-      :file
+      :file,
+      :loan_id,
+      :file_category,
     ])
 
     # |> validate_required([:name, :path, :company_id, :userID, :docType, :status, :clientID])

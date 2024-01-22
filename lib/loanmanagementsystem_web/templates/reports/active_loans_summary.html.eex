@@ -1,0 +1,100 @@
+<%= render "submenu.html", assigns %>
+<div class="container-fluid">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+           <div>
+                <h2 class="main-content-title tx-24 mg-b-5"> Active Loans Summary per Service-Out-Let (SOL)/Branch </h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> Loans Summary per Service-Out-Let (SOL)/Branch Table </li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                <a class="btn ripple btn-danger" id="loan_panding_approval_filter_clear" style="background-color: #fd6074; color: white;" type="button"> Reset Filter </a>
+                    <button class="btn ripple btn-primary" style="background-color: #003651; color: white;" type="button" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Filter </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+            <div class="row row-sm">
+                <div class="col-lg-12">
+                    <div class="card custom-card overflow-hidden">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered border-bottom" id="dt-loan-sol-brunch">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Customer Name</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Brunch Name</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Disbursed Date</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Currency Code</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Principal Amount</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Loan Balance</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- End Row -->
+
+
+
+<!-- Tooltips and Popovers -->
+        <div class="modal fade" id="modaldemo12">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content modal-content-demo">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Filter Report</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row row-lg">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="row row-sm">
+                                    <div class="col-sm">
+                                        <label class="form-label"> Fist Name <span style="color: red;">*</span></label>
+                                        <input  name="f_name" id="f_name" class="form-control select2-with-search clear_form" required>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label class="form-label"> Last Name <span style="color: red;">*</span></label>
+                                        <input  name="l_name" id="l_name" class="form-control select2-with-search clear_form" required>
+                                    </div>
+                                </div>
+                                <div class="row row-sm">
+                                    <div class="col-sm">
+                                        <label class="form-label"> Brunch Name <span style="color: red;">*</span></label>
+                                        <select  name="branch" id="branch" class="form-control select2-with-search clear_form" required>
+                                            <option label="Choose One"></option>
+                                                <%= for branch <- @branch do %>
+                                                    <option value="<%= branch.branchName %>"><%= branch.branchName %></option>
+                                                <% end %>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label class="form-label"> Principal Amount <span style="color: red;">*</span></label>
+                                        <input  name="amount" id="amount" class="form-control select2-with-search clear_form" required>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="loan_panding_approval_filter_search" data-bs-dismiss="modal" class="btn ripple " style="background-color: #003651; color: white;" id=""><span><i class="la la-search"></i><span>Search</span></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

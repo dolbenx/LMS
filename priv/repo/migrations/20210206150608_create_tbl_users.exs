@@ -16,5 +16,7 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUsers do
 
       timestamps()
     end
+
+    create unique_index(:tbl_users, [:username], name: :unique_username)
   end
 end

@@ -39,5 +39,6 @@ defmodule Loanmanagementsystem.Maintenance.Bank do
       :process_branch,
       :swift_code
     ])
+    # |> unique_constraint([:bankName, :acronym])
   end
 end

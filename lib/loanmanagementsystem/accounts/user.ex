@@ -14,6 +14,7 @@ defmodule Loanmanagementsystem.Accounts.User do
     field :classification_id, :integer
     field :login_attempt, :integer, default: 0
     field(:role_id, :integer)
+    field :with_mou, :boolean, default: false
 
     timestamps()
   end
@@ -31,7 +32,8 @@ defmodule Loanmanagementsystem.Accounts.User do
       :auto_password,
       :company_id,
       :login_attempt,
-      :role_id
+      :role_id,
+      :with_mou,
     ])
 
     # |> validate_length(:password, min: 8, max: 40, message: " should be atleast 8 to 40 characters")
@@ -58,7 +60,8 @@ defmodule Loanmanagementsystem.Accounts.User do
       :securityQuestionId,
       :securityQuestionAnswer,
       :login_attempt,
-      :role_id
+      :role_id,
+      :with_mou,
     ])
   end
 
@@ -80,13 +83,7 @@ defmodule Loanmanagementsystem.Accounts.User do
 
   defp put_pass_hash(changeset), do: changeset
 
-  @spec encrypt_password(
-          binary
-          | maybe_improper_list(
-              binary | maybe_improper_list(any, binary | []) | byte,
-              binary | []
-            )
-        ) :: binary
+
   def encrypt_password(password), do: Base.encode16(:crypto.hash(:sha512, password))
 
   def has_role?(%{role: roles}, module, action) when is_atom(action) and is_atom(module),

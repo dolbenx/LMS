@@ -621,6 +621,7 @@ defmodule Loanmanagementsystem.Maintenance do
       ** (Ecto.NoResultsError)
 
   """
+
   # Loanmanagementsystem.Maintenance.get_bank!
   def get_bank!(id), do: Repo.get!(Bank, id)
 
@@ -688,6 +689,8 @@ defmodule Loanmanagementsystem.Maintenance do
   def change_bank(%Bank{} = bank, attrs \\ %{}) do
     Bank.changeset(bank, attrs)
   end
+
+
 
   alias Loanmanagementsystem.Maintenance.Classification
 

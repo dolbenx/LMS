@@ -109,14 +109,9 @@ defmodule Loanmanagementsystem.Loan.Loans do
     field :proposed_repayment_date, :date
     field :loan_purpose, :string
     field :application_date, :date
-    field :offtakerID, :integer
-    field :has_mou, :string
-    field :funderID, :integer
-    field :loan_limit, :float
-    field :arrangement_fee, :float
-    field :finance_cost, :float
-    field :disbursement_status, :string
-    field :loan_officer_id, :integer
+    field :cro_id, :integer
+    field :legal_collateral_comment, :string
+    field :credit_mgt_committe_comment, :string
 
     timestamps()
   end
@@ -125,18 +120,13 @@ defmodule Loanmanagementsystem.Loan.Loans do
   def changeset(loans, attrs) do
     loans
     |> cast(attrs, [
-      :loan_limit,
       :sms_status,
-      :arrangement_fee,
-      :finance_cost,
-      :offtakerID,
       :reason,
       :repayment_type,
       :expiry_month,
       :expiry_year,
       :repayment_amount,
       :tenor,
-      :disbursement_status,
       :balance,
       :interest_amount,
       :company_id,
@@ -227,9 +217,9 @@ defmodule Loanmanagementsystem.Loan.Loans do
       :monthly_installment,
       :proposed_repayment_date,
       :loan_purpose,
-      :has_mou,
-      :funderID,
-      :loan_officer_id
+      :cro_id,
+      :legal_collateral_comment,
+      :credit_mgt_committe_comment,
 
     ])
     # |> validate_required([
@@ -252,7 +242,6 @@ defmodule Loanmanagementsystem.Loan.Loans do
     loans
     |> cast(attrs, [
       :sms_status,
-      :offtakerID,
       :reason,
       :repayment_type,
       :expiry_month,
@@ -327,10 +316,7 @@ defmodule Loanmanagementsystem.Loan.Loans do
       :loan_counter,
       :is_npa,
       :is_legacyloan,
-      :loan_userroleid,
-      :has_mou,
-      :funderID,
-      :loan_officer_id
+      :loan_userroleid
     ])
   end
 

@@ -734,20 +734,32 @@ body {font-family: Arial;}
 	// Get the element with id="defaultOpen" and click on it
 	document.getElementById("defaultOpen").click();
 	</script>
-	<script>
-	function addrow(e) {
-		var $tr = $(e).closest('.tr_clone');
-		var $clone = $tr.clone();
-		$clone.find(':text').val('');
-		$tr.after($clone);
-	}
 
-	function removerow(e) {
-		var $tr = $(e).closest('.tr_clone');
-		var $remove = $tr.remove();
-		$remove.find(':text').val('');
-		$tr.after($remove);
-	}
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
 </script>
 
 

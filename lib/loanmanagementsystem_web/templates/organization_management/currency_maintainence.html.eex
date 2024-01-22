@@ -1,0 +1,218 @@
+<%= render "submenu.html", assigns %>
+<div class="container-fluid">
+    <div class="inner-body">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Currency Maintenance</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Currencies Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :currency, :create) do %>
+                        <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Currency</button>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                 <thead>
+                                    <tr>
+                                        <th class="wd-20p">Country </th>
+                                        <th class="wd-20p">Currency Name</th>
+                                        <th class="wd-25p">Currency Decimal</th>
+                                        <th class="wd-25p">Currency Iso Code</th>
+                                        <th class="wd-15p">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <%=for currency <- @currencies do %>
+                                    <tr>
+                                        <td> <%= currency.countryName  %> </td>
+                                        <td><%= currency.name %> </td>
+                                        <td> <%= currency.currencyDecimal %> </td>
+                                        <td> <%= currency.isoCode %> </td>
+
+
+
+
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" title="view" data-bs-target="#view_country" data-bs-toggle="modal"><i class="fe fe-eye"> View</i></button>
+                                        <button class="btn btn-sm btn-info"
+                                        title="edit"
+                                        data-bs-target="#edit_currency"
+                                        data-bs-toggle="modal"
+                                        data-id ="<%=currency.id %>"
+                                        data-name ="<%=currency.name %>"
+                                        data-isocode ="<%= currency.isoCode %>"
+                                        data-decimal ="<%= currency.currencyDecimal %>"
+                                        data-country_id = "<%= currency.countryId %>"
+                                    > <i class="fe fe-edit-2"> Edit</i></button>
+
+                                        </a>
+                                    </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Currency Details</h6>
+
+            </div>
+        <form action="<%= Routes.organization_management_path(@conn, :admin_create_currency)%>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Select Country<span style="color: red;">*</span></label>
+                                <select required name="countryId" class="form-control">
+                                     <option>Choose Country</option>
+                                    <%= for country <- @countries do %>
+                                        <option value="<%= country.id %>"><%= country.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                            <div class="col-sm">
+                             <label class="form-label">IsoCode<span style="color: red;">*</span></label>
+                                <input class="form-control" name="isoCode" required type="text">
+                            </div>
+                             <div class="col-sm">
+                              <label class="form-label">Currency Name<span style="color: red;">*</span></label>
+                                <input class="form-control" name="name" required type="text">
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+
+                            <div class="col-sm-4">
+                              <label class="form-label">Currency Decimal<span style="color: red;">*</span></label>
+                                <input class="form-control" id="decimal" name="currencyDecimal" placeholder="Enter Currency Name" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="edit_currency">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Currency Details</h6>
+
+            </div>
+            <form action="<%= Routes.organization_management_path(@conn, :admin_update_currency)%>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+            <input type="hidden" name="id" id="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Select Country<span style="color: red;">*</span></label>
+                                <select required name="countryId" id="country_id" class="form-control">
+                                     <option>Choose Country</option>
+                                    <%= for country <- @countries do %>
+                                        <option value="<%= country.id %>"><%= country.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                            <div class="col-sm">
+                             <label class="form-label">IsoCode<span style="color: red;">*</span></label>
+                                <input class="form-control"  id="isocode"name="isoCode" placeholder="Enter IsoCOde" type="text">
+                            </div>
+                             <div class="col-sm">
+                              <label class="form-label">Currency Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="name" name="name" placeholder="Enter Currency Name" type="text">
+                            </div>
+                        </div>
+
+                        <div class="row row-sm">
+
+                            <div class="col-sm-4">
+                              <label class="form-label">Currency Decimal<span style="color: red;">*</span></label>
+                                <input class="form-control" id="decimal" name="currencyDecimal" placeholder="Enter Currency Name" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Update</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#edit_currency').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var country = button.data('country')
+            var isoCode = button.data('isocode')
+            var decimal = button.data('decimal')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #country').val(country);
+            modal.find('.modal-body #decimal').val(decimal);
+            modal.find('.modal-body #isocode').val(isoCode);
+           $('#country_id').val(button.data('country_id')).trigger("change");
+
+
+    });
+});
+</script>

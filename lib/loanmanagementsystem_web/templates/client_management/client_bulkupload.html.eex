@@ -1,0 +1,116 @@
+<!-- Main Content-->
+<div class="main-content pt-0">
+
+    <div class="container">
+        <div class="inner-body">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h2 class="main-content-title tx-24 mg-b-5">Client Onboarding Bulk Upload</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Bulk</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Process Entries</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- End Page Header -->
+            <!-- Row -->
+            <div class="row row-sm">
+                <div class="col-lg-10" style="margin-left: auto;  margin-right: auto;">
+                    <div class="row ">
+                        <div class="col-md-12 col-lg-offset-2">
+                            <div class="form-group">
+                                <%= if get_flash(@conn, :info) do %>
+                                <div class="alert alert-warning" role="alert">
+                                    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <%= get_flash(@conn, :info) %>
+                                </div>
+                                <% end %>
+                                <%= if get_flash(@conn, :error) do %>
+                                <div class="alert alert-info" role="alert">
+                                    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <%= get_flash(@conn, :error) %>
+                                </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card overflow-hidden">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <form   action="<%= Routes.client_management_path(@conn, :handle_client_bulk_upload) %>"
+                                            method="POST" enctype="multipart/form-data">
+
+                            <div class="card custom-card wallet">
+                                <div class="card-body">
+                                    <label class="main-content-label mb-2">Client Bulk Upload</label>
+                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                                    
+                                    <div class="input-group my-4">
+                                    
+                                        <input type="file" class="form-control input-lg" name="uploafile_name"  required>
+                                    
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-block btn-success">Process</button>
+                                        </div>
+                                        <div class="col-6">        
+                                            <button type="button" onclick="history.back(-1)" class="btn btn-block btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             </form>
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-6">
+                                    <div class="card custom-card">
+                                        <div class=" card-body ">
+                                            <h5 class="mb-3"><small><i><b>Select any Spreadsheet/Text file valid file formats: csv, xls, xlsx.</b></i></small></h5>
+                                            <div class="">
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table mb-0 border-top table-bordered text-nowrap">
+                                                                <tbody>
+                                                                
+                                                                <tr>
+                                                                    <th scope="row">Download Sample</th>
+                                                                    <td><a href="<%= Routes.static_path(@conn, "/js/export_samples/Client_Bulk_Upload_file.xlsx")%>" download><i class="fa fa-download"></i> Download Sample File</a></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Row -->
+
+            <!-- row -->
+
+
+
+
+
+            <!-- Row End -->
+        </div>
+    </div>
+</div>
+<!-- End Main Content-->

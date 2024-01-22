@@ -1,0 +1,178 @@
+<%= render  "submenu.html", assigns %>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Expected Repayment</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Expected Repayment Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <button class="btn ripple"  type="button" style="background-color: #003651; color: white;" id="admin-loan-repayments-miz-filter"><i class="fe fe-filter me-2"></i>  Filter</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="dt-expected-repayment-report-miz">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                       <tr>
+                                        <th class="wd-20p">Loan Number</th>
+                                        <th class="wd-25p">Name</th>
+                                        <th class="wd-20p">Dua Date</th>
+                                        <th class="wd-20p">Principle</th>
+                                        <th class="wd-20p">Interest</th>
+                                        <th class="wd-20p">Payoff Amount</th>
+                                        <th class="wd-20p">Amount in Arrears</th>
+                                        <th class="wd-20p">Amount Paid</th>
+                                        <th class="wd-20p">Loan Officer</th>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ###################################### Product Filter ############################## -->
+
+<div class="modal" id="loan_repayments_miz_filter_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeLg" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filter Details Repayment Listing</h5>
+            <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+         </div>
+         <form >
+            <div class="modal-body">
+               <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+               <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Application Date From:</label>
+                        <div class="input-group">
+                            <input type="date" name="filter_application_date_from" id="filter_application_date_from" class="form-control" autocomplete="off">
+                        </div>
+                        <span class="form-text text-muted">Please enter application date</span>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Application Date To:</label>
+                        <div class="input-group">
+                            <input type="date" name="filter_application_date_to" id="filter_application_date_to" class="form-control" autocomplete="off">
+                        </div>
+                        <span class="form-text text-muted">Please enter application date</span>
+                    </div>
+               </div>
+               <div class="form-group row">
+                  <!--  <div class="col-lg-6">
+                        <label>NRC Number:</label>
+                        <div class="input-group">
+                            <input type="text" name="filter_nrc_number" id="filter_nrc_number" class="form-control" autocomplete="off">
+                        </div>
+                        <span class="form-text text-muted">Please enter National Regestration ID</span>
+                    </div> -->
+                    <div class="col-lg-6">
+                        <label>Loan Number:</label>
+                        <div class="input-group">
+                            <input type="number" name="filter_loan_id" id="filter_loan_id" class="form-control" autocomplete="off">
+                            <div class="input-group-append">
+                            </div>
+                        </div>
+                        <span class="form-text text-muted">Please enter Loan ID</span>
+                    </div>
+               </div>
+               <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Principle Amount:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control m-input" name="filter_requested_amount" id="filter_requested_amount">
+                        </div>
+                        <span class="form-text text-muted">Please enter Principle Amount</span>
+                    </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button"  class="btn btn-light-primary font-weight-bold btn-close" aria-label="Close"  data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  id="admin_loan_repayment_miz_filter" style="margin:2px;">filter</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<!-- ###################################### Product Filter ############################## -->
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#viewproductadmin').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #filter_loan_officer').val(button.data('product_name'));
+                modal.find('.modal-body #max_amount').val(button.data('max_amount'));
+                modal.find('.modal-body #min_amount').val(button.data('min_amount'));
+                modal.find('.modal-body #period_type').val(button.data('period_type'));
+                modal.find('.modal-body #interest').ssval(button.data('interest'));
+                modal.find('.modal-body #status').val(button.data('status'));
+
+                modal.find('.modal-body #product_code').val(button.data('product_code'));
+                modal.find('.modal-body #year').val(button.data('year'));
+                modal.find('.modal-body #details').val(button.data('details'));
+                modal.find('.modal-body #default_period').val(button.data('default_period'));
+                modal.find('.modal-body #interest_type').val(button.data('interest_type'));
+                modal.find('.modal-body #currency_name').val(button.data('currency_name'));
+                modal.find('.modal-body #interest_mode').val(button.data('interest_mode'));
+
+        });
+
+    });
+</script>
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

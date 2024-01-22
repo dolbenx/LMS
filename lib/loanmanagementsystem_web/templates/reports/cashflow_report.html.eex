@@ -1,0 +1,323 @@
+<%= render  "submenu.html", assigns %>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Cash Flow Statement </h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Cash Flow Statement Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    
+                    <button class="btn ripple"  type="button" style="background-color: #003651; color: white;"  data-bs-target="#filter-cashflow-report" data-bs-toggle="modal" ><i class="fe fe-filter me-2"></i>  Filter</button>
+                   
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row row-sm">
+        
+            <div class="col-lg-12">
+          
+                <div class="card custom-card overflow-hidden">
+                
+                    <div class="card-body">
+                      <button class="btn ripple btn-success btn-rounded mb-0" style="float: right;"   onclick="exportToCSV()"   href="#">Export to CSV</button>
+                        <div class="table-responsive">
+                            <table class="table text-nowrap text-md-nowrap table-bordered mg-b-0" >
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                     <tr>
+                                        <th class="wd-20p">Category</th>
+                                        <th class="wd-25p">Amount</th>
+                                      </tr>
+
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    
+                                    <td>Opening Balance</td>
+                                    <td> <%= Decimal.new(@cashflow.opening_balance) %> </td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>RECEIPTS</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Receipts from Clients</td>
+                                    <td><%= Decimal.new(@cashflow.receipts_from_clients) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Other Receipts</td>
+                                    <td><%= Decimal.new(@cashflow.other_receipts) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Cash receipt on closed customer A/c - over payments</td>
+                                    <td><%= Decimal.new(@cashflow.cash_receipt_on_closed_customer) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Inter Bank Transfer </td>
+                                    <td><%= Decimal.new(@cashflow.inter_bank_transfer) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Total Cash inflow </td>
+                                    <td><%= Decimal.new(@cashflow.total_cash_inflow) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>OUTFLOWS</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Operating Activities</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Net Loan disbursements</td>
+                                    <td><%= Decimal.new(@cashflow.net_loan_disbursements) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Other Direct Costs - Bank Charges</td>
+                                    <td><%= Decimal.new(@cashflow.other_direct_costs) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Customer refund - over paid accounts</td>
+                                    <td><%= Decimal.new(@cashflow.customer_refund) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Admin and Operating expenses</td>
+                                    <td><%= Decimal.new(@cashflow.operating_expenses) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>GNP fuel payment tranfers</td>
+                                    <td><%= Decimal.new(@cashflow.gnp_fuel_payment_tranfers) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Outflows from Operating Activities</td>
+                                    <td><%= Decimal.new(@cashflow.total_outflows) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Investing & Financing Activities</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Capital Expenditure</td>
+                                    <td><%= Decimal.new(@cashflow.capital_expenditure) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Inter Bank Transfers </td>
+                                    <td><%= Decimal.new(@cashflow.inter_bank_transfers) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Inter Co Loan </td>
+                                    <td><%= Decimal.new(@cashflow.inter_co_loan) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Cash Inflow(Outflows) from Financing Activities</td>
+                                    <td><%= Decimal.new(@cashflow.total_cash_outflow) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Net Cash and Cash Equivalents</td>
+                                    <td><%= Decimal.new(@cashflow.net_cash) %></td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+ 
+<script>
+        function downloadFile(content, fileName, fileType) {
+            var file = new Blob([content], { type: fileType });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(file);
+            a.download = fileName;
+            a.click();
+        }
+
+        function exportToExcel() {
+            var table = document.getElementsByTagName('table')[0];
+            var html = table.outerHTML;
+            var fileName = 'cashflow_statement.xlsx';
+            var fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            downloadFile(html, fileName, fileType);
+        }
+
+        function exportToCSV() {
+            var table = document.getElementsByTagName('table')[0];
+            var rows = table.getElementsByTagName('tr');
+            var csv = [];
+            for (var i = 0; i < rows.length; i++) {
+                var row = [];
+                var cols = rows[i].getElementsByTagName('td');
+                for (var j = 0; j < cols.length; j++) {
+                    row.push(cols[j].innerText);
+                }
+                csv.push(row.join(','));
+            }
+            var fileName = 'cashflow_statement.csv';
+            var fileType = 'text/csv;charset=utf-8';
+            downloadFile(csv.join('\n'), fileName, fileType);
+        }
+
+        function exportToPDF() {
+            var table = document.getElementsByTagName('table')[0];
+            var html = table.outerHTML;
+            var fileName = 'cashflow_statement.pdf';
+            var fileType = 'application/pdf';
+            // Replace the line below with your own logic to generate PDF from HTML
+            // and download it using the downloadFile() function
+            alert('Export to PDF is not implemented in this example. Please replace this with your own logic to generate PDF from HTML and download it using the downloadFile() function.');
+        }
+</script>
+
+
+
+<!-- ######################################  Filter ############################## -->
+<div class="modal" id="filter-cashflow-report" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeLg" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filter Details </h5>
+            <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+         </div>
+         <form >
+            <div class="modal-body">
+               <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+               <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>State Date From:</label>
+                        <div class="input-group">
+                            <input type="date" name="start_date" id="start_date" class="form-control" autocomplete="off">
+                        </div>
+                        <span class="form-text text-muted">Please enter start date</span>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>End Date To:</label>
+                        <div class="input-group">
+                            <input type="date" name="end_date" id="end_date" class="form-control" autocomplete="off">
+                        </div>
+                        <span class="form-text text-muted">Please enter end  date</span>
+                    </div>
+               </div>
+             
+            </div>
+            <div class="modal-footer">
+               <button type="button"  class="btn btn-danger font-weight-bold btn-close" aria-label="Close"  data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary"  style="margin:2px;">Filter</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<!-- ###################################### Product Filter ############################## -->
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#viewproductadmin').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #filter_loan_officer').val(button.data('product_name'));
+                modal.find('.modal-body #max_amount').val(button.data('max_amount'));
+                modal.find('.modal-body #min_amount').val(button.data('min_amount'));
+                modal.find('.modal-body #period_type').val(button.data('period_type'));
+                modal.find('.modal-body #interest').ssval(button.data('interest'));
+                modal.find('.modal-body #status').val(button.data('status'));
+
+                modal.find('.modal-body #product_code').val(button.data('product_code'));
+                modal.find('.modal-body #year').val(button.data('year'));
+                modal.find('.modal-body #details').val(button.data('details'));
+                modal.find('.modal-body #default_period').val(button.data('default_period'));
+                modal.find('.modal-body #interest_type').val(button.data('interest_type'));
+                modal.find('.modal-body #currency_name').val(button.data('currency_name'));
+                modal.find('.modal-body #interest_mode').val(button.data('interest_mode'));
+
+        });
+
+    });
+</script>
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

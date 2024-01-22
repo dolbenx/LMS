@@ -5,7 +5,7 @@ defmodule Loanmanagementsystem.Employment.Income_Details do
   schema "tbl_income_details" do
     field :gross_pay, :float
     field :net_pay, :float
-    field :pay_day, :string
+    field :pay_day, :date
     field :total_deductions, :float
     field :total_expenses, :float
     field :upload_payslip, :string
@@ -26,13 +26,13 @@ defmodule Loanmanagementsystem.Employment.Income_Details do
       :upload_payslip,
       :userId
     ])
-    |> validate_required([
-      :pay_day,
-      :gross_pay,
-      :total_deductions,
-      :net_pay,
-      # :total_expenses,
-      :userId
-    ])
+    # |> validate_required([
+    #   :pay_day,
+    #   :gross_pay,
+    #   :total_deductions,
+    #   :net_pay,
+    #   # :total_expenses,
+    #   :userId
+    # ])
   end
 end

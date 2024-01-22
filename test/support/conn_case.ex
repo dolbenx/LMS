@@ -32,7 +32,12 @@ defmodule LoanmanagementsystemWeb.ConnCase do
   end
 
   setup tags do
-    Loanmanagementsystem.DataCase.setup_sandbox(tags)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Loanmanagementsystem.Repo)
+
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(Loanmanagementsystem.Repo, {:shared, self()})
+    end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

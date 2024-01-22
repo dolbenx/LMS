@@ -2,28 +2,22 @@ defmodule Loanmanagementsystem.Loan do
   #  Loanmanagementsystem.Loan.loan_clear_paid()
   import Ecto.Query, warn: false
   alias Loanmanagementsystem.Repo
-  # alias Loanmanagementsystem.Loan.LoanCharge
-  # alias Loanmanagementsystem.Loan.Loans
-  # alias Loanmanagementsystem.Accounts.User
-  # alias Loanmanagementsystem.Loan.Loans
-  alias Loanmanagementsystem.Accounts.{User, UserBioData, UserRole, Customer_account}
-  alias Loanmanagementsystem.Loan.{LoanCharge, Loans, LoanRepayment, LoanTransaction, Loan_invoice, Loan_funder}
-  # alias Loanmanagementsystem.Loan.LoanTransaction
-  # alias Loanmanagementsystem.Loan.LoanRepayment
-  alias Loanmanagementsystem.Products.{Product, Product_rates}
-  # alias Loanmanagementsystem.Accounts.Customer_account
+  alias Loanmanagementsystem.Loan.LoanCharge
+  alias Loanmanagementsystem.Loan.Loans
+  alias Loanmanagementsystem.Accounts.User
+  alias Loanmanagementsystem.Loan.Loans
+  alias Loanmanagementsystem.Accounts.{User, UserBioData, UserRole}
+  alias Loanmanagementsystem.Loan.LoanCharge
+  alias Loanmanagementsystem.Loan.LoanTransaction
+  alias Loanmanagementsystem.Loan.LoanRepayment
+  alias Loanmanagementsystem.Products.Product
+  alias Loanmanagementsystem.Accounts.Customer_account
   alias Loanmanagementsystem.Merchants.Merchant
-  alias Loanmanagementsystem.Maintenance.{Branch, Bank}
+  alias Loanmanagementsystem.Maintenance.{Branch}
   alias Loanmanagementsystem.Companies.Company
-  # alias Loanmanagementsystem.Loan.Loan_invoice
-  alias Loanmanagementsystem.Loan.Loan_application_documents
-  alias Loanmanagementsystem.Loan.Loan_funder
-
-
-#        Loanmanagementsystem.Loan.get_loan_funder!(id) Loanmanagementsystem.Loan.get_corparate_loan_by_funder_id_2(10)
 
   @doc """
-  Returns the list of tbl_loan_charge. Loanmanagementsystem.Loan.count_loans_by_funders(84)
+  Returns the list of tbl_loan_charge.
 
   ## Examples
 
@@ -31,6 +25,142 @@ defmodule Loanmanagementsystem.Loan do
       [%LoanCharge{}, ...]
 
   """
+
+  # def last_transaction_entry(loan_id) do
+  #   Loans
+  #   |> join(:left, [la], t in "tbl_trans_log", on: t.loan_id == la.id)
+  #   |> where([la, t], la.loan_status == "DISBURSED" and t.process_status == "APPROVED" and t.loan_id == ^loan_id)
+  #   |> select([la, t], %{
+  #     id: la.id,
+  #     requested_amount: la.requested_amount,
+  #     date: la.approvedon_date,
+  #     running_balance: t.running_balance,
+  #     module: t.module
+  #   })
+  #   |> order_by([la, t], desc: t.inserted_at)
+  #   |> limit(1)
+  #   |> Repo.all()
+  # end
+
+  def last_transaction_entry(loan_id) do
+    Loans
+    |> join(:left, [la], t in "tbl_trans_log", on: t.loan_id == la.id)
+    |> where([la, t], la.loan_status == "DISBURSED" and t.process_status == "APPROVED" and t.loan_id == ^loan_id)
+    |> select([la, t], %{
+      id: la.id,
+      requested_amount: la.requested_amount,
+      date: la.approvedon_date,
+      running_balance: t.running_balance,
+      module: t.module,
+      closing_balance: t.closing_balance,
+      principle: t.principle
+    })
+    |> order_by([la, t], desc: t.inserted_at)
+    |> limit(1)
+    |> Repo.all()
+  end
+
+
+  def track_loan_listing(user_id) do
+    Loans
+    |> join(:left, [l], s in "tbl_users", on: l.customer_id == s.id)
+    |> join(:left, [l, s], uB in "tbl_user_bio_data", on: l.customer_id == uB.userId)
+    |> join(:left, [l, s, uB], p in "tbl_products", on: l.product_id == p.id)
+    |> where([l, s, uB, p], l.customer_id == ^user_id)
+    |> select(
+      [l, s, uB, p],
+      %{
+        loan_number: l.id,
+        customer: fragment("concat(?, concat(' ', ?))", uB.firstName, uB.lastName),
+        phone: uB.mobileNumber,
+        loan_amount: fragment("select ROUND(CAST( requested_amount  AS numeric), 2) from  tbl_loans where id = ? ", l.id),
+        product_name: p.name,
+        interest_rate: p.interest,
+        loan_status: l.loan_status
+      }
+    )
+    |> order_by([l, s, uB, p], desc: l.inserted_at)
+    |> Repo.all
+  end
+
+  def query_company_staff(company_id) do
+    User
+    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+    |> join(:left, [uA, uB], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    |> where([uA, uB, uR], uA.company_id == ^company_id and uR.roleType == ^"EMPLOYEE")
+    |> select(
+      [uA, uB, uR],
+      %{
+        id: uA.id,
+        status: uA.status,
+        firstname: uB.firstName,
+        lastname: uB.lastName,
+        othername: uB.otherName,
+        dateofbirth: uB.dateOfBirth,
+        idtype: uB.meansOfIdentificationType,
+        idnumber: uB.meansOfIdentificationNumber,
+        title: uB.title,
+        gender: uB.gender,
+        mobilenumber: uB.mobileNumber,
+        emailaddress: uB.emailAddress,
+        roletype: uR.roleType,
+        company: fragment("select \"companyName\"  from tbl_company where \"id\" = ?", uA.company_id),
+      }
+    )
+    |> order_by([uA, uB, uR], desc: uA.inserted_at)
+    |> Repo.all
+  end
+
+
+
+
+  def total_collection do
+    Loanmanagementsystem.Core_transaction.Journal_entries
+    |> where([t], t.drcr_ind == "C" and not is_nil(t.customer_id) and not is_nil(t.loan_id))
+    |> select([t], %{
+       amount: sum(t.lcy_amount),
+    })
+    |> Repo.one()
+  end
+
+  def total_collection_last_1month do
+    end_date = Timex.today
+    start_date = Timex.shift(end_date, days: -31)
+    Loanmanagementsystem.Core_transaction.Journal_entries
+    |> where([t], t.drcr_ind == "C" and not is_nil(t.customer_id) and not is_nil(t.loan_id))
+    |> where([t], fragment("CAST(? AS date) BETWEEN ? AND ?", t.inserted_at, ^start_date, ^end_date))
+    |> select([t], %{
+       amount: sum(t.lcy_amount),
+    })
+    |> Repo.one()
+  end
+
+  def total_collection_last_7day do
+    end_date = Timex.today
+    start_date = Timex.shift(end_date, days: -7)
+    Loanmanagementsystem.Core_transaction.Journal_entries
+    |> where([t], t.drcr_ind == "C" and not is_nil(t.customer_id) and not is_nil(t.loan_id))
+    |> where([t], fragment("CAST(? AS date) BETWEEN ? AND ?", t.inserted_at, ^start_date, ^end_date))
+    |> select([t], %{
+       amount: sum(t.lcy_amount),
+    })
+    |> Repo.one()
+  end
+
+  def total_collection_today do
+    end_date = Timex.today
+    start_date = Timex.today
+    Loanmanagementsystem.Core_transaction.Journal_entries
+    |> where([t], t.drcr_ind == "C" and not is_nil(t.customer_id) and not is_nil(t.loan_id))
+    |> where([t], fragment("CAST(? AS date) BETWEEN ? AND ?", t.inserted_at, ^start_date, ^end_date))
+    |> select([t], %{
+       amount: sum(t.lcy_amount),
+    })
+    |> Repo.one()
+  end
+
+
+
 
   # Loanmanagementsystem.Loan.get_loan_by_id!(id).customer_id
 
@@ -116,159 +246,9 @@ defmodule Loanmanagementsystem.Loan do
   end
 
 
-  # Loanmanagementsystem.Loan.invoice_details_list(5)
-
-  def invoice_details_list(loan_id) do
-    Loans
-    |> join(:left, [l], uB in UserBioData, on: l.customer_id == uB.userId)
-    |> join(:left, [l, uB], p in Product, on: l.product_id == p.id)
-    |> join(:left, [l, uB, p], pr in Product_rates, on: l.product_id == pr.product_id)
-    |> join(:left, [l, uB, p, pr], c in Company, on: l.company_id == c.id)
-    |> join(:left, [l, uB, p, pr, c], offk in Company, on: l.offtakerID == offk.id)
-    |> join(:left, [l, uB, p, pr, c, offk], b in Bank, on: c.bank_id == b.id)
-    |> join(:left, [l, uB, p, pr, c, offk, b, inv], l in Loan_invoice, on: l.id == inv.loanID)
-    |> join(:left, [l, uB, p, pr, c, offk, b, inv], lF in Loan_funder, on: l.funderID == lF.funderID)
-    |> where([l, uB, p, pr, c, offk, b, inv], l.id == ^loan_id)
-    |> select([l, uB, p, pr, c, offk, b, inv, lF], %{
-      id: l.id,
-      loan_id: l.id,
-      principal_repaid_derived: l.principal_repaid_derived,
-      number_of_repayments: l.number_of_repayments,
-      withdrawnon_date: l.withdrawnon_date,
-      currency_code: l.currency_code,
-      repay_every_type: l.repay_every_type,
-      repay_every: l.repay_every,
-      closedon_userid: l.closedon_userid,
-      product_id: l.product_id,
-      customer_id: l.customer_id,
-      interest_method: l.interest_method,
-      annual_nominal_interest_rate: l.annual_nominal_interest_rate,
-      writtenoffon_date: l.writtenoffon_date,
-      total_outstanding_derived: l.total_outstanding_derived,
-      interest_calculated_from_date: l.interest_calculated_from_date,
-      loan_counter: l.loan_counter,
-      tenor: l.tenor,
-      interest_charged_derived: l.interest_charged_derived,
-      term_frequency_type: l.term_frequency_type,
-      total_charges_due_at_disbursement_derived: l.total_charges_due_at_disbursement_derived,
-      penalty_charges_waived_derived: l.penalty_charges_waived_derived,
-      total_overpaid_derived: l.total_overpaid_derived,
-      approved_principal: l.approved_principal,
-      principal_disbursed_derived: l.principal_disbursed_derived,
-      rejectedon_userid: l.rejectedon_userid,
-      approvedon_date: l.approvedon_date,
-      loan_type: l.loan_type,
-      principal_amount: l.principal_amount,
-      disbursedon_date: l.disbursedon_date,
-      account_no: l.account_no,
-      interest_outstanding_derived: l.interest_outstanding_derived,
-      interest_writtenoff_derived: l.interest_writtenoff_derived,
-      penalty_charges_writtenoff_derived: l.penalty_charges_writtenoff_derived,
-      loan_status: l.loan_status,
-      principal_amount_proposed: l.principal_amount_proposed,
-      fee_charges_repaid_derived: l.fee_charges_repaid_derived,
-      total_expected_repayment_derived: l.total_expected_repayment_derived,
-      principal_outstanding_derived: l.principal_outstanding_derived,
-      rejectedon_date: l.rejectedon_date,
-      closedon_date: l.closedon_date,
-      monthly_installment: l.monthly_installment,
-      repayment_amount: l.repayment_amount,
-      interest_amount: l.interest_amount,
-      fee_charges_writtenoff_derived: l.fee_charges_writtenoff_derived,
-      penalty_charges_outstanding_derived: l.penalty_charges_outstanding_derived,
-      total_expected_costofloan_derived: l.total_expected_costofloan_derived,
-      penalty_charges_repaid_derived: l.penalty_charges_repaid_derived,
-      withdrawnon_userid: l.withdrawnon_userid,
-      expected_maturity_date: l.expected_maturity_date,
-      term_frequency: l.term_frequency,
-      total_repayment_derived: l.total_repayment_derived,
-      loan_identity_number: l.loan_identity_number,
-      sec_loan_status: l.status,
-      companyPhone: c.companyPhone,
-      client_company_line: c.companyPhone,
-
-      funder_type: lF.funder_type,
-
-      app_user_id: l.app_user_id,
-      mobile_money_response: l.mobile_money_response,
-      total_principal_repaid: l.total_principal_repaid,
-      total_interest_repaid: l.total_interest_repaid,
-      total_charges_repaid: l.total_charges_repaid,
-      total_penalties_repaid: l.total_penalties_repaid,
-      total_repaid: l.total_repaid,
-      momoProvider: l.momoProvider,
-      company_id: l.company_id,
-      has_mou: l.has_mou,
-      loan_userroleid: l.loan_userroleid,
-      disbursement_method: l.disbursement_method,
-      funderID: l.funderID,
-      dateOfBirth: uB.dateOfBirth,
-      emailAddress: uB.emailAddress,
-      firstName: uB.firstName,
-      gender: uB.gender,
-      lastName: uB.lastName,
-      meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-      meansOfIdentificationType: uB.meansOfIdentificationType,
-      mobileNumber: uB.mobileNumber,
-      otherName: uB.otherName,
-      title: uB.title,
-      userId: uB.userId,
-      idNo: uB.idNo,
-      clientId: p.clientId,
-      code: p.code,
-      currencyDecimals: p.currencyDecimals,
-      currencyName: p.currencyName,
-      defaultPeriod: p.defaultPeriod,
-      details: p.details,
-      interest: p.interest,
-      interestMode: p.interestMode,
-      interestType: p.interestType,
-      maximumPrincipal: p.maximumPrincipal,
-      minimumPrincipal: p.minimumPrincipal,
-      name: p.name,
-      periodType: p.periodType,
-      productType: p.productType,
-      status: p.status,
-      yearLengthInDays: p.yearLengthInDays,
-      principle_account_id: p.principle_account_id,
-      interest_account_id: p.interest_account_id,
-      charges_account_id: p.charges_account_id,
-      companyName: c.companyName,
-      contactEmail: c.contactEmail,
-
-      registrationNumber: c.registrationNumber,
-      taxno: c.taxno,
-      companyRegistrationDate: c.companyRegistrationDate,
-      companyAccountNumber: c.companyAccountNumber,
-      bank_id: c.bank_id,
-      bankName: b.bankName,
-      offtakerName: offk.companyName,
-      invoice_id: inv.id,
-      invoiceValue: inv.invoiceValue,
-      paymentTerms: inv.paymentTerms,
-      dateOfIssue: inv.dateOfIssue,
-      invoiceNo: inv.invoiceNo,
-      vendorName: inv.vendorName,
-      repayment: pr.repayment,
-      finance_cost: l.finance_cost,
-      arrangement_fee: l.arrangement_fee
 
 
-    })
-    |> Repo.one()
-  end
 
-
-  def invoice_credit_details_list(loan_id) do
-    Loans
-    |> where([l], l.id == ^loan_id)
-    |> select([l], %{
-      id: l.id,
-      offtakerID: l.offtakerID
-
-    })
-    |> Repo.all()
-  end
 
 
 
@@ -852,38 +832,8 @@ defmodule Loanmanagementsystem.Loan do
       [%Loans{}, ...]
 
   """
-  # def list_tbl_loans do
-  #   Repo.all(Loans)
-  # end
-
-  def list_tbl_loans() do
-    Loans
-    |> join(:left, [l], uB in UserRole, on: l.customer_id == uB.userId)
-    |> join(:left, [l], uC in UserBioData, on: l.customer_id == uC.userId)
-    |> where([l, uB, uC], uB.roleType == "EMPLOYER")
-    |> select(
-      [l, uB, uC],
-      %{
-        id: l.id,
-        account_no: l.account_no,
-        external_id: l.external_id,
-        customer_id: l.customer_id,
-        product_id: l.product_id,
-        loan_status: l.loan_status,
-        name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", uC.firstName, uC.lastName, uC.otherName),
-        loan_type: l.loan_type,
-        currency_code: l.currency_code,
-        principal_amount: l.principal_amount,
-        disbursedon_date: l.disbursedon_date,
-        expected_maturity_date: l.expected_maturity_date,
-        total_charges_repaid: l.total_charges_repaid,
-        inserted_at: l.inserted_at,
-        roleType: uB.roleType,
-        firstName: uC.firstName,
-        lastName: uC.lastName,
-        otherName: uC.otherName
-      })
-    |> Repo.all()
+  def list_tbl_loans do
+    Repo.all(Loans)
   end
 
   def loan_repayment_schedule(company_id) do
@@ -2497,7 +2447,8 @@ defmodule Loanmanagementsystem.Loan do
       disbursedon_date: l.disbursedon_date,
       inserted_at: l.inserted_at,
       user_role_id: uR.id,
-      total_repayment_derived: l.total_repayment_derived
+      total_repayment_derived: l.total_repayment_derived,
+      status: l.status
     })
     |> Repo.all()
   end
@@ -2542,13 +2493,13 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.all()
   end
 
-  # Loanmanagementsystem.Loan.get_loan_by_userId_individualview(3)
+  # Loanmanagementsystem.Loan.get_loan_by_userId_individualview(1269)
   def get_loan_by_userId_individualview_pending_loan(user_id) do
     Loans
     |> join(:left, [l], s in "tbl_users", on: l.customer_id == s.id)
     |> join(:left, [l, s], uB in "tbl_user_bio_data", on: l.customer_id == uB.userId)
     |> join(:left, [l, s, uB], p in "tbl_products", on: l.product_id == p.id)
-    |> where([l, s, uB, p], l.customer_id == ^user_id and l.loan_status == "PENDING_APPROVAL")
+    |> where([l, s, uB, p], l.customer_id == ^user_id)
     |> select([l, s, uB, p], %{
       id: l.id,
       customer_id: l.customer_id,
@@ -2575,6 +2526,8 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.all()
   end
 
+
+    # Loanmanagementsystem.Loan.get_loan_by_userId_individualview_reject(1269)
   def get_loan_by_userId_individualview_reject(user_id) do
     Loans
     |> join(:left, [l], s in "tbl_users", on: l.customer_id == s.id)
@@ -2639,11 +2592,14 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.all()
   end
 
-  def get_loan_by_userId_individualview_loan_tracking(user_id) do
+
+
+  def get_loan_by_userId_individual360view_loan_tracking(user_id) do
     Loans
     |> join(:left, [l], s in "tbl_users", on: l.customer_id == s.id)
     |> join(:left, [l, s], uB in "tbl_user_bio_data", on: l.customer_id == uB.userId)
     |> join(:left, [l, s, uB], p in "tbl_products", on: l.product_id == p.id)
+    |> where([l, s, uB, p], l.customer_id == ^user_id)
     |> select([l, s, uB, p], %{
       id: l.id,
       customer_id: l.customer_id,
@@ -2653,22 +2609,24 @@ defmodule Loanmanagementsystem.Loan do
       email_address: uB.emailAddress,
       loan_status: l.loan_status,
       company_id: l.company_id,
-      principal_amount: l.principal_amount,
       product_name: p.name,
       currency: p.currencyName,
-      principal_amount: l.principal_amount,
+      principal_amount: l.requested_amount,
       interest_outstanding_derived: l.interest_outstanding_derived,
       total_principal_repaid: l.total_principal_repaid,
       principal_outstanding_derived: l.principal_outstanding_derived,
       repayment_type: l.repayment_type,
       approvedon_date: l.approvedon_date,
-      closedon_date: l.closedon_date,
-      repayment_amount: l.repayment_amount,
-      balance: l.balance,
-      interest_amount: l.interest_amount
+      closedon_date: fragment("select max(date) from tbl_loan_amortization_schedule where \"customer_id\" = ? and \"loan_id\" = ?", ^user_id, l.id),
+      repayment_amount: fragment("select ROUND(CAST(sum(distinct lcy_amount) AS numeric), 2) from tbl_trans_log where loan_id = ? and loan_id IS NOT NULL and drcr_ind = 'C' and process_status = 'APPROVED' and module = 'INSTALLMENT DUE'", l.id),
+      balance: fragment("select ROUND(CAST((sum(distinct c.requested_amount) + sum(distinct a.interest)) - (sum(distinct b.lcy_amount))  AS numeric), 2) from tbl_loan_amortization_schedule a, tbl_trans_log b, tbl_loans c where a.loan_id = b.loan_id and a.loan_id = c.id and b.drcr_ind = 'C' and b.process_status = 'APPROVED' and b.module = 'INSTALLMENT DUE' and a.loan_id = ?", l.id),
+      interest_amount: fragment("select ROUND(CAST(sum(interest) AS numeric), 2) from tbl_loan_amortization_schedule where loan_id = ?", l.id),
+      payoff_amount: fragment("select ROUND(CAST(sum(interest) + ? AS numeric), 2) from tbl_loan_amortization_schedule where loan_id = ?", l.requested_amount, l.id),
+
     })
     |> Repo.all()
   end
+
 
   def get_loan_by_userId_individualloan_repayment(user_id) do
     Loans
@@ -2734,38 +2692,7 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.all()
   end
 
-  def get_loan_by_userId_for_repayment(user_id, product_id) do
-    Loans
-    |> join(:left, [l], s in "tbl_users", on: l.customer_id == s.id)
-    |> join(:left, [l, s], uB in "tbl_user_bio_data", on: l.customer_id == uB.userId)
-    |> join(:left, [l, s, uB], p in "tbl_products", on: l.product_id == p.id)
-    |> where([l, s, uB, p], l.customer_id == ^user_id and l.loan_status == "DISBURSED")
-    |> select([l, s, uB, p], %{
-      id: l.id,
-      customer_id: l.customer_id,
-      first_name: uB.firstName,
-      last_name: uB.lastName,
-      phone: uB.mobileNumber,
-      email_address: uB.emailAddress,
-      loan_status: l.loan_status,
-      company_id: l.company_id,
-      principal_amount: l.principal_amount,
-      product_name: p.name,
-      product_id: p.id,
-      currency: p.currencyName,
-      principal_amount: l.principal_amount,
-      interest_outstanding_derived: l.interest_outstanding_derived,
-      total_principal_repaid: l.total_principal_repaid,
-      principal_outstanding_derived: l.principal_outstanding_derived,
-      repayment_type: l.repayment_type,
-      approvedon_date: l.approvedon_date,
-      closedon_date: l.closedon_date,
-      repayment_amount: l.repayment_amount,
-      balance: l.balance,
-      interest_amount: l.interest_amount
-    })
-    |> Repo.all()
-  end
+
 
   # ------------------------------
   def get_quick_advanced_loan_list() do
@@ -3700,15 +3627,13 @@ defmodule Loanmanagementsystem.Loan do
   end
 
   # --------------------------------------- Loan Application lookup
-  # Loanmanagementsystem.Loan.loan_application_listing(nil, 1, 10)
   def loan_application_listing(search_params, page, size) do
     Loanmanagementsystem.Loan.Loans
     |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS,pR], uR in UserRole, on: uS.userId == uR.userId)
-    |> join(:left, [lO, uS, pR, uR], cO in Company , on: cO.id == lO.company_id)
-    # |> handle_loan_filter(search_params)
-    |> order_by([lO, uS, pR, uR,cO], desc: lO.inserted_at)
+    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
+    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
+    |> handle_loan_filter(search_params)
+    |> order_by([lO], desc: lO.inserted_at)
     |> compose_loan_application_list()
     |> Repo.paginate(page: page, page_size: size)
   end
@@ -3716,10 +3641,10 @@ defmodule Loanmanagementsystem.Loan do
   def loan_application_listing(_source, search_params) do
     Loanmanagementsystem.Loan.Loans
     |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS, pR], uR in UserRole, on: uS.userId == uR.userId)
-    # |> handle_loan_filter(search_params)
-    |> order_by([lO, uS, pR, uR,cO], desc: lO.inserted_at)
+    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
+    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
+    |> handle_loan_filter(search_params)
+    |> order_by([lO], desc: lO.inserted_at)
     |> compose_loan_application_list()
   end
 
@@ -3731,6 +3656,8 @@ defmodule Loanmanagementsystem.Loan do
     |> handle_lname_filter(search_params)
     |> handle_loan_application_type_filter(search_params)
     |> handle_requested_amount_filter(search_params)
+    |> handle_loan_number_filter(search_params)
+    |> handle_nrc_number_filter(search_params)
 
   end
 
@@ -3753,6 +3680,22 @@ defmodule Loanmanagementsystem.Loan do
 
   defp handle_lname_filter(query, %{"last_name_filter" => last_name_filter})
         when last_name_filter == "" or is_nil(last_name_filter),
+        do: query
+
+  defp handle_nrc_number_filter(query, %{"nrc_filter" => nrc_filter}) do
+    where(query, [lO, uS, pR, uR], fragment("lower(?) LIKE lower(?)", uS.meansOfIdentificationNumber, ^"%#{nrc_filter}%"))
+  end
+
+  defp handle_nrc_number_filter(query, %{"nrc_filter" => nrc_filter})
+        when nrc_filter == "" or is_nil(nrc_filter),
+        do: query
+
+  defp handle_loan_number_filter(query, %{"loan_number_filter" => loan_number_filter}) do
+    where(query, [lO, uS, pR, uR], fragment("lower(CAST(? AS TEXT)) LIKE lower(CAST(? AS TEXT))", lO.id, ^"%#{loan_number_filter}%"))
+  end
+
+  defp handle_loan_number_filter(query, %{"loan_number_filter" => loan_number_filter})
+        when loan_number_filter == "" or is_nil(loan_number_filter),
         do: query
 
   defp handle_loan_application_type_filter(query, %{"loan_type_filter" => loan_type_filter}) do
@@ -3812,7 +3755,7 @@ defmodule Loanmanagementsystem.Loan do
 
   defp compose_loan_application_list(query) do
     query
-    |> select([lO, uS, pR, uR,cO],
+    |> select([lO, uS, pR, uR],
       %{
       isStaff: uR.isStaff,
       loan_limit: uR.loan_limit,
@@ -3883,7 +3826,6 @@ defmodule Loanmanagementsystem.Loan do
       total_repayment_derived: lO.total_repayment_derived,
       loan_identity_number: lO.loan_identity_number,
       branch_id: lO.branch_id,
-      loan_status: lO.loan_status,
       status: lO.status,
       app_user_id: lO.app_user_id,
       mobile_money_response: lO.mobile_money_response,
@@ -3917,18 +3859,12 @@ defmodule Loanmanagementsystem.Loan do
       reference_no: lO.reference_no,
       requested_amount: lO.requested_amount,
 
-      arrangement_fee: lO.arrangement_fee,
-      finance_cost: lO.finance_cost,
-      monthly_installment: lO.monthly_installment,
-
-
-
       # tbl_userbiodate
       dateOfBirth: uS.dateOfBirth,
       emailAddress: uS.emailAddress,
       firstName: uS.firstName,
-      customerName: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
-      # customerName: if is_nil(lO.company_id) do fragment("SELECT firstName, lastName FROM tbl_loans AS lo INNER JOIN tbl_user_bio_data AS ub ON ? = ? ", lo.customer_id, uS.id ) else fragment("SELECT companyName FROM tbl_loans AS lo INNER JOIN tbl_company AS co ON ? = ?" lO.company_id, cO.id ) end,
+      customer_name: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
+      customerName: fragment("select distinct case when company_name is null then concat(?, concat(' ', ?)) else company_name end from tbl_loan_customer_details where reference_no = ?", uS.firstName, uS.lastName, lO.reference_no),
       gender: uS.gender,
       lastName: uS.lastName,
       meansOfIdentificationNumber: uS.meansOfIdentificationNumber,
@@ -3937,6 +3873,7 @@ defmodule Loanmanagementsystem.Loan do
       otherName: uS.otherName,
       title: uS.title,
       userId: uS.userId,
+      role_type: uR.roleType,
       idNo: uS.idNo,
       bank_id: uS.bank_id,
       personal_bank_account_number: uS.bank_account_number,
@@ -3972,8 +3909,8 @@ defmodule Loanmanagementsystem.Loan do
       reference_id: pR.reference_id,
       product_reason: pR.reason,
       productId: pR.id,
-      company_name: cO.companyName
-
+      total_repaid: fragment("select ROUND(CAST(sum(lcy_amount) AS numeric)) from tbl_trans_log where loan_id = ? and process_status = 'APPROVED' and loan_id IS NOT NULL and module != 'DISBURSEMENT'", lO.id),
+      payoff_amount: fragment("select ROUND(sum(interest) + ?) from tbl_loan_amortization_schedule where loan_id = ?", lO.requested_amount, lO.id),
 
       }
     )
@@ -4226,54 +4163,45 @@ defmodule Loanmanagementsystem.Loan do
 
   # --------------------------------------------------------------------------
 
-  def invoice_discounting_list(_search_params, page, size) do
+  def invoice_discounting_list(search_params, page, size) do
     Loans
     |> join(:left, [p], lp in "tbl_products", on: p.product_id == lp.id)
-    |> join(:left, [p, lp], c in "tbl_company", on: p.company_id == c.id)
-    |> join(:left, [p, lp], bio in "tbl_user_bio_data", on: p.customer_id == bio.userId)
     # |> handle_product_filter(search_params)
-    |> where([p, lp, c, bio], p.loan_type == "INVOICE DISCOUNTING")
+    |> where([p, lp], p.loan_type == "Invoice Discounting")
     |> order_by([p], desc: p.inserted_at)
     |> compose_loan_list()
     |> Repo.paginate(page: page, page_size: size)
   end
 
-  def invoice_discounting_list(_source, _search_params) do
+  def invoice_discounting_list(_source, search_params) do
     Loans
     |> join(:left, [p], lp in "tbl_products", on: p.product_id == lp.id)
-    |> join(:left, [p, lp], c in "tbl_company", on: p.company_id == c.id)
-    |> join(:left, [p, lp], bio in "tbl_user_bio_data", on: p.customer_id == bio.userId)
     # |> handle_product_filter(search_params)
-    |> where([p, lp, c, bio], p.loan_type == "INVOICE DISCOUNTING")
+    |> where([p, lp], p.loan_type == "Invoice Discounting")
     |> order_by([p], desc: p.inserted_at)
     |> compose_loan_list()
   end
 
   # ----------------------------------------------------------------------------
-  # Loanmanagementsystem.Loan.loan_approval_and_disbursement_list(nil, 1, 10)
-  def loan_approval_and_disbursement_list(_search_params, page, size) do
+  def loan_approval_and_disbursement_list(search_params, page, size) do
     Loans
     |> join(:left, [p], lp in "tbl_products", on: p.product_id == lp.id)
-    |> join(:left, [p, lp], c in "tbl_company", on: p.company_id == c.id)
-    |> join(:left, [p, lp], bio in "tbl_user_bio_data", on: p.customer_id == bio.userId)
     # |> handle_product_filter(search_params)
     |> order_by([p], desc: p.inserted_at)
     |> compose_loan_list()
     |> Repo.paginate(page: page, page_size: size)
   end
 
-  def loan_approval_and_disbursement_list(_source, _search_params) do
+  def loan_approval_and_disbursement_list(_source, search_params) do
     Loans
     |> join(:left, [p], lp in "tbl_products", on: p.product_id == lp.id)
-    |> join(:left, [p, lp], c in "tbl_company", on: p.company_id == c.id)
-    |> join(:left, [p, lp], bio in "tbl_user_bio_data", on: p.customer_id == bio.userId)
     # |> handle_product_filter(search_params)
     |> order_by([p], desc: p.inserted_at)
     |> compose_loan_list()
   end
 
   # ----------------------------------------------------------------------
-  def loan_portifolio_list(_search_params, page, size) do
+  def loan_portifolio_list(search_params, page, size) do
     Loans
     |> where([p], p.loan_status == "DISBURSED")
     |> group_by([p], [p.product_id, p.approvedon_date] )
@@ -4281,7 +4209,7 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.paginate(page: page, page_size: size)
   end
 
-  def loan_portifolio_list(_source, _search_params) do
+  def loan_portifolio_list(_source, search_params) do
     Loans
     |> where([p], p.loan_status == "DISBURSED")
     |> group_by([p], [p.product_id, p.approvedon_date] )
@@ -4292,7 +4220,7 @@ defmodule Loanmanagementsystem.Loan do
   # -----------------------------------------------------------------------
   alias Loanmanagementsystem.Loan.LoanRepayment
 
-  def loan_repayment_list(_search_params, page, size) do
+  def loan_repayment_list(search_params, page, size) do
     LoanRepayment
     # |> handle_product_filter(search_params)
     |> order_by([p], desc: p.inserted_at)
@@ -4333,16 +4261,14 @@ defmodule Loanmanagementsystem.Loan do
   defp compose_loan_list(query) do
     query
     |> select(
-      [p, lp, c, bio],
+      [p, lp],
       %{
         id: p.id,
         customer_id: p.customer_id,
-        userId: p.customer_id,
         product_id: p.product_id,
         loan_status: p.loan_status,
         company_id: p.company_id,
         product_name: lp.name,
-        reference_id: lp.reference_id,
         principal_amount: p.principal_amount,
         principal_amount: p.principal_amount,
         interest_outstanding_derived: p.interest_outstanding_derived,
@@ -4353,14 +4279,7 @@ defmodule Loanmanagementsystem.Loan do
         closedon_date: p.closedon_date,
         repayment_amount: p.repayment_amount,
         balance: p.balance,
-        interest_amount: p.interest_amount,
-        company_name: c.companyName,
-        customerName: fragment("concat(?, concat(' ', ?))", bio.firstName, bio.lastName),
-        reference_no: p.reference_no,
-        disbursedon_date: p.disbursedon_date,
-        principal_disbursed_derived: p.principal_disbursed_derived,
-        arrangement_fee: p.arrangement_fee,
-        finance_cost: p.finance_cost,
+        interest_amount: p.interest_amount
       }
     )
   end
@@ -4739,16 +4658,10 @@ defmodule Loanmanagementsystem.Loan do
 
   defp compose_employee_loans_list(query, companyId, status) do
     query
-    # |> where([a], a.studentInfosStatus == "Student")
-
     |> join(:left, [l], uB in UserBioData, on: l.customer_id == uB.userId)
     |> join(:left, [l], p in Product, on: l.product_id == p.id)
-    |> join(:left, [l, uB, p], cA in Loanmanagementsystem.Accounts.Customer_account,
-      on: l.customer_id == cA.user_id
-    )
-    |> join(:left, [l, uB, p, cA], comp in Loanmanagementsystem.Companies.Company,
-      on: l.company_id == comp.id
-    )
+    |> join(:left, [l, uB, p], cA in Loanmanagementsystem.Accounts.Customer_account, on: l.customer_id == cA.user_id)
+    |> join(:left, [l, uB, p, cA], comp in Loanmanagementsystem.Companies.Company, on: l.company_id == comp.id)
     |> where([l, uB, p, cA, comp], l.company_id == ^companyId and l.loan_status == ^status)
     |> select([l, uB, p, cA, comp], %{
       id: l.id,
@@ -4757,7 +4670,7 @@ defmodule Loanmanagementsystem.Loan do
       loan_account_no: cA.account_number,
       customer_principal_amount: fragment("concat(?, concat(' ', ?))", l.currency_code, l.principal_amount),
       customer_names: fragment("concat(?, concat(' ', ?))", uB.firstName, uB.lastName),
-      customer_identification_number: fragment("concat(?, concat(' - ', ?))", uB.meansOfIdentificationType, uB.meansOfIdentificationNumber),
+      customer_identification_number: fragment( "concat(?, concat(' - ', ?))", uB.meansOfIdentificationType, uB.meansOfIdentificationNumber),
       principal_repaid_derived: l.principal_repaid_derived,
       number_of_repayments: l.number_of_repayments,
       withdrawnon_date: l.withdrawnon_date,
@@ -4783,7 +4696,6 @@ defmodule Loanmanagementsystem.Loan do
       total_charges_due_at_disbursement_derived: l.total_charges_due_at_disbursement_derived,
       penalty_charges_waived_derived: l.penalty_charges_waived_derived,
       total_overpaid_derived: l.total_overpaid_derived,
-      interest_amount: l.interest_amount,
       approved_principal: l.approved_principal,
       principal_disbursed_derived: l.principal_disbursed_derived,
       rejectedon_userid: l.rejectedon_userid,
@@ -4823,7 +4735,6 @@ defmodule Loanmanagementsystem.Loan do
       total_repayment_derived: l.total_repayment_derived,
       loan_identity_number: l.loan_identity_number,
       branch_id: l.branch_id,
-      balance: l.balance,
       status: l.status,
       app_user_id: l.app_user_id,
       mobile_money_response: l.mobile_money_response,
@@ -4875,9 +4786,163 @@ defmodule Loanmanagementsystem.Loan do
       principle_account_id: p.principle_account_id,
       interest_account_id: p.interest_account_id,
       charges_account_id: p.charges_account_id,
-      classification_id: p.classification_id
+      classification_id: p.classification_id,
+      balance: l.balance
     })
   end
+
+
+    # Loanmanagementsystem.Loan.employer_employee_all_transaction_loans_list(nil, 1, 10, 6)
+
+    def employer_employee_all_transaction_loans_list(search_params, page, size, companyId) do
+      Loans
+      # |> handle_customer_loans_filter(search_params)
+      |> order_by([l, uB, p], desc: l.inserted_at)
+      |> compose_employee_transaction_loans_list(companyId)
+      |> Repo.paginate(page: page, page_size: size)
+    end
+
+    def employer_employee_all_transaction_loans_list(_source, search_params, companyId) do
+      Loans
+      # |> handle_customer_loans_filter(search_params)
+      |> order_by([l, uB, p], desc: l.inserted_at)
+      |> compose_employee_transaction_loans_list(companyId)
+    end
+
+    defp compose_employee_transaction_loans_list(query, companyId) do
+      query
+      |> join(:left, [l], uB in UserBioData, on: l.customer_id == uB.userId)
+      |> join(:left, [l], p in Product, on: l.product_id == p.id)
+      |> join(:left, [l, uB, p], cA in Loanmanagementsystem.Accounts.Customer_account, on: l.customer_id == cA.user_id)
+      |> join(:left, [l, uB, p, cA], comp in Loanmanagementsystem.Companies.Company, on: l.company_id == comp.id)
+      |> where([l, uB, p, cA, comp], l.company_id == ^companyId )
+      |> select([l, uB, p, cA, comp], %{
+        id: l.id,
+        company_name: comp.companyName,
+        loan_id: l.id,
+        loan_account_no: cA.account_number,
+        customer_principal_amount: fragment("concat(?, concat(' ', ?))", l.currency_code, l.principal_amount),
+        customer_names: fragment("concat(?, concat(' ', ?))", uB.firstName, uB.lastName),
+        customer_identification_number: fragment( "concat(?, concat(' - ', ?))", uB.meansOfIdentificationType, uB.meansOfIdentificationNumber),
+        principal_repaid_derived: l.principal_repaid_derived,
+        number_of_repayments: l.number_of_repayments,
+        withdrawnon_date: l.withdrawnon_date,
+        currency_code: l.currency_code,
+        is_npa: l.is_npa,
+        repay_every_type: l.repay_every_type,
+        principal_writtenoff_derived: l.principal_writtenoff_derived,
+        disbursedon_userid: l.disbursedon_userid,
+        approvedon_userid: l.approvedon_userid,
+        total_writtenoff_derived: l.total_writtenoff_derived,
+        repay_every: l.repay_every,
+        closedon_userid: l.closedon_userid,
+        product_id: l.product_id,
+        customer_id: l.customer_id,
+        interest_method: l.interest_method,
+        annual_nominal_interest_rate: l.annual_nominal_interest_rate,
+        writtenoffon_date: l.writtenoffon_date,
+        total_outstanding_derived: l.total_outstanding_derived,
+        interest_calculated_from_date: l.interest_calculated_from_date,
+        loan_counter: l.loan_counter,
+        interest_charged_derived: l.interest_charged_derived,
+        term_frequency_type: l.term_frequency_type,
+        total_charges_due_at_disbursement_derived: l.total_charges_due_at_disbursement_derived,
+        penalty_charges_waived_derived: l.penalty_charges_waived_derived,
+        total_overpaid_derived: l.total_overpaid_derived,
+        approved_principal: l.approved_principal,
+        principal_disbursed_derived: l.principal_disbursed_derived,
+        rejectedon_userid: l.rejectedon_userid,
+        approvedon_date: l.approvedon_date,
+        loan_type: l.loan_type,
+        principal_amount: l.principal_amount,
+        disbursedon_date: l.disbursedon_date,
+        account_no: l.account_no,
+        interest_outstanding_derived: l.interest_outstanding_derived,
+        interest_writtenoff_derived: l.interest_writtenoff_derived,
+        penalty_charges_writtenoff_derived: l.penalty_charges_writtenoff_derived,
+        loan_status: l.loan_status,
+        fee_charges_charged_derived: l.fee_charges_charged_derived,
+        fee_charges_waived_derived: l.fee_charges_waived_derived,
+        interest_waived_derived: l.interest_waived_derived,
+        total_costofloan_derived: l.total_costofloan_derived,
+        principal_amount_proposed: l.principal_amount_proposed,
+        fee_charges_repaid_derived: l.fee_charges_repaid_derived,
+        total_expected_repayment_derived: l.total_expected_repayment_derived,
+        principal_outstanding_derived: l.principal_outstanding_derived,
+        penalty_charges_charged_derived: l.penalty_charges_charged_derived,
+        is_legacyloan: l.is_legacyloan,
+        total_waived_derived: l.total_waived_derived,
+        interest_repaid_derived: l.interest_repaid_derived,
+        rejectedon_date: l.rejectedon_date,
+        fee_charges_outstanding_derived: l.fee_charges_outstanding_derived,
+        expected_disbursedon_date: l.expected_disbursedon_date,
+        closedon_date: l.closedon_date,
+        fee_charges_writtenoff_derived: l.fee_charges_writtenoff_derived,
+        penalty_charges_outstanding_derived: l.penalty_charges_outstanding_derived,
+        total_expected_costofloan_derived: l.total_expected_costofloan_derived,
+        penalty_charges_repaid_derived: l.penalty_charges_repaid_derived,
+        withdrawnon_userid: l.withdrawnon_userid,
+        expected_maturity_date: l.expected_maturity_date,
+        external_id: l.external_id,
+        term_frequency: l.term_frequency,
+        total_repayment_derived: l.total_repayment_derived,
+        loan_identity_number: l.loan_identity_number,
+        branch_id: l.branch_id,
+        status: l.status,
+        app_user_id: l.app_user_id,
+        mobile_money_response: l.mobile_money_response,
+        total_principal_repaid: l.total_principal_repaid,
+        total_interest_repaid: l.total_interest_repaid,
+        total_charges_repaid: l.total_charges_repaid,
+        total_penalties_repaid: l.total_penalties_repaid,
+        total_repaid: l.total_repaid,
+        momoProvider: l.momoProvider,
+        company_id: l.company_id,
+        loan_userroleid: l.loan_userroleid,
+        disbursement_method: l.disbursement_method,
+        bank_name: l.bank_name,
+        bank_account_no: l.bank_account_no,
+        account_name: l.account_name,
+        bevura_wallet_no: l.bevura_wallet_no,
+        receipient_number: l.receipient_number,
+        reference_no: l.reference_no,
+        applied_date: l.inserted_at,
+        dateOfBirth: uB.dateOfBirth,
+        emailAddress: uB.emailAddress,
+        firstName: uB.firstName,
+        gender: uB.gender,
+        lastName: uB.lastName,
+        meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
+        meansOfIdentificationType: uB.meansOfIdentificationType,
+        mobileNumber: uB.mobileNumber,
+        otherName: uB.otherName,
+        title: uB.title,
+        userId: uB.userId,
+        idNo: uB.idNo,
+        clientId: p.clientId,
+        product_code: p.code,
+        currencyDecimals: p.currencyDecimals,
+        currencyId: p.currencyId,
+        currencyName: p.currencyName,
+        defaultPeriod: p.defaultPeriod,
+        details: p.details,
+        interest: p.interest,
+        interestMode: p.interestMode,
+        interestType: p.interestType,
+        maximumPrincipal: p.maximumPrincipal,
+        minimumPrincipal: p.minimumPrincipal,
+        product_name: p.name,
+        periodType: p.periodType,
+        productType: p.productType,
+        status: p.status,
+        yearLengthInDays: p.yearLengthInDays,
+        principle_account_id: p.principle_account_id,
+        interest_account_id: p.interest_account_id,
+        charges_account_id: p.charges_account_id,
+        classification_id: p.classification_id,
+        balance: l.balance
+      })
+    end
 
   def all_employer_employee_loans_list(search_params, page, size, companyId) do
     Loans
@@ -5123,7 +5188,8 @@ defmodule Loanmanagementsystem.Loan do
       principle_account_id: p.principle_account_id,
       interest_account_id: p.interest_account_id,
       charges_account_id: p.charges_account_id,
-      classification_id: p.classification_id
+      classification_id: p.classification_id,
+      balance: l.balance
     })
   end
 
@@ -5344,7 +5410,7 @@ defmodule Loanmanagementsystem.Loan do
     datetime = DateTime.utc_now()
     Loans
     |> where(
-      [l], l.loan_status == "Disbursed"
+      [l], l.status == "DISBURSED"
     )
     |> select([l], %{
       principal_amount: sum(l.principal_amount)
@@ -5352,12 +5418,45 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.one()
   end
 
+  def count_rejected_loans_last_6month() do
+    end_date = Timex.today
+    start_date = Timex.shift(end_date, days: -180)
+    Loans
+    |> where(
+      [l], l.status == "REJECTED"
+    )
+    |> where(
+      [l],  fragment("CAST(? AS date) BETWEEN ? AND ?", l.inserted_at, ^start_date, ^end_date)
+    )
+    |> select([l], %{
+      rejected_count: count(l.id)
+    })
+    |> Repo.one()
+  end
+
+  def count_disbursed_loans_last_6month() do
+    end_date = Timex.today
+    start_date = Timex.shift(end_date, days: -180)
+    Loans
+    |> where(
+      [l], l.status == "DISBURSED"
+    )
+    |> where(
+      [l],  fragment("CAST(? AS date) BETWEEN ? AND ?", l.inserted_at, ^start_date, ^end_date)
+    )
+    |> select([l], %{
+      disbursed_count: count(l.id)
+    })
+    |> Repo.one()
+  end
+
+
 
   def count_pending_loans() do
     datetime = DateTime.utc_now()
     Loans
     |> where(
-      [l], l.loan_status == "PENDING"
+      [l], l.status == "PENDING"
     )
     |> select([l], %{
       principal_amount: sum(l.principal_amount)
@@ -5368,9 +5467,7 @@ defmodule Loanmanagementsystem.Loan do
 
   # ---------------------------------loan apraisal end---------------------------------------------------------------------
 
-
-
-  alias Loanmanagementsystem.Loan.Loans
+  alias Loanmanagementsystem.Loan.Loan_application_documents
 
   @doc """
   Returns the list of tbl_loan_application_documents.
@@ -5452,30 +5549,6 @@ defmodule Loanmanagementsystem.Loan do
   def delete_loan_application_documents(%Loan_application_documents{} = loan_application_documents) do
     Repo.delete(loan_application_documents)
   end
-
-  # Loanmanagementsystem.Loan.get_invoice_docs(12)
-
-  def get_invoice_docs(loan_id) do
-    Loans
-    |> join(:left, [uS, idvdoc], idvdoc in Loan_application_documents, on: uS.id == idvdoc.loan_id)
-    |> where([uS, idvdoc], uS.id == ^loan_id)
-    |> select([uS, idvdoc], %{
-      id: idvdoc.id,
-      docName: idvdoc.doc_name,
-      docPath: idvdoc.path,
-      docStatus: idvdoc.status,
-      docType: idvdoc.doc_type,
-      fileName: idvdoc.fileName,
-      customer_id: idvdoc.customer_id,
-      loan_id: idvdoc.loan_id,
-
-    })
-    |> Repo.all()
-  end
-
-
-
-
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking loan_application_documents changes.
@@ -7484,15 +7557,14 @@ defmodule Loanmanagementsystem.Loan do
 
   def list_loan_customer_details(user_id, ref_no) do
     Loan_customer_details
-    |> join(:left, [c], uB in UserBioData, on: c.customer_id == uB.userId)
-    |> where([c, uB], c.customer_id == ^user_id and c.reference_no == ^ref_no)
-    |> select([c, uB], %{
+    |> where([c], c.customer_id == ^user_id and c.reference_no == ^ref_no)
+    |> select([c], %{
       cell_number: c.cell_number,
       customer_id: c.customer_id,
       dob: c.dob,
       email: c.email,
       firstname: c.firstname,
-      gender: uB.gender,
+      gender: c.gender,
       id_number: c.id_number,
       id_type: c.id_type,
       landmark: c.landmark,
@@ -7509,7 +7581,6 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.one()
   end
 
-  alias Loanmanagementsystem.Loan.Loan_Colletral_Documents
   alias Loanmanagementsystem.Accounts.Nextofkin
 
   def list_loan_customer_nextofkin_details(user_id, ref_no) do
@@ -7534,7 +7605,7 @@ defmodule Loanmanagementsystem.Loan do
     |> limit(1)
     |> Repo.one()
   end
-
+  # Loanmanagementsystem.Loan.list_customer_nextofkin_details(1269)
   def list_customer_nextofkin_details(user_id) do
     Nextofkin
     |> where([n], n.userID == ^user_id)
@@ -7573,17 +7644,10 @@ defmodule Loanmanagementsystem.Loan do
   end
 
 
-  def list_customer_loan_details(loan_id, ref_no) do
+  def list_customer_loan_details(user_id, ref_no) do
     Loans
-    |> join(:left, [l], c in Company, on: l.company_id == c.id)
-    |> join(:left, [l, c], b in Bank, on: c.bank_id == b.id)
-    |> join(:left, [l, c, b], pr in Product_rates, on: l.product_id == pr.product_id)
-    |> join(:left, [l, c, b, pr], offk in Company, on: l.offtakerID == offk.id)
-    |> join(:left, [l, c, b, pr, offk], inv in Loan_invoice, on: l.id == inv.loanID)
-    |> join(:left, [l, c, b, pr, offk], idvdoc in Loan_application_documents, on: l.id == idvdoc.loan_id)
-
-    |> where([l], l.id == ^loan_id and l.reference_no == ^ref_no)
-    |> select([l, c, b, pr, offk, inv, idvdoc], %{
+    |> where([l], l.customer_id == ^user_id and l.reference_no == ^ref_no)
+    |> select([l], %{
       requested_amount: l.requested_amount,
       loan_duration_month: l.loan_duration_month,
       monthly_installment: l.monthly_installment,
@@ -7594,101 +7658,10 @@ defmodule Loanmanagementsystem.Loan do
       reject_reason: l.reason,
       term_frequency_type: l.term_frequency_type,
       reason: l.reason,
-      reference_no: l.reference_no,
-
-      principal_repaid_derived: l.principal_repaid_derived,
-      number_of_repayments: l.number_of_repayments,
-      withdrawnon_date: l.withdrawnon_date,
-      currency_code: l.currency_code,
-      repay_every_type: l.repay_every_type,
-      repay_every: l.repay_every,
-      closedon_userid: l.closedon_userid,
-      product_id: l.product_id,
       customer_id: l.customer_id,
-      interest_method: l.interest_method,
-      annual_nominal_interest_rate: l.annual_nominal_interest_rate,
-      writtenoffon_date: l.writtenoffon_date,
-      total_outstanding_derived: l.total_outstanding_derived,
-      interest_calculated_from_date: l.interest_calculated_from_date,
-      loan_counter: l.loan_counter,
-      tenor: l.tenor,
-      interest_charged_derived: l.interest_charged_derived,
-      term_frequency_type: l.term_frequency_type,
-      total_charges_due_at_disbursement_derived: l.total_charges_due_at_disbursement_derived,
-      penalty_charges_waived_derived: l.penalty_charges_waived_derived,
-      total_overpaid_derived: l.total_overpaid_derived,
-      approved_principal: l.approved_principal,
-      principal_disbursed_derived: l.principal_disbursed_derived,
-      rejectedon_userid: l.rejectedon_userid,
-      approvedon_date: l.approvedon_date,
-      loan_type: l.loan_type,
-      principal_amount: l.principal_amount,
-      disbursedon_date: l.disbursedon_date,
-      account_no: l.account_no,
-      interest_outstanding_derived: l.interest_outstanding_derived,
-      interest_writtenoff_derived: l.interest_writtenoff_derived,
-      penalty_charges_writtenoff_derived: l.penalty_charges_writtenoff_derived,
-      loan_status: l.loan_status,
-      principal_amount_proposed: l.principal_amount_proposed,
-      fee_charges_repaid_derived: l.fee_charges_repaid_derived,
-      total_expected_repayment_derived: l.total_expected_repayment_derived,
-      principal_outstanding_derived: l.principal_outstanding_derived,
-      rejectedon_date: l.rejectedon_date,
-      closedon_date: l.closedon_date,
-      monthly_installment: l.monthly_installment,
-      repayment_amount: l.repayment_amount,
-      interest_amount: l.interest_amount,
-      fee_charges_writtenoff_derived: l.fee_charges_writtenoff_derived,
-      penalty_charges_outstanding_derived: l.penalty_charges_outstanding_derived,
-      total_expected_costofloan_derived: l.total_expected_costofloan_derived,
-      penalty_charges_repaid_derived: l.penalty_charges_repaid_derived,
-      withdrawnon_userid: l.withdrawnon_userid,
-      expected_maturity_date: l.expected_maturity_date,
-      term_frequency: l.term_frequency,
-      total_repayment_derived: l.total_repayment_derived,
-      loan_identity_number: l.loan_identity_number,
-      status: l.status,
-      app_user_id: l.app_user_id,
-      mobile_money_response: l.mobile_money_response,
-      total_principal_repaid: l.total_principal_repaid,
-      total_interest_repaid: l.total_interest_repaid,
-      total_charges_repaid: l.total_charges_repaid,
-      total_penalties_repaid: l.total_penalties_repaid,
-      total_repaid: l.total_repaid,
-      momoProvider: l.momoProvider,
-      company_id: l.company_id,
-      has_mou: l.has_mou,
-      loan_userroleid: l.loan_userroleid,
-      disbursement_method: l.disbursement_method,
-      funderID: l.funderID,
-
-      companyName: c.companyName,
-      contactEmail: c.contactEmail,
-      companyPhone: c.companyPhone,
-      registrationNumber: c.registrationNumber,
-      taxno: c.taxno,
-      companyRegistrationDate: c.companyRegistrationDate,
-      companyAccountNumber: c.companyAccountNumber,
-      bank_id: c.bank_id,
-      bankName: b.bankName,
-      repayment: pr.repayment,
-      offtakerName: offk.companyName,
-
-      invoice_id: inv.id,
-      invoiceValue: inv.invoiceValue,
-      paymentTerms: inv.paymentTerms,
-      dateOfIssue: inv.dateOfIssue,
-      invoiceNo: inv.invoiceNo,
-      vendorName: inv.vendorName,
-
-      doc_id: idvdoc.id,
-      loan_id: idvdoc.loan_id,
-      docName: idvdoc.doc_name,
-      docPath: idvdoc.path,
-      docStatus: idvdoc.status,
-      docType: idvdoc.doc_type,
-      fileName: idvdoc.fileName
-
+      reference_no: l.reference_no,
+      legal_collateral_comment: l.legal_collateral_comment,
+      credit_mgt_committe_comment: l.credit_mgt_committe_comment,
 
     })
     |> limit(1)
@@ -7697,19 +7670,13 @@ defmodule Loanmanagementsystem.Loan do
 
   def list_loan_collateral_details(user_id, ref_no) do
     Loan_applicant_collateral
-    |> join(:left, [c], cD in Loan_Colletral_Documents, on: c.customer_id == cD.userID)
-    |> where([c, cD], c.customer_id == ^user_id and c.reference_no == ^ref_no and c.serialNo == cD.serialNo)
-    |> select([c, cD], %{
+    |> where([c], c.customer_id == ^user_id and c.reference_no == ^ref_no)
+    |> select([c], %{
       asset_value: c.asset_value,
       color: c.color,
       id_number: c.id_number,
       name_of_collateral: c.name_of_collateral,
-      id: c.id,
-      path: cD.path,
-      name: cD.name,
-      docID: cD.id,
-      docType: cD.docType,
-      serialNo: c.serialNo
+      id: c.id
 
     })
     |> Repo.all()
@@ -7732,6 +7699,269 @@ defmodule Loanmanagementsystem.Loan do
     |> limit(1)
     |> Repo.one()
   end
+
+  def list_loan_5cs_analysis_details(user_id, ref_no) do
+    Loanmanagementsystem.Loan.Loan_5cs
+    |> where([c], c.customer_id == ^user_id and c.reference_no == ^ref_no)
+    |> select([c], %{
+      customer_id: c.customer_id,
+      reference_no: c.reference_no,
+      capacity: c.capacity,
+      capital: c.capital,
+      character: c.character,
+      collateral: c.collateral,
+      condition: c.condition,
+      id: c.id
+
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+  def list_loan_checklist_details_validation(userId, reference_no) do
+    try do list_loan_checklist_details(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      gross_monthly_income: "",
+      prood_of_resident: "",
+      home_visit_done: "",
+      latest_pacra_print_out: "",
+      desired_term: "",
+      company_bank_statement: "",
+      bank_name: "",
+      trading_license: "",
+      id_no: "",
+      collateral_pictures: "",
+      employer_name: "",
+      loan_amount_checklist: "",
+      telephone: "",
+      contract_agreements: "",
+      correct_account_number: "",
+      payslip_3months_verified: "",
+      latest_audited_financial_statement: "",
+      call_memo: "",
+      marital_status: "",
+      loan_id: "",
+      citizenship_status: "",
+      employment_status: "",
+      has_running_loan: "",
+      loan_purpose_checklist: "",
+      completed_application_form: "",
+      preferred_loan_repayment_method: "",
+      certificate_of_incorporation: "",
+      passport_size_photo: "",
+      passport_size_photo_from_director: "",
+      rent_payment: "",
+      sales_record: "",
+      board_allow_company_to_borrow: "",
+      employer_letter: "",
+      crb: "",
+      loan_verified: "",
+      bank_standing_payment_order: "",
+      email_address: "",
+      social_security_no: "",
+      insurance_for_motor_vehicle: "",
+      bank_statement: "",
+      id: "",
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+
+  def list_client_income_statement_validation(userId, reference_no) do
+    try do list_client_income_statement_details(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      business_type: "",
+      jan: "",
+      jan_bank_stat: 0.00,
+      jan_mobile_stat: 0.00,
+      jan_total: 0.00,
+      dec: "",
+      dec_bank_stat: 0.00,
+      dec_mobile_stat: 0.00,
+      dec_total: 0.00,
+      nov: "",
+      nov_bank_stat: 0.00,
+      nov_mobile_stat: 0.00,
+      nov_total: 0.00,
+      average_income: 0.00,
+      dstv: 0.00,
+      food: 0.00,
+      school: 0.00,
+      utilities: 0.00,
+      loan_installment: 0.00,
+      salaries: 0.00,
+      stationery: 0.00,
+      transport: 0.00,
+      total_expenses: 0.00,
+      available_income: 0.00,
+      loan_installment_total: 0.00,
+      dsr: 0.00,
+      id: "",
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+
+  def list_client_income_statement_details(user_id, ref_no) do
+    Loanmanagementsystem.Loan.Loan_income_assessment
+    |> where([c], c.customer_id == ^user_id and c.reference_no == ^ref_no)
+    |> select([c], %{
+      customer_id: c.customer_id,
+      reference_no: c.reference_no,
+      business_type: c.business_type,
+      jan: c.jan,
+      jan_bank_stat: c.jan_bank_stat,
+      jan_mobile_stat: c.jan_mobile_stat,
+      jan_total: c.jan_total,
+      dec: c.dec,
+      dec_bank_stat: c.dec_bank_stat,
+      dec_mobile_stat: c.dec_mobile_stat,
+      dec_total: c.dec_total,
+      nov: c.nov,
+      nov_bank_stat: c.nov_bank_stat,
+      nov_mobile_stat: c.nov_mobile_stat,
+      nov_total: c.nov_total,
+      average_income: c.average_income,
+      dstv: c.dstv,
+      food: c.food,
+      school: c.school,
+      utilities: c.utilities,
+      loan_installment: c.loan_installment,
+      salaries: c.salaries,
+      stationery: c.stationery,
+      transport: c.transport,
+      total_expenses: c.total_expenses,
+      available_income: c.available_income,
+      loan_installment_total: c.loan_installment_total,
+      dsr: c.dsr,
+      id: c.id,
+
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+  def list_loan_checklist_details(user_id, ref_no) do
+    Loanmanagementsystem.Loan.Loan_checklist
+    |> where([c], c.customer_id == ^user_id and c.reference_no == ^ref_no)
+    |> select([c], %{
+      customer_id: c.customer_id,
+      reference_no: c.reference_no,
+      gross_monthly_income: c.gross_monthly_income,
+      prood_of_resident: c.prood_of_resident,
+      home_visit_done: c.home_visit_done,
+      latest_pacra_print_out: c.latest_pacra_print_out,
+      desired_term: c.desired_term,
+      company_bank_statement: c.company_bank_statement,
+      bank_name: c.bank_name,
+      trading_license: c.trading_license,
+      id_no: c.id_no,
+      collateral_pictures: c.collateral_pictures,
+      employer_name: c.employer_name,
+      loan_amount_checklist: c.loan_amount_checklist,
+      telephone: c.telephone,
+      contract_agreements: c.contract_agreements,
+      correct_account_number: c.correct_account_number,
+      payslip_3months_verified: c.payslip_3months_verified,
+      latest_audited_financial_statement: c.latest_audited_financial_statement,
+      call_memo: c.call_memo,
+      marital_status: c.marital_status,
+      loan_id: c.loan_id,
+      citizenship_status: c.citizenship_status,
+      employment_status: c.employment_status,
+      has_running_loan: c.has_running_loan,
+      loan_purpose_checklist: c.loan_purpose_checklist,
+      completed_application_form: c.completed_application_form,
+      preferred_loan_repayment_method: c.preferred_loan_repayment_method,
+      certificate_of_incorporation: c.certificate_of_incorporation,
+      passport_size_photo: c.passport_size_photo,
+      passport_size_photo_from_director: c.passport_size_photo_from_director,
+      rent_payment: c.rent_payment,
+      sales_record: c.sales_record,
+      board_allow_company_to_borrow: c.board_allow_company_to_borrow,
+      employer_letter: c.employer_letter,
+      crb: c.crb,
+      loan_verified: c.loan_verified,
+      bank_standing_payment_order: c.bank_standing_payment_order,
+      email_address: c.email_address,
+      social_security_no: c.social_security_no,
+      insurance_for_motor_vehicle: c.insurance_for_motor_vehicle,
+      bank_statement: c.bank_statement,
+      id: c.id,
+
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+
+  def list_credit_score_details_validation(userId, reference_no) do
+    try do list_credit_score_details(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      applicant_character: "",
+      applicant_name: "",
+      borrowing_history: "",
+      business_employment_experience: "",
+      collateral_assessment: "",
+      credit_analyst: "",
+      cro_staff: "",
+      date_of_credit_score: "",
+      dti_ratio: "",
+      family_situation: "",
+      loan_amount: 0,
+      number_of_reference: "",
+      signature: "",
+      total_score: 0,
+      type_of_collateral: "",
+      type_of_loan: "",
+      weighted_credit_score: 0,
+      loan_id: "",
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def list_credit_score_details(user_id, ref_no) do
+    Loanmanagementsystem.Loan.Loan_credit_score
+    |> where([c], c.customer_id == ^user_id and c.reference_no == ^ref_no)
+    |> select([c], %{
+      customer_id: c.customer_id,
+      reference_no: c.reference_no,
+      applicant_character: c.applicant_character,
+      applicant_name: c.applicant_name,
+      borrowing_history: c.borrowing_history,
+      business_employment_experience: c.business_employment_experience,
+      collateral_assessment: c.collateral_assessment,
+      credit_analyst: c.credit_analyst,
+      cro_staff: c.cro_staff,
+      date_of_credit_score: c.date_of_credit_score,
+      dti_ratio: c.dti_ratio,
+      family_situation: c.family_situation,
+      loan_amount: c.loan_amount,
+      number_of_reference: c.number_of_reference,
+      signature: c.signature,
+      total_score: c.total_score,
+      type_of_collateral: c.type_of_collateral,
+      type_of_loan: c.type_of_loan,
+      weighted_credit_score: c.weighted_credit_score,
+      loan_id: c.loan_id,
+
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
 
   def list_loan_gaurantor_details(user_id, ref_no) do
     Loan_applicant_guarantor
@@ -7763,18 +7993,22 @@ defmodule Loanmanagementsystem.Loan do
       staff_signature: g.staff_signature,
       total_income_expense: g.total_income_expense,
       reference_no: g.reference_no,
-      id: g.id
+      id: g.id,
+      salary: g.salary,
+      other_income: g.other_income,
+      business_sales: g.business_sales,
+      total_income: g.total_income,
 
     })
     |> limit(1)
     |> Repo.one()
   end
 
-
   alias Loanmanagementsystem.Loan.Loan_recommendation_and_assessment
 
   def list_credit_analyst_recommendation(user_id, ref_no) do
     Loan_recommendation_and_assessment
+    |> order_by([a], desc: a.inserted_at)
     |> where([a], a.customer_id == ^user_id and a.reference_no == ^ref_no and a.user_type == "CREDIT_ANALYST")
     |> select([a], %{
       customer_id: a.customer_id,
@@ -7823,6 +8057,52 @@ defmodule Loanmanagementsystem.Loan do
   def list_legal_recommendation(user_id, ref_no) do
     Loan_recommendation_and_assessment
     |> where([a], a.customer_id == ^user_id and a.reference_no == ^ref_no and a.user_type == "LEGAL")
+    |> select([a], %{
+      customer_id: a.customer_id,
+      reference_no: a.reference_no,
+      comments: a.comments,
+      date: a.date,
+      date_received: a.date_received,
+      file_sent_to_sale: a.file_sent_to_sale,
+      name: a.name,
+      on_hold: a.on_hold,
+      position: a.position,
+      recommended: a.recommended,
+      signature: a.signature,
+      time_out: a.time_out,
+      time_received: a.time_received,
+
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+  def list_operations_recommendation(user_id, ref_no) do
+    Loan_recommendation_and_assessment
+    |> where([a], a.customer_id == ^user_id and a.reference_no == ^ref_no and a.user_type == "OPERATIONS")
+    |> select([a], %{
+      customer_id: a.customer_id,
+      reference_no: a.reference_no,
+      comments: a.comments,
+      date: a.date,
+      date_received: a.date_received,
+      file_sent_to_sale: a.file_sent_to_sale,
+      name: a.name,
+      on_hold: a.on_hold,
+      position: a.position,
+      recommended: a.recommended,
+      signature: a.signature,
+      time_out: a.time_out,
+      time_received: a.time_received,
+
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+  def list_ceo_recommendation(user_id, ref_no) do
+    Loan_recommendation_and_assessment
+    |> where([a], a.customer_id == ^user_id and a.reference_no == ^ref_no and a.user_type == "EXECUTIVE_COMMITTE")
     |> select([a], %{
       customer_id: a.customer_id,
       reference_no: a.reference_no,
@@ -7955,6 +8235,124 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.one()
   end
 
+
+
+  def list_customer_relationship_officer do
+    brole = "Business Sales Executive"
+    crole = "Customer Relationship Officer"
+    User
+    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+    |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    |> where([uA, uB, uR],  uR.roleType == ^brole or uR.roleType == ^crole and uA.status == "ACTIVE")
+    |> select([uA, uB, uR], %{
+      id: uA.id,
+      status: uA.status,
+      username: uA.username,
+      firstname: uB.firstName,
+      lastname: uB.lastName,
+      othername: uB.otherName,
+      dateofbirth: uB.dateOfBirth,
+      meansofidentificationtype: uB.meansOfIdentificationType,
+      meansofidentificationnumber: uB.meansOfIdentificationNumber,
+      title: uB.title,
+      gender: uB.gender,
+      mobilenumber: uB.mobileNumber,
+      emailaddress: uB.emailAddress,
+      roletype: uR.roleType,
+      company_id: uA.company_id
+    })
+    |> Repo.all()
+  end
+
+  # Loanmanagementsystem.Loan.list_customer_relationship_officer(17)
+  def list_customer_relationship_officer(cro_id) do
+    # brole = "Business Sales Executive"
+    # crole = "Customer Relationship Officer"
+    User
+    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+    |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    |> where([uA, uB, uR], uA.id == ^cro_id )
+    |> select([uA, uB, uR], %{
+      id: uA.id,
+      status: uA.status,
+      username: uA.username,
+      firstname: uB.firstName,
+      lastname: uB.lastName,
+      othername: uB.otherName,
+      dateofbirth: uB.dateOfBirth,
+      meansofidentificationtype: uB.meansOfIdentificationType,
+      meansofidentificationnumber: uB.meansOfIdentificationNumber,
+      title: uB.title,
+      gender: uB.gender,
+      mobilenumber: uB.mobileNumber,
+      emailaddress: uB.emailAddress,
+      roletype: uR.roleType,
+      company_id: uA.company_id
+    })
+    |> Repo.one()
+  end
+
+  def customer_relationship_officer(cro_id) do
+    User
+    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+    |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    |> where([uA, uB, uR],  uA.id == ^cro_id)
+    |> select([uA, uB, uR], %{
+      id: uA.id,
+      status: uA.status,
+      username: uA.username,
+      firstname: uB.firstName,
+      lastname: uB.lastName,
+      othername: uB.otherName,
+      dateofbirth: uB.dateOfBirth,
+      meansofidentificationtype: uB.meansOfIdentificationType,
+      meansofidentificationnumber: uB.meansOfIdentificationNumber,
+      title: uB.title,
+      gender: uB.gender,
+      mobilenumber: uB.mobileNumber,
+      emailaddress: uB.emailAddress,
+      roletype: uR.roleType,
+      company_id: uA.company_id
+    })
+    |> limit(1)
+    |> Repo.all()
+  end
+
+
+  def list_employment_info_validation(userId, ref_no) do
+    try do list_employment_info(userId, ref_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      accrued_gratuity: "",
+      address: "",
+      applicant_name: "",
+      authorised_signature: "",
+      company_name: "",
+      contact_no: "",
+      date: "",
+      date_to: "",
+      employer: "",
+      employer_email_address: "",
+      employer_phone: "",
+      employment_date: "",
+      employment_status: "",
+      applicant_name: "",
+      granted_loan_amt: "",
+      gross_salary: "",
+      job_title: "",
+      net_salary: "",
+      other_outstanding_loans: "",
+      province: "",
+      supervisor_name: "",
+      town: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+  # Loanmanagementsystem.Loan.list_employment_info(1624, "A-2023912.254.1624.1694514890")
   def list_employment_info(user_id, ref_no) do
     Loanmanagementsystem.Loan.Loan_employment_info
     |> where([a], a.customer_id == ^user_id and a.reference_no == ^ref_no)
@@ -8040,6 +8438,7 @@ defmodule Loanmanagementsystem.Loan do
       principal: a.principal,
       term_in_months: a.term_in_months,
       date: a.date,
+      calculation_date: a.calculation_date,
     })
     |> order_by([a], asc: a.month)
     |> Repo.all()
@@ -8062,6 +8461,43 @@ defmodule Loanmanagementsystem.Loan do
       principal: a.principal,
       term_in_months: a.term_in_months,
       date: a.date,
+      calculation_date: a.calculation_date,
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+
+  def list_customers_bank_details_validation(userId) do
+    try do list_customers_bank_details(userId) ||
+    %{
+      accountName: "",
+      accountNumber: "",
+      bankName: "",
+      branchName: "",
+      upload_bank_statement: "",
+      userId: "",
+      bank_id: "",
+      mobile_number: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def list_customers_bank_details(user_id) do
+    Loanmanagementsystem.Employment.Personal_Bank_Details
+    |> where([a], a.userId == ^user_id)
+    |> select([a], %{
+      accountName: a.accountName,
+      accountNumber: a.accountNumber,
+      bankName: a.bankName,
+      branchName: a.branchName,
+      upload_bank_statement: a.upload_bank_statement,
+      userId: a.userId,
+      bank_id: a.bank_id,
+      mobile_number: a.mobile_number,
     })
     |> limit(1)
     |> Repo.one()
@@ -8133,6 +8569,7 @@ defmodule Loanmanagementsystem.Loan do
       principal:  0.00,
       term_in_months:  0.00,
       date: "",
+      calculation_date: "",
     }
     rescue _->
       "FAILED"
@@ -8148,23 +8585,23 @@ defmodule Loanmanagementsystem.Loan do
       account_number: "",
       applicant_name: "",
       applicant_signature: "",
-      applied_amount: "",
-      approved_amount: "",
+      applied_amount: 0,
+      approved_amount: 0,
       bank_name: "",
       branch: "",
-      crb: "",
+      crb: 0,
       credit_manager: "",
       date: "",
       finance_manager: "",
-      insurance: "",
-      interet_per_month: "",
+      insurance: 0,
+      interet_per_month: 0,
       loan_id: "",
-      month_installment: "",
-      motor_insurance: "",
-      net_disbiursed: "",
+      month_installment: 0,
+      motor_insurance: 0,
+      net_disbiursed: 0,
       prepared_by: "",
-      processing_fee: "",
-      repayment_period: "",
+      processing_fee: 0,
+      repayment_period: 0,
       senior_operation_officer: "",
     }
     rescue _->
@@ -8184,6 +8621,23 @@ defmodule Loanmanagementsystem.Loan do
       cro_staff_name: "",
       cro_staff_signature: "",
       id: ""
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def loan_5cs_validation(userId, reference_no) do
+    try do list_loan_5cs_analysis_details(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      capacity: "",
+      capital: "",
+      character: "",
+      collateral: "",
+      condition: "",
 
     }
     rescue _->
@@ -8265,7 +8719,12 @@ defmodule Loanmanagementsystem.Loan do
       staff_signature: "",
       total_income_expense: 0,
       reference_no: "",
-      id: ""
+      id: "",
+      salary: 0,
+      other_income: 0,
+      business_sales: 0,
+      total_income: 0,
+
 
     }
     rescue _->
@@ -8296,6 +8755,202 @@ defmodule Loanmanagementsystem.Loan do
       "FAILED"
     end
   end
+
+
+
+  def credit_analyst_validation(userId, reference_no) do
+    try do list_credit_analyst_recommendation(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      comments: "",
+      date: "",
+      date_received: "",
+      file_sent_to_sale: "",
+      name: "",
+      on_hold: "",
+      position: "",
+      recommended: "",
+      signature: "",
+      time_out: "",
+      time_received: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+
+  def credit_manager_validation(userId, reference_no) do
+    try do list_credit_manager_recommendation(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      comments: "",
+      date: "",
+      date_received: "",
+      file_sent_to_sale: "",
+      name: "",
+      on_hold: "",
+      position: "",
+      recommended: "",
+      signature: "",
+      time_out: "",
+      time_received: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def legal_validation(userId, reference_no) do
+    try do list_legal_recommendation(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      comments: "",
+      date: "",
+      date_received: "",
+      file_sent_to_sale: "",
+      name: "",
+      on_hold: "",
+      position: "",
+      recommended: "",
+      signature: "",
+      time_out: "",
+      time_received: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def assistant_accountant_validation(userId, reference_no) do
+    try do list_accounts_assistant_recommendation(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      comments: "",
+      date: "",
+      date_received: "",
+      file_sent_to_sale: "",
+      name: "",
+      on_hold: "",
+      position: "",
+      recommended: "",
+      signature: "",
+      time_out: "",
+      time_received: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def finance_manager_validation(userId, reference_no) do
+    try do list_finance_manager_recommendation(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      comments: "",
+      date: "",
+      date_received: "",
+      file_sent_to_sale: "",
+      name: "",
+      on_hold: "",
+      position: "",
+      recommended: "",
+      signature: "",
+      time_out: "",
+      time_received: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def ceo_recomendation_validation(userId, reference_no) do
+    try do list_ceo_recommendation(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      comments: "",
+      date: "",
+      date_received: "",
+      file_sent_to_sale: "",
+      name: "",
+      on_hold: "",
+      position: "",
+      recommended: "",
+      signature: "",
+      time_out: "",
+      time_received: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  def operations_recomendation_validation(userId, reference_no) do
+    try do list_operations_recommendation(userId, reference_no) ||
+    %{
+      customer_id: "",
+      reference_no: "",
+      comments: "",
+      date: "",
+      date_received: "",
+      file_sent_to_sale: "",
+      name: "",
+      on_hold: "",
+      position: "",
+      recommended: "",
+      signature: "",
+      time_out: "",
+      time_received: "",
+
+    }
+    rescue _->
+      "FAILED"
+    end
+  end
+
+  alias Loanmanagementsystem.Accounts.User
+
+  def get_loan_cro_staff_by_croid(cro_id) do
+    User
+    |> join(:left, [u], uB in "tbl_user_bio_data", on: u.id == uB.userId)
+    |> join(:left, [u, uB, l], uB in "tbl_loans", on: u.id == l.cro_id)
+    |> where([u, uB, l], u.id == ^cro_id)
+    |> select([u, uB, l], %{
+      username: u.username,
+      mobile: uB.mobileNumber,
+      name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", uB.firstName, uB.lastName, uB.otherName),
+      email: uB.emailAddress,
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @doc """
   Gets a single loan_customer_details.
@@ -8682,880 +9337,103 @@ defmodule Loanmanagementsystem.Loan do
 
 
 
-  alias Loanmanagementsystem.Loan.Loan_Colletral_Documents
+
+
+  alias Loanmanagementsystem.Loan.Loan_disbursement_schedule
 
   @doc """
-  Returns the list of tbl_loan_colleteral_documents.
+  Returns the list of tbl_loan_disbursement_schedule.
 
   ## Examples
 
-      iex> list_tbl_loan_colleteral_documents()
-      [%Loan_Colletral_Documents{}, ...]
+      iex> list_tbl_loan_disbursement_schedule()
+      [%Loan_disbursement_schedule{}, ...]
 
   """
-  def list_tbl_loan_colleteral_documents do
-    Repo.all(Loan_Colletral_Documents)
+  def list_tbl_loan_disbursement_schedule do
+    Repo.all(Loan_disbursement_schedule)
   end
 
   @doc """
-  Gets a single loan__colletral__documents.
+  Gets a single loan_disbursement_schedule.
 
-  Raises `Ecto.NoResultsError` if the Loan  colletral  documents does not exist.
+  Raises `Ecto.NoResultsError` if the Loan disbursement schedule does not exist.
 
   ## Examples
 
-      iex> get_loan__colletral__documents!(123)
-      %Loan_Colletral_Documents{}
+      iex> get_loan_disbursement_schedule!(123)
+      %Loan_disbursement_schedule{}
 
-      iex> get_loan__colletral__documents!(456)
+      iex> get_loan_disbursement_schedule!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_loan__colletral__documents!(id), do: Repo.get!(Loan_Colletral_Documents, id)
+  def get_loan_disbursement_schedule!(id), do: Repo.get!(Loan_disbursement_schedule, id)
 
   @doc """
-  Creates a loan__colletral__documents.
+  Creates a loan_disbursement_schedule.
 
   ## Examples
 
-      iex> create_loan__colletral__documents(%{field: value})
-      {:ok, %Loan_Colletral_Documents{}}
+      iex> create_loan_disbursement_schedule(%{field: value})
+      {:ok, %Loan_disbursement_schedule{}}
 
-      iex> create_loan__colletral__documents(%{field: bad_value})
+      iex> create_loan_disbursement_schedule(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_loan__colletral__documents(attrs \\ %{}) do
-    %Loan_Colletral_Documents{}
-    |> Loan_Colletral_Documents.changeset(attrs)
+  def create_loan_disbursement_schedule(attrs \\ %{}) do
+    %Loan_disbursement_schedule{}
+    |> Loan_disbursement_schedule.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a loan__colletral__documents.
+  Updates a loan_disbursement_schedule.
 
   ## Examples
 
-      iex> update_loan__colletral__documents(loan__colletral__documents, %{field: new_value})
-      {:ok, %Loan_Colletral_Documents{}}
+      iex> update_loan_disbursement_schedule(loan_disbursement_schedule, %{field: new_value})
+      {:ok, %Loan_disbursement_schedule{}}
 
-      iex> update_loan__colletral__documents(loan__colletral__documents, %{field: bad_value})
+      iex> update_loan_disbursement_schedule(loan_disbursement_schedule, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_loan__colletral__documents(%Loan_Colletral_Documents{} = loan__colletral__documents, attrs) do
-    loan__colletral__documents
-    |> Loan_Colletral_Documents.changeset(attrs)
+  def update_loan_disbursement_schedule(%Loan_disbursement_schedule{} = loan_disbursement_schedule, attrs) do
+    loan_disbursement_schedule
+    |> Loan_disbursement_schedule.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a loan__colletral__documents.
+  Deletes a loan_disbursement_schedule.
 
   ## Examples
 
-      iex> delete_loan__colletral__documents(loan__colletral__documents)
-      {:ok, %Loan_Colletral_Documents{}}
+      iex> delete_loan_disbursement_schedule(loan_disbursement_schedule)
+      {:ok, %Loan_disbursement_schedule{}}
 
-      iex> delete_loan__colletral__documents(loan__colletral__documents)
+      iex> delete_loan_disbursement_schedule(loan_disbursement_schedule)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_loan__colletral__documents(%Loan_Colletral_Documents{} = loan__colletral__documents) do
-    Repo.delete(loan__colletral__documents)
+  def delete_loan_disbursement_schedule(%Loan_disbursement_schedule{} = loan_disbursement_schedule) do
+    Repo.delete(loan_disbursement_schedule)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking loan__colletral__documents changes.
+  Returns an `%Ecto.Changeset{}` for tracking loan_disbursement_schedule changes.
 
   ## Examples
 
-      iex> change_loan__colletral__documents(loan__colletral__documents)
-      %Ecto.Changeset{data: %Loan_Colletral_Documents{}}
+      iex> change_loan_disbursement_schedule(loan_disbursement_schedule)
+      %Ecto.Changeset{data: %Loan_disbursement_schedule{}}
 
   """
-  def change_loan__colletral__documents(%Loan_Colletral_Documents{} = loan__colletral__documents, attrs \\ %{}) do
-    Loan_Colletral_Documents.changeset(loan__colletral__documents, attrs)
+  def change_loan_disbursement_schedule(%Loan_disbursement_schedule{} = loan_disbursement_schedule, attrs \\ %{}) do
+    Loan_disbursement_schedule.changeset(loan_disbursement_schedule, attrs)
   end
-
-  alias Loanmanagementsystem.Loan.Loan_invoice
-
-  @doc """
-  Returns the list of tbl_loan_invoice.
-
-  ## Examples
-
-      iex> list_tbl_loan_invoice()
-      [%Loan_invoice{}, ...]
-
-  """
-  def list_tbl_loan_invoice do
-    Repo.all(Loan_invoice)
-  end
-
-  @doc """
-  Gets a single loan_invoice.
-
-  Raises `Ecto.NoResultsError` if the Loan invoice does not exist.
-
-  ## Examples
-
-      iex> get_loan_invoice!(123)
-      %Loan_invoice{}
-
-      iex> get_loan_invoice!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_loan_invoice!(id), do: Repo.get!(Loan_invoice, id)
-
-  @doc """
-  Creates a loan_invoice.
-
-  ## Examples
-
-      iex> create_loan_invoice(%{field: value})
-      {:ok, %Loan_invoice{}}
-
-      iex> create_loan_invoice(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_loan_invoice(attrs \\ %{}) do
-    %Loan_invoice{}
-    |> Loan_invoice.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a loan_invoice.
-
-  ## Examples
-
-      iex> update_loan_invoice(loan_invoice, %{field: new_value})
-      {:ok, %Loan_invoice{}}
-
-      iex> update_loan_invoice(loan_invoice, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_loan_invoice(%Loan_invoice{} = loan_invoice, attrs) do
-    loan_invoice
-    |> Loan_invoice.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a loan_invoice.
-
-  ## Examples
-
-      iex> delete_loan_invoice(loan_invoice)
-      {:ok, %Loan_invoice{}}
-
-      iex> delete_loan_invoice(loan_invoice)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_loan_invoice(%Loan_invoice{} = loan_invoice) do
-    Repo.delete(loan_invoice)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking loan_invoice changes.
-
-  ## Examples
-
-      iex> change_loan_invoice(loan_invoice)
-      %Ecto.Changeset{data: %Loan_invoice{}}
-
-  """
-  def change_loan_invoice(%Loan_invoice{} = loan_invoice, attrs \\ %{}) do
-    Loan_invoice.changeset(loan_invoice, attrs)
-  end
-
-  alias Loanmanagementsystem.Loan.Loan_funder
-
-  @doc """
-  Returns the list of tbl_loan_funder.
-
-  ## Examples
-
-      iex> list_tbl_loan_funder()
-      [%Loan_funder{}, ...]
-
-  """
-  def list_tbl_loan_funder do
-    Repo.all(Loan_funder)
-  end
-
-
-  # def get_loan_funder_details()
-  # Loan_funder
-  #     # |> group_by([la], [la.loan_status])
-  #     |> join(:left, [funder], uB in UserRole, on: funder.FunderID == uB.userId)
-  #     |> where([funder, uB], funder.FunderID == uB.userId)
-  #     |> select([funder], %{
-  #       firstName: uB.firstName,
-  #       lastName: uB.lastName,
-
-  #     })
-  #     |> Repo.all()
-  # end
-
-
-  def get_loan_funder_details() do
-    Loan_funder
-      # |> group_by([la], [la.loan_status])
-      |> join(:left, [funder], uB in Loanmanagementsystem.Accounts.UserBioData, on: funder.funderID == uB.userId)
-      # |> where([funder, uB], funder.id == uB.userId)
-      |> select([funder, uB], %{
-        funderID: funder.funderID,
-        firstName: uB.firstName,
-        lastName: uB.lastName,
-        nrc_no: uB.meansOfIdentificationNumber,
-        totalAmountFunded: funder.totalAmountFunded,
-        funder_type: funder.funder_type
-
-      })
-    |> Repo.all()
-  end
-
-  def get_loan_funder_details(user_id) do
-    Loan_funder
-      # |> group_by([la], [la.loan_status])
-      |> join(:left, [funder], uB in Loanmanagementsystem.Accounts.UserBioData, on: funder.funderID == uB.userId)
-      |> where([funder, uB], funder.funderID == ^user_id)
-      |> select([funder, uB], %{
-        id: funder.id
-
-      })
-    |> Repo.one()
-  end
-
-  @doc """
-  Gets a single loan_funder.
-
-  Raises `Ecto.NoResultsError` if the Loan funder does not exist.
-
-  ## Examples
-
-      iex> get_loan_funder!(123)
-      %Loan_funder{}
-
-      iex> get_loan_funder!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_loan_funder!(id), do: Repo.get!(Loan_funder, id)
-
-  @doc """
-  Creates a loan_funder.
-
-  ## Examples
-
-      iex> create_loan_funder(%{field: value})
-      {:ok, %Loan_funder{}}
-
-      iex> create_loan_funder(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_loan_funder(attrs \\ %{}) do
-    %Loan_funder{}
-    |> Loan_funder.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a loan_funder.
-
-  ## Examples
-
-      iex> update_loan_funder(loan_funder, %{field: new_value})
-      {:ok, %Loan_funder{}}
-
-      iex> update_loan_funder(loan_funder, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_loan_funder(%Loan_funder{} = loan_funder, attrs) do
-    loan_funder
-    |> Loan_funder.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a loan_funder.
-
-  ## Examples
-
-      iex> delete_loan_funder(loan_funder)
-      {:ok, %Loan_funder{}}
-
-      iex> delete_loan_funder(loan_funder)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_loan_funder(%Loan_funder{} = loan_funder) do
-    Repo.delete(loan_funder)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking loan_funder changes.
-
-  ## Examples
-
-      iex> change_loan_funder(loan_funder)
-      %Ecto.Changeset{data: %Loan_funder{}}
-
-  """
-  def change_loan_funder(%Loan_funder{} = loan_funder, attrs \\ %{}) do
-    Loan_funder.changeset(loan_funder, attrs)
-  end
-
-  # :firstName,
-  # :lastName,
-  # :userId,
-  # :otherName,
-  # :dateOfBirth,
-  # :meansOfIdentificationType,
-  # :meansOfIdentificationNumber,
-  # :title,
-  # :gender,
-  # :mobileNumber,
-  # :emailAddress
-
-  def get_consumer_loan_by_funder_id(funder_id) do
-    Loan_funder
-      # |> group_by([la], [la.loan_status])
-
-      |> join(:left, [funder], lo in Loans, on: funder.funderID == lo.funderID)
-      |> join(:left, [funder, lo], uB in Loanmanagementsystem.Accounts.UserBioData, on: lo.customer_id == uB.userId)
-      |> join(:left, [funder, lo], prod in Product, on: lo.product_id == prod.id)
-      |> where([funder, lo, uB, prod], funder.funderID == ^funder_id)
-      |> select([funder, lo, uB, prod], %{
-        id: funder.id,
-        firstName: uB.firstName,
-        lastName: uB.lastName,
-        meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-        principal_amount: lo.principal_amount,
-        disbursedon_date: lo.disbursedon_date,
-        interest_outstanding_derived: lo.interest_outstanding_derived,
-        principal_repaid_derived: lo.principal_repaid_derived,
-        productType: prod.productType,
-      })
-    |> Repo.all()
-  end
-# Loanmanagementsystem.Loan.get_corparate_loan_by_funder_id(10)
-  def get_corparate_loan_by_funder_id__2(funder_id) do
-    Loan_funder
-      # |> group_by([la], [la.loan_status])
-      |> join(:left, [funder], lo in Loans, on: funder.funderID == lo.funderID)
-      # |> join(:left, [funder, lo], uB in Loanmanagementsystem.Accounts.UserBioData, on: lo.customer_id == uB.userId)
-      |> join(:left, [funder, lo], prod in Product, on: lo.product_id == prod.id)
-      |> join(:left, [funder, lo, prod], c in Company, on: lo.company_id == c.id)
-      |> order_by([funder, lo, prod, c], desc: lo.id)
-      |> where([funder, lo, prod, c], (funder.funderID == ^funder_id and not is_nil(c.companyName)))
-      |> order_by([funder, lo, prod, c], desc: lo.inserted_at)
-      |> select([funder, lo, prod, c], %{
-        id: funder.id,
-        # firstName: uB.firstName,
-        # lastName: uB.lastName,
-        # meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-        principal_amount: lo.principal_amount,
-        loan_status: lo.loan_status,
-        inserted_at: lo.inserted_at,
-        disbursedon_date: lo.disbursedon_date,
-        interest_outstanding_derived: lo.interest_outstanding_derived,
-        principal_repaid_derived: lo.principal_repaid_derived,
-        principal_amount_proposed: lo.principal_amount_proposed,
-        principal_disbursed_derived: lo.principal_disbursed_derived,
-        loan_type: lo.loan_type,
-        loan_id: lo.id,
-        userId: lo.customer_id,
-        productType: prod.productType,
-        productName: prod.name,
-        companyName: c.companyName,
-        contactEmail: c.contactEmail,
-        companyPhone: c.companyPhone,
-        registrationNumber: c.registrationNumber,
-        taxno: c.taxno,
-        companyRegistrationDate: c.companyRegistrationDate,
-        companyAccountNumber: c.companyAccountNumber,
-
-      })
-    |> Repo.all()
-  end
-
-  def get_funder_balance_details(user_id) do
-    Loan_funder
-      # |> group_by([la], [la.loan_status])
-      |> join(:left, [funder], uB in Loanmanagementsystem.Accounts.UserBioData, on: funder.funderID == uB.userId)
-      |> where([funder, uB], funder.funderID == ^user_id)
-      |> select([funder, uB], %{
-        id: funder.id,
-        totalbalance: funder.totalbalance,
-        totalinterest_accumulated: funder.totalinterest_accumulated,
-        funderID: funder.funderID,
-        totalAmountFunded: funder.totalAmountFunded,
-        status: funder.status,
-        payment_mode: funder.payment_mode,
-        payment_date: funder.inserted_at,
-
-      })
-    |> Repo.all()
-  end
-
-  # Loanmanagementsystem.Loan.get_funder_calculations()
-
-  def get_funder_calculations(loan_id) do
-    Loan_funder
-      # |> group_by([la], [la.loan_status])
-      |> join(:left, [funder], uB in Loanmanagementsystem.Accounts.UserBioData, on: funder.funderID == uB.userId)
-      |> join(:left, [funder], lo in Loanmanagementsystem.Loan.Loans, on: funder.funderID == lo.funderID)
-      |> where([funder, uB, lo], lo.id == ^loan_id)
-      |> select([funder, uB, lo], %{
-        funder_id: funder.id,
-        totalbalance: funder.totalbalance,
-        totalinterest_accumulated: funder.totalinterest_accumulated,
-        funderID: funder.funderID,
-        totalAmountFunded: funder.totalAmountFunded,
-        status: funder.status,
-        payment_mode: funder.payment_mode,
-        payment_date: funder.inserted_at,
-        loan_id: lo.id,
-        loan_status: lo.loan_status
-
-      })
-    |> Repo.one()
-  end
-
-  def count_funders_funds(funder_id) do
-    # datetime = DateTime.utc_now()
-    Loan_funder
-    |> where([funds], (funds.funderID == ^funder_id ))
-    |> select([funds], %{
-      totalAmountFunded: sum(funds.totalAmountFunded),
-      totalbalance: sum(funds.totalbalance),
-      totalinterest_accumulated: sum(funds.totalinterest_accumulated),
-
-
-    })
-    |> Repo.one()
-  end
-
-  # Loanmanagementsystem.Loan.get_funder_details()
-  def get_funder_details() do
-    UserBioData
-      |> join(:left, [uB], uR in Loanmanagementsystem.Accounts.UserRole, on: uB.userId == uR.userId)
-      |> join(:left, [uB], funder in Loanmanagementsystem.Loan.Loan_funder, on: uB.userId == funder.funderID)
-      |> where([uB, uR], uR.roleType == "FUNDER")
-      |> select([uB, uR, funder], %{
-        id: uB.id,
-        userId: uB.userId,
-        meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-        role_user_id: uR.userId,
-        roleType: uR.roleType,
-        customer_name: fragment("concat(?, concat(' ', ?))", uB.firstName, uB.lastName),
-        funder_type: funder.funder_type
-
-      })
-    |> Repo.all()
-  end
-
-
-  def count_loans_by_funders(funder_id) do
-    # datetime = DateTime.utc_now()
-    Loans
-
-    |> where([lo], (lo.funderID == ^funder_id and (lo.loan_status == "Disbursed" or lo.loan_status == "DISBURSED")))
-    |> select([lo], %{
-      total_loans: count(lo.id),
-
-
-
-    })
-    |> Repo.one()
-  end
-
-  alias Loanmanagementsystem.Loan.Loan_application_documents
-  def get_sme_loan_docs(loan_id) do
-    Loan_application_documents
-    |> where([ idvdoc], idvdoc.loan_id == ^loan_id)
-    |> select([idvdoc], %{
-      id: idvdoc.id,
-      docName: idvdoc.doc_name,
-      docPath: idvdoc.path,
-      docStatus: idvdoc.status,
-      docType: idvdoc.doc_type,
-      fileName: idvdoc.fileName,
-      customer_id: idvdoc.customer_id,
-      loan_id: idvdoc.loan_id,
-
-    })
-    |> Repo.all()
-  end
-
-  def get_sme_loan_details(loan_id) do
-    Loans
-    |>join(:left, [l], uS in User, on: l.customer_id == uS.id)
-    |>join(:left, [l, uS], uB in UserBioData, on: uS.id == uB.userId)
-    |>join(:left, [l, uS, uB], pr in Product_rates, on: l.product_id == pr.product_id)
-    |>join(:left, [l, uS, uB, pr], p in Product, on: l.product_id == p.id)
-    |>join(:left, [l,uS,uB,pr, p], c in Company, on: uS.company_id == c.id)
-    |>join(:left, [l, uS, uB, pr, p, c], b in Bank, on: c.bank_id == b.id)
-    |> join(:left,[l, uS, uB, pr, p, c, b], inv in Loan_invoice, on: l.customer_id == inv.customer_id)
-    |>join(:left, [l, uS, uB, pr, p, c, b, inv], funder in UserBioData, on: funder.userId == l.funderID)
-    |> where([l, uS, uB, pr, p, c, b, inv, funder], l.id == ^loan_id)
-    |> select([l, uS, uB, pr, p, c, b, inv, funder], %{
-      id: l.id,
-      principal_repaid_derived: l.principal_repaid_derived,
-      number_of_repayments: l.number_of_repayments,
-      withdrawnon_date: l.withdrawnon_date,
-      currency_code: l.currency_code,
-      repay_every_type: l.repay_every_type,
-      repay_every: l.repay_every,
-      closedon_userid: l.closedon_userid,
-      product_id: l.product_id,
-      customer_id: l.customer_id,
-      interest_method: l.interest_method,
-      annual_nominal_interest_rate: l.annual_nominal_interest_rate,
-      writtenoffon_date: l.writtenoffon_date,
-      total_outstanding_derived: l.total_outstanding_derived,
-      interest_calculated_from_date: l.interest_calculated_from_date,
-      loan_counter: l.loan_counter,
-      tenor: l.tenor,
-      interest_charged_derived: l.interest_charged_derived,
-      term_frequency_type: l.term_frequency_type,
-      total_charges_due_at_disbursement_derived: l.total_charges_due_at_disbursement_derived,
-      penalty_charges_waived_derived: l.penalty_charges_waived_derived,
-      total_overpaid_derived: l.total_overpaid_derived,
-      approved_principal: l.approved_principal,
-      principal_disbursed_derived: l.principal_disbursed_derived,
-      rejectedon_userid: l.rejectedon_userid,
-      approvedon_date: l.approvedon_date,
-      loan_type: l.loan_type,
-      principal_amount: l.principal_amount,
-      disbursedon_date: l.disbursedon_date,
-      account_no: l.account_no,
-      interest_outstanding_derived: l.interest_outstanding_derived,
-      interest_writtenoff_derived: l.interest_writtenoff_derived,
-      penalty_charges_writtenoff_derived: l.penalty_charges_writtenoff_derived,
-      loan_status: l.loan_status,
-      principal_amount_proposed: l.principal_amount_proposed,
-      fee_charges_repaid_derived: l.fee_charges_repaid_derived,
-      total_expected_repayment_derived: l.total_expected_repayment_derived,
-      principal_outstanding_derived: l.principal_outstanding_derived,
-      rejectedon_date: l.rejectedon_date,
-      closedon_date: l.closedon_date,
-      monthly_installment: l.monthly_installment,
-      repayment_amount: l.repayment_amount,
-      interest_amount: l.interest_amount,
-      fee_charges_writtenoff_derived: l.fee_charges_writtenoff_derived,
-      penalty_charges_outstanding_derived: l.penalty_charges_outstanding_derived,
-      total_expected_costofloan_derived: l.total_expected_costofloan_derived,
-      penalty_charges_repaid_derived: l.penalty_charges_repaid_derived,
-      withdrawnon_userid: l.withdrawnon_userid,
-      expected_maturity_date: l.expected_maturity_date,
-      term_frequency: l.term_frequency,
-      total_repayment_derived: l.total_repayment_derived,
-      loan_identity_number: l.loan_identity_number,
-      status: l.status,
-      app_user_id: l.app_user_id,
-      mobile_money_response: l.mobile_money_response,
-      total_principal_repaid: l.total_principal_repaid,
-      total_interest_repaid: l.total_interest_repaid,
-      total_charges_repaid: l.total_charges_repaid,
-      total_penalties_repaid: l.total_penalties_repaid,
-      total_repaid: l.total_repaid,
-      momoProvider: l.momoProvider,
-      company_id: l.company_id,
-      has_mou: l.has_mou,
-      loan_userroleid: l.loan_userroleid,
-      disbursement_method: l.disbursement_method,
-      funderID: l.funderID,
-      dateOfBirth: uB.dateOfBirth,
-      emailAddress: uB.emailAddress,
-      firstName: uB.firstName,
-      gender: uB.gender,
-      lastName: uB.lastName,
-      meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-      meansOfIdentificationType: uB.meansOfIdentificationType,
-      mobileNumber: uB.mobileNumber,
-      otherName: uB.otherName,
-      title: uB.title,
-      userId: uB.userId,
-      idNo: uB.idNo,
-      clientId: p.clientId,
-      code: p.code,
-      currencyDecimals: p.currencyDecimals,
-      currencyName: p.currencyName,
-      defaultPeriod: p.defaultPeriod,
-      details: p.details,
-      interest: p.interest,
-      interestMode: p.interestMode,
-      interestType: p.interestType,
-      maximumPrincipal: p.maximumPrincipal,
-      minimumPrincipal: p.minimumPrincipal,
-      name: p.name,
-      periodType: p.periodType,
-      productType: p.productType,
-      status: p.status,
-      yearLengthInDays: p.yearLengthInDays,
-      principle_account_id: p.principle_account_id,
-      interest_account_id: p.interest_account_id,
-      charges_account_id: p.charges_account_id,
-      companyName: c.companyName,
-      contactEmail: c.contactEmail,
-      companyPhone: c.companyPhone,
-      registrationNumber: c.registrationNumber,
-      taxno: c.taxno,
-      companyRegistrationDate: c.companyRegistrationDate,
-      companyAccountNumber: c.companyAccountNumber,
-      bank_id: c.bank_id,
-      bankName: b.bankName,
-
-      invoiceValue: inv.invoiceValue ,
-      paymentTerms: inv.paymentTerms ,
-      dateOfIssue: inv.dateOfIssue ,
-      invoiceNo: inv.invoiceNo ,
-      loanID: inv.loanID ,
-      status: inv.status ,
-      vendorName: inv.vendorName ,
-      arrangement_fee: l.arrangement_fee ,
-      finance_cost: l.finance_cost ,
-      funder_first_name: funder.firstName,
-      funder_last_name: funder.lastName,
-    }) |> Repo.one()
-  end
-
-  def get_sme_loan_credit_details_list(loan_id) do
-    Loans
-    |> where([l], l.id == ^loan_id)
-    |> select([l], %{
-      id: l.id,
-      offtakerID: l.offtakerID
-
-    })
-    |> Repo.all()
-  end
-
-  def get_offtaker_sme_loan(loan_id) do
-    Loans
-    |>join(:left, [l], c in Company, on: l.offtakerID == c.id)
-    |>where([l, c], l.id == ^loan_id)
-    |>select([l,c], %{
-      companyName: c.companyName ,
-      companyPhone: c.companyPhone ,
-      contactEmail: c.contactEmail ,
-      createdByUserId: c.createdByUserId ,
-      createdByUserRoleId: c.createdByUserRoleId ,
-      isOfftaker: c.isOfftaker ,
-      registrationNumber: c.registrationNumber ,
-      status: c.status ,
-      taxno: c.taxno ,
-      companyRegistrationDate: c.companyRegistrationDate ,
-      companyAccountNumber: c.companyAccountNumber ,
-      bank_id: c.bank_id ,
-    })|> Repo.one()
-  end
-
-
-  def consumer_loan_application_listing(search_params, page, size) do
-    Loanmanagementsystem.Loan.Loans
-    |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
-    |> handle_loan_filter(search_params)
-    |> order_by([lO], desc: lO.inserted_at)
-    |> compose_consumer_loan_application_list()
-    |> Repo.paginate(page: page, page_size: size)
-  end
-
-  def consumer_loan_application_listing(_source, search_params) do
-    Loanmanagementsystem.Loan.Loans
-    |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
-    |> handle_loan_filter(search_params)
-    |> order_by([lO], desc: lO.inserted_at)
-    |> compose_consumer_loan_application_list()
-  end
-
-
-
-  defp compose_consumer_loan_application_list(query) do
-    query
-    |>where([lO, uS, pR, uR], lO.loan_type == "CONSUMER LOAN")
-    |> select([lO, uS, pR, uR],
-      %{
-      isStaff: uR.isStaff,
-      loan_limit: uR.loan_limit,
-      # tbl_loan
-      id: lO.id,
-      reference_no: lO.reference_no,
-      principal_repaid_derived: lO.principal_repaid_derived,
-      number_of_repayments: lO.number_of_repayments,
-      withdrawnon_date: lO.withdrawnon_date,
-      currency_code: lO.currency_code,
-      is_npa: lO.is_npa,
-      repay_every_type: lO.repay_every_type,
-      principal_writtenoff_derived: lO.principal_writtenoff_derived,
-      disbursedon_userid: lO.disbursedon_userid,
-      approvedon_userid: lO.approvedon_userid,
-      total_writtenoff_derived: lO.total_writtenoff_derived,
-      repay_every: lO.repay_every,
-      closedon_userid: lO.closedon_userid,
-      product_id: lO.product_id,
-      customer_id: lO.customer_id,
-      interest_method: lO.interest_method,
-      annual_nominal_interest_rate: lO.annual_nominal_interest_rate,
-      writtenoffon_date: lO.writtenoffon_date,
-      total_outstanding_derived: lO.total_outstanding_derived,
-      interest_calculated_from_date: lO.interest_calculated_from_date,
-      loan_counter: lO.loan_counter,
-      interest_charged_derived: lO.interest_charged_derived,
-      term_frequency_type: lO.term_frequency_type,
-      total_charges_due_at_disbursement_derived: lO.total_charges_due_at_disbursement_derived,
-      penalty_charges_waived_derived: lO.penalty_charges_waived_derived,
-      total_overpaid_derived: lO.total_overpaid_derived,
-      approved_principal: lO.approved_principal,
-      principal_disbursed_derived: lO.principal_disbursed_derived,
-      rejectedon_userid: lO.rejectedon_userid,
-      approvedon_date: lO.approvedon_date,
-      loan_type: lO.loan_type,
-      principal_amount: lO.principal_amount,
-      disbursedon_date: lO.disbursedon_date,
-      account_no: lO.account_no,
-      interest_outstanding_derived: lO.interest_outstanding_derived,
-      interest_writtenoff_derived: lO.interest_writtenoff_derived,
-      penalty_charges_writtenoff_derived: lO.penalty_charges_writtenoff_derived,
-      loan_status: lO.loan_status,
-      fee_charges_charged_derived: lO.fee_charges_charged_derived,
-      fee_charges_waived_derived: lO.fee_charges_waived_derived,
-      interest_waived_derived: lO.interest_waived_derived,
-      total_costofloan_derived: lO.total_costofloan_derived,
-      principal_amount_proposed: lO.principal_amount_proposed,
-      fee_charges_repaid_derived: lO.fee_charges_repaid_derived,
-      total_expected_repayment_derived: lO.total_expected_repayment_derived,
-      principal_outstanding_derived: lO.principal_outstanding_derived,
-      penalty_charges_charged_derived: lO.penalty_charges_charged_derived,
-      is_legacyloan: lO.is_legacyloan,
-      total_waived_derived: lO.total_waived_derived,
-      interest_repaid_derived: lO.interest_repaid_derived,
-      rejectedon_date: lO.rejectedon_date,
-      fee_charges_outstanding_derived: lO.fee_charges_outstanding_derived,
-      expected_disbursedon_date: lO.expected_disbursedon_date,
-      closedon_date: lO.closedon_date,
-      fee_charges_writtenoff_derived: lO.fee_charges_writtenoff_derived,
-      penalty_charges_outstanding_derived: lO.penalty_charges_outstanding_derived,
-      total_expected_costofloan_derived: lO.total_expected_costofloan_derived,
-      penalty_charges_repaid_derived: lO.penalty_charges_repaid_derived,
-      withdrawnon_userid: lO.withdrawnon_userid,
-      expected_maturity_date: lO.expected_maturity_date,
-      external_id: lO.external_id,
-      term_frequency: lO.term_frequency,
-      total_repayment_derived: lO.total_repayment_derived,
-      loan_identity_number: lO.loan_identity_number,
-      branch_id: lO.branch_id,
-      loan_status: lO.loan_status,
-      status: lO.status,
-      app_user_id: lO.app_user_id,
-      mobile_money_response: lO.mobile_money_response,
-      total_principal_repaid: lO.total_principal_repaid,
-      total_interest_repaid: lO.total_interest_repaid,
-      total_charges_repaid: lO.total_charges_repaid,
-      total_penalties_repaid: lO.total_penalties_repaid,
-      total_repaid: lO.total_repaid,
-      momoProvider: lO.momoProvider,
-      company_id: lO.company_id,
-      sms_status: lO.sms_status,
-      loan_userroleid: lO.loan_userroleid,
-      disbursement_method: lO.disbursement_method,
-      bank_name: lO.bank_name,
-      bank_account_no: lO.bank_account_no,
-      account_name: lO.account_name,
-      bevura_wallet_no: lO.bevura_wallet_no,
-      receipient_number: lO.receipient_number,
-      reference_no: lO.reference_no,
-      repayment_type: lO.repayment_type,
-      repayment_amount: lO.repayment_amount,
-      balance: lO.balance,
-      interest_amount: lO.interest_amount,
-      tenor: lO.tenor,
-      expiry_month: lO.expiry_month,
-      expiry_year: lO.expiry_year,
-      cvv: lO.cvv,
-      repayment_frequency: lO.repayment_frequency,
-      reason: lO.reason,
-      application_date: lO.application_date,
-      reference_no: lO.reference_no,
-      requested_amount: lO.requested_amount,
-
-      arrangement_fee: lO.arrangement_fee,
-      finance_cost: lO.finance_cost,
-      monthly_installment: lO.monthly_installment,
-
-
-
-      # tbl_userbiodate
-      dateOfBirth: uS.dateOfBirth,
-      emailAddress: uS.emailAddress,
-      firstName: uS.firstName,
-      customerName: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
-      gender: uS.gender,
-      lastName: uS.lastName,
-      meansOfIdentificationNumber: uS.meansOfIdentificationNumber,
-      meansOfIdentificationType: uS.meansOfIdentificationType,
-      mobileNumber: uS.mobileNumber,
-      otherName: uS.otherName,
-      title: uS.title,
-      userId: uS.userId,
-      idNo: uS.idNo,
-      bank_id: uS.bank_id,
-      personal_bank_account_number: uS.bank_account_number,
-      marital_status: uS.marital_status,
-      nationality: uS.nationality,
-      number_of_dependants: uS.number_of_dependants,
-      age: uS.age,
-      disability_detail: uS.disability_detail,
-      disability_status: uS.disability_status,
-      # tbl_product
-      clientId: pR.clientId,
-      code: pR.code,
-      currencyDecimals: pR.currencyDecimals,
-      currencyId: pR.currencyId,
-      currencyName: pR.currencyName,
-      defaultPeriod: pR.defaultPeriod,
-      details: pR.details,
-      interest: pR.interest,
-      interestMode: pR.interestMode,
-      interestType: pR.interestType,
-      maximumPrincipal: pR.maximumPrincipal,
-      minimumPrincipal: pR.minimumPrincipal,
-      name: pR.name,
-      periodType: pR.periodType,
-      productType: pR.productType,
-      product_status: pR.status,
-      yearLengthInDays: pR.yearLengthInDays,
-      principle_account_id: pR.principle_account_id,
-      interest_account_id: pR.interest_account_id,
-      charges_account_id: pR.charges_account_id,
-      classification_id: pR.classification_id,
-      charge_id: pR.charge_id,
-      reference_id: pR.reference_id,
-      product_reason: pR.reason,
-      productId: pR.id,
-
-
-      }
-    )
-  end
-
-
-
-
 
   alias Loanmanagementsystem.Loan.Loan_amortization_schedule
 
@@ -9653,883 +9531,675 @@ defmodule Loanmanagementsystem.Loan do
     Loan_amortization_schedule.changeset(loan_amortization_schedule, attrs)
   end
 
+  alias Loanmanagementsystem.Loan.Loan_credit_score
 
+  @doc """
+  Returns the list of tbl_loan_credit_score.
 
+  ## Examples
 
-  # --------------------------------------- Loan Application lookup
-  # Loanmanagementsystem.Loan.loan_repayment_listing(nil, 1, 10)
-  def loan_repayment_listing(search_params, page, size) do
-    Loanmanagementsystem.Loan.Loans
-    |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
-    # |> handle_loan_filter(search_params)
-    |> order_by([lO], desc: lO.inserted_at)
-    |> admin_compose_loan_repayment_list()
-    |> Repo.paginate(page: page, page_size: size)
+      iex> list_tbl_loan_credit_score()
+      [%Loan_credit_score{}, ...]
+
+  """
+  def list_tbl_loan_credit_score do
+    Repo.all(Loan_credit_score)
   end
 
-  def loan_repayment_listing(_source, search_params) do
-    Loanmanagementsystem.Loan.Loans
-    |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
-    # |> handle_loan_filter(search_params)
-    |> order_by([lO], desc: lO.inserted_at)
-    |> admin_compose_loan_repayment_list()
+  @doc """
+  Gets a single loan_credit_score.
+
+  Raises `Ecto.NoResultsError` if the Loan credit score does not exist.
+
+  ## Examples
+
+      iex> get_loan_credit_score!(123)
+      %Loan_credit_score{}
+
+      iex> get_loan_credit_score!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_loan_credit_score!(id), do: Repo.get!(Loan_credit_score, id)
+
+  @doc """
+  Creates a loan_credit_score.
+
+  ## Examples
+
+      iex> create_loan_credit_score(%{field: value})
+      {:ok, %Loan_credit_score{}}
+
+      iex> create_loan_credit_score(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_loan_credit_score(attrs \\ %{}) do
+    %Loan_credit_score{}
+    |> Loan_credit_score.changeset(attrs)
+    |> Repo.insert()
   end
 
+  @doc """
+  Updates a loan_credit_score.
 
+  ## Examples
 
-  defp admin_compose_loan_repayment_list(query) do
-    query
-    |>where([lO, uS, pR, uR], (lO.loan_status == "PENDING_CREDIT_ANALYST_REPAYMENT" and lO.status == "DISBURSED") or (lO.loan_status == "DISBURSED" and lO.status == "DISBURSED") or (lO.repayment_type == "PARTIAL REPAYMENT") or (lO.repayment_type == "FULL REPAYMENT"))
-    |> select([lO, uS, pR, uR],
-      %{
-      isStaff: uR.isStaff,
-      loan_limit: uR.loan_limit,
-      due_date: fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id),
-      # tbl_loan
-      id: lO.id,
-      reference_no: lO.reference_no,
-      principal_repaid_derived: lO.principal_repaid_derived,
-      number_of_repayments: lO.number_of_repayments,
-      withdrawnon_date: lO.withdrawnon_date,
-      currency_code: lO.currency_code,
-      is_npa: lO.is_npa,
-      repay_every_type: lO.repay_every_type,
-      principal_writtenoff_derived: lO.principal_writtenoff_derived,
-      disbursedon_userid: lO.disbursedon_userid,
-      approvedon_userid: lO.approvedon_userid,
-      total_writtenoff_derived: lO.total_writtenoff_derived,
-      repay_every: lO.repay_every,
-      closedon_userid: lO.closedon_userid,
-      product_id: lO.product_id,
-      customer_id: lO.customer_id,
-      interest_method: lO.interest_method,
-      annual_nominal_interest_rate: lO.annual_nominal_interest_rate,
-      writtenoffon_date: lO.writtenoffon_date,
-      total_outstanding_derived: lO.total_outstanding_derived,
-      interest_calculated_from_date: lO.interest_calculated_from_date,
-      loan_counter: lO.loan_counter,
-      interest_charged_derived: lO.interest_charged_derived,
-      term_frequency_type: lO.term_frequency_type,
-      total_charges_due_at_disbursement_derived: lO.total_charges_due_at_disbursement_derived,
-      penalty_charges_waived_derived: lO.penalty_charges_waived_derived,
-      total_overpaid_derived: lO.total_overpaid_derived,
-      approved_principal: lO.approved_principal,
-      principal_disbursed_derived: lO.principal_disbursed_derived,
-      rejectedon_userid: lO.rejectedon_userid,
-      approvedon_date: lO.approvedon_date,
-      loan_type: lO.loan_type,
-      principal_amount: lO.principal_amount,
-      disbursedon_date: lO.disbursedon_date,
-      account_no: lO.account_no,
-      interest_outstanding_derived: lO.interest_outstanding_derived,
-      interest_writtenoff_derived: lO.interest_writtenoff_derived,
-      penalty_charges_writtenoff_derived: lO.penalty_charges_writtenoff_derived,
-      loan_status: lO.loan_status,
-      fee_charges_charged_derived: lO.fee_charges_charged_derived,
-      fee_charges_waived_derived: lO.fee_charges_waived_derived,
-      interest_waived_derived: lO.interest_waived_derived,
-      total_costofloan_derived: lO.total_costofloan_derived,
-      principal_amount_proposed: lO.principal_amount_proposed,
-      fee_charges_repaid_derived: lO.fee_charges_repaid_derived,
-      total_expected_repayment_derived: lO.total_expected_repayment_derived,
-      principal_outstanding_derived: lO.principal_outstanding_derived,
-      penalty_charges_charged_derived: lO.penalty_charges_charged_derived,
-      is_legacyloan: lO.is_legacyloan,
-      total_waived_derived: lO.total_waived_derived,
-      interest_repaid_derived: lO.interest_repaid_derived,
-      rejectedon_date: lO.rejectedon_date,
-      fee_charges_outstanding_derived: lO.fee_charges_outstanding_derived,
-      expected_disbursedon_date: lO.expected_disbursedon_date,
-      closedon_date: lO.closedon_date,
-      fee_charges_writtenoff_derived: lO.fee_charges_writtenoff_derived,
-      penalty_charges_outstanding_derived: lO.penalty_charges_outstanding_derived,
-      total_expected_costofloan_derived: lO.total_expected_costofloan_derived,
-      penalty_charges_repaid_derived: lO.penalty_charges_repaid_derived,
-      withdrawnon_userid: lO.withdrawnon_userid,
-      expected_maturity_date: lO.expected_maturity_date,
-      external_id: lO.external_id,
-      term_frequency: lO.term_frequency,
-      total_repayment_derived: lO.total_repayment_derived,
-      loan_identity_number: lO.loan_identity_number,
-      branch_id: lO.branch_id,
-      loan_status: lO.loan_status,
-      status: lO.status,
-      app_user_id: lO.app_user_id,
-      mobile_money_response: lO.mobile_money_response,
-      total_principal_repaid: lO.total_principal_repaid,
-      total_interest_repaid: lO.total_interest_repaid,
-      total_charges_repaid: lO.total_charges_repaid,
-      total_penalties_repaid: lO.total_penalties_repaid,
-      total_repaid: lO.total_repaid,
-      momoProvider: lO.momoProvider,
-      company_id: lO.company_id,
-      sms_status: lO.sms_status,
-      loan_userroleid: lO.loan_userroleid,
-      disbursement_method: lO.disbursement_method,
-      bank_name: lO.bank_name,
-      bank_account_no: lO.bank_account_no,
-      account_name: lO.account_name,
-      bevura_wallet_no: lO.bevura_wallet_no,
-      receipient_number: lO.receipient_number,
-      reference_no: lO.reference_no,
-      repayment_type: lO.repayment_type,
-      repayment_amount: lO.repayment_amount,
-      balance: lO.balance,
-      interest_amount: lO.interest_amount,
-      tenor: lO.tenor,
-      tenor_in_days: (lO.tenor * 30),
-      expiry_month: lO.expiry_month,
-      expiry_year: lO.expiry_year,
-      cvv: lO.cvv,
-      repayment_frequency: lO.repayment_frequency,
-      reason: lO.reason,
-      application_date: lO.application_date,
-      reference_no: lO.reference_no,
-      requested_amount: lO.requested_amount,
+      iex> update_loan_credit_score(loan_credit_score, %{field: new_value})
+      {:ok, %Loan_credit_score{}}
 
-      arrangement_fee: lO.arrangement_fee,
-      finance_cost: lO.finance_cost,
-      monthly_installment: lO.monthly_installment,
+      iex> update_loan_credit_score(loan_credit_score, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
 
-
-
-      # tbl_userbiodate
-      dateOfBirth: uS.dateOfBirth,
-      emailAddress: uS.emailAddress,
-      firstName: uS.firstName,
-      customerName: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
-      gender: uS.gender,
-      lastName: uS.lastName,
-      meansOfIdentificationNumber: uS.meansOfIdentificationNumber,
-      meansOfIdentificationType: uS.meansOfIdentificationType,
-      mobileNumber: uS.mobileNumber,
-      otherName: uS.otherName,
-      title: uS.title,
-      userId: uS.userId,
-      idNo: uS.idNo,
-      bank_id: uS.bank_id,
-      personal_bank_account_number: uS.bank_account_number,
-      marital_status: uS.marital_status,
-      nationality: uS.nationality,
-      number_of_dependants: uS.number_of_dependants,
-      age: uS.age,
-      disability_detail: uS.disability_detail,
-      disability_status: uS.disability_status,
-      # tbl_product
-      clientId: pR.clientId,
-      code: pR.code,
-      currencyDecimals: pR.currencyDecimals,
-      currencyId: pR.currencyId,
-      currencyName: pR.currencyName,
-      defaultPeriod: pR.defaultPeriod,
-      details: pR.details,
-      interest: pR.interest,
-      interestMode: pR.interestMode,
-      interestType: pR.interestType,
-      maximumPrincipal: pR.maximumPrincipal,
-      minimumPrincipal: pR.minimumPrincipal,
-      name: pR.name,
-      periodType: pR.periodType,
-      productType: pR.productType,
-      product_status: pR.status,
-      yearLengthInDays: pR.yearLengthInDays,
-      principle_account_id: pR.principle_account_id,
-      interest_account_id: pR.interest_account_id,
-      charges_account_id: pR.charges_account_id,
-      classification_id: pR.classification_id,
-      charge_id: pR.charge_id,
-      reference_id: pR.reference_id,
-      product_reason: pR.reason,
-      productId: pR.id,
-
-
-      }
-    )
+  """
+  def update_loan_credit_score(%Loan_credit_score{} = loan_credit_score, attrs) do
+    loan_credit_score
+    |> Loan_credit_score.changeset(attrs)
+    |> Repo.update()
   end
 
+  @doc """
+  Deletes a loan_credit_score.
 
+  ## Examples
 
+      iex> delete_loan_credit_score(loan_credit_score)
+      {:ok, %Loan_credit_score{}}
 
-    # --------------------------------------- Loan Application lookup
-  # Loanmanagementsystem.Loan.loan_repayment_listing(nil, 1, 10)
-  def mgt_loan_repayment_listing(search_params, page, size) do
-    Loanmanagementsystem.Loan.Loans
-    |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
-    # |> handle_loan_filter(search_params)
-    |> order_by([lO], desc: lO.inserted_at)
-    |> mgt_compose_loan_repayment_list()
-    |> Repo.paginate(page: page, page_size: size)
+      iex> delete_loan_credit_score(loan_credit_score)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_loan_credit_score(%Loan_credit_score{} = loan_credit_score) do
+    Repo.delete(loan_credit_score)
   end
 
-  def mgt_loan_repayment_listing(_source, search_params) do
-    Loanmanagementsystem.Loan.Loans
-    |> join(:left, [lO], uS in UserBioData, on: lO.customer_id == uS.userId)
-    |> join(:left, [lO, uS, uR], pR in Product, on: pR.id == lO.product_id)
-    |> join(:left,[lO, uS], uR in UserRole, on: uS.userId == uR.userId)
-    # |> handle_loan_filter(search_params)
-    |> order_by([lO], desc: lO.inserted_at)
-    |> mgt_compose_loan_repayment_list()
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking loan_credit_score changes.
+
+  ## Examples
+
+      iex> change_loan_credit_score(loan_credit_score)
+      %Ecto.Changeset{data: %Loan_credit_score{}}
+
+  """
+  def change_loan_credit_score(%Loan_credit_score{} = loan_credit_score, attrs \\ %{}) do
+    Loan_credit_score.changeset(loan_credit_score, attrs)
   end
 
+  alias Loanmanagementsystem.Loan.Loan_checklist
 
+  @doc """
+  Returns the list of tbl_loan_checklist.
 
-  defp mgt_compose_loan_repayment_list(query) do
-    query
-    |>where([lO, uS, pR, uR], (lO.repayment_type == "PARTIAL REPAYMENT" or lO.repayment_type == "FULL REPAYMENT"))
-    |> select([lO, uS, pR, uR],
-      %{
-      isStaff: uR.isStaff,
-      loan_limit: uR.loan_limit,
-      due_date: fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id),
-      # tbl_loan
-      id: lO.id,
-      reference_no: lO.reference_no,
-      principal_repaid_derived: lO.principal_repaid_derived,
-      number_of_repayments: lO.number_of_repayments,
-      withdrawnon_date: lO.withdrawnon_date,
-      currency_code: lO.currency_code,
-      is_npa: lO.is_npa,
-      repay_every_type: lO.repay_every_type,
-      principal_writtenoff_derived: lO.principal_writtenoff_derived,
-      disbursedon_userid: lO.disbursedon_userid,
-      approvedon_userid: lO.approvedon_userid,
-      total_writtenoff_derived: lO.total_writtenoff_derived,
-      repay_every: lO.repay_every,
-      closedon_userid: lO.closedon_userid,
-      product_id: lO.product_id,
-      customer_id: lO.customer_id,
-      interest_method: lO.interest_method,
-      annual_nominal_interest_rate: lO.annual_nominal_interest_rate,
-      writtenoffon_date: lO.writtenoffon_date,
-      total_outstanding_derived: lO.total_outstanding_derived,
-      interest_calculated_from_date: lO.interest_calculated_from_date,
-      loan_counter: lO.loan_counter,
-      interest_charged_derived: lO.interest_charged_derived,
-      term_frequency_type: lO.term_frequency_type,
-      total_charges_due_at_disbursement_derived: lO.total_charges_due_at_disbursement_derived,
-      penalty_charges_waived_derived: lO.penalty_charges_waived_derived,
-      total_overpaid_derived: lO.total_overpaid_derived,
-      approved_principal: lO.approved_principal,
-      principal_disbursed_derived: lO.principal_disbursed_derived,
-      rejectedon_userid: lO.rejectedon_userid,
-      approvedon_date: lO.approvedon_date,
-      loan_type: lO.loan_type,
-      principal_amount: lO.principal_amount,
-      disbursedon_date: lO.disbursedon_date,
-      account_no: lO.account_no,
-      interest_outstanding_derived: lO.interest_outstanding_derived,
-      interest_writtenoff_derived: lO.interest_writtenoff_derived,
-      penalty_charges_writtenoff_derived: lO.penalty_charges_writtenoff_derived,
-      loan_status: lO.loan_status,
-      fee_charges_charged_derived: lO.fee_charges_charged_derived,
-      fee_charges_waived_derived: lO.fee_charges_waived_derived,
-      interest_waived_derived: lO.interest_waived_derived,
-      total_costofloan_derived: lO.total_costofloan_derived,
-      principal_amount_proposed: lO.principal_amount_proposed,
-      fee_charges_repaid_derived: lO.fee_charges_repaid_derived,
-      total_expected_repayment_derived: lO.total_expected_repayment_derived,
-      principal_outstanding_derived: lO.principal_outstanding_derived,
-      penalty_charges_charged_derived: lO.penalty_charges_charged_derived,
-      is_legacyloan: lO.is_legacyloan,
-      total_waived_derived: lO.total_waived_derived,
-      interest_repaid_derived: lO.interest_repaid_derived,
-      rejectedon_date: lO.rejectedon_date,
-      fee_charges_outstanding_derived: lO.fee_charges_outstanding_derived,
-      expected_disbursedon_date: lO.expected_disbursedon_date,
-      closedon_date: lO.closedon_date,
-      fee_charges_writtenoff_derived: lO.fee_charges_writtenoff_derived,
-      penalty_charges_outstanding_derived: lO.penalty_charges_outstanding_derived,
-      total_expected_costofloan_derived: lO.total_expected_costofloan_derived,
-      penalty_charges_repaid_derived: lO.penalty_charges_repaid_derived,
-      withdrawnon_userid: lO.withdrawnon_userid,
-      expected_maturity_date: lO.expected_maturity_date,
-      external_id: lO.external_id,
-      term_frequency: lO.term_frequency,
-      total_repayment_derived: lO.total_repayment_derived,
-      loan_identity_number: lO.loan_identity_number,
-      branch_id: lO.branch_id,
-      loan_status: lO.loan_status,
-      status: lO.status,
-      app_user_id: lO.app_user_id,
-      mobile_money_response: lO.mobile_money_response,
-      total_principal_repaid: lO.total_principal_repaid,
-      total_interest_repaid: lO.total_interest_repaid,
-      total_charges_repaid: lO.total_charges_repaid,
-      total_penalties_repaid: lO.total_penalties_repaid,
-      total_repaid: lO.total_repaid,
-      momoProvider: lO.momoProvider,
-      company_id: lO.company_id,
-      sms_status: lO.sms_status,
-      loan_userroleid: lO.loan_userroleid,
-      disbursement_method: lO.disbursement_method,
-      bank_name: lO.bank_name,
-      bank_account_no: lO.bank_account_no,
-      account_name: lO.account_name,
-      bevura_wallet_no: lO.bevura_wallet_no,
-      receipient_number: lO.receipient_number,
-      reference_no: lO.reference_no,
-      repayment_type: lO.repayment_type,
-      repayment_amount: lO.repayment_amount,
-      balance: lO.balance,
-      interest_amount: lO.interest_amount,
-      tenor: lO.tenor,
-      tenor_in_days: (lO.tenor * 30),
-      expiry_month: lO.expiry_month,
-      expiry_year: lO.expiry_year,
-      cvv: lO.cvv,
-      repayment_frequency: lO.repayment_frequency,
-      reason: lO.reason,
-      application_date: lO.application_date,
-      reference_no: lO.reference_no,
-      requested_amount: lO.requested_amount,
+  ## Examples
 
-      arrangement_fee: lO.arrangement_fee,
-      finance_cost: lO.finance_cost,
-      monthly_installment: lO.monthly_installment,
+      iex> list_tbl_loan_checklist()
+      [%Loan_checklist{}, ...]
 
-
-
-      # tbl_userbiodate
-      dateOfBirth: uS.dateOfBirth,
-      emailAddress: uS.emailAddress,
-      firstName: uS.firstName,
-      customerName: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
-      gender: uS.gender,
-      lastName: uS.lastName,
-      meansOfIdentificationNumber: uS.meansOfIdentificationNumber,
-      meansOfIdentificationType: uS.meansOfIdentificationType,
-      mobileNumber: uS.mobileNumber,
-      otherName: uS.otherName,
-      title: uS.title,
-      userId: uS.userId,
-      idNo: uS.idNo,
-      bank_id: uS.bank_id,
-      personal_bank_account_number: uS.bank_account_number,
-      marital_status: uS.marital_status,
-      nationality: uS.nationality,
-      number_of_dependants: uS.number_of_dependants,
-      age: uS.age,
-      disability_detail: uS.disability_detail,
-      disability_status: uS.disability_status,
-      # tbl_product
-      clientId: pR.clientId,
-      code: pR.code,
-      currencyDecimals: pR.currencyDecimals,
-      currencyId: pR.currencyId,
-      currencyName: pR.currencyName,
-      defaultPeriod: pR.defaultPeriod,
-      details: pR.details,
-      interest: pR.interest,
-      interestMode: pR.interestMode,
-      interestType: pR.interestType,
-      maximumPrincipal: pR.maximumPrincipal,
-      minimumPrincipal: pR.minimumPrincipal,
-      name: pR.name,
-      periodType: pR.periodType,
-      productType: pR.productType,
-      product_status: pR.status,
-      yearLengthInDays: pR.yearLengthInDays,
-      principle_account_id: pR.principle_account_id,
-      interest_account_id: pR.interest_account_id,
-      charges_account_id: pR.charges_account_id,
-      classification_id: pR.classification_id,
-      charge_id: pR.charge_id,
-      reference_id: pR.reference_id,
-      product_reason: pR.reason,
-      productId: pR.id,
-
-
-      }
-    )
+  """
+  def list_tbl_loan_checklist do
+    Repo.all(Loan_checklist)
   end
 
+  @doc """
+  Gets a single loan_checklist.
 
+  Raises `Ecto.NoResultsError` if the Loan checklist does not exist.
 
-    # Loanmanagementsystem.Loan.corparate_disbursed_loans_listing(nil, 1, 10)
-    def corparate_disbursed_loans_listing(search_params, page, size) do
-      Loanmanagementsystem.Loan.Loans
+  ## Examples
 
-      |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
-      |> join(:left, [lO, comp], uS in UserBioData, on: comp.user_bio_id == uS.userId)
-      |> join(:left, [lO, comp, uS], pR in Product, on: pR.id == lO.product_id)
-      |> join(:left,[lO, comp, uS], uR in UserRole, on: uS.userId == uR.userId)
-      |> join(:left, [lO, comp, uS, pR, uR], offtaker in Company, on: lO.offtakerID == offtaker.id)
-      |> join(:left, [lO, comp, uS, pR, uR, offtaker], funder_bio in UserBioData, on: lO.funderID == funder_bio.userId)
-      # |> handle_loan_filter(search_params)
-      |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio], desc: lO.inserted_at)
-      |> corparate_disbursed_loans_list()
-      |> Repo.paginate(page: page, page_size: size)
-    end
+      iex> get_loan_checklist!(123)
+      %Loan_checklist{}
 
-    def corparate_disbursed_loans_listing(_source, search_params) do
-      Loanmanagementsystem.Loan.Loans
-      |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
-      |> join(:left, [lO, comp], uS in UserBioData, on: comp.user_bio_id == uS.userId)
-      |> join(:left, [lO, comp, uS], pR in Product, on: pR.id == lO.product_id)
-      |> join(:left,[lO, comp, uS], uR in UserRole, on: uS.userId == uR.userId)
-      |> join(:left, [lO, comp, uS, pR, uR], offtaker in Company, on: lO.offtakerID == offtaker.id)
-      |> join(:left, [lO, comp, uS, pR, uR, offtaker], funder_bio in UserBioData, on: lO.funderID == funder_bio.userId)
-      # |> handle_loan_filter(search_params)
-      |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio], desc: lO.inserted_at)
-      |> corparate_disbursed_loans_list()
-    end
+      iex> get_loan_checklist!(456)
+      ** (Ecto.NoResultsError)
 
+  """
+  def get_loan_checklist!(id), do: Repo.get!(Loan_checklist, id)
 
+  @doc """
+  Creates a loan_checklist.
 
-    defp corparate_disbursed_loans_list(query) do
-      query
-      |> where([lO, comp, uS, pR, uR, offtaker, funder_bio], (lO.loan_type != "Consumer Loan" and lO.loan_type != "CONSUMER LOAN") and lO.loan_status == "DISBURSED")
-      |> select([lO, comp, uS, pR, uR, offtaker, funder_bio],
-        %{
-        offtaker_name: offtaker.companyName,
-        funder_bio: fragment("concat(?, concat(' ', ?))", funder_bio.firstName, funder_bio.lastName),
-        isStaff: uR.isStaff,
-        loan_limit: uR.loan_limit,
-        due_date: fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id),
-        # tbl_loan
-        id: lO.id,
-        reference_no: lO.reference_no,
-        principal_repaid_derived: lO.principal_repaid_derived,
-        number_of_repayments: lO.number_of_repayments,
-        withdrawnon_date: lO.withdrawnon_date,
-        currency_code: lO.currency_code,
-        is_npa: lO.is_npa,
-        repay_every_type: lO.repay_every_type,
-        principal_writtenoff_derived: lO.principal_writtenoff_derived,
-        disbursedon_userid: lO.disbursedon_userid,
-        approvedon_userid: lO.approvedon_userid,
-        total_writtenoff_derived: lO.total_writtenoff_derived,
-        repay_every: lO.repay_every,
-        closedon_userid: lO.closedon_userid,
-        product_id: lO.product_id,
-        customer_id: lO.customer_id,
-        interest_method: lO.interest_method,
-        annual_nominal_interest_rate: lO.annual_nominal_interest_rate,
-        writtenoffon_date: lO.writtenoffon_date,
-        total_outstanding_derived: lO.total_outstanding_derived,
-        interest_calculated_from_date: lO.interest_calculated_from_date,
-        loan_counter: lO.loan_counter,
-        interest_charged_derived: lO.interest_charged_derived,
-        term_frequency_type: lO.term_frequency_type,
-        total_charges_due_at_disbursement_derived: lO.total_charges_due_at_disbursement_derived,
-        penalty_charges_waived_derived: lO.penalty_charges_waived_derived,
-        total_overpaid_derived: lO.total_overpaid_derived,
-        approved_principal: lO.approved_principal,
-        principal_disbursed_derived: lO.principal_disbursed_derived,
-        rejectedon_userid: lO.rejectedon_userid,
-        approvedon_date: lO.approvedon_date,
-        loan_type: lO.loan_type,
-        principal_amount: lO.principal_amount,
-        disbursedon_date: lO.disbursedon_date,
-        account_no: lO.account_no,
-        interest_outstanding_derived: lO.interest_outstanding_derived,
-        interest_writtenoff_derived: lO.interest_writtenoff_derived,
-        penalty_charges_writtenoff_derived: lO.penalty_charges_writtenoff_derived,
-        loan_status: lO.loan_status,
-        fee_charges_charged_derived: lO.fee_charges_charged_derived,
-        fee_charges_waived_derived: lO.fee_charges_waived_derived,
-        interest_waived_derived: lO.interest_waived_derived,
-        total_costofloan_derived: lO.total_costofloan_derived,
-        principal_amount_proposed: lO.principal_amount_proposed,
-        fee_charges_repaid_derived: lO.fee_charges_repaid_derived,
-        total_expected_repayment_derived: lO.total_expected_repayment_derived,
-        principal_outstanding_derived: lO.principal_outstanding_derived,
-        penalty_charges_charged_derived: lO.penalty_charges_charged_derived,
-        is_legacyloan: lO.is_legacyloan,
-        total_waived_derived: lO.total_waived_derived,
-        interest_repaid_derived: lO.interest_repaid_derived,
-        rejectedon_date: lO.rejectedon_date,
-        fee_charges_outstanding_derived: lO.fee_charges_outstanding_derived,
-        expected_disbursedon_date: lO.expected_disbursedon_date,
-        closedon_date: lO.closedon_date,
-        fee_charges_writtenoff_derived: lO.fee_charges_writtenoff_derived,
-        penalty_charges_outstanding_derived: lO.penalty_charges_outstanding_derived,
-        total_expected_costofloan_derived: lO.total_expected_costofloan_derived,
-        penalty_charges_repaid_derived: lO.penalty_charges_repaid_derived,
-        withdrawnon_userid: lO.withdrawnon_userid,
-        expected_maturity_date: lO.expected_maturity_date,
-        external_id: lO.external_id,
-        term_frequency: lO.term_frequency,
-        total_repayment_derived: lO.total_repayment_derived,
-        loan_identity_number: lO.loan_identity_number,
-        branch_id: lO.branch_id,
-        loan_status: lO.loan_status,
-        status: lO.status,
-        app_user_id: lO.app_user_id,
-        mobile_money_response: lO.mobile_money_response,
-        total_principal_repaid: lO.total_principal_repaid,
-        total_interest_repaid: lO.total_interest_repaid,
-        total_charges_repaid: lO.total_charges_repaid,
-        total_penalties_repaid: lO.total_penalties_repaid,
-        total_repaid: lO.total_repaid,
-        momoProvider: lO.momoProvider,
-        company_id: lO.company_id,
-        sms_status: lO.sms_status,
-        loan_userroleid: lO.loan_userroleid,
-        disbursement_method: lO.disbursement_method,
-        bank_name: lO.bank_name,
-        bank_account_no: lO.bank_account_no,
-        account_name: lO.account_name,
-        bevura_wallet_no: lO.bevura_wallet_no,
-        receipient_number: lO.receipient_number,
-        reference_no: lO.reference_no,
-        repayment_type: lO.repayment_type,
-        repayment_amount: lO.repayment_amount,
-        balance: lO.balance,
-        interest_amount: lO.interest_amount,
-        tenor: lO.tenor,
-        tenor_in_days: (lO.tenor * 30),
-        expiry_month: lO.expiry_month,
-        expiry_year: lO.expiry_year,
-        cvv: lO.cvv,
-        repayment_frequency: lO.repayment_frequency,
-        reason: lO.reason,
-        application_date: lO.application_date,
-        reference_no: lO.reference_no,
-        requested_amount: lO.requested_amount,
+  ## Examples
 
-        arrangement_fee: lO.arrangement_fee,
-        finance_cost: lO.finance_cost,
-        monthly_installment: lO.monthly_installment,
+      iex> create_loan_checklist(%{field: value})
+      {:ok, %Loan_checklist{}}
 
+      iex> create_loan_checklist(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
 
+  """
+  def create_loan_checklist(attrs \\ %{}) do
+    %Loan_checklist{}
+    |> Loan_checklist.changeset(attrs)
+    |> Repo.insert()
+  end
 
-        # tbl_userbiodate
-        dateOfBirth: uS.dateOfBirth,
-        emailAddress: uS.emailAddress,
-        firstName: uS.firstName,
-        customerName: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
-        gender: uS.gender,
-        lastName: uS.lastName,
-        meansOfIdentificationNumber: uS.meansOfIdentificationNumber,
-        meansOfIdentificationType: uS.meansOfIdentificationType,
-        mobileNumber: uS.mobileNumber,
-        otherName: uS.otherName,
-        title: uS.title,
-        userId: uS.userId,
-        idNo: uS.idNo,
-        bank_id: uS.bank_id,
-        personal_bank_account_number: uS.bank_account_number,
-        marital_status: uS.marital_status,
-        nationality: uS.nationality,
-        number_of_dependants: uS.number_of_dependants,
-        age: uS.age,
-        disability_detail: uS.disability_detail,
-        disability_status: uS.disability_status,
-        # tbl_product
-        clientId: pR.clientId,
-        code: pR.code,
-        currencyDecimals: pR.currencyDecimals,
-        currencyId: pR.currencyId,
-        currencyName: pR.currencyName,
-        defaultPeriod: pR.defaultPeriod,
-        details: pR.details,
-        interest: pR.interest,
-        interestMode: pR.interestMode,
-        interestType: pR.interestType,
-        maximumPrincipal: pR.maximumPrincipal,
-        minimumPrincipal: pR.minimumPrincipal,
-        name: pR.name,
-        periodType: pR.periodType,
-        productType: pR.productType,
-        product_status: pR.status,
-        yearLengthInDays: pR.yearLengthInDays,
-        principle_account_id: pR.principle_account_id,
-        interest_account_id: pR.interest_account_id,
-        charges_account_id: pR.charges_account_id,
-        classification_id: pR.classification_id,
-        charge_id: pR.charge_id,
-        reference_id: pR.reference_id,
-        product_reason: pR.reason,
-        productId: pR.id,
+  @doc """
+  Updates a loan_checklist.
 
+  ## Examples
 
-        }
-      )
-    end
+      iex> update_loan_checklist(loan_checklist, %{field: new_value})
+      {:ok, %Loan_checklist{}}
 
+      iex> update_loan_checklist(loan_checklist, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
 
+  """
+  def update_loan_checklist(%Loan_checklist{} = loan_checklist, attrs) do
+    loan_checklist
+    |> Loan_checklist.changeset(attrs)
+    |> Repo.update()
+  end
 
+  @doc """
+  Deletes a loan_checklist.
 
+  ## Examples
 
-    # Loanmanagementsystem.Loan.corparate_overdue_loans_items_listing(nil, 1, 10)
-    def corparate_overdue_loans_items_listing(search_params, page, size) do
-      current_date = Timex.today
-      Loanmanagementsystem.Loan.Loans
+      iex> delete_loan_checklist(loan_checklist)
+      {:ok, %Loan_checklist{}}
 
-      |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
-      |> join(:left, [lO, comp], uS in UserBioData, on: comp.user_bio_id == uS.userId)
-      |> join(:left, [lO, comp, uS], pR in Product, on: pR.id == lO.product_id)
-      |> join(:left,[lO, comp, uS], uR in UserRole, on: uS.userId == uR.userId)
-      |> join(:left, [lO, comp, uS, pR, uR], offtaker in Company, on: lO.offtakerID == offtaker.id)
-      |> join(:left, [lO, comp, uS, pR, uR, offtaker], funder_bio in UserBioData, on: lO.funderID == funder_bio.userId)
-      |> join(:left, [lO, comp, uS, pR, uR, offtaker, funder_bio], loan_amo in Loan_amortization_schedule, on: lO.id == loan_amo.loan_id and fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id) < ^current_date)
+      iex> delete_loan_checklist(loan_checklist)
+      {:error, %Ecto.Changeset{}}
 
-      # |> join(:left, [lO, comp, uS, pR, uR, offtaker, funder_bio], loan_amo in Loan_amortization_schedule, on: lO.id == loan_amo.loan_id)
+  """
+  def delete_loan_checklist(%Loan_checklist{} = loan_checklist) do
+    Repo.delete(loan_checklist)
+  end
 
-      # |> corparate_disbursed_handle_report_filter(search_params)
-      |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], desc: lO.inserted_at)
-      |> corparate_overdue_loans_list(Date.to_iso8601(Timex.today))
-      |> Repo.paginate(page: page, page_size: size)
-    end
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking loan_checklist changes.
 
-    def corparate_overdue_loans_items_listing(_source, search_params) do
-      current_date = Timex.today
-      Loanmanagementsystem.Loan.Loans
+  ## Examples
 
-      |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
-      |> join(:left, [lO, comp], uS in UserBioData, on: comp.user_bio_id == uS.userId)
-      |> join(:left, [lO, comp, uS], pR in Product, on: pR.id == lO.product_id)
-      |> join(:left,[lO, comp, uS], uR in UserRole, on: uS.userId == uR.userId)
-      |> join(:left, [lO, comp, uS, pR, uR], offtaker in Company, on: lO.offtakerID == offtaker.id)
-      |> join(:left, [lO, comp, uS, pR, uR, offtaker], funder_bio in UserBioData, on: lO.funderID == funder_bio.userId)
-      |> join(:left, [lO, comp, uS, pR, uR, offtaker, funder_bio], loan_amo in Loan_amortization_schedule, on: lO.id == loan_amo.loan_id and fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id) < ^current_date)
+      iex> change_loan_checklist(loan_checklist)
+      %Ecto.Changeset{data: %Loan_checklist{}}
 
-      # |> corparate_disbursed_handle_report_filter(search_params)
-      |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], desc: lO.inserted_at)
-      |> corparate_overdue_loans_list(Date.to_iso8601(Timex.today))
-    end
+  """
+  def change_loan_checklist(%Loan_checklist{} = loan_checklist, attrs \\ %{}) do
+    Loan_checklist.changeset(loan_checklist, attrs)
+  end
 
-    # defp corparate_overdue_loans_list_handle_report_filter(query, %{"isearch" => search_term} = search_params)
-    # when search_term == "" or is_nil(search_term) do
-    #   query
-    #   |> handle_rep_f_name_filter(search_params)
-    #   |> handle_rep_l_name_filter(search_params)
-    #   |> handle_corparate_name_filter(search_params)
-    #   |> handle_offtaker_name_filter(search_params)
-    #   |> handle_funder_name_filter(search_params)
-    #   |> handle_loan_type_filter(search_params)
-    #   |> handle_corparate_interest_amount_filter(search_params)
-    #   |> handle_corparate_principal_amount_filter(search_params)
-    #   |> handle_corparate_disbursed_loan_date_filter(search_params)
-    # end
+  alias Loanmanagementsystem.Loan.Loan_5cs
 
-    defp corparate_overdue_loans_list(query, current_date) do
+  @doc """
+  Returns the list of tbl_loan_5cs_analysis.
 
-      query
+  ## Examples
 
-      |> where([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], (lO.id == loan_amo.loan_id))
-      |> select([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo],
-        %{
-        offtaker_name: offtaker.companyName,
-        company_name: comp.companyName,
-        funderID: lO.funderID,
-        funder_bio: fragment("concat(?, concat(' ', ?))", funder_bio.firstName, funder_bio.lastName),
-        isStaff: uR.isStaff,
-        loan_limit: uR.loan_limit,
-        # due_date: fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id),
-        # tbl_loan
-        id: lO.id,
-        reference_no: lO.reference_no,
-        principal_repaid_derived: lO.principal_repaid_derived,
-        number_of_repayments: lO.number_of_repayments,
-        withdrawnon_date: lO.withdrawnon_date,
-        currency_code: lO.currency_code,
-        is_npa: lO.is_npa,
-        repay_every_type: lO.repay_every_type,
-        principal_writtenoff_derived: lO.principal_writtenoff_derived,
-        disbursedon_userid: lO.disbursedon_userid,
-        approvedon_userid: lO.approvedon_userid,
-        total_writtenoff_derived: lO.total_writtenoff_derived,
-        repay_every: lO.repay_every,
-        closedon_userid: lO.closedon_userid,
-        product_id: lO.product_id,
-        customer_id: lO.customer_id,
-        interest_method: lO.interest_method,
-        annual_nominal_interest_rate: lO.annual_nominal_interest_rate,
-        writtenoffon_date: lO.writtenoffon_date,
-        total_outstanding_derived: lO.total_outstanding_derived,
-        interest_calculated_from_date: lO.interest_calculated_from_date,
-        loan_counter: lO.loan_counter,
-        interest_charged_derived: lO.interest_charged_derived,
-        term_frequency_type: lO.term_frequency_type,
-        total_charges_due_at_disbursement_derived: lO.total_charges_due_at_disbursement_derived,
-        penalty_charges_waived_derived: lO.penalty_charges_waived_derived,
-        total_overpaid_derived: lO.total_overpaid_derived,
-        approved_principal: lO.approved_principal,
-        principal_disbursed_derived: lO.principal_disbursed_derived,
-        rejectedon_userid: lO.rejectedon_userid,
-        approvedon_date: lO.approvedon_date,
-        loan_type: lO.loan_type,
-        principal_amount: lO.principal_amount,
-        disbursedon_date: lO.disbursedon_date,
-        account_no: lO.account_no,
-        interest_outstanding_derived: lO.interest_outstanding_derived,
-        interest_writtenoff_derived: lO.interest_writtenoff_derived,
-        penalty_charges_writtenoff_derived: lO.penalty_charges_writtenoff_derived,
-        loan_status: lO.loan_status,
-        fee_charges_charged_derived: lO.fee_charges_charged_derived,
-        fee_charges_waived_derived: lO.fee_charges_waived_derived,
-        interest_waived_derived: lO.interest_waived_derived,
-        total_costofloan_derived: lO.total_costofloan_derived,
-        principal_amount_proposed: lO.principal_amount_proposed,
-        fee_charges_repaid_derived: lO.fee_charges_repaid_derived,
-        total_expected_repayment_derived: lO.total_expected_repayment_derived,
-        principal_outstanding_derived: lO.principal_outstanding_derived,
-        penalty_charges_charged_derived: lO.penalty_charges_charged_derived,
-        is_legacyloan: lO.is_legacyloan,
-        total_waived_derived: lO.total_waived_derived,
-        interest_repaid_derived: lO.interest_repaid_derived,
-        rejectedon_date: lO.rejectedon_date,
-        fee_charges_outstanding_derived: lO.fee_charges_outstanding_derived,
-        expected_disbursedon_date: lO.expected_disbursedon_date,
-        closedon_date: lO.closedon_date,
-        fee_charges_writtenoff_derived: lO.fee_charges_writtenoff_derived,
-        penalty_charges_outstanding_derived: lO.penalty_charges_outstanding_derived,
-        total_expected_costofloan_derived: lO.total_expected_costofloan_derived,
-        penalty_charges_repaid_derived: lO.penalty_charges_repaid_derived,
-        withdrawnon_userid: lO.withdrawnon_userid,
-        expected_maturity_date: lO.expected_maturity_date,
-        external_id: lO.external_id,
-        term_frequency: lO.term_frequency,
-        total_repayment_derived: lO.total_repayment_derived,
-        loan_identity_number: lO.loan_identity_number,
-        branch_id: lO.branch_id,
-        loan_status: lO.loan_status,
-        status: lO.status,
-        app_user_id: lO.app_user_id,
-        mobile_money_response: lO.mobile_money_response,
-        total_principal_repaid: lO.total_principal_repaid,
-        total_interest_repaid: lO.total_interest_repaid,
-        total_charges_repaid: lO.total_charges_repaid,
-        total_penalties_repaid: lO.total_penalties_repaid,
-        total_repaid: lO.total_repaid,
-        momoProvider: lO.momoProvider,
-        company_id: lO.company_id,
-        sms_status: lO.sms_status,
-        loan_userroleid: lO.loan_userroleid,
-        disbursement_method: lO.disbursement_method,
-        bank_name: lO.bank_name,
-        bank_account_no: lO.bank_account_no,
-        account_name: lO.account_name,
-        bevura_wallet_no: lO.bevura_wallet_no,
-        receipient_number: lO.receipient_number,
-        reference_no: lO.reference_no,
-        repayment_type: lO.repayment_type,
-        repayment_amount: lO.repayment_amount,
-        balance: lO.balance,
-        interest_amount: lO.interest_amount,
-        tenor: lO.tenor,
-        tenor_in_days: (lO.tenor * 30),
-        expiry_month: lO.expiry_month,
-        expiry_year: lO.expiry_year,
-        cvv: lO.cvv,
-        repayment_frequency: lO.repayment_frequency,
-        reason: lO.reason,
-        application_date: lO.application_date,
-        reference_no: lO.reference_no,
-        requested_amount: lO.requested_amount,
+      iex> list_tbl_loan_5cs_analysis()
+      [%Loan_5cs{}, ...]
 
-        arrangement_fee: lO.arrangement_fee,
-        finance_cost: lO.finance_cost,
-        monthly_installment: lO.monthly_installment,
+  """
+  def list_tbl_loan_5cs_analysis do
+    Repo.all(Loan_5cs)
+  end
 
+  @doc """
+  Gets a single loan_5cs.
 
+  Raises `Ecto.NoResultsError` if the Loan 5cs does not exist.
 
-        # tbl_userbiodate
-        dateOfBirth: uS.dateOfBirth,
-        emailAddress: uS.emailAddress,
-        firstName: uS.firstName,
-        customerName: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
-        gender: uS.gender,
-        lastName: uS.lastName,
-        meansOfIdentificationNumber: uS.meansOfIdentificationNumber,
-        meansOfIdentificationType: uS.meansOfIdentificationType,
-        mobileNumber: uS.mobileNumber,
-        otherName: uS.otherName,
-        title: uS.title,
-        userId: uS.userId,
-        idNo: uS.idNo,
-        bank_id: uS.bank_id,
-        personal_bank_account_number: uS.bank_account_number,
-        marital_status: uS.marital_status,
-        nationality: uS.nationality,
-        number_of_dependants: uS.number_of_dependants,
-        age: uS.age,
-        disability_detail: uS.disability_detail,
-        disability_status: uS.disability_status,
-        # tbl_product
-        clientId: pR.clientId,
-        code: pR.code,
-        currencyDecimals: pR.currencyDecimals,
-        currencyId: pR.currencyId,
-        currencyName: pR.currencyName,
-        defaultPeriod: pR.defaultPeriod,
-        details: pR.details,
-        interest: pR.interest,
-        interestMode: pR.interestMode,
-        interestType: pR.interestType,
-        maximumPrincipal: pR.maximumPrincipal,
-        minimumPrincipal: pR.minimumPrincipal,
-        name: pR.name,
-        periodType: pR.periodType,
-        productType: pR.productType,
-        product_status: pR.status,
-        yearLengthInDays: pR.yearLengthInDays,
-        principle_account_id: pR.principle_account_id,
-        interest_account_id: pR.interest_account_id,
-        charges_account_id: pR.charges_account_id,
-        classification_id: pR.classification_id,
-        charge_id: pR.charge_id,
-        reference_id: pR.reference_id,
-        product_reason: pR.reason,
-        productId: pR.id,
+  ## Examples
 
+      iex> get_loan_5cs!(123)
+      %Loan_5cs{}
 
-        }
-      )
-    end
+      iex> get_loan_5cs!(456)
+      ** (Ecto.NoResultsError)
 
-    # Loanmanagementsystem.Loan.get_corparate_loan_by_funder_id_2(10)
+  """
+  def get_loan_5cs!(id), do: Repo.get!(Loan_5cs, id)
 
-    def get_corparate_loan_by_funder_id(funder_id) do
-      Loans
-      |> join(:left, [lo], funder in Loan_funder, on: lo.funderID == funder.funderID)
-      |> join(:left, [lo, funder], c in Company, on: lo.company_id == c.id)
-      |> join(:left, [lo, funder], prod in Product, on: lo.product_id == prod.id)
-      |> order_by([lo, funder, c, prod], desc: lo.inserted_at)
-      |> where([lo, funder, c, prod], (funder.funderID == ^funder_id and not is_nil(c.companyName)))
-      |> select([lo, funder, c, prod], %{
+  @doc """
+  Creates a loan_5cs.
 
-        id: funder.id,
-        principal_amount: lo.principal_amount,
-        loan_status: lo.loan_status,
-        inserted_at: lo.inserted_at,
-        disbursedon_date: lo.disbursedon_date,
-        interest_outstanding_derived: lo.interest_outstanding_derived,
-        principal_repaid_derived: lo.principal_repaid_derived,
-        principal_amount_proposed: lo.principal_amount_proposed,
-        principal_disbursed_derived: lo.principal_disbursed_derived,
-        loan_type: lo.loan_type,
-        loan_id: lo.id,
-        userId: lo.customer_id,
-        productType: prod.productType,
-        productName: prod.name,
-        companyName: c.companyName,
-        contactEmail: c.contactEmail,
-        companyPhone: c.companyPhone,
-        registrationNumber: c.registrationNumber,
-        taxno: c.taxno,
-        companyRegistrationDate: c.companyRegistrationDate,
-        companyAccountNumber: c.companyAccountNumber,
+  ## Examples
 
-      })|> Repo.all()
-    end
+      iex> create_loan_5cs(%{field: value})
+      {:ok, %Loan_5cs{}}
 
+      iex> create_loan_5cs(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
 
+  """
+  def create_loan_5cs(attrs \\ %{}) do
+    %Loan_5cs{}
+    |> Loan_5cs.changeset(attrs)
+    |> Repo.insert()
+  end
 
+  @doc """
+  Updates a loan_5cs.
 
+  ## Examples
 
+      iex> update_loan_5cs(loan_5cs, %{field: new_value})
+      {:ok, %Loan_5cs{}}
 
+      iex> update_loan_5cs(loan_5cs, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
 
+  """
+  def update_loan_5cs(%Loan_5cs{} = loan_5cs, attrs) do
+    loan_5cs
+    |> Loan_5cs.changeset(attrs)
+    |> Repo.update()
+  end
 
+  @doc """
+  Deletes a loan_5cs.
 
+  ## Examples
 
+      iex> delete_loan_5cs(loan_5cs)
+      {:ok, %Loan_5cs{}}
 
+      iex> delete_loan_5cs(loan_5cs)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_loan_5cs(%Loan_5cs{} = loan_5cs) do
+    Repo.delete(loan_5cs)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking loan_5cs changes.
+
+  ## Examples
+
+      iex> change_loan_5cs(loan_5cs)
+      %Ecto.Changeset{data: %Loan_5cs{}}
+
+  """
+  def change_loan_5cs(%Loan_5cs{} = loan_5cs, attrs \\ %{}) do
+    Loan_5cs.changeset(loan_5cs, attrs)
+  end
+
+  alias Loanmanagementsystem.Loan.Loan_disbursement
+
+  @doc """
+  Returns the list of tbl_loan_payment_requisition.
+
+  ## Examples
+
+      iex> list_tbl_loan_payment_requisition()
+      [%Loan_disbursement{}, ...]
+
+  """
+  def list_tbl_loan_payment_requisition do
+    Repo.all(Loan_disbursement)
+  end
+
+  @doc """
+  Gets a single loan_disbursement.
+
+  Raises `Ecto.NoResultsError` if the Loan disbursement does not exist.
+
+  ## Examples
+
+      iex> get_loan_disbursement!(123)
+      %Loan_disbursement{}
+
+      iex> get_loan_disbursement!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_loan_disbursement!(id), do: Repo.get!(Loan_disbursement, id)
+
+  @doc """
+  Creates a loan_disbursement.
+
+  ## Examples
+
+      iex> create_loan_disbursement(%{field: value})
+      {:ok, %Loan_disbursement{}}
+
+      iex> create_loan_disbursement(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  # def create_loan_disbursement(attrs \\ %{}) do
+  #   %Loan_disbursement{}
+  #   |> Loan_disbursement.changeset(attrs)
+  #   |> Repo.insert()
+  # end
+
+  @doc """
+  Updates a loan_disbursement.
+
+  ## Examples
+
+      iex> update_loan_disbursement(loan_disbursement, %{field: new_value})
+      {:ok, %Loan_disbursement{}}
+
+      iex> update_loan_disbursement(loan_disbursement, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_loan_disbursement(%Loan_disbursement{} = loan_disbursement, attrs) do
+    loan_disbursement
+    |> Loan_disbursement.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a loan_disbursement.
+
+  ## Examples
+
+      iex> delete_loan_disbursement(loan_disbursement)
+      {:ok, %Loan_disbursement{}}
+
+      iex> delete_loan_disbursement(loan_disbursement)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_loan_disbursement(%Loan_disbursement{} = loan_disbursement) do
+    Repo.delete(loan_disbursement)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking loan_disbursement changes.
+
+  ## Examples
+
+      iex> change_loan_disbursement(loan_disbursement)
+      %Ecto.Changeset{data: %Loan_disbursement{}}
+
+  """
+  # def change_loan_disbursement(%Loan_disbursement{} = loan_disbursement, attrs \\ %{}) do
+  #   Loan_disbursement.changeset(loan_disbursement, attrs)
+  # end
+
+  alias Loanmanagementsystem.Loan.Loan_income_assessment
+
+  @doc """
+  Returns the list of tbl_loan_client_income_assessment.
+
+  ## Examples
+
+      iex> list_tbl_loan_client_income_assessment()
+      [%Loan_income_assessment{}, ...]
+
+  """
+  def list_tbl_loan_client_income_assessment do
+    Repo.all(Loan_income_assessment)
+  end
+
+  @doc """
+  Gets a single loan_income_assessment.
+
+  Raises `Ecto.NoResultsError` if the Loan income assessment does not exist.
+
+  ## Examples
+
+      iex> get_loan_income_assessment!(123)
+      %Loan_income_assessment{}
+
+      iex> get_loan_income_assessment!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_loan_income_assessment!(id), do: Repo.get!(Loan_income_assessment, id)
+
+  @doc """
+  Creates a loan_income_assessment.
+
+  ## Examples
+
+      iex> create_loan_income_assessment(%{field: value})
+      {:ok, %Loan_income_assessment{}}
+
+      iex> create_loan_income_assessment(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_loan_income_assessment(attrs \\ %{}) do
+    %Loan_income_assessment{}
+    |> Loan_income_assessment.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a loan_income_assessment.
+
+  ## Examples
+
+      iex> update_loan_income_assessment(loan_income_assessment, %{field: new_value})
+      {:ok, %Loan_income_assessment{}}
+
+      iex> update_loan_income_assessment(loan_income_assessment, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_loan_income_assessment(%Loan_income_assessment{} = loan_income_assessment, attrs) do
+    loan_income_assessment
+    |> Loan_income_assessment.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a loan_income_assessment.
+
+  ## Examples
+
+      iex> delete_loan_income_assessment(loan_income_assessment)
+      {:ok, %Loan_income_assessment{}}
+
+      iex> delete_loan_income_assessment(loan_income_assessment)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_loan_income_assessment(%Loan_income_assessment{} = loan_income_assessment) do
+    Repo.delete(loan_income_assessment)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking loan_income_assessment changes.
+
+  ## Examples
+
+      iex> change_loan_income_assessment(loan_income_assessment)
+      %Ecto.Changeset{data: %Loan_income_assessment{}}
+
+  """
+  def change_loan_income_assessment(%Loan_income_assessment{} = loan_income_assessment, attrs \\ %{}) do
+    Loan_income_assessment.changeset(loan_income_assessment, attrs)
+  end
+
+  alias Loanmanagementsystem.Loan.Writtenoff_loans
+
+  @doc """
+  Returns the list of tbl_writteoff_loans.
+
+  ## Examples
+
+      iex> list_tbl_writteoff_loans()
+      [%Writtenoff_loans{}, ...]
+
+  """
+  def list_tbl_writteoff_loans do
+    Repo.all(Writtenoff_loans)
+  end
+
+  @doc """
+  Gets a single writtenoff_loans.
+
+  Raises `Ecto.NoResultsError` if the Writtenoff loans does not exist.
+
+  ## Examples
+
+      iex> get_writtenoff_loans!(123)
+      %Writtenoff_loans{}
+
+      iex> get_writtenoff_loans!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_writtenoff_loans!(id), do: Repo.get!(Writtenoff_loans, id)
+
+  @doc """
+  Creates a writtenoff_loans.
+
+  ## Examples
+
+      iex> create_writtenoff_loans(%{field: value})
+      {:ok, %Writtenoff_loans{}}
+
+      iex> create_writtenoff_loans(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_writtenoff_loans(attrs \\ %{}) do
+    %Writtenoff_loans{}
+    |> Writtenoff_loans.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a writtenoff_loans.
+
+  ## Examples
+
+      iex> update_writtenoff_loans(writtenoff_loans, %{field: new_value})
+      {:ok, %Writtenoff_loans{}}
+
+      iex> update_writtenoff_loans(writtenoff_loans, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_writtenoff_loans(%Writtenoff_loans{} = writtenoff_loans, attrs) do
+    writtenoff_loans
+    |> Writtenoff_loans.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a writtenoff_loans.
+
+  ## Examples
+
+      iex> delete_writtenoff_loans(writtenoff_loans)
+      {:ok, %Writtenoff_loans{}}
+
+      iex> delete_writtenoff_loans(writtenoff_loans)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_writtenoff_loans(%Writtenoff_loans{} = writtenoff_loans) do
+    Repo.delete(writtenoff_loans)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking writtenoff_loans changes.
+
+  ## Examples
+
+      iex> change_writtenoff_loans(writtenoff_loans)
+      %Ecto.Changeset{data: %Writtenoff_loans{}}
+
+  """
+  def change_writtenoff_loans(%Writtenoff_loans{} = writtenoff_loans, attrs \\ %{}) do
+    Writtenoff_loans.changeset(writtenoff_loans, attrs)
+  end
+
+  alias Loanmanagementsystem.Loan.Customer_loan_application
+
+  @doc """
+  Returns the list of tbl_customer_loan_application.
+
+  ## Examples
+
+      iex> list_tbl_customer_loan_application()
+      [%Customer_loan_application{}, ...]
+
+  """
+  def list_tbl_customer_loan_application do
+    Repo.all(Customer_loan_application)
+  end
+
+  @doc """
+  Gets a single customer_loan_application.
+
+  Raises `Ecto.NoResultsError` if the Customer loan application does not exist.
+
+  ## Examples
+
+      iex> get_customer_loan_application!(123)
+      %Customer_loan_application{}
+
+      iex> get_customer_loan_application!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_customer_loan_application!(id), do: Repo.get!(Customer_loan_application, id)
+
+  @doc """
+  Creates a customer_loan_application.
+
+  ## Examples
+
+      iex> create_customer_loan_application(%{field: value})
+      {:ok, %Customer_loan_application{}}
+
+      iex> create_customer_loan_application(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_customer_loan_application(attrs \\ %{}) do
+    %Customer_loan_application{}
+    |> Customer_loan_application.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a customer_loan_application.
+
+  ## Examples
+
+      iex> update_customer_loan_application(customer_loan_application, %{field: new_value})
+      {:ok, %Customer_loan_application{}}
+
+      iex> update_customer_loan_application(customer_loan_application, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_customer_loan_application(%Customer_loan_application{} = customer_loan_application, attrs) do
+    customer_loan_application
+    |> Customer_loan_application.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a customer_loan_application.
+
+  ## Examples
+
+      iex> delete_customer_loan_application(customer_loan_application)
+      {:ok, %Customer_loan_application{}}
+
+      iex> delete_customer_loan_application(customer_loan_application)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_customer_loan_application(%Customer_loan_application{} = customer_loan_application) do
+    Repo.delete(customer_loan_application)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking customer_loan_application changes.
+
+  ## Examples
+
+      iex> change_customer_loan_application(customer_loan_application)
+      %Ecto.Changeset{data: %Customer_loan_application{}}
+
+  """
+  def change_customer_loan_application(%Customer_loan_application{} = customer_loan_application, attrs \\ %{}) do
+    Customer_loan_application.changeset(customer_loan_application, attrs)
+  end
 end

@@ -1,6 +1,7 @@
 defmodule Loanmanagementsystem.Companies.Client_company_details do
   use Ecto.Schema
   import Ecto.Changeset
+  use Endon
 
   schema "tbl_client_company_details" do
     field :approval_trail, :string
@@ -19,10 +20,6 @@ defmodule Loanmanagementsystem.Companies.Client_company_details do
     field :company_department, :string
     field :company_bank_name, :string
     field :company_account_name, :string
-    field :userId, :integer
-
-
-
 
     timestamps()
   end
@@ -33,7 +30,6 @@ defmodule Loanmanagementsystem.Companies.Client_company_details do
     |> cast(attrs, [
       :approval_trail,
       :auth_level,
-      :userId,
       :company_name,
       :company_phone,
       :contact_email,

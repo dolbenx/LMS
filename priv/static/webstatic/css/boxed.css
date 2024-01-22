@@ -1,0 +1,118 @@
+/*Color variables*/
+/*gray variables*/
+/*white variables*/
+/*black variables*/
+/*color1*/
+/*color2*/
+/*color3*/
+/*color4*/
+/*color5*/
+@media (min-width: 1025px) {
+  .boxed .page {
+    width: 1400px;
+    margin: 0 auto;
+    background: #ebeef1;
+    position: relative;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    -webkit-box-pack: center;
+    min-height: 100vh;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 0px 0px, rgba(0, 0, 0, 0.3) 0px 5px 25px 0px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 0px 0px, rgba(0, 0, 0, 0.3) 0px 5px 25px 0px;
+  }
+  .boxed body {
+    background: #c5cacf;
+  }
+  .boxed .header.top-header {
+    width: 1400px;
+    margin: 0 auto;
+  }
+  .boxed .hor-menu.horizontal-main {
+    max-width: 1400px;
+  }
+  .boxed .main-content .container, .boxed .main-content .container-fluid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .boxed .main-header > .container, .boxed .main-header > .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .boxed .app-sidebar {
+    left: auto !important;
+  }
+  .boxed .side-header {
+    left: auto !important;
+    right: auto !important;
+    z-index: 99;
+  }
+  .boxed .main-header.side-header {
+    max-width: 1400px;
+  }
+  .boxed .app.sidenav-toggled .app-sidebar.comb-sidebar {
+    left: -230px !important;
+  }
+  .boxed .horizontalMenu > .horizontalMenu-list > li:last-child > ul.sub-menu {
+    right: 0 !important;
+  }
+  .boxed .page-style1 .page-content {
+    z-index: 999;
+  }
+  .boxed .app-header {
+    padding-right: 10px !important;
+  }
+  .boxed .second-sidemenu {
+    left: auto !important;
+    margin-left: 70px;
+  }
+  .boxed .app.sidebar-mini.sidenav-toggled4 .first-sidemenu {
+    left: auto !important;
+  }
+  .boxed .header .form-inline .form-control {
+    width: auto;
+  }
+  .boxed .horizontalMenucontainer .main-header.hor-header {
+    max-width: 1400px;
+  }
+  .boxed .modal-backdrop {
+    z-index: 9;
+  }
+  .boxed .app.sidebar-mini .main-header.side-header {
+    max-width: 1170px;
+    margin: 0 auto;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0;
+  }
+  .boxed .main-sidebar-sticky {
+    left: auto;
+  }
+}
+
+.boxed .card--calendar .ui-datepicker .ui-datepicker-calendar td a {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+@media (min-width: 992px) {
+  .boxed .main-navbar.sticky.sticky-pin {
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .boxed .main-sidebar {
+    left: auto !important;
+  }
+}
+
+.boxed .main-navbar.hor-menu .container, .boxed .main-content.hor-content .container, .boxed .container {
+  max-width: 95%;
+}
+/*# sourceMappingURL=boxed.css.map */

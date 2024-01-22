@@ -14,7 +14,6 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblCollateral do
       add :cro_staff_name, :string
       add :cro_staff_signature, :text
       add :reference_no, :string
-      add :serialNo, :string
 
       timestamps()
     end

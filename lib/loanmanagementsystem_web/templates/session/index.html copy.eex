@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>GNC | Login</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <!-- Favicon -->
+	  <link rel="icon" href="<%= Routes.static_path(@conn, "/images/gnc.jpg") %>" type="image/x-icon"/>
+      <!-- CSS only -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <style>
+         html{
+         height: 100vh;
+         }
+
+         body{
+            background-color: ;
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            }
+         /* Style the header */
+         header {
+         background-color: #666;
+         padding: 30px;
+         text-align: center;
+         font-size: 35px;
+         color: white;
+         }
+         /* Style the navigation menu */
+         nav {
+         -webkit-flex: 1;
+         -ms-flex: 1;
+         flex: 1;
+         background: #ccc;
+         padding: 20px;
+         }
+         /* Style the list inside the menu */
+         nav ul {
+         list-style-type: none;
+         padding: 0;
+         }
+         /* Style the content */
+         article {
+         -webkit-flex: 3;
+         -ms-flex: 3;
+         flex: 3;
+         background-color: #f1f1f1;
+         padding: 10px;
+         }
+         /* Style the footer */
+         footer {
+         position: absolute;
+         right: 0;
+         bottom: 0;
+         left: 0;
+         padding: 3rem;
+         background-color: #003651;
+         color: white;
+         }
+         @media screen and (max-width: 1280px) and (max-height: 720px) {
+               html {
+                  transform: scale(.5);
+                  // or simply zoom: 50%
+               }
+            }
+         /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+         @media (max-width: 600px) {
+         section {
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            }
+         }
+      @media only screen and (min-width: 1350px) {
+         .logos{
+            padding-left: 230px;
+            padding-top: 222px;
+            width: 72%;
+         }
+         .loginforms{
+            display: block;
+            margin-right: auto;
+            padding-top: 103px;
+            width: 72%;
+
+         }
+         img {
+            width:600px
+         }
+      }
+      @media only screen and (max-width: 1350px) {
+         .loginforms{
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+         }
+         .logos{
+            margin: auto;
+            width: 50%;
+            padding: 50px;
+         }
+         img {
+            width:400px
+         }
+      }
+      @media only screen and (max-width: 750px) {
+         .fordesktop {
+            display: none;
+         }
+         .loginforms{
+            margin: auto;
+            width: 100%;
+            padding: 10px;
+         }
+         .logos{
+            margin: auto;
+            width: 100%;
+         }
+         img {
+            width:300px
+         }
+      }
+      </style>
+   </head>
+   <body>
+      <div class="row">
+         <div class="col-md-7">
+            <div class="logos text-center">
+               <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" alt="Italian Trulli">
+			   </div>
+         </div>
+         <div class="col-md-5">
+            <div class="loginforms">
+		 	<div class="row">
+				<div class="col-md-12 col-lg-offset-2">
+					<div class="form-group">
+						<%= if get_flash(@conn, :info) do %>
+							<div class="alert alert-success alert-styled-left" style="border-radius: 15px">
+							<button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+							<%= get_flash(@conn, :info) %>
+							</div>
+						<% end %>
+						<%= if get_flash(@conn, :error) do %>
+							<div class="alert alert-warning alert-styled-left" style="border-radius: 15px">
+							<button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+							Sorry! <%= get_flash(@conn, :error) %>
+							</div>
+						<% end %>
+					</div>
+				</div>
+			</div>
+               <span class="anchor" id="formLogin"></span>
+               <!-- form card login -->
+               <div class="card card-outline-secondary" style="border-radius: 25px; height: 439px;">
+
+				  	<div class="container">
+						<div class="card-body">
+				  			<div class="container">
+				  			<div class="container">
+				  			<div class="container">
+				  			<div class="container">
+								<form autocomplete="off" class="form" action="<%= Routes.session_path(@conn, :create)%>" method="POST" id="formLogin" name="formLogin" role="form">
+                    				<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+									<div class="form-group">
+									<label for="uname1" style="font-size: 20px; color: #003651;">Username</label> <br><br>
+									<input class="form-control" id="uname1" name="username" style="background-color: #D4D4D4;" required="" placeholder="Enter Username" type="text">
+									</div><br>
+									<div class="form-group">
+									<label style="font-size: 20px; color: #003651;">Password</label><br><br>
+									<input autocomplete="new-password" name="password" style="background-color: #D4D4D4;" class="form-control" placeholder="Enter Password" id="pwd1" required="" type="password">
+									</div><br><br>
+									<div class="form-group">
+										<button class="btn form-control btn-lg float-right" style="background-color: #F6000F; color: white; border-radius: 15px;">Login</button>
+									</div><br><br>
+									<div class="text-center">
+										<p style="font-size: 20px; color: #F6000F;"><a href="/forgot-password" style="color: #003651;">Forgot Pasword</a> | <a href="/Register" style="color: #003651;">Register</a> </p>
+									</div>
+								</form>
+							</div>
+							</div>
+							</div>
+							</div>
+						</div>
+					</div>
+                  <!--/card-block-->
+               </div>
+               <!-- /form card login -->
+            </div>
+         </div>
+      </div>
+      <footer class="fordesktop">
+         <div class="row text-center">
+            <div class="col-md-2">
+				<div class="row">
+					<div class="col-md-2">
+						<i class="fa fa-map-marker" style="font-size:40px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
+					</div>
+					<div class="col-md-10">
+						Subdivision C of LOT 2050/M,<br>
+						Main Street, Ibex Hill,<br>
+						Lusaka - Zambia
+					</div>
+				</div>
+            </div>
+            <div class="col-md-2">
+               Inquiry<br>
+               info@greatnorthcredit.co.zm<br>
+			   www.greatnorthcredit.co.zm
+            </div>
+            <div class="col-md-2">
+				<div class="row">
+					<div class="col-md-2">
+						<i class="fa fa-at" style="font-size:40px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i>
+					</div>
+					<div class="col-md-10">
+						Great North Credit<br>
+						+260 977932045<br>
+						+260 977951572<br>
+						info@greatnorthcredit.co.zm
+					</div>
+				</div>
+            </div>
+            <div class="col-md-2">
+               Support<br>
+               info@greatnorthcredit.co.zm<br>
+               www.greatnorthcredit.co.zm
+            </div>
+            <div class="col-md-4">
+               <i class="fa fa-facebook" style="font-size:40px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i> &nbsp;&nbsp;<i class="fa fa-instagram" style="font-size:40px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i> &nbsp;&nbsp;<i class="fa fa-twitter" style="font-size:40px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i> &nbsp;&nbsp;|&nbsp;&nbsp; <i style="font-size: 25px;"> www.greatnorthcredit.co.zm </i>
+            </div>
+         </div>
+      </footer>
+
+      <!-- JavaScript Bundle with Popper --><script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery/jquery.min.js") %> "></script>
+
+		<!-- Bootstrap js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/popper.min.js") %> "></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %> "></script>
+
+		<!-- Select2 js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/js/select2.min.js") %> "></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/select2.js") %> "></script>
+
+		<!-- Custom js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/custom.js") %> "></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+   </body>
+</html>

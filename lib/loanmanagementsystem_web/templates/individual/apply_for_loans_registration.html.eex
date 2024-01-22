@@ -1,0 +1,812 @@
+<script   src="<%= Routes.static_path(@conn, "/js/payments/payments.js") %>" ></script>
+<script   src="<%= Routes.static_path(@conn, "/js/payments/response.js") %>" ></script>
+
+<style>
+
+   .rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}
+</style>
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Loan Application</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- End Page Header -->
+<body  onload="hide_receiver_number()">
+<div class="col">
+    <div class="row row-sm">
+        <div class="col-lg-12 col-md-12">
+            <div class="card custom-card">
+                <div class="container-fluid"><br>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                        </div>
+                        <div class="col-md-10"><br>
+                            <div class="parallelogram"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <h5 class="main-content-label mb-1 text-center">Loan Application </h5>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <img src="<%= Routes.static_path(@conn, "/images/user-128.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                <img src="<%= Routes.static_path(@conn, "/images/qrcode.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                            </div>
+                        </div>
+                    </div>
+                    <form action=" <%= Routes.individual_path(@conn, :individual_instant_loan_application) %>" enctype="multipart/form-data" id="tst" method="post">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div id="russ-wizard"> 
+                            <%= for personal_details <- @get_bio_datas do %>
+                                    <h3>Personal Details</h3>
+                                    <section>
+                                        <h6>Customer Details</h6>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">First Name</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.firstname %>" id="first_name_id" name="firstname" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Other Name</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.othername %>" id="other_name_id" name="othername" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Last Name</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.lastname %>" id="last_name_id" name="surname" type="text" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Applicant ID Type</p>
+                                                <input class="form-control clear-wizard" name="id_means" value="<%= personal_details.meansOfIdentificationType %>" id="id_means" name="id_type" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Applicant ID #</p>
+                                                <input value="<%= personal_details.meansOfIdentificationNumber %>" id="identification_id" class="form-control otc-user-lookup" name="id_number" type="text" readonly>
+                                                <input type="hidden" name="user_id" id="user_id" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Gender</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.gender %>" id="id_gender" name="gender" type="text" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Cell Number</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.mobileNumber %>" id="mobile_id" name="cell_number" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Email Address</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.emailAddress %>" id="email_id" name="email" type="email" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Date of Birth</p>
+                                                <input type="date" value="<%= personal_details.dateOfBirth %>" class="form-control clear-wizard" id="dob" name="" readonly >
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <h6>Address Details</h6>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10"> Residential Address</p>
+                                                <input class="form-control clear-wizard" value="<%= for address_details <- @address_details do if is_nil(address_details.house_number) do "" else address_details.house_number end  end %>" type="text" name="house_number">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Land Mark</p>
+                                                <input class="form-control clear-wizard" type="text" value="<%= for address_details <- @address_details do if is_nil(address_details.land_mark) do "" else address_details.land_mark end  end %>" name="land_mark">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Town</p>
+                                                <input type="text" value="<%= for address_details <- @address_details do if is_nil(address_details.town) do "" else address_details.town end end %>" class="form-control clear-wizard" name="town" >
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Province</p>
+                                                <input class="form-control clear-wizard" value="<%= for address_details <- @address_details do if is_nil(address_details.province) do "" else address_details.province end end %>" type="text"name="province">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Street Name</p>
+                                                <input class="form-control clear-wizard" value="<%= for address_details <-@address_details do address_details.street_name  end %>" name="street_name" type="text" >
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Marital Status</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.marital_status %>" name="marital_status" type="text" >
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Business Sector</p>
+                                                <input class="form-control input-sm" name="sector" value="<%= for address_details <- @address_details do if is_nil(address_details.employer_industry_type) do "" else address_details.employer_industry_type end end %>" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Type of Facity</p>
+                                                <select class="form-control select2-with-search"  name="type_of_facility" >
+                                                    <option ></option>
+                                                    <option value="Short-term">Short-term</option>
+                                                    <option value="medium-term">medium-term</option>
+                                                    <option value="long-term">long-term</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Geographical Location</p>
+                                                <select class="form-control select2-with-search"  name="geographical_location" >
+                                                    <option ></option>
+                                                    <option value="Rural">Rural</option>
+                                                    <option value="Urban">Urban</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <hr style="border: 2px solid #F6000F;">
+                                        <div class="row" style="opacity: 0.6;">
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <h3>Employment Details </h3>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-md-6 border"><br>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Employer:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="employer_info" readonly value="<%= if is_nil(@employment_details.employer ) do else @employment_details.employer end  %>" type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Address:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="address_info" readonly value="<%= if is_nil(@employment_details.area ) do else @employment_details.area end %>, <%= if is_nil(@employment_details.employer_office_building_name ) do else @employment_details.employer_office_building_name end %>, <%= if is_nil(@employment_details.employer_officer_street_name ) do else @employment_details.employer_officer_street_name end %>, <%= if is_nil(@employment_details.province ) do else @employment_details.province end %>" type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Employment status:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="employment_status_info" readonly value="Contractual Job" type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Town:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="town_info" readonly value="<%= if is_nil(@employment_details.town ) do else @employment_details.town end  %>" type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Employer Email Address:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="employer_email_address_info" readonly value="<%=  if is_nil(@employment_details.hr_supervisor_email ) do else @employment_details.hr_supervisor_email end %>" type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Employer Phone:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="employer_phone_info" readonly value="<%= if is_nil(@employment_details.hr_supervisor_mobile_number ) do else @employment_details.hr_supervisor_mobile_number end %>" type="text">
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-md-6 border"><br>
+
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Applicant Job title:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="job_title_info" readonly value="<%= if is_nil(@employment_details.job_title ) do else @employment_details.job_title end %>"  type="text" >
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Supervisor Name:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="supervisor_name_info" readonly value="<%= if is_nil(@employment_details.hr_supervisor_name ) do else @employment_details.hr_supervisor_name end %>"  type="text" >
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Province:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="province_info" readonly value="<%= if is_nil(@employment_details.province ) do else @employment_details.province end %>"  type="text" >
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Employment Date From:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="employment_date_info" readonly value="<%= if is_nil(@employment_details.contract_start_date ) do else @employment_details.contract_start_date end %>"  type="date" >
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Date To:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="date_to_info" readonly value="<%= if is_nil(@employment_details.contract_end_date ) do else @employment_details.contract_end_date end %>"  type="date" >
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr style="border: 2px solid #F6000F;">
+                                        <div class="row" style="opacity: 0.6;">
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <h3>Referees</h3>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-md-6 border"><br>
+                                                <h6 class="text-center"><u>Next Of Kin</u></h6>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Surname:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="kin_last_name"  type="text" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">First Name:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="kin_first_name" type="text" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Relationship:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="kin_relationship"   type="text" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Contact Number:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="kin_mobile_number"  type="text" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0"> Gender:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <select class="form-control select2-with-search"  name="kin_gender" required>
+                                                            <option label="Choose Option"></option>
+                                                            <option value="MALE">MALE</option>
+                                                            <option value="FEMALE">FEMALE</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 border"><br>
+                                                <h6 class="text-center"><u>Reference</u></h6>
+                                                <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                    <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <thead>
+                                                        <tr role="row">
+                                                            <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Contact Number</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <%= if @reference_details != [] do %>
+                                                        <%= for client_reference <- @reference_details do %>
+                                                        <tr class="tr_clone">
+
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="name[]" value="<%= client_reference.name %>" class="form-control form-control-sm" >
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="contact_no[]"  value="<%= client_reference.contact_no %>" class="form-control form-control-sm" >
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <% end %>
+                                                    <% else %>
+                                                        <tr class="tr_clone">
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="name[]" class="form-control form-control-sm">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="contact_no[]" class="form-control form-control-sm">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                            <i style="cursor:pointer; color: #003651;" onclick="addrow(this)" class="adder fa fa-plus tr_clone_add"></i>
+                                                            <i style="cursor:pointer; color: #F6000F;" onclick="removerow(this)" class="minus fa fa-minus"></i>
+                                                            </td>
+                                                        </tr>
+
+                                                        <% end %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr style="border: 2px solid #F6000F;">
+                                        <div class="row" style="opacity: 0.6;">
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                            </div>
+                                        </div>
+                                    </section>
+                                <%= for product_detail <- @product_details do %>
+                                    <h3>Loan Details</h3>
+                                    <section>
+                                        <div class="row">
+                                                <div class="col-md-6 border"><br>
+                                                    <h6 class="text-center"><u>Loan Details</u></h6>
+                                                    <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Requested Amount:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="requested_amount" id="requested_amount" onkeyup="employee_month_installment()"  type="number" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Loan Duration (months):</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_duration_month" id="loan_duration_month" onkeyup="employee_month_installment()" type="number" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3"> 
+                                                        <label class="mg-b-0">Monthly installments(ZMK):</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="monthly_installment" id="monthly_installment" onkeyup="employee_month_installment()" type="number" required readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Proposed Repayment Date:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="proposed_repayment_date" id="proposed_repayment_date" type="date" min="<%= Timex.shift(Timex.today(), days: -1) %>" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Type of Loan:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <select class="form-control select2-with-search" name="term_frequency_type" id="term_frequency_type" required>
+                                                            <option label="Choose Type"></option>
+                                                            <option value="Daily">Daily</option>
+                                                            <option value="Weekly">Weekly</option>
+                                                            <option value="Monthly">Monthly</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Loan Purpose:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <textarea class="form-control mg-t-20" name="loan_purpose" id="loan_purpose" placeholder="Textarea (success state)" required rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 border"><br>
+                                                <h6 class="text-center"><u>Product Details</u></h6>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Product Name:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" value="<%= product_detail.product_name %>" type="text" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Interest Rate(%):</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" value="<%= product_detail.interest %>" id="interest_rate" onkeyup="employee_month_installment()" type="text" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Min Amount:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" value="<%= Decimal.round(Decimal.from_float(product_detail.min_amount)) %>" type="text" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Max Amount:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" value="<%= Decimal.round(Decimal.from_float(product_detail.max_amount)) %>" type="text" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row row-xs align-items-center mg-b-20">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Product Type:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input class="form-control input-sm" name="loan_type" value="<%= product_detail.product_type %>" type="text" readonly>
+                                                        <input type="hidden" name="product_id" value="<%= product_detail.id %>"  >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr style="border: 2px solid #F6000F;">
+                                        <div class="row" style="opacity: 0.6;">
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <h3>Client Collateral</h3>
+                                    <section>
+                                        <h3>CLIENT COLLATERAL</h3>
+                                        <div class="row">
+                                            <div class="col-md-7 border"><br>
+                                                <h6 class="text-center"><u>Colleteral Details</u></h6>
+                                                <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                    <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <thead>
+                                                        <tr role="row">
+                                                            <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name Of Collateral</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">ID Number</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Color</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Asset Value (K)</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="tr_clone">
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="name_of_collateral[]" class="form-control form-control-sm">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="id_number_collateral[]" class="form-control form-control-sm">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="color[]" class="form-control form-control-sm">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group">
+                                                                    <input type="text" name="asset_value[]" class="form-control form-control-sm">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                            <i style="cursor:pointer; color: #003651;" onclick="addrow(this)" class="adder fa fa-plus tr_clone_add"></i>
+                                                            <i style="cursor:pointer; color: #F6000F;" onclick="removerow(this)" class="minus fa fa-minus"></i>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-4 border"><br>
+                                                <p>I <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span>, of NRC Number <span class="doubleUnderline"><%= @client_data.meansOfIdentificationNumber %></span> Date <span class="doubleUnderline"><%= Timex.today %></span></p>
+                                                <p>Declare the asset above as collateral to great north credit towards my loan facility advanced to me and I authorize the institution to confiscate and dispose the pledged asset in case of any default with the view of offsetting my outstanding balance in arrears</p>
+
+                                                <p>I shall not at any stage sale or dispose any of the asset pledged as collateral without the knowledge and consent of GNC</p>
+
+
+                                                <p>I also acknowledge that all the cost incurred by GNC during confiscation will be added to the loan</p>
+
+
+                                                <p>I understand and agree to the above loan condition and authorize GNC to disburse the loan and I give consent to be listed on the CRB</p>
+
+
+
+                                                <p>Clients Name : <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span><br> NRC Number : <%= @client_data.meansOfIdentificationNumber %></span> &nbsp;&nbsp;&nbsp;&nbsp; Date : <input type="text" readonly class="input-line" placeholder="" Value="<%= Timex.today %>" ></p>
+
+                                                <hr>
+                                                <p>Name of the witness : <input type="text" class="input-line" name="name_of_witness" placeholder="" > &nbsp;&nbsp;&nbsp;&nbsp; Date : <input type="text" readonly class="input-line" name="" placeholder="" value="<%= Timex.today %>" > </p>
+
+                                            </div>
+                                        </div>
+
+                                        <hr style="border: 2px solid #F6000F;">
+                                        <div class="row" style="opacity: 0.6;">
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <h3>Documents</h3>
+                                    <section>
+                                        <div class="row">
+                                            <div class="table-responsive">
+                                                <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <table class="table table-bordered border-bottom" id="example1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">Document Name</th>
+                                                            <th scope="row">File</th>
+
+                                                            <th>Options</th>
+                                                        </tr>
+                                                        <tr class="tr_clone">
+
+
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input class="form-control" id="instant_client_doc_name" name="filename[]" type="text" required> </div>
+                                                            </td>
+                                                            <td scope="row">
+                                                                <div class="form-group">
+                                                                    <input class="form-control" id="instant_client_doc" name="file[]" multiple type="file" accept=".pdf" required> </div>
+                                                            </td>
+                                                            <td class="fitwidth">
+                                                                <div class="form-group"> <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder fe fe-plus-circle tr_clone_add"></i> &nbsp;&nbsp;&nbsp; <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus fe fe-x-circle"></i> </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr style="border: 2px solid #F6000F;">
+                                        <div class="row" style="opacity: 0.6;">
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                            </div>
+                                        </div>
+                                    </section>
+
+
+                                    <h3>Disclose, Consent & Authorization</h3>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-8 border"><br>
+                                                <h6 class="text-center"><u>Disclosure, Consent And Authorisation By Applicant</u></h6><br>
+                                                <p>By appending my signature hereunder, I  <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span> (Full Names) declare and agree that:</p>
+                                                <p>1.	GNC may make enquiries from any Bank, Financial Institution, or approved Credit Reference Agency in Zambia to confirm any information I have provided when considering this application to get a loan from GNC.
+                                                <p>2.	GNC is allowed to disclose information about me to any person in connection with an actual or proposed contract which relates to this agreement, including disclosing information under the terms of such contract and this includes the assignment and/or transfer of all or part of the company’s rights under this agreement.
+                                                <p>3.	In the event of any default in repayment, unless the amount in default is fully repaid before the expiry of sixty (60) days from the date such default occurred, GNC shall notify the Credit Reference Agency and the borrower shall be liable to have the account data retained by the Credit Reference Agency until the expiry of seven (7) years from the date of final settlement of the amount in default. GNC shall then retain its rights to enforce payment of the unpaid loan amount, together with the accrued interest. For the purpose of this Clause and any Party that may be appointed by GNC to collect its debts, I waive the confidentiality requirements of the Banking and Financial Services (Microfinance) Regulations, 2006 and those of Banking and Financial Services Act of 2017 or amended from time to time.
+                                                <p>4.	Upon termination of the account by full repayment and on condition that there has not been, within seven (7) years immediately before account termination, any material default on the account, the borrower will have the right to instruct GNC who shall oblige, to make a request to the Credit Reference Agency to delete from its data any account data detailing to the termination account.
+                                                <p>5.	You are free to be informed, upon request about which items of data are routinely so disclosed and to be provided with further information to enable the making of a data access and correction request to the relevant Credit Reference Agency or Debt Collection Agency.
+                                                <p>6.	I make an irrevocable personal undertaking to pay the balance of the loan together with accrued interest of <%= product_detail.interest %>%  per month as agreed in the event of default, being terminated from my employer’s payroll on account of my resignation, dismissal or other event not covered by insurance.
+                                                <p>7.	GNC reserves the right to loan an amount lower than the amount applied for in this Application Form; and to effect deductions commensurate to the amount loaned and tenure agreed at that applicable interest rate.
+                                                <p>8.	By drawing funds credited to my bank account number indicated in this Loan Application and Agreement Form by GNC or by my failure to notify GNC (either directly or through its partner bank) of my lack of interest in accessing this loan within 48 hours of the same being credited to my bank account, being the approved and disbursed loan amount, I indicate acceptance of all Terms and Conditions of this Facility, including:
+                                                <p>a.	That the applicable interest rate at the time of approval shall be applied and amortised over the term of the loan.
+                                                <p>b.	That all costs such as insurance, Credit Reference Bureau fees, arrangement fees and other costs incidental hereto may be passed on to me at GNC’s discretion.
+                                                <p>c.	That the first instalment shall be due on the pay day immediately following the disbursement of loan, and every pay day thereafter until full settlement of the loan with accrued interest.
+                                                <p>d.	That this Application Form becomes a binding Contract when GNC approves and pays out the loan to my Bank Account indicated in this Application Form; and shall be governed and construed in accordance with the Laws of Zambia.
+                                                <p>e.	That early payment of loan with accrued interest shall NOT attract any penalties but interest accrued as at that date shall be paid to GNC.
+                                                <p>f.	That in accordance with banking practice, this loan with accrued interest is payable on demand.
+                                                <p>g.	That the approved amount, tenure of the loan and the monthly repayment amount shall be communicated to me via registered mail to the address indicated in this Application Form; and that GNC shall be deemed to have discharged this obligation under this Clause by delivery to the Zambia Postal Services Corporation (ZAMPOST) or its successors and paying for delivery of mail.
+                                                <p>9.	In pursuance of the conditions under which this loan was granted, I hereby irrevocably authorise GNC, acting on its own or through its agents, to communicate my obligation to pay to my employer, and authorise my employer to deduct such amount as indicated by GNC from my salary and remit the amount so deducted to GNC until the loan amount with accrued interest is fully paid; In case of unforeseen incidents, other than those in Clause 6, that may disrupt loan recoveries through payroll deductions, I hereby authorise my employer to make recoveries from my terminal benefits and/or gratuity.
+                                                <p>I  <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span> (Full name) hereby certify that the information contained in this Loan Application is true and correct and I have the capacity to repay the Loan. I understand that this Loan Application may be rejected at any stage should any information contained herein be found to be incorrect.
+                                                <br><br>
+                                                <div class="row">
+                                                    <div class="col-md-6">Customer Relationship officer
+                                                        <select class="form-control select2-with-search" id="cro_id" name="cro_id" >
+                                                            <%= for sales <- @relationship_officer do %>
+                                                                <option></option>
+                                                                <option value="<%= sales.id %>"><%= sales.firstname %> <%= sales.lastname %></option>
+                                                            <% end %>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">Application Date<input type="date" class="input-line" name="application_date" id="application_date" value="<%= Timex.today %>" readonly></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div>
+
+                                        <hr style="border: 2px solid #F6000F;">
+                                        <div class="row" style="opacity: 0.6;">
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                            </div>
+                                            <div class="col-md-3">
+                                                <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                            </div>
+                                        </div>
+                                    </section>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </body>
+</div>
+
+
+
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>
+
+
+
+

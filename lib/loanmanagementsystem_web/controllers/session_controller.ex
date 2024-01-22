@@ -12,7 +12,6 @@ defmodule LoanmanagementsystemWeb.SessionController do
   alias Loanmanagementsystem.Accounts.UserBioData
   alias Loanmanagementsystem.Notifications.Sms
   alias Loanmanagementsystem.Logs.UserLogs
-  alias Loanmanagementsystem.Emails.Email
   require Record
   import Ecto.Query, only: [from: 2]
 
@@ -23,10 +22,6 @@ defmodule LoanmanagementsystemWeb.SessionController do
 
   def username(conn, _params) do
     render(conn, "index.html")
-  end
-
-  def userlogin(conn, _params) do
-    render(conn, "username.html")
   end
 
   def forgot_password(conn, _params) do
@@ -64,10 +59,9 @@ defmodule LoanmanagementsystemWeb.SessionController do
             }
             Repo.insert!(sms)
 
-            Email.send_otp(get_bio_data.email, random_int)
-            Loanmanagementsystem.Workers.Sms.send()
+            # Email.send_otp(get_bio_data.mobile, otp)
             conn
-            |> put_flash(:info, "Message with OTP sent Successfully. Please Enter the OTP sent to your email or mobile number.")
+            |> put_flash(:info, "Email with OTP sent Successfully. Please Enter the OTP sent to your mail")
             |> redirect(to: Routes.session_path(conn, :get_forgot_password_validate_otp, username: username_data))
 
           {:error, _failed_operation, failed_value, _changes_so_far} ->
@@ -79,7 +73,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
         end
       else
         conn
-        |> put_flash(:error, "User is Disabled, Please Contact PayKesho.")
+        |> put_flash(:error, "User is Disabled, Please Contact GNC.")
         |> redirect(to: Routes.session_path(conn, :error_405))
       end
     end
@@ -313,7 +307,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
                     |> put_session(:current_user, user.id)
                     |> put_session(:current_user_bio_data, currentUserBioData)
                     |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
                     |> put_session(:session_timeout_at, session_timeout_at())
                     |> redirect(to: Routes.user_path(conn, :admin_dashboard))
 
@@ -322,7 +316,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
                     |> put_session(:current_user, user.id)
                     |> put_session(:current_user_bio_data, currentUserBioData)
                     |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
                     |> put_session(:session_timeout_at, session_timeout_at())
                     |> redirect(to: Routes.user_path(conn, :individual_dashboard))
 
@@ -331,7 +325,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
                     |> put_session(:current_user, user.id)
                     |> put_session(:current_user_bio_data, currentUserBioData)
                     |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
                     |> put_session(:session_timeout_at, session_timeout_at())
                     |> redirect(to: Routes.user_path(conn, :employee_dashboard))
 
@@ -340,7 +334,25 @@ defmodule LoanmanagementsystemWeb.SessionController do
                     |> put_session(:current_user, user.id)
                     |> put_session(:current_user_bio_data, currentUserBioData)
                     |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
+                    |> put_session(:session_timeout_at, session_timeout_at())
+                    |> redirect(to: Routes.user_path(conn, :employer_dashboard))
+
+                  "EMPLOYER_INITIATOR" ->
+                    conn
+                    |> put_session(:current_user, user.id)
+                    |> put_session(:current_user_bio_data, currentUserBioData)
+                    |> put_session(:current_user_role, currentUserRole)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
+                    |> put_session(:session_timeout_at, session_timeout_at())
+                    |> redirect(to: Routes.user_path(conn, :employer_dashboard))
+
+                  "EMPLOYER_APPROVER" ->
+                    conn
+                    |> put_session(:current_user, user.id)
+                    |> put_session(:current_user_bio_data, currentUserBioData)
+                    |> put_session(:current_user_role, currentUserRole)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
                     |> put_session(:session_timeout_at, session_timeout_at())
                     |> redirect(to: Routes.user_path(conn, :employer_dashboard))
 
@@ -349,35 +361,23 @@ defmodule LoanmanagementsystemWeb.SessionController do
                     |> put_session(:current_user, user.id)
                     |> put_session(:current_user_bio_data, currentUserBioData)
                     |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
                     |> put_session(:session_timeout_at, session_timeout_at())
-                    |> redirect(to: Routes.user_path(conn, :sme_dashboard))
-
-
-                  "FUNDER" ->
-                    conn
-                    |> put_session(:current_user, user.id)
-                    |> put_session(:current_user_bio_data, currentUserBioData)
-                    |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
-                    |> put_session(:session_timeout_at, session_timeout_at())
-                    |> redirect(to: Routes.funder_path(conn, :funder_dashboard))
-
-                  "OFFTAKER"->
-                    conn
-                    |> put_session(:current_user, user.id)
-                    |> put_session(:current_user_bio_data, currentUserBioData)
-                    |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
-                    |> put_session(:session_timeout_at, session_timeout_at())
-                    |> redirect(to: Routes.user_path(conn, :offtaker_dashboard))
-
+                    |> redirect(to: Routes.user_path(conn, :employee_dashboard))
+                  "OFFTAKER" ->
+                      conn
+                      |> put_session(:current_user, user.id)
+                      |> put_session(:current_user_bio_data, currentUserBioData)
+                      |> put_session(:current_user_role, currentUserRole)
+                      # |> put_session(:myuser_role, mycurrentUserRole)
+                      |> put_session(:session_timeout_at, session_timeout_at())
+                      |> redirect(to: Routes.user_path(conn, :offtaker_dashboard))
                   _->
                     conn
                     |> put_session(:current_user, user.id)
                     |> put_session(:current_user_bio_data, currentUserBioData)
                     |> put_session(:current_user_role, currentUserRole)
-                    # |> put_session(:current_user_data, user)
+                    # |> put_session(:myuser_role, mycurrentUserRole)
                     |> put_session(:session_timeout_at, session_timeout_at())
                     |> redirect(to: Routes.user_path(conn, :admin_dashboard))
 
@@ -529,23 +529,41 @@ defmodule LoanmanagementsystemWeb.SessionController do
   end
 
   def signout(conn, _params) do
-    {:ok, _} =
+    try do
       Loanmanagementsystem.Logs.create_user_logs(%{
-        user_id: conn.assigns.user.id,
+        user_id: conn.private.plug_session["current_user_bio_data"].userId,
         activity: "logged out"
       })
-
-    conn
-    # |> configure_session(drop: true)
-    |> clear_session()
-    |> redirect(to: Routes.session_path(conn, :username))
-  rescue
-    _ ->
       conn
-      # |> configure_session(drop: true)
       |> clear_session()
       |> redirect(to: Routes.session_path(conn, :username))
+    rescue
+      _->
+      conn
+      |> clear_session()
+      |> redirect(to: Routes.session_path(conn, :username))
+    end
   end
+
+
+  # def signout(conn, _params) do
+  #   {:ok, _} =
+  #     Loanmanagementsystem.Logs.create_user_logs(%{
+  #       user_id: conn.assigns.user.id,
+  #       activity: "logged out"
+  #     })
+
+  #   conn
+  #   # |> configure_session(drop: true)
+  #   |> clear_session()
+  #   |> redirect(to: Routes.session_path(conn, :username))
+  # rescue
+  #   _ ->
+  #     conn
+  #     # |> configure_session(drop: true)
+  #     |> clear_session()
+  #     |> redirect(to: Routes.session_path(conn, :username))
+  # end
 
   defp prepare_login_attempt(user) do
     max_attempts = 3
@@ -553,7 +571,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
     Accounts.update_user(user, %{login_attempt: user.login_attempt + 1, status: status})
   end
 
-  def register(conn, params) do
+  def register(conn, _params) do
     # user_role_id = Loanmanagementsystem.Accounts.get_farmer_role()
     user_role_id = 1
 
@@ -573,7 +591,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
     otp3 = params["otp3"]
     otp4 = params["otp4"]
     otp = "#{otp1}#{otp2}#{otp3}#{otp4}"
-    user_role = params["user_role"]
+    # user_role = params["user_role"]
     uRoleType = params["roleType"]
     # Logger.info ("uRoleType...#{uRoleType}");
 
@@ -689,7 +707,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
           })
 
         case Repo.update(changeset) do
-          {:ok, changeset} ->
+          {:ok, _changeset} ->
             user_id = user.id
             query = from(uB in UserBioData, where: uB.userId == ^user_id, select: uB)
             userBioData = Repo.all(query)
@@ -850,7 +868,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
 
   defp confirm_old_password(conn, %{"userID" => userID, "old_password" => pwd, "new_password" => new_pwd}) do
     # IO.inspect("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    # IO.inspect conn
+    IO.inspect conn
 
     with true <- String.trim(pwd) != "",
          true <- String.trim(new_pwd) != "" do

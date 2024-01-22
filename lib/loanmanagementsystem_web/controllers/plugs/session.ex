@@ -27,7 +27,6 @@ defmodule LoanmanagementsystemWeb.Plugs.Session do
         conn
         |> put_flash(:error, "Session Expired, Please Login.")
         |> redirect(to: LoanmanagementsystemWeb.Router.Helpers.session_path(conn, :username))
-
       _ ->
         conn
     end

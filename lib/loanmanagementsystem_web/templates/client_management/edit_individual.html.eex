@@ -1,0 +1,865 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+
+<script>
+    function hide_receiver_number() {
+        $( "#select1_company" ).hide();
+        $( "#select2_company" ).hide();
+        $( "#select3_company" ).hide();
+        $( "#client_employment_Status" ).hide();
+        $( "#employment_status" ).hide();
+        $( "#mobile" ).hide();
+        // $( "#bank" ).hide();
+        $( "#limit" ).hide();
+        $( "#loan_amount" ).hide();
+        //   $( "#get_employment_type" ).hide();
+        //  $( "#get_business_type" ).hide();
+        //  $( "#business_type" ).hide();
+        // $( "#get_business_as_company" ).hide();
+        // $( "#get_business_as_marketeer" ).hide();
+        // $( "#get_client_partner_details" ).hide();
+
+
+    }
+</script>
+
+<head>
+    <style>
+    #background {
+    padding-bottom: 1px;
+    padding-top: 5px;
+    padding-left: 6px;
+    background-size: 15;
+    }
+    .col-md-4{
+        background-color: #E8EBEA;
+    }
+    .parallelogram {
+    width: 100%;
+    height: 20px;
+    transform: skew(-20deg);
+    background: linear-gradient(90deg, #003651 50%, #F6000F 50%);
+    }
+    </style>
+</head>
+
+<div class="col-md-12 col-md-12">
+
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mg-b-5">Individual Details Update</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Individual Details Update</li>
+            </ol>
+        </div>
+        <div class="d-flex">
+            <div class="justify-content-center">
+                <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+            </div>
+        </div>
+    </div>
+    <body  onload="hide_receiver_number()">
+        <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+                <div class="card custom-card">
+                    <div class="container-fluid"><br>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                            </div>
+                            <div class="col-md-10"><br>
+                                <div class="parallelogram"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <h6 class="main-content-label mb-1 text-center">Update Individual</h6>
+                            <p class="text-muted card-sub-title"></p>
+                        </div>
+                        <form action="<%= Routes.client_management_path(@conn, :edit_client_individual) %>" enctype="multipart/form-data" id="tst" method="post" >
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div id="wizard1">
+                         <h3>PERSONAL DETAILS</h3>
+                             <section>
+                         <%= for employee <- @employee do %>
+                            <input type="hidden" name="id" value="<%= employee.userid %>" >
+                            <input type="hidden" name="user_id" value="<%= employee.userid %>" >
+                
+                                <input type="hidden" name="percentage"  id="percentage" value="40">
+                                <input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Personal Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Surname:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="lastName" id="last_name" value="<%= employee.lastName %>" class="form-control input-sm" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">First Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="firstName" id="first_name" value="<%= employee.firstName %>" class="form-control input-sm" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Other Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="otherName" value="<%= employee.otherName %>"  class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Mobile Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="mobileNumber" value="<%= employee.mobileNumber %>" id="mobile_number" minlength="10" maxlength="10" class="form-control input-sm"  type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">National Registration Card No:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="meansOfIdentificationNumber" value="<%= employee.meansOfIdentificationNumber %>" id="nrrc" class="form-control input-sm" type="text" minlength="11" maxlength="13" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Date Of Birth:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="dateOfBirth" id="date_of_birth" value="<%= employee.dateOfBirth %>" min="01-01-1900" max="2199-12-31" pattern="\d{2}-\d{2}-\d{4}" class="form-control input-sm" type="date" max="<%= Timex.shift(Timex.today(), years: -18) %>" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Email:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="emailAddress" class="form-control input-sm" value="<%= employee.emailAddress %>" type="email">
+                                            </div>
+                                        </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Signature:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input name="applicant_signature_image" class="form-control input-sm" type="file" class="">
+                                                        <%= if employee.applicant_signature_image != nil do %>
+                                                            <div style="color: red; font-size: 12px;">
+                                                                Client signature already uploaded.
+                                                            </div>
+                                                        <% end %>
+                                                </div>
+                                            </div>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Choose Gender:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                               <select name="gender" id="edit_individual_gender" edit_individual_gender="<%= employee.gender %>" class="form-control select2" required>
+                                                    <option value="">Choose Gender</option>
+                                                    <option value="Male">Male </option>
+                                                    <option value="Female">Female </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Marital Status:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                            <!-- add new validation -->
+                                                <select name="marital_status" id="edit_individual_marital_status" edit_individual_marital_status ="<%= employee.marital_status %>" class="form-control select2" required>
+                                                    <option value="" label="Choose One"></option>
+                                                    <option data-marital_status="Single" value="Single">Single </option>
+                                                    <option data-marital_status="Married" value="Married">Married </option>
+                                                    <option data-marital_status="Widow" value="Widow">Widow </option>
+                                                    <option data-marital_status="Widower" value="Widower">Widower </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <%= if employee.marital_status == "Married" do %>
+                                                <div id="get_client_partner_details">
+                                                    <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Partner's Full Name:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input name="partners_full_names" class="form-control input-sm" value="<%= employee.partners_full_names %>" type="text">
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Partner's Phone Number:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input name="partners_mobile_num" class="form-control input-sm" value="<%= employee.partners_mobile_num %>" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        <% end %>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Address Details</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">House/Plot Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="house_number" class="form-control input-sm" value="<%= employee.house_number %>" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Area:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="area" class="form-control input-sm" value="<%= employee.area %>" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Accomodation Type:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <div class="row mg-t-10">
+                                                 <%= if employee.accomodation_status == "Owner" do %>
+                                                    <div class="col-lg-3">
+                                                        <label class="rdiobox"><input checked="" name="rdio" type="radio" value="Owned"> <span>Owned</span></label>
+                                                    </div>
+                                                 <% else %>
+                                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                                        <label class="rdiobox"><input  checked="" name="rdio" type="radio" value="Rented"> <span>Rented</span></label>
+                                                    </div>
+                                                <% end %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Landmark:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="land_mark" class="form-control input-sm" value="<%= employee.land_mark %>" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">City:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                               <select name="town" class="form-control select2">
+                                                    <option  value="<%= employee.town_personal %>" label="Choose One"><%= employee.town_personal %></option>
+                                                    <%= for town <- @town do %>
+                                                        <option value="<%= town.name %>"><%= town.name %> </option>
+                                                    <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Province:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                               <select name="area" class="form-control select2">
+                                                    <option  value="<%= employee.area %>" label="Choose One"><%= employee.area %></option>
+                                                    <%= for province <- @province do %>
+                                                        <option value="<%= province.name %>"><%= province.name %> </option>
+                                                    <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+
+                            <h3>KIN DETAILS</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>Next Of Kin</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Surname:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="kin_id" value="<%= employee.kin_id %>" class="form-control input-sm" type="hidden">
+                                                <input name="kin_last_name" value="<%= employee.kin_last_name %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">First Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="kin_first_name" value="<%= employee.kin_first_name %>" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Other Name:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="kin_other_name" value="<%= employee.kin_other_name %>" class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Mobile Number:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="kin_mobile_number" value="<%= employee.kin_mobile_number %>" class="form-control input-sm" minlength="10" maxlength="10" type="number">
+                                            </div>
+                                        </div>
+
+                                            <!--<div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">National Registration Card No:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input name="kin_ID_number" id="nrrc" value="<%= employee.kin_ID_number %>" class="form-control input-sm" type="text" placeholder="optional">
+                                                </div>
+                                            </div>-->
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Email:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input name="kin_personal_email" value="<%= employee.kin_personal_email %>" class="form-control input-sm" type="text">
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>More Details</u></h6>
+
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Relationship:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <select name="kin_relationship" id="edit_kin_relationship" edit_kin_relationship="<%= employee.kin_relationship %>" class="form-control select2">
+                                                    <option label="Choose One"></option>
+                                                    <option value="Wife">Wife</option>
+                                                    <option value="Husband">Husband</option>
+                                                    <option value="Mother">Mother</option>
+                                                    <option value="Father">Father</option>
+                                                    <option value="Brother">Brother</option>
+                                                    <option value="Sister">Sister</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Choose Gender:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                               <select name="kin_gender" id="edit_kin_gender" edit_kin_gender="<%= employee.kin_gender %>" class="form-control select2">
+                                                    <option label="Choose Gender"></option>
+                                                    <option value="Male">Male </option>
+                                                    <option value="Female">Female </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        
+
+                            <h3>REFERENCE</h3>
+                            <section>
+                                <div class="table-responsive">
+                                    <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <a href="#" style="float: right;" class="btn ripple btn-primary mb-0" data-id="<%= employee.userid %>" data-bs-target="#addreference" data-bs-toggle="modal" >Add More</a>
+                                    <table class="table table-bordered border-bottom" id="tbl_client_reference">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Full Name</th>
+                                                <th scope="row">Phone Number</th>
+                                                <th>Add</th>
+                                            </tr>
+                                        <%= for client_ref <- @client_ref do %>
+                                            <tr class="tr_clone">
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" value="<%= client_ref.ref_full_name %>" name="ref_full_name[]" type="text"> </div>
+                                                </td>
+                                                <td scope="row">
+                                                    <div class="form-group">
+                                                        <input class="form-control" value="<%= client_ref.user_ref_contact_no %>" id="phx-FuvZHeMu4hedhwED" name="ref_full_phone_no[]" multiple minlength="10" maxlength="10" type="number"> </div>
+                                                </td>
+                                                <td>
+                                                    <a class="btn ripple btn-sm btn-success"
+                                                    aria-expanded="true" title="Edit Entry" data-id="<%= client_ref.id %>"
+                                                    data-name="<%= client_ref.ref_full_name %>" data-contact_no="<%= client_ref.user_ref_contact_no %>"
+                                                    data-bs-target="#edit-reference" data-bs-toggle="modal">
+                                                    <i class="fe fe-edit"></i>
+                                                    </a>
+                                                   <!-- <a href="#" type="button" class="btn ripple btn-sm btn-danger js-delete-client-reference" data-client_reference-id="<%= client_ref.id %>" aria-expanded="true" title="Remove Entry"><i class="fe fe-trash"></i></a>-->
+
+                                                </td>
+                                            </tr>
+                                        <% end %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+
+                             <% end %>
+
+                            <h3>EMPLOYMENT DETAILS</h3>
+                            <section>
+                                <!------------------------------------------- Individual Company Details ---------------------------------------------->
+
+                                <div class="row row-sm" id="select_company">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <%= if @market_details != [] do %>
+
+                                                <div class="text-center" id="background">
+                                                    <h6><u> About Your Employment</u> </h6>
+                                                </div><br>
+
+                                                    <div id="get_business_as_marketeer">
+                                                    <hr>
+                                            <%= for market_detail <- @market_details  do %>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg" id="">
+                                                            <p class="mg-b-10">Market Name</p>
+                                                            <input type="text" value="<%= market_detail.name_of_market %>" class="form-control form-control-sm" name="name_of_market">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Location</p>
+                                                            <input type="text" class="form-control form-control-sm" value="<%= market_detail.location_of_market %>" name="location_of_market">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10"> Duration at the market</p>
+                                                            <input type="text" class="form-control form-control-sm" value="<%= market_detail.duration_at_market %>" name="duration_at_market">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Type of Business</p>
+                                                            <input type="text" class="form-control form-control-sm" name="type_of_business" value="<%= market_detail.type_of_business %>">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Name of the Market Leader</p>
+                                                            <input type="text" class="form-control form-control-sm" name="name_of_market_leader">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Contact Details for the market Leader</p>
+                                                            <input minlength="10" maxlength="10" type="number" class="form-control form-control-sm" value="<%= market_detail.mobile_of_market_leader %>" name="mobile_of_market_leader">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg-4">
+                                                            <p class="mg-b-10">Name of the Vice Market  Leader</p>
+                                                            <input type="text" class="form-control form-control-sm" value="<%= market_detail.name_of_market_vice %>" name="name_of_market_vice" id="" max="<%= Timex.shift(Timex.today(), days: -1) %>">
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <p class="mg-b-10">Contact Details for the Vice market Leader</p>
+                                                            <input minlength="10" maxlength="10" type="number" value="<%= market_detail.mobile_of_market_vice %>" class="form-control form-control-sm" name="mobile_of_market_vice" id="" max="<%= Timex.shift(Timex.today(), days: -1) %>">
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <p class="mg-b-10">Stand Number</p>
+                                                            <input type="text" class="form-control form-control-sm" value="<%= market_detail.mobile_of_market_vice %>" name="stand_number">
+                                                        </div>
+                                                    </div>
+                                            <% end %>
+                                                </div>
+                                    <% end %>
+
+                                       <%= if @business_details != [] do %>
+                                                <div class="text-center" id="background">
+                                                    <h6><u> About Your Business</u> </h6>
+                                                </div><br>
+
+                                                    <div>
+                                                            <hr>
+                                                        <%= for business_detail <- @business_details  do %>
+                                                            <div class="row row-sm mg-b-20">
+                                                                <div class="col-lg" id="">
+                                                                    <p class="mg-b-10">Business Name</p>
+                                                                    <input type="text" value="<%= business_detail.employer %>" class="form-control form-control-sm" name="business_name">
+                                                                </div>
+                                                                <div class="col-lg">
+                                                                    <p class="mg-b-10">Contact Number</p>
+                                                                    <input minlength="10" maxlength="10" value="<%= business_detail.registered_name_mobile_number %>" type="number" class="form-control form-control-sm" name="company_phone">
+                                                                </div>
+                                                                <div class="col-lg">
+                                                                    <p class="mg-b-10"> Council Number</p>
+                                                                    <input type="text" value="<%= business_detail.registered_name_mobile_number %>" class="form-control form-control-sm" name="registration_number">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row row-sm mg-b-20">
+                                                                <div class="col-lg-4">
+                                                                    <p class="mg-b-10">Registration Date</p>
+                                                                    <input type="date" class="form-control form-control-sm" value="<%= business_detail.date_of_joining %>" name="company_registration_date" id="" max="<%= Timex.shift(Timex.today(), days: -1) %>">
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <p class="mg-b-10">Company Email</p>
+                                                                    <input type="email" class="form-control form-control-sm" value="<%= business_detail.registered_name_mobile_number %>" name="contact_email">
+                                                                </div>
+                                                            </div>
+                                                        <% end %>
+                                                    </div>
+                                       <% end %>
+
+                                    </div>
+                                </div>
+
+                                <!-------------------------------------------------------- End -------------------------------------------------------->
+
+                            </section>
+
+                            <h3> ACCOUNT DETAILS</h3>
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>About Customer Income</u></h6>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Gross Salary (ZMW):</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Total Deductions (ZMW):</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="" class="form-control input-sm" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Net Pay (ZMW):</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="" class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-xs align-items-center mg-b-20">
+                                            <div class="col-md-3">
+                                                <label class="mg-b-0">Loan Limit:</label>
+                                            </div>
+                                            <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                <input name="" id="loan_limit" class="form-control input-sm"  type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 border"><br>
+                                        <h6 class="text-center"><u>About Your Account Details</u></h6>
+                                            <%= for user_bank_detail <- @user_bank_details  do %>
+
+                                                    <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Account To Credit:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <select name="payment_type" class="form-control select2" id="payment_type">
+                                                                <option label="Choose One"></option>
+                                                                <option data-payment-type="Mobile" value="Mobile">Mobile</option>
+                                                                <option data-payment-type="Bank" value="Bank">Bank</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                <div class="row row-xs align-items-center mg-b-20" id="">
+                                                    <div class="col-md-3">
+                                                        <label class="mg-b-0">Mobile Number:</label>
+                                                    </div>
+                                                    <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                        <input name="" id="mobile_number" value="<%= user_bank_detail.mobile_number %>" class="form-control input-sm"  type="text">
+                                                    </div>
+                                                </div>
+                                                <div id="">
+                                                    <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Select Bank:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <select name="bank_id" id="edit_bank_name" edit_bank_name="<%= user_bank_detail.bank_name_branch %>" class="form-control select2">
+                                                               <option readonly><%= user_bank_detail.bank_name_branch %></option>
+                                                                <%= for bank <- @banks do %>
+                                                                    <option label="Choose One"></option>
+                                                                    <option value="<%= bank.id %> "><%= bank.bankName %> (<%= bank.process_branch %>)</option>
+                                                                <% end %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Account Number:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input name="" id="bank_account_number" value="<%= user_bank_detail.accountNumber %>" class="form-control input-sm"  type="text">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row row-xs align-items-center mg-b-20">
+                                                        <div class="col-md-3">
+                                                            <label class="mg-b-0">Account Name:</label>
+                                                        </div>
+                                                        <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                            <input name="" id="accountName" class="form-control input-sm" value="<%= user_bank_detail.accountName %>" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% end %>
+
+                                    </div>
+                                </div>
+                            </section>
+
+
+                            <h3>Document Upload</h3>
+                                <section>
+                                   <div class="table-responsive">
+                                        <h4 class="tx-15 text-uppercase mb-3 text-center">Documents</h4>
+                                        <table class="table table-bordered border-bottom" id="example1">
+                                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <input type="hidden" id="id" id="id">
+                                            <thead>
+                                                <tr>
+                                                    <th>Document Name</th>
+                                                    <th style="width: 20px;" class="text-center">Status</th>
+                                                        <th style="width: 20px;" class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <%= for docs <- @user_doc do %>
+                                                <tr>
+                                                    <td>
+                                                        <%= docs.docName %>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <%= docs.docStatus %>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="btn ripple btn-info btn-sm" data-bs-target="#viewDocument" data-id="<%= docs.id%>" data-path="<%= docs.docPath %>" data-content_type="<%= docs.docType %>" data-bs-toggle="modal" title="Edit" href="#" style="color: #1d212f"><i class="fe fe-eye"></i> View </a>
+                                                        <%= if docs.docStatus == "ACTIVE" do %>
+                                                            <a class="btn ripple btn-info btn-sm deactivate_client_document" data-activate-id="<%= docs.id%>" title= "Disable" style="background: #fd6074;"><i class="fe fe-x-circle"></i> Disable </a>
+                                                        <% else %>
+                                                            <a class="btn ripple btn-info btn-sm activate_client_document" data-activate-id="<%= docs.id%>" title= "Disable" style="background: #19b159;"><i class="fe fe-check-circle"></i> activate</a>
+                                                        <% end %>
+                                                    </td>
+                                                </tr>
+                                                <% end %>
+                                        </table>
+                                    </div>
+                                    <div class="border-top"></div>
+                                    <br><br><br>
+                                    <div class="table-responsive">
+                                        <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                        <table class="table table-bordered border-bottom" id="example1">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Document Name</th>
+                                                    <th scope="row">File</th>
+
+                                                    <th>Add</th>
+                                                </tr>
+                                                <tr class="tr_clone">
+
+
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input class="form-control"  name="filename[]" type="text" > </div>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <div class="form-group">
+                                                            <input class="form-control" id="tenor" id="phx-FuvZHeMu4hedhwED" name="file[]" multiple type="file" > </div>
+                                                    </td>
+                                                    <td class="fitwidth">
+                                                        <div class="form-group"> <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder fe fe-plus-circle tr_clone_add"></i> &nbsp;&nbsp;&nbsp; <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus fe fe-x-circle"></i> </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </section>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</div>
+</div>
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include jQuery Validate plugin -->
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="addreference">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Reference Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+            <div class="modal-body">
+              <form action=" <%= Routes.client_management_path(@conn, :create_reference) %>"  method="post">
+               <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                             <div class="row row-xs align-items-center mg-b-20">
+                                <div class="col-md-3">
+                                    <label class="mg-b-0">Full Name:</label>
+                                </div>
+                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                    <input class="form-control input-box"name="name" id="name" type="text" >
+                                    <input class="form-control input-box"name="userid" id="id" type="hidden" >
+                                </div>
+                            </div>
+                            <div class="row row-xs align-items-center mg-b-20">
+                                <div class="col-md-3">
+                                    <label class="mg-b-0">Phone Number:</label>
+                                </div>
+                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                    <input class="form-control input-box" name="contact_no" id="contact_no" type="text" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success" type="submit">Submit</button>
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="edit-reference">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Reference Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+            <div class="modal-body">
+              <form action=" <%= Routes.client_management_path(@conn, :update_reference) %>"  method="post">
+               <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                             <div class="row row-xs align-items-center mg-b-20">
+                                <div class="col-md-3">
+                                    <label class="mg-b-0">Full Name:</label>
+                                </div>
+                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                    <input class="form-control input-box"name="name" id="name" type="text" >
+                                    <input class="form-control input-box"name="id" id="id" type="hidden" >
+                                </div>
+                            </div>
+                            <div class="row row-xs align-items-center mg-b-20">
+                                <div class="col-md-3">
+                                    <label class="mg-b-0">Phone Number:</label>
+                                </div>
+                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                    <input class="form-control input-box" name="contact_no" id="contact_no" type="text" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success" type="submit">Update</button>
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>
+
+<script>
+$(document).ready(function(){
+
+    $('#addreference').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+
+
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+
+    $('#edit-reference').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var contact_no = button.data('contact_no')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #contact_no').val(contact_no);
+
+
+
+    });
+});
+</script>
+

@@ -118,4 +118,100 @@ defmodule Loanmanagementsystem.Charges do
     })
     |> Repo.all()
   end
+
+  alias Loanmanagementsystem.Charges.Product_charges
+
+  @doc """
+  Returns the list of tbl_product_charges.
+
+  ## Examples
+
+      iex> list_tbl_product_charges()
+      [%Product_charges{}, ...]
+
+  """
+  def list_tbl_product_charges do
+    Repo.all(Product_charges)
+  end
+
+  @doc """
+  Gets a single product_charges.
+
+  Raises `Ecto.NoResultsError` if the Product charges does not exist.
+
+  ## Examples
+
+      iex> get_product_charges!(123)
+      %Product_charges{}
+
+      iex> get_product_charges!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_product_charges!(id), do: Repo.get!(Product_charges, id)
+
+  @doc """
+  Creates a product_charges.
+
+  ## Examples
+
+      iex> create_product_charges(%{field: value})
+      {:ok, %Product_charges{}}
+
+      iex> create_product_charges(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_product_charges(attrs \\ %{}) do
+    %Product_charges{}
+    |> Product_charges.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a product_charges.
+
+  ## Examples
+
+      iex> update_product_charges(product_charges, %{field: new_value})
+      {:ok, %Product_charges{}}
+
+      iex> update_product_charges(product_charges, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_product_charges(%Product_charges{} = product_charges, attrs) do
+    product_charges
+    |> Product_charges.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a product_charges.
+
+  ## Examples
+
+      iex> delete_product_charges(product_charges)
+      {:ok, %Product_charges{}}
+
+      iex> delete_product_charges(product_charges)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_product_charges(%Product_charges{} = product_charges) do
+    Repo.delete(product_charges)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking product_charges changes.
+
+  ## Examples
+
+      iex> change_product_charges(product_charges)
+      %Ecto.Changeset{data: %Product_charges{}}
+
+  """
+  def change_product_charges(%Product_charges{} = product_charges, attrs \\ %{}) do
+    Product_charges.changeset(product_charges, attrs)
+  end
 end

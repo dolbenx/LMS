@@ -1,0 +1,308 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+<div class="container-fluid">
+    <div class="inner-body">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Employer Maintenance</h2>
+                <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Client Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Employers</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                        <a href="<%= Routes.offtaker_management_path(@conn, :add_employer) %>" class="btn ripple btn-primary" style="background-color: #003651; color: white;"> Add Employer </a>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+						    <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Name</th>
+                                        <th class="wd-25p">Mobile Number</th>
+                                        <th class="wd-20p">Registration Number</th>
+                                        <th class="wd-15p">TPIN</th>
+                                        <th class="wd-20p">Email</th>
+                                        <th class="wd-20p">Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <%= for company <- @companies do %>
+                                    <tr>
+                                        <td> <%= company.companyName %> </td>
+                                        <td> <%= company.companyPhone %> </td>
+                                        <td> <%= company.registrationNumber %> </td>
+                                        <td> <%= company.taxno %> </td>
+                                        <td> <%= company.contactEmail %> </td>
+                                        <%= if company.companystatus == "ACTIVE" do %>
+                                            <td><span class= "badge bg-pill bg-success" ><%= company.companystatus %></span> </td>
+                                        <% else %>
+                                            <td><span class="badge bg-pill bg-danger"><%= company.companystatus %></span> </td>
+                                        <% end %>
+                                        <td>
+                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+                                                <%= if company.companystatus == "ACTIVE" do %>
+                                                    <a class="btn ripple btn-danger btn-sm deactivate-company" data-activate-id="<%= company.id %>" title= "Disable" style="color:white;"> <i class="fe fe-x-circle" style="color:white;"></i>  Disable </a>
+                                                <% else %>
+                                                    <a class="btn ripple btn-success btn-sm activate-company" data-activate-id="<%= company.id %>" title= "Enable" style="color:white;"> <i class="fe fe-check-circle" style="color:white;"></i>  Enable</a>
+                                                <% end %>
+                                            <% end %>
+                                            <button aria-expanded="false" class="btn ripple btn-info dropdown-toggle btn-sm" data-bs-toggle="dropdown" type="button">Options <i class="fas fa-caret-down ms-1"></i></button>
+                                            <div class="dropdown-menu tx-13">
+                                                <a class="dropdown-item " href="<%= Routes.offtaker_management_path(@conn, :employer_edit_maintenance,  company_id: company.id )%>"><i class="fe fe-settings"></i> Edit</a>
+                                                <a class="dropdown-item " href="<%= Routes.offtaker_management_path(@conn, :cooperate_client_360_view,  company_id: company.id )%>"><i class="fe fe-settings"></i> 360 View</a>
+                                                <a class="dropdown-item " href="<%= Routes.offtaker_management_path(@conn, :employer_view_maintenance,  company_id: company.id )%>"><i class="fe fe-settings"></i> View</a>
+                                                <a class="dropdown-item"  href="<%= Routes.offtaker_management_path(@conn, :get_employer_by_company_id,  company_id: company.id )%>"> <i class="fe fe-eye"></i> Representative</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+
+<%#  Edit Employer %>
+
+<div class="modal" id="edit-employer">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+                <h6 class="modal-title">Edit Company</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+			</div>
+            <form action=" <%= Routes.offtaker_management_path(@conn, :edit_company) %> " method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="id" id="id">
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Name</p>
+                                <input type="text" class="form-control" name="companyName" id="companyname" >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Mobile Number</p>
+                                <input type="text" class="form-control" name="companyPhone" id="company_phone"  >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10"> Pacra-Registration Number</p>
+                                <input type="text" class="form-control" id="company_registration_number" name="registrationNumber"  >
+                            </div>
+
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Registration Date</p>
+                                <input type="date" class="form-control" name="companyRegistrationDate" id="company_registration_date"  >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">TPIN</p>
+                                <input type="text" class="form-control" id="taxno" name="taxno"  >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Contact Email</p>
+                                <input type="text" class="form-control" id="company_email" name="contactEmail"  >
+                            </div>
+
+                        </div>
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Bank</p>
+                                <input class="form-control" id="company_bank"  name="bankName" type="text" >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Account Number</p>
+                                <input class="form-control" id="company_account_number"  name="companyAccountNumber" type="text" >
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                        <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #003651; color: white;" type="submit">Update Company info!</button>
+                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+    	</div>
+  	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<%#  View Employer %>
+
+<div class="modal" id="view-employer">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+                <h6 class="modal-title">View Company</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+			</div>
+            <form action="#" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="id" id="id">
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Name</p>
+                                <input type="text" class="form-control" name="companyName" id="companyname"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Mobile Number</p>
+                                <input type="text" class="form-control" name="companyPhone" id="company_phone"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10"> Pacra-Registration Number</p>
+                                <input type="text" class="form-control" id="company_registration_number" name="registrationNumber"  readonly>
+                            </div>
+
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Registration Date</p>
+                                <input type="date" class="form-control" name="companyRegistrationDate" id="company_registration_date"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">TPIN</p>
+                                <input type="text" class="form-control" id="taxno" name="taxno"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Contact Email</p>
+                                <input type="text" class="form-control" id="company_email" name="contactEmail"  readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Bank</p>
+                                <input class="form-control" id="company_bank"  name="company_bank" type="text" readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Account Number</p>
+                                <input class="form-control" id="company_account_number"  name="companyAccountNumber" type="text" readonly>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                        <div class="modal-footer">
+                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+    	</div>
+  	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<script>
+
+$(document).ready(function(){
+
+    $('#edit-employer').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var companyname = button.data('companyname')
+            var company_phone = button.data('company_phone')
+            var company_account_number = button.data('company_account_number')
+            var company_registration_number = button.data('company_registration_number')
+            var company_email = button.data('company_email')
+            var taxno = button.data('taxno')
+            var company_bank_id = button.data('company_bank_id')
+			var company_bank = button.data('company_bank')
+			var company_registration_date = button.data('company_registration_date')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #companyname').val(companyname);
+            modal.find('.modal-body #company_phone').val(company_phone);
+            modal.find('.modal-body #company_account_number').val(company_account_number);
+            modal.find('.modal-body #company_registration_number').val(company_registration_number);
+            modal.find('.modal-body #company_email').val(company_email);
+            modal.find('.modal-body #taxno').val(taxno);
+            modal.find('.modal-body #company_bank_id').val(company_bank_id);
+			modal.find('.modal-body #company_bank').val(company_bank);
+			modal.find('.modal-body #company_registration_date').val(company_registration_date);
+
+
+
+    });
+
+	$('#view-employer').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #companyname').val(button.data('companyname'));
+            modal.find('.modal-body #company_phone').val(button.data('company_phone'));
+            modal.find('.modal-body #company_account_number').val(button.data('company_account_number'));
+            modal.find('.modal-body #company_registration_number').val(button.data('company_registration_number'));
+            modal.find('.modal-body #company_email').val(button.data('company_email'));
+            modal.find('.modal-body #taxno').val(button.data('taxno'));
+            modal.find('.modal-body #company_bank_id').val(button.data('company_bank_id'));
+            modal.find('.modal-body #company_bank').val(button.data('company_bank'));
+            modal.find('.modal-body #company_registration_date').val(button.data('company_registration_date'));
+
+    });
+
+});
+
+</script>
+
+<script>
+    $('#create_employer').on('click', function (event){
+
+            var modal= $("#addemployer");
+            var acc= ""
+            $.ajax({
+                url: '/Generate/Random/Password/user',
+                type: 'POST',
+                data: {_csrf_token: $('#csrf').val()},
+                success: function(result) {
+                    if (result.account){
+                        acc = result.account
+                        modal.find('#password-gen').val(acc);
+                        modal.modal("show")
+                    } else {
+                        modal.find('#password-gen').val("error");
+                        modal.modal("show")
+                    }
+                },
+                error: function(request, msg, error) {
+                    modal.find('#password-gen').val("error 2");
+                    modal.modal("show")
+                }
+            })
+    });
+</script>

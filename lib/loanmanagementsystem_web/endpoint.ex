@@ -7,8 +7,12 @@ defmodule LoanmanagementsystemWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_loanmanagementsystem_key",
-    signing_salt: "957j1O1l"
+    signing_salt: "7xrdK0Tq"
   ]
+
+  socket "/socket", LoanmanagementsystemWeb.UserSocket,
+    websocket: true,
+    longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
@@ -20,7 +24,7 @@ defmodule LoanmanagementsystemWeb.Endpoint do
     at: "/",
     from: :loanmanagementsystem,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt web admin)
+    only: ~w(css fonts images js favicon.ico robots.txt webfonts plugins webstatic datatable individual_uploads)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -38,10 +42,19 @@ defmodule LoanmanagementsystemWeb.Endpoint do
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
+  # plug Plug.Parsers,
+  #   parsers: [:urlencoded, :multipart, :json],
+  #   pass: ["*/*"],
+  #   json_decoder: Phoenix.json_library()
+
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
+    parsers:
+    [:urlencoded,
+     {:multipart, length: 500_000_000},   # increased to 500MB max upload
+     :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
+
 
   plug Plug.MethodOverride
   plug Plug.Head

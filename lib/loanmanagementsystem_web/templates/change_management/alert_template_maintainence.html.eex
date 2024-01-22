@@ -1,0 +1,101 @@
+<%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Alert Template Maintainence</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Product Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Alert Template Maintainence</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" data-bs-target="#addalerts" data-bs-toggle="modal" href=""> Add Alert Template</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                    <tr>
+                                        <th>Alert Type</th>
+                                        <th>Alert Message</th>
+                                        <th>Alert Status</th>
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%=for alert <- @alert do %>
+                                        <tr>
+                                            <td><%= alert.alert_type %></td>
+                                            <td><%= alert.alert_message %></td>
+                                            <td><%= alert.status %></td>
+                                            <td>Edit</td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+
+
+
+<div class="modal fade" id="addalerts" >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Template</h6>
+
+            </div>
+            <form action=" <%= Routes.change_management_path(@conn, :admin_add_templete) %> " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="status" value="ACTIVE">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Alert Type<span style="color: red;">*</span></label>
+                                <select required name="alert_type" class="form-control">
+                                     <option value="User Creation">User Creation</option>
+                                     <option value="User Disable">User Disable</option>
+                                     <option value="Loan Application">Loan Application</option>
+                                     <option value="Loan Disbursment">Loan Disbursment</option>
+                                     <option value="Loan Approval">Loan Approval</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm">
+                                <label class="form-label">Alert Message<span style="color: red;">*</span></label>
+                                    <input class="form-control" id="branchCode"name="alert_message"  type="textarea">
+                                </div>
+                            </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Submit</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

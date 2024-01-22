@@ -1,13 +1,30 @@
-import Config
+use Mix.Config
 
 # Configure your database
 config :loanmanagementsystem, Loanmanagementsystem.Repo,
+
+  # database: "gnc_core_db",
+  # hostname: "46.38.250.134",
+  # username: "probase",
+  # password: "Probase@gnc$$!200",
+
+  # database: "gnc_loans_dev",
+  # hostname: "89.58.48.159",
+  # username: "probase",
+  # password: "Password123$$",
+
   username: "postgres",
-  password: "Password123$$",
+  # password: "cool",
+  database: "gnc_production",
   hostname: "localhost",
-  database: "tisunge_loans",
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
+  # # database: "uat_gnc_base",
+  # hostname: "localhost",
+  # username: "probase",
+  # password: "Password123$$",
+  # password: "incorrect",
+
+  password: "qwerty12",
+ show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
 # For development, we disable any cache and enable
@@ -15,18 +32,20 @@ config :loanmanagementsystem, Loanmanagementsystem.Repo,
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with esbuild to bundle .js and .css sources.
+# with webpack to recompile .js and .css sources.
 config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
-  # Binding to loopback ipv4 address prevents access from other machines.
-  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
-  check_origin: false,
-  code_reloader: true,
+  http: [port: 4000],
   debug_errors: true,
-  secret_key_base: "zvklr7MYoJn8EExOR7bCLY6pJfGPuOADhN3cW52uaTFkd7J4+n1mktCe1bDKrfRu",
+  code_reloader: true,
+  check_origin: false,
   watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    node: [
+      "node_modules/webpack/bin/webpack.js",
+      "--mode",
+      "development",
+      "--watch-stdin",
+      cd: Path.expand("../assets", __DIR__)
+    ]
   ]
 
 # ## SSL Support

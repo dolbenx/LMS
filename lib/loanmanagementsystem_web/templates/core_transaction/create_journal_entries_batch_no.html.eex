@@ -1,0 +1,62 @@
+<%= render LoanmanagementsystemWeb.FinancialManagementView, "submenu.html", assigns %>
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Journal Entry</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Batch Processing</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Journal Entry</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <!-- Row -->
+        <div class="row ">
+             <div class="col-xl-12">
+                <div id="panel-1" class="panel">
+                    <div class="card custom-card overflow-hidden">
+
+                        <div class="card-body">
+                            <form action="<%= Routes.core_transaction_path(@conn, :create_batch)%>" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="choose-file">Select Batch</label>
+                                        <div class="form-group">
+                                            <select data-placeholder="Select Batch" id="select-batch" name="batch" required class="form-control select2 select2-hidden-accessible" data-select2-id="19" tabindex="-1" aria-hidden="true">
+                                                <option> </option>
+                                                <option data-batch-id="NEW_BATCH" value="NEW_BATCH">New Batch </option>
+                                                <%= for data_entry_batch <- @data_entry_batches do %>
+                                                    <option data-batch-id="<%= data_entry_batch.id %>" value="<%= data_entry_batch.batch_no %>"><%= data_entry_batch.trans_date %> ~  <%= data_entry_batch.batch_no %></option>
+                                                    <% end %>
+                                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <input type="hidden" name="batch_id" id="selected-batch-id">
+
+                                            </select>
+                                            <%= for data_entry_batch <- @data_entry_batches do %>
+                                                <input type="hidden" name="trans_date" value="<%= data_entry_batch.trans_date %>">
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn ripple btn-success" type="submit">Submit</button>
+                                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" onclick="history.back(-1)" type="button">Close</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+</div>
+</div>

@@ -1,0 +1,261 @@
+<%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+    <div class="col-md-12 col-lg-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Client Statements</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Credit Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Client Statement</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-md-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div class="conatiner-fluid">
+                            <form class="m-form m-form--fit m--margin-bottom-20">
+
+                            <div class="row">
+                                <div class="">
+                                    <h6 class="modal-title">Filter Statement</h6>
+                                    <br>
+                                        <div class="form-group">
+                                            <div class="row row-sm">
+                                                <div class="col-md-5">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text ">
+                                                            Referece Type
+                                                        </span>
+                                                        <select class="form-control select2 select2-hidden-accessible col-md-5" data-select2-id="16" tabindex="-1" aria-hidden="true">
+                                                            <option label="Choose one" data-select2-id="18">
+                                                            </option>
+                                                            <option value="Firefox" data-select2-id="44"> NRC  </option>
+                                                            <option value="Chrome" data-select2-id="45">  Loan Account Number </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text ">
+                                                           Referece Number
+                                                        </span>
+                                                        <input class="form-control clear_form" required="" type="text" name="to" id="to">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn ripple " style="background-color: #003651; color: white;" id="">
+                                                        <span>
+                                                            <i class="la la-search"></i>
+                                                            <span>Search</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+
+
+
+    <div class="row row-sm col-md-12">
+        <div class="col-md-12">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="d-lg-flex">
+                        <h2 class="main-content-label mb-1"></h2>
+                        <div class="ms-auto">
+
+                        </div>
+                    </div>
+                    <hr class="mg-b-40">
+                    <div class="row row-sm">
+                        <div class="col-lg-6">
+                        </div>
+                        <div class="col-lg-6 text-end">
+
+                            <img src="<%= Routes.static_path(@conn, "/images/qfinbg.png") %>" style="height: 90px; width: 190px;"><br><br>
+                            <address>
+                                Plot. 192, Great East Rd.<br>
+                                Lusaka, Zambia<br>
+                                101001, Lusaka<br>
+                                info@qfincustomercare.com
+                            </address>
+                        </div>
+                    </div>
+                        <h5 class="text-center">STATEMENT OF TRANSACTION HISTORY ENQUIRY</h5><hr style="border-top: 3px solid gray; border-radius: 5px;">
+                    <div class="table-responsive mg-t-40">
+                        <p class="text-center"><b><u>CLIENT DETAILS</u></b></p>
+                        <table class="table table-invoice table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>Client name:</td>
+                                    <td>Davies Dolben Phiri</td>
+                                </tr>
+                                <tr>
+                                    <td>Contract number: </td>
+                                    <td>260978242442</td>
+                                </tr>
+                                <tr>
+                                    <td>NRC: </td>
+                                    <td>365622/10/1 </td>
+                                </tr>
+                                <tr>
+                                    <td>Employer: </td>
+                                    <td> Probase</td>
+                                </tr>
+                                <tr>
+                                    <td>Postal address:</td>
+                                    <td>Lusaka, Zambia</td>
+                                </tr>
+                                <tr>
+                                    <td>Loan amount:</td>
+                                    <td>K 6,500</td>
+                                </tr>
+                                <tr>
+                                    <td>Term:</td>
+                                    <td>6 Months</td>
+                                </tr>
+                                <tr>
+                                    <td>Instalment:</td>
+                                    <td>K 1,100</td>
+                                </tr>
+                                <tr>
+                                    <td>Loan Account No:</td>
+                                    <td>10102001000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive mg-t-40">
+                        <p class="text-center"><b><u>AGING</u></b></p>
+                        <table class="table table-invoice table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="wd-20p">1 to 30 Days</th>
+                                    <th class="wd-20p">31 to 60 Days</th>
+                                    <th class="wd-20p">61 to 90 Days</th>
+                                    <th class="wd-20p">91 to 120 Days</th>
+                                    <th class="wd-20p">120 days plus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>K 0</td>
+                                    <td>K 0</td>
+                                    <td>K 0</td>
+                                    <td>K 0</td>
+                                    <td>K 0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive mg-t-40">
+                        <p class="text-center"><b><u>TRANSACTIONS</u></b></p>
+                        <table class="table table-invoice table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="wd-20p">Date</th>
+                                    <th class="wd-40p">Description</th>
+                                    <th class="tx-center">Reference</th>
+                                    <th class="tx-right">Amount</th>
+                                    <th class="tx-right">Balance </th>
+                                    <th class="tx-right">Arrears </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2022-02-01</td>
+                                    <td class="tx-12">Loan Transfer</td>
+                                    <td class="tx-center">LB0001</td>
+                                    <td class="tx-right">K 10,000</td>
+                                    <td class="tx-right">K 10,000</td>
+                                    <td class="tx-right">K 0</td>
+                                </tr>
+                                <tr>
+                                    <td>2022-02-01 </td>
+                                    <td class="tx-12">Processing fee</td>
+                                    <td class="tx-center">LB0002</td>
+                                    <td class="tx-right">K 20</td>
+                                    <td class="tx-right">K 10,020</td>
+                                    <td class="tx-right">K 0</td>
+                                </tr>
+                                <tr>
+                                    <td>2022-02-01</td>
+                                    <td class="tx-12">Insurance </td>
+                                    <td class="tx-center">LB0003</td>
+                                    <td class="tx-right">K 125 </td>
+                                    <td class="tx-right">K 10,145</td>
+                                    <td class="tx-right">K 0</td>
+                                </tr>
+                                <tr>
+                                    <td>2022-02-01</td>
+                                    <td class="tx-12">Interest  </td>
+                                    <td class="tx-center">LB0004</td>
+                                    <td class="tx-right">K 1,115</td>
+                                    <td class="tx-right">K 11,260</td>
+                                    <td class="tx-right">K 0</td>
+                                </tr>
+                                <tr>
+                                    <td>2022-02-01</td>
+                                    <td class="tx-12">Instalment </td>
+                                    <td class="tx-center">LB0005</td>
+                                    <td class="tx-right">K 11,260</td>
+                                    <td class="tx-right">K 11,260</td>
+                                    <td class="tx-right">K 11,260</td>
+                                </tr>
+                                <tr>
+                                    <td>2022-02-27</td>
+                                    <td class="tx-12">Receipt Mobile Money </td>
+                                    <td class="tx-center">LB0006</td>
+                                    <td class="tx-right">K -10,000</td>
+                                    <td class="tx-right">K 1,260</td>
+                                    <td class="tx-right">K 1,260</td>
+                                </tr>
+                                <tr>
+                                    <td>2022-02-27</td>
+                                    <td class="tx-12">Receipt Mobile Money</td>
+                                    <td class="tx-center">LB0007</td>
+                                    <td class="tx-right">K -1,260</td>
+                                    <td class="tx-right">K 0</td>
+                                    <td class="tx-right">K 0</td>
+                                </tr>
+                                <tr>
+                                    <td class="valign-middle" colspan="6" rowspan="2">
+                                        <div class="invoice-notes">
+                                            <label class="main-content-label tx-13">Note: </label>
+                                            <p>This Statement was generated at <%= @date %>.</p>
+                                        </div><!-- invoice-notes -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <button type="button" class="btn ripple btn-primary mb-1"><i class="fe fe-send me-1"></i> Send Via Email</button>
+                    <button type="button" class="btn ripple btn-info mb-1" onclick="javascript:window.print();"><i class="fe fe-printer me-1"></i> Print Invoice</button>
+                </div>
+            </div>
+        </div>
+    </div>

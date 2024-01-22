@@ -1,0 +1,57 @@
+<%= render LoanmanagementsystemWeb.FinancialManagementView, "submenu.html", assigns %>
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Approve Batch</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Batch Processing</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Approve Batch</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+      <div class="row">
+          <div class="col-xl-12">
+                <div id="panel-1" class="panel">
+                    <div class="panel-hdr">
+                        <%# <h2>
+                            Batch <span class="fw-300"><i>Details</i></span>
+                        </h2> %>
+                    </div>
+                   <div class="card custom-card overflow-hidden">
+                    <div class="card-body" data-select2-id="27">
+                        <form action="<%= Routes.core_transaction_path(@conn, :journal_entries_authorise_datatable)%>" method="GET">
+                            <div class="form-group">
+                                <label class="form-label" for="choose-file">Select Batch</label>
+                                <select name="batch_id" class="select2 form-control batch-id" data-placeholder="Select batch" required>
+                                    <option></option>
+                                    <option disabled="disabled">Select Batch ID</option>
+                                    <%= for approve_batch <- @approve_batches do %>
+                                        <option value="<%= approve_batch.id %>"><%= approve_batch.trans_date %> ~ <%= approve_batch.batch_no %></option>
+                                    <% end %>
+                                </select>
+
+                            </div>
+                            <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row">
+                                <button type="button" class="btn btn-secondary submit ml-auto"  style="border-radius:8px" onclick="history.back(-1)">Go Back</button>
+                                <button class="btn btn-info ml-2 submit" type="submit" style="border-radius:8px">Submit form</button>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>

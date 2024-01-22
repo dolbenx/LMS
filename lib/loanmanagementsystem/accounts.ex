@@ -3,7 +3,7 @@ defmodule Loanmanagementsystem.Accounts do
   The Accounts context.
 
 
-  # Loanmanagementsystem.Accounts.get_current_user_by_bio_data(41) get_current_user_by_bio_data
+  # Loanmanagementsystem.Accounts.get_address_by_id(17)
   """
 
   #
@@ -15,8 +15,28 @@ defmodule Loanmanagementsystem.Accounts do
   alias Loanmanagementsystem.Accounts.User
   alias Loanmanagementsystem.Accounts.UserBioData
   alias Loanmanagementsystem.Accounts.UserRole
-  alias Loanmanagementsystem.Accounts.Role
+  alias Loanmanagementsystem.Maintenance.Bank
+  alias Loanmanagementsystem.Companies.Company
+  alias Loanmanagementsystem.Accounts.Address_Details
+
   # Loanmanagementsystem.Accounts.get_user_email("admin@probasegroup.com")
+
+  # Loanmanagementsystem.Accounts.get_user_by_id(1)
+  def get_user_by_id(id), do: Repo.get_by!(User, id: id)
+
+  def get_user!(id), do: Repo.get!(User, id)
+
+  # Loanmanagementsystem.Accounts.get_user_bio_by_id(1)
+  def get_user_bio_by_id(id), do: Repo.get_by!(UserBioData, userId: id)
+  # Loanmanagementsystem.Accounts.get_user_bank_by_id(1)
+  def get_user_bank_by_id(id), do: Repo.get_by!(Bank, id: id)
+  # Loanmanagementsystem.Accounts.get_company_by_id(1)
+  def get_company_by_id(id), do: Repo.get_by!(Company, id: id)
+    # Loanmanagementsystem.Accounts.get_address_by_id(2)
+  def get_address_by_id(id), do: Repo.get_by!(Address_Details, userId: id)
+
+  # Loanmanagementsystem.Accounts.get_address_by_company_id(2)
+  def get_address_by_company_id(id), do: Repo.get_by!(Address_Details, company_id: id)
   def get_user_email(username) do
     User
     |> where([u], u.username == ^username)
@@ -24,6 +44,33 @@ defmodule Loanmanagementsystem.Accounts do
       username: u.username
     })
     |> Repo.all()
+  end
+
+
+  def customer_contact_details(username) do
+    case Loanmanagementsystem.Accounts.User.exists?(username: username) do
+      false -> []
+      true ->
+        User
+        |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+        |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
+        |> where([uA, uB, uR], uA.username == ^username)
+        |> select([uA, uB, uR], %{
+          id: uA.id,
+          firstname: uB.firstName,
+          lastname: uB.lastName,
+          othername: uB.otherName,
+          dateofbirth: uB.dateOfBirth,
+          idtype: uB.meansOfIdentificationType,
+          idnumber: uB.meansOfIdentificationNumber,
+          title: uB.title,
+          gender: uB.gender,
+          phone: uB.mobileNumber,
+          email: uB.emailAddress
+        })
+        |> limit(1)
+        |> Repo.one()
+    end
   end
 
   # Loanmanagementsystem.Accounts.get_user_for_otp("admin@probasegroup.com")
@@ -35,26 +82,52 @@ defmodule Loanmanagementsystem.Accounts do
       username: u.username,
       mobile: uB.mobileNumber,
       name: uB.firstName,
-      last_name: uB.lastName,
       email: uB.emailAddress,
     })
     |> Repo.one()
   end
 
+  def get_user_by_username_api(username) do
+    case Loanmanagementsystem.Accounts.User.exists?(username: username) do
+      false -> []
+      true ->
+        User
+        |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+        |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
+        |> where([uA, uB, uR], uA.username == ^username)
+        |> select([uA, uB, uR], %{
+          id: uA.id,
+          status: uA.status,
+          username: uA.username,
+          firstname: uB.firstName,
+          lastname: uB.lastName,
+          othername: uB.otherName,
+          dateofbirth: uB.dateOfBirth,
+          idtype: uB.meansOfIdentificationType,
+          idnumber: uB.meansOfIdentificationNumber,
+          title: uB.title,
+          gender: uB.gender,
+          mobilenumber: uB.mobileNumber,
+          emailaddress: uB.emailAddress,
+          roletype: uR.roleType,
+        })
+        |> limit(1)
+        |> Repo.one()
+    end
+  end
 
-   def get_role!(id), do: Repo.get!(Role, id)
+  # Loanmanagementsystem.Accounts.get_my_user("0978659654")
+
+def get_my_user(username) do
+  User
+  |>Repo.get_by!(username: username)
+end
 
   # Loanmanagementsystem.Accounts.get_logged_user_details()
   def get_logged_admin_user_details do
-    employer = "EMPLOYER"
-    employee = "EMPLOYEE"
-    sme = "SME"
-    offtaker = "OFFTAKER"
-
     User
     |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
     |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
-    |> where([uA, uB, uR], uR.roleType != ^employer and uR.roleType != ^employee and uR.roleType != ^sme and uR.roleType != ^offtaker)
     |> select([uA, uB, uR], %{
       id: uA.id,
       status: uA.status,
@@ -76,6 +149,37 @@ defmodule Loanmanagementsystem.Accounts do
     |> Repo.all()
   end
 
+
+  # def get_logged_admin_user_details do
+  #   employer = "EMPLOYER"
+  #   employee = "EMPLOYEE"
+  #   sme = "SME"
+  #   offtaker = "OFFTAKER"
+
+  #   User
+  #   |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+  #   |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
+  #   |> where([uA, uB, uR], uR.roleType != ^employer and uR.roleType != ^employee and uR.roleType != ^sme and uR.roleType != ^offtaker)
+  #   |> select([uA, uB, uR], %{
+  #     id: uA.id,
+  #     status: uA.status,
+  #     username: uA.username,
+  #     firstname: uB.firstName,
+  #     lastname: uB.lastName,
+  #     othername: uB.otherName,
+  #     dateofbirth: uB.dateOfBirth,
+  #     meansofidentificationtype: uB.meansOfIdentificationType,
+  #     meansofidentificationnumber: uB.meansOfIdentificationNumber,
+  #     title: uB.title,
+  #     gender: uB.gender,
+  #     mobilenumber: uB.mobileNumber,
+  #     emailaddress: uB.emailAddress,
+  #     roletype: uR.roleType,
+  #     company_id: uA.company_id,
+  #     classification_id: uA.classification_id
+  #   })
+  #   |> Repo.all()
+  # end
   # Loanmanagementsystem.Accounts.get_logged_user_details()
   def get_logged_user_details do
     role = "ADMIN"
@@ -182,44 +286,26 @@ defmodule Loanmanagementsystem.Accounts do
   def get_admin_logged_user_details(id) do
     User
     |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
-    |> join(:left, [uA], uX in "tbl_address_details", on: uA.id == uX.userId)
-    |> join(:left, [uA], uT in "tbl_employee_maintenance", on: uA.id == uT.userId)
     |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
     |> where(
-      [uA, uB, uX,  uT, uR],
+      [uA, uB, uR],
       (uA.company_id == ^id and uR.roleType == ^"ADMIN_EMPLOYER_INITATOR") or
         uR.roleType == ^"ADMIN_EMPLOYER_APPROVER"
     )
-    |> select([uA, uB, uX, uT, uR], %{
+    |> select([uA, uB, uR], %{
       id: uA.id,
       status: uA.status,
       username: uA.username,
-
       firstname: uB.firstName,
       lastname: uB.lastName,
       othername: uB.otherName,
       dateofbirth: uB.dateOfBirth,
       meansofidentificationtype: uB.meansOfIdentificationType,
       meansofidentificationnumber: uB.meansOfIdentificationNumber,
-      bio_title: uB.title,
-      nationality: uB.nationality,
+      title: uB.title,
       gender: uB.gender,
-      marital_status: uB.marital_status,
-      number_of_dependants: uB.number_of_dependants,
       mobilenumber: uB.mobileNumber,
       emailaddress: uB.emailAddress,
-
-      accomodation_status: uX.accomodation_status,
-      area: uX.area,
-      house_number: uX.house_number,
-      street_name: uX.street_name,
-      town: uX.town,
-      year_at_current_address: uX.year_at_current_address,
-      province: uX.province,
-
-      mobile_network_operator: uT.mobile_network_operator,
-      registered_name_mobile_number: uT.registered_name_mobile_number,
-
       roletype: uR.roleType
     })
     |> Repo.all()
@@ -238,52 +324,6 @@ defmodule Loanmanagementsystem.Accounts do
   def list_tbl_users do
     Repo.all(User)
   end
-
-
-  def list_tbl_funder_users do
-    User
-    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
-    |> join(:left, [uA], uX in "tbl_address_details", on: uA.id == uX.userId)
-    |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
-    |> where([uA, uB, uX, uR], uR.roleType == ^"FUNDER")
-    |> select([uA, uB, uX, uR], %{
-      id: uA.id,
-      company_id: uA.company_id,
-      status: uA.status,
-      username: uA.username,
-
-      roletype: uR.roleType,
-      bio_id: uB.userId,
-      role_id: uR.userId,
-
-      bio_data_id: uB.id,
-      firstname: uB.firstName,
-      lastname: uB.lastName,
-      othername: uB.otherName,
-      dateofbirth: uB.dateOfBirth,
-      meansofidentificationtype: uB.meansOfIdentificationType,
-      meansofidentificationnumber: uB.meansOfIdentificationNumber,
-      title: uB.title,
-      nationality: uB.nationality,
-      gender: uB.gender,
-      marital_status: uB.marital_status,
-      number_of_dependants: uB.number_of_dependants,
-      mobilenumber: uB.mobileNumber,
-      emailaddress: uB.emailAddress,
-
-      accomodation_status: uX.accomodation_status,
-      area: uX.area,
-      house_number: uX.house_number,
-      street_name: uX.street_name,
-      town: uX.town,
-      year_at_current_address: uX.year_at_current_address,
-      province: uX.province
-
-    })
-    |> Repo.all()
-  end
-
-
 
   # def batch_users do
   #   Repo.all(from n in UserRole, [where: n.roleType == "ADMIN"])
@@ -869,7 +909,8 @@ defmodule Loanmanagementsystem.Accounts do
       mobileNumber: uB.mobileNumber,
       emailAddress: uB.emailAddress,
       company_id: uR.company_id,
-      roleType: role.roleType
+      roleType: role.roleType,
+      marital_status: uB.marital_status
     })
     |> Repo.all()
   end
@@ -1970,6 +2011,26 @@ defmodule Loanmanagementsystem.Accounts do
 
   end
 
+  def count_customers() do
+    Loanmanagementsystem.Accounts.User
+    |>join(:left, [uB], uR in UserRole, on: uB.id == uR.userId)
+    |> where([uB, uR], uR.roleType == "INDIVIDUALS" or uR.roleType == "SME" or uR.roleType == "EMPLOYEE" or uR.roleType == "EMPLOYER" or uR.roleType == "OFFTAKER")
+    |> select([uB, uR], %{
+      user_count: count(uB.id)
+    })
+    |> Repo.one()
+  end
+
+  def count_staff() do
+    Loanmanagementsystem.Accounts.User
+    |>join(:left, [uB], uR in UserRole, on: uB.id == uR.userId)
+    |> where([uB, uR], uR.roleType != "INDIVIDUALS" and uR.roleType != "SME" and uR.roleType != "EMPLOYEE" and uR.roleType != "EMPLOYER" and uR.roleType != "OFFTAKER")
+    |> select([uB, uR], %{
+      user_count: count(uB.id)
+    })
+    |> Repo.one()
+  end
+
 
   # client_role = Loanmanagementsystem.Accounts.get_client_by_nrc("100101/101/1")
 
@@ -1987,33 +2048,12 @@ defmodule Loanmanagementsystem.Accounts do
     |> Repo.one()
   end
 
-  def get_client_by_line!(client_line) do
-    UserRole
-    |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserBioData, on: c.userId == u.userId)
-    |> where([c, u], u.mobileNumber == ^client_line)
-    |> select([c, u], %{
-      role_id: c.id
-    })
-    |> Repo.one()
-  end
-
-  def get_client_loan_by_line(client_line) do
-    UserRole
-    |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserBioData, on: c.userId == u.userId)
-    |> where([c, u], u.mobileNumber == ^client_line)
-    |> select([c, u], %{
-      role_id: c.id
-    })
-    |> Repo.one()
-  end
-
   def get_client_by_nrc(nrc) do
     UserBioData
     |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserRole, on: c.userId == u.userId)
-    |> join(:left, [c], emp in Loanmanagementsystem.Employment.Employment_Details, on: c.userId == emp.userId)
-    |> join(:left, [c], inv in Loanmanagementsystem.Employment.Income_Details, on: c.userId == inv.userId)
-    |> where([c, u], c.meansOfIdentificationNumber == ^nrc)
-    |> select([c, u, emp, inv], %{
+    |> join(:left, [c, u], uA in Loanmanagementsystem.Accounts.User, on: c.userId == uA.id)
+    |> where([c, u, uA], c.meansOfIdentificationNumber == ^nrc)
+    |> select([c, u, uA], %{
       firstName: c.firstName,
       lastName: c.lastName,
       userId: c.userId,
@@ -2027,12 +2067,9 @@ defmodule Loanmanagementsystem.Accounts do
       emailAddress: c.emailAddress,
       role_id: u.id,
       marital_status: c.marital_status,
-      nationality: c.nationality,
-      employer: emp.employer,
-      employee_number: emp.employee_number,
-      net_pay: inv.net_pay,
-      pay_day: inv.pay_day,
-      company_id: emp.company_id
+      designation: c.designation,
+      employee_number: c.employee_number,
+      with_mou: uA.with_mou
     })
     |> Repo.one()
   end
@@ -2052,6 +2089,23 @@ defmodule Loanmanagementsystem.Accounts do
       town: u.town,
       year_at_current_address: u.year_at_current_address,
       province: u.province,
+      landmark: u.land_mark,
+    })
+    |> limit(1)
+    |> Repo.one()
+  end
+
+  def get_client_company_details(customer_id) do
+    User
+    |> join(:left, [c], u in Company, on: c.company_id == u.id)
+    |> where([c, u], c.id == ^customer_id)
+    |> select([c, u], %{
+      companyName: u.companyName,
+      companyPhone: u.companyPhone,
+      contactEmail: u.contactEmail,
+      registrationNumber: u.registrationNumber,
+      companyRegistrationDate: u.companyRegistrationDate,
+      tpin: u.taxno,
     })
     |> limit(1)
     |> Repo.one()
@@ -2109,6 +2163,7 @@ defmodule Loanmanagementsystem.Accounts do
 
 
   """
+  # Loanmanagementsystem.Accounts.get_role!(1)
   def get_role!(id), do: Repo.get!(Role, id)
 
   @doc """
@@ -2515,51 +2570,4 @@ defmodule Loanmanagementsystem.Accounts do
   def change_client_reference(%Client_reference{} = client_reference, attrs \\ %{}) do
     Client_reference.changeset(client_reference, attrs)
   end
-
-  def get_current_user_by_bio_data(user_id) do
-    UserBioData
-    |>join(:left, [uB], uS in User, on: uB.userId == uS.id)
-    |>join(:left, [uB, uS], r in Role, on: uS.role_id == r.id)
-    |> where([uB, uS, r], uB.userId == ^user_id)
-    |> select([uB, uS, r], %{
-      id: uB.id,
-      userId: uB.userId,
-      firstName: uB.firstName,
-      lastName: uB.lastName,
-      otherName: uB.otherName,
-      dateOfBirth: uB.dateOfBirth,
-      meansOfIdentificationType: uB.meansOfIdentificationType,
-      meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-      title: uB.title,
-      gender: uB.gender,
-      mobileNumber: uB.mobileNumber,
-      emailAddress: uB.emailAddress,
-
-      role_desc: r.role_desc,
-      role_group: r.role_group,
-    })
-    |> Repo.one()
-  end
-
-
-  # def get_current_user_by_bio_data(user_id) do
-  #   UserBioData
-  #   |> where([uB], uB.userId == ^user_id)
-  #   |> select([uB], %{
-  #     id: uB.id,
-  #     userId: uB.userId,
-  #     firstName: uB.firstName,
-  #     lastName: uB.lastName,
-  #     otherName: uB.otherName,
-  #     dateOfBirth: uB.dateOfBirth,
-  #     meansOfIdentificationType: uB.meansOfIdentificationType,
-  #     meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-  #     title: uB.title,
-  #     gender: uB.gender,
-  #     mobileNumber: uB.mobileNumber,
-  #     emailAddress: uB.emailAddress
-  #   })
-  #   |> Repo.one()
-  # end
-
 end

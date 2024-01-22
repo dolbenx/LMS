@@ -3,8 +3,6 @@ defmodule Loanmanagementsystem.Companies.Company do
   import Ecto.Changeset
   use Endon
 
-  #
-
   schema "tbl_company" do
     field :approval_trail, :string
     field :auth_level, :integer
@@ -22,7 +20,14 @@ defmodule Loanmanagementsystem.Companies.Company do
     field :companyRegistrationDate, :date
     field :companyAccountNumber, :string
     field :bank_id, :integer
-    field :user_bio_id, :integer
+
+    field :area, :string
+    field :twon, :string
+    field :province, :string
+    field :employer_industry_type, :string
+    field :employer_office_building_name, :string
+    field :employer_officer_street_name, :string
+    field :business_sector, :string
 
     timestamps()
   end
@@ -32,7 +37,6 @@ defmodule Loanmanagementsystem.Companies.Company do
     company
     |> cast(attrs, [
       :bank_id,
-      :user_bio_id,
       :companyName,
       :companyPhone,
       :registrationNumber,
@@ -47,23 +51,18 @@ defmodule Loanmanagementsystem.Companies.Company do
       :approval_trail,
       :auth_level,
       :companyRegistrationDate,
-      :companyAccountNumber
+      :companyAccountNumber,
+      :area,
+      :twon,
+      :province,
+      :employer_industry_type,
+      :employer_office_building_name,
+      :employer_officer_street_name,
+      :business_sector
     ])
     |> validate_required([
-      :bank_id,
       :companyName,
-      :companyPhone,
-      :registrationNumber,
-      :taxno,
-      :contactEmail,
-      :isEmployer,
-      :isSme,
-      :isOfftaker,
-      :createdByUserId,
-      :createdByUserRoleId,
-      :status,
-      :companyRegistrationDate,
-      :companyAccountNumber
+      # :companyPhone,
     ])
 
     # |> validate_required([:companyName, :companyPhone, :registrationNumber, :taxno, :contactEmail, :isEmployer, :isSme, :isOfftaker, :createdByUserId, :createdByUserRoleId, :status, :approval_trail, :auth_level])

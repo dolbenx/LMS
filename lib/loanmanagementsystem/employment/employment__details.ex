@@ -19,7 +19,8 @@ defmodule Loanmanagementsystem.Employment.Employment_Details do
     field :province, :string
     field :town, :string
     field :userId, :integer
-    field :departmentId, :integer
+    field :departmentId, :string
+    # field :departmentId, :integer
     field :mobile_network_operator, :string
     field :registered_name_mobile_number, :string
     field :contract_start_date, :date
@@ -53,8 +54,9 @@ defmodule Loanmanagementsystem.Employment.Employment_Details do
       :registered_name_mobile_number,
       :contract_start_date,
       :contract_end_date,
-      :company_id
+      :company_id,
     ])
+    |> unique_constraint(:employee_number, name: :unique_employee_number, message: " already exists")
 
     # |> validate_required([
     #   :employer,

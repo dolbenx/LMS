@@ -1,0 +1,758 @@
+<%= render  "submenu.html", assigns %>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5"> Statement of finacial position </h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Statement of finacial position Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    
+                    <button class="btn ripple"  type="button" style="background-color: #003651; color: white;"  data-bs-target="#filter-financial-report" data-bs-toggle="modal" ><i class="fe fe-filter me-2"></i>  Filter</button>
+                    
+                   
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row row-sm">
+        
+            <div class="col-lg-12">
+          
+                <div class="card custom-card overflow-hidden">
+                
+                    <div class="card-body">
+                      <button class="btn ripple btn-success btn-rounded mb-0" style="float: right;"   onclick="exportToCSV()"   href="#">Export to CSV</button>
+                        <div class="table-responsive">
+                            <table class="table text-nowrap text-md-nowrap table-bordered mg-b-0" >
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                     <tr>
+                                        <th class="wd-20p">Ledger Name</th>
+                                        <th class="wd-25p">Amount</th>
+                                         <th class="wd-25p">Amount</th>
+                                      </tr>
+
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td>31/Dec/22</td>
+                                    <td>31/Dec/21</td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>ASSETS</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Non Current Assets</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Computer Equipment</td>
+                                    <td><%= Decimal.new(@financial_postion.computer_equipment) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_computer_equipment) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Furniture & Fittings</td>
+                                    <td><%= Decimal.new(@financial_postion.furniture_fittings) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_furniture_fittings) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Land & Building </td>
+                                    <td><%= Decimal.new(@financial_postion.land_building) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_land_building) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Motor Vehicles </td>
+                                    <td><%= Decimal.new(@financial_postion.motor_vehicles) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_motor_vehicles) %></td>
+
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Office Equipment</td>
+                                     <td><%= Decimal.new(@financial_postion.office_equipment) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_office_equipment) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Intangible Assets</td>
+                                     <td><%= Decimal.new(@financial_postion.intangible_assets) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_intangible_assets) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Property Plant & Equipment</td>
+                                     <td><%= Decimal.new(@financial_postion.total_property_plant_equipment) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_property_plant_equipment) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Current Assets</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Gross Loans and Advances</td>
+                                    <td><%= Decimal.new(@financial_postion.gross_loans_and_advances) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_gross_loans_and_advances) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Provision for Bad Debts</td>
+                                    <td><%= Decimal.new(@financial_postion.provision_for_bad_debts) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_provision_for_bad_debts) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Net Loans and Advances</td>
+                                    <td><%= Decimal.new(@financial_postion.net_loans_and_advances) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_net_loans_and_advances) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Other Current Assets</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Stock</td>
+                                    <td><%= Decimal.new(@financial_postion.stock) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_stock) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Loans and Advances</td>
+                                    <td><%= Decimal.new(@financial_postion.loans_and_advances) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_loans_and_advances) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Staff Loans</td>
+                                    <td><%= Decimal.new(@financial_postion.staff_loans) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_staff_loans) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Prepayments</td>
+                                    <td><%= Decimal.new(@financial_postion.prepayments) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_prepayments) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>GNR Intercompany </td>
+                                    <td><%= Decimal.new(@financial_postion.gnr_intercompany) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_gnr_intercompany) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>PUMA - Dijifuel </td>
+                                    <td><%= Decimal.new(@financial_postion.puma_dijifuel) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_puma_dijifuel) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Speedpay </td>
+                                    <td><%= Decimal.new(@financial_postion.speedpay) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_speedpay) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Sundry Receivables</td>
+                                    <td><%= Decimal.new(@financial_postion.sundry_receivables) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_sundry_receivables) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Deffered Tax Asset</td>
+                                    <td><%= Decimal.new(@financial_postion.deffered_tax_asset) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_deffered_tax_asset) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Other Current Assets</td>
+                                    <td><%= Decimal.new(@financial_postion.other_current_assets) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_other_current_assets) %></td>
+                                </tr>
+
+
+
+
+                                <tr>
+                                   
+                                    <td>Cash & Cash equivalent</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>ZANACO</td>
+                                    <td><%= Decimal.new(@financial_postion.zanaco) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_zanaco) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>FNB</td>
+                                    <td><%= Decimal.new(@financial_postion.fnb) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_fnb) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Airtel Money</td>
+                                    <td><%= Decimal.new(@financial_postion.airtel_money) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_airtel_money) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Diji Fuel Universal </td>
+                                    <td><%= Decimal.new(@financial_postion.diji_fuel_universal) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_diji_fuel_universal) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>MTN Money </td>
+                                    <td><%= Decimal.new(@financial_postion.mtn_money) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_mtn_money) %></td>
+
+                                </tr>
+                                <tr>
+                                   
+                                    <td>ZANACO-KABWATA</td>
+                                     <td><%= Decimal.new(@financial_postion.zanaco_kabwata) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_zanaco_kabwata) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>ZANACO-COMESA</td>
+                                     <td><%= Decimal.new(@financial_postion.zanaco_comesa) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_zanaco_comesa) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>COMESA AGENCY - FNB</td>
+                                     <td><%= Decimal.new(@financial_postion.comesa_agency_fnb) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_comesa_agency_fnb) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>KANGWA AGENCY</td>
+                                     <td><%= Decimal.new(@financial_postion.kangwa_agency) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_kangwa_agency) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>KABWATA AGENCY</td>
+                                    <td><%= Decimal.new(@financial_postion.kabwata_agency) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_kabwata_agency) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>KABWATA SDA AGENCY</td>
+                                    <td><%= Decimal.new(@financial_postion.kabwata_sda_agency) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_kabwata_sda_agency) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>HEAD OFFICE AGENCY </td>
+                                    <td><%= Decimal.new(@financial_postion.head_office_agency) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_head_office_agency) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Digital App- Instant Loan</td>
+                                     <td><%= Decimal.new(@financial_postion.digital_app_instant_loan) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_digital_app_instant_loan) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Choppies Cross Roads</td>
+                                    <td><%= Decimal.new(@financial_postion.choppies_cross_roads) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_choppies_cross_roads) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Choppies Chalala</td>
+                                    <td><%= Decimal.new(@financial_postion.choppies_chalala) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_choppies_chalala) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Choppies IBEX</td>
+                                    <td><%= Decimal.new(@financial_postion.choppies_ibex) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_choppies_ibex) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>INSTANT LOANS</td>
+                                    <td><%= Decimal.new(@financial_postion.instant_loans) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_instant_loans) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Choppies Chamba Valley </td>
+                                    <td><%= Decimal.new(@financial_postion.choppies_chamba_valley) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_choppies_chamba_valley) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Instant Loans - Kuku </td>
+                                    <td><%= Decimal.new(@financial_postion.instant_loans_kuku) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_instant_loans_kuku) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>ECO BANK FLOAT ACCOUNT </td>
+                                    <td><%= Decimal.new(@financial_postion.eco_bank_float_account) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_eco_bank_float_account) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Petty Cash</td>
+                                    <td><%= Decimal.new(@financial_postion.petty_cash) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_petty_cash) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Cash and Cash Equivalents</td>
+                                    <td><%= Decimal.new(@financial_postion.total_cash_and_cash_equivalents) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_cash_and_cash_equivalents) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Current Assets</td>
+                                    <td><%= Decimal.new(@financial_postion.total_current_assets) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_current_assets) %></td>
+                                </tr>
+
+
+                                
+                                <tr>
+                                   
+                                    <td>Total Assets</td>
+                                    <td><%= Decimal.new(@financial_postion.total_assets) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_assets) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Equity & Liabilities</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Equity</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Ordinary Capital</td>
+                                    <td><%= Decimal.new(@financial_postion.ordinary_capital) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_ordinary_capital) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Share Premium </td>
+                                    <td><%= Decimal.new(@financial_postion.share_premium) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_share_premium) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Reserves - Prior year adjustments  </td>
+                                    <td><%= Decimal.new(@financial_postion.reserves_prior_year_adjustments) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_reserves_prior_year_adjustments) %></td>
+
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Share Capital Issue</td>
+                                     <td><%= Decimal.new(@financial_postion.share_capital_issue) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_share_capital_issue) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Retained Earnings (Accumulated)</td>
+                                     <td><%= Decimal.new(@financial_postion.retained_earnings_accumulated) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_retained_earnings_accumulated) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Retained Earnings (Current Year)</td>
+                                     <td><%= Decimal.new(@financial_postion.retained_earnings_Current_year) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_retained_earnings_Current_year) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Equity</td>
+                                     <td><%= Decimal.new(@financial_postion.total_equity) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_equity) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Non Current Liabilities</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>GNR Inter Company Loans</td>
+                                    <td><%= Decimal.new(@financial_postion.gnr_inter_company_loans) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_gnr_inter_company_loans) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>GNP Intercompany Liabilities </td>
+                                    <td><%= Decimal.new(@financial_postion.gnp_intercompany_liabilities) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_gnp_intercompany_liabilities) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Other Non Current Liabilities - GNP</td>
+                                     <td><%= Decimal.new(@financial_postion.other_non_current_liabilities) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_other_non_current_liabilities) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Non Current Liabilities</td>
+                                    <td><%= Decimal.new(@financial_postion.total_non_current_liabilities) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_non_current_liabilities) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Current Liabilities</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Bridging Finance</td>
+                                    <td><%= Decimal.new(@financial_postion.bridging_finance) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_bridging_finance) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Undeposited Funds</td>
+                                    <td><%= Decimal.new(@financial_postion.undeposited_funds) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_undeposited_funds) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Accruals </td>
+                                    <td><%= Decimal.new(@financial_postion.accruals) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_accruals) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Provision for Interest  </td>
+                                    <td><%= Decimal.new(@financial_postion.provision_for_interest) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_provision_for_interest) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Sundry Payables </td>
+                                    <td><%= Decimal.new(@financial_postion.sundry_payables) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_sundry_payables) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Trade Payables</td>
+                                    <td><%= Decimal.new(@financial_postion.trade_payables) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_trade_payables) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Related Party Borrowings - Inter Company</td>
+                                    <td><%= Decimal.new(@financial_postion.related_party_borrowings) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_related_party_borrowings) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Payroll PAYE</td>
+                                    <td><%= Decimal.new(@financial_postion.payroll_paye) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_payroll_paye) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Payroll NAPSA</td>
+                                    <td><%= Decimal.new(@financial_postion.payroll_napsa) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_payroll_napsa) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>NHIS payable</td>
+                                    <td><%= Decimal.new(@financial_postion.nhis_payable) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_nhis_payable) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Prov for leave pay </td>
+                                    <td><%= Decimal.new(@financial_postion.prov_for_leave_pay) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_prov_for_leave_pay) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Net pay </td>
+                                    <td><%= Decimal.new(@financial_postion.net_pay) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_net_pay) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Income Tax Payable </td>
+                                    <td><%= Decimal.new(@financial_postion.income_tax_payable) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_income_tax_payable) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Prov for WHT</td>
+                                    <td><%= Decimal.new(@financial_postion.prov_for_wht) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_prov_for_wht) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>GNC Fuel Drawings</td>
+                                    <td><%= Decimal.new(@financial_postion.gnc_fuel_drawings) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_gnc_fuel_drawings) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Provision - Cash & Cash</td>
+                                    <td><%= Decimal.new(@financial_postion.provision_cash) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_provision_cash) %></td>
+                                </tr>
+                                <tr>
+                                   
+                                    <td>Other Current Liabilities </td>
+                                    <td><%= Decimal.new(@financial_postion.other_current_liabilities) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_other_current_liabilities) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Provision for Interest Suspended </td>
+                                    <td><%= Decimal.new(@financial_postion.provision_for_interest_suspended) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_provision_for_interest_suspended) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Unrecognised Customer </td>
+                                    <td><%= Decimal.new(@financial_postion.unrecognised_customer) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_unrecognised_customer) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Total Current Liabilities </td>
+                                    <td><%= Decimal.new(@financial_postion.total_current_liabilities) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_total_current_liabilities) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Liabilities </td>
+                                    <td><%= Decimal.new(@financial_postion.total_liabilities) %></td>
+                                     <td><%= Decimal.new(@financial_postion.prev_total_liabilities) %></td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td>Total Equity & Liabilities</td>
+                                    <td><%= Decimal.new(@financial_postion.total_equity_and_liabilities) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_equity_and_liabilities) %></td>
+
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Cash and Cash Equivalents</td>
+                                    <td><%= Decimal.new(@financial_postion.total_cash_and_cash_equivalents) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_cash_and_cash_equivalents) %></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Total Current Assets</td>
+                                    <td><%= Decimal.new(@financial_postion.total_current_assets) %></td>
+                                    <td><%= Decimal.new(@financial_postion.prev_total_current_assets) %></td>
+                                </tr>
+
+
+                                
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+ 
+<script>
+        function downloadFile(content, fileName, fileType) {
+            var file = new Blob([content], { type: fileType });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(file);
+            a.download = fileName;
+            a.click();
+        }
+
+        function exportToExcel() {
+            var table = document.getElementsByTagName('table')[0];
+            var html = table.outerHTML;
+            var fileName = 'statement_of_financial_position.xlsx';
+            var fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            downloadFile(html, fileName, fileType);
+        }
+
+        function exportToCSV() {
+            var table = document.getElementsByTagName('table')[0];
+            var rows = table.getElementsByTagName('tr');
+            var csv = [];
+            for (var i = 0; i < rows.length; i++) {
+                var row = [];
+                var cols = rows[i].getElementsByTagName('td');
+                for (var j = 0; j < cols.length; j++) {
+                    row.push(cols[j].innerText);
+                }
+                csv.push(row.join(','));
+            }
+            var fileName = 'statement_of_financial_position.csv';
+            var fileType = 'text/csv;charset=utf-8';
+            downloadFile(csv.join('\n'), fileName, fileType);
+        }
+
+        function exportToPDF() {
+            var table = document.getElementsByTagName('table')[0];
+            var html = table.outerHTML;
+            var fileName = 'statement_of_financial_position.pdf';
+            var fileType = 'application/pdf';
+            // Replace the line below with your own logic to generate PDF from HTML
+            // and download it using the downloadFile() function
+            alert('Export to PDF is not implemented in this example. Please replace this with your own logic to generate PDF from HTML and download it using the downloadFile() function.');
+        }
+</script>
+
+
+
+<!-- ###################################### Filter ############################## -->
+
+<div class="modal" id="filter-financial-report" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeLg" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filter Details </h5>
+            <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+         </div>
+         <form >
+            <div class="modal-body">
+               <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+               <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Date:</label>
+                        <div class="input-group">
+                            <input type="date" name="date" id="start_date" required class="form-control" autocomplete="off">
+                        </div>
+                        <span class="form-text text-muted">Please enter start date</span>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Frequency:</label>
+                        <div class="input-group">
+                            <select class="form-control select2-with-search" name="frequency" style="width: 50%;" required >
+                                <option>Choose Option</option>
+                                <option value="MONTHLY">MONTHLY</option>
+                                <option value="QUARTERLY">QUARTERLY</option>
+                                <option value="YEARLY">YEARLY</option>
+                            </select>
+                        </div>
+                        <span class="form-text text-muted">Please enter frequency</span>
+                    </div>
+               </div>
+             
+            </div>
+            <div class="modal-footer">
+               <button type="button"  class="btn btn-danger font-weight-bold btn-close" aria-label="Close"  data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary"  style="margin:2px;">Filter</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<!-- ###################################### Filter ############################## -->
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#viewproductadmin').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #filter_loan_officer').val(button.data('product_name'));
+                modal.find('.modal-body #max_amount').val(button.data('max_amount'));
+                modal.find('.modal-body #min_amount').val(button.data('min_amount'));
+                modal.find('.modal-body #period_type').val(button.data('period_type'));
+                modal.find('.modal-body #interest').ssval(button.data('interest'));
+                modal.find('.modal-body #status').val(button.data('status'));
+
+                modal.find('.modal-body #product_code').val(button.data('product_code'));
+                modal.find('.modal-body #year').val(button.data('year'));
+                modal.find('.modal-body #details').val(button.data('details'));
+                modal.find('.modal-body #default_period').val(button.data('default_period'));
+                modal.find('.modal-body #interest_type').val(button.data('interest_type'));
+                modal.find('.modal-body #currency_name').val(button.data('currency_name'));
+                modal.find('.modal-body #interest_mode').val(button.data('interest_mode'));
+
+        });
+
+    });
+</script>
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {   
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

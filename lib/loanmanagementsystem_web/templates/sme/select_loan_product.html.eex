@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Apply For Loan</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :sme_dashboard) %>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Loan Management</li>
+                </ol>
+            </div>
+        </div>
+
+    	<!-- End Page Header -->
+
+        <%= if Loanmanagementsystem.Products.list_tbl_products()  |> Enum.reject(&(&1.status != "ACTIVE")) != [] do %>
+            <%= for products <- @products do %>
+            <div class="col-xl-3 col-md-6 col-sm-12 col-lg-3">
+                <div class="card custom-card pricingTable2">
+                    <div class="pricingTable2-header">
+                        <h2><%= products.name %></h2>
+                        <span><%= products.details %></span>
+                    </div>
+                    <div class="pricing-plans btn-info">
+                        <p class="h5 ms-2">&nbsp;Between</p>
+                        <span class="pricingContent2"><%= products.currencyName %></span>&nbsp;
+                        <span class="price-value1"><%= Decimal.round(Decimal.from_float(products.minimumPrincipal)) %> - <%= Decimal.round(Decimal.from_float(products.maximumPrincipal)) %></span></span>
+                    </div>
+                    <div class="pricingContent2">
+                        <ul>
+
+                            <li><b>Period Type</b> - <%= products.periodType %></li>
+                            <li><b>Interest Type </b> - <%= products.interestType %></li>
+
+                        </ul>
+                    </div><!-- CONTENT BOX-->
+                    <div class="pricingTable2-sign-up">
+                        <a href="<%= Routes.sme_path(@conn, :sme_apply_for_loans, product_id: products.id ) %>" class="btn btn-block btn-info">Apply</a>
+                    </div><!-- BUTTON BOX-->
+                </div>
+            </div>
+            <% end %>
+        <% else %>
+        <!-- Row -->
+            <div class="row signpages ext-center">
+                <div class="col-md-7 mx-auto">
+                    <div class="card alert-message">
+                        <div class="card-body">
+                            <div class="text-center text-white">
+                                <h3 class="mt-4 mb-3">No Active Products</h3>
+                                <p class="tx-18 text-white-50">Apologize for the Invoncenience</p>
+                                <a href="<%= Routes.user_path(@conn, :sme_dashboard) %>" class="btn btn-info">Back to Home</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- End Row -->
+        <% end %>
+    </div>
+</div>

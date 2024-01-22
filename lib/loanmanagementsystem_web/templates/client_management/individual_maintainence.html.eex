@@ -1,0 +1,349 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+
+
+<div class="col-md-12">
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mg-b-5">Individual Maintenance</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Individual List</li>
+            </ol>
+        </div>
+        <div class="d-flex">
+            <div class="justify-content-center">
+                <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+
+                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                    <a class="btn ripple btn-primary"  type="button" style="background-color: #003651; color: white;" href="<%= Routes.client_management_path(@conn, :add_individual) %>" > Add Individual </a></li>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row -->
+
+
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card custom-card overflow-hidden">
+                <div class="card-body">
+                    <div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-bottom" id="example1">
+                         <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Client Number</th>
+                                    <th>NRC</th>
+                                    <th>Email Address</th>
+                                    <th>Employer</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            </tbody>
+                                <%= for employee <- @employee do %>
+                                    <tr>
+                                        <td><%= employee.firstName %> <%= employee.lastName %> <%= employee.otherName %> </td>
+                                        <td><%= employee.mobileNumber %></td>
+                                        <td><%= employee.meansOfIdentificationNumber %></td>
+                                        <td><%= employee.emailAddress %></td>
+
+
+                                        <%= if employee.roletype == "EMPLOYEE" do %>
+                                            <td><%= employee.companyName %></td>
+                                        <% else %>
+                                            <%= if employee.roletype == "INDIVIDUALS" do %>
+                                                <td><%= employee.client_company_name %></td>
+                                            <% end %>
+                                        <% end %>
+
+                                        <%= if employee.user_status == "ACTIVE" do %>
+
+                                            <td><span class= "badge bg-pill bg-success" ><%= employee.user_status %></span> </td>
+
+                                        <% else %>
+
+                                            <%= if employee.user_status == "INACTIVE" do %>
+
+                                                <td><span class="badge bg-pill bg-danger"><%= employee.user_status %></span> </td>
+
+                                            <% end %>
+
+                                        <% end %>
+                                        <td>
+                                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+                                                    <%=if employee.user_status == "ACTIVE" do %>
+                                                        <a class="btn ripple btn-danger btn-sm deactivate-client" data-deactivate-id="<%= employee.userId %>"  title= "Disable" ><i class="fe fe-x-circle"></i> Disable </a>
+                                                    <% else %>
+                                                        <a class="btn ripple btn-success btn-sm activate-client" data-activate-id="<%= employee.userId %>" title= "Enable"><i class="fe fe-check-circle"></i> Enable </a>
+                                                    <% end %>
+                                                <% end %>
+
+                                            <a class="btn ripple btn-info btn-sm" title= "Edit" href= "<%= Routes.client_management_path(@conn, :edit_individual, userid: employee.userid) %>" style="color: #1d212f"><i class="fe fe-edit"></i> Edit </a>
+                                
+                                            <a class="btn ripple btn-info btn-sm" title="View" href="<%= Routes.client_management_path(@conn, :view_individual_details, userid: employee.userid) %>" style="color: #1d212f"><i class="fe fe-eye"></i> View </a>
+
+                                            <a class="btn ripple btn-info btn-sm" title="View" href="<%= Routes.client_management_path(@conn, :customer_360_view, userid: employee.userid) %>" style="color: #1d212f"><i class="fe fe-eye"></i> 360 View </a>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Row -->
+
+</div>
+
+<%# -----------------------------------------View Client Individual -------------------------------------------------------- %>
+
+<div class="modal fade" id="viewindividual" class="edit_country">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+
+                <form action="#" method="post">
+                    <div class="modal-header">
+                        <h6 class="modal-title">View Client Details</h6>
+                        <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Personal Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">First Name</p>
+                                        <input name="firstName" id="first_name" class="form-control" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Last Name</p>
+                                        <input name="lastName" id="lastname" class="form-control" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Surnamename</p>
+                                        <input class="form-control" id="othername" name="otherName" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input class="form-control" id="mobile_number" name="mobileNumber" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Personal Email</p>
+                                        <input class="form-control" id="email_address" name="emailAddress" type="email" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">National Registration Number</p>
+                                        <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                <input type="hidden" name="meansOfIdentificationType"  value="National Registration Card" readonly>
+
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Date Of Birth</p>
+                                        <input class="form-control" id="dateofbirth" name="dateOfBirth" type="date" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Gender</p>
+                                        <input class="form-control" id="gender" name="mobileNumber" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Marital Status</p>
+                                        <input class="form-control" id="marital_status" name="number_of_dependants" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Nationality</p>
+                                        <input class="form-control" id="nationality" name="nationality" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Address Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">House/Plot Number</p>
+                                        <input name="house_number" id="house_number" class="form-control" type="text" required readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Road/Street Name</p>
+                                        <input name="street_name" id="street_name" class="form-control" type="text" required readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Area</p>
+                                        <input name="area" id="area" class="form-control" type="text" readonly required>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Town</p>
+                                        <input class="form-control" id="town_personal" name="town" type="text" required readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Accomodation Status</p>
+                                        <input class="form-control" id="accomodation_status" name="accomodation_status" type="text" required readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Years At Current Address</p>
+                                        <input class="form-control" id="year_at_current_address"  name="year_at_current_address" type="text" required readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Bank Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Bank</p>
+                                        <input class="form-control" id="bank_name"  name="bank_account_number" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Account Number</p>
+                                        <input class="form-control" id="account_number"  name="bank_account_number" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Account Name</p>
+                                        <input class="form-control" id="account_name"  name="accountName" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-sm" id="">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Company Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Name</p>
+                                        <input type="text" class="form-control" id="client_company_name" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Mobile Number</p>
+                                        <input type="text" class="form-control" id="client_company_phone" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10"> Pacra-Registration Number</p>
+                                        <input type="text" class="form-control" id="client_registration_number" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Registration Date</p>
+                                        <input type="date" class="form-control" id="client_company_registration_date" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">TPIN</p>
+                                        <input type="text" class="form-control" id="client_taxno" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Contact Email</p>
+                                        <input type="text" class="form-control "id="client_contact_email" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg" id="">
+                                        <p class="mg-b-10">Company Account Name</p>
+                                        <input class="form-control"  id="client_company_bank_name" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Account Number</p>
+                                        <input class="form-control"  id="client_company_account_number" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                            <div class="modal-footer">
+                            <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                        </div>
+
+                </form>
+        </div>
+    </div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+
+<script>
+    $(document).ready(function(){
+
+         $('#viewindividual').on('show.bs.modal', function (event){
+             var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #first_name').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #email_address').val(button.data('email_address'));
+            modal.find('.modal-body #dateofbirth').val(button.data('dateofbirth'));
+            modal.find('.modal-body #mobile_number').val(button.data('mobile_number'));
+            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+            modal.find('.modal-body #title').val(button.data('title'));
+            modal.find('.modal-body #gender').val(button.data('gender'));
+            modal.find('.modal-body #marital_status').val(button.data('marital_status'));
+            modal.find('.modal-body #house_number').val(button.data('house_number'));
+            modal.find('.modal-body #street_name').val(button.data('street_name'));
+            modal.find('.modal-body #area').val(button.data('area'));
+            modal.find('.modal-body #town_personal').val(button.data('town_personal'));
+            modal.find('.modal-body #accomodation_status').val(button.data('accomodation_status'));
+            modal.find('.modal-body #year_at_current_address').val(button.data('year_at_current_address'));
+            modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
+            modal.find('.modal-body #nationality').val(button.data('nationality'));
+            modal.find('.modal-body #date_of_joining').val(button.data('date_of_joining'));
+            modal.find('.modal-body #employee_number').val(button.data('employee_number'));
+            modal.find('.modal-body #employername').val(button.data('employername'));
+            modal.find('.modal-body #employer_industry_type').val(button.data('employer_industry_type'));
+            modal.find('.modal-body #employer_office_building_name').val(button.data('employer_office_building_name'));
+            modal.find('.modal-body #employer_officer_street_name').val(button.data('employer_officer_street_name'));
+            modal.find('.modal-body #employment_status').val(button.data('employment_status'));
+            modal.find('.modal-body #hr_supervisor_mobile_number').val(button.data('hr_supervisor_mobile_number'));
+            modal.find('.modal-body #hr_supervisor_name').val(button.data('hr_supervisor_name'));
+            modal.find('.modal-body #job_title').val(button.data('job_title'));
+            modal.find('.modal-body #employer_occupation').val(button.data('employer_occupation'));
+            modal.find('.modal-body #hr_supervisor_email').val(button.data('hr_supervisor_email'));
+            modal.find('.modal-body #employer_area').val(button.data('employer_area'));
+            modal.find('.modal-body #employer_province').val(button.data('employer_province'));
+            modal.find('.modal-body #employer_town').val(button.data('employer_town'));
+            modal.find('.modal-body #roletype').val(button.data('roletype'));
+
+
+            modal.find('.modal-body #bank_name').val(button.data('bank_name'));
+
+            modal.find('.modal-body #account_name').val(button.data('account_name'));
+            modal.find('.modal-body #account_number').val(button.data('account_number'));
+
+            modal.find('.modal-body #branch_name').val(button.data('branch_name'));
+            modal.find('.modal-body #upload_bank_statement').val(button.data('upload_bank_statement'));
+
+
+            modal.find('.modal-body #client_company_name').val(button.data('client_company_name'));
+            modal.find('.modal-body #client_company_account_number').val(button.data('client_company_account_number'));
+            modal.find('.modal-body #client_company_phone').val(button.data('client_company_phone'));
+            modal.find('.modal-body #client_company_registration_date').val(button.data('client_company_registration_date'));
+            modal.find('.modal-body #client_contact_email').val(button.data('client_contact_email'));
+            modal.find('.modal-body #client_registration_number').val(button.data('client_registration_number'));
+            modal.find('.modal-body #client_taxno').val(button.data('client_taxno'));
+            modal.find('.modal-body #client_company_bank_name').val(button.data('client_company_bank_name'));
+            modal.find('.modal-body #client_company_department').val(button.data('client_company_department'));
+
+        });
+    });
+</script>

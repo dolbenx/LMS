@@ -1,0 +1,1442 @@
+
+
+<style>
+
+   .rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}
+    .doubleUnderline { border-bottom: 1px dotted; width: 200px; height: 100px;}
+
+   .no-border {
+    border: none;
+    }
+
+</style>
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+
+
+    <div class="col-md-12">
+        <div class="d-flex">
+            <div class="justify-content-center">
+                <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <body  onload="hide_receiver_number()">
+            <div class="row row-sm">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card custom-card">
+                        <div class="container-fluid"><br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                                </div>
+                                <div class="col-md-10"><br>
+                                    <div class="parallelogram"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <h5 class="main-content-label mb-1 text-center">Loan Application </h5>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <img src="<%= Routes.static_path(@conn, "/images/user-128.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                        <img src="<%= Routes.static_path(@conn, "/images/qrcode.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="<%= Routes.loan_path(@conn, :operations_loan_approval) %>" enctype="multipart/form-data"  id="tst" method="post">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <input type="hidden" name="customer_id" value=""  >
+                            <input type="hidden" name="company_id" >
+                            <div id="russ-wizard">
+                                <h3></h3>
+                                <section>
+                                      <h3>AMORTIZATION SCHEDULE</h3>
+                                    <div class="row">
+                                        <div class="col-md-12 border"><br>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Outstanding Loan Balance:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_amount" style="width: 50%;" value="<%= @loan_amount %>" type="number" readonly>
+                                                    <input type="hidden" name="loan_id" value="<%= @loan_id %>" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Annual Interest Rate:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="interest_rate" style="width: 50%;" value="<%= @interest_rate %>" type="number" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Loan Period (Months):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_term" style="width: 50%;" value="<%= @loan_term %>" type="number" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Calculation Date:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_cal_date" style="width: 50%;" type="date" value="<%= @calculation_date %>" readonly>
+                                                </div>
+                                            </div>
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Monthly Interest: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="month_interest_rate" style="width: 50%;" value="<%= @months_interest %>" type="text" readonly>
+                                                </div>
+                                            </div>
+
+                                         <div class="card custom-card overflow-hidden">
+
+                                            <div class="card-body">
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered border-bottom" id="example1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="wd-20p">Month</th>
+                                                                <th class="wd-20p">Repayment Number</th>
+                                                                <th class="wd-20p">Opening Balance </th>
+                                                                <th class="wd-20p">Loan Repayment</th>
+                                                                <th class="wd-25p">Interest Charged</th>
+                                                                <th class="wd-25p">Capital Repaid</th>
+                                                                <th class="wd-15p">Closing Balance</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <%= for row <- @amortization do %>
+                                                        <tr>
+                                                            <td><%= row.date %></td>
+                                                            <td><%= row.month %></td>
+                                                            <td><%= row.beginning_balance |> Number.Delimit.number_to_delimited %></td>
+                                                            <td><%= row.payment |> Number.Delimit.number_to_delimited %></td>
+                                                            <td><%= row.interest |> Number.Delimit.number_to_delimited %></td>
+                                                            <td><%= row.principal |> Number.Delimit.number_to_delimited %></td>
+                                                            <td><%= row.ending_balance |> Number.Delimit.number_to_delimited %></td>
+                                                        </tr>
+                                                        <% end %>
+                                                     </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button onclick="prt()" class="btn btn-lg btn-outline-info waves-effect waves-themed" id="hide_my_print_b">
+                                            <i class="fas fa-print"></i>
+                                            Print
+                                        </button>
+                                    </div>
+                                </section>
+                                 <h3></h3>
+                                <section>
+                                      <h3>DISURSEMENT SCHEDULE </h3>
+                                    <div class="row">
+                                        <div class="col-md-12 border"><br>
+                                          <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="applicant_name"  style="width: 50%;" value="<%= @disbursement_schedule.applicant %>" type="text" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applied Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="applied_amount" id="applied_amount" style="width: 50%;" value="<%= Decimal.new(@disbursement_schedule.applied_amount)  %>" type="number" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Approved Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="approved_amount" id="approved_amount" onkeyup="calculate_loan_disbursement();" style="width: 50%;" value="<%= Decimal.new(@disbursement_schedule.approved_amount)  %>" type="number" >
+                                                </div>
+                                            </div>
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Processing Fee (<%= @disbursement_schedule.processing_fee_percent %>%): </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="processing_fee" id="processing_fee" onkeyup="calculate_loan_disbursement();" style="width: 50%;" value="<%= Decimal.new(@disbursement_schedule.processing_fee)  %>" type="number" >
+                                                </div>
+                                            </div>
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Insurance (<%= @disbursement_schedule.insurance_percent %>%):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="insurance" id="insurance" onkeyup="calculate_loan_disbursement();" style="width: 50%;" value="<%= Decimal.new(@disbursement_schedule.insurance) %>" type="number" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">CRB:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="crb" id="crb" style="width: 50%;" onkeyup="calculate_loan_disbursement();" value="<%= @disbursement_schedule.crb_amt %>"  type="number" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Motor Insurance fee (Comprehensive):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="motor_insurance"  id="motor_insurance" onkeyup="calculate_loan_disbursement();" value="<%= 0 %>" style="width: 50%;"  type="number" >
+                                                </div>
+                                            </div>
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Net Disbursed: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="net_disbiursed" id="net_disbiursed" onkeyup="calculate_loan_disbursement();" value="<%= Decimal.new(@disbursement_schedule.net_disbiursed)  %>" style="width: 50%;"  type="number" >
+                                                </div>
+                                            </div>
+
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Interest 7% per month:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="interet_per_month" id="interet_per_month" onkeyup="calculate_loan_disbursement();"  value="<%= @disbursement_schedule.interest_per_month %>" style="width: 50%;"  type="number" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Repayment Period:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="repayment_period" id="repayment_period" onkeyup="calculate_loan_disbursement();" value="<%= @disbursement_schedule.repayment_period %>" style="width: 50%;"  type="text" >
+                                                </div>
+                                            </div>
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Monthly Installement: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="month_installment" id="month_installment" onkeyup="calculate_loan_disbursement();" value="<%= @disbursement_schedule.monthly_installment %>" style="width: 50%;"  type="number" >
+                                                </div>
+                                            </div>
+
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Date: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="date_disbursed" style="width: 50%;" value="<%= Timex.today %>"  type="date" >
+                                                </div>
+                                            </div>
+
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Prepared by: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="prepared_by" style="width: 50%;" value="<%= @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>" type="text" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Senior Operations Officer: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="senior_operation_officer" style="width: 50%;"  type="text" >
+                                                </div>
+                                            </div>
+
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Credit Manager: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="credit_manager" style="width: 50%;"  type="text" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Finance Manager: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="finance_manager" style="width: 50%;"  type="text" >
+                                                </div>
+                                            </div>
+
+
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Account Number: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="account_number" style="width: 50%;" value="<%= @bank_details.accountNumber %>" readonly  type="text" >
+                                                </div>
+                                            </div>
+
+                                           <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Account Name: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="account_name" style="width: 50%;" value="<%= @bank_details.accountName %>" readonly  type="text" >
+                                                </div>
+                                            </div>
+
+
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Bank  Name: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="bank_name" style="width: 50%;" value="<%= @bank_details.bankName %>" readonly  type="text" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Branch: </label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="branch" style="width: 50%;" value="<%= @bank_details.branchName %>" readonly  type="text" >
+                                                </div>
+                                            </div>
+
+
+                                      </div>
+
+                                    </div>
+
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button onclick="prt()" class="btn btn-lg btn-outline-info waves-effect waves-themed" id="hide_my_print_b">
+                                            <i class="fas fa-print"></i>
+                                            Print
+                                        </button>
+                                    </div>
+                                </section>
+
+                                 <h3></h3>
+                                 <section>
+                                    <h3>PRE-DISBURSEMENT CHECK LIST</h3>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+
+                                        <div class="col-md-8 border"><br>
+                                            <h6 class="text-center"><u>LOAN APPLICATION, APPRAISAL, CIRCULATION AND PRE-DISBURSEMENT CHECK LIST</u></h6><br>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered border-bottom" id="example1">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th colspan="8" style="text-align:center; "><strong>LOAN REQUIREMENT (INDIVIDUAL/SOLE PROPRIETOR) </strong></th>
+                                                                    <th colspan="2" style="text-align:center; "><strong>Check </strong></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 1.	Fully completed and approved GNC loan application form
+                                                                    </td>
+                                                                    <td colspan="auto">
+
+                                                                                <select class="form-control select2-with-search" name="completed_approved_application" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 2.	NRC or Valid passport/driver’s license for borrower
+                                                                    </td>
+                                                                    <td colspan="auto">
+
+                                                                                <select class="form-control select2-with-search" name="valid_id" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 3.  Passport size photo for borrower
+                                                                    </td>
+                                                                    <td colspan="auto">
+
+                                                                                <select class="form-control select2-with-search" name="passport_size_photos" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 4.	Trading License/Council receipt/market levy receipt and /or health/fire permit
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="trading_license_or_other" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 5.	Three months sales record or bank statement
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="three_months_sale" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 6.	Collateral ( immoveable or moveable)
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="moveable_or_immovable_collateral" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 7.	Comprehensive insurance if motor vehicle is to be used as collateral
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="motor_vehicle_insurance" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 8.	Credit Reference Bureau Report
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="crb_report" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 9.	Proof of Residence/ Business or Personal Address
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="proof_of_residence" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 10.	Reference letter from employer, bank or reputable institution (for first time clients)
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="reference_letter" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="8">
+                                                                        <p> 11.	Three Months Pay slip
+                                                                    </td>
+                                                                    <td colspan="auto">
+                                                                                <select class="form-control select2-with-search" name="three_months_pay_slip" >
+                                                                                    <option label="Choose option"></option>
+                                                                                        <option value="YES">YES</option>
+                                                                                        <option value="NO">NO</option>
+                                                                                </select>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <th colspan="9" style="text-align:center; "><strong>LOAN REQUIREMENT (INDIVIDUAL/SOLE PROPRIETOR) </strong></th>
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 12.	Certificate of Incorporation / Business Registration
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="incorporation_doc" >
+                                                                                        <option label="Choose option"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 13.	Latest PACRA print out
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="latest_pacra_print_out" >
+                                                                                        <option label="Choose option"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 14.	Tax Clearance Certificate
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="tax_clearance" >
+                                                                                        <option label="Choose option"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 15.	NRC or Valid passport/driver’s license for Director
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="rep_valid_id" >
+                                                                                        <option label="Choose option"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <%# <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 16.	Trading License/Council receipt/market levy receipt and /or health/fire permit
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="check" >
+                                                                                        <option label="Choose tenor"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr> %>
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 18.	Tenancy agreement or utility bill for the business premises
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="tenancy_agreement" >
+                                                                                        <option label="Choose option"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 19.	Board resolution allowing the company to borrow funds
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="board_resolution" >
+                                                                                        <option label="Choose option"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="8">
+                                                                            <p> 20.	Six months Bank statement
+                                                                        </td>
+                                                                        <td colspan="auto">
+                                                                                    <select class="form-control select2-with-search" name="six_month_statement" >
+                                                                                        <option label="Choose option"></option>
+                                                                                            <option value="YES">YES</option>
+                                                                                            <option value="NO">NO</option>
+                                                                                    </select>
+
+                                                                        </td>
+                                                                    </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                        </div>
+                                        <br>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button onclick="prt()" class="btn btn-lg btn-outline-info waves-effect waves-themed" id="hide_my_print_b">
+                                            <i class="fas fa-print"></i>
+                                            Print
+                                        </button>
+                                    </div>
+                                </section>
+
+                                <h3></h3>
+                                <section>
+                                 <h3>LOAN AGREEMENT </h3>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+
+                                        <div class="col-md-8 border"><br>
+                                            <h6 class="text-center"><u>SALARY BACKED LOAN AGREEMENT</u></h6><br>
+                                            <p>THIS AGREEMENT</span></strong><span>&nbsp;is made between:&nbsp;</span></p>
+
+                                            <p> <strong> GREAT NORTH CREDIT LIMITED </strong>, a company incorporated in Zambia and having its registered office at, Garden Plaza Plot No 35370, Thabo Mbeki Roads, Lusaka represented by its Chief Executive Officer, named below (hereinafter referred to as the “Lender”);
+                                            And <strong> <%= @disbursement_schedule.applicant %> </strong> residing at <strong> <%= @disbursement_schedule.customer_address %> ,  <%= @disbursement_schedule.customer_nrc %> </strong>   and (Hereinafter referred to as the “Borrower”);
+                                            <p> <strong> WHEREAS IT WAS DECIDED AND AGREED UPON AS FOLLOWS: </strong> </p>
+
+                                            <p> <strong> Article 1 </strong>: The Lender has agreed to provide the Borrower with a loan in the sum of <strong> ZMK <%= Decimal.new(@disbursement_schedule.applied_amount)  %></strong>   in accordance with the loan schedule more particularly described in the Annexure attached hereto (the “Loan”) subject to the terms and conditions in   Article 1.2 (the “Condition Precedents”) which shall form an integral part of this agreement (the “Loan Agreement”).
+                                            <p> <strong> Article 1.2 </strong>: By entering into this Loan Agreement with the Lender, the Borrower
+
+                                            <p> (a)	Shall complete a Loan application form and provide GNC with all applicable governance documentation
+                                            <p> (b)	Warrants that the information given in the loan application is accurate and true and shall be liable to the Lender in the event of any damages, loss, or lawsuit against the Lender arising from such misleading or inaccurate information.
+                                            <p> (c)	Acknowledges that the application of the Loan for any other use not sanctioned herein is strictly prohibited by the Lender and warrants that the Loan shall solely be used according to the information and purpose given in the Loan application.
+                                            <p> (d)	Certifies that he/she neither support or conduct, directly or indirectly, violence or terrorist activities of any kind, nor enters into this agreement with the intention to conceal or disguise the origins of criminally derived proceeds (‘money laundering”) or to use Loan proceeds for criminal or illegal purposes.
+                                            <p> (e)	Undertakes to provide and create sufficient collateral as security in favour of the Lender over the Borrower’s or any other agreed third party’s assets through an agreement (the “Security Agreement”) to be entered into with the Lender for securing the Loan as agreed herein.
+                                            <p> (f)	The Borrower represents and warrants that the registered office or place of business is located at the address specified in the parties’ clause above.
+
+                                            <p> <strong> Article1.3 </strong>: The Loan will be availed to the Borrower during the opening hours of the Lender by way of a bank transfer in to a designated bank account held by the Borrower.
+                                            <p> <strong> Article 2 </strong>: The Borrower commits to re-paying the principal and interest (as detailed in Article 4 below) in accordance with the repayment schedule attached as an annexure (the “Annexure A”) and incorporated herein. The Lender reserves the sole right to restructure the repayment schedule where it is expedient to do so on such terms and conditions it may deem fit.
+                                            <p> <strong> Article 2.2 </strong>: All repayments in respect of the Loan by the Borrower must be done on time and in accordance with the repayment schedule. Payments should be effected at any of the Lender’s branch, bank or designated agents.
+                                            <p> <strong> Article 2.3 </strong>: Subject to Article 2.2, the Borrower shall not effect payment or have any direct or indirect cash dealings with an account relationship officer and in the event of breach of this Article, the Borrower shall at all times be liable to the Lender in accordance with the terms and conditions of this Loan Agreement.
+                                            <p> <strong> Article 3 </strong>: Unless otherwise expressly indicated in writing by the Borrower, the Loan shall be subject to a credit life assurance policy (the “Policy”) at such premium as shall be agreed upon between the Lender and its designated insurance service provider. The Policy is intended for the benefit of the Borrower and a copy shall be provided to the Borrower upon request.
+                                            <p> <strong> Article 4 </strong>: The present Loan is granted to the Borrower for a period of <strong> <%= @disbursement_schedule.repayment_period %> </strong> months starting from the disbursement date and more particularly described in Annexure A. The Loan shall automatically be listed with the Credit Reference Bureau after it has been disbursed. In the event that the Borrower delays to make payments in accordance with the repayment schedule, the delinquent or non performing account shall automatically be updated with delinquent or non performing status with  the Credit Reference Bureau and in such an event the Borrower shall not hold the Lender liable for any lost revenues, profits incidental, direct or indirect, special or punitive damages that may occur or that are foreseeable, whether in tort, negligence, contract or howsoever arising as a consequence thereof.
+                                            <p> <strong> Article 5 </strong>: The Borrower shall pay the principal and interest on the daily closing balance at an agreed rate as outlined in the Annexure A
+
+                                            <p> <strong> Article 5.1</strong>: The Borrower shall incur the costs or fees necessary for perfecting security to be pledged as collateral for the Loan.
+                                            <p> <strong> Article 6</strong>: The Lender shall be in default under this Loan Agreement upon the occurrence of any of the following events (an “Event of Default”):
+
+                                            <p> (a)	The principal and/or the interest is not paid at the stipulated dates agreed in the Annexure;
+                                            <p> (b)	Where the loan is not used for the purpose provided under this Loan Agreement;
+                                            <p> (c)	Where the Borrower knowingly or intentionally provides wrong or false information to the Lender under the loan application form or any other document that forms the basis of this Loan Agreement;
+                                            <p> (d)	A change in the value at the instance of the Borrower and/or the quantity of securities provided for in the Security Agreement;
+                                            <p> (e)	Any event of fraud on the part of the Borrower regardless of whether the fraud is committed with respect to the Loan or otherwise;
+                                            <p> (f)	Failure to notify the Lender in writing of any adverse material change in the financial condition of the Borrower or change in the controlling or shareholding structure in the case of a company;
+                                            <p> (g)	Where the Borrower is issued with a notice of repayment and the Borrower neglects and/or fails to comply with the notice;
+                                            <p> (h)	Any material breach of this Loan Agreement on the part of Borrower;
+                                            <p> (i)	The Borrower ceases or threatens to cease to carry on the business currently being carried on or a substantial portion thereof;
+                                            <p> (j)	Breach of any of the terms and conditions contained in the Security and Guarantor Agreements.
+                                            <p> (k)	The Lender believes in good faith that the prospect of payment or performance of any of the obligations under this Agreement is impaired;
+                                            <p> (l)	The Borrower fails to carry out any of the commitments provided in this Loan Agreement;
+
+                                            <p> <strong> Article 6.1</strong>: On or after the occurrence of any Event of Default at the option of the Lender:
+                                            <p> (a)	Any or all of the obligations in respect of the principal and interest not payable will become immediately payable with or without notice;
+                                            <p> (b)	The obligation if any of the Lender to extend further credit to the Borrower will cease;
+                                            <p> (c)	The security granted hereby will become immediately enforceable; communicate with the Borrower in writing and all outstanding amounts shall immediately become payable by the Borrower to the Lender in respect of both the principal and the interest.
+                                            <p> <strong>Article 6.2</strong>: In addition to any right or remedy otherwise provided herein or by law, on or after the occurrence of any Event of Default, the Lender will have the rights and remedies set out below, all of which may be enforced successively or concurrently:
+                                            <p> (a)	Immediately call the Loan and payment of the principal and interest by the Borrower;
+                                            <p> (b)	Enforce the terms and conditions in the Security Agreements and shall sign any relevant documentation necessary   to ensure change of ownership of title.
+                                            <p> (c)	Carry on all or any part of the business of the Borrower;
+                                            <p> <strong>Article 7</strong>: Both parties commit themselves not to disclose any confidential information obtained directly or indirectly in the negotiation, or execution without the prior written consent of the other.
+                                            <p> <strong>Article 8</strong>: The Borrower declares and accepts that:
+                                            <p> (a)	The Annexure, loan application form, collateral evaluation form and Security Agreement form an integral part of this Loan Agreement;
+                                            <p> (b)	Any information given to the Lender is accurate and reflects the financial position of the Borrower;
+                                            <p> (c)	He/she is not subject to any legal proceedings that may endanger any property that has been pledged as security for this Loan to the Lender
+                                            <p> (d)	He/she shall notify Lender in the event that legal proceedings are commenced against him/her during the term of the Loan Agreement; and
+                                            <p> (e)	He/she shall notify Lender of any changes in the Borrower’s contact details and material change in financial position or structure;
+                                            <p> (f)	Any notice to be given in connection with this Agreement will be given in writing by personal delivery, registered mail, or by electronic means addressed to the Borrower at its address specified in this Agreement or such as address as may be notified by the Borrower to the Lender.
+                                            <p> (g)	He/she irrevocably appoints the Lender to be his or her attorney to do all things and execute and deliver, documents, financing statements, demands and assignments which the Borrower is obliged to do or execute or deliver hereunder and generally to act in the name of the Borrower in the exercise of any of the powers hereby conferred on the Lender;
+                                            <p> (h)	He/she has received a copy of this Agreement and waives all rights to receive from the Lender a copy of any confirmation statement, registered financing statement, or amendment to the registered financing statement registered or issued at any time in respect of this Agreement;
+                                            <p> (i)	He/she has given consent for the Lender to register the financing statements or any amendments thereof as may be required.
+                                            <p> <strong>Article 9</strong>: The Lender shall have the right to conduct monitoring of the Borrower’s business activity, control financial status of the Borrower and check for changes in the loan provisioning. Solely the Lender shall determine the frequency of the monitoring and number of visits without giving prior notification to the Borrower.
+                                            <p> <strong>Article 10</strong>: The Borrower understands and accepts in full the implications relating to this Loan Agreement and declares to have sought independent legal advice with regard to the implications thereof.
+                                            <p> <strong>Article 11</strong>: The Borrower certifies that he or she has complied with the Lender’s exclusion list and applicable local laws and regulations.
+                                            <p> <strong>Article 12</strong>: In the event that a disagreement or dispute arises in connection with the interpretation of this Loan Agreement, the parties shall amicably at the first instance attempt to settle the disagreement or dispute as the case may be through good faith negotiations, failure to which the dispute shall be referred to a court of competent jurisdiction in Zambia.
+                                            <p style="color: #c82828;"> <strong>Article 13</strong>: In the event of non -payment of the principal and/or the interests at the due date, the Borrower will be obliged to pay the Lender an interest on past due principal calculated over and above the amount due at the rate of agreed monthly interest, billed monthly and the amount, amount shall continue to accrue every month in addition to the normal agreed monthly interest for as long as the payment is outstanding.
+                                            <p> <strong>Article 14</strong>: The Borrower shall also be liable to pay any prior valuation of property in applying for a loan, and thereafter any subsequent legal action, auction, sale and administrative costs that that the Lender may incur in pursing and recovering any outstanding debt due to it;
+                                            <br>
+                                            <p> <strong>Article 15</strong>: This Agreement shall be interpreted in accordance with the laws of Zambia. Fully permitted law, the Borrower waives all of the rights, benefits and protections given by the provisions of any law which imposes limitations upon the powers, rights or remedies of the Lender.
+
+                                            <p>Done at [Great North Credit Garden Plaza], in two copies, on __/___/_______
+
+                                            <p> <strong>Great North Credit	Limited </strong>
+                                            <p><strong>The Representative of the Chief Executive Officer.</strong>
+                                            <p>Full Names: ________________________________ 	Signature: __________________________
+
+                                            <p> <strong> The Borrower </strong>
+                                            <p> Full Names:  <strong> <%= @disbursement_schedule.applicant %> </strong>	Signature: __________________________
+
+                                            <p> <strong>In Witness of </strong>
+                                            <p> Full Names: ________________________________ 	Signature: __________________________
+
+                                        </div>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button onclick="prt()" class="btn btn-lg btn-outline-info waves-effect waves-themed" id="hide_my_print_b">
+                                            <i class="fas fa-print"></i>
+                                            Print
+                                        </button>
+                                    </div>
+                                </section>
+
+                                <h3></h3>
+                                <section>
+                                 <h3>KEY FACTS</h3>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+
+                                        <div class="col-md-8 border"><br>
+                                            <h6 class="text-center"><u>KEY FACTS STATEMENT FOR CONSUMER LOANS</u></h6><br>
+                                            <p>I, <strong> <%= @disbursement_schedule.applicant %> </strong>, am interested in obtaining a Salary based loan  from Great North Credit (herein called ‘the lender’). For your information regarding my application, I hereby confirm the following:</p>
+                                            <p> <strong> NRC NUMBER</strong>: <strong> <%= @disbursement_schedule.customer_nrc %> </strong> <strong>EMPLOYEE NUMBER</strong>: _____________________________________  <strong> </p>
+                                            <p>EMPLOYER NAME</strong>: _____________________________________ </p>
+
+                                                <div class="table-responsive">
+                                                    <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <table class="table table-bordered border-bottom" id="example1">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th colspan="8" style="text-align:center"><strong>SECTION I: KEY TERMS </strong></th>
+                                                            </tr>
+                                                              <tr>
+                                                                <th scope="row">LOAN SUMMARY</th>
+                                                                <th scope="row">COST OF CREDIT</th>
+                                                                <th>REPAYMENT SCHEDULE</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    1. <strong>Amount</strong>:Loan
+                                                                    Amount you are borrowing - <strong>  ZMW <%= Decimal.new(@disbursement_schedule.applied_amount)  %></strong>
+                                                                </td>
+                                                                <td>
+                                                                    4. <strong>Interest</strong>:
+                                                                    Interest you will be charged on the loan - <strong>  ZMW <%= @interest_rate %> </strong>
+                                                                </td>
+                                                                <td>
+                                                                    8. <strong> Date First Payment Due </strong> - <%= @disbursement_schedule.first_payment_month %>
+                                                                    <hr>
+                                                                    9. <strong>  Number of Payments </strong> - <%= @disbursement_schedule.repayment_period %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    2. <strong> Duration of Loan Agreement</strong> - <strong>  <%= @disbursement_schedule.repayment_period %> Month(s)  </strong>
+                                                                </td>
+                                                                <td>
+                                                                    5. <strong> Other Fees and Charges</strong>:
+                                                                   See details in Section III (Insurance, Arrangement Fee) - <strong>  ZMW <%= Decimal.new(@disbursement_schedule.insurance) %> </strong>
+                                                                </td>
+                                                                <td>
+                                                                    10. <strong> Payment Frequency </strong> - __Monthly_____
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    3. <strong> Amount Received: </strong> Amount you actually receive from the lender - <strong>  <%= Decimal.new(@disbursement_schedule.net_disbiursed)  %> </strong>
+                                                                </td>
+                                                                <td>
+                                                                    6. <strong> Annual Percentage Rate </strong>:
+                                                                   Total Cost of Credit as a comparable annual percentage - <strong>  72% </strong>
+                                                                   7. <strong> Total Cost of Credit </strong>
+                                                                    All costs for the loan, including interest and fees - <strong>  ZMW <%= Decimal.new(@disbursement_schedule.total_payment)  %> </strong>
+                                                                </td>
+                                                                <td>
+                                                                    11. <strong>  Amount Per Payment </strong>
+                                                                        Includes capital, interest, and recurring fees
+                                                                         - <strong> <%= Decimal.new(@disbursement_schedule.payment_per_month)  %>  </strong>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td colspan="8" style="text-align:center; background-color:#d0cfe4;"> 12. <strong>TOTAL AMOUNT YOU PAY </strong>
+                                                                    Total amount you pay after making all payments
+                                                                    <strong> ZMW <%= Decimal.new(@disbursement_schedule.total_payment)  %> </strong>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered border-bottom" id="example1">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th colspan="8" style="text-align:center; background-color:#d0cfe4;"><strong>SECTION II: RISKS TO YOU </strong></th>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                    <p><strong> * I understand that late or missing payments may be reported to a Credit Reference Bureau (CRB) and may severely affect my financial situation, collateral, and ability to re borrow. The lender is obliged to retain any resultant negative CRB for a period not less than 7 (seven) years * </strong>
+
+                                                    <p> <strong> * I understand that the Interest Rate on my loan will be charged at a fixed rate. The current interest rate is ……..% per month. </strong>
+                                                    <p> <strong> The lender reserves the right to vary the applicable interest rate on my loan, on notice to me in the event of a change in the market or other conditions /or other economic factors or material adverse change impacting my loan. In such cases, an increase in my loan tenor or instalment amount may be required to facilitate the settlement of any additional amounts that result from such a significant change </strong>
+
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered border-bottom" id="example1">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th colspan="8" style="text-align:center; background-color:#d0cfe4;"><strong>SECTION III: YOUR RIGHTS AND OBLIGATIONS </strong></th>
+
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <ul>
+                                                        <li><strong> Review loan conditions in this document carefully before agreeing to a loan.</strong></li>
+                                                        <li><strong> I  have the right to get a copy of the full loan agreement</strong></li>
+                                                        <li><strong> Any questions or complaints? Call the Customer Call Centre on +260977951572, or email callcenter@greatnorthcredit.co.zm, or write to The Head of Sales and Marketing, Great North Credit, plot 35370 Garden Plaza Lusaka to contact us regarding your question or complaint.</strong></li>
+                                                        <li><strong> Unsatisfied with our response to your question or complaint? Contact the Bank of Zambia for help at 0211 228888 or pr@boz.zm, write to Bank of Zambia, Bank Square, Cairo Road, P.O Box 30080, Lusaka, or visit www.boz.zm.</strong></li>
+                                                        <li><strong> Want to pay off your loan early? You can do so without any penalties or fees.</strong></li>
+                                                        <li><strong> You are required to make payments on your loan according to your loan agreement and to notify us of any important changes in your situation regarding employment status, address, contact details, etc.</strong></li>
+                                                    </ul>
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered border-bottom" id="example1">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th colspan="9" style="text-align:center; background-color:#d0cfe4;"><strong>SECTION IV: UPFRONT AND RECURRING FEES </strong></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="3"><strong>UPFRONT FEES </strong></th>
+                                                                    <th colspan="3"><strong>UPFRONT FEES </strong></th>
+                                                                    <th colspan="3"><strong>UPFRONT FEES </strong></th>
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="3">
+                                                                        <label class="ckbox">&nbsp;<span> Arrangement fee</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3">
+                                                                        <label class="ckbox">&nbsp;<span>Collateral appraisal - ZMW</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3">
+                                                                        <label class="ckbox">&nbsp;<span>Credit life insurance - ZMW</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="3">
+                                                                        <label class="ckbox">&nbsp;<span> CRB fee - ZMW </span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3">
+                                                                        <label class="ckbox">&nbsp;<span>Drawdown fee - ZMW</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3">
+                                                                        <label class="ckbox">&nbsp;<span>Monthly Management fee - ZMW</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="3">
+                                                                        <label class="ckbox">&nbsp;<span> Other (list all):  </span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3">
+
+                                                                    </td>
+                                                                    <td colspan="3">
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="no-border">
+                                                                    <td colspan="3" style="height: 30px;">
+                                                                    </td>
+                                                                    <td colspan="3" style="height: 30px;">
+                                                                    </td>
+                                                                    <td colspan="3" style="height: 30px;">
+                                                                    </td>
+
+
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="9">
+                                                                         <p> <strong> TOTAL UPFRONT AND RECURRING FEES AND CHARGES (EXCLUDING INTEREST):</strong>
+                                                                    </td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered border-bottom" id="example1">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th colspan="6" style="text-align:center; "><strong>ARRANGEMENT  FEES </strong></th>
+                                                                    <th colspan="1" style="text-align:center; "><strong>YES </strong></th>
+                                                                    <th colspan="1" style="text-align:center; "><strong>NO </strong></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <p> I understand that <strong> Arrangement</strong> Fee is ____ % of the principle loan amount applied for and that this fee is deducted upfront from the principle amount upon approval of my loan application.
+                                                                    </td>
+                                                                    <td colspan="1">
+                                                                    </td>
+                                                                    <td colspan="1">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="6" style="text-align:center; "><strong>LOAN INSURANCE COVER </strong></th>
+                                                                    <th colspan="1" style="text-align:center; "><strong>YES </strong></th>
+                                                                    <th colspan="1" style="text-align:center; "><strong>NO </strong></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <p> I understand that the loan has a mandatory insurance cover against death and permanent disability and that insurance will be collected upfront.
+                                                                    </td>
+                                                                    <td colspan="1">
+                                                                    </td>
+                                                                    <td colspan="1">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="6" style="text-align:center; "><strong>MONTHLY MANAGEMENT FEE (MMF) </strong></th>
+                                                                    <th colspan="1" style="text-align:center; "><strong>YES </strong></th>
+                                                                    <th colspan="1" style="text-align:center; "><strong>NO </strong></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <p>  I understand that Monthly Management Fee is ______ per month and that it is a recurring fee spread over the term of the loan.
+                                                                    </td>
+                                                                    <td colspan="1">
+                                                                    </td>
+                                                                    <td colspan="1">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered border-bottom" id="example1">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th colspan="8" style="text-align:center; background-color:#d0cfe4;"><strong>SECTION V: IMPORTANT TERMS AND CONDITIONS TO CONSIDER </strong></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th colspan="3"><strong>LATE PAYMENT PENALTIES </strong></th>
+                                                                    <th colspan="3"><strong>TERMS AND CONDITIONS </strong></th>
+                                                                    <th colspan="3"><strong>TERMS AND CONDITIONS </strong></th>
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="3" style="height: 45px;">
+                                                                        <label class="ckbox">&nbsp;<span> Late fees if payment is more than [   ] days late: ______ ZMW</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3" style="height: 45px;">
+                                                                        <label class="ckbox">&nbsp;<span>Cash deposit/ mandatory savings: - ZMW</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3" style="height: 45px;">
+                                                                        <label class="ckbox">&nbsp;<span>fixed interest rate applies</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="3" style="height: 35px;">
+                                                                        <label class="ckbox">&nbsp;<span> Default interest if payment is more than  [  ] days late __________ ZMW</span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3" style="height: 35px;">
+                                                                        <label class="ckbox">&nbsp;<span>COLLATERAL: You are committing the following as collateral: </span><input type="checkbox"></label>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="3" style="height: 35px;">
+                                                                        <label class="ckbox">&nbsp;<span> Other (list all):  </span><input type="checkbox"></label>
+                                                                    </td>
+                                                                    <td colspan="3">
+
+                                                                    </td>
+                                                                    <td colspan="3">
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="no-border">
+                                                                    <td colspan="3" style="height: 35px;">
+                                                                    </td>
+                                                                    <td colspan="3" style="height: 35px;">
+                                                                    </td>
+                                                                    <td colspan="3" style="height: 35px;">
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr class="no-border">
+                                                                    <td colspan="9">
+                                                                         <p> <strong> TOTAL UPFRONT AND RECURRING FEES AND CHARGES (EXCLUDING INTEREST):</strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="table-responsive">
+                                                            <table class="table table-bordered border-bottom" id="example1">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th colspan="9" style="text-align:center; background-color:#d0cfe4;"><strong>SECTION VI: REPAYMENT SCHEDULE AND PAYMENTS </strong></th>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                      <div class="table-responsive">
+                                                            <table class="table table-bordered border-bottom" id="example1">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th colspan="6" style="text-align:center; "><strong>SECTION VI: REPAYMENT SCHEDULE AND PAYMENTS </strong></th>
+                                                                        <th colspan="1" style="text-align:center; "><strong>YES </strong></th>
+                                                                        <th colspan="1" style="text-align:center; "><strong>NO </strong></th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                    <p> I confirm that I have read and understood all the above information & all documents provided are accurate and true. The representative of GNC has described elaborately all charges, policy & other information-
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="6">
+                                                                            <p> I understand that the loan repayment schedule given to me (hereto attached) is an “Agreement in Principle’ and that the amortization is indicative.
+                                                                            <p> Once my application is approved and disbursed, it is my responsibility to obtain an actual repayment schedule and loan amortization from GNC.
+                                                                            <p> Instruct my employers to deduct the monthly loan repayment amount as per actual loan repayment schedule from my salary and remit directly to GNC.
+                                                                            <p> Deduct the monthly loan repayment amount as per repayment schedule post   disbursement directly from my account number ……………………………………………………………… held with…………………………………………………commencing…………………………………………………………………until the utilized balance is paid in full.
+                                                                            <p> In all instances, I further understand that it is my duty to ensure and verify that the correct monthly loan repayment amount is deducted and paid by my employer on the advised due date. It is also my duty to verify with the bank that my monthly standing order has successfully been deducted from my bank account.
+                                                                            <p> In the event that my employers fail to deduct any instalment from payroll or if my standing order does not go through, I undertake to make alternative arrangements to cover the missed payment, failure to which shall constitute an act of default which shall entitle GNC to initiate collections action that may include legal action.
+                                                                        </td>
+                                                                        <td colspan="1">
+                                                                        </td>
+                                                                        <td colspan="1">
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    <p> Understanding all the above on good judgment, I have agreed to apply for a loan with GNC. </p>
+                                                    <p> <strong>Date </strong>: ………………………… <p>
+
+                                        </div>
+                                        <br>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button onclick="prt()" class="btn btn-lg btn-outline-info waves-effect waves-themed" id="hide_my_print_b">
+                                            <i class="fas fa-print"></i>
+                                            Print
+                                        </button>
+                                    </div>
+                                </section>
+
+                                 <h3></h3>
+                                <section>
+                                 <h3> COST OF LOAN</h3>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+
+                                        <div class="col-md-8 border"><br>
+                                            <h6 class="text-center"><u>INDICATIVE COST OF LOAN</u></h6><br>
+                                            <p> I, <strong> <%= @disbursement_schedule.applicant %></strong> NRC <strong><%= @disbursement_schedule.customer_nrc %></strong> do hereby apply for a loan in the sum of ZMW…………………………… with GNC. I warrant and declare I have read the standard terms and conditions upon which this facility will be rendered to me and I agree to comply with all the necessary requirements for this facility and pay all fees and charges relating to this transaction which may be itemized but not limited to the following fees and charges:
+                                            <p> <strong> I acknowledge that this is intended to </strong> </p>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered border-bottom" id="example1">
+                                                        <tbody>
+                                                            <tr>
+                                                                <p> Processing Fees ------------------------------------------------------------------- 5%   ZMW …………125…………………
+                                                                <p>Insurance Fees --------------------------------------------------------------------- 2%   ZMW …………..50………………….
+                                                                <p>Mortgage Registration--------------------------------------------------------------- %    ZMW……………………………………………….
+                                                                <p>Mortgage Mobilization -------------------------------------------------------------- %    ZMW………………………………………….…..
+                                                                <p>Search/Pacra	----------------------------------------------------------------------- %    ZMW………………………………………………
+                                                                <p>Valuation Report ------------------------------------------------------------------- %    ZMW………………………………………………
+                                                                <p>RTSA Endorsement ------------------------------------------------------------------- %    ZMW………………………………………………
+                                                                <p>Comprehensive/home Insurance ------------------------------------------------------- %    ZMW ……………………………………………
+                                                                <p>CRB -------------------------------------------------------------------------------- %    ZMW ……………100…………………………….
+                                                                <p>Previous Loan (in case of Refinance) ----------------------------------------------- %    ZMW……………………………………………….
+                                                                <p>Total Deductions	------------------------------------------------------------------- %    ZMW ……275……………………
+                                                                <p>Net Loan Amount -------------------------------------------------------------------- %    ZMW …….2,225…………
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button onclick="prt()" class="btn btn-lg btn-outline-info waves-effect waves-themed" id="hide_my_print_b">
+                                            <i class="fas fa-print"></i>
+                                            Print
+                                        </button>
+                                    </div>
+                                </section>
+
+
+                                 <h3></h3>
+                                <section>
+                                      <h3>LEGAL DOCUMENTS UPLOAD</h3>
+                                    <div class="row">
+
+                                            <div class="table-responsive">
+                                            <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                            <table class="table table-bordered border-bottom" id="example1">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Document Name</th>
+                                                        <th scope="row">File</th>
+
+                                                        <th>Add</th>
+                                                    </tr>
+                                                    <tr class="tr_clone">
+
+
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <input class="form-control"  name="filename[]" type="text" > </div>
+                                                        </td>
+                                                        <td scope="row">
+                                                            <div class="form-group">
+                                                                <input class="form-control" id="tenor" id="phx-FuvZHeMu4hedhwED" name="file[]" multiple type="file" > </div>
+                                                        </td>
+                                                        <td class="fitwidth">
+                                                            <div class="form-group"> <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder fe fe-plus-circle tr_clone_add"></i> &nbsp;&nbsp;&nbsp; <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus fe fe-x-circle"></i> </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                  <h3> </h3>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+
+                                        <div class="col-md-8 border"><br>
+                                          <h3 style="text-align: center;">OPERATIONS DEPARTMENT </h3>
+                                           <p>Loan Recommendation and assessment Feedback from Operations Department </p>
+
+
+                                           <div class="row row-sm">
+                                                <div class="col-lg-6">
+                                                    <label class="ckbox" ><input type="checkbox" name="recommended_feedback" value="YES" ><span>Recommended</span></label>
+                                                    <br>
+                                                    <label class="ckbox" ><input type="checkbox" name="on_hold_feedback" value="YES" ><span>On Hold</span></label>
+                                                </div>
+                                                 <div class="col-lg-6">
+                                                    <label class="ckbox" ><input type="checkbox" name="file_sent_to_sale_feedback" value="YES" ><span>File sent Back to Sale </span></label>
+                                                </div>
+										    </div> <br>
+
+                                            <p>Comments and Recommendation on the findings  </p>
+
+                                             <textarea class="form-control mg-t-20" name="comments_feedback"  placeholder="Write Comments and Recommendation"  required="" rows="3"></textarea>
+
+                                            <div class="row row-sm">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                      <p>Name :  <input type="text" name="name_feedback"  class="form-control form-control-sm" value="<%=  @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>" >  </p>
+                                                    </div>
+                                                  
+                                                    <div class="form-group">
+                                                      <p>Position :  <input type="text" name="position_feedback"  class="form-control form-control-sm" value="<%=  @conn.assigns.user.role_desc %>" >  </p>
+                                                    </div>
+                                                </div>
+                                                 <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                      <input type="hidden" name="date_feedback"   class="form-control form-control-sm" value="<%= Timex.today %>" >
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <input type="hidden" name=""   class="form-control form-control-sm" value="<%= Timex.today %>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <input type="hidden" name=""   class="form-control form-control-sm" value="<%= Timex.today %>">
+                                                    </div>
+
+                                                </div>
+										    </div> <br>
+
+                                            <div class="row row-sm">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                      <p>Time Recieved :  <input type="time" readonly name="time_received_feedback"  class="form-control form-control-sm" value="<%= @current_time %>"  >  </p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <p>Time Out :  <input type="time" name="time_out_feedback"  class="form-control form-control-sm" value="<%= @current_time %>"  >  </p>
+                                                    </div>
+
+                                                </div>
+                                                 <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                       <p>Date Recieved : <input type="date" readonly name="date_received_feedback"   class="form-control form-control-sm" value="<%= Timex.today %>" > </p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                       <p>Date : <input type="date" name="date"  readonly  readonly class="form-control form-control-sm" value="<%= Timex.today %>">  </p>
+                                                    </div>
+
+                                                </div>
+										    </div>
+
+
+
+                                        </div>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+      function prt(){
+        window.print();
+        }
+
+
+</script>

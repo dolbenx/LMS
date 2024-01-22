@@ -22,7 +22,6 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserBioData do
       add :number_of_dependants, :integer
       add :employee_confirmation, :boolean, default: false, null: false
       add :applicant_declaration, :boolean, default: false, null: false
-      add :applicant_signature_image, :string
 
       timestamps()
     end

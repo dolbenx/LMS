@@ -2,7 +2,7 @@ defmodule LoanmanagementsystemWeb.Plugs.SessionTimeout do
   import Plug.Conn
 
   def init(opts \\ []) do
-    Keyword.merge([timeout_after_seconds: 30000], opts)
+    Keyword.merge([timeout_after_seconds: 3000], opts)
   end
 
   def call(conn, opts) do

@@ -1,0 +1,1123 @@
+
+
+<style>
+
+   .rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}
+    .doubleUnderline { border-bottom: 1px dotted; width: 200px; height: 100px;}
+</style>
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+
+
+    <div class="col-md-12">
+       <div class="d-flex" >
+            <a href="<%= Routes.loan_path(@conn, :quick_advance_application_datatable) %>" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+        </div>
+
+
+        <!-- End Page Header -->
+        <body  onload="hide_receiver_number()">
+            <div class="row row-sm">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card custom-card">
+                        <div class="container-fluid"><br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="<%= Routes.static_path(@conn, "/images/gnc-logo.webp") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 90px;">
+                                </div>
+                                <div class="col-md-10"><br>
+                                    <div class="parallelogram"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <h5 class="main-content-label mb-1 text-center">Loan Application</h5>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <img src="<%= Routes.static_path(@conn, "/images/user-128.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                        <img src="<%= Routes.static_path(@conn, "/images/qrcode.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="<%= Routes.loan_path(@conn, :create_instant_loan_application) %>" enctype="multipart/form-data"  id="instant_loan_application" method="post">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <input type="hidden" name="customer_id" value="<%= @client_data.userId %>"  >
+                            <input type="hidden" name="company_id" >
+                            <div id="russ-wizard">
+                                <h3></h3>
+                                <section>
+                                      <h3>PERSONAL DETAILS </h3>
+                                    <div class="row">
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Customer Details</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Surname:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="surname" id="instant_client_surname" value="<%= @client_data.lastName %>" type="text" readonly required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">First Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="firstname" id="instant_client_firstname" value="<%= @client_data.firstName %>" type="text" readonly required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Other Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="othername" value="<%= @client_data.otherName %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant ID Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="id_number" id="instant_client_id_number" value="<%= @client_data.meansOfIdentificationNumber %>" type="text" readonly required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant ID Type:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="id_type" value="<%= @client_data.meansOfIdentificationType %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Gender:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="gender" id="instant_client_gender" value="<%= @client_data.gender %>" type="text" readonly required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Cell Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="cell_number" id="instant_client_cell_number" value="<%= @client_data.mobileNumber %>" type="text" readonly required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Email address:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="email" value="<%= @client_data.emailAddress %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Applicant Date of Birth:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="dob" id="instant_client_dob" value="<%= @client_data.dateOfBirth %>" type="text" readonly required>
+
+                                                </div>
+                                            </div>
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Consent To be listed on CRB:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_status" value="<%= @nextofkin.kin_status %>"  type="text" >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Customer Address</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Residential Address:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="residential_address" value="<%= @customers_address.house_number  %>"  type="text" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Landmark:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="landmark" value="<%= @customers_address.landmark %>" type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Town:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="town"  value="<%= @customers_address.town %>" type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Province:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="province"  value="<%= @customers_address.province %>" type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Marital Status:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="marital_status"  value="<%= @client_data.marital_status %>"  type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Geographical Location:</label>
+                                                </div>
+                                               <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="geographical_location" >
+                                                        <option ></option>
+                                                        <option value="Rural">Rural</option>
+                                                        <option value="Urban">Urban</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Type of facility:</label>
+                                                </div>
+                                               <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="type_of_facility" >
+                                                        <option ></option>
+                                                        <option value="Short-term">Short-term</option>
+                                                        <option value="medium-term">medium-term</option>
+                                                        <option value="long-term">long-term</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Business Sector:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="sector" type="text">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <h3></h3>
+                                <section>
+                                   <h3>REFEREES</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Next Of Kin</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Surname:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_last_name"  value="<%= @nextofkin.kin_last_name %>"  type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">First Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_first_name" value="<%= @nextofkin.kin_first_name %>"  type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Relationship:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_relationship" value="<%= @nextofkin.kin_relationship %>"   type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Contact Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="kin_mobile_number" value="<%= @nextofkin.kin_mobile_number %>"  type="text" >
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0"> Gender:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search"  name="kin_gender" >
+                                                        <option ><%= @nextofkin.kin_gender %></option>
+                                                        <option value="MALE">MALE</option>
+                                                        <option value="FEMALE">FEMALE</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                         <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Reference</u></h6>
+                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Contact Number</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <%= if @reference_details != [] do %>
+                                                    <%= for client_reference <- @reference_details do %>
+                                                    <tr class="tr_clone">
+
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="name[]" value="<%= client_reference.name %>" class="form-control form-control-sm" >
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="contact_no[]"  value="<%= client_reference.contact_no %>" class="form-control form-control-sm" >
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                     <% end %>
+                                                  <% else %>
+
+
+                                                     <tr class="tr_clone">
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="name[]" class="form-control form-control-sm">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="contact_no[]" class="form-control form-control-sm">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                        <i style="cursor:pointer; color: #003651;" onclick="addrow(this)" class="adder fa fa-plus tr_clone_add"></i>
+                                                        <i style="cursor:pointer; color: #F6000F;" onclick="removerow(this)" class="minus fa fa-minus"></i>
+                                                        </td>
+                                                    </tr>
+
+                                                      <% end %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                <%= for product_detail <- @product_details do %>
+
+                                <h3></h3>
+                                <section>
+                                 <h3>LOAN DETAILS</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Loan Details</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Requested Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="requested_amount" id="requested_amount" onkeyup="cal_month_installment()"  type="number" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Loan Duration (months):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                  <input class="form-control input-sm" name="loan_duration_month" id="loan_duration_month" onkeyup="cal_month_installment()" type="number" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Monthly installments(ZMK):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="monthly_installment" id="monthly_installment" onkeyup="cal_month_installment()" type="number" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Proposed Repayment Date:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="proposed_repayment_date" id="proposed_repayment_date" type="date" min="<%= Timex.shift(Timex.today(), days: -1) %>" required>
+                                                   
+                                                </div>
+                                            </div>
+                                             <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Type of Loan:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <select class="form-control select2-with-search" name="term_frequency_type" id="term_frequency_type" required>
+                                                        <option label="Choose Type"></option>
+                                                        <option value="Daily">Daily</option>
+                                                        <option value="Weekly">Weekly</option>
+                                                        <option value="Monthly">Monthly</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Loan Purpose:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <textarea class="form-control mg-t-20" name="loan_purpose" id="loan_purpose" placeholder="Textarea (success state)" required rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 border"><br>
+                                            <h6 class="text-center"><u>Product Details</u></h6>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Product Name:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= product_detail.product_name %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Interest Rate(%):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= product_detail.interest %>" id="interest_rate" onkeyup="cal_month_installment()" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Min Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= Decimal.round(Decimal.from_float(product_detail.min_amount)) %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Max Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" value="<%= Decimal.round(Decimal.from_float(product_detail.max_amount)) %>" type="text" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Product Type:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_type" value="<%= product_detail.product_type %>" type="text" readonly>
+                                                    <input type="hidden" name="product_id" value="<%= product_detail.id %>"  >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                 <h3></h3>
+                                <section>
+                                 <h3> BUSINESS /MARKET INFORMATION</h3>
+                                    <div class="row">
+                                        <div class="col-md-12 border"><br>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Name of the Market:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="name_of_market" value="<%= @market_info.name_of_market %>" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Location:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="location_of_market" value="<%= @market_info.location_of_market %>" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Duration at the market:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="duration_at_market" value="<%= @market_info.duration_at_market %>" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Type of Business:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="type_of_business" value="<%= @market_info.type_of_business %>" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Name of the Market Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="name_of_market_leader" value="<%= @market_info.name_of_market_leader %>" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Contact Details for the market Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="mobile_of_market_leader" value="<%= @market_info.mobile_of_market_leader %>" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Name of the Vice Market  Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="name_of_market_vice" value="<%= @market_info.name_of_market_vice %>" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Contact Details for the Vice market Leader:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="mobile_of_market_vice" value="<%= @market_info.mobile_of_market_vice %>" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Stand Number:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="stand_number" value="<%= @market_info.stand_number %>" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <h3></h3>
+                                <section>
+                                 <h3>CLIENT COLLATERAL</h3>
+                                    <div class="row">
+                                        <div class="col-md-7 border"><br>
+                                            <h6 class="text-center"><u>Colleteral Details</u></h6>
+                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name Of Collateral</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">ID Number</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Color</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Asset Value (K)</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="tr_clone">
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                 <input type="text" name="name_of_collateral[]" class="form-control form-control-sm">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="id_number_collateral[]" class="form-control form-control-sm">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="color[]" class="form-control form-control-sm">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group">
+                                                                <input type="text" name="asset_value[]" class="form-control form-control-sm">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                        <i style="cursor:pointer; color: #003651;" onclick="addrow(this)" class="adder fa fa-plus tr_clone_add"></i>
+                                                        <i style="cursor:pointer; color: #F6000F;" onclick="removerow(this)" class="minus fa fa-minus"></i>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-md-4 border"><br>
+                                            <p>I <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span>, of NRC Number <span class="doubleUnderline"><%= @client_data.meansOfIdentificationNumber %></span> Date <span class="doubleUnderline"><%= Timex.today %></span></p>
+                                            <p>Declare the asset above as collateral to great north credit towards my loan facility advanced to me and I authorize the institution to confiscate and dispose the pledged asset in case of any default with the view of offsetting my outstanding balance in arrears</p>
+
+                                            <p>I shall not at any stage sale or dispose any of the asset pledged as collateral without the knowledge and consent of GNC</p>
+
+
+                                            <p>I also acknowledge that all the cost incurred by GNC during confiscation will be added to the loan</p>
+
+
+                                            <p>I understand and agree to the above loan condition and authorize GNC to disburse the loan and I give consent to be listed on the CRB</p>
+
+
+
+                                            <p>Clients Name :   <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span>    NRC Number : <%= @client_data.meansOfIdentificationNumber %></span> Date : <input type="text" class="input-line" placeholder="" Value="<%= Timex.today %>" ></p>
+
+
+                                            <p>Name of the witness : <input type="text" class="input-line" name="name_of_witness" placeholder="" >  Date : <input type="text" class="input-line" name="" placeholder="" value="<%= Timex.today %>" > </p>
+
+
+
+                                           <p> Name of the CRO (Staff) : <input type="text" class="input-line" name="cro_staff_name" placeholder="" > Date : <input type="text" class="input-line" name="" placeholder="" value="<%= Timex.today %>" ></p>
+
+                                        </div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+                                   <h3></h3>
+                                <section>
+                                 <h3>DOCUMENTS </h3>
+
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                            <table class="table table-bordered border-bottom" id="example1">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Document Name</th>
+                                                        <th scope="row">File</th>
+
+                                                        <th>Add</th>
+                                                    </tr>
+                                                    <tr class="tr_clone">
+
+
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <input class="form-control" id="instant_client_doc_name" name="filename[]" type="text" required> </div>
+                                                        </td>
+                                                        <td scope="row">
+                                                            <div class="form-group">
+                                                                <input class="form-control" id="instant_client_doc" name="file[]" multiple type="file" accept=".pdf" required> </div>
+                                                        </td>
+                                                        <td class="fitwidth">
+                                                            <div class="form-group"> <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder fe fe-plus-circle tr_clone_add"></i> &nbsp;&nbsp;&nbsp; <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus fe fe-x-circle"></i> </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <h3> </h3>
+                                <section>
+                                 <h3>CLIENT INCOME ASSESSMENT </h3>
+                                      <div class="row">
+                                        <div class="col-md-12 border"><br>
+                                            <h6 class="text-center"><u>Client Simple Income Statement </u></h6>
+                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 100%;">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">MONTH</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">CASHFLOW</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending"></th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">TOTAL</th>
+                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        
+                                                        <td>Business Type</td>
+                                                        <td><input type="text" name="business_type" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                        
+                                                    </tr>
+                                                     <tr>
+                                                        
+                                                        <td></td>
+                                                        <td>Income from bank statement </td>
+                                                        <td>Income from mobile money statement</td>
+                                                        <td></td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                    
+                                                        <td><input type="text" name="jan" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="jan_bank_stat" onkeyup="calculate_income_statement_assessment();" id="jan_bank_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="jan_mobile_stat" onkeyup="calculate_income_statement_assessment();" id="jan_mobile_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="jan_total" onkeyup="calculate_income_statement_assessment();" id="jan_total" class="form-control form-control-sm"></td>
+
+                                                    </tr>
+                                                     <tr>
+                                                        
+                                                        <td><input type="text" name="dec" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="dec_bank_stat" onkeyup="calculate_income_statement_assessment();" id="dec_bank_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="dec_mobile_stat" onkeyup="calculate_income_statement_assessment();" id="dec_mobile_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="dec_total" onkeyup="calculate_income_statement_assessment();" id="dec_total" class="form-control form-control-sm"></td>
+                                                    </tr>
+                                                     <tr>
+                                                
+                                                        <td><input type="text" name="nov" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="nov_bank_stat" onkeyup="calculate_income_statement_assessment();" id="nov_bank_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="nov_mobile_stat" onkeyup="calculate_income_statement_assessment();" id="nov_mobile_stat" class="form-control form-control-sm"></td>
+                                                        <td><input type="number" name="nov_total" onkeyup="calculate_income_statement_assessment();" id="nov_total" class="form-control form-control-sm"></td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td>AVERAGE INCOME</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><input type="number" name="average_income" onkeyup="calculate_income_statement_assessment();" id="average_income" class="form-control form-control-sm"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>FAMILY EXPENSES</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>DSTV</td>
+                                                        <td><input type="number" name="dstv" onkeyup="calculate_income_statement_assessment();" id="dstv" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>FOOD</td>
+                                                        <td><input type="number" name="food" onkeyup="calculate_income_statement_assessment();" id="food" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>SCHOOL</td>
+                                                        <td><input type="number" name="school" onkeyup="calculate_income_statement_assessment();" id="school" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>UTILITIES</td>
+                                                        <td><input type="number" name="utilities" onkeyup="calculate_income_statement_assessment();" id="utilities" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>OPERATION EXEPENSES</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>LOAN INSTALMENT</td>
+                                                        <td><input type="number" name="loan_installment" onkeyup="calculate_income_statement_assessment();" id="loan_installment" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>SALARIES</td>
+                                                        <td><input type="number" name="salaries" onkeyup="calculate_income_statement_assessment();" id="salaries" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>STATIONERY</td>
+                                                        <td><input type="number" name="stationery" onkeyup="calculate_income_statement_assessment();" id="stationery" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                         <td></td>
+                                                    </tr>
+
+                                                    
+                                                    <tr>
+                                                        <td>TRANSPORT</td>
+                                                        <td><input type="number" name="transport" onkeyup="calculate_income_statement_assessment();" id="transport" class="form-control form-control-sm"></td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>TOTAL EXPENSES</td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="number" name="total_expenses" onkeyup="calculate_income_statement_assessment();" id="total_expenses" class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>AVAILABLE INCOME </td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="number" name="available_income" onkeyup="calculate_income_statement_assessment();" id="available_income" class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>LOAN INSTALMENT </td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="number" name="loan_installment_total" onkeyup="calculate_income_statement_assessment();" id="loan_installment_total" class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><b> DSR </b> </td>
+                                                        <td></td>
+                                                         <td></td>
+                                                        <td><input type="number" name="dsr" onkeyup="calculate_income_statement_assessment();" id="dsr" class="form-control form-control-sm"></td>
+                                                        
+                                                    </tr>
+                                                    
+                                                    
+                                                    
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+
+                                <h3></h3>
+                                <section>
+                                 <h3>DISCLOSURE, CONSENT AND AUTHORISATION</h3>
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-8 border"><br>
+                                            <h6 class="text-center"><u>Disclosure, Consent And Authorisation By Applicant</u></h6><br>
+                                            <p>By appending my signature hereunder, I  <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span> (Full Names) declare and agree that:</p>
+                                            <p>1.	GNC may make enquiries from any Bank, Financial Institution, or approved Credit Reference Agency in Zambia to confirm any information I have provided when considering this application to get a loan from GNC.
+                                            <p>2.	GNC is allowed to disclose information about me to any person in connection with an actual or proposed contract which relates to this agreement, including disclosing information under the terms of such contract and this includes the assignment and/or transfer of all or part of the company’s rights under this agreement.
+                                            <p>3.	In the event of any default in repayment, unless the amount in default is fully repaid before the expiry of sixty (60) days from the date such default occurred, GNC shall notify the Credit Reference Agency and the borrower shall be liable to have the account data retained by the Credit Reference Agency until the expiry of seven (7) years from the date of final settlement of the amount in default. GNC shall then retain its rights to enforce payment of the unpaid loan amount, together with the accrued interest. For the purpose of this Clause and any Party that may be appointed by GNC to collect its debts, I waive the confidentiality requirements of the Banking and Financial Services (Microfinance) Regulations, 2006 and those of Banking and Financial Services Act of 2017 or amended from time to time.
+                                            <p>4.	Upon termination of the account by full repayment and on condition that there has not been, within seven (7) years immediately before account termination, any material default on the account, the borrower will have the right to instruct GNC who shall oblige, to make a request to the Credit Reference Agency to delete from its data any account data detailing to the termination account.
+                                            <p>5.	You are free to be informed, upon request about which items of data are routinely so disclosed and to be provided with further information to enable the making of a data access and correction request to the relevant Credit Reference Agency or Debt Collection Agency.
+                                            <p>6.	I make an irrevocable personal undertaking to pay the balance of the loan together with accrued interest of <%= product_detail.interest %>%  per month as agreed in the event of default, being terminated from my employer’s payroll on account of my resignation, dismissal or other event not covered by insurance.
+                                            <p> 7.	GNC reserves the right to loan an amount lower than the amount applied for in this Application Form; and to effect deductions commensurate to the amount loaned and tenure agreed at that applicable interest rate.
+                                            <p> 8.	By drawing funds credited to my bank account number indicated in this Loan Application and Agreement Form by GNC or by my failure to notify GNC (either directly or through its partner bank) of my lack of interest in accessing this loan within 48 hours of the same being credited to my bank account, being the approved and disbursed loan amount, I indicate acceptance of all Terms and Conditions of this Facility, including:
+                                            <p>a.	That the applicable interest rate at the time of approval shall be applied and amortised over the term of the loan.
+                                            <p>b.	That all costs such as insurance, Credit Reference Bureau fees, arrangement fees and other costs incidental hereto may be passed on to me at GNC’s discretion.
+                                            <p>c.	That the first instalment shall be due on the pay day immediately following the disbursement of loan, and every pay day thereafter until full settlement of the loan with accrued interest.
+                                            <p>d.	That this Application Form becomes a binding Contract when GNC approves and pays out the loan to my Bank Account indicated in this Application Form; and shall be governed and construed in accordance with the Laws of Zambia.
+                                            <p>e.	That early payment of loan with accrued interest shall NOT attract any penalties but interest accrued as at that date shall be paid to GNC.
+                                            <p>f.	That in accordance with banking practice, this loan with accrued interest is payable on demand.
+                                            <p>g.	That the approved amount, tenure of the loan and the monthly repayment amount shall be communicated to me via registered mail to the address indicated in this Application Form; and that GNC shall be deemed to have discharged this obligation under this Clause by delivery to the Zambia Postal Services Corporation (ZAMPOST) or its successors and paying for delivery of mail.
+                                            <p>9.	In pursuance of the conditions under which this loan was granted, I hereby irrevocably authorise GNC, acting on its own or through its agents, to communicate my obligation to pay to my employer, and authorise my employer to deduct such amount as indicated by GNC from my salary and remit the amount so deducted to GNC until the loan amount with accrued interest is fully paid; In case of unforeseen incidents, other than those in Clause 6, that may disrupt loan recoveries through payroll deductions, I hereby authorise my employer to make recoveries from my terminal benefits and/or gratuity.
+                                            <p>I  <span class="doubleUnderline"><%= @client_data.firstName %> <%= @client_data.lastName %></span> (Full name) hereby certify that the information contained in this Loan Application is true and correct and I have the capacity to repay the Loan. I understand that this Loan Application may be rejected at any stage should any information contained herein be found to be incorrect.
+                                            <br><br>
+                                            <div class="row">
+                                                <div class="col-md-6">Customer Relationship officer
+                                                  <select class="form-control select2-with-search" id="cro_id" name="cro_id" >
+                                                     
+                                                   <%= for sales <- @relationship_officer do %>
+                                                        <option></option>
+                                                        <option value="<%= sales.id %>"><%= sales.firstname %> <%= sales.lastname %></option>
+                                                    <% end %>
+                                                    </select>
+
+                                                
+                                                
+                                                </div>
+                                                <div class="col-md-6">Application Date <input type="date" class="input-line" name="application_date" id="application_date" placeholder="" value="<%= Timex.today %>" ></div>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2"></div>
+                                    </div>
+
+                                    <hr style="border: 2px solid #F6000F;">
+                                    <div class="row" style="opacity: 0.6;">
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fa fa-phone"></i>&nbsp; +260 211 353 693
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-envelope"></i>&nbsp; info@greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                           <i style="color: #F6000F" class="fa fa-globe"></i>&nbsp; www.greatnorthcredit.co.zm
+                                        </div>
+                                        <div class="col-md-3">
+                                            <i style="color: #F6000F" class="fe fe-map-pin"></i>&nbsp; Subdivision C of Lot 2050/M,<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Street Ibex Hill, Lusaka.
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <% end %>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>
+
+<script>
+
+$(document).ready(function() {
+
+function calculateMonthlyInstallment(loanAmount, interestRate, loanTermMonths) {
+    const monthlyInterestRate = interestRate / 1200; // divide annual interest rate by 1200 to get monthly interest rate
+    const numberOfPayments = loanTermMonths; // total number of payments is now the loan term in months
+    const numerator = monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments);
+    const denominator = Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1;
+    const monthlyInstallment = loanAmount * (numerator / denominator);
+
+    return monthlyInstallment.toFixed(2); // round to 2 decimal places
+  }
+
+  function calculateAndDisplayMonthlyInstallment() {
+
+    const loanAmount = parseFloat(document.getElementById("loan-amount").value);
+    const interestRate = parseFloat(document.getElementById("interest-rate").value);
+    const loanTermMonths = parseInt(document.getElementById("loan-term").value);
+
+    const monthlyInstallment = calculateMonthlyInstallment(loanAmount, interestRate, loanTermMonths);
+    console.log("oooooooooooooooooooo")
+    console.log(monthlyInstallment)
+
+    document.getElementById("result-months-installment").innerHTML = `$${monthlyInstallment}`;
+  }
+
+
+ // const loanAmountInput = parseFloat(document.getElementById("loan-amount").value);
+ //   const interestRateInput = parseFloat(document.getElementById("interest-rate").value);
+  //  const loanTermInput = parseInt(document.getElementById("loan-term").value);
+    const loanAmountInput = document.getElementById("loan-amount");
+      const interestRateInput = document.getElementById("interest-rate");
+      const loanTermInput = document.getElementById("loan-term");
+console.log("john")
+
+   console.log(loanAmountInput)
+    console.log(interestRateInput)
+     console.log(loanTermInput)
+
+  loanAmountInput.addEventListener("keyup", calculateAndDisplayMonthlyInstallment);
+  interestRateInput.addEventListener("keyup", calculateAndDisplayMonthlyInstallment);
+  loanTermInput.addEventListener("keyup", calculateAndDisplayMonthlyInstallment);
+
+   //calculateButton.addEventListener("click", calculateAndDisplayMonthlyInstallment);
+
+  // loanAmountInput.oninput = calculateAndDisplayMonthlyInstallment;
+   //   interestRateInput.oninput = calculateAndDisplayMonthlyInstallment;
+   //   loanTermInput.oninput = calculateAndDisplayMonthlyInstallment;
+
+
+})
+
+</script>

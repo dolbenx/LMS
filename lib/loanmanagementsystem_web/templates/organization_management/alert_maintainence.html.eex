@@ -1,0 +1,203 @@
+<%= render "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Alert Maintainence</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Alert Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Alert</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                    <tr>
+                                        <th>alert Type</th>
+                                        <th>Alert Description</th>
+                                        <th>Alert Message</th>
+                                        <th>Alert Status</th>
+
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%= for alert <- @alerts do %>
+                                    <tr>
+                                        <td> <%= alert.alert_type %></td>
+                                        <td><%= alert.alert_description %>  </td>
+                                        <td><%= alert.message %> </td>
+                                        <td><%= alert.status %> </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-info"
+                                                data-bs-target="#editalert"
+                                                data-bs-toggle="modal"
+                                                data-id="<%= alert.id %>"
+                                                data-alert_type="<%= alert.alert_type %>"
+                                                data-alert_description="<%= alert.alert_description %>"
+                                                data-message="<%= alert.message %>"
+                                            >
+                                                <i class="fe fe-edit-2"> Edit</i>
+                                            </a>
+                                            <%= if alert.status == "INACTIVE" do %>
+                                                <a href="#" class="btn btn-sm btn-success activatealert" data-activate-id="<%= alert.id %>">
+                                                    <i class="fe fe-check-circle"> Enable</i>
+                                                </a>
+                                            <% else %>
+                                                <a href="#" class="btn btn-sm btn-danger deactivatealert" data-deactivate-id="<%= alert.id %>">
+                                                    <i class="fe fe-delete"> Disable</i>
+                                                </a>
+                                            <% end %>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+
+</div>
+
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Alert Details</h6>
+
+            </div>
+        <form action="<%= Routes.organization_management_path(@conn, :add_alert_maintenance)%>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="status" value="INACTIVE">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Select Alert Type<span style="color: red;">*</span></label>
+                                <select required name="alert_type" class="form-control">
+                                     <option>Choose Alert Type</option>
+                                     <option value="SMS">SMS</option>
+                                     <option value="EMAIL">EMAIL</option>
+
+                                </select>
+                            </div>
+                            <div class="col-sm">
+                             <label class="form-label">Alert Description<span style="color: red;">*</span></label>
+                                <input class="form-control" name="alert_description" required type="text">
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                              <label class="form-label">Message<span style="color: red;">*</span></label>
+                                <textarea class="form-control" name="message" required type="text"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="editalert">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Alert Details</h6>
+
+            </div>
+        <form action="<%= Routes.organization_management_path(@conn, :add_alert_maintenance)%>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="status" value="INACTIVE">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Select Alert Type<span style="color: red;">*</span></label>
+                                <select required id="alert_type" name="alert_type" class="form-control">
+                                     <option>Choose Alert Type</option>
+                                     <option value="SMS">SMS</option>
+                                     <option value="EMAIL">EMAIL</option>
+
+                                </select>
+                            </div>
+                            <div class="col-sm">
+                             <label class="form-label">Alert Description<span style="color: red;">*</span></label>
+                                <input class="form-control" id="alert_description" name="alert_description" required type="text">
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                              <label class="form-label">Message<span style="color: red;">*</span></label>
+                                <textarea class="form-control" id="message" name="message" required type="text"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Update</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+<script>
+$(document).ready(function(){
+    $('#editalert').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var modal = $(this)
+        modal.find('.modal-body #id').val(button.data('id'));
+        $('#alert_type').val(button.data('alert_type')).trigger("change");
+        $('#alert_description').val(button.data('alert_description')).trigger("change");
+        $('#message').val(button.data('message')).trigger("change");
+    });
+});
+</script>

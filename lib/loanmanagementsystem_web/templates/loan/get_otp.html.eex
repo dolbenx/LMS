@@ -1,0 +1,49 @@
+
+    <div class="col-md-12">
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Application</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="<%= Routes.loan_path(@conn, :quick_advance_application_datatable) %>">Loans Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+        <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h6 class="main-content-label mb-1">Enter Details Below</h6>
+                        <p class="text-muted card-sub-title"></p>
+                    </div>
+                    <form action="<%= Routes.loan_path(@conn, :send_otp) %> " enctype="multipart/form-data" method="post">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                        <input type="hidden" name="product_id" value="<%= @product_id %>">
+
+                        <div class="modal-body">
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10"> Enter Customer ID Number </p>
+                                            <input class="form-control" name="nrc" type="text" text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+                            <div class="modal-footer">
+                                <button class="btn ripple" style="background-color: #003651; color: white;" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

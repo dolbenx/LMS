@@ -1,0 +1,107 @@
+<%= render "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">loan Statement</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Business Reports</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Loan Statement Table</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="card-body">
+                            
+                            <button class="btn ripple btn-primary btn-rounded mb-0" style="float: right;" onclick="openModal()" data-bs-target="#statement-filtermodal" data-bs-toggle="modal" href="">Filter</button>
+                            <button class="btn ripple btn-danger btn-rounded mb-0" style="float: right;"  id="js-download-loan-statement"   href="#">Export to PDF</button>
+                        </div>
+                            <h6 class="main-content-label mb-1">Loan Statement </h6><br>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="client_loan_statement_dt">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Client Name </th>
+                                        <th class="wd-20p">Date </th>
+                                        <th class="wd-20p">Transaction </th>
+                                        <th class="wd-25p">Payment</th>
+                                        <th class="wd-20p">interest</th>
+                                        <th class="wd-20p">Principal</th>
+                                        <th class="wd-20p">Balance</th>
+                                        
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="statement-filtermodal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Filter Details</h6>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
+            </div>
+            <form id="loanstatementSearchForm">
+            <div class="modal-body">
+            
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        
+                        <div class="row row-sm">
+                         
+
+                           <div class="col-md-12">
+                            <div class="col-sm">
+                                <label class="form-label">Customer Name<span  onclick="closeModal()" style="color: red;"></span></label>
+                                
+                                <select  name="loanid" id="loanid" onchange="select2_search();"  class="form-control select2-with-search"  required>
+                                        <option></option>
+                                    <%= for loan_detail <- @customer_accounts do %>
+                                        <option value="<%= loan_detail.loanid %>"><%= loan_detail.name %> ~ <%= loan_detail.idno %> ~ loanNumber: <%= loan_detail.loanid %> </option>
+                                    <% end %>
+                                 </select>
+                            </div>
+                           </div>  
+                            
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" id ="filter-loan-statement" type="button">Filter</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+<script>
+
+
+
+
+
+</script>

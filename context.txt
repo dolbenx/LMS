@@ -1,0 +1,103 @@
+mix phx.gen.context Loan Loan_disbursement tbl_loan_disbursement loan_product currency amount:float disbursement_dt mode_of_disbursement comp_mno_type comp_mobile_no   comp_bank_name comp_bank_account_no comp_swift_code comp_account_name comp_expiry_month comp_expiry_year comp_cvv customer_mno_type customer_mno_mobile_no  customer_bank_name customer_bank_account_no customer_swift_code customer_account_name customer_expiry_month customer_expiry_year customer_cvv  maker_id:integer customer_id:integer loan_id:integer product_id:integer status  
+
+mix phx.gen.context Maintenance Company_maintenance tbl_company_maintanence company_name company_reg_no company_logo tpin currency country town address phone_no 
+
+mix phx.gen.context Maintenance Password_maintenance tbl_password_maintenance user_id:integer password_format min_length max_length
+
+mix phx.gen.context Maintenance Working_days tbl_workingdays_maintenance monday tuesday wednesday thursday friday saturday sunday
+
+mix phx.gen.context Maintenance Holiday_mgt tbl_holiday_maintenance year month holiday_date:date holiday_description
+
+mix phx.gen.context Maintenance Maker_checker tbl_maker_checker module module_code maker checker 
+
+mix phx.gen.context Accounts Customer_account tbl_customer_accounts user_id:integer account_number status
+
+mix phx.gen.context Merchants Merchant tbl_merchant merchantType bankId:integer companyName businessName businessNature companyPhone registrationNumber taxno contactEmail createdByUserId:integer createdByUserRoleId:integer status approval_trail authLevel:integer companyRegistrationDate:date companyAccountNumber
+
+mix phx.gen.context Merchants Merchant_director tbl_merchant_dir firstName lastName otherName directorIdentificationnNumber  directorIdType mobileNumber emailAddress status merchantType merchantId
+
+mix phx.gen.context Merchants Merchants_document tbl_merchant_and_agent_doc docName userID:integer companyID:integer taxNo docType status path
+
+mix phx.gen.context Merchants Merchants_device tbl_merchant_device deviceName deviceType deviceModel deviceAgentLine deviceIMEI merchantId:integer
+
+
+mix phx.gen.context Alerts Alert tbl_alert_templete alert_type alert_message status  
+
+mix phx.gen.context Alerts Alert tbl_customer_notifications channel message startdate enddate notificaion_interval
+
+tbl_employee_maintenance
+
+mix ecto.gen.migration modify_role_description
+
+mix ecto.gen.migration modify_user_role
+
+mix phx.gen.context Companies Client_company_details tbl_client_company_details approval_trail auth_level:integer company_name company_phone contact_email createdByUserId:integer createdByUserRoleId:integer registration_number status taxno company_registration_date:date company_account_number bank_id:integer
+
+mix ecto.gen.migration modify_cleint_company_details
+
+mix phx.gen.context SystemSetting Tariff tbl_tariffs wattMinimum:string wattMaximum:string pricePerDay:float monthlyFee:float annualFee:float status:string  
+
+mix ecto.gen.migration add_to_client_company_details
+
+mix ecto.gen.migration create_employee_maintenance
+
+mix ecto.gen.migration modify_employment_details
+
+mix phx.gen.context RelationshipManagement Leads tbl_leads first_name:string last_name:string other_name:string title:string date_of_birth:date identification_type:string identification_number:string gender:string mobile_number:string email_address:string marital_status:string nationality:string disability_detail:string disability_status:string number_of_dependants:integer userId:integer bankId:integer
+
+
+mix ecto.gen.migration modify_leads
+
+mix phx.gen.context RelationshipManagement Proposal tbl_proposal first_name:string last_name:string other_name:string title:string date_of_birth:date identification_type:string identification_number:string gender:string mobile_number:string email_address:string marital_status:string nationality:string disability_detail:string disability_status:string status:string number_of_dependants:integer userId:integer bankId:integer
+
+mix ecto.gen.migration modify_employee_table
+
+mix ecto.gen.migration modify_employee_details_table
+
+mix phx.gen.context Loan Loan_application_documents tbl_loan_application_documents doc_name:string doc_type:string status:string path:string customer_id:integer user_id:integer 
+
+
+mix phx.gen.context Chart_of_accounts Gl_balance tbl_gl_balance account_gl_number account_gl_name gl_type gl_date node gl_category currency fin_year fin_period dr_balance cr_balance
+
+mix phx.gen.context Chart_of_accounts Gl_balance tbl_gl_daily_balance account_gl_number account_gl_name gl_type gl_date:date node gl_category currency fin_year fin_period dr_balance:decimal cr_balance:decimal
+
+mix phx.gen.context Chart_of_accounts Accounts_mgt tbl_accounts_mgt account_no account_name type status
+
+mix phx.gen.context Accounts Nextofkin tbl_next_of_kin kin_first_name:string kin_last_name:string kin_other_name:string kin_status:string kin_relationship:string kin_ID_number:string userID:integer kin_mobile_number:string kin_personal_email:string kin_gender:string applicant_nrc:string
+
+mix phx.gen.context Loan Loan_applicant_nextofkin tbl_nextofkin customer_id:integer firstname surname relationship mobile_no consent_crb gender
+
+mix phx.gen.context Loan Loan_applicant_reference tbl_reference customer_id:integer name contact_no
+
+mix phx.gen.context Loan Loan_applicant_collateral tbl_collateral customer_id:integer name_of_collateral id_number color asset_value
+
+mix phx.gen.context Loan Loan_applicant_guarantor tbl_guarantor customer_id:integer salary_loan other_income_bills sale_business_rentals Cost_of_sales other_expenses total_income_expense net_profit_loss guarantor_name nrc loan_applicant_name  relationship gaurantor_signature gaurantor_sign_date Occupation employer guarantor_phone_no email name_of_witness name_of_cro_staff staff_signature staff_sign_date
+
+mix phx.gen.context Loan Loan_customer_details tbl_loan_customer_details customer_id:integer firstname surname othername id_type id_number gender cell_number email dob residential_address landmark town province marital_status
+
+mix phx.gen.context Loan Loan_recommendation_and_assessment tbl_loan_recommendation customer_id:integer reference_no recommended on_hold file_sent_to_sale comments name signature position date time_received time_out date_received 
+
+mix phx.gen.context Loan Loan_market_info tbl_loan_market_info customer_id:integer reference_no name_of_market location_of_market duration_at_market type_of_business name_of_market_leader mobile_of_market_leader name_of_market_vice
+
+mix phx.gen.context Loan Loan_employment_info tbl_loan_employment_info customer_id:integer reference_no employer address employment_status town employer_email_address employer_phone job_title supervisor_name province employment_date date_to applicant_name company_name granted_loan_amt gross_salary net_salary other_outstanding_loans accrued_gratuity contact_no authorised_signature job_title date
+
+mix phx.gen.context Loan Loan_disbursement_schedule tbl_loan_disbursement_schedule customer_id:integer reference_no applicant_name applied_amount:float approved_amount:float processing_fee:float insurance:float crb:float motor_insurance:float net_disbiursed:float interet_per_month:float repayment_period month_installment:float date:date prepared_by senior_operation_officer credit_manager finance_manager account_number bank_name branch loan_id:integer applicant_signature
+
+mix phx.gen.context Loan Loan_amortization_schedule tbl_loan_amortization_schedule customer_id:integer reference_no loan_id customer_id reference_no loan_amount:float interest_rate:float term_in_months:float month:integer beginning_balance:float payment:float interest:float principal:float ending_balance:float
+
+mix phx.gen.context Accounts Client_reference tbl_client_reference customer_id:integer name contact_no status
+
+mix phx.gen.context Charges Product_charges tbl_product_charges product_id:integer charge_id:integer status
+
+mix phx.gen.context Loan Loan_credit_score tbl_loan_credit_score customer_id:integer reference_no applicant_name type_of_loan loan_amount:float cro_staff date_of_credit_score:date weighted_credit_score:float business_employment_experience family_situation borrowing_history dti_ratio collateral_assessment type_of_collateral applicant_character number_of_reference total_score:float credit_analyst signature 
+
+mix phx.gen.context Loan Loan_checklist tbl_loan_checklist customer_id:integer loan_id:integer reference_no social_security_no passport_size_photo id_no citizenship_status marital_status email_address telephone prood_of_resident employment_status payslip_3months_verified employer_name gross_monthly_income rent_payment employer_letter has_running_loan completed_application_form crb loan_purpose_checklist call_memo desired_term loan_amount_checklist sales_record collateral_pictures insurance_for_motor_vehicle loan_verified home_visit_done bank_statement bank_name correct_account_number bank_standing_payment_order preferred_loan_repayment_method trading_license certificate_of_incorporation latest_pacra_print_out passport_size_photo_from_director latest_audited_financial_statement contract_agreements company_bank_statement board_allow_company_to_borrow
+
+mix phx.gen.context Loan Loan_5cs tbl_loan_5cs_analysis customer_id:integer loan_id:integer reference_no character capacity capital condition collateral
+
+mix phx.gen.context Loan Loan_disbursement tbl_loan_payment_requisition customer_id:integer loan_id:integer reference_no payable_to address_or_designation amount_requested:float amount_paid:float loan_purpose requested_by checked_by approved_by gl_account date_paid:date requested_by_position checked_by_position approved_by_position cheque_no
+
+mix phx.gen.context Loan Loan_income_assessment tbl_loan_client_income_assessment customer_id:integer reference_no business_type:string jan:float jan_total:float dec:float dec_total:float nov:float nov_total:float average_income:float dstv:float food:float school:float utilities:float loan_installment:float salaries:float stationery:float transport:float total_expenses:float available_income:float loan_installment_total:float dsr:float
+
+mix phx.gen.context Loan Writtenoff_loans tbl_writteoff_loans customer_id:integer loan_id:integer reference_no client_name date_of_writtenoff:date amount_writtenoff writtenoff_by savings_account 
+mix phx.gen.context Loan Customer_loan_application tbl_customer_loan_application customer_id:integer first_name last_name phone email loan_amount:float loan_period:float product product_interet_rate:float product_id:integer pay_monthly:float total_interest:float total_pay_back:float status

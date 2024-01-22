@@ -1,95 +1,67 @@
+<div class="container">
+    <div class="col-md-12">
 
-<div id="kt_header" class="header header-fixed">
-        <!--begin::Container-->
-        <div class="container-fluid d-flex align-items-stretch justify-content-between">
-            <!--begin::Header Menu Wrapper-->
-            <%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
-            <!--end::Header Menu Wrapper-->
-        </div>
-        <!--end::Container-->
-    </div>
-    <!--end::Header-->
-    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
-    <!--begin::Content-->
-    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Subheader-->
-        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-                <!--begin::Info-->
-                <div class="d-flex align-items-center flex-wrap mr-2">
-                    <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">All Loans</h5>
-                    <!--end::Page Title-->
-                    <!--begin::Actions-->
-                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
-                    <!--end::Actions-->
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">All Loans</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Administrators</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">All Loans Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="card-body">
+                    <button class="btn ripple btn-primary" style="float: right;" type="button" id="employer-employee-loan-report-filter">Filter</button>
                 </div>
-                <!--end::Info-->
-                <!--begin::Toolbar-->
-                <div class="d-flex align-items-center">
-                    <!--begin::Daterange-->
-                    TIME
-                </div>
-                <!--end::Toolbar-->
             </div>
         </div>
-        <!--end::Subheader-->
-        <!--begin::Entry-->
-        <div class="d-flex flex-column-fluid">
-            <!--begin::Container-->
-            <div class="container-fluid">
-                <!--begin::Dashboard-->
-                <!--begin::Row-->
-                <div class="row">
-                    <div class="col-md-12 col-xxl-12">
-                        <div class="card card-custom card-stretch gutter-b">
-                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                                <div class="card-title">
-                                    <h3 class="card-label">All Loans
-                                    <span class="text-muted pt-2 font-size-sm d-block">All Loans Table</span></h3>
-                                </div>
-                                <div class="card-toolbar">
-                                    <a type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" id="employer-employee-loan-report-filter" style="background-color: #011941;">
-                                        Filter
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-bordered table-hover table-striped w-100" id="dt_employer_employee_all_loans">
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom dt-responsive" id="dt_employer_employee_all_loans">
                                 <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-                                    <thead>
-                                        <tr>
-                                            <th class="wd-20p">Customer Name</th>
-                                            <th class="wd-25p">ID Number</th>
-                                            <th class="wd-20p">Product Code</th>
-                                            <th class="wd-15p">Loan Amount</th>
-                                            <th class="wd-20p">Total Interest</th>
-                                            <th class="wd-20p">Paid Amount</th>
-                                            <th class="wd-20p">Outstanding Bal</th>
-                                            <th class="wd-25p">Status</th>
-                                            <%# <th class="wd-25p">Action</th> %>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                                <input type="hidden" name="id" id="id">
+                                 <thead>
+                               <tr>
+                                        <th class="wd-20p">Customer Name</th>
+                                        <th class="wd-25p">ID Number</th>
+                                        <th class="wd-20p">Product Code</th>
+                                        <th class="wd-15p">Loan Amount</th>
+                                        <th class="wd-20p">Total Interest</th>
+                                        <th class="wd-20p">Paid Amount</th>
+                                        <th class="wd-20p">Outstanding Bal</th>
+                                        <th class="wd-25p">Status</th>
+                                        <%# <th class="wd-25p">Action</th> %>
+
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <!--end::Row-->
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::Entry-->
+        <!-- End Row -->
     </div>
+</div>
 
 
 <!-- Tooltips and Popovers -->
 <div class="modal fade" id="modaldemo12">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
                 <h6 class="modal-title">Loans Details</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                <button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
             </div>
             <div class="modal-body">
                 <div class="row row-lg">
@@ -123,7 +95,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">Filter Details</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                <h6 class="modal-title">Filter Details</h6><button type="button" class="close" data-bs-dismiss="modal"  aria-label="Close"><i aria-hidden="true" class="zmdi zmdi-close"></i></button>
             </div>
             <form action=" " method="post">
                 <div class="card-body">
@@ -162,7 +134,7 @@
                         </div>
             <div class="modal-footer">
                 <button class="btn ripple btn-primary" type="button" id="employer_employee_loan_report_filter" >Filter</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
             </div>
         </form>
         </div>
