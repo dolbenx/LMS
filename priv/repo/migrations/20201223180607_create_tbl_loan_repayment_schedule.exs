@@ -1,4 +1,4 @@
-defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanRepaymentSchedule do
+defmodule LoanSystem.Repo.Migrations.CreateTblLoanRepaymentSchedule do
   use Ecto.Migration
 
   def change do
@@ -31,9 +31,10 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanRepaymentSchedule do
       add :createdby_id, :integer
       add :lastmodifiedby_id, :integer
       add :obligations_met_on_date, :date
-      add :status, :string
+	  add :status, :string
 
       timestamps()
     end
+
   end
 end

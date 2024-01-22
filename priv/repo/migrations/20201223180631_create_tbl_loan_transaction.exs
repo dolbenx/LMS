@@ -1,4 +1,4 @@
-defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanTransaction do
+defmodule LoanSystem.Repo.Migrations.CreateTblLoanTransaction do
   use Ecto.Migration
 
   def change do
@@ -24,12 +24,9 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanTransaction do
       add :transaction_ref, :string
       add :settlementStatus, :string
       add :momoProvider, :string
-      add :debit_account_number, :string
-      add :debit_amount, :float
-      add :credit_account_number, :string
-      add :credit_amount, :float
 
       timestamps()
     end
+
   end
 end

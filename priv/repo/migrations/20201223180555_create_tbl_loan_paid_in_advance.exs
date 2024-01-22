@@ -1,4 +1,4 @@
-defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanPaidInAdvance do
+defmodule LoanSystem.Repo.Migrations.CreateTblLoanPaidInAdvance do
   use Ecto.Migration
 
   def change do
@@ -12,5 +12,6 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanPaidInAdvance do
 
       timestamps()
     end
+
   end
 end

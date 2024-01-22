@@ -1,0 +1,64 @@
+mix phx.gen.context Accounts User tbl_users title:string first_name:string last_name:string email:string password:string user_type:integer user_role:string status:integer auto_password:string sex:string age:integer id_type:string id_no:string phone:string address:string creator_id:integer acc_inactive_reason:string last_modified_by:string created_by:string loan_officer:integer
+
+mix phx.gen.context Accounts UserRoles tbl_user_role created_by:string role_description:string role_name:string user_id:string 
+
+mix phx.gen.context Companies Company tbl_companies email phone company_name tpin_no city country date_of_incorporation company_id address
+
+mix phx.gen.context Companies_staff Staff tbl_staff first_name last_name other_name email phone company_name tpin_no city country company_id address id_no id_type
+
+mix phx.gen.context Products Product tbl_products name code details currency currency_decimals annual_interest fixed_period_days year_length_days min_balance_required withdrawal_fee_amount withdrawal_fee_transfer_to_mobile deposit_fee_amount days_to_inactive days_to_dormancy
+
+mix phx.gen.context Accounts Old_password tbl_old_password date_created email password
+
+mix phx.gen.context Settings Mno tbl_mnos name code url username password
+
+mix phx.gen.context Settings Bank tbl_banks name code url username password
+
+mix phx.gen.context Settings SystemParams tbl_system_params company_name company_description code company_logo 
+
+mix phx.gen.context System_Directories Directory tbl_system_directories failed processed bulk_trns esb_complete esb_download esb_failed esb_pending internet_trns inwards outwards errors auth_status modification reason
+
+mix ecto.gen.migration alter_tbl_users
+
+mix phx.gen.context Notifications Sms tbl_sms type:string mobile:string msg_countmsg:string status:string msg:string
+
+mix phx.gen.context Admin SystemSettings tbl_system_settings name:string value:string 
+
+mix phx.gen.context SystemDirectories Directory tbl_documents external_id document_type document_file
+
+
+
+
+
+mix phx.gen.context Branch Branchs tbl_branchs branch_name:string branch_address:string branch_province:string branch_district:string parent_branch_id:integer opening_date:date
+
+mix phx.gen.context Branch BranchTransaction tbl_branch_branch_transactions source_branch_id receipient_branch_id currency_code transaction_amount transaction_date details
+
+mix phx.gen.context Loan LoanCharge tbl_loan_charge loan_id:integer charge_id:integer is_penalty:boolean charge_time_enum:string due_for_collection_as_of_date charge_calculation_enum:string charge_payment_mode_enum:string calculation_percentage:float calculation_on_amount:float charge_amount_or_percentage:float amount:float amount_paid_derived:float amount_waived_derived:float amount_writtenoff_derived:float amount_outstanding_derived:float is_paid_derived:boolean is_waived:boolean is_active:boolean
+
+mix phx.gen.context Loan LoanChargePayment tbl_loan_charge_payment loan_transaction_id:integer loan_id:integer loan_charge_id:integer amount:float installment_number:integer
+
+mix phx.gen.context Loan LoanCollateral tbl_loan_collateral loan_id:integer collateral_type:string valuation:float description:string
+
+mix phx.gen.context Loan LoanInstallmentCharge tbl_loan_installment_charge loan_charge_id:integer loan_schedule_id:integer due_date:date amount:float amount_paid_derived:float amount_waived_derived:float amount_writtenoff_derived:float amount_outstanding_derived:float is_paid_derived:boolean is_waived:boolean
+
+mix phx.gen.context Loan LoanOfficerAssignment tbl_loan_officer_assignment loan_id:integer loan_officer_id:integer start_date:date end_date:date createdby_id:integer created_date:date updated_date:date lastmodifiedby_id:integer
+
+mix phx.gen.context Loan LoanOverdueInstallmentCharge tbl_loan_overdue_installment_charge loan_charge_id:integer loan_schedule_id:integer overdue_amount:float
+
+mix phx.gen.context Loan LoanPaidInAdvance tbl_loan_paid_in_advance loan_id:integer principal_in_advance_derived:float interest_in_advance_derived:float fee_charges_in_advance_derived:float penalty_charges_in_advance_derived:float total_in_advance_derived:float
+
+mix phx.gen.context Loan LoanRepaymentSchedule tbl_loan_repayment_schedule loan_id:integer fromdate:date duedate:date installment:float principal_amount:float principal_completed_derived:float principal_writtenoff_derived:float interest_amount:float interest_completed_derived:float interest_writtenoff_derived:float interest_waived_derived:float accrual_interest_derived:float fee_charges_amount:float fee_charges_completed_derived:float fee_charges_writtenoff_derived:float fee_charges_waived_derived:float accrual_fee_charges_derived:float penalty_charges_amount:float penalty_charges_completed_derived:float penalty_charges_writtenoff_derived:float penalty_charges_waived_derived:float accrual_penalty_charges_derived:float total_paid_in_advance_derived:float total_paid_late_derived:float completed_derived:float createdby_id:integer lastmodifiedby_id:integer obligations_met_on_date:date
+
+mix phx.gen.context Loan Loans tbl_loans account_no:string external_id:string customer_id:integer product_id :integer loan_status:string loan_type:string currency_code:string principal_amount_proposed:float principal_amount:float approved_principal:float annual_nominal_interest_rate:float interest_method:string term_frequency:integer term_frequency_type repay_every:integer repay_every_type:date number_of_repayments:integer approvedon_date:date approvedon_userid:integer expected_disbursedon_date:date disbursedon_date:date disbursedon_userid:integer expected_maturity_date:date interest_calculated_from_date:date closedon_date:date closedon_userid:integer total_charges_due_at_disbursement_derived:float principal_disbursed_derived:float principal_repaid_derived:float principal_writtenoff_derived:float principal_outstanding_derived:float interest_charged_derived:float interest_repaid_derived:float interest_waived_derived:float interest_writtenoff_derived:float interest_outstanding_derived:float fee_charges_charged_derived:float fee_charges_repaid_derived:float fee_charges_waived_derived:float fee_charges_writtenoff_derived:float fee_charges_outstanding_derived:float penalty_charges_charged_derived:float penalty_charges_repaid_derived:float penalty_charges_waived_derived:float penalty_charges_writtenoff_derived:float penalty_charges_outstanding_derived:float total_expected_repayment_derived:float total_repayment_derived:float total_expected_costofloan_derived:float total_costofloan_derived:float total_waived_derived:float total_writtenoff_derived:float total_outstanding_derived:float total_overpaid_derived:float rejectedon_date:date rejectedon_userid:integer withdrawnon_date:date withdrawnon_userid:integer writtenoffon_date:date loan_counter:integer is_npa:boolean is_legacyloan:boolean
+
+mix phx.gen.context Loan LoanTransaction tbl_loan_transaction loan_id:integer branch_id:integer payment_detail_id:integer is_reversed:boolean external_id:string transaction_type_enum transaction_date:date amount:float principal_portion_derived:float interest_portion_derived:float fee_charges_portion_derived:float penalty_charges_portion_derived:float overpayment_portion_derived:float unrecognized_income_portion:float outstanding_loan_balance_derived:float submitted_on_date:date manually_adjusted_or_reversed:boolean manually_created_by_userid:integer
+
+mix phx.gen.context Loan LoanTransactionRepaymentScheduleMapping tbl_loan_transaction_repayment_schedule_mapping loan_transaction_id:integer loan_repayment_schedule_id:integer amount:float principal_portion_derived:float interest_portion_derived:float fee_charges_portion_derived:float penalty_charges_portion_derived:float
+
+mix phx.gen.context Payment PaymentDetails tbl_loan_transaction payment_type_id:integer account_number:string cheque_number:string receipt_number:string bank_number:string routing_code:string debit_gl_account_id:integer credit_gl_account_id:integer
+
+
+
+ 
+

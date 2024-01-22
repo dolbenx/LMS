@@ -1,4 +1,4 @@
-defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanRepayment do
+defmodule LoanSystem.Repo.Migrations.CreateTblLoanRepayment do
   use Ecto.Migration
 
   def change do
@@ -16,7 +16,5 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanRepayment do
       timestamps()
     end
 
-    create unique_index(:tbl_loan_repayment, [:receiptNo], name: :unique_receiptNo)
-    create unique_index(:tbl_loan_repayment, [:chequeNo], name: :unique_chequeNo)
   end
 end

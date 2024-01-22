@@ -1,4 +1,4 @@
-defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoans do
+defmodule LoanSystem.Repo.Migrations.CreateTblLoans do
   use Ecto.Migration
 
   def change do
@@ -78,12 +78,9 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoans do
       add :momoProvider, :string
       add :company_id, :integer
       add :sms_status, :string
-      add :loan_userroleid, :integer
-      add :offtakerID, :integer
-      add :has_mou, :string
-      add :funderID, :integer
 
       timestamps()
     end
+
   end
 end
