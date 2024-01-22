@@ -1,146 +1,411 @@
- <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
-                <div class="card-body px-4 py-3">
-                    <div class="row align-items-center">
-                        <div class="col-12">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">
-                                        <a class="text-muted text-decoration-none" href="../main/index.html">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item">
-                                        <a class="text-muted text-decoration-none" href="#">Change Management</a>
-                                    </li>
-                                    <li class="breadcrumb-item" aria-current="page">Charges Maintenance</li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <!-- ---------------------
-                        start File export
-                    ---------------- -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="mb-2">
-                                        <h5 class="mb-0">Charges Table</h5>
-                                    </div>
-                                    <p class="card-subtitle mb-3">List of Charges</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" style="float: right;"  data-bs-toggle="modal" data-bs-target="#add-charge" class="btn btn-rounded btn-secondary">Add Charge</button>
-                                </div>
-                            </div>
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Charge Name</th>
-                                                <th scope="col">Charge Currency</th>
-                                                <th scope="col">Charge Type</th>
-                                                <th scope="col">Charge Amount</th>
-                                                <th scope="col">Charge When</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                             <%= for charge <- @charges do %>
-                                                <tr>
-                                                    <th> <%= charge.chargeName %> </th>
-                                                    <th> <%= charge.currency %> </th>
-                                                    <th> <%= charge.chargeType %> </th>
-                                                    <th> <%= charge.chargeAmount %> </th>
-                                                    <th> <%= charge.chargeWhen %> </th>
-                                                    <%= if charge.isPenalty do %>
-                                                        <th> Yes </th>
-                                                    <% else %>
-                                                        <th> No </th>
-                                                    <% end %>
-                                                </tr>
-                                            <% end %>
-                                        </tbody>
-                                    </table>
-                                </div>
-                        </div>
-                    </div>
-                    <!-- ---------------------
-                        end File export
-                    ---------------- -->
-                </div>
-            </div>
 
-            <!-- sample modal content -->
-            <div class="modal fade" id="add-charge" tabindex="-1" aria-labelledby="bs-example-modal-lg" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <form action="<%= Routes.system_management_path(@conn, :add_charge)%>" method="post">
-                            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-                            <div class="modal-header d-flex align-items-center">
-                                <h4 class="modal-title text-center" style="float: center;" id="myLargeModalLabel">Add Charges Details</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Charges</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">Charges List
+                                <span class="text-muted pt-2 font-size-sm d-block">List of charges</span></h3>
                             </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                        <label class="form-label" for="tb-fname">Charge Name</label>
-                                        <input type="text" class="form-control rounded-pill" id="name" name="name">
-                                        </div>
+                            <div class="card-toolbar">
+                                <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#modaldemo12" style="background-color: #011941;">
+                                    Add Charge
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th>Charge Name</th>
+                                        <th>Charge Currency</th>
+                                        <th>Charge Type</th>
+                                        <th>Charge Amount</th>
+                                        <th>Charge When</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <%= for charge <- @charges do %>
+                                    <tr>
+                                        <td>
+                                            <%= charge.chargeName %>
+                                        </td>
+                                        <td>
+                                            <%= charge.currency %>
+                                        </td>
+                                        <td>
+                                            <%= charge.chargeType %>
+                                        </td>
+                                        <td>
+                                            <%= charge.chargeAmount %>
+                                        </td>
+                                        <td>
+                                            <%= charge.chargeWhen %>
+                                        </td>
+
+                                        <td>
+
+                                            <div class="dropdown">
+                                                <button class="dropbtn">Options</button>
+                                                <div class="dropdown-content">
+
+                                                    <a class="btn ripple btn-sm" href="#"
+                                                        data-target="#edit_charge"
+                                                        data-toggle="modal"
+                                                        data-id ="<%= charge.id %>"
+                                                        data-charge_name ="<%= charge.chargeName%>"
+                                                        data-is_penalty ="<%= charge.isPenalty%>"
+                                                        data-charge_when ="<%= charge.chargeWhen%>"
+                                                        data-account_to_credit ="<%= charge.accountToCredit%>"
+                                                        data-charge_type ="<%= charge.chargeType%>"
+                                                        data-charge_currency ="<%= charge.currency%>"
+                                                        data-charge_amount ="<%= charge.chargeAmount%>"
+                                                        data-effective_date ="<%= charge.effectiveDate%>"
+                                                    >Edit</a>
+
+                                                    <a class="btn ripple btn-sm" href="#"
+                                                        data-target="#view_charge"
+                                                        data-toggle="modal"
+                                                        data-id_view ="<%= charge.id %>"
+                                                        data-charge_name_view ="<%= charge.chargeName%>"
+                                                        data-is_penalty_view ="<%= charge.isPenalty%>"
+                                                        data-charge_when_view ="<%= charge.chargeWhen%>"
+                                                        data-account_to_credit_view ="<%= charge.accountToCredit%>"
+                                                        data-charge_type_view ="<%= charge.chargeType%>"
+                                                        data-charge_currency_view ="<%= charge.currency%>"
+                                                        data-charge_amount_view ="<%= charge.chargeAmount%>"
+                                                        data-effective_date_view ="<%= charge.effectiveDate%>"
+                                                    >View</a>
+                                                </div>
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+
+
+    <!-- Tooltips and Popovers -->
+
+<div class="modal" id="modaldemo12">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Charge</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.system_management_path(@conn, :add_charge) %>" method="post">
+            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="modal-body">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Charge Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Name</p>
+                                        <input name="chargeName" class="form-control" type="text">
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                        <label class="form-label" for="tb-fname">Charge Type</label>
-                                            <select required name="chargeType" class="form-control rounded-pill">
-                                                <option value="FLAT">FLAT</option>
-                                                <option value="PERCENTAGE">PERCENTAGE</option>
-                                            </select>
-                                        </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Is Penalty</p>
+                                        <select name="isPenalty" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="1">yes</option>
+                                            <option value="1">No</option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                        <label class="form-label" for="tb-fname">Charge Amount</label>
-                                        <input type="text" class="form-control rounded-pill" id="chargeAmount" name="chargeAmount">
-                                        </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge When</p>
+                                        <select name="chargeWhen" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="AT DEPOSIT">AT DEPOSIT</option>
+                                            <option value="AT DISBURSEMENT">AT DISBURSEMENT</option>
+                                            <option value="AT MATURITY">AT MATURITY</option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                        <label class="form-label" for="tb-fname">Is Penalty </label>
-                                            <select required name="isPenalty" class="form-control rounded-pill">
-                                                <option value="1">yes</option>
-                                                <option value="1">No</option>
-                                            </select>
-                                        </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Account To Credit</p>
+                                        <input name="accountToCredit" class="form-control" type="text" readonly>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                        <label class="form-label" for="tb-fname">Currency </label>
-                                             <select required name="currency" class="form-control rounded-pill">
-                                                <%= for currency <- @currencies do %>
-                                                    <option value="<%= currency.id %>|||<%= currency.isoCode %>"><%= currency.name %></option>
-                                                <% end %>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Type</p>
+                                        <select name="chargeType" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="ACTUAL AMOUNT">ACTUAL AMOUNT</option>
+                                            <option value="PERCENTAGE">PERCENTAGE</option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                        <label class="form-label" for="tb-fname">Charge When</label>
-                                            <select required name="chargeWhen" class="form-control rounded-pill">
-                                                <option value="DISBURSMENT">AT DISBURSMENT</option>
-                                                <option value="MATURITY">AT MATURITY</option>
-                                            </select>
-                                        </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Select Currency</p>
+                                        <select name="currency" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <%= for currency <- @currencies do %>
+                                                <option value="<%= currency.id %>|||<%= currency.isoCode %>"><%= currency.name %></option>
+                                            <% end %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Amount</p>
+                                        <input class="form-control" name="chargeAmount" type="text">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p class="mg-b-10">effective Date</p>
+                                        <input name="effectiveDate" class="form-control" type="date">
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn bg-danger-subtle text-danger font-medium  rounded-pill  waves-effect text-start" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary font-medium rounded-pill px-4"><div class="d-flex align-items-center"><i class="ti ti-send me-2 fs-4"></i>Submit</div></button>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Submit</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="edit_charge">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Charge</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.system_management_path(@conn, :update_charge) %>" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="id" id="id">
+                <div class="modal-body">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Charge Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Name</p>
+                                        <input name="chargeName" id="charge_name" class="form-control" type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Is Penalty</p>
+                                        <select name="isPenalty" id="is_penalty" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="1">yes</option>
+                                            <option value="1">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge When</p>
+                                        <select name="chargeWhen" id="charge_when" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="AT DEPOSIT">AT DEPOSIT</option>
+                                            <option value="AT DISBURSEMENT">AT DISBURSEMENT</option>
+                                            <option value="AT MATURITY">AT MATURITY</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Account To Credit</p>
+                                        <input name="accountToCredit" id="account_to_credit" class="form-control" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Type</p>
+                                        <select name="chargeType"id="charge_type" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <option value="ACTUAL AMOUNT">ACTUAL AMOUNT</option>
+                                            <option value="PERCENTAGE">PERCENTAGE</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Currency</p>
+                                        <select name="currency" id="charge_currency" class="form-control">
+                                            <option label="Choose One"></option>
+                                            <%= for currency <- @currencies do %>
+                                                <option value="<%= currency.id %>|||<%= currency.isoCode %>"><%= currency.name %></option>
+                                            <% end %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Amount</p>
+                                        <input class="form-control" id="charge_amount" name="chargeAmount" type="text">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p class="mg-b-10">effective Date</p>
+                                        <input name="effectiveDate" id="effective_date" class="form-control" type="date">
+                                    </div>
+                                </div>
                             </div>
-                        </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Submit</button>
+                        <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
                     </div>
                 </div>
-            <div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="view_charge">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Charge</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="#" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="id" id="id_view">
+                <div class="modal-body">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Charge Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Name</p>
+                                        <input name="chargeName" id="charge_name_view" class="form-control" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Is Penalty</p>
+                                        <input name="isPenalty" id="is_penalty_view" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge When</p>
+                                        <input name="chargeWhen" id="charge_when_view" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Account To Credit</p>
+                                        <input name="accountToCredit" id="account_to_credit_view" class="form-control" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Type</p>
+                                        <input name="chargeType"id="charge_type_view" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Currency</p>
+                                        <input name="currency" id="charge_currency_view" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Charge Amount</p>
+                                        <input class="form-control" id="charge_amount_view" name="chargeAmount" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p class="mg-b-10">effective Date</p>
+                                        <input name="effectiveDate" id="effective_date_view" class="form-control" type="date" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <!--End Tooltips and Popovers -->
+
+
+<script>
+    $(document).ready(function(){
+        $('#edit_charge').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            $('#id').val(button.data('id')).trigger("change")
+            $('#charge_name').val(button.data('charge_name')).trigger("change")
+            $('#is_penalty').val(button.data('is_penalty')).trigger("change")
+            $('#charge_when').val(button.data('charge_when')).trigger("change")
+            $('#account_to_credit').val(button.data('account_to_credit')).trigger("change")
+            $('#charge_type').val(button.data('charge_type')).trigger("change")
+            $('#charge_currency').val(button.data('charge_currency')).trigger("change")
+            $('#charge_amount').val(button.data('charge_amount')).trigger("change")
+            $('#effective_date').val(button.data('effective_date')).trigger("change")
+        });
+
+        $('#view_charge').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            $('#id_view').val(button.data('id_view')).trigger("change")
+            $('#charge_name_view').val(button.data('charge_name_view')).trigger("change")
+            $('#is_penalty_view').val(button.data('is_penalty_view')).trigger("change")
+            $('#charge_when_view').val(button.data('charge_when_view')).trigger("change")
+            $('#account_to_credit_view').val(button.data('account_to_credit_view')).trigger("change")
+            $('#charge_type_view').val(button.data('charge_type_view')).trigger("change")
+            $('#charge_currency_view').val(button.data('charge_currency_view')).trigger("change")
+            $('#charge_amount_view').val(button.data('charge_amount_view')).trigger("change")
+            $('#effective_date_view').val(button.data('effective_date_view')).trigger("change")
+        });
+    });
+</script>

@@ -1,5 +1,5 @@
 defmodule LoanmanagementsystemWeb.Plugs.Session do
-  import Plug.Conn
+  # import Plug.Conn
   use LoanmanagementsystemWeb, :controller
 
   def logged_in(conn, _request) do

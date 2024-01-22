@@ -6,6 +6,7 @@ defmodule Loanmanagementsystem.Loan.Loans do
   @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
   @number_regex ~r(^[0-9]*$)
 
+
   schema "tbl_loans" do
     field(:principal_repaid_derived, :float)
     field(:number_of_repayments, :integer)
@@ -78,7 +79,7 @@ defmodule Loanmanagementsystem.Loan.Loans do
     field(:total_interest_repaid, :float)
     field(:total_charges_repaid, :float)
     field(:total_penalties_repaid, :float)
-    field(:total_repaid, :float)
+    field(:total_repaid, :float, default: 0.0)
     field(:momoProvider, :string)
     field(:company_id, :integer)
     field(:sms_status, :string, default: "not_sent")
@@ -93,7 +94,7 @@ defmodule Loanmanagementsystem.Loan.Loans do
     field(:reference_no, :string)
     field(:repayment_type, :string)
     field(:repayment_amount, :float)
-    field(:balance, :float)
+    field(:balance, :float, default: 0.0)
     field(:interest_amount, :float)
     field(:tenor, :integer)
     # field :branch_name, :string
@@ -117,6 +118,18 @@ defmodule Loanmanagementsystem.Loan.Loans do
     field :finance_cost, :float
     field :disbursement_status, :string
     field :loan_officer_id, :integer
+    field :days_under_due, :integer, default: 0
+    field :days_over_due, :integer, default: 0
+    field(:daily_accrued_interest, :float, default: 0.0)
+    field(:daily_accrued_finance_cost, :float, default: 0.0)
+    field(:calculated_balance, :float, default: 0.0)
+    field :eod_count, :integer, default: 0
+    field :eod_status, :boolean, default: false
+    field :accrued_no_days, :integer, default: 0
+    field(:init_interest_per, :float, default: 0.0)
+    field(:init_arrangement_fee_per, :float, default: 0.0)
+    field(:init_finance_cost_per, :float, default: 0.0)
+
 
     timestamps()
   end
@@ -229,10 +242,22 @@ defmodule Loanmanagementsystem.Loan.Loans do
       :loan_purpose,
       :has_mou,
       :funderID,
-      :loan_officer_id
+      :loan_officer_id,
+      :days_under_due,
+      :days_over_due,
+      :daily_accrued_interest,
+      :daily_accrued_finance_cost,
+      :eod_count,
+      :eod_status,
+      :accrued_no_days,
+      :calculated_balance,
+      :init_interest_per,
+      :init_arrangement_fee_per,
+      :init_finance_cost_per,
 
     ])
     # |> validate_required([
+
     #   :customer_id,
     #   :product_id,
     #   :loan_status,
@@ -288,7 +313,7 @@ defmodule Loanmanagementsystem.Loan.Loans do
       :approvedon_date,
       :approvedon_userid,
       :expected_disbursedon_date,
-      :disbursedon_date,
+      # :disbursedon_date,
       :disbursedon_userid,
       :expected_maturity_date,
       :interest_calculated_from_date,
@@ -330,7 +355,20 @@ defmodule Loanmanagementsystem.Loan.Loans do
       :loan_userroleid,
       :has_mou,
       :funderID,
-      :loan_officer_id
+      :loan_officer_id,
+      :daily_accrued_interest,
+      :days_under_due,
+      :days_over_due,
+      :finance_cost,
+      :daily_accrued_finance_cost,
+      :eod_count,
+      :eod_status,
+      :accrued_no_days,
+      :calculated_balance,
+      :init_interest_per,
+      :init_arrangement_fee_per,
+      :init_finance_cost_per,
+
     ])
   end
 
@@ -365,6 +403,9 @@ defmodule Loanmanagementsystem.Loan.Loans do
   defmodule Localtime do
     def autogenerate,
       do:
-        Timex.now() |> DateTime.truncate(:second) |> DateTime.to_naive() |> Timex.shift(hours: 2)
+      Timex.local()
+      |> NaiveDateTime.truncate(:second)
   end
+
+
 end

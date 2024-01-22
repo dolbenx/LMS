@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Notifications.Sms do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_sms" do
     field :mobile, :string
     field :msg, :string

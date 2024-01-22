@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Loan.LoanRepaymentSchedule do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_repayment_schedule" do
     field :accrual_fee_charges_derived, :float
     field :accrual_interest_derived, :float

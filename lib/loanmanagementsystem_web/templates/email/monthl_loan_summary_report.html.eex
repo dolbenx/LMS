@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+
+            span.russ_center {
+            text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="element-wrapper">
+        <h3 class="element-header"> Loan Disbursement Summary</h3>
+    </div>
+        <div class="d-block ml-2">
+            <span class="h6 font-weight-bold text-uppercase d-block m-0 russ_center"> <h4>Loan Disbursement Summary As at <b><%= Timex.today %></b></h4></span>
+        </div>
+        <table>
+            <tr style="background-color: #b3d1ff; ">
+                <th>Period</th>
+                <th>Number of Clients</th>
+                <th>Principal Amount</th>
+                <th>Total Interest</th>
+                <th>Outstanding Bal</th>
+                <th>Total Repayment</th>
+            </tr>
+             <tbody>
+                <%= for company <- @monthly_loans do %>
+                    <tr>
+                        <td> <%= company.year %></td>
+                        <td><%= company.count_companies %></td>
+                        <td><%= if company.principal_disbursed_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.principal_disbursed_derived))  %><% else %> 0 <% end %></td>
+                        <td><%= if company.interest_outstanding_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.interest_outstanding_derived)) %> <% else %> 0 <% end %></td>
+                        <td><%= if company.total_outstanding_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.total_outstanding_derived)) %><% else %> 0 <% end %></td>
+                        <td><%= if company.total_repayment_amount != nil do %> <%= Decimal.round(Decimal.from_float(company.total_repayment_amount)) %> <% else %> 0 <% end %></td>
+
+                    </tr>
+                <% end %>
+            </tbody>
+             <tbody>
+                <%= for company <- @monthly_loans_totals do %>
+                    <tr style="font-size: 11px; font-weight: bold;">
+                        <td style="font-size: 11px; font-weight: bold;">TOTALS</td>
+                        <td><%= company.count_companies %></td>
+                        <td><%= if company.principal_disbursed_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.principal_disbursed_derived)) %><% else %> 0 <% end %></td>
+                        <td><%= if company.interest_outstanding_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.interest_outstanding_derived)) %> <% else %> 0 <% end %></td>
+                        <td><%= if company.total_outstanding_derived != nil do %><%= Decimal.round(Decimal.from_float(company.total_outstanding_derived)) %> <% else %> 0 <% end %></td>
+                        <td><%= if company.total_repayment_amount != nil do %> <%= Decimal.round(Decimal.from_float(company.total_repayment_amount)) %> <% else %> 0 <% end %></td>
+
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <br>
+        <div class="d-block ml-2">
+            <span class="h6 font-weight-bold text-uppercase d-block m-0 russ_center"><h4>Loan Disbursement Summary - Institution</h4></span>
+        </div>
+        <%= for company <- @monthly_loans_by_company do %>
+            <div class="card mb-g border shadow-0">
+                <div class="card-header bg-white p-0">
+                    <div class="p-3 d-flex flex-row">
+                        <div class="d-block ml-2">
+                            <span class="h6 font-weight-bold text-uppercase d-block m-0"><h4><%= company.company_name %></h4></span>
+                            <span class="fw-300"> <%= company.year %></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body ">
+                    <table>
+                        <tr style="background-color: #b3d1ff; ">
+                            <th>Number of Staffs</th>
+                            <th>Principal Amount</th>
+                            <th>Total Interest</th>
+                            <th>Outstanding Bal</th>
+                            <th>Total Repayment</th>
+                        </tr>
+                            <tbody>
+                                <tr>
+                                    <td><%= company.company_name %></td>
+                                    <td><%= if company.principal_disbursed_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.principal_disbursed_derived)) %> <% else %> 0 <% end %> </td>
+                                    <td><%= if company.interest_outstanding_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.interest_outstanding_derived)) %> <% else %> 0 <% end %> </td>
+                                    <td><%= if company.total_outstanding_derived != nil do %> <%= Decimal.round(Decimal.from_float(company.total_outstanding_derived)) %> <% else %> 0 <% end %> </td>
+                                    <td style="font-size: 11px; font-weight: bold;"><%= if company.total_repayment_amount != nil do %> <%= Decimal.round(Decimal.from_float(company.total_repayment_amount)) %> <% else %> 0 <% end %></td>
+
+                                </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+         <% end %>
+
+        <br><br>
+            <p>Regards, </p>
+            <p>Laxmi Capital Solutions.
+            </p><br><br>
+    </body>
+</html>

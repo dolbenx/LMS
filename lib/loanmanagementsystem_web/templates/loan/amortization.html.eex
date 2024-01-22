@@ -1,0 +1,151 @@
+
+
+<style>
+
+   .rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}
+   .parallelogram {
+	width: 100%;
+	height: 20px;
+	transform: skew(-20deg);
+    background: linear-gradient(90deg, #003651 50%, #F6000F 50%);
+    }
+    .doubleUnderline { border-bottom: 1px dotted; width: 200px; height: 100px;}
+</style>
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+
+
+    <div class="col-md-12">
+
+
+        <!-- End Page Header -->
+        <body  onload="hide_receiver_number()">
+            <div class="row row-sm">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card custom-card">
+                        <div class="container-fluid"><br>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <h5 class="main-content-label mb-1 text-center">Loan Amortization</h5>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <img src="<%= Routes.static_path(@conn, "/images/user-128.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                        <img src="<%= Routes.static_path(@conn, "/images/qrcode.png") %>" class="header-brand-img desktop-logo" alt="logo" style="height: 60px;">
+                                    </div>
+                                </div>
+                            </div>
+                             <%# -----------------------> %>
+
+                             <h1>Loan Amortization Table</h1>
+
+                              <div class="row">
+                                        <div class="col-md-12 border"><br>
+
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Loan Amount:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_amount" id="loan-amount" type="number" value="" >
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Interest Rate:</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                 <input class="form-control input-sm"  name="interest_rate" id="interest-rate"type="number" value="">
+
+                                                </div>
+                                            </div>
+                                            <div class="row row-xs align-items-center mg-b-20">
+                                                <div class="col-md-3">
+                                                    <label class="mg-b-0">Loan Term (in months):</label>
+                                                </div>
+                                                <div class="col-md-9 mg-t-5 mg-md-t-0">
+                                                    <input class="form-control input-sm" name="loan_term" id="loan-term" type="number"  value="">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                            <table>
+                            <thead>
+                                <tr>
+
+                                <th>Month</th>
+                                <th>Beginning Balance</th>
+                                <th>Payment</th>
+                                <th>Interest</th>
+                                <th>Principal</th>
+                                <th>Ending Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%= for row <- @amortization do %>
+                                <tr>
+                                    <td><%= row.month %></td>
+                                    <td><%= Number.Delimit.number_to_delimited(row.beginning_balance) %>  </td>
+                                     <td><%= Number.Delimit.number_to_delimited(row.payment) %>  </td>
+                                      <td><%= Number.Delimit.number_to_delimited(row.interest) %>  </td>
+                                       <td><%= Number.Delimit.number_to_delimited(row.principal) %>  </td>
+                                        <td><%= Number.Delimit.number_to_delimited(row.ending_balance) %>  </td>
+
+                                </tr>
+                                <% end %>
+                             </tbody>
+                             </table>
+
+
+                             <!----------------------->
+
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+
+
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+</script>

@@ -1,0 +1,109 @@
+<html>
+   <head>
+        <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+
+            span.russ_center {
+            text-align: center;
+            }
+
+              #color{color: black;}
+        </style>
+    </head>
+
+    <div class="col-lg-12 col-lg-offset-1 ">
+        <div class="panel registration-form">
+            <div class="panel-body">
+                <div class="row" style="padding: 10px 10px 10px 20px; background-color: black;">
+                    <h1 style="padding-left: 35%"><span style="color: white;">PANGAEA</span><span class="btn ripple btn-success btn-sm" style="color: #24BFCD;"> ADD </span><span style="color: white;">CAPITAL</span></h1>
+                </div>
+                <div id="color">
+                    <div class="row" style="background-color: whitesmoke;">
+                        <div class="col-md-12 col-xxl-12">
+                            <div class="card card-custom card-stretch gutter-b">
+                                <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                    <div class="card-title">
+                                        <span class="h6 font-weight-bold text-uppercase d-block m-0 russ_center"> <h2>EOD Entries As at <span style="color: #24BFCD;"><b><%= Timex.today %></b></span></h2></span>
+                                    </div>
+                                    <!--
+                                        <div class="card-toolbar">
+                                            <a href="#" id="loan-listing-filter" class="btn text-white font-weight-bolder" style="background-color: #011941;">
+                                                <span><i class="fe fe-filter me-2"></i></span>Filter </a>
+                                        </div>
+                                    -->
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered border-bottom" id="kt_datatable_eod_entries">
+                                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                        <thead>
+                                            <tr style="background-color: #24BFCD;">
+                                                <th class="wd-25p">Loan Reference #</th>
+                                                <th class="wd-25p">Disbursement Date</th>
+                                                <th class="wd-25p">End of Day Date</th>
+                                                <th class="wd-25p">Client</th>
+                                                <th class="wd-15p">Contact Person</th>
+                                                <th class="wd-15p">Contact Number</th>
+                                                <th class="wd-25p">Product Type</th>
+                                                <th class="wd-25p">Principal Amount</th>
+                                                <th class="wd-25p">Tenure(days)</th>
+                                                <th class="wd-25p">Accrued Interest</th>
+                                                    <th class="wd-25p">Accrued Finance Cost</th>
+                                                <th class="wd-25p">Total balance</th>
+                                                <!-- <th class="wd-25p">Tenure</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%= for end_of_day_entry <-@end_of_day_entries do %>
+                                                <tr>
+
+                                                    <td><%= end_of_day_entry.loan_reference_no %></td>
+                                                    <td><%= end_of_day_entry.disbursedon_date %></td>
+                                                    <td><%= DateTime.to_date(end_of_day_entry.end_of_day_date) %></td>
+                                                    <td><%= end_of_day_entry.company_client %></td>
+                                                    <td><%= end_of_day_entry.customer_names %></td>
+                                                    <td><%= end_of_day_entry.customer_phone_number %></td>
+                                                    <td><%= end_of_day_entry.productType %></td>
+                                                    <td style="text-align: right;"><%= Number.Delimit.number_to_delimited(end_of_day_entry.principal_amount) %></td>
+                                                         <%= if end_of_day_entry.accrued_period == 1 do %>
+                                                            <td style="text-align: right;" class="wd-35p"><%=  floor(end_of_day_entry.accrued_period) %> Day </td>
+                                                        <% else %>
+                                                            <td style="text-align: right;" class="wd-35p"><%=  floor(end_of_day_entry.accrued_period) %>  Day(s) </td>
+                                                        <% end %>
+                                                    <td style="text-align: right;"><%= Number.Delimit.number_to_delimited(end_of_day_entry.daily_accrued_interest)%></td>
+                                                    <td style="text-align: right;"><%= Number.Delimit.number_to_delimited(end_of_day_entry.daily_accrued_finance_cost) %></td>
+                                                    <td style="text-align: right;"><%= Number.Delimit.number_to_delimited(end_of_day_entry.accrued_balance) %></td>
+                                                    <!-- <td><%= end_of_day_entry.tenure %></td> -->
+                                                </tr>
+                                            <% end %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                            <div class="row" style="background-color: whitesmoke;">
+                                <p>Regards, </p>
+                                <p>Pangaea Add Capital.</p>
+                            </div>
+                            <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<html>

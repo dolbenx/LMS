@@ -25,6 +25,7 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserBioData do
       add :applicant_signature_image, :string
 
       timestamps()
+
     end
 
     create unique_index(:tbl_user_bio_data, [:emailAddress], name: :unique_emailAddress)
@@ -38,4 +39,11 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserBioData do
              name: :unique_bank_account_number
            )
   end
+
+
+
+
+
+
+
 end

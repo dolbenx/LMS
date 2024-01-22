@@ -1,0 +1,292 @@
+
+
+
+<style>
+    .container {
+        position: relative;
+    }
+
+    .container .card {
+        position: relative;
+        width: 320px;
+        height: 550px;
+        background: #003651;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .container .card:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #1D8641;
+        clip-path: circle(150px at 80% 20%);
+        transition: 0.5s ease-in-out;
+    }
+
+    .container .card:hover:before {
+        clip-path: circle(300px at 80% -20%);
+    }
+
+    .container .card:after {
+        content: "Loan";
+        position: absolute;
+        top: 30%;
+        left: -20%;
+        font-size: 12em;
+        font-weight: 800;
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.04);
+
+    }
+
+    .container .card .imgBx {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        transition: .5s;
+    }
+
+    .container .card:hover .imgBx {
+        top: 0%;
+        transform: translateY(-25%);
+        /* bug  */
+    }
+
+    .container .card .imgBx img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(20deg);
+        width: 270px;
+    }
+
+    .container .card .contentBx {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        text-align: center;
+        transition: 1s;
+        z-index: 90;
+    }
+
+    .container .card:hover .contentBx {
+        height: 310px;
+    }
+
+    .container .card .contentBx h2 {
+        position: relative;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #fff;
+    }
+
+    .container .card .contentBx .size,
+    .container .card .contentBx .color {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 20px;
+        transition: .5s;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .container .card:hover .contentBx .size {
+        opacity: 1;
+        visibility: visible;
+        transition-delay: .5s;
+    }
+
+    .container .card:hover .contentBx .color {
+        opacity: 1;
+        visibility: visible;
+        transition-delay: .6s;
+    }
+
+    .container .card .contentBx .size h3,
+    .container .card .contentBx .color h3 {
+        color: white;
+        font-weight: 300;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-right: 10px;
+    }
+
+    .container .card .contentBx .size span {
+        width: 26px;
+        height: 26px;
+        text-align: center;
+        line-height: 26px;
+        font-size: 14px;
+        display: inline-block;
+        color: #111;
+        background: #fff;
+        margin: 0 5px;
+        transition: .5s;
+        color: #111;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .container .card .contentBx .size span:hover {  /* other bug */
+        background: #B90000;
+    }
+
+    .container .card .contentBx .color span {
+        width: 20px;
+        height: 20px;
+        background: #ff0;
+        border-radius: 50%;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+    .container .card .contentBx .color span:nth-child(2) {
+        background: #1BBFE9;
+    }
+
+    .container .card .contentBx .color span:nth-child(3) {
+        background: #1B2FE9;
+    }
+
+    .container .card .contentBx .color span:nth-child(4) {
+        background: #080481;
+    }
+
+    .container .card .contentBx a {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #fff;
+        border-radius: 4px;
+        margin-top: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        color: #111;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: .5s;
+    }
+
+    .container .card:hover .contentBx a {
+        opacity: 1;
+        transform: translateY(0px);
+        transition-delay: .7s;
+    }
+</style>
+
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+			<%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
+		<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Loan Application</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+			</div>
+			<!--end::Toolbar-->
+		</div>
+	</div>
+	  <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <%= if Enum.count(@products) > 0 do %>
+                        <div class="container text-white">
+                            <div class="row">
+                                <%= for product <- @products do %>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="imgBx">
+                                                <img src="<%= Routes.static_path(@conn, "/images/kwa.png") %>" alt="nike-air-shoe">
+                                            </div>
+
+                                            <div class="contentBx">
+
+                                                <h2><%= product.name %></h2>
+
+                                                <div class="size">
+                                                    <h6><%= product.details %></h6>
+                                                </div>
+
+                                                <div class="size">
+                                                    <h3>Interest :</h3>
+                                                    <%= product.interest %> %
+                                                </div>
+
+                                                <div class="color">
+
+                                                    <h3>Principal :</h3>
+                                                    <%= Decimal.round(Decimal.from_float(product.minimumPrincipal)) %><%= product.currencyName %> - <%= Decimal.round(Decimal.from_float(product.maximumPrincipal)) %> <%= product.currencyName %>
+                                                </div>
+                                                <a class="button ripple" href="<%= Routes.sme_path(@conn, :sme_apply_for_loans, product_id: product.id ) %>" style="background: red; color: white;" type="button"> APPLY </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    <% else %>
+                    <!-- Row -->
+                        <div class="row signpages ext-center">
+                            <div class="col-md-7 mx-auto">
+                                <div class="card alert-message">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h3 class="mt-4 mb-3">No Loan Product Maintained</h3>
+                                            <p class="tx-18">Sorry for the Invoncenience, Please add a loan product Before you proceed.</p>
+                                            <a href="<%= Routes.user_path(@conn, :sme_dashboard) %>" class="btn btn-info">Back to Home</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- End Row -->
+                    <% end %>
+                </div>
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+</div>
+
+<script type="text/javascript">
+    function rotateCard(btn){
+        var $card = $(btn).closest('.card-container');
+        console.log($card);
+        if($card.hasClass('hover')){
+            $card.removeClass('hover');
+        } else {
+            $card.addClass('hover');
+        }
+    }
+</script>

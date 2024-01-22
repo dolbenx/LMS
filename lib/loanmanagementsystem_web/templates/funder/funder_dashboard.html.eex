@@ -1,0 +1,487 @@
+
+<style>
+
+
+</style>
+
+<script src="<%= Routes.static_path(@conn, "/webstatic/js/dashboard-widget.js") %>"></script>
+
+
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Dashboard</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<span class="text-muted font-weight-bold mr-4"></span>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Actions-->
+									<a href="#" class="btn btn-clean btn-sm font-weight-bold font-size-base mr-1">Today</a>
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+
+								<div class="card card-custom card-collapsed" data-card="true" id="kt_card_4">
+									<div class="card-header card-toolbar" >
+									<div class="card-title">
+									<h3 class="card-label">Dasboard Statistic Cards</h3>
+									</div>
+									<div class="card-toolbar">
+									<a href="#" class="btn btn-icon btn-sm btn-light-primary mr-1" data-card-tool="toggle" >
+									<i class="ki ki-arrow-down icon-nm"></i>
+									</a>
+									</div>
+									</div>
+										<div class="card-body">
+
+										<div class="card card-custom gutter-b">
+
+											<div class="card-body">
+												<!--begin::Accordion-->
+												<div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+
+													<div class="card">
+														<div class="card-header" id="headingTwo6">
+															<div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo6">
+															<i class="flaticon2-notification"></i>Active Loans</div>
+														</div>
+														<div id="collapseTwo6" class="collapse" data-parent="#accordionExample6">
+															<div class="card-body">
+																<div class="row">
+																	<%= if @active_loans_by_prod != [] do %>
+																		<%= for loan_by_prod <- @active_loans_by_prod do %>
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 32-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon-shopping-basket text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Active Loans</span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;"><%= loan_by_prod.product_name %> - <span class="text-black font-size-h2"> <%= loan_by_prod.loan_count %> </span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+																					<!--end::Stats Widget 32-->
+																				</div>
+																		<% end %>
+																	<% else %>
+
+																			<div class="col-xl-3">
+																				<!--begin::Stats Widget 29-->
+																				<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																					<!--begin::Body-->
+																					<div class="card-body" style="height: auto; border-radius: 35px;"><!-- Set a custom height (e.g., 100px) -->
+																						<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																							<i class="flaticon-shopping-basket text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Active Loans</span></i>
+																							<!--end::Svg Icon-->
+																						</span>
+																						<p class="text-white font-size-h5" style="color: black;">Consumer - <span style="color: white;">0</span></p> </br>
+																					</div>
+																					<!--end::Body-->
+																				</div>
+																				<!--end::Stats Widget 29-->
+																			</div>
+																			<div class="col-xl-3">
+																				<!--begin::Stats Widget 30-->
+																				<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																					<!--begin::Body-->
+																					<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																						<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																							<i class="flaticon-shopping-basket text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Active Loans</span></i>
+																							<!--end::Svg Icon-->
+																						</span>
+																						<p class="text-white font-size-h5" style="color: black;">SME - <span style="color: white;">0</span></p> </br>
+																					</div>
+																					<!--end::Body-->
+																				</div>
+																				<!--end::Stats Widget 30-->
+																			</div>
+																			<div class="col-xl-3">
+																				<!--begin::Stats Widget 31-->
+																				<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																					<!--begin::Body-->
+																					<div class="card-body" style="height: auto; border-radius: 35px;"><!-- Set a custom height (e.g., 100px) -->
+																						<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																							<i class="flaticon-shopping-basket text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Active Loans</span></i>
+																							<!--end::Svg Icon-->
+																						</span>
+																						<p class="text-white font-size-h5" style="color: black;">Invoice Discounting - <span style="color: white;">0</span></p> </br>
+																					</div>
+																					<!--end::Body-->
+																				</div>
+
+																				<!--end::Stats Widget 31-->
+																			</div>
+																			<div class="col-xl-3">
+																				<!--begin::Stats Widget 32-->
+																				<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																					<!--begin::Body-->
+																					<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																						<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																							<i class="flaticon-shopping-basket text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Active Loans</span></i>
+																							<!--end::Svg Icon-->
+																						</span>
+																						<p class="text-white font-size-h5" style="color: black;">Order Finance - <span style="color: white;"> 0 </span></p> </br>
+																					</div>
+																					<!--end::Body-->
+																				</div>
+																				<!--end::Stats Widget 32-->
+																			</div>
+																	<% end %>
+																</div>
+
+															</div>
+														</div>
+													</div>
+
+													<div class="card">
+														<div class="card-header" id="headingThree6">
+															<div class="card-title collapsed" data-toggle="collapse" data-target="#collapseThree7">
+															<i class="flaticon2-checkmark"></i>Repaid Loans</div>
+														</div>
+														<div id="collapseThree7" class="collapse" data-parent="#accordionExample6">
+															<div class="card-body">
+																	<div class="row">
+																		<%= if @get_repaid_loans_by_product != [] do %>
+																			<%= for get_repaid_loans_by_product <-@get_repaid_loans_by_product do %>
+																					<div class="col-xl-3">
+																						<!--begin::Stats Widget 32-->
+																						<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																							<!--begin::Body-->
+																							<div class="card-body" style="height: auto; border-radius: 35px;"><!-- Set a custom height (e.g., 100px) -->
+																								<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																									<i class="flaticon2-checkmark text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Repaid Loans </span></i>
+																									<!--end::Svg Icon-->
+																								</span>
+																								<p class="text-white font-size-h5" style="color: black;"><%= get_repaid_loans_by_product.product_name %> - <span class="text-black font-size-h2"> <%= get_repaid_loans_by_product.loan_count %> </span></p> </br>
+																							</div>
+																							<!--end::Body-->
+																						</div>
+																						<!--end::Stats Widget 32-->
+																					</div>
+																			<% end %>
+																		<% else %>
+
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 29-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon2-checkmark text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Repaid Loans </span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">Consumer - <span style="color: white;">0</span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+																					<!--end::Stats Widget 29-->
+																				</div>
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 30-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon2-checkmark text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Repaid Loans </span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">SME - <span style="color: white;">0</span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+																					<!--end::Stats Widget 30-->
+																				</div>
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 31-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon2-checkmark text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Repaid Loans </span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">Invoice Discounting - <span style="color: white;">0</span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+
+																					<!--end::Stats Widget 31-->
+																				</div>
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 32-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"><!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon-shopping-basket text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Repaid Loans </span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">Order Finance - <span style="color: white;"> 0 </span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+																					<!--end::Stats Widget 32-->
+																				</div>
+																		<% end %>
+																	</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="card">
+														<div class="card-header" id="headingThree6">
+															<div class="card-title collapsed" data-toggle="collapse" data-target="#collapseThree8">
+															<i class="flaticon-exclamation-1"></i> Over Due Loans</div>
+														</div>
+														<div id="collapseThree8" class="collapse" data-parent="#accordionExample6">
+															<div class="card-body">
+																	<div class="row">
+																		<%= if @get_over_due_loans_by_product != [] do %>
+																			<%= for get_over_due_loans_by_product <-@get_over_due_loans_by_product do %>
+																					<div class="col-xl-3">
+																						<!--begin::Stats Widget 32-->
+																						<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																							<!--begin::Body-->
+																							<div class="card-body" style="height: auto; border-radius: 35px;"><!-- Set a custom height (e.g., 100px) -->
+																								<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																									<i class="flaticon-exclamation-1 text-dark icon-2x"><span class="text-black font-size-h4"> &ensp;Over Due Loans </span></i>
+																									<!--end::Svg Icon-->
+																								</span>
+																								<p class="text-white font-size-h5" style="color: black;"><%= get_over_due_loans_by_product.product_name %> - <span class="text-black font-size-h2"> <%= get_over_due_loans_by_product.loan_count %> </span></p> </br>
+																							</div>
+																							<!--end::Body-->
+																						</div>
+																						<!--end::Stats Widget 32-->
+																					</div>
+																			<% end %>
+																		<% else %>
+
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 29-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon-exclamation-1 text-dark icon-2x"><span class="text-black font-size-h4">&ensp;Over Due Loans</span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">Consumer - <span style="color: white;">0</span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+																					<!--end::Stats Widget 29-->
+																				</div>
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 30-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon-exclamation-1 text-dark icon-2x"><span class="text-black font-size-h4">&ensp;Over Due Loans</span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">SME - <span style="color: white;">0</span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+																					<!--end::Stats Widget 30-->
+																				</div>
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 31-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"> <!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon-exclamation-1 text-dark icon-2x"><span class="text-black font-size-h4">&ensp;Over Due Loans</span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">Invoice Discounting - <span style="color: white;">0</span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+
+																					<!--end::Stats Widget 31-->
+																				</div>
+																				<div class="col-xl-3">
+																					<!--begin::Stats Widget 32-->
+																					<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+																						<!--begin::Body-->
+																						<div class="card-body" style="height: auto; border-radius: 35px;"><!-- Set a custom height (e.g., 100px) -->
+																							<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+																								<i class="flaticon-exclamation-1 text-dark icon-2x"><span class="text-black font-size-h4">&ensp;Over Due Loans</span></i>
+																								<!--end::Svg Icon-->
+																							</span>
+																							<p class="text-white font-size-h5" style="color: black;">Order Finance - <span style="color: white;"> 0 </span></p> </br>
+																						</div>
+																						<!--end::Body-->
+																					</div>
+																					<!--end::Stats Widget 32-->
+																				</div>
+																		<% end %>
+																	</div>
+															</div>
+														</div>
+													</div>
+
+												</div>
+												<!--end::Accordion-->
+
+											</div>
+										</div>
+
+										</div>
+								</div>
+                                <hr>
+
+
+								<!--begin::Card-->
+
+										<!--end::Card-->
+										<!--begin::Accordion-->
+
+
+
+
+
+
+										<!--Begin::Row-->
+
+
+
+
+
+
+
+								<!--End::Row-->
+								<!--end::Row-->
+								<!--begin::Row-->
+								<div class="row">
+											<div class="col-lg-12">
+												<div class="card card-custom card-stretch gutter-b">
+													<!--begin::Header-->
+													<div class="card-header border-0 py-5">
+														<h3 class="card-title align-items-start flex-column">
+																<span class="text-muted mt-3 font-weight-bold font-size-sm">A list of Last 5 Disbursed loans </span>
+														</h3>
+													</div>
+													<!--end::Header-->
+													<!--begin::Body-->
+													<div class="card-body">
+															<!--begin::Table-->
+															<div class="table-responsive">
+																<table class="table table-head-custom table-vertical-center table-head-bg " id="last_five_disbursed_loans_for_funder">
+																<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+																	<thead>
+																		<tr class="text-left">
+																			<th style="min-width: 120px">Client Name</th>
+																			<th style="min-width: 100px">Product Name</th>
+																			<th style="min-width: 100px">Principle</th>
+																			<th style="min-width: 100px">Interest</th>
+																			<th style="min-width: 100px">Finance Cost</th>
+																			<th style="min-width: 100px">Amount Paid</th>
+																			<th style="min-width: 100px">Expected Repayment</th>
+																			<th style="min-width: 100px">Applied Date</th>
+																			<th style="min-width: 100px">Disbursed Date</th>
+																			<th style="min-width: 100px">Status</th>
+																		</tr>
+																	</thead>
+																</table>
+															</div>
+															<!--end::Table-->
+														</div>
+													</div>
+													<!--end::Body-->
+												</div>
+
+
+											<!--end::Entry-->
+
+
+											 <!--begin::Entry-->
+											<div class="col-lg-12">
+												<div class="card card-custom card-stretch gutter-b">
+													<div class="card-header border-0 py-5">
+														<h3 class="card-title align-items-start flex-column">
+																<span class="text-muted mt-3 font-weight-bold font-size-sm">A list all Loans Grouped by Products </span>
+														</h3>
+													</div>
+													<!--end::Header-->
+													<!--begin::Body-->
+													<div class="card-body">
+															<table class="table table-bordered table-hover table-striped w-100" id="last_per_product_disbursed_lookup_per_funder">
+																<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+																	<thead>
+																		<!-- <tr style="background-color: #24BFCD; color:white;"> -->
+																		<tr class="text-left">
+																			<th >Product Type</th>
+																			<th >Loans #</th>
+																			<th >Interest Amount</th>
+																			<th >Finance Cost Amount</th>
+																			<th >Principle Amount</th>
+																			<th >Repaid Amount</th>
+																			<th >Balance</th>
+																		</tr>
+																	</thead>
+																<tbody>
+																	<tr>
+																	</tr>
+																</tbody>
+															</table>
+														<br>
+													</div>
+													<!--end::Body-->
+												</div>
+											</div>
+									<!--begin::Advance Table Widget 9-->
+									<!--end::Advance Table Widget 9-->
+									<!--begin::Advance Table Widget 10-->
+									<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->
+
+
+
+
+
+
+
+
+
+
+<!-- Filter end -->
+	<!--begin::Page Vendors(used by this page)-->

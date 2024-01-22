@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Loan.LoanTransaction do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_transaction" do
     field :amount, :float
     field :branch_id, :integer

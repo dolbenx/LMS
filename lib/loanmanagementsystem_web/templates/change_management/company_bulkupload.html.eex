@@ -1,0 +1,478 @@
+    <style>
+        .container {
+            position: relative;
+            padding-top: 50px;
+        }
+
+        .container .card {
+            position: relative;
+            width: 320px;
+            height: 550px;
+            background: #003651;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .container .card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1D8641;
+            clip-path: circle(150px at 80% 20%);
+            transition: 0.5s ease-in-out;
+        }
+
+        .container .card:hover:before {
+            clip-path: circle(300px at 80% -20%);
+        }
+
+        .container .card:after {
+            content: "Loan";
+            position: absolute;
+            top: 30%;
+            left: -20%;
+            font-size: 12em;
+            font-weight: 800;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.04);
+
+        }
+
+        .container .card .imgBx {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            transition: .5s;
+        }
+
+        .container .card:hover .imgBx {
+            top: 0%;
+            transform: translateY(-25%);
+            /* bug  */
+        }
+
+        .container .card .imgBx img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(20deg);
+            width: 270px;
+        }
+
+        .container .card .contentBx {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            text-align: center;
+            transition: 1s;
+            z-index: 90;
+        }
+
+        .container .card:hover .contentBx {
+            height: 310px;
+        }
+
+        .container .card .contentBx h2 {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .container .card .contentBx .size,
+        .container .card .contentBx .color {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 20px;
+            transition: .5s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .container .card:hover .contentBx .size {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: .5s;
+        }
+
+        .container .card:hover .contentBx .color {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: .6s;
+        }
+
+        .container .card .contentBx .size h3,
+        .container .card .contentBx .color h3 {
+            color: white;
+            font-weight: 300;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-right: 10px;
+        }
+
+        .container .card .contentBx .size span {
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            line-height: 26px;
+            font-size: 14px;
+            display: inline-block;
+            color: #111;
+            background: #fff;
+            margin: 0 5px;
+            transition: .5s;
+            color: #111;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container .card .contentBx .size span:hover {  /* other bug */
+            background: #B90000;
+        }
+
+        .container .card .contentBx .color span {
+            width: 20px;
+            height: 20px;
+            background: #ff0;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .container .card .contentBx .color span:nth-child(2) {
+            background: #1BBFE9;
+        }
+
+        .container .card .contentBx .color span:nth-child(3) {
+            background: #1B2FE9;
+        }
+
+        .container .card .contentBx .color span:nth-child(4) {
+            background: #080481;
+        }
+
+        .container .card .contentBx a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #fff;
+            border-radius: 4px;
+            margin-top: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #111;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: .5s;
+        }
+
+        .container .card:hover .contentBx a {
+            opacity: 1;
+            transform: translateY(0px);
+            transition-delay: .7s;
+        }
+    </style>
+
+
+    <style>
+$main-color: #6394F8;
+$light-text: #ABB0BE;
+
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  font: 14px/22px "Lato", Arial, sans-serif;
+
+}
+
+.lighter-text {
+  color: #ABB0BE;
+}
+
+.main-color-text {
+  color: $main-color;
+}
+
+nav {
+  padding: 20px 0 40px 0;
+  background: #F8F8F8;
+  font-size: 16px;
+
+  .navbar-left {
+    float: left;
+  }
+
+  .navbar-right {
+    float: right;
+  }
+  ul {
+
+    li {
+      display: inline;
+      padding-left: 20px;
+      a {
+        color: #777777;
+        text-decoration: none;
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}
+
+.container {
+  margin: auto;
+  width: 80%;
+}
+
+.badge {
+    background-color: #6394F8;
+    border-radius: 10px;
+    color: white;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 1;
+    padding: 3px 7px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.shopping-cart {
+  margin: 20px 0;
+
+  background: white;
+  width: 320px;
+  position: relative;
+  border-radius: 20px;
+  padding: 20px;
+
+
+  .shopping-cart-header {
+    border-bottom: 1px solid #E8E8E8;
+    padding-bottom: 15px;
+
+    .shopping-cart-total {
+      float: right;
+    }
+  }
+
+  .shopping-cart-items {
+
+    padding-top: 20px;
+
+      li {
+        margin-bottom: 18px;
+      }
+
+    img {
+      float: left;
+      margin-right: 12px;
+    }
+
+    .item-name {
+      display: block;
+      padding-top: 10px;
+      font-size: 16px;
+    }
+
+    .item-price {
+      color: $main-color;
+      margin-right: 8px;
+    }
+
+    .item-quantity {
+      color: $light-text;
+    }
+  }
+
+}
+
+.shopping-cart:after {
+	bottom: 100%;
+	left: 89%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-bottom-color: white;
+	border-width: 8px;
+	margin-left: -8px;
+}
+
+.cart-icon {
+  color: #515783;
+  font-size: 24px;
+  margin-right: 7px;
+  float: left;
+}
+
+.button {
+  background: #24BFCD;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  display: block;
+  border-radius: 3px;
+  font-size: 16px;
+  margin: 25px 0 15px 0;
+
+  &:hover {
+    background: lighten($main-color, 3%);
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+
+    </style>
+
+    <script>
+        (function(){
+
+        $("#cart").on("click", function() {
+            $(".shopping-cart").fadeToggle( "fast");
+        });
+
+        })();
+    </script>
+
+
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <%= render LoanmanagementsystemWeb.ClientManagementView, "submenu_bulk_upload.html", assigns %>
+            <!--begin::Header Menu Wrapper-->
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Corparate Bulk Upload</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <!-- Row -->
+            <div class="row row-sm">
+                <div class="col-lg-12" style="margin-left: auto;  margin-right: auto;">
+
+                    <div class="card custom-card overflow-hidden">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <form action="<%= Routes.change_management_path(@conn, :handle_company_bulk_upload) %>"
+                                            method="POST" enctype="multipart/form-data">
+
+                            <div class="card custom-card wallet">
+                                <div class="card-body">
+                                    <label class="main-content-label mb-2">Corparate Bulk Upload</label>
+                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+
+                                    <div class="input-group my-4">
+
+                                        <input type="file" class="form-control input-lg" name="uploafile_name"  required>
+
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-block btn-success">Process</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="button" onclick="history.back(-1)" class="btn btn-block btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                             </form>
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-6">
+                                    <div class="card custom-card">
+                                        <div class=" card-body ">
+                                            <h5 class="mb-3"><small><i><b>Select any Spreadsheet/Text file valid file formats: csv, xls, xlsx.</b></i></small></h5>
+                                            <div class="">
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table mb-0 border-top table-bordered text-nowrap">
+                                                                <tbody>
+
+                                                                <tr>
+                                                                    <th scope="row">Download Sample</th>
+                                                                    <td><a href="<%= Routes.static_path(@conn, "/js/export_samples/Company_Bulk_Upload.xlsx")%>" download><i class="fa fa-download"></i> Download Sample File</a></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Row -->
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->

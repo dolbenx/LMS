@@ -1,0 +1,284 @@
+
+
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Department Maintenance</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">Department List
+                                <span class="text-muted pt-2 font-size-sm d-block">List of departments</span></h3>
+                            </div>
+                            <div class="card-toolbar">
+                                <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#modaldemo12" style="background-color: #011941;">
+                                    Add Department
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                    <tr>
+                                        <th>Department Name</th>
+                                        <th>Department Code</th>
+                                        <th>Department Status</th>
+
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <%=for department <- @departments do %>
+                                    <tr>
+                                        <td><%= department.name %></td>
+                                        <td><%= department.deptCode %></td>
+                                        <td>
+                                            <%= if department.status == "ACTIVE" do %>
+
+                                                <span class="badge bg-pill bg-success"><%= department.status %></span>
+
+                                            <% else %>
+
+                                                <span class="badge bg-pill bg-danger"><%= department.status %></span>
+
+                                            <% end %>
+                                        </td>
+                                        <td>
+
+                                            <div class="dropdown">
+                                                <button class="dropbtn">Options</button>
+                                                <div class="dropdown-content">
+                                                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+                                                        <%=if department.status == "ACTIVE" do %>
+                                                            <a class="btn ripple btn-sm deactivate_department" data-deactivate-id="<%= department.id %>" href="#">Disable</a>
+                                                        <% else %>
+                                                            <a class="btn ripple btn-sm activate_department" data-activate-id="<%= department.id %>" href="#">Enable</a>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :edit) do %>
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-target="#edit_department"
+                                                            data-toggle="modal"
+                                                            data-id="<%= department.id %>"
+                                                            data-name="<%= department.name %>"
+                                                            data-deptCode="<%= department.deptCode %>"
+                                                            data-company_id="<%= department.companyId %>"
+                                                        >Edit</a>
+                                                    <% end %>
+                                                    <a class="btn ripple btn-sm" href="#"
+                                                        data-target="#view_department"
+                                                        data-toggle="modal"
+                                                        data-id="<%= department.id %>"
+                                                        data-name="<%= department.name %>"
+                                                        data-deptCode="<%= department.deptCode %>"
+                                                        data-company_id="<%= department.companyId %>"
+                                                    >View</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+
+
+
+
+
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="modaldemo12" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Department</h6>
+
+            </div>
+            <form action=" <%= Routes.organization_management_path(@conn, :admin_add_department) %> " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="ACTIVE">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Department Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="name"name="name"  type="text">
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Department Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchCode"name="deptCode"  type="text">
+                            </div>
+
+
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Add Department</button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="edit_department" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Department</h6>
+
+            </div>
+            <form action=" <%= Routes.organization_management_path(@conn, :admin_update_department) %> " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Department Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="name" name="name"  type="text">
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Department Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="deptcode"name="deptCode"  type="text">
+                            </div>
+
+
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Update Department</button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="view_department" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Department</h6>
+            </div>
+            <form action=" # " method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm">
+                                <div class="col-sm">
+                                <label class="form-label">Department Name<span style="color: red;">*</span></label>
+                                    <input class="form-control" id="name" name="name"  type="text" readonly>
+                                </div>
+
+                                <div class="col-sm">
+                                <label class="form-label">Department Code<span style="color: red;">*</span></label>
+                                    <input class="form-control" id="deptcode"name="deptCode"  type="text" readonly>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        //view Charge details
+        $('#view_department').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                var name = button.data('name')
+                var deptcode = button.data('deptcode')
+                var modal = $(this)
+                modal.find('.modal-body #id').val(id);
+                modal.find('.modal-body #name').val(name);
+                modal.find('.modal-body #deptcode').val(deptcode);
+        });
+        $('#edit_department').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                var name = button.data('name')
+                var deptcode = button.data('deptcode')
+                var modal = $(this)
+                modal.find('.modal-body #id').val(id);
+                modal.find('.modal-body #name').val(name);
+                modal.find('.modal-body #deptcode').val(deptcode);
+        });
+    });
+</script>

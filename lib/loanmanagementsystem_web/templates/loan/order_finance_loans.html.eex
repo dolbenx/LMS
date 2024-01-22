@@ -1,0 +1,779 @@
+
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Loan Application</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="flex-wrap border-0 pt-6 pb-0">
+                                <div class="text-center">
+                                    <h3 class="card-label "><u>ORDER FINANCE APPLICATION</u>
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span></h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+								<!--begin: Wizard-->
+                                <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+                                    <!--begin: Wizard Nav-->
+                                    <div class="wizard-nav">
+                                        <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                                            <!--begin::Wizard Step 1 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>1.</span>Company & Loan Details</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 1 Nav-->
+                                            <!--begin::Wizard Step 3 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>2.</span>Agreement Form</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 3 Nav-->
+                                            <!--begin::Wizard Step 4 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>3.</span>Terms & Condidtions</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>4.</span>Personal Details</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                            <!--end::Wizard Step 4 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>5.</span>Document UPLOAD</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                        </div>
+                                    </div>
+                                    <!--end: Wizard Nav-->
+                                    <!--begin: Wizard Body-->
+                                    <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                                        <div class="col-xl-12 col-xxl-12">
+                                            <!--begin: Wizard Form-->
+                                            <form class="form fv-plugins-bootstrap fv-plugins-framework" id="kt_form" action="<%= Routes.offtaker_management_path(@conn, :create_employer_maintenance) %>" enctype="multipart/form-data" method="post">
+                                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <input type="hidden" name="roleType" value="EMPLOYER">
+                                                <input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+                                                <input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+                                                <!--begin: Wizard Step 1-->
+                                                <div class="pb-5" data-wizard-type="step-content">
+                                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Company & Loan Details</u></h4>
+                                                    <!--begin::Input-->
+
+                                                    <div class="row">
+                                                        
+                                                        <div class="col-md-6 border"><br>
+                                                        
+                                                        <h5 class="text-center"> <u>Company Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Name: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_data[:companyName] %>" readonly name="companyName">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Phone Number: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_data[:companyPhone] %>" readonly name="companyPhone">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Contact Email: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_data[:contactEmail] %>" readonly name="contactEmail">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Registration Date:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="date" class="form-control" value="<%= @client_data[:companyRegistrationDate] %>" readonly name="companyRegistrationDate">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">TPIN:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_data[:taxno] %>" readonly name="taxno">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_data[:registrationNumber] %>" readonly name="registrationNumber">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Bank:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                    <select name="bank_id" readoly class="form-control">
+                                                                        <option value="<%= @client_data[:bankName] %>"><%= @client_data[:bankName] %> (<%= @client_data[:companyAccountNumber] %>)</option>
+                                                                    </select>
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Loan Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Name: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @product_details |> Enum.map( fn x -> x.product_name end) %>" readonly name="companyName">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Product Type:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control"value="<%= @product_details |> Enum.map( fn x -> x.product_type end) %>" readonly name="taxno">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Interest<span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @product_details |> Enum.map( fn x -> x.interest|> Number.Delimit.number_to_delimited end) %>"readonly name="registrationNumber">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Principle Amount</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control"  name="companyAccountNumber">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter the principle amount.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div> 
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Repayment Period</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control"  name="companyAccountNumber">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter the principle amount.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Total Loan</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control"  name="companyAccountNumber">
+                                                                    </div>
+                                                                    <span class="form-text text-muted"></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end: Wizard Step 1-->
+                                                <!--begin: Wizard Step 3-->
+                                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                                    <h4 class="mb-10 font-weight-bold text-dark"><u>Enter Representative Details</u></h4>
+                                                    <div class="row">
+                                                        <div class="col-md-6 border">
+                                                        <br><h5 class="text-center"> <u>Agreement Form</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Late Payment Charge:</u><br>
+                                                                        Any payment not remunerated within 5 days of its due date shall be subject to a late payment charge of 10% of the overdue
+                                                                        amount per month for period the amount remains outstanding
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Collateral:</u><br>
+                                                                        Collateral pledged to secure this loan is as per schedule attached. In the case of movable property, the borrower by signing
+                                                                        this agreement agrees to release the pledged property into the custody of the lender once the borrower misses or fails to pay
+                                                                        the full monthly instalment as stipulated under clause 6 of this agreement.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Default:</u><br>
+                                                                        If Borrower has not paid the full amount of the laon when the final payment is due, the lender will continue to charge interest plus
+                                                                        full finance costs on principle until the loan is fully repaid.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Collection Fees:</u><br>
+                                                                        If an overdue amount is placed with a vendor for collection, then Borrower agrees to pay the debt collector a fee of 10 % of the
+                                                                        overdue balance. This fee will be added to the overdue balance of the loan.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Severance:</u><br>
+                                                                        Any provision of this agreement that is invalid or unenforceable will be read down where possible so as to be valid and
+                                                                        enforceable, or, if that is not possible, will be severed from this agreement to the extent of its invalidity of unenforceability
+                                                                        without affecting the remaining provisions, which will remain binding on the parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Dispute Resolution:</u><br>
+                                                                        Where any dispute arises among the parties as to the performance or interpretation of this agreement, the parties will resolve the
+                                                                        the dispute in the following manner:<br>
+                                                                        1. The Party raising the dispute must in writing notify the other Party of the dispute, providing a reasonable amount of information
+                                                                        information about the nature of the dispute.<br>
+                                                                        2. The Parties will meet as soon as possible, in person and attempt to resolve the dispute by mutual agreement.<br>
+                                                                        3. If such negotiation fails, the Parties will be at liberty to seek litigation
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Payments:</u><br>
+                                                                        All payments due from the Borrower to the Lender under this agreement will be made by cash, cheque or trasfer on the respective
+                                                                        due dates as per repayment schedule under clause 6.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>15. Entire Agreement:</u><br>
+                                                                        The parties confirm that this contract contains the full terms of their agreement and that no addition to or variation of the contract shall
+                                                                        be of any force and effect unless done in writing and signed by both parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Execution</u> </h5><br>
+                                                            <div class="row">
+                                                                <div class="col-md-4 form-group">Name of Loan Officer</div>
+                                                                <div class="col-md-4 form-group">Date</div>
+                                                                <div class="col-md-4 form-group">Signature</div>
+                                                                <div class="col-md-4 form-group"><input type="text" class="form-control" name="" placeholder="" ></div>
+                                                                <div class="col-md-4 form-group"> <input type="text" class="form-control" name="" placeholder="" value="<%= Timex.today %>"></div>
+                                                                <div class="col-md-4 form-group"><div type="text" class="form-control" name="" placeholder="" ></div></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4 form-group">Name of Loan Approver</div>
+                                                                <div class="col-md-4 form-group">Date</div>
+                                                                <div class="col-md-4 form-group">Signature</div>
+                                                                <div class="col-md-4 form-group"><input type="text" class="form-control" name="" placeholder="" ></div>
+                                                                <div class="col-md-4 form-group"> <input type="text" class="form-control" name="" placeholder="" value="<%= Timex.today %>"></div>
+                                                                <div class="col-md-4 form-group"><input type="text" class="form-control" name="" placeholder="" ></div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4 form-group">Name of Loan Applican</div>
+                                                                <div class="col-md-4 form-group">Date</div>
+                                                                <div class="col-md-4 form-group">Signature</div>
+                                                                <div class="col-md-4 form-group"><input type="text" class="form-control" name="" placeholder="" ></div>
+                                                                <div class="col-md-4 form-group"> <input type="text" class="form-control" name="" placeholder="" value="<%= Timex.today %>"></div>
+                                                                <div class="col-md-4 form-group"><input type="text" class="form-control" name="" placeholder="" ></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end: Wizard Step 3-->
+                                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                                    <h4 class="mb-10 font-weight-bold text-dark"><u>Enter Representative Details</u></h4>
+                                                    <div class="row">
+                                                        <div class="col-md-6 border">
+                                                        <br><h5 class="text-center"> <u>Agreement Form</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Late Payment Charge:</u><br>
+                                                                        Any payment not remunerated within 5 days of its due date shall be subject to a late payment charge of 10% of the overdue
+                                                                        amount per month for period the amount remains outstanding
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Collateral:</u><br>
+                                                                        Collateral pledged to secure this loan is as per schedule attached. In the case of movable property, the borrower by signing
+                                                                        this agreement agrees to release the pledged property into the custody of the lender once the borrower misses or fails to pay
+                                                                        the full monthly instalment as stipulated under clause 6 of this agreement.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Default:</u><br>
+                                                                        If Borrower has not paid the full amount of the laon when the final payment is due, the lender will continue to charge interest plus
+                                                                        full finance costs on principle until the loan is fully repaid.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Collection Fees:</u><br>
+                                                                        If an overdue amount is placed with a vendor for collection, then Borrower agrees to pay the debt collector a fee of 10 % of the
+                                                                        overdue balance. This fee will be added to the overdue balance of the loan.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Severance:</u><br>
+                                                                        Any provision of this agreement that is invalid or unenforceable will be read down where possible so as to be valid and
+                                                                        enforceable, or, if that is not possible, will be severed from this agreement to the extent of its invalidity of unenforceability
+                                                                        without affecting the remaining provisions, which will remain binding on the parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Dispute Resolution:</u><br>
+                                                                        Where any dispute arises among the parties as to the performance or interpretation of this agreement, the parties will resolve the
+                                                                        the dispute in the following manner:<br>
+                                                                        1. The Party raising the dispute must in writing notify the other Party of the dispute, providing a reasonable amount of information
+                                                                        information about the nature of the dispute.<br>
+                                                                        2. The Parties will meet as soon as possible, in person and attempt to resolve the dispute by mutual agreement.<br>
+                                                                        3. If such negotiation fails, the Parties will be at liberty to seek litigation
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Payments:</u><br>
+                                                                        All payments due from the Borrower to the Lender under this agreement will be made by cash, cheque or trasfer on the respective
+                                                                        due dates as per repayment schedule under clause 6.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>15. Entire Agreement:</u><br>
+                                                                        The parties confirm that this contract contains the full terms of their agreement and that no addition to or variation of the contract shall
+                                                                        be of any force and effect unless done in writing and signed by both parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 border">
+                                                        <br><h5 class="text-center"> <u>Agreement Form</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Late Payment Charge:</u><br>
+                                                                        Any payment not remunerated within 5 days of its due date shall be subject to a late payment charge of 10% of the overdue
+                                                                        amount per month for period the amount remains outstanding
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Collateral:</u><br>
+                                                                        Collateral pledged to secure this loan is as per schedule attached. In the case of movable property, the borrower by signing
+                                                                        this agreement agrees to release the pledged property into the custody of the lender once the borrower misses or fails to pay
+                                                                        the full monthly instalment as stipulated under clause 6 of this agreement.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Default:</u><br>
+                                                                        If Borrower has not paid the full amount of the laon when the final payment is due, the lender will continue to charge interest plus
+                                                                        full finance costs on principle until the loan is fully repaid.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Collection Fees:</u><br>
+                                                                        If an overdue amount is placed with a vendor for collection, then Borrower agrees to pay the debt collector a fee of 10 % of the
+                                                                        overdue balance. This fee will be added to the overdue balance of the loan.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Severance:</u><br>
+                                                                        Any provision of this agreement that is invalid or unenforceable will be read down where possible so as to be valid and
+                                                                        enforceable, or, if that is not possible, will be severed from this agreement to the extent of its invalidity of unenforceability
+                                                                        without affecting the remaining provisions, which will remain binding on the parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Dispute Resolution:</u><br>
+                                                                        Where any dispute arises among the parties as to the performance or interpretation of this agreement, the parties will resolve the
+                                                                        the dispute in the following manner:<br>
+                                                                        1. The Party raising the dispute must in writing notify the other Party of the dispute, providing a reasonable amount of information
+                                                                        information about the nature of the dispute.<br>
+                                                                        2. The Parties will meet as soon as possible, in person and attempt to resolve the dispute by mutual agreement.<br>
+                                                                        3. If such negotiation fails, the Parties will be at liberty to seek litigation
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Payments:</u><br>
+                                                                        All payments due from the Borrower to the Lender under this agreement will be made by cash, cheque or trasfer on the respective
+                                                                        due dates as per repayment schedule under clause 6.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>15. Entire Agreement:</u><br>
+                                                                        The parties confirm that this contract contains the full terms of their agreement and that no addition to or variation of the contract shall
+                                                                        be of any force and effect unless done in writing and signed by both parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--begin: Wizard Step 4-->
+                                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                                    <h4 class="mb-10 font-weight-bold text-dark"><u></u></h4>
+                                                    <div class="row">
+                                                        <div class="col-md-6 border">
+                                                        <br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Title:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select name="title" class="form-control">
+                                                                            <option value="">Select</option>
+                                                                            <option value="Mr">Mr </option>
+                                                                            <option value="Mrs">Mrs </option>
+                                                                            <option value="Ms">Ms </option>
+                                                                            <option value="Dr">Dr </option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please title.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="firstName">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter first name.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="lastName">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter last name.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Other Name:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="otherName">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter other name.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="mobileNumber">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter mobile number.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Date Of Birth:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="date" class="form-control" name="dateOfBirth">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please Select date of birth.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="emailAddress">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter email address.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="meansOfIdentificationNumber">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter ID No.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Choose Gender:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select name="gender" class="form-control">
+                                                                            <option value="">Select</option>
+                                                                            <option value="Male">Male </option>
+                                                                            <option value="Female">Female </option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please select gender.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">House/Plot Number</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="house_number">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter House/Plot Number.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Road/Street Name:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="street_name">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter Road/Street Name.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Area:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="area">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter area.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Town:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="town">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter town.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Accomodation Status:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" name="accomodation_status">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter accomodation status.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Years At Current Address:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="number" class="form-control" name="year_at_current_address">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter years At current address.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--end: Wizard Step 4-->
+                                                <div class="pb-5" data-wizard-type="step-content">
+                                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+                                                    <!--begin::Select-->
+                                                    <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                                    <label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+                                                                </th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <%= for item <- quick_loan_document_upload() do %>
+                                                                <tr class="tr_clone">
+                                                                    <td>
+                                                                        <div class="col-md-12 form-group">
+                                                                            <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+                                                                    </td>
+                                                                </tr>
+                                                            <% end %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <!--begin: Wizard Actions-->
+                                                <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                                    <div class="mr-2">
+                                                        <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                                    </div>
+                                                    <div>
+                                                        <button type="submit" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+                                                        <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                                    </div>
+                                                </div>
+                                                <!--end: Wizard Actions-->
+                                            <div></div><div></div><div></div><div></div></form>
+                                            <!--end: Wizard Form-->
+                                        </div>
+                                    </div>
+                                    <!--end: Wizard Body-->
+                                </div>
+                                <!--end: Wizard-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->

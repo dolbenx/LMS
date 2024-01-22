@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Maintenance.Branch do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_branch" do
     field :approved_by, :integer
     field :branchCode, :string

@@ -25,10 +25,6 @@ defmodule LoanmanagementsystemWeb.SessionController do
     render(conn, "index.html")
   end
 
-  def userlogin(conn, _params) do
-    render(conn, "username.html")
-  end
-
   def forgot_password(conn, _params) do
     Logger.info(">>>>>>>")
     render(conn, "forgot_password.html")
@@ -65,7 +61,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
             Repo.insert!(sms)
 
             Email.send_otp(get_bio_data.email, random_int)
-            Loanmanagementsystem.Workers.Sms.send()
+            # Loanmanagementsystem.Workers.Sms.send()
             conn
             |> put_flash(:info, "Message with OTP sent Successfully. Please Enter the OTP sent to your email or mobile number.")
             |> redirect(to: Routes.session_path(conn, :get_forgot_password_validate_otp, username: username_data))
@@ -79,7 +75,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
         end
       else
         conn
-        |> put_flash(:error, "User is Disabled, Please Contact PayKesho.")
+        |> put_flash(:error, "User is Disabled, Please Contact Pangea.")
         |> redirect(to: Routes.session_path(conn, :error_405))
       end
     end
@@ -242,12 +238,13 @@ defmodule LoanmanagementsystemWeb.SessionController do
     end
   end
 
+
   def create(conn, params) do
     with {:error, _reason} <- UserController.get_user_by_email(String.trim(params["username"])) do
       conn
       |> put_flash(:error, "Email/Password does not match")
       |> put_layout(false)
-      |> render("username.html")
+      |> render("index.html")
     else
       {:ok, user} ->
         with {:error, _reason} <- Auth.confirm_password(user, String.trim(params["password"])) do
@@ -256,7 +253,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
           conn
           |> put_flash(:error, "Email/Password does not match")
           |> put_layout(false)
-          |> render("username.html")
+          |> render("index.html")
         else
           {:ok, _} ->
             #IO.inspect(user, label: "check my user here \n\n\n")
@@ -396,11 +393,12 @@ defmodule LoanmanagementsystemWeb.SessionController do
                 conn
                 |> put_status(405)
                 |> put_layout(false)
-                |> render("username.html")
+                |> render("index.html")
             end
         end
     end
   end
+
 
   # def create(conn, params) do
   #   with {:error, _reason} <- UserController.get_user_by_email(String.trim(params["username"])) do
@@ -553,7 +551,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
     Accounts.update_user(user, %{login_attempt: user.login_attempt + 1, status: status})
   end
 
-  def register(conn, params) do
+  def register(conn, _params) do
     # user_role_id = Loanmanagementsystem.Accounts.get_farmer_role()
     user_role_id = 1
 
@@ -573,7 +571,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
     otp3 = params["otp3"]
     otp4 = params["otp4"]
     otp = "#{otp1}#{otp2}#{otp3}#{otp4}"
-    user_role = params["user_role"]
+    # user_role = params["user_role"]
     uRoleType = params["roleType"]
     # Logger.info ("uRoleType...#{uRoleType}");
 
@@ -689,7 +687,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
           })
 
         case Repo.update(changeset) do
-          {:ok, changeset} ->
+          {:ok, _changeset} ->
             user_id = user.id
             query = from(uB in UserBioData, where: uB.userId == ^user_id, select: uB)
             userBioData = Repo.all(query)
@@ -848,7 +846,7 @@ defmodule LoanmanagementsystemWeb.SessionController do
     #     |> redirect(to: Routes.user_path(conn, :new_password))
   end
 
-  defp confirm_old_password(conn, %{"userID" => userID, "old_password" => pwd, "new_password" => new_pwd}) do
+  defp confirm_old_password(_conn, %{"userID" => userID, "old_password" => pwd, "new_password" => new_pwd}) do
     # IO.inspect("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     # IO.inspect conn
 
@@ -872,6 +870,11 @@ defmodule LoanmanagementsystemWeb.SessionController do
         %{user_id: user.id, activity: "changed account password"}
       )
     )
+  end
+
+
+  def internal_server_error(conn, _params) do
+    render(conn, "internal_server_error.html")
   end
 
   def traverse_errors(errors) do

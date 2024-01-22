@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Employment.Income_Details do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_income_details" do
     field :gross_pay, :float
     field :net_pay, :float
@@ -29,7 +30,7 @@ defmodule Loanmanagementsystem.Employment.Income_Details do
     |> validate_required([
       :pay_day,
       :gross_pay,
-      :total_deductions,
+      # :total_deductions,
       :net_pay,
       # :total_expenses,
       :userId

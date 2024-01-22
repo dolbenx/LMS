@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Maintenance.Province do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_province" do
     field :countryId, :integer
     field :countryName, :string

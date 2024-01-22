@@ -2,6 +2,8 @@ defmodule Loanmanagementsystem.Charges.Charge do
   use Ecto.Schema
   import Ecto.Changeset
 
+
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_charges" do
     field :chargeAmount, :float
     field :chargeName, :string
@@ -10,6 +12,7 @@ defmodule Loanmanagementsystem.Charges.Charge do
     field :currency, :string
     field :currencyId, :integer
     field :isPenalty, :boolean, default: false
+
     field :code, :string
     field :accountToCredit, :string
     field :effectiveDate, :date
@@ -28,6 +31,7 @@ defmodule Loanmanagementsystem.Charges.Charge do
       :currency,
       :currencyId,
       :isPenalty,
+
       :code,
       :accountToCredit,
       :effectiveDate
@@ -40,6 +44,7 @@ defmodule Loanmanagementsystem.Charges.Charge do
       :currency,
       :currencyId,
       :isPenalty,
+
       :code,
       :accountToCredit,
       :effectiveDate

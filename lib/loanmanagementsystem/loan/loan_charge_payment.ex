@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Loan.LoanChargePayment do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_charge_payment" do
     field :amount, :float
     field :installment_number, :integer

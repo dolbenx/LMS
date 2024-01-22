@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_applicant_guarantor do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_guarantor" do
     field :cost_of_sales, :float
     field :occupation, :string

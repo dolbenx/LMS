@@ -10,6 +10,8 @@ defmodule LoanmanagementsystemWeb.ProductsController do
   plug LoanmanagementsystemWeb.Plugs.Authenticate,
 		       [module_callback: &LoanmanagementsystemWeb.ProductsController.authorize_role/1]
 		       when action not in [
+
+
 						:admin_activate_product,
 						:admin_add_product,
 						:admin_all_products,
@@ -31,7 +33,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 						:traverse_errors,
             :admin_edit_product,
             :admin_update_product_details
-		      ]
+		            ]
 
 		  use PipeTo.Override
 
@@ -41,10 +43,13 @@ defmodule LoanmanagementsystemWeb.ProductsController do
     render(conn, "add_products.html",
       products: products,
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
+      classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
       charges: Loanmanagementsystem.Charges.list_tbl_charges()
     )
   end
 
+  @spec admin_edit_product(Plug.Conn.t(), nil | maybe_improper_list | map) :: Plug.Conn.t()
   def admin_edit_product(conn, params) do
 
     # IO.inspect(params, label: "CHECK MY PRODUCT")
@@ -53,17 +58,23 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 
     get_product_by = Loanmanagementsystem.Products.get_product_by_product_id(params["product_id"])
     product_currency = Loanmanagementsystem.Maintenance.Currency.find_by(id: product_detail.currencyId)
-    get_product_rates = Loanmanagementsystem.Products.Product_rates.find_by(product_id: params["product_id"])
+    get_product_principal_acc = Loanmanagementsystem.Chart_of_accounts.Chart_of_account.find_by(id: product_detail.principle_account_id)
+    get_product_interest_acc = Loanmanagementsystem.Chart_of_accounts.Chart_of_account.find_by(id: product_detail.interest_account_id)
+    get_product_charges_acc = Loanmanagementsystem.Chart_of_accounts.Chart_of_account.find_by(id: product_detail.charges_account_id)
 
     render(conn, "edit_products.html",
       products: products,
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
       classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
       charges: Loanmanagementsystem.Charges.list_tbl_charges(),
       product_detail: product_detail,
       get_product_by: get_product_by,
       product_currency: product_currency,
-      get_product_rates: get_product_rates
+      get_product_principal_acc: get_product_principal_acc,
+      get_product_interest_acc: get_product_interest_acc,
+      get_product_charges_acc: get_product_charges_acc,
+      get_product_rates: Loanmanagementsystem.Products.Product_rates.find_by(product_id: params["product_id"])
     )
   end
 
@@ -72,6 +83,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
       products: Loanmanagementsystem.Products.list_tbl_products(),
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
       classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
       charges: Loanmanagementsystem.Charges.list_tbl_charges()
     )
   end
@@ -130,8 +142,8 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 
   # LoanmanagementsystemWeb.ProductsController.chip(["1", "2", "3"])
   def chip(list) do
-    list
-    count = Enum.count(list)
+    # list
+    # count = Enum.count(list)
 
     for [x, y] <- Enum.chunk_every(list, 2), reduce: %{} do
       acc -> Map.put(acc, {x, y}, true)
@@ -191,7 +203,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 
             params["repayment_log"]
             |> Enum.with_index()
-            |> Enum.each(fn {x, index} ->
+            |> Enum.each(fn {_x, index} ->
               log_product = %{
                 product_name: new_param["name"],
                 repayment: Enum.at(params["repayment_log"], index),
@@ -262,7 +274,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 
             params["repayment_log"]
             |> Enum.with_index()
-            |> Enum.each(fn {x, index} ->
+            |> Enum.each(fn {_x, index} ->
               log_product = %{
                 product_name: new_param["name"],
                 repayment: Enum.at(params["repayment_log"], index),
@@ -477,7 +489,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 
       product = Loanmanagementsystem.Products.get_product!(params["product_id"])
       price_rate_id = Loanmanagementsystem.Products.get_product_rates!(params["price_rate_id"])
-      clientId = conn.assigns.user.id
+      # clientId = conn.assigns.user.id
       # currency_in_decimal = 2
       # params = Map.put(params, "clientId", clientId)
       # currencyVal = params["currencyName"]

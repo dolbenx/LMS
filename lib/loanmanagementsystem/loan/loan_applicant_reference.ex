@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_applicant_reference do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_reference" do
     field :contact_no, :string
     field :customer_id, :integer

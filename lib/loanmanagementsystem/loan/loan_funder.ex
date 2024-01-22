@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_funder do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_funder" do
     field :funderID, :integer
     field :totalAmountFunded, :float, default: 0.0
@@ -11,6 +12,7 @@ defmodule Loanmanagementsystem.Loan.Loan_funder do
     field :status, :string
     field :payment_mode, :string
     field :funder_type, :string
+    field :is_company , :boolean
 
 
 
@@ -21,7 +23,7 @@ defmodule Loanmanagementsystem.Loan.Loan_funder do
   @doc false
   def changeset(loan_funder, attrs) do
     loan_funder
-    |> cast(attrs, [:totalbalance, :totalinterest_accumulated, :funderID, :totalAmountFunded, :status, :payment_mode, :funder_type])
+    |> cast(attrs, [:is_company, :totalbalance, :totalinterest_accumulated, :funderID, :totalAmountFunded, :status, :payment_mode, :funder_type])
     # |> validate_required([:Totalbalance, :Totalinterest, :accumulated, :funderID, :TotalAmountFunded, :status])
   end
 end

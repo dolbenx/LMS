@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Loan.Loan_Provisioning_Criteria do
    use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_provisioning_criteria" do
     field :category, :string
     field :criteriaName, :string

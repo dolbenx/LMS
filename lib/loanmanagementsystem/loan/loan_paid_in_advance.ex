@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Loan.LoanPaidInAdvance do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_paid_in_advance" do
     field :fee_charges_in_advance_derived, :float
     field :interest_in_advance_derived, :float

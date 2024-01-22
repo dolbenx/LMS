@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Maintenance.Holiday_mgt do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_holiday_maintenance" do
     field :holiday_date, :date
     field :holiday_description, :string

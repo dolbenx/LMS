@@ -18,6 +18,7 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_user_bio_data" do
     field :dateOfBirth, :date
     field :emailAddress, :string
@@ -36,6 +37,9 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
     field :marital_status, :string
     field :nationality, :string
     field :number_of_dependants, :integer
+    field :age, :integer
+    field :disability_detail, :string
+    field :disability_status, :string
     field :employee_confirmation, :boolean, default: false
     field :applicant_declaration, :boolean, default: false
     field :applicant_signature_image, :string
@@ -64,6 +68,9 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
       :gender,
       :mobileNumber,
       :emailAddress,
+      :age,
+      :disability_detail,
+      :disability_status,
       :employee_confirmation,
       :applicant_declaration,
       :applicant_signature_image
@@ -72,11 +79,20 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
     # |> validate_required([:userId, :otherName, :dateOfBirth, :meansOfIdentificationType, :title, :gender])
     # |> validate_length(:firstName, min: 2, max: 100, message: "should be between 3 to 100 characters")
     # |> validate_length(:lastName, min: 2, max: 100, message: "should be between 3 to 100 characters")
-    |> validate_length(:emailAddress, min: 3, max: 150, message: "Email Length should be between 3 to 150 characters")
-    |> unique_constraint(:emailAddress, name: :emailAddress, message: "Email address already exists")
+    # |> validate_length(:emailAddress, min: 3, max: 150, message: "Email Length should be between 3 to 150 characters")
+    # |> unique_constraint(:emailAddress, name: :emailAddress, message: "Email address already exists")
 
     # |> unique_constraint(:mobileNumber, name: :unique_mobileNumber, message: "Phone number already exists")
     # |> unique_constraint(:meansOfIdentificationNumber, name: :unique_meansOfIdentificationNumber, message: " ID number already exists")
+
+        # |> validate_required([:userId, :otherName, :dateOfBirth, :meansOfIdentificationType, :title, :gender])
+    # |> validate_length(:firstName, min: 2, max: 100, message: "should be between 3 to 100 characters")
+    # |> validate_length(:lastName, min: 2, max: 100, message: "should be between 3 to 100 characters")
+    |> validate_length(:emailAddress, min: 3, max: 150, message: "Email Length should be between 3 to 150 characters")
+    # |> unique_constraint(:emailAddress, name: :unique_emailAddress, message: "Email address already exists")
+    # |> unique_constraint(:mobileNumber, name: :unique_mobileNumber, message: "Phone number already exists")
+    # |> unique_constraint(:meansOfIdentificationNumber, name: :unique_meansOfIdentificationNumber, message: " ID number already exists")
+
   end
 
   def userbio_changeset(user_bio_data, attrs) do
@@ -93,7 +109,10 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
       :gender,
       :mobileNumber,
       :emailAddress,
+      :age,
       :bank_id,
+      :disability_detail,
+      :disability_status,
       :applicant_signature_image
     ])
 
@@ -104,5 +123,9 @@ defmodule Loanmanagementsystem.Accounts.UserBioData do
     # |> unique_constraint(:emailAddress, name: :unique_emailAddress, message: " Email address already exists")
     # |> unique_constraint(:mobileNumber, name: :unique_mobileNumber, message: " Phone number already exists")
     # |> unique_constraint(:meansOfIdentificationNumber, name: :unique_meansOfIdentificationNumber, message: " ID number already exists")
+
+
+
+
   end
 end

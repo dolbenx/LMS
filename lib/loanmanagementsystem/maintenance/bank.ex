@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Maintenance.Bank do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_banks" do
     field :acronym, :string
     field :bank_code, :string

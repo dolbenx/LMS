@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Accounts.SecurityQuestions do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_security_questions" do
     field :question, :string
     field :status, :string

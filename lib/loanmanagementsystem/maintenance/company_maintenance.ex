@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Maintenance.Company_maintenance do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_company_maintanence" do
     field :address, :string
     field :company_logo, :string

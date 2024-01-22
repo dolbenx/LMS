@@ -1,99 +1,184 @@
-<html lang="en"><head>
 
-		<meta charset="utf-8">
-		<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-		<meta name="description" content="Spruha -  Admin Panel HTML Dashboard Template">
-		<meta name="author" content="Spruko Technologies Private Limited">
-		<meta name="keywords" content="admin,dashboard,panel,bootstrap admin template,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin template,themeforest admin dashboard,cool admin,it dashboard,admin design,dash templates,saas dashboard,dmin ui design">
-
-		<!-- Favicon -->
-        <link rel="icon" href="<%= Routes.static_path(@conn, "/images/gnc.jpg") %>" type="image/x-icon"/>
-
-		<!-- Title -->
-		<title>GNC | Innactive Account</title>
-
-		<!-- Bootstrap css-->
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/css/bootstrap.min.css") %>">
-
-		<!-- Icons css-->
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/icons.css") %>">
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/font-awesome/font-awesome.min.css") %>">
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/plugin.css") %>">
-
-		<!-- Style css-->
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.css") %>">
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/boxed.css") %>">
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-boxed.css") %>">
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/skins.css") %>">
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-style.css") %>">
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/default.css") %>">
-
-		<!-- Color css-->
-	    <link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/color.css") %>">
-
-	</head>
-
-	<body class="main-body leftmenu">
-
-		<!-- Loader -->
-		<div id="global-loader" style="display: none;">
-			<img src="<%= Routes.static_path(@conn, "/images/img/loader.svg") %>" class="loader-img" alt="Loader">
-		</div>
-		<!-- End Loader -->
-
-		<!-- Page -->
-		<div class="page main-signin-wrapper">
-
-			<!-- Row -->
-			<div class="row signpages text-center">
-				<div class="col-md-12">
-					<div class="card">
-						<div class="row row-sm">
-							<div class="col-lg-6 col-xl-5 d-none d-lg-block text-center" style="background-color: #1E1E2D;">
-								<div class="mt-4 pt-4 ps-5 ms-3 pe-5 pos-absolute">
-									<img src="<%= Routes.static_path(@conn, "/images/gnc-new.png") %>" style="filter: brightness(0) invert(1);" width="210" height="210" class="header-brand-img mb-4" alt="logo">
-									<div class="clearfix"></div>
-									<h5 class="mt-4 text-center" style="color: #F6000F;">DISABLED</h5>
-									<span class="tx-13 mb-5 mt-xl-0 text-center" style="color: #F6000F;">Your account is currently not active.</span>
-								</div>
-							</div>
-							<div class="col-lg-6 col-xl-7 col-xs-12 col-sm-12 login_form ">
-								<div class="container-fluid">
-									<div class="row row-sm">
-										<div class="card-body main-profile-overview mt-3 mb-3">
-											<img src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>" class=" d-lg-none header-brand-img text-start float-start mb-4" alt="logo">
-											<div class="clearfix"></div>
-									        <img src="<%= Routes.static_path(@conn, "/images/userd.png") %>" class="ht-100 mb-0" alt="user">
-											<h5 class="text-start mb-2"></h5>
-											<p class="mb-4 text-muted tx-13 ms-0 text-start text-center">Your account is not active at the moment. Please contact our admin using the channels below:-</p>
-
-                                            <ul>
-                                                <li>Call - 260-211-353-788</li>
-                                                <li>Whatsapp - +260977932045 </li>
-                                                <li>Email - info@greatnorthcredit.co.zm</li>
-                                                <li>Website - www.greatnorthcredit.co.zm</li>
-                                            </ul>
-
-												<a class="btn ripple btn-block mt-4" href="/" style="background-color: #F6000F; color: white; border-radius: 15px;">BACK TO LOGIN</a>
-
-										</div>
-									</div>
-								</div>
-							</div>
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Bootstrap 4 HTML, React, Angular 10 & VueJS Admin Dashboard Theme
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: https://1.envato.market/EA4JP
+Renew Support: https://1.envato.market/EA4JP
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<html lang="en">
+	<!--begin::Head-->
+	<head><base href="../../../../">
+		<meta charset="utf-8" />
+		<title>Pangea | Login</title>
+		<meta name="description" content="Login page example" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<link rel="canonical" href="https://keenthemes.com/metronic" />
+		<!--begin::Fonts-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+		<!--end::Fonts-->
+		<!--begin::Page Custom Styles(used by this page)-->
+		<link href="/webstatic/css/pages/login/classic/login-5.css" rel="stylesheet" type="text/css" />
+		<!--end::Page Custom Styles-->
+		<!--begin::Global Theme Styles(used by all pages)-->
+		<link href="/webstatic/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="/webstatic/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="/webstatic/css/style.bundle.css" rel="stylesheet" type="text/css" />
+		<!--end::Global Theme Styles-->
+		<!--begin::Layout Themes(used by all pages)-->
+		<link href="/webstatic/css/themes/layout/header/base/light.css" rel="stylesheet" type="text/css" />
+		<link href="/webstatic/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css" />
+		<link href="/webstatic/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css" />
+		<link href="/webstatic/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" />
+		<!--end::Layout Themes-->
+		<link rel="shortcut icon" href="<%= Routes.static_path(@conn, "/images/add.png") %>" />
+		<style>
+			.my_div{
+			border: 1px solid black;
+			padding: 25px 50px 75px 100px;
+			background-color: lightblue;
+			}
+		</style>
+</head>
+	<!--end::Head-->
+	<!--begin::Body-->
+	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading" style="background-color: #24BFCD; height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover;">
+		<!--begin::Main-->
+		<div class="d-flex flex-column flex-root">
+		<br><br><br><br><br><br><br><br><br>
+		<div class="container col-lg-10">
+				<!--begin::Login-->
+				<div class="login login-5 login-signin-on d-flex flex-row-fluid" id="kt_login">
+					<div class="d-flex flex-center flex-row-fluid" >
+						<div class="col-md-6" style="color: white;">
+						<div class="col-md-6 col-lg-10" style="margin-left: auto; margin-right: auto; background-color: black; color: white; border-radius:10px; font-size: 38px; text-align: center; font-family: sans-serif;"><strong>Pangaea</strong>&nbsp;<img alt="Logo" src="<%= Routes.static_path(@conn, "/images/add.png") %>" style="height: 50px;"/>&nbsp;<strong>Capital</strong></div>
+							<h5 style="margin-left: auto; margin-right: auto; color: black; border-radius:10px; font-size: 22px; text-align: center; font-family: sans-serif;" class="col-lg-10"><strong>Welcome to Pangaea ADD Capital LMS</strong></h5>
+							<h5 style="font-size: 14px; color: black; text-align: center; margin-left: auto; margin-right: auto;" class="col-lg-10"><strong>Your account is not ACTIVE at the moment. Please contact our admin using the channels below.</strong></h5>
+							<br><br>
 						</div>
 					</div>
 				</div>
+					<div class="row ">
+						<div class="col-lg-4">
+							<!--begin::Card-->
+							<a role="link" class="card card-custom wave wave-animate-slow bg-grey-100 mb-8 mb-lg-0 " aria-disabled="true" style="border-radius: 45px;">
+								<!--begin::Card Body-->
+								<div class="card-body">
+									<div class="d-flex align-items-center p-6">
+										<!--begin::Icon-->
+										<div class="mr-6">
+											<span >
+												<!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+												<i class="flaticon-support icon-3x"></i>
+												<!--end::Svg Icon-->
+											</span>
+										</div>
+										<!--end::Icon-->
+										<!--begin::Content-->
+										<div class="d-flex flex-column">
+											<h3 class="text-dark h3 mb-3">Call</h3>
+											<div class="text-dark-50">+260969977000 / +260967814123</div>
+										</div>
+										<!--end::Content-->
+									</div>
+								</div>
+								<!--end::Card Body-->
+							</a>
+							<!--end::Card-->
+						</div>
+						<div class="col-lg-4">
+							<!--begin::Card-->
+							<a role="link" class="card card-custom wave wave-animate-fast bg-grey-100" aria-disabled="true" style="border-radius: 45px;">
+								<!--begin::Card Body-->
+								<div class="card-body">
+									<div class="d-flex align-items-center p-6">
+										<!--begin::Icon-->
+										<div class="mr-6">
+											<span >
+												<!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+												<i class="socicon-whatsapp icon-3x"></i>
+												<!--end::Svg Icon-->
+											</span>
+										</div>
+										<!--end::Icon-->
+										<!--begin::Content-->
+										<div class="d-flex flex-column">
+											<h3 class="text-dark h3 mb-3">Whatsapp</h3>
+											<div class="text-dark-50">+260962225722 / +260979061959</div>
+										</div>
+										<!--end::Content-->
+									</div>
+								</div>
+								<!--end::Card Body-->
+							</a>
+							<!--end::Card-->
+						</div>
+						<div class="col-lg-4">
+							<!--begin::Card-->
+							<a role="link" class="card card-custom wave wave-animate bg-grey-100 mb-8 mb-lg-0" aria-disabled="true" style="border-radius: 45px;">
+								<!--begin::Card Body-->
+								<div class="card-body">
+									<div class="d-flex align-items-center p-6">
+										<!--begin::Icon-->
+										<div class="mr-6">
+											<span >
+												<!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+												<i class="flaticon-email icon-3x"></i>
+												<!--end::Svg Icon-->
+											</span>
+										</div>
+										<!--end::Icon-->
+										<!--begin::Content-->
+										<div class="d-flex flex-column">
+											<h3 class="text-dark h3 mb-3">Email</h3>
+											<div class="text-dark-50">getfinance@pangaeaaddcapital.co.zm</div>
+										</div>
+										<!--end::Content-->
+									</div>
+								</div>
+								<!--end::Card Body-->
+							</a>
+							<!--end::Card-->
+						</div>
+					</div>
+					<br>
+					<div class="d-flex flex-center flex-row-fluid">
+						<div class="">
+							<span class="mr-2" style="font-size: 14px; color: black;">Do you want to go back and login?</span>
+							<a id="kt_login_signin_submit" href="<%= Routes.session_path(@conn, :username) %> " style="color: black;" class="btn btn-primary btn-sm font-weight-bold">
+								<i class="flaticon2-left-arrow-1"></i> Sign In
+							</a>
+						</div>
+					</div>
+				</div>
+				<!--end::Login-->
 			</div>
-                <!-- End Row -->
+			<div class="row ">
+				<div class="container text-center text-black"  style="padding-bottom: 50px;">
+					Powered By &nbsp;&nbsp;<img alt="ProbaseLogo" src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>"  style="height: 40px;"/>
+				</div>
+			</div>
 
-                </div>
-                <!-- End Page -->
+			<!--end::Main-->
+			<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
+			<!--begin::Global Config(global config for global JS scripts)-->
+			<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#3699FF", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#E4E6EF", "dark": "#181C32" }, "light": { "white": "#ffffff", "primary": "#E1F0FF", "secondary": "#EBEDF3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#3F4254", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#EBEDF3", "gray-300": "#E4E6EF", "gray-400": "#D1D3E0", "gray-500": "#B5B5C3", "gray-600": "#7E8299", "gray-700": "#5E6278", "gray-800": "#3F4254", "gray-900": "#181C32" } }, "font-family": "Poppins" };</script>
+			<!--end::Global Config-->
+			<!--begin::Global Theme Bundle(used by all pages)-->
+			<script src="/webstatic/plugins/global/plugins.bundle.js"></script>
+			<script src="/webstatic/plugins/custom/prismjs/prismjs.bundle.js"></script>
+			<script src="/webstatic/js/scripts.bundle.js"></script>
+			<!--end::Global Theme Bundle-->
+			<!--begin::Page Scripts(used by this page)-->
+			<script src="/webstatic/js/pages/custom/login/login-general.js"></script>
+			<!--end::Page Scripts-->
+		</body>
+	<!--end::Body-->
 
-                <!-- Jquery js-->
-		        <script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery/jquery.min.js") %>"></script>
-
-            <div class="main-navbar-backdrop">
-
-        </div>
-    </body>
 </html>

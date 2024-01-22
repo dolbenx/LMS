@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Accounts.Nextofkin do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_next_of_kin" do
     field :applicant_nrc, :string
     field :kin_ID_number, :string

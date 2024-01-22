@@ -11,7 +11,7 @@ defmodule LoanmanagementsystemWeb.Plugs.EnforcePasswordPolicy do
   def call(conn, _params) do
     user_id = get_session(conn, :current_user) || get_session(conn, :current_client)
     user = user_id && Accounts.get_user!(user_id)
-    username = user.username
+    # username = user.username
 
     with true <- not is_nil(user) && user.auto_password == "Y" do
       conn

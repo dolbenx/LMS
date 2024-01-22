@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_applicant_collateral do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_collateral" do
     field :asset_value, :float
     field :color, :string

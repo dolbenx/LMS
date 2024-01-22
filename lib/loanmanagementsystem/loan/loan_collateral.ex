@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Loan.LoanCollateral do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_collateral" do
     field :collateral_type, :string
     field :description, :string

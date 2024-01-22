@@ -1,0 +1,684 @@
+
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Chart of Accounts</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Daterange-->
+                                    TIME
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+								<div class="row">
+                  <div class="col-md-12 col-xxl-12">
+                      <div class="card card-custom card-stretch gutter-b">
+                          <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                              <div class="card-title">
+                                  <h3 class="card-label">Chart of Accounts
+                                  <span class="text-muted pt-2 font-size-sm d-block">Acounting Setup</span></h3>
+                              </div>
+                              <div class="card-toolbar">
+                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                                    <a href="#" data-target="#bulkuploadmodal" data-toggle="modal" class="btn text-white font-weight-bolder" style="background-color: #011941;">
+                                        <span><i class="flaticon-file-2 text-white"></i></span>Bulk Upload
+                                    </a>&nbsp;
+                                    <a href="#" class="btn text-white font-weight-bolder" data-target="#addglmodal" data-toggle="modal"  style="background-color: #011941;">
+                                      <span><i class="flaticon2-add-1 text-white"></i></span>Add General Ledger Account
+                                    </a>&nbsp;
+                                  <% end %>
+                                  <a href="#" class="btn text-white font-weight-bolder" data-target="#chart-of-accounts-filtermodal" data-toggle="modal" style="background-color: #011941;">
+                                      <span><i class="flaticon-search-magnifier-interface-symbol text-white"></i></span>Filter
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="card-body">
+                               <table class="table table-bordered border-bottom" id="tb-chart-of-accounts">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                     <tr>
+                                        <th class="wd-20p">GL No#</th>
+                                        <th class="wd-25p">GL Description</th>
+                                        <th class="wd-20p">GL Classification</th>
+                                        <th class="wd-20p">Parent GL</th>
+                                        <th class="wd-20p">GL Category</th>
+                                        <th class="wd-20p">Auth Status</th>
+                                        <th class="wd-15p">Action</th>
+
+                                    </tr>
+                                </thead>
+
+                            </table>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+								<!--end::Row-->
+								<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->
+
+          <div class="modal fade" id="bulkuploadmodal">
+              <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content modal-content-demo">
+                      <div class="modal-header">
+                          <h6 class="modal-title">Upload General Ledger Accounts</h6>
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                      </div>
+                    <form action=" <%= Routes.chart_of_accounts_path(@conn, :handle_chart_of_account_bulk_upload) %>"  enctype="multipart/form-data" method="post">
+                      <div class="modal-body">
+                      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                          <div class="row row-lg">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                          <div class="col-sm">
+                                            <label class="form-label">Attach file<span style="color: red;">*</span></label>
+                                              <input type="file"  name="uploafile_name" class="form-control" required >
+                                          </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button class="btn ripple btn-success" type="submit">Upload</button>
+                          <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="modal fade" id="addglmodal">
+              <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content modal-content-demo">
+                      <div class="modal-header">
+                          <h6 class="modal-title">Add General Ledger Account</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                      </div>
+                    <form action=" <%= Routes.chart_of_accounts_path(@conn, :create_general_ledger_account) %>" method="post">
+                      <div class="modal-body">
+                      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                          <div class="row row-lg">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label"> General Ledger No <span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_no" required type="text">
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">GL Classification<span style="color: red;">*</span></label>
+                                              <select  name="leaf_or_node" class="form-control " required>
+                                              <option></option>
+                                              <option value="HEADER">HEADER</option>
+                                              <option value="SUB HEADER">SUB HEADER</option>
+                                              <option value="DETAIL">DETAIL</option>
+                                            </select>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Revaluation<span style="color: red;">*</span></label>
+                                              <select  name="revaluation" class="form-control " required>
+                                              <option></option>
+                                              <option value="YES">YES</option>
+                                              <option value="NO">NO</option>
+                                            </select>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Branch Restriction<span style="color: red;">*</span></label>
+                                            <select  name="gl_branch_res" class="form-control " required>
+                                              <option></option>
+                                              <option value="Head Office GL">Head Office GL</option>
+                                              <option value="Branch GL">Branch GL</option>
+                                              <option value="Both">Both</option>
+                                            </select>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Category<span style="color: red;">*</span></label>
+                                              <select  name="gl_category" class="form-control " required>
+                                              <option></option>
+                                              <option value="Assets">Assets</option>
+                                              <option value="Contingent Assets">Contingent Assets</option>
+                                              <option value="Liabilities">Liabilities</option>
+                                              <option value="Contingent Liabilities">Contingent Liabilities</option>
+                                              <option value="Income">Income</option>
+                                              <option value="Expenses">Expenses</option>
+                                            </select>
+                                          </div>
+
+                                    </div>
+                                      <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Description<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_descption" required type="text">
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Type<span style="color: red;">*</span></label>
+                                              <select  name="gl_type" class="form-control " required>
+                                              <option></option>
+                                              <option value="Internal">Internal</option>
+                                              <option value="Customer">Customer</option>
+                                            </select>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Currency<span style="color: red;">*</span></label>
+                                              <select  name="ac_gl_ccy" class="form-control " required>
+                                              <option></option>
+                                              <%= for currency <- Loanmanagementsystem.Maintenance.Currency.all do %>
+                                              <option value="<%= currency.name%>"><%= currency.name%></option>
+                                              <% end %>
+                                            </select>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Parent GL<span style="color: red;">*</span></label>
+                                            <select  name="node_gl" class="form-control " required>
+                                              <option></option>
+                                              <option value="100100">Assets(100100)</option>
+                                              <option value="100100">Contingent Assets(100100)</option>
+                                              <option value="200100">Liabilities(200100)</option>
+                                              <option value="201100">Contingent Liabilities(201100)</option>
+                                              <option value="300100">Income(300100)</option>
+                                              <option value="400100">Expenses(400100)</option>
+                                            </select>
+                                          </div>
+
+                                          <div class="col-sm">
+                                          <label class="form-label">Posting Restriction<span style="color: red;">*</span></label>
+                                          <select  name="gl_post_type" class="form-control " required>
+                                              <option></option>
+                                              <option value="Direct Posting">Direct Posting</option>
+                                              <option value="Indirect Posting">Indirect Posting</option>
+                                          </select>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button class="btn ripple btn-success" type="submit">Save</button>
+                          <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="modal fade" id="viewglmodal">
+              <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content modal-content-demo">
+                      <div class="modal-header">
+                          <h6 class="modal-title">View General Ledger Account</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                      </div>
+                    <form action=" <%= Routes.chart_of_accounts_path(@conn, :authorise_general_ledger_account) %>" method="post">
+                      <div class="modal-body">
+                      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <input type="hidden" name="id" id="id">
+                          <div class="row row-lg">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label"> General Ledger No <span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_no" id="ac_gl_no" required type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">GL Classification<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="leaf_or_node" id="leaf_or_node"  type="text" readonly>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Revaluation<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="revaluation" id="revaluation"  type="text" readonly>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Branch Restriction<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="gl_branch_res" id="gl_branch_res"  type="text" readonly>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Category<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="gl_category" id="gl_category"  type="text" readonly>
+                                          </div>
+                                    </div>
+                                      <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Description<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_descption" id="ac_gl_descption" required type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Type<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="gl_type" id="gl_type"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Currency<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_ccy" id="ac_gl_ccy"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Parent GL<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="node_gl" id="node_gl"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                          <label class="form-label">Posting Restriction<span style="color: red;">*</span></label>
+                                          <input class="form-control" name="gl_post_type" id="gl_post_type"  type="text" readonly>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="modal fade" id="authoriseglmodal">
+              <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content modal-content-demo">
+                      <div class="modal-header">
+                          <h6 class="modal-title">Authorise General Ledger Account</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                      </div>
+                    <form action=" <%= Routes.chart_of_accounts_path(@conn, :authorise_general_ledger_account) %>" method="post">
+                      <div class="modal-body">
+                      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <input type="hidden" name="id" id="id">
+                          <div class="row row-lg">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label"> General Ledger No <span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_no" id="ac_gl_no" required type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">GL Classification<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="leaf_or_node" id="leaf_or_node"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Revaluation<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="revaluation" id="revaluation"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Branch Restriction<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="gl_branch_res" id="gl_branch_res"  type="text" readonly>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Category<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="gl_category" id="gl_category"  type="text" readonly>
+                                          </div>
+                                    </div>
+                                      <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Description<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_descption" id="ac_gl_descption" required type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Type<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="gl_type" id="gl_type"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Currency<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_ccy" id="ac_gl_ccy"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Parent GL<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="node_gl" id="node_gl"  type="text" readonly>
+                                          </div>
+
+                                          <div class="col-sm">
+                                          <label class="form-label">Posting Restriction<span style="color: red;">*</span></label>
+                                          <input class="form-control" name="gl_post_type" id="gl_post_type"  type="text" readonly>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button class="btn ripple btn-success" type="submit">Authorise</button>
+                          <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+
+          <div class="modal fade" id="editglmodal">
+              <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content modal-content-demo">
+                      <div class="modal-header">
+                          <h6 class="modal-title">Edit General Ledger Account</h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                      </div>
+                    <form action=" <%= Routes.chart_of_accounts_path(@conn, :edit_general_ledger_account) %>" method="post">
+                      <div class="modal-body">
+                      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <input type="hidden" name="id" id="id">
+                          <div class="row row-lg">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label"> General Ledger No <span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_no" id="ac_gl_no" required type="text">
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">GL Classification<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="leaf_or_node" id="leaf_or_node"  type="text">
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Revaluation<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="revaluation" id="revaluation"  type="text" readonly>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Branch Restriction<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="gl_branch_res" id="gl_branch_res"  type="text">
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Category<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="gl_category" id="gl_category"  type="text">
+                                          </div>
+                                    </div>
+                                      <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Description<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_descption" id="ac_gl_descption" required type="text">
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Type<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="gl_type" id="gl_type"  type="text">
+
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Currency<span style="color: red;">*</span></label>
+                                              <select  name="ac_gl_ccy" id="ac_gl_ccy" class="form-control " required>
+                                              <option></option>
+                                              <%= for currency <- Loanmanagementsystem.Maintenance.Currency.all do %>
+                                              <option value="<%= currency.name%>"><%= currency.name%></option>
+                                              <% end %>
+                                            </select>
+                                          </div>
+
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Parent GL<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="node_gl" id="node_gl"  type="text">
+                                          </div>
+
+                                          <div class="col-sm">
+                                          <label class="form-label">Posting Restriction<span style="color: red;">*</span></label>
+                                          <input class="form-control" name="gl_post_type" id="gl_post_type"  type="text">
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button class="btn ripple btn-success" type="submit">Update</button>
+                          <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+
+          <div class="modal fade" id="chart-of-accounts-filtermodal">
+              <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                  <div class="modal-content modal-content-demo">
+                      <div class="modal-header">
+                          <h6 class="modal-title">Filter Details </h6>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                      </div>
+                    <form action="" method="post">
+                      <div class="modal-body">
+                      <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                          <div class="row row-lg">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label"> General Ledger No <span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_no" id="filter_ac_gl_no" required type="text">
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">GL Classification<span style="color: red;">*</span></label>
+                                              <select  name="leaf_or_node" id="filter_leaf_or_node" class="form-control " required>
+                                              <option></option>
+                                              <option value="HEADER">HEADER</option>
+                                              <option value="SUB HEADER">SUB HEADER</option>
+                                              <option value="DETAIL">DETAIL</option>
+                                            </select>
+                                          </div>
+                                          <div class="col-sm">
+                                            <label class="form-label">Branch Restriction<span style="color: red;">*</span></label>
+                                            <select  name="gl_branch_res" id="filter_gl_branch_res" class="form-control " required>
+                                              <option></option>
+                                              <option value="Head Office GL">Head Office GL</option>
+                                              <option value="Branch GL">Branch GL</option>
+                                              <option value="Both">Both</option>
+                                            </select>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label"> Start Date <span style="color: red;">*</span></label>
+                                              <input class="form-control" name="start_date" id="start_date" required type="date">
+                                          </div>
+
+                                    </div>
+                                      <div class="col-md-6">
+                                          <div class="col-sm">
+                                            <label class="form-label">General Ledger Description<span style="color: red;">*</span></label>
+                                              <input class="form-control" name="ac_gl_descption" id="filter_ac_gl_descption" required type="text">
+                                          </div>
+
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Parent GL<span style="color: red;">*</span></label>
+                                            <input class="form-control" name="node_gl" id ="filter_node_gl" required type="text">
+
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label">Category<span style="color: red;">*</span></label>
+                                              <select  name="gl_category" id="filter_gl_category" class="form-control " required>
+                                              <option></option>
+                                              <option value="Assets">Assets</option>
+                                              <option value="Contingent Assets">Contingent Assets</option>
+                                              <option value="Liabilities">Liabilities</option>
+                                              <option value="Contingent Liabilities">Contingent Liabilities</option>
+                                              <option value="Income">Income</option>
+                                              <option value="Expenses">Expenses</option>
+                                            </select>
+                                          </div>
+
+                                          <div class="col-sm">
+                                            <label class="form-label"> End Date <span style="color: red;">*</span></label>
+                                              <input class="form-control" name="end_date" id="filter_end_date" required type="date">
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button class="btn ripple btn-success" id ="filter-chartofaccounts" type="submit">Filter</button>
+                          <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+
+
+
+          <script>
+          $(document).ready(function(){
+
+              $('#authoriseglmodal').on('show.bs.modal', function (event){
+                      var button = $(event.relatedTarget)
+                      var id = button.data('id')
+                      var ac_gl_no = button.data('ac_gl_no')
+                      var revaluation = button.data('revaluation')
+                      var ac_gl_ccy = button.data('ac_gl_ccy')
+                      var leaf_or_node = button.data('leaf_or_node')
+                      var gl_branch_res = button.data('gl_branch_res')
+                      var gl_category = button.data('gl_category')
+                      var ac_gl_descption = button.data('ac_gl_descption')
+                      var ac_ccy_res = button.data('ac_ccy_res')
+                      var gl_type = button.data('gl_type')
+                      var node_gl = button.data('node_gl')
+                      var gl_post_type = button.data('gl_post_type')
+                      var overall_limit = button.data('overall_limit')
+
+                      var modal = $(this)
+                      modal.find('.modal-body #id').val(id);
+                      modal.find('.modal-body #ac_gl_no').val(ac_gl_no);
+                      modal.find('.modal-body #revaluation').val(revaluation);
+                      modal.find('.modal-body #ac_gl_ccy').val(ac_gl_ccy);
+                      modal.find('.modal-body #leaf_or_node').val(leaf_or_node);
+                      modal.find('.modal-body #gl_branch_res').val(gl_branch_res);
+                      modal.find('.modal-body #gl_category').val(gl_category);
+                      modal.find('.modal-body #ac_gl_descption').val(ac_gl_descption);
+                      modal.find('.modal-body #ac_ccy_res').val(ac_ccy_res);
+                      modal.find('.modal-body #gl_type').val(gl_type);
+                      modal.find('.modal-body #node_gl').val(node_gl);
+                      modal.find('.modal-body #gl_post_type').val(gl_post_type);
+                      modal.find('.modal-body #overall_limit').val(overall_limit);
+
+                      console.log("testing ...");
+                      console.log(ac_gl_ccy);
+
+              });
+
+              $('#editglmodal').on('show.bs.modal', function (event){
+                      var button = $(event.relatedTarget)
+                      var id = button.data('id')
+                      var ac_gl_no = button.data('ac_gl_no')
+                      var revaluation = button.data('revaluation')
+                      var ac_gl_ccy = button.data('ac_gl_ccy')
+                      var leaf_or_node = button.data('leaf_or_node')
+                      var gl_branch_res = button.data('gl_branch_res')
+                      var gl_category = button.data('gl_category')
+                      var ac_gl_descption = button.data('ac_gl_descption')
+                      var ac_ccy_res = button.data('ac_ccy_res')
+                      var gl_type = button.data('gl_type')
+                      var node_gl = button.data('node_gl')
+                      var gl_post_type = button.data('gl_post_type')
+                      var overall_limit = button.data('overall_limit')
+
+                      var modal = $(this)
+                      modal.find('.modal-body #id').val(id);
+                      modal.find('.modal-body #ac_gl_no').val(ac_gl_no);
+                      modal.find('.modal-body #revaluation').val(revaluation);
+                      modal.find('.modal-body #ac_gl_ccy').val(ac_gl_ccy);
+                      modal.find('.modal-body #leaf_or_node').val(leaf_or_node);
+                      modal.find('.modal-body #gl_branch_res').val(gl_branch_res);
+                      modal.find('.modal-body #gl_category').val(gl_category);
+                      modal.find('.modal-body #ac_gl_descption').val(ac_gl_descption);
+                      modal.find('.modal-body #ac_ccy_res').val(ac_ccy_res);
+                      modal.find('.modal-body #gl_type').val(gl_type);
+                      modal.find('.modal-body #node_gl').val(node_gl);
+                      modal.find('.modal-body #gl_post_type').val(gl_post_type);
+                      modal.find('.modal-body #overall_limit').val(overall_limit);
+              });
+
+              $('#viewglmodal').on('show.bs.modal', function (event){
+                      var button = $(event.relatedTarget)
+                      var id = button.data('id')
+                      var ac_gl_no = button.data('ac_gl_no')
+                      var revaluation = button.data('revaluation')
+                      var ac_gl_ccy = button.data('ac_gl_ccy')
+                      var leaf_or_node = button.data('leaf_or_node')
+                      var gl_branch_res = button.data('gl_branch_res')
+                      var gl_category = button.data('gl_category')
+                      var ac_gl_descption = button.data('ac_gl_descption')
+                      var ac_ccy_res = button.data('ac_ccy_res')
+                      var gl_type = button.data('gl_type')
+                      var node_gl = button.data('node_gl')
+                      var gl_post_type = button.data('gl_post_type')
+                      var overall_limit = button.data('overall_limit')
+
+                      var modal = $(this)
+                      modal.find('.modal-body #id').val(id);
+                      modal.find('.modal-body #ac_gl_no').val(ac_gl_no);
+                      modal.find('.modal-body #revaluation').val(revaluation);
+                      modal.find('.modal-body #ac_gl_ccy').val(ac_gl_ccy);
+                      modal.find('.modal-body #leaf_or_node').val(leaf_or_node);
+                      modal.find('.modal-body #gl_branch_res').val(gl_branch_res);
+                      modal.find('.modal-body #gl_category').val(gl_category);
+                      modal.find('.modal-body #ac_gl_descption').val(ac_gl_descption);
+                      modal.find('.modal-body #ac_ccy_res').val(ac_ccy_res);
+                      modal.find('.modal-body #gl_type').val(gl_type);
+                      modal.find('.modal-body #node_gl').val(node_gl);
+                      modal.find('.modal-body #gl_post_type').val(gl_post_type);
+                      modal.find('.modal-body #overall_limit').val(overall_limit);
+              });
+          });
+          </script>

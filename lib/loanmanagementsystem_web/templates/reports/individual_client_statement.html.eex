@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Bootstrap 4 HTML, React, Angular 10 & VueJS Admin Dashboard Theme
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: https://1.envato.market/EA4JP
+Renew Support: https://1.envato.market/EA4JP
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<html lang="en">
+
+<head>
+	<style>
+		@media (min-width: 768px) {
+			.border-right-md {
+				border-right: 1px solid #000; /* Example border style for medium-sized screens */
+				height: 235px; /* Example height value */
+			},
+
+			.content-indent {
+			padding-left: 20px; /* Adjust the value to your desired indentation */
+		}
+		}
+	</style>
+</head>
+	<body>
+		<div id="kt_header" class="header header-fixed">
+			<!--begin::Container-->
+			<div class="container-fluid d-flex align-items-stretch justify-content-between">
+				<!--begin::Header Menu Wrapper-->
+					<%= render  "submenu.html", assigns %>
+				<!--end::Header Menu Wrapper-->
+			</div>
+			<!--end::Container-->
+		</div>
+
+		<div class="d-flex flex-column-fluid" id="printContent">
+			<!--begin::Container-->
+			<div class="container" >
+				<!--begin::Invoice-->
+				<div class="card card-custom position-relative overflow-hidden">
+
+					<!--begin::Invoice header-->
+					<div class="row justify-content-center py-8 px-0 px-md-60">
+						<div class="col-md-9 d-flex align-items-center justify-content-center">
+							<strong>
+								<img alt="Logo" src="<%= Routes.static_path(@conn, "/images/pangealogo.png") %>" style="height: 80px;" />
+							</strong>
+						</div>
+					</div>
+
+					<!--end::Invoice header-->
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container-fluid">
+							<!--begin::Dashboard-->
+							<!--begin::Row-->
+							<div class="row">
+								<div class="col-md-8 col-xl-12">
+									<div class="card card-custom card-stretch gutter-b">
+
+
+										<div class="card-body">
+											<!--begin::Invoice To-->
+											<div class="text-dark-50 font-size-lg font-weight-bold mb-3"><strong>CLIENT DETAILS:</strong></div>
+											<div class="font-size-lg font-weight-bold mb-10">
+												<%= @client_details.customer_names %>
+												<br />
+											</div>
+											<!--end::Invoice To-->
+											<!--begin::Invoice No-->
+											<div class="text-dark-50 font-size-lg font-weight-bold mb-3"><strong>CONTACT PERSON:</strong></div>
+											<div class="font-size-lg font-weight-bold mb-10">
+												<%= @client_details.customer_names %>
+												<br /><%= @client_details.rep_address %>.
+												<br> <%= @client_details.customer_phone_number %>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container-fluid">
+							<!--begin::Dashboard-->
+							<!--begin::Row-->
+							<div class="row">
+								<div class="col-md-8 col-xl-12">
+									<div class="card card-custom card-stretch gutter-b">
+
+										<div class="card-body">
+										<div class="text-dark-100 font-size-lg font-weight-bold mb-3"><strong>STATEMENT RUN DATE: <%= Timex.local() |> NaiveDateTime.truncate(:second) |> Calendar.Strftime.strftime!("%d %b, %Y %H:%M:%S") %> </strong></div>
+
+											<table class="table table-bordered table-hover table-striped w-100" id="kt_datatable_client_statement">
+												<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+												 <input type="hidden" name="individual_document_name" id="individual_document_name" value="<%= @client_details.customer_names %>">
+												<thead>
+													<tr>
+														<th class="wd-20p">Date</th>
+														<th class="wd-25p">Product Type</th>
+														<th class="wd-20p">Principal Amount</th>
+														<th class="wd-15p">Finance Cost</th>
+														<th class="wd-15p">Interest</th>
+														<th class="wd-15p">Accrued Days</th>
+														<th class="wd-15p">Total Collectable</th>
+														<th class="wd-15p">Repayment Amount</th>
+														<th class="wd-15p">Outstanding Balance</th>
+													</tr>
+												</thead>
+												<tbody>
+														<tr>
+															<td><%= @first_records.transaction_date %></td>
+															<td><%= @first_records.productType %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(@first_records.principal_amount) %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(@first_records.total_finance_cost_accrued) %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(@first_records.total_interest_accrued) %></td>
+															<td style="text-align: right;"><%= @first_records.accrued_no_days %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(@first_records.calculated_balance) %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(@first_records.repaid_amount) %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(@first_records.outstanding_balance) %></td>
+														</tr>
+
+
+														<%= for filtered_loans <- @filtered_loans do %>
+															<tr>
+																<td><%= filtered_loans.transaction_date %></td>
+																<td><%= filtered_loans.productType %></td>
+																<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(filtered_loans.principal_amount) %></td>
+																<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(filtered_loans.total_finance_cost_accrued) %></td>
+																<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(filtered_loans.total_interest_accrued) %></td>
+																<td style="text-align: right;"><%= filtered_loans.accrued_no_days %></td>
+																<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(filtered_loans.calculated_balance) %></td>
+																<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(filtered_loans.repaid_amount) %></td>
+																<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(filtered_loans.outstanding_balance) %></td>
+															</tr>
+														<% end %>
+
+													  	<!--
+															<tr>
+															<td class="wd-20p" style="font-size: 14px;"><strong>Totals</strong></td>
+															<td class="no-border"></td>
+															<td style="text-align: right; font-size: 14px;"><%= Number.Delimit.number_to_delimited(@repayment_totals.txn_principal_amount) %></td>
+															<td class="no-border"></td>
+															<td class="no-border"></td>
+															<td class="no-border"></td>
+															<td class="no-border"></td>
+															<td style="text-align: right; font-size: 14px;"><%= Number.Delimit.number_to_delimited(@repayment_totals.total_repaid_amount) %></td>
+															<td class="no-border"></td>
+															</tr>
+														-->
+												</tbody>
+											</table>
+
+										</div>
+
+
+
+										<div class="card-body">
+										<div class="text-dark-100 font-size-lg font-weight-bold mb-3"><strong> POSITION AS AT: <%= Timex.local() |> NaiveDateTime.truncate(:second) |> Calendar.Strftime.strftime!("%d %b, %Y %H:%M:%S") %> </strong></div>
+
+											<table class="table table-bordered table-hover table-striped w-100" id="kt_datatable_client_statement">
+												<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+												 <input type="hidden" name="individual_document_name" id="individual_document_name" value="<%= @client_details.customer_names %>">
+												<thead>
+													<tr>
+														<th class="wd-20p">Date</th>
+														<th class="wd-25p">Product Type</th>
+														<th class="wd-20p">Principal Amount</th>
+														<th class="wd-15p">Finance Cost</th>
+														<th class="wd-15p">Interest</th>
+														<th class="wd-15p">Accrued Days</th>
+														<th class="wd-15p">Total Collectable</th>
+														<th class="wd-15p">Repayment Amount</th>
+														<th class="wd-15p">Outstanding Balance</th>
+													</tr>
+												</thead>
+												<tbody>
+													<%= for accrued_figure <-@accrued_figures do %>
+														<tr>
+
+															<td><%= Timex.local() |> NaiveDateTime.truncate(:second) |> Calendar.Strftime.strftime!("%d %b, %Y") %></td>
+															<td><%= accrued_figure.productType %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(accrued_figure.principal_amount) %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(accrued_figure.daily_accrued_finance_cost) %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(accrued_figure.daily_accrued_interest) %></td>
+															<td style="text-align: right;"><%= accrued_figure.accrued_no_days %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(accrued_figure.calculated_balance)%></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(accrued_figure.repaid_amount) %></td>
+															<td style="text-align: right;"><%= Number.Delimit.number_to_delimited(accrued_figure.outstanding_balance) %></td>
+														</tr>
+													<% end %>
+												</tbody>
+											</table>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--end::Row-->
+							<!--end::Dashboard-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Invoice header-->
+					<div class="d-flex flex-column-fluid">
+						<!--begin::Container-->
+						<div class="container-fluid">
+							<!--begin::Dashboard-->
+							<!--begin::Row-->
+							<div class="row">
+								<div class="col-md-8 col-xl-12">
+									<div class="card card-custom card-stretch gutter-b">
+
+
+										<div class="card-body">
+											<!--begin::Invoice To-->
+											<div class="text-dark-50 font-size-lg font-weight-bold mb-3"><strong>BANK DETAILS:</strong></div>
+											<div class="font-size-lg font-weight-bold mb-10">
+												FNB : 62807394193 <br> Sort code: 260006 <br> Solwezi Branc
+												<br />
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- begin: Invoice action-->
+					<div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+						<div class="col-md-9">
+							<div class="d-flex font-size-sm flex-wrap">
+								<button type="button" id="russ_printButton" class="btn btn-light-primary font-weight-bolder ml-sm-auto my-1" onclick="printAndHideButton('printContent', 'russ_printButton', 'My Document Name')">Print Statement <i class="flaticon2-printer"></i></i></button>
+							</div>
+						</div>
+					</div>
+					<!-- end: Invoice action-->
+				</div>
+				<!--end::Invoice-->
+			</div><br><br>
+			<!--end::Container-->
+		</div>
+
+
+
+		<script>
+			$(document).ready(function() {
+
+				$('#kt_datatable_client_statement').DataTable({
+					"bFilter": false, // Disables the search filter
+					"responsive": true, // Makes the table responsive
+					"processing": true, // Shows a processing indicator
+					'language': {
+						'loadingRecords': '&nbsp;', // Custom loading message
+						processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span> ', // Custom processing message
+						"EmptyTable": "No Records !" // Message to display when the table is empty
+					},
+					"serverSide": false, // Indicates server-side processing (set to false in this case)
+					"paging": false, // Disables pagination
+					"order": [
+						[0, 'asc'] // Initial sorting order, here sorting by the first column in ascending order
+					],
+				});
+			});
+		</script>
+
+		<script>
+
+			var individual_statement_doc_name = document.getElementById('individual_document_name').value;
+
+			function formatDateForFilename(date) {
+					const year = date.getFullYear().toString().slice(-2);
+					const month = (date.getMonth() + 1).toString().padStart(2, '0');
+					const day = date.getDate().toString().padStart(2, '0');
+					const hours = date.getHours().toString().padStart(2, '0');
+					const minutes = date.getMinutes().toString().padStart(2, '0');
+					const seconds = date.getSeconds().toString().padStart(2, '0');
+
+					const formattedDate = `${day}-${month}-${year}`;
+					const formattedTime = `${hours}:${minutes}`;
+
+					return `${formattedDate}_${formattedTime}`;
+				}
+
+				const curr_Date = new Date();
+				const statement_formattedDateTime = formatDateForFilename(curr_Date);
+
+
+			function printAndHideButton(divId, buttonId, printDocumentName) {
+				var button = document.getElementById("russ_printButton");
+				button.style.display = "none";
+				var printContents = document.getElementById(divId).innerHTML;
+				var originalContents = document.body.innerHTML;
+
+				// Store the current document title
+				var originalTitle = document.title;
+
+				// Set the document title to the specified name for printing
+					document.title = individual_statement_doc_name + " " + " - statement " + "-" + " exported on -" + " " + statement_formattedDateTime;
+
+				// Replace the body content with the content of the specified div
+				document.body.innerHTML = printContents;
+
+				// Print the content
+				window.print();
+
+				// Restore the original body content
+				document.body.innerHTML = originalContents;
+
+				// Restore the original document title
+				document.title = originalTitle;
+
+				// Hide the print button after printing
+				var printButton = document.getElementById(buttonId);
+				if (printButton) {
+					printButton.style.display = 'none';
+				}
+			}
+		</script>
+
+		<!--end::Page Scripts-->
+	</body>
+	<!--end::Body-->
+</html>

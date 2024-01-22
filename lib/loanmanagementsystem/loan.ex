@@ -126,10 +126,10 @@ defmodule Loanmanagementsystem.Loan do
     |> join(:left, [l, uB, p, pr], c in Company, on: l.company_id == c.id)
     |> join(:left, [l, uB, p, pr, c], offk in Company, on: l.offtakerID == offk.id)
     |> join(:left, [l, uB, p, pr, c, offk], b in Bank, on: c.bank_id == b.id)
-    |> join(:left, [l, uB, p, pr, c, offk, b, inv], l in Loan_invoice, on: l.id == inv.loanID)
-    |> join(:left, [l, uB, p, pr, c, offk, b, inv], lF in Loan_funder, on: l.funderID == lF.funderID)
-    |> where([l, uB, p, pr, c, offk, b, inv], l.id == ^loan_id)
-    |> select([l, uB, p, pr, c, offk, b, inv, lF], %{
+    # |> join(:left, [l, uB, p, pr, c, offk, b, inv], l in Loan_invoice, on: l.id == inv.loanID)
+    |> join(:left, [l, uB, p, pr, c, offk, b], lF in Loan_funder, on: l.funderID == lF.funderID)
+    |> where([l, uB, p, pr, c, offk, b], l.id == ^loan_id)
+    |> select([l, uB, p, pr, c, offk, b, lF], %{
       id: l.id,
       loan_id: l.id,
       principal_repaid_derived: l.principal_repaid_derived,
@@ -243,12 +243,12 @@ defmodule Loanmanagementsystem.Loan do
       bank_id: c.bank_id,
       bankName: b.bankName,
       offtakerName: offk.companyName,
-      invoice_id: inv.id,
-      invoiceValue: inv.invoiceValue,
-      paymentTerms: inv.paymentTerms,
-      dateOfIssue: inv.dateOfIssue,
-      invoiceNo: inv.invoiceNo,
-      vendorName: inv.vendorName,
+      # invoice_id: inv.id,
+      # invoiceValue: inv.invoiceValue,
+      # paymentTerms: inv.paymentTerms,
+      # dateOfIssue: inv.dateOfIssue,
+      # invoiceNo: inv.invoiceNo,
+      # vendorName: inv.vendorName,
       repayment: pr.repayment,
       finance_cost: l.finance_cost,
       arrangement_fee: l.arrangement_fee
@@ -256,6 +256,23 @@ defmodule Loanmanagementsystem.Loan do
 
     })
     |> Repo.one()
+  end
+
+  # Loanmanagementsystem.Loan.loan_invoice_details(5)
+
+  def loan_invoice_details(loan_id) do
+    Loan_invoice
+    |> where([inv], inv.loanID == ^loan_id)
+    |> select([inv], %{
+      loan_id: inv.loanID,
+      invoice_id: inv.id,
+      invoiceValue: inv.invoiceValue,
+      paymentTerms: inv.paymentTerms,
+      dateOfIssue: inv.dateOfIssue,
+      invoiceNo: inv.invoiceNo,
+      vendorName: inv.vendorName,
+    })
+    |> Repo.all()
   end
 
 
@@ -781,7 +798,7 @@ defmodule Loanmanagementsystem.Loan do
   @doc """
   Creates a loan_repayment_schedule.
 
-  ## Examples
+  ## Examples Loanmanagementsystem.Loan.inquire_pending_transaction_status_timex()
 
       iex> create_loan_repayment_schedule(%{field: value})
       {:ok, %LoanRepaymentSchedule{}}
@@ -1781,7 +1798,7 @@ defmodule Loanmanagementsystem.Loan do
     |> join(:full, [lo], u in "tbl_users", on: lo.customer_id == u.id)
     |> where(
       [lo, u],
-      lo.company_id == ^company_id and lo.loan_status == "Disbursed" and
+      lo.company_id == ^company_id and lo.status == "Disbursed" and
         lo.inserted_at >= ^start_date and lo.inserted_at <= ^start_end
     )
     |> select([lo, u], %{
@@ -5492,15 +5509,15 @@ defmodule Loanmanagementsystem.Loan do
 
   def active_loans_employer_lookup(search_params, page, size) do
     Loans
-    |> handle_active_loans_filter(search_params)
-    |> order_by([l, uB, uC], desc: l.inserted_at)
+    |> handle_active_loans_by_employer_filter(search_params)
+    # |> order_by([l, uB, uC], desc: l.inserted_at)
     |> compose_active_loans_select()
     |> Repo.paginate(page: page, page_size: size)
   end
   def active_loans_employer_lookup(_source, search_params) do
     Loans
-    |> handle_active_loans_filter(search_params)
-    |> order_by([l, uB, uC], desc: l.inserted_at)
+    |> handle_active_loans_by_employer_filter(search_params)
+    # |> order_by([l, uB, uC], desc: l.inserted_at)
     |> compose_active_loans_select()
   end
 
@@ -5508,62 +5525,78 @@ defmodule Loanmanagementsystem.Loan do
     query
     |> join(:left, [l], uB in UserRole, on: l.customer_id == uB.userId)
     |> join(:left, [l], uC in UserBioData, on: l.customer_id == uC.userId)
-    |> where([l, uB, uC], uB.roleType == "EMPLOYER")
+    |> join(:left, [l], uD in User, on: l.customer_id == uD.id)
+    |> join(:left, [uC], uE in Company, on: uC.id == uE.user_bio_id)
+    |> where([l, uB, uC], uB.roleType == "EMPLOYER" and l.loan_status == "DISBURSED")
+    |> group_by([l, uB, uC, uD, uE], [
+      l.loan_type,
+      uC.firstName,
+      uC.lastName,
+      uC.otherName,
+      uB.roleType,
+      uE.companyName
+      ])
+
     |> select(
-      [l, uB, uC],
+      [l, uB, uC, uD, uE],
       %{
-        id: l.id,
-        account_no: l.account_no,
-        external_id: l.external_id,
-        customer_id: l.customer_id,
-        product_id: l.product_id,
-        loan_status: l.loan_status,
+        company_name: uE.companyName,
         name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", uC.firstName, uC.lastName, uC.otherName),
         loan_type: l.loan_type,
-        currency_code: l.currency_code,
-        principal_amount: l.principal_amount,
-        disbursedon_date: l.disbursedon_date,
-        expected_maturity_date: l.expected_maturity_date,
-        total_charges_repaid: l.total_charges_repaid,
-        inserted_at: l.inserted_at,
         roleType: uB.roleType,
         firstName: uC.firstName,
         lastName: uC.lastName,
-        otherName: uC.otherName
+        otherName: uC.otherName,
+        total_initiated: count(uD.id),
+        principal_amount: sum(l.principal_amount),
+        daily_accrued_interest: sum(l.daily_accrued_interest),
+        daily_accrued_finance_cost: sum(l.daily_accrued_finance_cost),
+        total_interest: sum(l.daily_accrued_interest + l.daily_accrued_finance_cost),
+        balance: sum(l.principal_amount + l.daily_accrued_interest + l.daily_accrued_finance_cost)
       }
     )
   end
 
-  defp handle_active_loans_filter(query, %{"isearch" => search_term} = search_params)
+
+  defp handle_active_loans_by_employer_filter(query, %{"isearch" => search_term} = search_params)
        when search_term == "" or is_nil(search_term) do
     query
-    |> handle_disbursedon_date_loans_filter(search_params)
+    |> handle_active_loans_by_employer_fname_filter(search_params)
+    |> handle_active_loans_by_employer_ptype_filter(search_params)
   end
 
-  defp handle_disbursedon_date_loans_filter(query, %{"from" => from, "to" => to, "role_type" => role_type})
-       when byte_size(from) > 0 and byte_size(to) > 0 do
+  defp handle_active_loans_by_employer_fname_filter(query, %{"c_name" => c_name})
+       when byte_size(c_name) > 0 and byte_size(c_name) > 0 do
     query
     |> where(
-      [l, uB, uD],
-      fragment("? >= TO_DATE(?, 'YYYY/MM/DD')", l.disbursedon_date, ^from) and
-      fragment("? <= TO_DATE(?, 'YYYY/MM/DD')", l.disbursedon_date, ^to) and
-      fragment("lower(?) LIKE lower(?)", uB.roleType, ^role_type)
+      [l, uB, uC, uD, uE],
+      fragment("lower(?) LIKE lower(?)", uE.companyName, ^c_name)
     )
   end
-  defp handle_disbursedon_date_loans_filter(query, _params), do: query
+  defp handle_active_loans_by_employer_fname_filter(query, _params), do: query
+
+  defp handle_active_loans_by_employer_ptype_filter(query, %{"p_type" => p_type})
+       when byte_size(p_type) > 0 and byte_size(p_type) > 0 do
+    query
+    |> where(
+      [l, uB, uC],
+      fragment("lower(?) LIKE lower(?)", l.loan_type, ^p_type)
+    )
+  end
+  defp handle_active_loans_by_employer_ptype_filter(query, _params), do: query
 
 
   def active_loans_product_lookup(search_params, page, size) do
     Loans
     |> handle_active_loans_product_filter(search_params)
-    |> order_by([l, uB, uC, uD], desc: l.inserted_at)
+    # |> order_by([l, uB, uC, uD], desc: l.inserted_at)
     |> compose_active_loans_product_select()
     |> Repo.paginate(page: page, page_size: size)
   end
   def active_loans_product_lookup(_source, search_params) do
     Loans
     |> handle_active_loans_product_filter(search_params)
-    |> order_by([l, uB, uC, uD], desc: l.inserted_at)
+    # |> order_by([l, uB, uC, uD], desc: l.inserted_at)
     |> compose_active_loans_product_select()
   end
 
@@ -5572,29 +5605,34 @@ defmodule Loanmanagementsystem.Loan do
     |> join(:left, [l], uB in UserRole, on: l.customer_id == uB.userId)
     |> join(:left, [l], uC in UserBioData, on: l.customer_id == uC.userId)
     |> join(:left, [l], uD in Product, on: l.product_id == uD.id)
-    # |> where([l, uB, uC uD], l.loan_type == "EMPLOYER")
+    |> where([l], l.loan_status == "DISBURSED")
+    |> group_by([l, uB, uC, uD], [
+      l.loan_type,
+      # uC.firstName,
+      # uC.lastName,
+      # uC.otherName,
+      uB.roleType,
+      uD.minimumPrincipal,
+      uD.maximumPrincipal
+      ])
     |> select(
       [l, uB, uC, uD],
       %{
-        id: l.id,
-        account_no: l.account_no,
-        external_id: l.external_id,
-        customer_id: l.customer_id,
-        product_id: l.product_id,
-        loan_status: l.loan_status,
-        name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", uC.firstName, uC.lastName, uC.otherName),
+        # name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", uC.firstName, uC.lastName, uC.otherName),
         loan_type: l.loan_type,
-        currency_code: l.currency_code,
-        principal_amount: l.principal_amount,
-        disbursedon_date: l.disbursedon_date,
-        expected_maturity_date: l.expected_maturity_date,
-        total_charges_repaid: l.total_charges_repaid,
-        inserted_at: l.inserted_at,
         roleType: uB.roleType,
-        firstName: uC.firstName,
-        lastName: uC.lastName,
-        otherName: uC.otherName,
-        productType: uD.productType
+        minimumPrincipal: uD.minimumPrincipal,
+        maximumPrincipal: uD.maximumPrincipal,
+        product_principal: fragment("concat(?, concat(' to ', ?))", uD.minimumPrincipal, uD.maximumPrincipal),
+        # firstName: uC.firstName,
+        # lastName: uC.lastName,
+        # otherName: uC.otherName,
+        total_initiated: count(uD.id),
+        principal_amount: sum(l.principal_amount),
+        daily_accrued_interest: sum(l.daily_accrued_interest),
+        daily_accrued_finance_cost: sum(l.daily_accrued_finance_cost),
+        total_interest: sum(l.daily_accrued_interest + l.daily_accrued_finance_cost),
+        balance: sum(l.principal_amount + l.daily_accrued_interest + l.daily_accrued_finance_cost)
       }
     )
   end
@@ -5889,6 +5927,124 @@ defmodule Loanmanagementsystem.Loan do
     |> compose_client_summary_select()
   end
 
+
+
+
+
+  def all_innactive_clients_lookup(search_params, page, size) do
+    User
+    |> handle_handle_all_innactive_clients_filter(search_params)
+    |> order_by([l, uB, uC], desc: l.inserted_at)
+    |> compose_all_innactive_clients_select()
+    |> Repo.paginate(page: page, page_size: size)
+  end
+  def all_innactive_clients_lookup(_source, search_params) do
+    User
+    |> handle_handle_all_innactive_clients_filter(search_params)
+    |> order_by([l, uB, uC], desc: l.inserted_at)
+    |> compose_all_innactive_clients_select()
+  end
+
+
+  defp compose_all_innactive_clients_select(query) do
+    query
+    |> join(:left, [l], uB in UserRole, on: l.id == uB.userId)
+    |> join(:left, [l], uC in UserBioData, on: l.id == uC.userId)
+    |> where([l, uB, uC], l.status == "INACTIVE")
+    |> select(
+      [l, uB, uC],
+      %{
+        id: l.id,
+        role_id: uB.id,
+        user_status: l.status,
+        username: l.username,
+        name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", uC.firstName, uC.lastName, uC.otherName),
+        roleType: uB.roleType,
+        firstName: uC.firstName,
+        lastName: uC.lastName,
+        otherName: uC.otherName,
+        emailAddress: uC.emailAddress,
+        meansOfIdentificationNumber: uC.meansOfIdentificationNumber,
+        mobileNumber: uC.mobileNumber
+      }
+    )
+  end
+
+
+  defp handle_handle_all_innactive_clients_filter(query, %{"isearch" => search_term} = search_params)
+       when search_term == "" or is_nil(search_term) do
+    query
+    |> handle_all_innactive_clients_fname_filter(search_params)
+    |> handle_all_innactive_clients_lname_filter(search_params)
+    |> handle_all_innactive_clients_nrc_filter(search_params)
+    |> handle_all_innactive_clients_mobile_filter(search_params)
+    |> handle_all_innactive_clients_role_type_filter(search_params)
+    |> handle_all_innactive_clients_email_filter(search_params)
+  end
+
+  defp handle_all_innactive_clients_fname_filter(query, %{"f_name" => f_name})
+       when byte_size(f_name) > 0 and byte_size(f_name) > 0 do
+    query
+    |> where(
+      [l, uB, uC],
+      fragment("lower(?) LIKE lower(?)", uC.firstName, ^f_name)
+    )
+  end
+  defp handle_all_innactive_clients_fname_filter(query, _params), do: query
+
+  defp handle_all_innactive_clients_lname_filter(query, %{"l_name" => l_name})
+       when byte_size(l_name) > 0 and byte_size(l_name) > 0 do
+    query
+    |> where(
+      [l, uB, uC],
+      fragment("lower(?) LIKE lower(?)", uC.lastName, ^l_name)
+    )
+  end
+  defp handle_all_innactive_clients_lname_filter(query, _params), do: query
+
+  defp handle_all_innactive_clients_nrc_filter(query, %{"nrc" => nrc})
+       when byte_size(nrc) > 0 and byte_size(nrc) > 0 do
+    query
+    |> where(
+      [l, uB, uC],
+      fragment("lower(?) LIKE lower(?)", uC.meansOfIdentificationNumber, ^nrc)
+    )
+       end
+  defp handle_all_innactive_clients_nrc_filter(query, _params), do: query
+
+  defp handle_all_innactive_clients_mobile_filter(query, %{"mobile" => mobile})
+       when byte_size(mobile) > 0 and byte_size(mobile) > 0 do
+    query
+    |> where(
+      [l, uB, uC],
+      fragment("lower(?) LIKE lower(?)", uC.mobileNumber, ^mobile)
+    )
+       end
+  defp handle_all_innactive_clients_mobile_filter(query, _params), do: query
+
+  defp handle_all_innactive_clients_role_type_filter(query, %{"role_type" => role_type})
+       when byte_size(role_type) > 0 and byte_size(role_type) > 0 do
+    query
+    |> where(
+      [l, uB, uC],
+      fragment("lower(?) LIKE lower(?)", uB.roleType, ^role_type)
+    )
+       end
+  defp handle_all_innactive_clients_role_type_filter(query, _params), do: query
+
+  defp handle_all_innactive_clients_email_filter(query, %{"email" => email})
+       when byte_size(email) > 0 and byte_size(email) > 0 do
+    query
+    |> where(
+      [l, uB, uC],
+      fragment("lower(?) LIKE lower(?)", uC.emailAddress, ^email)
+    )
+       end
+  defp handle_all_innactive_clients_email_filter(query, _params), do: query
+
+
+
+
   defp compose_client_summary_select(query) do
     query
     |> join(:left, [l], uB in UserRole, on: l.customer_id == uB.userId)
@@ -5922,6 +6078,9 @@ defmodule Loanmanagementsystem.Loan do
       }
     )
   end
+
+
+
 
   defp handle_client_summary_filter(query, %{"isearch" => search_term} = search_params)
        when search_term == "" or is_nil(search_term) do
@@ -6448,10 +6607,12 @@ defmodule Loanmanagementsystem.Loan do
         loan_status: l.loan_status,
         name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", uC.firstName, uC.lastName, uC.otherName),
         loan_type: l.loan_type,
+        total_repaid: l.total_repaid,
         currency_code: l.currency_code,
         principal_amount: l.principal_amount,
         repayment_amount: l.repayment_amount,
         balance: l.balance,
+        total_balance: (l.principal_amount + l.daily_accrued_interest + l.daily_accrued_finance_cost),
         total_repayment_derived: l.total_repayment_derived,
         disbursedon_date: l.disbursedon_date,
         expected_maturity_date: l.expected_maturity_date,
@@ -8913,6 +9074,7 @@ defmodule Loanmanagementsystem.Loan do
         funderID: funder.funderID,
         firstName: uB.firstName,
         lastName: uB.lastName,
+        customer_name: fragment("concat(?, concat(' ', ?))", uB.firstName, uB.lastName),
         nrc_no: uB.meansOfIdentificationNumber,
         totalAmountFunded: funder.totalAmountFunded,
         funder_type: funder.funder_type
@@ -9197,6 +9359,8 @@ defmodule Loanmanagementsystem.Loan do
     |> Repo.all()
   end
 
+  # Loanmanagementsystem.Loan.get_sme_loan_details(110)
+
   def get_sme_loan_details(loan_id) do
     Loans
     |>join(:left, [l], uS in User, on: l.customer_id == uS.id)
@@ -9205,10 +9369,9 @@ defmodule Loanmanagementsystem.Loan do
     |>join(:left, [l, uS, uB, pr], p in Product, on: l.product_id == p.id)
     |>join(:left, [l,uS,uB,pr, p], c in Company, on: uS.company_id == c.id)
     |>join(:left, [l, uS, uB, pr, p, c], b in Bank, on: c.bank_id == b.id)
-    |> join(:left,[l, uS, uB, pr, p, c, b], inv in Loan_invoice, on: l.customer_id == inv.customer_id)
-    |>join(:left, [l, uS, uB, pr, p, c, b, inv], funder in UserBioData, on: funder.userId == l.funderID)
-    |> where([l, uS, uB, pr, p, c, b, inv, funder], l.id == ^loan_id)
-    |> select([l, uS, uB, pr, p, c, b, inv, funder], %{
+    |>join(:left, [l, uS, uB, pr, p, c, b], funder in UserBioData, on: funder.userId == l.funderID)
+    |> where([l, uS, uB, pr, p, c, b, funder], l.id == ^loan_id)
+    |> select([l, uS, uB, pr, p, c, b, funder], %{
       id: l.id,
       principal_repaid_derived: l.principal_repaid_derived,
       number_of_repayments: l.number_of_repayments,
@@ -9316,13 +9479,6 @@ defmodule Loanmanagementsystem.Loan do
       bank_id: c.bank_id,
       bankName: b.bankName,
 
-      invoiceValue: inv.invoiceValue ,
-      paymentTerms: inv.paymentTerms ,
-      dateOfIssue: inv.dateOfIssue ,
-      invoiceNo: inv.invoiceNo ,
-      loanID: inv.loanID ,
-      status: inv.status ,
-      vendorName: inv.vendorName ,
       arrangement_fee: l.arrangement_fee ,
       finance_cost: l.finance_cost ,
       funder_first_name: funder.firstName,
@@ -10273,7 +10429,7 @@ defmodule Loanmanagementsystem.Loan do
 
       # |> join(:left, [lO, comp, uS, pR, uR, offtaker, funder_bio], loan_amo in Loan_amortization_schedule, on: lO.id == loan_amo.loan_id)
 
-      # |> corparate_disbursed_handle_report_filter(search_params)
+      |> handle_loan_due_loans_items_report_filter(search_params)
       |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], desc: lO.inserted_at)
       |> corparate_overdue_loans_list(Date.to_iso8601(Timex.today))
       |> Repo.paginate(page: page, page_size: size)
@@ -10291,7 +10447,7 @@ defmodule Loanmanagementsystem.Loan do
       |> join(:left, [lO, comp, uS, pR, uR, offtaker], funder_bio in UserBioData, on: lO.funderID == funder_bio.userId)
       |> join(:left, [lO, comp, uS, pR, uR, offtaker, funder_bio], loan_amo in Loan_amortization_schedule, on: lO.id == loan_amo.loan_id and fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id) < ^current_date)
 
-      # |> corparate_disbursed_handle_report_filter(search_params)
+      |> handle_loan_due_loans_items_report_filter(search_params)
       |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], desc: lO.inserted_at)
       |> corparate_overdue_loans_list(Date.to_iso8601(Timex.today))
     end
@@ -10480,11 +10636,42 @@ defmodule Loanmanagementsystem.Loan do
         reference_id: pR.reference_id,
         product_reason: pR.reason,
         productId: pR.id,
+        accrued_no_days: lO.accrued_no_days,
+        daily_accrued_interest: lO.daily_accrued_interest,
+        daily_accrued_finance_cost: lO.daily_accrued_finance_cost,
+        # total_balance_acrued: (l.daily_accrued_interest + l.daily_accrued_finance_cost + l.principal_amount),
+        total_balance_acrued: lO.balance,
 
 
         }
       )
     end
+
+
+    defp handle_loan_due_loans_items_report_filter(query, %{"isearch" => search_term} = search_params)
+    when search_term == "" or is_nil(search_term) do
+      query
+      |> handle_due_loans_first_name_filter(search_params)
+      # |> handle_due_loans_last_name_filter(search_params)
+      # |> handle_due_loans_loan_per_filter(search_params)
+      # |> handle_due_loans_requested_amount_filter(search_params)
+      # |> handle_due_loans_loan_type_filter(search_params)
+      # |> handle_due_loans_contact_person_filter(search_params)
+      # |> handle_due_loans_filter_by_days_filter(search_params)
+
+  end
+
+  defp handle_due_loans_first_name_filter(query, %{"first_name_due_loans_filter" => first_name_due_loans_filter}) do
+    where(
+      query,
+      [lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo],
+      fragment("lower(?) LIKE lower(?)", uS.firstName, ^"%#{first_name_due_loans_filter}%")
+    )
+  end
+
+  defp handle_due_loans_first_name_filter(query, %{"first_name_due_loans_filter" => first_name_due_loans_filter})
+       when first_name_due_loans_filter == "" or is_nil(first_name_due_loans_filter),
+       do: query
 
     # Loanmanagementsystem.Loan.get_corparate_loan_by_funder_id_2(10)
 
@@ -10524,6 +10711,1147 @@ defmodule Loanmanagementsystem.Loan do
 
 
 
+# LoanmanagementsystemWeb.BotController.convert(Loanmanagementsystem.Loan.count_loans_by_status_to_dollar().principal_amount_proposed, "USD")
+   # my_data = Loanmanagementsystem.Loan.count_loans_by_product_and_loan_officer_22()
+   # count_loans = Enum.map(my_data, fn %{count_loan: count_loan} -> count_loan end)
+
+   def count_loans_by_status_to_dollar() do
+    Loans
+    |> group_by([la], [la.loan_status])
+    |> where([la], (la.loan_status == "DISBURSED"))
+    |> select([la], %{
+      count_loan: count(la.id),
+      loan_status: la.loan_status,
+      principal_amount: sum(la.principal_amount)
+
+    })
+    |> Repo.one()
+  end
+
+  def count_clients_by_role() do
+    Loanmanagementsystem.Accounts.UserRole
+    |> where([la], (la.roleType == "EMPLOYER" or la.roleType == "EMPLOYEE" or la.roleType == "INDIVIDUALS"))
+    |> select([la], %{
+      client_count: count(la.id),
+    })
+    |> Repo.one()
+  end
+
+
+  def count_loans_by_product() do
+    Loans
+    |> join(:left, [lo], prod in Product, on: lo.product_id == prod.id)
+    |> group_by([lo, prod], [prod.productType])
+    |> where([lo, prod], (lo.loan_status == "DISBURSED"))
+    |> select([lo, prod], %{
+      count_loan: count(lo.id),
+      loan_type: prod.productType,
+
+    })
+    |> Repo.all()
+  end
+
+
+  # def count_loans_by_product_and_loan_officer() do
+  #   Loans
+  #   |> join(:left, [lo], prod in Product, on: lo.product_id == prod.id)
+  #   |> join(:left, [lo, prod], loan_officer_bio in UserBioData, on: lo.loan_userroleid == loan_officer_bio.userId)
+  #   |> group_by([lo, prod, loan_officer_bio], [prod.productType, loan_officer_bio.firstName, loan_officer_bio.lastName])
+  #   |> where([lo, prod, loan_officer_bio], (lo.loan_status == "DISBURSED" and not is_nil(lo.loan_userroleid)))
+  #   |> select([lo, prod, loan_officer_bio], %{
+  #     count_loan: count(lo.id),
+  #     loan_type: prod.productType,
+  #     loan_officer_name: fragment("concat(?, concat(' ', ?))", loan_officer_bio.firstName, loan_officer_bio.lastName),
+
+  #   })
+  #   |> Repo.all()
+  # end
+
+
+  def count_loans_by_product_and_loan_officer() do
+    Loans
+    |> join(:left, [lo], prod in Product, on: lo.product_id == prod.id)
+    |> group_by([lo, prod], [prod.productType])
+    |> where([lo, prod], (lo.loan_status == "DISBURSED"))
+    |> select([lo, prod], %{
+      count_loan: count(lo.id),
+      loan_type: prod.productType,
+
+    })
+    |> Repo.all()
+  end
+
+
+  # Loanmanagementsystem.Loan.get_last_five_disbursed_loans()
+
+  # def get_last_five_disbursed_loans() do
+  #   from(t in Loans,
+  #         where: t.loan_status == "DISBURSED",
+  #         order_by: [desc: t.inserted_at],
+  #         limit: 5
+  #   )
+  #   |> order_by([t], [asc: t.inserted_at])
+  #   |> Repo.all()
+  # end
+
+  # def get_last_five_disbursed_loans() do
+  #   from(t in Loans,
+  #     join: u in Loanmanagementsystem.Accounts.UserBioData, on: u.userId == t.customer_id,
+  #     join: p in Loanmanagementsystem.Products.Product, on: p.id == t.product_id,
+  #     where: t.loan_status == "DISBURSED",
+  #     order_by: [desc: t.inserted_at],
+  #     limit: 5,
+  #     select: %{transaction: t, user: u, product: p}
+  #   )
+  #   |> order_by([t], [asc: t.inserted_at])
+  #   |> Repo.all()
+  # end
+
+  def get_last_five_disbursed_loans() do
+    Loans
+    |> join(:left, [lo], u in Loanmanagementsystem.Accounts.UserBioData, on: u.userId == lo.customer_id)
+    |> join(:left, [lo, u], prod in Loanmanagementsystem.Products.Product, on: prod.id == lo.product_id)
+    |> where([lo, u, prod], (lo.loan_status == "DISBURSED"))
+    |> select([lo, u, prod], %{
+      principal_amount: lo.principal_amount,
+      customer_name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", u.firstName, u.lastName, u.otherName),
+      product_name: prod.name,
+      interest_amount: lo.interest_amount,
+      total_expected_repayment: lo.total_expected_repayment_derived,
+      disbursedon_date: lo.disbursedon_date,
+      application_date: lo.application_date,
+      loan_status: lo.loan_status
+    })
+    |> order_by([lo, u, prod], [asc: lo.inserted_at])
+    |> limit(5)  # Add limit of 5 records
+    |> Repo.all()
+  end
+
+    # Loanmanagementsystem.Loan.count_loans_by_product_and_loan_officer_22()
+
+  def count_loans_by_product_and_loan_officer_22() do
+    Loans
+    |> join(:left, [lo], prod in Product, on: lo.product_id == prod.id)
+    |> join(:left, [lo, prod], lo_officer in UserBioData, on: lo.loan_officer_id == lo_officer.userId)
+    |> group_by([lo, prod, lo_officer], [prod.productType, lo_officer.userId, fragment("CONCAT(REGEXP_REPLACE(TO_CHAR(?,'Month'),'\s+$',''))", lo.inserted_at), lo_officer.lastName, lo_officer.firstName])
+    # |> where([lo, prod], (lo.loan_status == "DISBURSED"))
+    |> select([lo, prod, lo_officer], %{
+      count_loan: count(lo.id),
+      period: fragment("CONCAT(REGEXP_REPLACE(TO_CHAR(?,'Month'),'\s+$',''))", lo.inserted_at),
+      loan_type: prod.productType,
+      loan_officer: fragment("concat(?, concat(' ', ?))", lo_officer.firstName, lo_officer.lastName),
+      userId: lo_officer.userId
+
+    })
+    |> Repo.all()
+  end
+
+
+  # from l in Loan,
+  # join: p in Product, on: l.product_id == p.id,
+  # join: lo in LoanOfficer, on: l.loan_officer_id == lo.id,
+  # group_by: {p.name, lo.name},
+  # select: {p.name, lo.name}
+
+  # Loanmanagementsystem.Loan.days_between()
+
+  # def get_all_unpaid_loans() do
+
+  #   {:ok, date} = Date.from_iso8601("2023-07-07")
+  #   date1 = Timex.day(date)
+  #   date2 = Timex.today()
+
+
+  #   Loans
+  #   |> join(:left, [lo], prod in Product, on: lo.product_id == prod.id)
+  #   |> where([lo, prod], (lo.loan_status == "DISBURSED"))
+  #   |> select([lo, prod], %{
+  #     loan_id: lo.id,
+  #     productType: prod.productType,
+  #     principal_amount: lo.principal_amount,
+  #     product_interest: (prod.interest + prod.finance_cost),
+  #     disbursed_date: lo.disbursedon_date,
+  #     interest_accrued: (prod.interest + prod.finance_cost) * lo.principal_amount *  fragment("DATE_PART('day', ? - ?)", date2, date1),
+  #   })
+  #   |> Repo.all()
+  # end
+
+  # defp days_between() do
+  #   {:ok, date} = Date.from_iso8601("2023-07-07")
+  #   date1 = Timex.day(date)
+  #   fragment("DATE_PART('day', ? - ?)", Timex.today(), date1)
+  # end
+
+
+
+
+# Loanmanagementsystem.Loan.days_from_disbursement("2023-07-07")
+
+
+    # def count_days_between_dates(end_date) do
+    #   {:ok, date} = Date.from_iso8601("2023-07-07")
+    #   case Timex.diff(date, end_date) do
+    #     {:ok, duration} ->
+    #       days = Timex.Duration.to_days(duration)
+    #       {:ok, days}
+
+    #     {:error, reason} ->
+    #       {:error, reason}
+    #   end
+    # end
+
+    # Timex.diff(date, end_date)
+
+    # Timex.Duration.to_days(-1209600000000)
+
+    # Timex.day(Timex.today()) - Timex.day(date)
+
+
+    def days_from_disbursement(disbursed_date) do
+      {:ok, date} = Date.from_iso8601(disbursed_date)
+      Timex.day(Timex.today()) - Timex.day(date)
+    end
+
+    # Loanmanagementsystem.Loan.days_from_disbursement("2023-07-07")
+    # Loanmanagementsystem.Loan.pending_partner()
+
+    def pending_partner() do
+      # nxtloan_status == "DISBURSED"
+      query =
+        from lo in Loans,
+          # where: lo.loan_status == "DISBURSED",
+          where: lo.status == "DISBURSED" and is_nil(lo.disbursedon_date) != true,
+          select: lo
+      students = Repo.all(query)
+      students
+    end
+
+    # def pending_partner_2() do
+    #   case Loanmanagementsystem.Loan.pending_partner() do
+    #     [] ->
+    #       IO.puts("\n <<<<<<<  NO INNACTIVE STUDENTS FOUND >>>>>>> \n")
+    #       []
+
+    #     sms ->
+    #       List.wrap(sms)
+    #   end
+    # end
+
+    def pending_partner_2() do
+      curr_day = Timex.today()
+
+      case Loanmanagementsystem.Loan.pending_partner() do
+        [] ->
+          IO.puts("\n <<<<<<<  NO INACTIVE STUDENTS FOUND >>>>>>> \n")
+          []
+
+        sms ->
+
+          active_sms = Enum.filter(sms, fn sms -> String.to_integer(to_string(Date.diff(curr_day, sms.disbursedon_date))) > 0.9 end)
+          List.wrap(active_sms)
+      end
+    end
+
+    # Loanmanagementsystem.Loan.pending_partner_2()
+
+    def move_partner_records() do
+    #   # rndm = Enum.random(1111111..9999999)|> to_string()
+      data = pending_partner_2()
+      ids = Enum.map(data, fn sms-> sms.id end)
+      Enum.each(pending_partner_2(), fn sms ->
+        # IO.inspect(sms.disbursedon_date, label: "here is sms")
+        # IO.inspect(Timex.day(Timex.today()) - Timex.day(sms.disbursedon_date), label: "here is days")
+        daily_accrued_interest = (sms.interest_amount) * sms.principal_amount * (Timex.day(Timex.today()) - Timex.day(sms.disbursedon_date))
+        daily_accrued_finance_cost = (sms.finance_cost) * sms.principal_amount * (Timex.day(Timex.today()) - Timex.day(sms.disbursedon_date))
+        # IO.inspect(data, label: "here is data")
+
+        # IO.inspect(sms.interest_amount, label: "here is interest_amount")
+        # IO.inspect(sms.finance_cost, label: "here is finance_cost")
+        # IO.inspect(sms.principal_amount, label: "here is principal_amount")
+
+        IO.inspect(daily_accrued_finance_cost, label: "here is daily_accrued_finance_cost")
+
+        binary_to_string = fn str ->
+          if is_binary(str), do: Enum.join(for <<c::utf8 <- str>>, do: <<c::utf8>>), else: str
+        end
+
+        # Loanmanagementsystem.Loan.to_update(ids)
+        # |> Loanmanagementsystem.Repo.update_all(set: [daily_accrued_interest: data])
+        mystudent_id = binary_to_string.(sms.id)
+
+        IO.inspect(mystudent_id, label: "here here ids")
+        # mystudentId = Integer.to_string(mystudent_id)
+
+        update_partner_legacy(mystudent_id, daily_accrued_interest, daily_accrued_finance_cost)
+      end)
+
+    end
+
+    def to_update(ids) do
+      where(Loans, [s], s.id in ^ids)
+      # |> Repo.all()
+    end
+
+
+  def update_partner_legacy(ids, daily_accrued_interest, daily_accrued_finance_cost) do
+    # loginStatus = "ACTIVE"
+    Loanmanagementsystem.Loan.to_update(ids)
+    |> Loanmanagementsystem.Repo.update_all(set: [daily_accrued_interest: daily_accrued_interest, daily_accrued_finance_cost: daily_accrued_finance_cost])
+  end
+
+  def pending_transactions_timex() do
+    case Rhema.Transaction.get_failed_txn() do
+      [] ->
+        []
+
+      transactions ->
+        transactions
+    end
+  end
+
+
+
+  # def inquire_pending_transaction_status_timex() do
+  #   IO.inspect("Check for Pending Transactions")
+
+  #   Enum.each(pending_partner_2(), fn txn ->
+
+  #     data = sum((txn.interest_amount + txn.finance_cost)) / txn.tenor
+  #     total_data = sum((txn.interest_amount + txn.finance_cost)) / txn.tenor
+  #     IO.inspect(data, label: "data")
+  #     attrs = %{
+  #       daily_accrued_interest: txn.daily_accrued_interest + data
+  #     }
+
+  #   endo_of_day_entries = %Loanmanagementsystem.Loan.End_of_day{
+
+  #       total_interest_accrued: (txn.daily_accrued_interest + data),
+  #       loan_id: txn.id,
+  #       principal_amount: txn.principal_amount
+  #       # studentLevel: sms.student_level,
+  #       # session: sms.duration,
+  #       # studentID: sms.studentinfosid
+  #     }
+  #     endo_of_day_entries = Repo.insert!(endo_of_day_entries)
+
+  #     txn
+  #     |> Loanmanagementsystem.Loan.Loans.changesetForUpdate(attrs)
+  #     |> Repo.update()
+
+  #     # IO.inspect(
+  #     # 	Transactions.changesetForUpdate(txn, %{
+  #     # 		status: "FAILED",
+  #     # 		settlement_status: "FAILED",
+  #     # 	})
+  #     # )
+  #   end)
+  # end
+
+
+  # def inquire_pending_transaction_status_timex() do
+  #   IO.inspect("Check for Pending Transactions")
+
+  #   total_data = 0
+
+  #   Enum.each(pending_partner_2(), fn txn ->
+  #     data = (txn.interest_amount + txn.finance_cost) / txn.tenor
+  #     # total_data = total_data + data
+
+
+  #     IO.inspect((txn.daily_accrued_interest + data), label: "total_data")
+
+
+  #     IO.inspect(data, label: "data")
+  #     attrs = %{
+  #       daily_accrued_interest: txn.daily_accrued_interest + data
+  #     }
+
+  #     endo_of_day_entry = %Loanmanagementsystem.Loan.End_of_day{
+  #       total_interest_accrued: txn.daily_accrued_interest + data,
+  #       loan_id: txn.id,
+  #       principal_amount: txn.principal_amount
+  #       # studentLevel: sms.student_level,
+  #       # session: sms.duration,
+  #       # studentID: sms.studentinfosid
+  #     }
+
+  #     endo_of_day_entry = Repo.insert!(endo_of_day_entry)
+
+  #     txn
+  #     |> Loanmanagementsystem.Loan.Loans.changesetForUpdate(attrs)
+  #     |> Repo.update()
+  #   end)
+  # end
+
+    # Loanmanagementsystem.Loan.inquire_pending_transaction_status_timex()
+
+    def inquire_pending_transaction_status_timex() do
+        IO.inspect("Check for Pending Transactions")
+
+        date_ran = DateTime.utc_now() |> DateTime.truncate(:second)
+        date_ran = DateTime.utc_now() |> DateTime.truncate(:second)
+        daily_eod_ref_no =  :os.system_time
+
+        total_data = 0
+        {total_data, data_list} = Enum.reduce(pending_partner_2(), {total_data, []}, fn txn, {acc_total_data, acc_data_list} ->
+          # data = (txn.interest_amount + txn.finance_cost) / txn.tenor
+          data = (txn.interest_amount) / txn.tenor
+
+          IO.inspect((txn.daily_accrued_interest + data), label: "total_data")
+
+
+          new_total_data = acc_total_data + data
+
+          IO.inspect((txn.daily_accrued_interest + data), label: "total_data")
+          # IO.inspect(data_list, label: "check data_list")
+
+          {new_total_data, [data | acc_data_list]}
+        end)
+
+        # attrs = %{
+        #   daily_accrued_interest: Enum.sum(data_list)
+        # }
+
+  # disbursedon_date = ~D[2023-08-4]
+
+        Enum.each(pending_partner_2(), fn txn ->
+          # data = (txn.interest_amount + txn.finance_cost) / txn.tenor
+          data = (txn.interest_amount) / txn.tenor
+          # finance_cost_data = (txn.finance_cost) / txn.tenor
+          product_details = try do Loanmanagementsystem.Products.Product.find_by(id: txn.product_id) rescue _-> nil end
+            case product_details.periodType do
+              "DAY" ->
+                  curr_day = Timex.today()
+                  accrued_period = String.to_integer(to_string(Date.diff(curr_day, txn.disbursedon_date)))
+                  # disbursedon_date = ~D[2023-09-1]
+                  # accrued_period = String.to_integer(to_string(Date.diff(Timex.today(), disbursedon_date)))
+
+                  # {    # Here check accrued days
+                  # {:ok, date} = Date.from_iso8601("2023-09-20")
+                  # {:ok, ~D[2023-03-10]}
+                  # iex(64)> accrued_period = String.to_integer(to_string(Date.diff(Timex.today(), date)))
+
+                  #  # Here check accrued days }
+
+                  case accrued_period do
+                      0 ->
+                        IO.inspect(accrued_period , label: "Skip today's Record")
+
+                      _ ->
+
+                        months =  days_to_months(accrued_period) + 1  # Approximation
+
+                              loan_interest = ((txn.init_interest_per/30) * (accrued_period/100) *(txn.principal_amount))
+                              IO.inspect(loan_interest, label: "*** check loan_interest  here ***")
+                              IO.inspect([txn.principal_amount, loan_interest], label: "*** check principal_amount and loan_interest here ***")
+
+                              finance_cost_data = ((txn.init_finance_cost_per/30) * (accrued_period/100) *(txn.principal_amount))
+
+                              case accrued_period do
+                                0 ->
+                                  IO.inspect(accrued_period , label: "Skip today's Record")
+
+                                _ ->
+
+                                  endo_of_day_entries = %Loanmanagementsystem.Loan.End_of_day_entry{
+
+                                    interest_accrued: (loan_interest),
+                                    finance_cost_accrued: (finance_cost_data),
+                                    loan_id: txn.id,
+                                    # end_of_day_id: 9000005,
+                                    principal_amount: txn.principal_amount,
+                                    accrual_start_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                    status: "ACCRUED",
+                                    end_of_day_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                    eod_ref_no: "#{daily_eod_ref_no}"
+
+                                    #{:os.system_time}"
+                                    # session: sms.duration,
+                                    # studentID: sms.studentinfosid
+                                  }
+                                  endo_of_day_entries = Repo.insert!(endo_of_day_entries)
+
+                                  Loanmanagementsystem.Loan.push_day_over_under_due(endo_of_day_entries.loan_id, endo_of_day_entries.interest_accrued, endo_of_day_entries.finance_cost_accrued, months, accrued_period, endo_of_day_entries.principal_amount)
+
+                                end
+
+                  end
+
+            _ ->
+
+              curr_day = Timex.today()
+              accrued_period = String.to_integer(to_string(Date.diff(curr_day, txn.disbursedon_date)))
+
+              #  accrued_period = String.to_integer(to_string(Date.diff(curr_day, disbursedon_date)))
+
+              if accrued_period > 30 do
+
+                                months =  days_to_months(accrued_period) + 1  # Approximation
+
+                                IO.inspect([txn.id, txn.disbursedon_date, months], label: "Daily acruess running here")
+
+
+                                        loan_interest = ((txn.init_interest_per/30) * (accrued_period/100) *(txn.principal_amount))
+                                        finance_cost_data = ((txn.init_finance_cost_per/30) * (accrued_period/100) *(txn.principal_amount))
+
+                                          endo_of_day_entries = %Loanmanagementsystem.Loan.End_of_day_entry{
+
+                                              interest_accrued: (loan_interest),
+                                              finance_cost_accrued: (finance_cost_data),
+                                              loan_id: txn.id,
+                                              # end_of_day_id: endo_of_day_entry.id,
+
+                                              principal_amount: txn.principal_amount,
+                                              accrual_start_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                              status: "ACCRUED",
+                                              end_of_day_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                              eod_ref_no: "#{daily_eod_ref_no}"
+                                            }
+                                            endo_of_day_entries = Repo.insert!(endo_of_day_entries)
+
+                                        Loanmanagementsystem.Loan.push_day_over_under_due(endo_of_day_entries.loan_id, endo_of_day_entries.interest_accrued, endo_of_day_entries.finance_cost_accrued, months, accrued_period, endo_of_day_entries.principal_amount)
+
+
+
+              else
+
+                      months =  days_to_months(accrued_period) + 1  # Approximation
+                      IO.inspect([txn.id, txn.disbursedon_date, months], label: "check my months here")
+
+                      if months != txn.eod_count do
+                        # days set 30 for the first month
+                        default_accrued_period = 30
+
+                                    IO.inspect([txn.id, txn.disbursedon_date, months], label: "check my months here")
+
+                                    # loan_interest = ((product_details.interest/30) * (accrued_period/100) *(txn.principal_amount)) accrued_no_days
+                                    loan_interest = ((txn.init_interest_per/100) * (months) *(txn.principal_amount))
+                                    finance_cost_data = ((txn.init_finance_cost_per/100) * (months) *(txn.principal_amount))
+                                    IO.inspect(loan_interest, label: "*** check loan_interest  here ***")
+                                    IO.inspect([txn.principal_amount, loan_interest], label: "*** check principal_amount and loan_interest here ***")
+
+                                    # finance_cost_data = ((product_details.finance_cost/30) * (accrued_period/100) *(txn.principal_amount))
+
+                                      endo_of_day_entries = %Loanmanagementsystem.Loan.End_of_day_entry{
+
+                                          interest_accrued: (loan_interest),
+                                          finance_cost_accrued: (finance_cost_data),
+                                          loan_id: txn.id,
+                                          # end_of_day_id: endo_of_day_entry.id,
+
+                                          principal_amount: txn.principal_amount,
+                                          accrual_start_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                          status: "ACCRUED",
+                                          end_of_day_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                          eod_ref_no: "#{daily_eod_ref_no}"
+                                          # session: sms.duration,
+                                          # studentID: sms.studentinfosid
+                                        }
+                                        endo_of_day_entries = Repo.insert!(endo_of_day_entries)
+
+                                        # endo_of_day_entry = %Loanmanagementsystem.Loan.End_of_day{
+                                        #   total_interest_accrued: Enum.sum(data_list),
+                                        #   date_ran: date_ran,
+                                        #   end_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                        #   end_of_day_type: "TOTAL DAILY ACCRUED INTEREST",
+                                        #   penalties_incurred: 0.0,
+                                        #   status: "ACCRUED",
+                                        #   start_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                                        #   eod_ref_no: "#{daily_eod_ref_no}"
+                                        #   # currencyName: interest_currencyName
+                                        # }
+
+                                        # endo_of_day_entry = Repo.insert!(endo_of_day_entry)
+
+                                    Loanmanagementsystem.Loan.push_day_over_under_due(endo_of_day_entries.loan_id, endo_of_day_entries.interest_accrued, endo_of_day_entries.finance_cost_accrued, months, default_accrued_period, endo_of_day_entries.principal_amount)
+
+                      else
+                        IO.inspect("SKip EOD")
+                      end
+                  end
+              end
+
+        end)
+
+
+
+        # IO.inspect(endo_of_day_entry.id, label: "All endo_of_day_entry")
+
+        # Loanmanagementsystem.Loan.get_all_eod_entries_by_eod_id(endo_of_day_entry.id)
+
+        # At this point, data_list will contain all the 'data' values collected in the loop in the correct order.
+        # IO.inspect(Enum.sum(data_list), label: "sum of All data values")
+
+
+        total_interest_accrued = Loanmanagementsystem.Loan.get_totals_accrued("#{daily_eod_ref_no}")
+
+        endo_of_day_entry = %Loanmanagementsystem.Loan.End_of_day{
+                total_interest_accrued: total_interest_accrued.total_interest,
+                date_ran: date_ran,
+                end_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                end_of_day_type: "TOTAL DAILY ACCRUED INTEREST",
+                penalties_incurred: 0.0,
+                status: "ACCRUED",
+                start_date: DateTime.utc_now() |> DateTime.truncate(:second),
+                eod_ref_no: "#{daily_eod_ref_no}"
+                # currencyName: interest_currencyName
+              }
+
+          endo_of_day_entry = Repo.insert!(endo_of_day_entry)
+          Loanmanagementsystem.Loan.daily_eod_entries_report(endo_of_day_entry.eod_ref_no)
+
+    end
+
+
+  def days_to_months(days) when is_integer(days) and days >= 0 do
+    months = div(days, 30)  # Approximation
+
+    months
+  end
+
+  def days_to_months(_) do
+    {:error, "Invalid input. Number of days must be a non-negative integer."}
+  end
+
+  def get_totals_accrued(eod_ref_no) do
+    Loanmanagementsystem.Loan.End_of_day_entry
+    |> where([entries], entries.eod_ref_no == ^eod_ref_no)
+    |> select([entries], %{
+      total_interest: sum(entries.interest_accrued),
+      finance_cost_accrued: sum(entries.finance_cost_accrued),
+      principal_amount: sum(entries.principal_amount),
+
+
+    })
+    |> Repo.one()
+  end
+
+# Loanmanagementsystem.Loan.daily_eod_entries_report("1693910077665764045")
+
+  def daily_eod_entries_report(eod_ref_no) do
+    for x <- 0..(Enum.count(Loanmanagementsystem.Loan.get_all_email())-1) do #list with maps
+    # Loanmanagementsystem.Emails.Email.eod_test(Map.get(Enum.at(Loanmanagementsystem.Loan.get_all_email(), x)), :email, endo_of_day_entry)
+    Loanmanagementsystem.Emails.Email.send_daily_eod_entries_report(Enum.at(Loanmanagementsystem.Loan.get_all_email(), x), eod_ref_no)
+    end
+  end
+
+
+  def get_all_email() do
+    Loanmanagementsystem.Email_configs.Email_config_receiver
+      |> where([uR], uR.status == ^"ACTIVE")
+      |> select([uR], %{
+        email: uR.email,
+      })
+      |> Repo.all()
+  end
+
+  # Loanmanagementsystem.Loan.update_loan_due_days(1)
+
+  def update_loan_due_days(ids) do
+    # status = "ACTIVE"
+    # IO.inspect(ids, labe: "check ids")
+     Loanmanagementsystem.Loan.to_update_loan_days(ids)
+    loan_details = Loanmanagementsystem.Loan.get_all_accrued_period_by_eod_id(ids)
+    IO.inspect(loan_details, label: "Give us iwe")
+    |> Loanmanagementsystem.Repo.update_all(set: [days_under_due: 111])
+  end
+
+  # def to_update_loan_days(ids) do
+  #   where(Loanmanagementsystem.Loan.Loans, [s], s.id in ^ids)
+  #   # |> Repo.all()
+  # end
+
+  def to_update_loan_days(ids) do
+    from(s in Loanmanagementsystem.Loan.Loans, where: s.id in ^[ids])
+  end
+
+  def get_days_to_update_loan_days(ids) do
+    # Construct the Ecto query
+    query =
+      from(s in Loanmanagementsystem.Loan.Loans, where: s.id in ^[ids],
+        select: s  # Specify to select all fields of the Loan schema
+      )
+
+    # Execute the query to fetch the matching loan records
+    transactions = Repo.all(query)
+
+    # Return the fetched loan records
+    transactions
+  end
+
+  # 2
+
+  # def get_days_to_update_loan_days(ids) do
+  #   Repo.all(
+  #     from(
+  #       u in Loanmanagementsystem.Loan.Loans,
+  #       where: u.id == ^[ids],
+  #       select: u
+  #     )
+  #   )
+  # end
+
+
+  # from l0 in Loanmanagementsystem.Loan.Loans,
+  # where: l0.id in ^[12],  # Wrap 12 in a list
+  # update: [set: [days_under_due: ^101]]
+
+  alias Loanmanagementsystem.Loan.End_of_day
+
+  @doc """
+  Returns the list of tbl_end_of_day.
+
+  ## Examples
+
+      iex> list_tbl_end_of_day()
+      [%End_of_day{}, ...]
+
+  """
+  def list_tbl_end_of_day do
+    Repo.all(End_of_day)
+  end
+
+  @doc """
+  Gets a single end_of_day.
+
+  Raises `Ecto.NoResultsError` if the End of day does not exist.
+
+  ## Examples
+
+      iex> get_end_of_day!(123)
+      %End_of_day{}
+
+      iex> get_end_of_day!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_end_of_day!(id), do: Repo.get!(End_of_day, id)
+
+  @doc """
+  Creates a end_of_day.
+
+  ## Examples
+
+      iex> create_end_of_day(%{field: value})
+      {:ok, %End_of_day{}}
+
+      iex> create_end_of_day(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_end_of_day(attrs \\ %{}) do
+    %End_of_day{}
+    |> End_of_day.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a end_of_day.
+
+  ## Examples
+
+      iex> update_end_of_day(end_of_day, %{field: new_value})
+      {:ok, %End_of_day{}}
+
+      iex> update_end_of_day(end_of_day, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_end_of_day(%End_of_day{} = end_of_day, attrs) do
+    end_of_day
+    |> End_of_day.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a end_of_day.
+
+  ## Examples
+
+      iex> delete_end_of_day(end_of_day)
+      {:ok, %End_of_day{}}
+
+      iex> delete_end_of_day(end_of_day)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_end_of_day(%End_of_day{} = end_of_day) do
+    Repo.delete(end_of_day)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking end_of_day changes.
+
+  ## Examples
+
+      iex> change_end_of_day(end_of_day)
+      %Ecto.Changeset{data: %End_of_day{}}
+
+  """
+  def change_end_of_day(%End_of_day{} = end_of_day, attrs \\ %{}) do
+    End_of_day.changeset(end_of_day, attrs)
+  end
+
+  alias Loanmanagementsystem.Loan.End_of_day_entry
+
+  @doc """
+  Returns the list of tbl_end_of_day_entries.
+
+  ## Examples
+
+      iex> list_tbl_end_of_day_entries()
+      [%End_of_day_entry{}, ...]
+
+  """
+  def list_tbl_end_of_day_entries do
+    Repo.all(End_of_day_entry)
+  end
+
+  @doc """
+  Gets a single end_of_day_entry.
+
+  Raises `Ecto.NoResultsError` if the End of day entry does not exist.
+
+  ## Examples
+
+      iex> get_end_of_day_entry!(123)
+      %End_of_day_entry{}
+
+      iex> get_end_of_day_entry!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_end_of_day_entry!(id), do: Repo.get!(End_of_day_entry, id)
+
+  @doc """
+  Creates a end_of_day_entry.
+
+  ## Examples
+
+      iex> create_end_of_day_entry(%{field: value})
+      {:ok, %End_of_day_entry{}}
+
+      iex> create_end_of_day_entry(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_end_of_day_entry(attrs \\ %{}) do
+    %End_of_day_entry{}
+    |> End_of_day_entry.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a end_of_day_entry.
+
+  ## Examples
+
+      iex> update_end_of_day_entry(end_of_day_entry, %{field: new_value})
+      {:ok, %End_of_day_entry{}}
+
+      iex> update_end_of_day_entry(end_of_day_entry, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_end_of_day_entry(%End_of_day_entry{} = end_of_day_entry, attrs) do
+    end_of_day_entry
+    |> End_of_day_entry.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a end_of_day_entry.
+
+  ## Examples
+
+      iex> delete_end_of_day_entry(end_of_day_entry)
+      {:ok, %End_of_day_entry{}}
+
+      iex> delete_end_of_day_entry(end_of_day_entry)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_end_of_day_entry(%End_of_day_entry{} = end_of_day_entry) do
+    Repo.delete(end_of_day_entry)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking end_of_day_entry changes.
+
+  ## Examples
+
+      iex> change_end_of_day_entry(end_of_day_entry)
+      %Ecto.Changeset{data: %End_of_day_entry{}}
+
+  """
+  def change_end_of_day_entry(%End_of_day_entry{} = end_of_day_entry, attrs \\ %{}) do
+    End_of_day_entry.changeset(end_of_day_entry, attrs)
+  end
+
+
+    # Loanmanagementsystem.Loan.end_of_day_loans_listing(nil, 1, 10)
+    def end_of_day_loans_listing(search_params, page, size) do
+      Loanmanagementsystem.Loan.End_of_day
+      # |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
+      |> handle_end_of_day_loans_filter(search_params)
+      |> order_by([eod], desc: eod.inserted_at)
+      |> compose_end_of_day_loans_list()
+      |> Repo.paginate(page: page, page_size: size)
+    end
+
+    def end_of_day_loans_listing(_source, search_params) do
+      Loanmanagementsystem.Loan.End_of_day
+      # |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
+      |> handle_end_of_day_loans_filter(search_params)
+      |> order_by([eod], desc: eod.inserted_at)
+      |> compose_end_of_day_loans_list()
+    end
+
+
+
+    defp compose_end_of_day_loans_list(query) do
+      query
+      # |> where([eod], (lO.loan_type != "Consumer Loan" and lO.loan_type != "CONSUMER LOAN") and lO.loan_status == "DISBURSED")
+      |> select([eod],
+        %{
+          end_of_day_id: eod.id,
+          id: eod.id,
+          date_ran: eod.date_ran,
+          currencyName: eod.currencyName,
+          end_date: eod.end_date,
+          end_of_day_type: eod.end_of_day_type,
+          start_date: eod.start_date,
+          status: eod.status,
+          total_interest_accrued: eod.total_interest_accrued,
+          principal_amount: eod.principal_amount,
+          penalties_incurred: eod.penalties_incurred,
+          eod_ref_no: eod.eod_ref_no,
+
+        }
+      )
+    end
+
+    defp handle_end_of_day_loans_filter(query, %{"isearch" => search_term} = search_params)
+      when search_term == "" or is_nil(search_term) do
+      query
+        |> handle_loan_eod_created_date_filter(search_params)
+
+    end
+
+    defp handle_end_of_day_loans_filter(query, %{"isearch" => search_term}) do
+      search_term = "%#{search_term}%"
+      compose_eod_loan_isearch_filter(query, search_term)
+    end
+
+
+    defp handle_loan_eod_created_date_filter(query, %{"eod_start_date" => eod_start_date, "eod_end_date" => eod_end_date})
+        when byte_size(eod_start_date) > 0 and byte_size(eod_end_date) > 0 do
+        query
+        |> where(
+          [eod],
+          fragment("? >= TO_DATE(?, 'YYYY/MM/DD')", eod.inserted_at, ^eod_start_date) and
+            fragment("? <= TO_DATE(?, 'YYYY/MM/DD')", eod.inserted_at, ^eod_end_date)
+        )
+    end
+
+    defp handle_loan_eod_created_date_filter(query, _params), do: query
+
+    defp compose_eod_loan_isearch_filter(query, search_term) do
+      query
+      |> where(
+        [eod],
+        fragment("lower(?) LIKE lower(?)", eod.eod_ref_no, ^search_term)
+
+      )
+    end
+
+
+    # defp compose_disbursed_loans_by_funder_report_miz(query) do
+    #   query
+    #   |> join(:left, [l], uB in UserBioData, on: l.customer_id == uB.userId)
+    #   |> join(:left, [l], p in Product, on: l.product_id == p.id)
+    #   |> join(:left, [l, uB, p], cO in Company, on: l.company_id == cO.id)
+    #   |> join(:left, [l, uB, p], funder in Loanmanagementsystem.Loan.Loan_funder, on: l.funderID == funder.funderID)
+    #   |> join(:left, [l, uB, p, funder], funder_bio in UserBioData, on: l.funderID == funder_bio.userId)
+    #   |> where([l, uB, p, cO, funder, funder_bio], is_nil(l.application_date) != true and l.loan_status == "DISBURSED")
+    #   |> group_by([l, uB, p, cO, funder, funder_bio], [])
+    #   |> select([l, uB, p, cO, funder, funder_bio], %{
+    #     loan_id: l.id,
+    #     funder_names:
+    #       fragment(
+    #         "select concat(\"firstName\", concat(' ', \"lastName\")) from tbl_user_bio_data where \"userId\" = ?",
+    #         funder.funderID
+    #       ),
+
+    #     funder_as_company:
+    #         fragment("select \"companyName\" from tbl_company where \"user_bio_id\" = ?", funder_bio.id),
+
+    #     customer_phone_number:
+    #       fragment(
+    #         "select \"mobileNumber\" from tbl_user_bio_data where \"userId\" = ?",
+    #         l.customer_id
+    #       ),
+    #       customer_names:
+    #       fragment(
+    #         "select concat(\"firstName\", concat(' ', \"lastName\")) from tbl_user_bio_data where \"userId\" = ?",
+    #         l.customer_id
+    #       ),
+    #     company_client:
+    #       fragment("select \"companyName\" from tbl_company where \"id\" = ?", l.company_id),
+    #       company_client:
+    #       fragment("select \"companyName\" from tbl_company where \"id\" = ?", l.company_id),
+
+    #      user_bio_id: uB.id,
+
+    #     rejectedon_userid: l.rejectedon_userid,
+    #     approvedon_date: l.approvedon_date,
+    #     application_date: l.application_date,
+    #     loan_type: l.loan_type,
+    #     principal_amount: l.principal_amount,
+    #     requested_amount: l.requested_amount,
+    #     disbursedon_date: l.disbursedon_date,
+    #     repayment_amount: l.repayment_amount,
+    #     account_no: l.account_no,
+    #     principal_amount_proposed: l.principal_amount_proposed,
+    #     expected_disbursedon_date: l.expected_disbursedon_date,
+    #     loan_identity_number: l.loan_identity_number,
+    #     loan_status: l.loan_status,
+    #     status: l.status,
+    #     receipient_number: l.receipient_number,
+    #     reference_no: l.reference_no,
+    #     applied_date: l.application_date,
+    #     userId: l.customer_id,
+    #     interest: p.interest,
+    #     product_name: p.name,
+    #     periodType: p.periodType,
+    #     productType: p.productType,
+    #     product_status: p.status,
+    #     expected_maturity_date: l.expected_maturity_date,
+    #     total_repaid: l.total_repaid,
+    #     oftaker: fragment("select \"companyName\" from tbl_company where \"id\" = ?", l.offtakerID),
+    #     company_id: l.offtakerID,
+    #     closedon_date: l.closedon_date,
+    #     interest_amount: l.interest_amount,
+    #     balance: l.balance,
+    #     total_repayment_derived: l.total_repayment_derived,
+    #     arrangement_fee: l.arrangement_fee,
+    #     finance_cost: l.finance_cost,
+    #     tenor: l.tenor
+    #   })
+    # end
+
+
+
+    alias Loanmanagementsystem.Loan.End_of_day
+
+    # Loanmanagementsystem.Loan.get_all_eod_entries_by_eod_id(2)
+
+    def get_all_eod_entries_by_eod_id(eod_ref_no) do
+      curr_date = Timex.today()
+      Loanmanagementsystem.Loan.End_of_day_entry
+      # |> join(:left, [entries], eod in End_of_day_entry, on: entries.eod_ref_no == eod.eod_ref_no)
+      |> join(:left, [entries], lo in Loans, on: entries.loan_id == lo.id)
+      |> join(:left, [entries, lo], p in Product, on: lo.product_id == p.id)
+      # |> join(:left, [uB, uS], r in Role, on: uS.role_id == r.id)
+      |> where([entries, lo, p], entries.eod_ref_no == ^eod_ref_no)
+      |> order_by([entries, lo, p], desc: lo.disbursedon_date)
+      |> select([entries, lo, p], %{
+        id: entries.id,
+        loan_id: entries.loan_id,
+        customer_id: lo.customer_id,
+        company_client:
+        fragment("select \"companyName\" from tbl_company where \"id\" = ?", lo.company_id),
+        customer_names: fragment("select concat(\"firstName\", concat(' ', \"lastName\")) from tbl_user_bio_data where \"userId\" = ?", lo.customer_id),
+        productType: p.productType,
+        customer_phone_number:
+        fragment(
+          "select \"mobileNumber\" from tbl_user_bio_data where \"userId\" = ?",
+          lo.customer_id
+        ),
+        end_of_day_date: entries.end_of_day_date,
+        principal_amount: lo.principal_amount,
+        end_of_day_date: entries.end_of_day_date,
+        interest_accrued: entries.interest_accrued,
+        interest_amount: lo.interest_amount,
+        tenure: lo.tenor,
+        accrued_period: fragment("floor((extract(epoch from ?) - extract(epoch from ?)) / 86400)", entries.end_of_day_date, lo.disbursedon_date),
+        end_of_day_date: entries.end_of_day_date,
+        disbursedon_date: lo.disbursedon_date,
+        daily_accrued_interest: lo.daily_accrued_interest,
+        daily_accrued_finance_cost: lo.daily_accrued_finance_cost,
+        loan_reference_no: lo.reference_no,
+        periodType: p.periodType,
+        number_of_months: lo.eod_count,
+        number_of_months: lo.eod_count,
+        accrued_balance: lo.balance
+      })
+      |> Repo.all()
+    end
+
+      # Loanmanagementsystem.Loan.get_over_due_loans_by_product()
+
+    def get_active_loans_by_product() do
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], (lo.loan_status == "DISBURSED"))
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
+
+
+    def get_pending_disbursed_loans_by_product() do
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], (lo.loan_status == "PENDING_ACCOUNTANT_DISBURSEMENT"))
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
+
+
+    def get_over_due_loans_by_product() do
+      today = Timex.today()
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], lo.status == "DISBURSED" and (lo.tenor < lo.accrued_no_days))
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
+
+    def get_repaid_loans_by_product() do
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], (lo.loan_status == "REPAID"))
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
+
+    def get_pending_credit_assessment_loans_by_product() do
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], (lo.loan_status == "PENDING_CREDIT_ANALYST"))
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
 
 
 
@@ -10531,5 +11859,744 @@ defmodule Loanmanagementsystem.Loan do
 
 
 
+  alias Loanmanagementsystem.Loan.Order_finance_loan_invoice
+
+  @doc """
+  Returns the list of tbl_order_finace_loan_invoice.
+
+  ## Examples
+
+      iex> list_tbl_order_finace_loan_invoice()
+      [%Order_finance_loan_invoice{}, ...]
+
+  """
+  def list_tbl_order_finace_loan_invoice do
+    Repo.all(Order_finance_loan_invoice)
+  end
+
+  @doc """
+  Gets a single order_finance_loan_invoice.
+
+  Raises `Ecto.NoResultsError` if the Order finance loan invoice does not exist.
+
+  ## Examples
+
+      iex> get_order_finance_loan_invoice!(123)
+      %Order_finance_loan_invoice{}
+
+      iex> get_order_finance_loan_invoice!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_order_finance_loan_invoice!(id), do: Repo.get!(Order_finance_loan_invoice, id)
+
+  @doc """
+  Creates a order_finance_loan_invoice.
+
+  ## Examples
+
+      iex> create_order_finance_loan_invoice(%{field: value})
+      {:ok, %Order_finance_loan_invoice{}}
+
+      iex> create_order_finance_loan_invoice(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_order_finance_loan_invoice(attrs \\ %{}) do
+    %Order_finance_loan_invoice{}
+    |> Order_finance_loan_invoice.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a order_finance_loan_invoice.
+
+  ## Examples
+
+      iex> update_order_finance_loan_invoice(order_finance_loan_invoice, %{field: new_value})
+      {:ok, %Order_finance_loan_invoice{}}
+
+      iex> update_order_finance_loan_invoice(order_finance_loan_invoice, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_order_finance_loan_invoice(%Order_finance_loan_invoice{} = order_finance_loan_invoice, attrs) do
+    order_finance_loan_invoice
+    |> Order_finance_loan_invoice.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a order_finance_loan_invoice.
+
+  ## Examples
+
+      iex> delete_order_finance_loan_invoice(order_finance_loan_invoice)
+      {:ok, %Order_finance_loan_invoice{}}
+
+      iex> delete_order_finance_loan_invoice(order_finance_loan_invoice)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_order_finance_loan_invoice(%Order_finance_loan_invoice{} = order_finance_loan_invoice) do
+    Repo.delete(order_finance_loan_invoice)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking order_finance_loan_invoice changes.
+
+  ## Examples
+
+      iex> change_order_finance_loan_invoice(order_finance_loan_invoice)
+      %Ecto.Changeset{data: %Order_finance_loan_invoice{}}
+
+  """
+  def change_order_finance_loan_invoice(%Order_finance_loan_invoice{} = order_finance_loan_invoice, attrs \\ %{}) do
+    Order_finance_loan_invoice.changeset(order_finance_loan_invoice, attrs)
+  end
+
+  # Loanmanagementsystem.Loan.get_all_accrued_period_by_eod_id(2)
+
+  def get_all_accrued_period_by_eod_id(loan_id) do
+    Loans
+    # |> join(:left, [uB, uS], r in Role, on: uS.role_id == r.id)
+    |> where([lo], lo.id == ^[loan_id])
+    |> select([lo], %{
+      id: lo.id,
+      accrued_period: lo.disbursedon_date
+    })
+    |> Repo.all()
+  end
+
+    # Loanmanagementsystem.Loan.pending_penalty_clearing(11)
+
+    def check_loop(days) do
+      data = Loanmanagementsystem.Loan.get_all_accrued_period_by_eod_id(2)
+      Enum.filter(data, fn %{accrued_period: ap} -> Decimal.compare(ap, Decimal.new(days)) > 0 end)
+    end
+
+
+    def daily_check_loop() do
+      # for x <- 0..(Enum.count(Loanmanagementsystem.Loan.inquire_pending_transaction_status_timex())-1) do #list with maps
+
+      # # IO.inspect("She'a bomb")
+      # # Loanmanagementsystem.Emails.Email.eod_test(Map.get(Enum.at(Loanmanagementsystem.Loan.get_all_email(), x)), :email, endo_of_day_entry)
+      # # Loanmanagementsystem.Emails.Email.eod_test(Enum.at(Loanmanagementsystem.Loan.get_all_email(), x), endo_of_day_entry)
+      # end
+      Loanmanagementsystem.Loan.inquire_pending_transaction_status_timex()
+    end
+
+
+    # def penalty_date_checker() do
+    #   num_0f_days = -6
+
+    #   if Timex.today() < Timex.shift(Timex.beginning_of_month(Timex.today()), days: num_0f_days) do
+    #     Rhema.Transaction.transaction_info_by_student()
+    #   end
+    # end
+
+    def get_penalties_by_student(loan_id) do
+      # status = "ACTIVE"
+
+      query =
+        from au in Loanmanagementsystem.Loan.Loans,
+          where:  au.id == ^loan_id,
+          select: au
+
+      transactions = Repo.all(query)
+      transactions
+    end
+
+    def pending_penalty_clearing(loan_id) do
+      case Loanmanagementsystem.Loan.get_penalties_by_student(loan_id) do
+        [] ->
+          []
+
+        transactions ->
+          transactions
+      end
+    end
+
+    # Loanmanagementsystem.Loan.daily_push_due_days()
+    def push_day_over_under_due(loan_id, interest_accrued, finance_cost_accrued, eod_count, accrued_period, principal_amount) do
+      IO.inspect(Loanmanagementsystem.Loan.clear_penalty_payment(loan_id) |> Enum.at(0),
+        label: "NNNNNNNNNNNNNNNNNN"
+      )
+
+      for sum <- 0..(Enum.count(Loanmanagementsystem.Loan.get_loan_details_by_student(loan_id)) - 1) do
+        checker = %{
+          keys: Enum.at(Loanmanagementsystem.Loan.get_loan_details_by_student(loan_id), sum)
+        }
+
+        map = Loanmanagementsystem.Loan.clear_penalty_payment(loan_id) |> Enum.at(0)
+
+        IO.inspect(checker[:keys].days_under_due,
+          label: " CCCCCCCCCCCCCCCCCCCCCCC checker CCCCCCCCCCCCCC"
+        )
+
+        # IO.inspect(map, label: " MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM Maps   MMMMMMMMMM") accrued_no_days
+
+        if checker[:keys].tenor < map.accrued_period do
+          Enum.each(Loanmanagementsystem.Loan.get_penalties_by_student(loan_id), fn loan ->
+
+            # IO.inspect(loan.tenor, label: "tenor > map.accrued_period")
+            new_days_over_due = (map.accrued_period - checker[:keys].tenor)
+            if (loan.repayment_type == "PARTIAL REPAYMENT") do
+                   new_balance = ((principal_amount + interest_accrued + finance_cost_accrued) - loan.total_repaid)
+                    # attrs = %{days_over_due: new_days_over_due, days_under_due: 0, daily_accrued_interest: interest_accrued, daily_accrued_finance_cost: finance_cost_accrued, eod_status: true, eod_count: eod_count, accrued_no_days: accrued_period, balance: new_balance}
+                    attrs = %{daily_accrued_interest: interest_accrued, daily_accrued_finance_cost: finance_cost_accrued, eod_status: true, eod_count: eod_count, accrued_no_days: accrued_period, balance: new_balance}
+
+                    loan
+                    |> Loans.changesetForUpdate(attrs)
+                    |> Repo.update()
+
+            else
+                  new_balance = ((principal_amount + interest_accrued + finance_cost_accrued))
+                  attrs = %{daily_accrued_interest: interest_accrued, daily_accrued_finance_cost: finance_cost_accrued, eod_status: true, eod_count: eod_count, accrued_no_days: accrued_period, balance: new_balance}
+
+                  loan
+                  |> Loans.changesetForUpdate(attrs)
+                  |> Repo.update()
+
+            end
+
+          end)
+        else
+          # IO.inspect("____________Russull", label: "Label")
+          Enum.each(Loanmanagementsystem.Loan.get_penalties_by_student(loan_id), fn loan ->
+
+            # IO.inspect(loan.tenor, label: "tenor <= map.accrued_period")
+            if (loan.repayment_type == "PARTIAL REPAYMENT") do
+              new_balance = ((principal_amount + interest_accrued + finance_cost_accrued) - loan.total_repaid)
+              attrs = %{daily_accrued_interest: interest_accrued, daily_accrued_finance_cost: finance_cost_accrued, eod_status: true, eod_count: eod_count, accrued_no_days: accrued_period, balance: new_balance}
+
+              loan
+                |> Loans.changesetForUpdate(attrs)
+                |> Repo.update()
+            else
+              new_balance = ((principal_amount + interest_accrued + finance_cost_accrued))
+              attrs = %{daily_accrued_interest: interest_accrued, daily_accrued_finance_cost: finance_cost_accrued, eod_status: true, eod_count: eod_count, accrued_no_days: accrued_period, balance: new_balance}
+
+              loan
+                |> Loans.changesetForUpdate(attrs)
+                |> Repo.update()
+
+            end
+          end)
+        end
+      end
+    end
+
+# Loanmanagementsystem.Loan.daily_push_due_days()
+    def daily_push_due_days()do
+
+      Enum.each(pending_partner_2(), fn txn ->
+        Loanmanagementsystem.Loan.update_loan_eod_details(txn.id)
+
+      end)
+    end
+
+    def update_loan_eod_details(loan_id) do
+      IO.inspect(Loanmanagementsystem.Loan.clear_penalty_payment(loan_id) |> Enum.at(0),
+        label: "NNNNNNNNNNNNNNNNNN"
+      )
+
+      for sum <- 0..(Enum.count(Loanmanagementsystem.Loan.get_loan_details_by_student(loan_id)) - 1) do
+        checker = %{
+          keys: Enum.at(Loanmanagementsystem.Loan.get_loan_details_by_student(loan_id), sum)
+        }
+
+        map = Loanmanagementsystem.Loan.clear_penalty_payment(loan_id) |> Enum.at(0)
+
+        IO.inspect(checker[:keys].days_under_due,
+          label: " CCCCCCCCCCCCCCCCCCCCCCC checker CCCCCCCCCCCCCC"
+        )
+
+        # IO.inspect(map, label: " MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM Maps   MMMMMMMMMM")
+
+        if checker[:keys].tenor < String.to_integer(to_string(Date.diff(Timex.today(), map.disbursedon_date))) do
+          Enum.each(Loanmanagementsystem.Loan.get_penalties_by_student(loan_id), fn loan ->
+
+            # IO.inspect(loan.tenor, label: "tenor > map.accrued_period")
+            new_days_over_due = (String.to_integer(to_string(Date.diff(Timex.today(), map.disbursedon_date))) - checker[:keys].tenor)
+            if (loan.repayment_type == "PARTIAL REPAYMENT") do
+                    attrs = %{days_over_due: new_days_over_due, days_under_due: 0}
+
+                    loan
+                    |> Loans.changesetForUpdate(attrs)
+                    |> Repo.update()
+
+            else
+
+                  attrs = %{days_over_due: new_days_over_due, days_under_due: 0}
+
+                  loan
+                  |> Loans.changesetForUpdate(attrs)
+                  |> Repo.update()
+
+            end
+
+          end)
+        else
+          # IO.inspect("____________Russull", label: "Label")
+          Enum.each(Loanmanagementsystem.Loan.get_penalties_by_student(loan_id), fn loan ->
+            IO.inspect(checker[:keys].tenor, label: "Check tenure")
+            IO.inspect(map.accrued_period, label: "Check accrued_period")
+
+
+
+            # IO.inspect(loan.tenor, label: "tenor <= map.accrued_period")
+            if (loan.repayment_type == "PARTIAL REPAYMENT") do
+              attrs = %{days_under_due: (checker[:keys].tenor - String.to_integer(to_string(Date.diff(Timex.today(), map.disbursedon_date)))), days_over_due: 0}
+
+              loan
+                |> Loans.changesetForUpdate(attrs)
+                |> Repo.update()
+            else
+              attrs = %{days_under_due: (checker[:keys].tenor - String.to_integer(to_string(Date.diff(Timex.today(), map.disbursedon_date)))), days_over_due: 0}
+
+              loan
+                |> Loans.changesetForUpdate(attrs)
+                |> Repo.update()
+
+            end
+          end)
+        end
+      end
+    end
+
+
+
+
+# Loanmanagementsystem.Loan.push_day_over_under_due()
+
+    def get_loan_details_by_student(loan_id) do
+      status = "DISBURSED"
+      # desc = "Penalty"
+      curr_year = Timex.today().year
+      myloan_id = Integer.to_string(loan_id)
+      IO.inspect(myloan_id, label: " EEEEEEEEEEE Am here !!!! EEEEEEEEEEEEEEEE")
+
+      Loanmanagementsystem.Loan.Loans
+      |> where(
+        [txn],
+        txn.id == ^myloan_id and txn.status == ^status and
+          fragment("date_part('year', ?)", txn.inserted_at) == ^curr_year
+      )
+      |> group_by([txn], txn.id)
+      |> select([txn], %{
+        days_under_due: txn.days_under_due,
+        tenor: txn.tenor,
+        loan_id: txn.id
+      })
+      |> Repo.all()
+    end
+
+    # def clear_penalty_payment(loan_id) do
+    #   loan_status = "DISBURSED"
+    #   curr_year = Timex.today().year
+    #   curr_day = Timex.today()
+
+
+    #   binary_to_string = fn str ->
+    #     if is_binary(str), do: Enum.join(for <<c::utf8 <- str>>, do: <<c::utf8>>), else: str
+    #   end
+
+    #   my_loan_id = binary_to_string.(loan_id)
+    #   my_loanId = Integer.to_string(my_loan_id)
+
+    #   # int = String.to_integer("1")
+    #   IO.inspect(my_loanId, label: " EEEEEEEEEEE Nili pano !!!! EEEEEEEEEEEEEEEE")
+
+    #   Loanmanagementsystem.Loan.Loans
+    #   |> where(
+    #     [txn],
+    #     txn.id == ^my_loanId and txn.loan_status == ^loan_status  and
+    #       fragment("date_part('year', ?)", txn.inserted_at) == ^curr_year
+    #   )
+    #   # |> group_by([txn], fragment("date_part('year', ?)", txn.inserted_at))
+    #   |> select([txn], %{
+    #     days_under_due: txn.days_under_due,
+    #     accrued_period: fragment("floor((extract(epoch from ?) - extract(epoch from ?)) / 86400)", ^curr_day, txn.disbursedon_date),
+    #     # year: fragment("date_part('year', ?)", txn.inserted_at)
+    #   })
+    #   |> Repo.all()
+    # end
+
+    # def clear_penalty_payment(loan_id) do
+    #   loan_status = "DISBURSED"
+    #   curr_year = Timex.today().year
+    #   curr_day = Timex.today()
+
+    #   binary_to_string = fn str ->
+    #     if is_binary(str), do: Enum.join(for <<c::utf8 <- str>>, do: <<c::utf8>>), else: str
+    #   end
+
+    #   my_loan_id = binary_to_string.(loan_id)
+    #   my_loanId = Integer.to_string(my_loan_id)
+
+    #   IO.inspect(my_loanId, label: " EEEEEEEEEEE Nili pano !!!! EEEEEEEEEEEEEEEE")
+
+    #   Loanmanagementsystem.Loan.Loans
+    #   |> where([txn], txn.id == ^my_loanId and txn.loan_status == ^loan_status)
+    #   |> select([txn], %{
+    #     days_under_due: txn.days_under_due,
+    #     accrued_period: fragment("floor((extract(epoch from ?) - extract(epoch from ?)) / 86400)", ^curr_day, txn.disbursedon_date),
+    #     # year: fragment("date_part('year', ?)", txn.inserted_at)
+    #   })
+    #   |> Repo.all()
+    # end
+
+    def clear_penalty_payment(loan_id) do
+      status = "DISBURSED"
+      curr_year = Timex.today().year
+      curr_day = Timex.today()
+      # curr_day = Date.utc_today()  # Assuming you want the current date in UTC.
+
+      binary_to_string = fn str ->
+        if is_binary(str), do: Enum.join(for <<c::utf8 <- str>>, do: <<c::utf8>>), else: str
+      end
+
+      my_loan_id = binary_to_string.(loan_id)
+      my_loanId = Integer.to_string(my_loan_id)
+
+      IO.inspect(my_loanId, label: " EEEEEEEEEEE Nili pano !!!! EEEEEEEEEEEEEEEE")
+
+      Loanmanagementsystem.Loan.Loans
+      |> where([txn], txn.id == ^my_loanId and txn.status == ^status)
+      |> select([txn], %{
+        days_under_due: txn.days_under_due,
+        # accrued_period: fragment("(EXTRACT(epoch from ?) - EXTRACT(epoch from ?)) / 86400", ^curr_day, txn.disbursedon_date),
+        accrued_period: fragment("(? - ?)", ^curr_day, txn.disbursedon_date),
+        # year: fragment("date_part('year', ?)", txn.inserted_at)
+        disbursedon_date: txn.disbursedon_date
+      })
+      |> Repo.all()
+    end
+
+    # result = Loanmanagementsystem.Loan.convert_days_to_months_and_days(35).months
+
+    @days_in_month 30
+
+    def convert_days_to_months_and_days(total_days) do
+      months = div(total_days, @days_in_month)
+      remaining_days = rem(total_days, @days_in_month)
+      %{months: months, remaining_days: remaining_days}
+    end
+
+    # Loanmanagementsystem.Loan.get_offtaker_details()
+
+    def get_offtaker_details() do
+      UserBioData
+        |> join(:left, [uB], uR in Loanmanagementsystem.Accounts.UserRole, on: uB.userId == uR.userId)
+        |> join(:left, [uB, uR], comp in Loanmanagementsystem.Companies.Company, on: uB.id == comp.user_bio_id)
+        |> where([uB, uR, comp], uR.roleType == "OFFTAKER")
+        |> select([uB, uR, comp], %{
+          id: uB.id,
+          offtaker_id: comp.id,
+          offtaker_name: comp.companyName,
+          userId: uB.userId,
+          meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
+          role_user_id: uR.userId,
+          roleType: uR.roleType,
+          customer_name: fragment("concat(?, concat(' ', ?))", uB.firstName, uB.lastName)
+
+        })
+      |> Repo.all()
+    end
+
+
+      # Loanmanagementsystem.Loan.corparate_overdue_loans_items_listing(nil, 1, 10)
+      def clients_overdue_loans_items_listing(search_params, page, size) do
+        current_date = Timex.today
+        Loanmanagementsystem.Loan.Loans
+
+        |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
+        |> join(:left, [lO, comp], uS in UserBioData, on: comp.user_bio_id == uS.userId)
+        |> join(:left, [lO, comp, uS], pR in Product, on: pR.id == lO.product_id)
+        |> join(:left,[lO, comp, uS], uR in UserRole, on: uS.userId == uR.userId)
+        |> join(:left, [lO, comp, uS, pR, uR], offtaker in Company, on: lO.offtakerID == offtaker.id)
+        |> join(:left, [lO, comp, uS, pR, uR, offtaker], funder_bio in UserBioData, on: lO.funderID == funder_bio.userId)
+        |> join(:left, [lO, comp, uS, pR, uR, offtaker, funder_bio], loan_amo in Loan_amortization_schedule, on: lO.id == loan_amo.loan_id and fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id) < ^current_date)
+        |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], desc: lO.inserted_at)
+        |> client_overdue_loans_list(Date.to_iso8601(Timex.today))
+        |> Repo.paginate(page: page, page_size: size)
+      end
+
+      def clients_overdue_loans_items_listing(_source, search_params) do
+        current_date = Timex.today
+        Loanmanagementsystem.Loan.Loans
+
+        |> join(:left, [lO], comp in Company, on: lO.company_id == comp.id)
+        |> join(:left, [lO, comp], uS in UserBioData, on: comp.user_bio_id == uS.userId)
+        |> join(:left, [lO, comp, uS], pR in Product, on: pR.id == lO.product_id)
+        |> join(:left,[lO, comp, uS], uR in UserRole, on: uS.userId == uR.userId)
+        |> join(:left, [lO, comp, uS, pR, uR], offtaker in Company, on: lO.offtakerID == offtaker.id)
+        |> join(:left, [lO, comp, uS, pR, uR, offtaker], funder_bio in UserBioData, on: lO.funderID == funder_bio.userId)
+        |> join(:left, [lO, comp, uS, pR, uR, offtaker, funder_bio], loan_amo in Loan_amortization_schedule, on: lO.id == loan_amo.loan_id and fragment("SELECT max(date) FROM tbl_loan_amortization_schedule WHERE loan_id = (?)", lO.id) < ^current_date)
+
+        # |> corparate_disbursed_handle_report_filter(search_params)
+        |> order_by([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], desc: lO.inserted_at)
+        |> client_overdue_loans_list(Date.to_iso8601(Timex.today))
+      end
+
+      defp client_overdue_loans_list(query, current_date) do
+
+        query
+
+        |> where([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo], (lO.id == loan_amo.loan_id))
+        |> select([lO, comp, uS, pR, uR, offtaker, funder_bio, loan_amo],
+          %{
+          offtaker_name: offtaker.companyName,
+          company_name: comp.companyName,
+          funderID: lO.funderID,
+          funder_bio: fragment("concat(?, concat(' ', ?))", funder_bio.firstName, funder_bio.lastName),
+          isStaff: uR.isStaff,
+          loan_limit: uR.loan_limit,
+
+          id: lO.id,
+          reference_no: lO.reference_no,
+          principal_repaid_derived: lO.principal_repaid_derived,
+          number_of_repayments: lO.number_of_repayments,
+          withdrawnon_date: lO.withdrawnon_date,
+          currency_code: lO.currency_code,
+          is_npa: lO.is_npa,
+          repay_every_type: lO.repay_every_type,
+          principal_writtenoff_derived: lO.principal_writtenoff_derived,
+          disbursedon_userid: lO.disbursedon_userid,
+          approvedon_userid: lO.approvedon_userid,
+          total_writtenoff_derived: lO.total_writtenoff_derived,
+          repay_every: lO.repay_every,
+          closedon_userid: lO.closedon_userid,
+          product_id: lO.product_id,
+          customer_id: lO.customer_id,
+          interest_method: lO.interest_method,
+          annual_nominal_interest_rate: lO.annual_nominal_interest_rate,
+          writtenoffon_date: lO.writtenoffon_date,
+          total_outstanding_derived: lO.total_outstanding_derived,
+          interest_calculated_from_date: lO.interest_calculated_from_date,
+          loan_counter: lO.loan_counter,
+          interest_charged_derived: lO.interest_charged_derived,
+          term_frequency_type: lO.term_frequency_type,
+          total_charges_due_at_disbursement_derived: lO.total_charges_due_at_disbursement_derived,
+          penalty_charges_waived_derived: lO.penalty_charges_waived_derived,
+          total_overpaid_derived: lO.total_overpaid_derived,
+          approved_principal: lO.approved_principal,
+          principal_disbursed_derived: lO.principal_disbursed_derived,
+          rejectedon_userid: lO.rejectedon_userid,
+          approvedon_date: lO.approvedon_date,
+          loan_type: lO.loan_type,
+          principal_amount: lO.principal_amount,
+          disbursedon_date: lO.disbursedon_date,
+          account_no: lO.account_no,
+          interest_outstanding_derived: lO.interest_outstanding_derived,
+          interest_writtenoff_derived: lO.interest_writtenoff_derived,
+          penalty_charges_writtenoff_derived: lO.penalty_charges_writtenoff_derived,
+          loan_status: lO.loan_status,
+          fee_charges_charged_derived: lO.fee_charges_charged_derived,
+          fee_charges_waived_derived: lO.fee_charges_waived_derived,
+          interest_waived_derived: lO.interest_waived_derived,
+          total_costofloan_derived: lO.total_costofloan_derived,
+          principal_amount_proposed: lO.principal_amount_proposed,
+          fee_charges_repaid_derived: lO.fee_charges_repaid_derived,
+          total_expected_repayment_derived: lO.total_expected_repayment_derived,
+          principal_outstanding_derived: lO.principal_outstanding_derived,
+          penalty_charges_charged_derived: lO.penalty_charges_charged_derived,
+          is_legacyloan: lO.is_legacyloan,
+          total_waived_derived: lO.total_waived_derived,
+          interest_repaid_derived: lO.interest_repaid_derived,
+          rejectedon_date: lO.rejectedon_date,
+          fee_charges_outstanding_derived: lO.fee_charges_outstanding_derived,
+          expected_disbursedon_date: lO.expected_disbursedon_date,
+          closedon_date: lO.closedon_date,
+          fee_charges_writtenoff_derived: lO.fee_charges_writtenoff_derived,
+          penalty_charges_outstanding_derived: lO.penalty_charges_outstanding_derived,
+          total_expected_costofloan_derived: lO.total_expected_costofloan_derived,
+          penalty_charges_repaid_derived: lO.penalty_charges_repaid_derived,
+          withdrawnon_userid: lO.withdrawnon_userid,
+          expected_maturity_date: lO.expected_maturity_date,
+          external_id: lO.external_id,
+          term_frequency: lO.term_frequency,
+          total_repayment_derived: lO.total_repayment_derived,
+          loan_identity_number: lO.loan_identity_number,
+          branch_id: lO.branch_id,
+          loan_status: lO.loan_status,
+          status: lO.status,
+          app_user_id: lO.app_user_id,
+          mobile_money_response: lO.mobile_money_response,
+          total_principal_repaid: lO.total_principal_repaid,
+          total_interest_repaid: lO.total_interest_repaid,
+          total_charges_repaid: lO.total_charges_repaid,
+          total_penalties_repaid: lO.total_penalties_repaid,
+          total_repaid: lO.total_repaid,
+          momoProvider: lO.momoProvider,
+          company_id: lO.company_id,
+          sms_status: lO.sms_status,
+          loan_userroleid: lO.loan_userroleid,
+          disbursement_method: lO.disbursement_method,
+          bank_name: lO.bank_name,
+          bank_account_no: lO.bank_account_no,
+          account_name: lO.account_name,
+          bevura_wallet_no: lO.bevura_wallet_no,
+          receipient_number: lO.receipient_number,
+          reference_no: lO.reference_no,
+          repayment_type: lO.repayment_type,
+          repayment_amount: lO.repayment_amount,
+          balance: lO.balance,
+          interest_amount: lO.interest_amount,
+          tenor: lO.tenor,
+          tenor_in_days: (lO.tenor * 30),
+          expiry_month: lO.expiry_month,
+          expiry_year: lO.expiry_year,
+          cvv: lO.cvv,
+          repayment_frequency: lO.repayment_frequency,
+          reason: lO.reason,
+          application_date: lO.application_date,
+          reference_no: lO.reference_no,
+          requested_amount: lO.requested_amount,
+
+          arrangement_fee: lO.arrangement_fee,
+          finance_cost: lO.finance_cost,
+          monthly_installment: lO.monthly_installment,
+
+
+          dateOfBirth: uS.dateOfBirth,
+          emailAddress: uS.emailAddress,
+          firstName: uS.firstName,
+          customerName: fragment("concat(?, concat(' ', ?))", uS.firstName, uS.lastName),
+          gender: uS.gender,
+          lastName: uS.lastName,
+          meansOfIdentificationNumber: uS.meansOfIdentificationNumber,
+          meansOfIdentificationType: uS.meansOfIdentificationType,
+          mobileNumber: uS.mobileNumber,
+          otherName: uS.otherName,
+          title: uS.title,
+          userId: uS.userId,
+          idNo: uS.idNo,
+          bank_id: uS.bank_id,
+          personal_bank_account_number: uS.bank_account_number,
+          marital_status: uS.marital_status,
+          nationality: uS.nationality,
+          number_of_dependants: uS.number_of_dependants,
+          age: uS.age,
+          disability_detail: uS.disability_detail,
+          disability_status: uS.disability_status,
+          # tbl_product
+          clientId: pR.clientId,
+          code: pR.code,
+          currencyDecimals: pR.currencyDecimals,
+          currencyId: pR.currencyId,
+          currencyName: pR.currencyName,
+          defaultPeriod: pR.defaultPeriod,
+          details: pR.details,
+          interest: pR.interest,
+          interestMode: pR.interestMode,
+          interestType: pR.interestType,
+          maximumPrincipal: pR.maximumPrincipal,
+          minimumPrincipal: pR.minimumPrincipal,
+          name: pR.name,
+          periodType: pR.periodType,
+          productType: pR.productType,
+          product_status: pR.status,
+          yearLengthInDays: pR.yearLengthInDays,
+          principle_account_id: pR.principle_account_id,
+          interest_account_id: pR.interest_account_id,
+          charges_account_id: pR.charges_account_id,
+          classification_id: pR.classification_id,
+          charge_id: pR.charge_id,
+          reference_id: pR.reference_id,
+          product_reason: pR.reason,
+          productId: pR.id,
+          accrued_no_days: lO.accrued_no_days,
+          daily_accrued_interest: lO.daily_accrued_interest,
+          daily_accrued_finance_cost: lO.daily_accrued_finance_cost,
+          # total_balance_acrued: (l.daily_accrued_interest + l.daily_accrued_finance_cost + l.principal_amount),
+          total_balance_acrued: lO.balance,
+
+
+          }
+        )
+      end
+
+# Loanmanagementsystem.Loan.funder_dashboard_analysis(106)
+
+      def funder_dashboard_analysis(funderID) do
+        Loans
+        |> join(:left, [l], uB in UserBioData, on: l.funderID == uB.userId)
+        |> join(:left, [l, uB], p in Product, on: l.product_id == p.id)
+        |> join(:left, [l,uB, p], funder_bio in UserBioData, on: l.funderID == funder_bio.userId)
+        |> group_by([l, uB, p, funder_bio], [p.productType])
+        |> where( [l, uB, p, funder_bio], l.status == "DISBURSED" and l.funderID == ^funderID)
+        |> select(
+          [l, uB, p, funder_bio],
+          %{
+            productType: p.productType,
+            principal_amount: sum(l.principal_amount),
+            daily_accrued_interest: sum(l.daily_accrued_interest),
+            daily_accrued_finance_cost: sum(l.daily_accrued_finance_cost),
+            total_repaid: sum(l.total_repaid)
+          })
+        |> Repo.all()
+      end
+
+
+    def get_last_five_disbursed_loans(funder_id) do
+      Loans
+      |> join(:left, [lo], u in Loanmanagementsystem.Accounts.UserBioData, on: u.userId == lo.customer_id)
+      |> join(:left, [lo, u], prod in Loanmanagementsystem.Products.Product, on: prod.id == lo.product_id)
+      |> where([lo, u, prod], (lo.loan_status == "DISBURSED") and lo.funderID == ^funder_id)
+      |> select([lo, u, prod], %{
+          principal_amount: lo.principal_amount,
+          customer_name: fragment("concat(?, concat(' ', ?, concat(' ', ?)))", u.firstName, u.lastName, u.otherName),
+          product_name: prod.name,
+          interest_amount: lo.interest_amount,
+          total_expected_repayment: lo.total_expected_repayment_derived,
+          disbursedon_date: lo.disbursedon_date,
+          application_date: lo.application_date,
+          loan_status: lo.loan_status
+      })
+      |> order_by([lo, u, prod], [asc: lo.inserted_at])
+      |> limit(5)  # Add limit of 5 records
+      |> Repo.all()
+    end
+
+
+    def get_active_loans_by_product_per_funder(funder_id) do
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], (lo.loan_status == "DISBURSED") and lo.funderID == ^funder_id)
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
+
+    def get_repaid_loans_by_product_per_funder(funder_id) do
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], (lo.loan_status == "REPAID") and lo.funderID == ^funder_id)
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
+
+
+    def get_over_due_loans_by_product_per_funder(funder_id) do
+      today = Timex.today()
+      Loans
+      |> join(:left, [lo], prod in Loanmanagementsystem.Products.Product, on: lo.product_id == prod.id)
+      |> group_by([lo, prod], [prod.name])
+      |> where([lo, prod], lo.status == "DISBURSED" and (lo.tenor < lo.accrued_no_days) and lo.funderID == ^funder_id)
+      |> select([lo, prod], %{
+        product_name: prod.name,
+        loan_count: count(lo.id)
+      })
+      |> Repo.all()
+    end
 
 end

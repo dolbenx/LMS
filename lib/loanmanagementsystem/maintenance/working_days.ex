@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Maintenance.Working_days do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_workingdays_maintenance" do
     field :friday, :string, default: "No"
     field :monday, :string, default: "No"

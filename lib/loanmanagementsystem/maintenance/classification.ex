@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Maintenance.Classification do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_classification" do
     field :classification, :string
     field :loan_maximum, :float

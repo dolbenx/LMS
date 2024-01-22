@@ -1,0 +1,418 @@
+
+
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+			<%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
+		<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">My Profile</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+			</div>
+			<!--end::Toolbar-->
+		</div>
+	</div>
+	  <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+				<%= for current_user_detail <- @current_user_details do %>
+					<div class="d-flex flex-column-fluid">
+						<div class="container-fluid">
+							<!--begin::Profile Personal Information-->
+							<div class="d-flex flex-row">
+								<!--begin::Aside-->
+								<div class="flex-row-auto offcanvas-mobile w-250px w-xxl-350px" id="kt_profile_aside">
+									<!--begin::Profile Card-->
+									<div class="card card-custom card-stretch">
+										<!--begin::Body-->
+										<div class="card-body pt-4"><br>
+											<!--begin::Toolbar-->
+											<!--end::Toolbar-->
+											<!--begin::User-->
+											<div class="d-flex align-items-center">
+												<div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
+													<div class="symbol-label" style="background-image:url('/images/user1.jpg')"></div>
+													<i class="symbol-badge bg-success"></i>
+												</div>
+												<div>
+													<a href="#" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary"><%= current_user_detail.firstname %> <%= current_user_detail.lastname %></a>
+													<div class="text-muted">Application Developer</div>
+													<div class="mt-2">
+													</div>
+												</div>
+											</div>
+											<!--end::User-->
+											<!--begin::Contact-->
+											<div class="py-9">
+												<div class="d-flex align-items-center justify-content-between mb-2">
+													<span class="font-weight-bold mr-2">Email:</span>
+													<a href="#" class="text-muted text-hover-primary"><%= current_user_detail.emailAddress %></a>
+												</div>
+												<div class="d-flex align-items-center justify-content-between mb-2">
+													<span class="font-weight-bold mr-2">Phone:</span>
+													<span class="text-muted"><%= current_user_detail.mobileNumber %></span>
+												</div>
+												<div class="d-flex align-items-center justify-content-between">
+													<span class="font-weight-bold mr-2">Location:</span>
+													<span class="text-muted">Lusaka</span>
+												</div>
+											</div>
+											<!--end::Contact-->
+											<!--begin::Nav-->
+											<div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+												<div class="tab">
+													<div class="navi-item mb-2">
+														<a class="navi-link py-4 active tablinks" onclick="openCity(event, 'personal')">
+															<span class="navi-icon mr-2">
+																<span class="svg-icon">
+																	<!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																			<polygon points="0 0 24 0 24 24 0 24" />
+																			<path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+																			<path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+																		</g>
+																	</svg>
+																	<!--end::Svg Icon-->
+																</span>
+															</span>
+															<span class="navi-text font-size-lg">Personal Information</span>
+														</a>
+													</div>
+
+													<div class="navi-item mb-2">
+														<a class="navi-link py-4 tablinks" onclick="openCity(event, 'account')">
+															<span class="navi-icon mr-2">
+																<span class="svg-icon">
+																	<!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																			<rect x="0" y="0" width="24" height="24" />
+																			<path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3" />
+																			<path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000" />
+																		</g>
+																	</svg>
+																	<!--end::Svg Icon-->
+																</span>
+															</span>
+															<span class="navi-text font-size-lg">Account Information</span>
+														</a>
+													</div>
+
+													<div class="navi-item mb-2">
+														<a class="navi-link py-4 tablinks" onclick="openCity(event, 'company')">
+															<span class="navi-icon mr-2">
+																<span class="svg-icon">
+																	<!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																			<polygon points="0 0 24 0 24 24 0 24" />
+																			<path d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z" fill="#000000" fill-rule="nonzero" />
+																			<path d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z" fill="#000000" opacity="0.3" />
+																		</g>
+																	</svg>
+																	<!--end::Svg Icon-->
+																</span>
+															</span>
+															<span class="navi-text font-size-lg">Company Details</span>
+														</a>
+													</div>
+
+													<div class="navi-item mb-2">
+														<a class="navi-link py-4 tablinks" onclick="openCity(event, 'portfolio')">
+															<span class="navi-icon mr-2">
+																<span class="svg-icon">
+																	<!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+																	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+																		<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																			<rect x="0" y="0" width="24" height="24" />
+																			<rect fill="#000000" x="4" y="5" width="16" height="3" rx="1.5" />
+																			<path d="M5.5,15 L18.5,15 C19.3284271,15 20,15.6715729 20,16.5 C20,17.3284271 19.3284271,18 18.5,18 L5.5,18 C4.67157288,18 4,17.3284271 4,16.5 C4,15.6715729 4.67157288,15 5.5,15 Z M5.5,10 L12.5,10 C13.3284271,10 14,10.6715729 14,11.5 C14,12.3284271 13.3284271,13 12.5,13 L5.5,13 C4.67157288,13 4,12.3284271 4,11.5 C4,10.6715729 4.67157288,10 5.5,10 Z" fill="#000000" opacity="0.3" />
+																		</g>
+																	</svg>
+																	<!--end::Svg Icon-->
+																</span>
+															</span>
+															<span class="navi-text font-size-lg">My Portfolio</span>
+														</a>
+													</div>
+												</div>
+											</div>
+											<!--end::Nav-->
+										</div>
+										<!--end::Body-->
+									</div>
+									<!--end::Profile Card-->
+								</div>
+								<!--end::Aside-->
+								<!--begin::Content-->
+								<div class="container-fluid">
+									<div id="personal" class="tabcontent">
+										<div class="flex-row-fluid ml-lg-12">
+											<!--begin::Card-->
+											<div class="card card-custom card-stretch">
+												<!--begin::Header-->
+												<div class="card-header py-3">
+													<div class="card-title align-items-start flex-column">
+														<h3 class="card-label font-weight-bolder text-dark">Personal Information</h3>
+														<span class="text-muted font-weight-bold font-size-sm mt-1">Update your personal informaiton</span>
+													</div>
+													<div class="card-toolbar">
+													</div>
+												</div>
+												<!--end::Header-->
+												<!--begin::Form-->
+												<form Action=" <%= Routes.employee_path(@conn, :employee_edit_my_profile_details) %> " method="post">
+													<div class="card-body">
+														<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+														<input type="hidden" class="form-control" value="<%= current_user_detail.id %>" name="id">
+														<div class="row py-2">
+															<div class="col-md-6">
+																<label for="title">Title</label>
+																<select  name="title"  class="form-control">
+																	<option value="<%= current_user_detail.title %>" selected ><%= current_user_detail.title %></option>
+																	<option value="Dr">Dr</option>
+																	<option value="Mrs">Mrs</option>
+																</select>
+															</div>
+															<div class="col-md-6"> <label id="firstname">First Name</label> <input type="text" class="form-control" name="firstName" value="<%= current_user_detail.firstname %>" readonly>
+															</div>
+														</div>
+														<div class="row py-2">
+															<div class="col-md-6"> <label id="othername">Other Name</label> <input type="text" class="form-control" name="otherName" value="<%= current_user_detail.othername %>" readonly> </div>
+															<div class="col-md-6 pt-md-0 pt-3"> <label id="last-name">Last Name</label> <input type="text" class="form-control" name="lastName" value="<%= current_user_detail.lastname%>" readonly></div>
+														</div>
+														<div class="row py-2">
+															<div class="col-md-6 pt-md-0 pt-3"> <label id="last-name">Date Of Birth</label> <input type="text" class="form-control" name="dateOfBirth" value="<%= current_user_detail.dateOfBirth%>" readonly></div>
+															<div class="col-md-6"> <label id="emailid">Email Address</label> <input type="email" class="form-control" name="emailAddress" value="<%= current_user_detail.emailAddress %>" > </div>
+														</div>
+														<div class="row py-2">
+															<div class="col-md-6 pt-md-0 pt-3"> <label id="phoneno">Phone Number</label> <input type="text" name="mobileNumber" class="form-control" value="<%= current_user_detail.mobileNumber %>"> </div>
+															<div class="col-md-6 pt-md-0 pt-3"> <label id="phoneno">Identification Type</label> <input type="text" name="meansOfIdentificationType" class="form-control" value="<%= current_user_detail.meansOfIdentificationType %>" readonly> </div>
+														</div>
+														<div class="row py-2">
+															<div class="col-md-6 pt-md-0 pt-3"> <label id="phoneno">Identification Number</label> <input type="tel" name="meansOfIdentificationNumber" class="form-control" value="<%= current_user_detail.meansOfIdentificationNumber %>" readonly> </div>
+															<div class="col-md-6"> <label id="firstname">Gender</label> <input type="text" class="form-control" name="gender" value="<%= current_user_detail.gender %>" readonly> </div>
+														</div>
+														<div class="modal-footer">
+															<button class="btn ripple btn-success"  type="submit">Update</button>
+														</div>
+													</div>
+												</form>
+												<!--end::Form-->
+											</div>
+										</div>
+									</div>
+
+									<div id="account" class="tabcontent" style="display:none">
+										<div class="flex-row-fluid ml-lg-8">
+												<!--begin::Card-->
+											<div class="card card-custom">
+												<!--begin::Header-->
+												<div class="card-header py-3">
+													<div class="card-title align-items-start flex-column">
+														<h3 class="card-label font-weight-bolder text-dark">Account Information</h3>
+														<span class="text-muted font-weight-bold font-size-sm mt-1">Change your account settings</span>
+													</div>
+													<div class="card-toolbar">
+													</div>
+												</div>
+												<!--end::Header-->
+												<!--begin::Form-->
+												<form class="form">
+													<div class="card-body">
+														<table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+														<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+															<thead>
+																<tr>
+																	<th>#</th>
+																	<th>Account Type</th>
+																	<th>Account Number</th>
+																	<th>Status</th>
+																	<th >Assignment Date</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr class="border-bottom">
+																	<th scope="row">#<%=String.slice(@loans && @loans.account_number,11..12)%></th>
+																	<%= if String.slice(@loans && @loans.account_number,0..1) == "01" do %>
+																	<td>Loan Account</td>
+																	<%end %>
+																	<%= if String.slice(@loans && @loans.account_number,0..1) == "02" do %>
+																	<td>Savings Account</td>
+																	<%end %>
+																	<%= if String.slice(@loans && @loans.account_number,0..1) == "03" do %>
+																	<td>Investment Account</td>
+																	<%end %>
+																	<td><%= @loans && @loans.account_number%></td>
+																	<td><%= @loans && @loans.status%></td>
+																	<td><%= @loans && @loans.assignment_date %></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</form>
+												<!--end::Form-->
+											</div>
+											<!--end::Card-->
+										</div>
+									</div>
+
+									<div id="company" class="tabcontent" style="display:none">
+										<div class="flex-row-fluid ml-lg-8">
+												<!--begin::Card-->
+											<div class="card card-custom">
+												<!--begin::Header-->
+												<div class="card-header py-3">
+													<div class="card-title align-items-start flex-column">
+														<h3 class="card-label font-weight-bolder text-dark">Company Information</h3>
+													</div>
+													<div class="card-toolbar">
+													</div>
+												</div>
+												<!--end::Header-->
+												<!--begin::Form-->
+												<form class="form">
+													<div class="card-body">
+																<p>Name: <%= @companys && @companys.companyName %> </p>
+																<p>Email: <%= @companys && @companys.contactEmail %> </p>
+																<p class="mb-0">Phone Number: <%= @companys && @companys.companyPhone %></p>
+															</div>
+												</form>
+												<!--end::Form-->
+											</div>
+											<!--end::Card-->
+										</div>
+									</div>
+
+									<div id="portfolio" class="tabcontent" style="display:none">
+										<div class="flex-row-fluid ml-lg-8">
+												<!--begin::Card-->
+											<div class="card card-custom">
+												<!--begin::Header-->
+												<div class="card-header py-3">
+													<div class="card-title align-items-start flex-column">
+														<h3 class="card-label font-weight-bolder text-dark">My Portfolio</h3>
+													</div>
+													<div class="card-toolbar">
+													</div>
+												</div>
+												<!--end::Header-->
+												<!--begin::Form-->
+												<form class="form">
+													<div class="card-body">
+														<table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+														<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+															<thead>
+																<tr>
+																	<th class="wd-20p">Product Code</th>
+																	<th class="wd-15p">Loan Amount</th>
+																	<th class="wd-20p">Total Interest</th>
+																	<th class="wd-20p">Paid Amount</th>
+																	<th class="wd-20p">Outstanding Bal</th>
+																	<th class="wd-25p">Status</th>
+
+																</tr>
+															</thead>
+															<tbody>
+																<%= for loan_details <- @loan_details do %>
+																<tr>
+																	<td><%= loan_details.product_name %></td>
+																	<td>
+																		<%= if loan_details.principal_amount != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.principal_amount)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td>
+																		<%= if loan_details.interest_outstanding_derived != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.interest_outstanding_derived)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td>
+																		<%= if loan_details.total_principal_repaid != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.total_principal_repaid)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td>
+																		<%= if loan_details.principal_outstanding_derived != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.principal_outstanding_derived)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td><%= String.replace(loan_details.loan_status, "_", " ") %> </td>
+																</tr>
+																<% end %>
+															</tbody>
+														</table>
+													</div>
+												</form>
+												<!--end::Form-->
+											</div>
+											<!--end::Card-->
+										</div>
+									</div>
+								</div>
+									<!--end::Content-->
+								</div>
+								<!--end::Profile Account Information-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+								<!--end::Content-->
+							</div>
+							<!--end::Profile Personal Information-->
+						</div>
+					</div>
+				<% end %>
+                <!--end::Row-->
+                <!--end::Dashboard-->
+            </div>
+            <!--end::Container-->
+        </div>
+</div>
+
+
+
+
+<script>
+	function openCity(evt, cityName) {
+	var i, tabcontent, tablinks;
+	tabcontent = document.getElementsByClassName("tabcontent");
+	for (i = 0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "none";
+	}
+	tablinks = document.getElementsByClassName("tablinks");
+	for (i = 0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+	document.getElementById(cityName).style.display = "block";
+	evt.currentTarget.className += " active";
+	}
+</script>

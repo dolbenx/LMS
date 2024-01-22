@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Accounts.RoleDescription do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_role_description" do
     field :role_description, :string
     field :status, :string

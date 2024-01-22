@@ -5,6 +5,7 @@ defmodule Loanmanagementsystem.Companies.Company do
 
   #
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_company" do
     field :approval_trail, :string
     field :auth_level, :integer
@@ -49,22 +50,22 @@ defmodule Loanmanagementsystem.Companies.Company do
       :companyRegistrationDate,
       :companyAccountNumber
     ])
-    |> validate_required([
-      :bank_id,
-      :companyName,
-      :companyPhone,
-      :registrationNumber,
-      :taxno,
-      :contactEmail,
-      :isEmployer,
-      :isSme,
-      :isOfftaker,
-      :createdByUserId,
-      :createdByUserRoleId,
-      :status,
-      :companyRegistrationDate,
-      :companyAccountNumber
-    ])
+    # |> validate_required([
+    #   :bank_id,
+    #   :companyName,
+    #   :companyPhone,
+    #   :registrationNumber,
+    #   :taxno,
+    #   :contactEmail,
+    #   :isEmployer,
+    #   :isSme,
+    #   :isOfftaker,
+    #   :createdByUserId,
+    #   :createdByUserRoleId,
+    #   :status,
+    #   :companyRegistrationDate,
+    #   :companyAccountNumber
+    # ])
 
     # |> validate_required([:companyName, :companyPhone, :registrationNumber, :taxno, :contactEmail, :isEmployer, :isSme, :isOfftaker, :createdByUserId, :createdByUserRoleId, :status, :approval_trail, :auth_level])
   end

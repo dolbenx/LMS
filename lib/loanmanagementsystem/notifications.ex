@@ -14,12 +14,12 @@ defmodule Loanmanagementsystem.Notifications do
 
   @doc """
   Returns the list of tbl_sms.
-  
+
   ## Examples
-  
+
       iex> list_tbl_sms()
       [%Sms{}, ...]
-  
+
   """
   def list_sms do
     Repo.all(Sms)
@@ -27,31 +27,31 @@ defmodule Loanmanagementsystem.Notifications do
 
   @doc """
   Gets a single sms.
-  
+
   Raises `Ecto.NoResultsError` if the Sms does not exist.
-  
+
   ## Examples
-  
+
       iex> get_sms!(123)
       %Sms{}
-  
+
       iex> get_sms!(456)
       ** (Ecto.NoResultsError)
-  
+
   """
   def get_sms!(id), do: Repo.get!(Sms, id)
 
   @doc """
   Creates a sms.
-  
+
   ## Examples
-  
+
       iex> create_sms(%{field: value})
       {:ok, %Sms{}}
-  
+
       iex> create_sms(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def create_sms(attrs \\ %{}) do
     %Sms{}
@@ -61,15 +61,15 @@ defmodule Loanmanagementsystem.Notifications do
 
   @doc """
   Updates a sms.
-  
+
   ## Examples
-  
+
       iex> update_sms(sms, %{field: new_value})
       {:ok, %Sms{}}
-  
+
       iex> update_sms(sms, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def update_sms(%Sms{} = sms, attrs) do
     sms
@@ -79,15 +79,15 @@ defmodule Loanmanagementsystem.Notifications do
 
   @doc """
   Deletes a sms.
-  
+
   ## Examples
-  
+
       iex> delete_sms(sms)
       {:ok, %Sms{}}
-  
+
       iex> delete_sms(sms)
       {:error, %Ecto.Changeset{}}
-  
+
   """
   def delete_sms(%Sms{} = sms) do
     Repo.delete(sms)
@@ -95,12 +95,12 @@ defmodule Loanmanagementsystem.Notifications do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking sms changes.
-  
+
   ## Examples
-  
+
       iex> change_sms(sms)
       %Ecto.Changeset{source: %Sms{}}
-  
+
   """
   def change_sms(%Sms{} = sms) do
     Sms.changeset(sms, %{})

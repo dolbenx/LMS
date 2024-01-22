@@ -1,0 +1,428 @@
+
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Offtaker Onboading</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Daterange-->
+                                    TIME
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+								<div class="row">
+                                    <div class="col-md-12 col-xxl-12">
+                                        <div class="card card-custom card-stretch gutter-b">
+                                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                                <div class="card-title">
+                                                    <h3 class="card-label">Create Offtaker
+                                                    <span class="text-muted pt-2 font-size-sm d-block">Provide all the required details for the offtaker</span></h3>
+                                                </div>
+                                                <div class="card-toolbar">
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-0">
+												<!--begin: Wizard-->
+												<div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+													<!--begin: Wizard Nav-->
+													<div class="wizard-nav">
+														<div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+															<!--begin::Wizard Step 1 Nav-->
+															<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+																<div class="wizard-label">
+																	<h3 class="wizard-title">
+																	<span>1.</span>Company Details</h3>
+																	<div class="wizard-bar"></div>
+																</div>
+															</div>
+															<!--end::Wizard Step 1 Nav-->
+															<!--begin::Wizard Step 3 Nav-->
+															<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+																<div class="wizard-label">
+																	<h3 class="wizard-title">
+																	<span>2.</span>Representative Details</h3>
+																	<div class="wizard-bar"></div>
+																</div>
+															</div>
+															<!--end::Wizard Step 3 Nav-->
+															<!--begin::Wizard Step 4 Nav-->
+															<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+																<div class="wizard-label">
+																	<h3 class="wizard-title">
+																	<span>3.</span>Document Upload</h3>
+																	<div class="wizard-bar"></div>
+																</div>
+															</div>
+															<!--end::Wizard Step 4 Nav-->
+														</div>
+													</div>
+													<!--end: Wizard Nav-->
+													<!--begin: Wizard Body-->
+													<div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+														<div class="col-xl-12 col-xxl-12">
+															<!--begin: Wizard Form-->
+															<form class="form fv-plugins-bootstrap fv-plugins-framework" id="offtaker_onboarding" enctype="multipart/form-data" method="post">
+																<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+																<!--begin: Wizard Step 1-->
+																<div class="pb-5" data-wizard-type="step-content">
+																	<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter company Details</u></h4>
+																	<!--begin::Input-->
+																	<div class="row">
+																		<div class="col-md-6 border">
+																		<br><h5 class="text-center"> <u>Company Details</u> </h5><br>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Company Name: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="companyName" id="companyName">
+																					</div>
+																					<span class="form-text text-muted">Please enter company name.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Company Phone Number: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="companyPhone" id="companyPhone">
+																					</div>
+																					<span class="form-text text-muted">Please enter company mobile.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Contact Email: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="contactEmail" id="contactEmail">
+																					</div>
+																					<span class="form-text text-muted">Please enter company email.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Registration Date:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="date" class="form-control" name="companyRegistrationDate" id="companyRegistrationDate">
+																					</div>
+																					<span class="form-text text-muted">Please Select company registration date.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">TPIN:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="taxno" id="taxno">
+																					</div>
+																					<span class="form-text text-muted">Please enter company TPin.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="registrationNumber" id="registrationNumber">
+																					</div>
+																					<span class="form-text text-muted">Please enter company registration No.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																		<div class="col-md-6 border">
+																			<br><h5 class="text-center"> <u>Bank Details</u> </h5><br>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Select Bank:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<select id="bank_id" name="bank_id" class="form-control">
+																						<option value="">Select</option>
+																						<%= for bank <- @banks do %>
+																							<option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)</option>
+																						<% end %>
+																				</select>
+																					</div>
+																					<span class="form-text text-muted">Please select your bank.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Account Number:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" id="companyAccountNumber" name="companyAccountNumber">
+																					</div>
+																					<span class="form-text text-muted">Please enter your account No.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<!--end: Wizard Step 1-->
+																<!--begin: Wizard Step 3-->
+																<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+																	<h4 class="mb-10 font-weight-bold text-dark"><u>Enter Representative Details</u></h4>
+																	<div class="row">
+																		<div class="col-md-6 border">
+																		<br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Title:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<select name="title" class="form-control" id="title">
+																							<option value="">Select</option>
+																							<option value="Mr">Mr </option>
+																							<option value="Mrs">Mrs </option>
+																							<option value="Ms">Ms </option>
+																							<option value="Dr">Dr </option>
+																						</select>
+																					</div>
+																					<span class="form-text text-muted">Please title.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="firstName" id="firstName">
+																					</div>
+																					<span class="form-text text-muted">Please enter first name.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="lastName" id="lastName">
+																					</div>
+																					<span class="form-text text-muted">Please enter last name.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Other Name:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="otherName" id="otherName">
+																					</div>
+																					<span class="form-text text-muted">Please enter other name.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="mobileNumber" id="mobileNumber">
+																					</div>
+																					<span class="form-text text-muted">Please enter mobile number.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Date Of Birth:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="date" class="form-control" name="dateOfBirth" id="dateOfBirth">
+																					</div>
+																					<span class="form-text text-muted">Please Select date of birth.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="emailAddress" id="emailAddress">
+																					</div>
+																					<span class="form-text text-muted">Please enter email address.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="meansOfIdentificationNumber" id="meansOfIdentificationNumber">
+																					</div>
+																					<span class="form-text text-muted">Please enter ID No.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Choose Gender:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<select name="gender" class="form-control" id="gender">
+																							<option value="">Select</option>
+																							<option value="Male">Male </option>
+																							<option value="Female">Female </option>
+																						</select>
+																					</div>
+																					<span class="form-text text-muted">Please select gender.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																		<div class="col-md-6 border">
+																			<br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">House/Plot Number</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="house_number" id="house_number">
+																					</div>
+																					<span class="form-text text-muted">Please enter House/Plot Number.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Road/Street Name:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="street_name" id="street_name">
+																					</div>
+																					<span class="form-text text-muted">Please enter Road/Street Name.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Area:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="area" id="area">
+																					</div>
+																					<span class="form-text text-muted">Please enter area.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Town:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="town" id="town">
+																					</div>
+																					<span class="form-text text-muted">Please enter town.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Accomodation Status:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" name="accomodation_status" id="accomodation_status">
+																					</div>
+																					<span class="form-text text-muted">Please enter accomodation status.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Years At Current Address:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="number" class="form-control" name="year_at_current_address" id="year_at_current_address">
+																					</div>
+																					<span class="form-text text-muted">Please enter years At current address.</span>
+																				</div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<!--end: Wizard Step 3-->
+																<!--begin: Wizard Step 4-->
+																<div class="pb-5" data-wizard-type="step-content">
+																	<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+																	<!--begin::Select-->
+																	<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+																		<thead>
+																			<tr role="row">
+																				<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																					<label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+																				</th>
+																				<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<%= for item <- required_document() do %>
+																				<tr class="tr_clone">
+																					<td>
+																						<div class="col-md-12 form-group">
+																							<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+																						</div>
+																					</td>
+																					<td>
+																						<input class="receiver form-control" id="loan_document_upload" name="file[]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+																					</td>
+																				</tr>
+																			<% end %>
+																		</tbody>
+																	</table>
+																</div>
+																<!--end: Wizard Step 4-->
+																<!--begin: Wizard Actions-->
+																<div class="d-flex justify-content-between border-top mt-5 pt-10">
+																	<div class="mr-2">
+																		<button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+																	</div>
+																	<div>
+																		<button type="button" id="offtaker_onboarding_upload" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+																		<button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+																	</div>
+																</div>
+																<!--end: Wizard Actions-->
+															<div></div><div></div><div></div><div></div></form>
+															<!--end: Wizard Form-->
+														</div>
+													</div>
+													<!--end: Wizard Body-->
+												</div>
+												<!--end: Wizard-->
+											</div>
+                                        </div>
+                                    </div>
+								</div>
+								<!--end::Row-->
+								<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->

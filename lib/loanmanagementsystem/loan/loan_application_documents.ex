@@ -1,7 +1,9 @@
 defmodule Loanmanagementsystem.Loan.Loan_application_documents do
   use Ecto.Schema
   import Ecto.Changeset
+  use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_application_documents" do
     field :customer_id, :integer
     field :doc_name, :string

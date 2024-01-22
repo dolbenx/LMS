@@ -3,6 +3,7 @@
         <!--begin::Container-->
         <div class="container-fluid d-flex align-items-stretch justify-content-between">
             <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
             <!--end::Header Menu Wrapper-->
         </div>
         <!--end::Container-->
@@ -85,61 +86,70 @@
                                                 <% end %>
                                             </td>
                                             <td>
-                                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :edit) do %>
-                                                    <a class="btn ripple btn-info btn-sm" data-target="#edituseradmin" data-toggle="modal"
-                                                    data-id ="<%= get_bio_data.id %>"
-                                                    data-firstname= "<%= get_bio_data.firstname%>"
-                                                    data-lastname="<%= get_bio_data.lastname%>"
-                                                    data-othername="<%= get_bio_data.othername%>"
-                                                    data-email ="<%= get_bio_data.emailaddress%> "
-                                                    data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                    data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                    data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                    data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                    data-title = "<%=get_bio_data.title %>"
-                                                    data-gender = "<%=get_bio_data.gender %>"
-                                                    data-roletype = "<%=get_bio_data.roletype %>"
-                                                    ><i class="fe fe-edit"></i> Edit </a>
 
-                                                <% end %>
 
-                                                <a class="btn ripple btn-warning btn-sm" data-target="#viewuseradmin" data-toggle="modal"
-                                                data-id ="<%= get_bio_data.id %>"
-                                                data-firstname= "<%= get_bio_data.firstname%>"
-                                                data-lastname="<%= get_bio_data.lastname%>"
-                                                data-othername="<%= get_bio_data.othername%>"
-                                                data-email ="<%= get_bio_data.emailaddress%> "
-                                                data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                data-title = "<%=get_bio_data.title %>"
-                                                data-gender = "<%=get_bio_data.gender %>"
-                                                data-roletype = "<%=get_bio_data.roletype %>"
-                                                ><i class="fe fe-edit"></i> View </a>
-
-                                                <%= if get_bio_data.status == "INACTIVE"   do %>
-                                                    <!-- <a class="dropdown-item activate-user"  data-activate-id="<%= get_bio_data.id %>" ><i class="fe fe-eye"></i> Enable </a>-->
-                                                    <a class="btn ripple btn-success btn-sm" data-target="#enableusermodal" data-toggle="modal"
-                                                    data-id ="<%= get_bio_data.id %>"
-                                                    data-firstname= "<%= get_bio_data.firstname%>"
-                                                    data-lastname="<%= get_bio_data.lastname%>"
-                                                    data-othername="<%= get_bio_data.othername%>"
-                                                    data-email ="<%= get_bio_data.emailaddress%> "
-                                                    data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                    data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                    data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                    data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                    data-title = "<%=get_bio_data.title %>"
-                                                    data-gender = "<%=get_bio_data.gender %>"
-                                                    data-roletype = "<%=get_bio_data.roletype %>"
-                                                    ><i class="fe fe-edit"></i> Enable</a>
-                                                <% end %>
-                                                <%= if get_bio_data.status == "ACTIVE" && get_bio_data.classification_id !== nil  do %>
-                                                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :change_status) do %>
-                                                        <a class="btn ripple btn-danger btn-sm deactivate-user" data-activate-id="<%= get_bio_data.id %>" ><i class="fe fe-eye"></i> Disable </a>
-                                                    <% end %>
-                                                <% end %>
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">Options</button>
+                                                    <div class="dropdown-content">
+                                                        <%= if get_bio_data.status == "INACTIVE"   do %>
+                                                            <a class="btn ripple btn-sm disapprove_holiday" href="#"
+                                                            data-target="#enableusermodal"
+                                                            data-toggle="modal"
+                                                            data-id ="<%= get_bio_data.id %>"
+                                                            data-firstname= "<%= get_bio_data.firstname%>"
+                                                            data-lastname="<%= get_bio_data.lastname%>"
+                                                            data-othername="<%= get_bio_data.othername%>"
+                                                            data-email ="<%= get_bio_data.emailaddress%> "
+                                                            data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                            data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                            data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                            data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                            data-title = "<%=get_bio_data.title %>"
+                                                            data-gender = "<%=get_bio_data.gender %>"
+                                                            data-roletype = "<%=get_bio_data.roletype %>"
+                                                            >Enable</a>
+                                                        <% end %>
+                                                        <%= if get_bio_data.status == "ACTIVE" && get_bio_data.classification_id !== nil  do %>
+                                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :change_status) do %>
+                                                                <a class="btn ripple btn-sm deactivate-user" data-activate-id="<%= get_bio_data.id %>" href="#">Disable</a>
+                                                            <% end %>
+                                                        <% end %>
+                                                        <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :edit) do %>
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-target="#edituseradmin"
+                                                                data-toggle="modal"
+                                                                data-id ="<%= get_bio_data.id %>"
+                                                                data-firstname= "<%= get_bio_data.firstname%>"
+                                                                data-lastname="<%= get_bio_data.lastname%>"
+                                                                data-othername="<%= get_bio_data.othername%>"
+                                                                data-email ="<%= get_bio_data.emailaddress%> "
+                                                                data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                                data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                                data-title = "<%=get_bio_data.title %>"
+                                                                data-gender = "<%=get_bio_data.gender %>"
+                                                                data-roletype = "<%=get_bio_data.roletype %>"
+                                                            >Edit</a>
+                                                        <% end %>
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-target="#viewuseradmin"
+                                                            data-toggle="modal"
+                                                            data-id ="<%= get_bio_data.id %>"
+                                                            data-firstname= "<%= get_bio_data.firstname%>"
+                                                            data-lastname="<%= get_bio_data.lastname%>"
+                                                            data-othername="<%= get_bio_data.othername%>"
+                                                            data-email ="<%= get_bio_data.emailaddress%> "
+                                                            data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                            data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                            data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                            data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                            data-title = "<%=get_bio_data.title %>"
+                                                            data-gender = "<%=get_bio_data.gender %>"
+                                                            data-roletype = "<%=get_bio_data.roletype %>"
+                                                        >View</a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     <% end %>

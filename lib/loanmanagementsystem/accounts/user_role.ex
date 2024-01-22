@@ -5,16 +5,20 @@ defmodule Loanmanagementsystem.Accounts.UserRole do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_user_roles" do
     field :roleType, :string
     field :status, :string
     field :userId, :integer
     field :otp, :string
+    field :studentID, :string
+    field :studentLevel, :string
     field :session, :string
     field :permissions, :string
     field :auth_level, :integer
     field :client_type, :string
     field :isStaff, :boolean, default: false
+    field :loan_limit, :decimal
 
     timestamps()
   end
@@ -27,11 +31,14 @@ defmodule Loanmanagementsystem.Accounts.UserRole do
       :roleType,
       :status,
       :otp,
+      :studentID,
+      :studentLevel,
       :session,
       :permissions,
       :auth_level,
       :client_type,
-      :isStaff
+      :isStaff,
+      :loan_limit
     ])
 
     # |> validate_required([:userId, :roleType, :status])

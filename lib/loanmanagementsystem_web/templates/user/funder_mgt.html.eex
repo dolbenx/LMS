@@ -45,17 +45,17 @@
                         <div class="card card-custom card-stretch gutter-b">
                             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                                 <div class="card-title">
-                                    <h3 class="card-label">External Financiers
-                                    <span class="text-muted pt-2 font-size-sm d-block">List of External Partner users</span></h3>
+                                    <h3 class="card-label">Individual Financiers
+                                    <span class="text-muted pt-2 font-size-sm d-block">List of Partner users</span></h3>
                                 </div>
                                 <div class="card-toolbar">
                                     <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :create) do %>
 
 
-                                    <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#select_funder_type" style="background-color: #011941;">
+                                    <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#create_funder_individual" style="background-color: #011941;">
 
                                         Add Funder
-                                    </button --->
+                                    </button>
 
                                     <% end %>
 
@@ -92,77 +92,103 @@
                                                 <% end %>
                                             </td>
 
-                                            <td style="text-align: center; ">
-                                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :edit) do %>
-                                                    <a class="btn ripple btn-info btn-sm" data-target="#edituseradmin" data-toggle="modal"
-                                                    data-id ="<%= get_bio_data.id %>"
-                                                    data-firstname= "<%= get_bio_data.firstname%>"
-                                                    data-lastname="<%= get_bio_data.lastname%>"
-                                                    data-othername="<%= get_bio_data.othername%>"
-                                                    data-email ="<%= get_bio_data.emailaddress%> "
-                                                    data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                    data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                    data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                    data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                    data-title = "<%=get_bio_data.title %>"
-                                                    data-gender = "<%=get_bio_data.gender %>"
-                                                    data-roletype = "<%=get_bio_data.roletype %>"
-                                                    ><i class="fe fe-edit"></i> Edit </a>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">Options</button>
+                                                    <div class="dropdown-content">
+                                                        <%= if get_bio_data.status == "INACTIVE"   do %>
 
-                                                <% end %>
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-target="#enableusermodal"
+                                                                data-toggle="modal"
+                                                                data-id ="<%= get_bio_data.id %>"
+                                                                data-firstname= "<%= get_bio_data.firstname%>"
+                                                                data-lastname="<%= get_bio_data.lastname%>"
+                                                                data-othername="<%= get_bio_data.othername%>"
+                                                                data-email ="<%= get_bio_data.emailaddress%> "
+                                                                data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                                data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                                data-title = "<%=get_bio_data.title %>"
+                                                                data-gender = "<%=get_bio_data.gender %>"
+                                                            >Enable</a>
 
-                                                <a class="btn ripple btn-warning btn-sm" data-target="#viewuseradmin" data-toggle="modal"
-                                                data-id ="<%= get_bio_data.id %>"
-                                                data-firstname= "<%= get_bio_data.firstname%>"
-                                                data-lastname="<%= get_bio_data.lastname%>"
-                                                data-othername="<%= get_bio_data.othername%>"
-                                                data-email ="<%= get_bio_data.emailaddress%> "
-                                                data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                data-title = "<%=get_bio_data.title %>"
-                                                data-gender = "<%=get_bio_data.gender %>"
-                                                data-roletype = "<%=get_bio_data.roletype %>"
-                                                ><i class="fe fe-edit"></i> View </a>
+                                                            <% else %>
 
-                                                <%= if get_bio_data.status == "INACTIVE"   do %>
-                                                    <!-- <a class="dropdown-item activate-user"  data-activate-id="<%= get_bio_data.id %>" ><i class="fe fe-eye"></i> Enable </a>-->
-                                                    <a class="btn ripple btn-success btn-sm" data-target="#enableusermodal" data-toggle="modal"
-                                                    data-id ="<%= get_bio_data.id %>"
-                                                    data-firstname= "<%= get_bio_data.firstname%>"
-                                                    data-lastname="<%= get_bio_data.lastname%>"
-                                                    data-othername="<%= get_bio_data.othername%>"
-                                                    data-email ="<%= get_bio_data.emailaddress%> "
-                                                    data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                    data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                    data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                    data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                    data-title = "<%=get_bio_data.title %>"
-                                                    data-gender = "<%=get_bio_data.gender %>"
-                                                    data-roletype = "<%=get_bio_data.roletype %>"
-                                                    ><i class="fe fe-edit"></i> Enable</a>
-                                                <% end %>
-                                                <%= if get_bio_data.status == "ACTIVE" do %>
-                                                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :change_status) do %>
-                                                        <a class="btn ripple btn-danger btn-sm deactivate-user" data-activate-id="<%= get_bio_data.id %>" ><i class="fe fe-eye"></i> Disable </a>
-                                                    <% end %>
-                                                <% end %>
+                                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :change_status) do %>
 
-                                                <a class="btn ripple btn-success btn-sm" data-target="#fund_funder" data-toggle="modal"
-                                                data-id ="<%= get_bio_data.id %>"
-                                                data-firstname= "<%= get_bio_data.firstname%>"
-                                                data-lastname="<%= get_bio_data.lastname%>"
-                                                data-othername="<%= get_bio_data.othername%>"
-                                                data-email ="<%= get_bio_data.emailaddress%> "
-                                                data-dob = "<%=get_bio_data.dateofbirth %>"
-                                                data-phone = "<%=get_bio_data.mobilenumber %>"
-                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
-                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
-                                                data-title = "<%=get_bio_data.title %>"
-                                                data-gender = "<%=get_bio_data.gender %>"
-                                                data-roletype = "<%=get_bio_data.roletype %>"
-                                                ><i class="fe fe-edit"></i> Fund </a>
+                                                                <a class="btn ripple btn-sm" href="#"
+                                                                    data-target="#disableusermodal"
+                                                                    data-toggle="modal"
+                                                                    data-id="<%= get_bio_data.id %>"
+                                                                    data-firstname= "<%= get_bio_data.firstname%>"
+                                                                    data-lastname="<%= get_bio_data.lastname%>"
+                                                                    data-othername="<%= get_bio_data.othername%>"
+                                                                    data-email ="<%= get_bio_data.emailaddress%> "
+                                                                    data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                                    data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                                    data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                                    data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                                    data-title = "<%=get_bio_data.title %>"
+                                                                    data-gender = "<%=get_bio_data.gender %>"
+                                                                >Disable</a>
+                                                            <% end %>
+                                                        <% end %>
+
+                                                        <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :user, :edit) do %>
+
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-target="#edituseradmin"
+                                                                data-toggle="modal"
+                                                                data-id ="<%= get_bio_data.id %>"
+                                                                data-firstname= "<%= get_bio_data.firstname%>"
+                                                                data-lastname="<%= get_bio_data.lastname%>"
+                                                                data-othername="<%= get_bio_data.othername%>"
+                                                                data-email ="<%= get_bio_data.emailaddress%> "
+                                                                data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                                data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                                data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                                data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                                data-title = "<%=get_bio_data.title %>"
+                                                                data-gender = "<%=get_bio_data.gender %>"
+                                                                data-funder_type = "<%=get_bio_data.funder_type %>"
+                                                            >Edit</a>
+                                                        <% end %>
+
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-target="#viewuseradmin"
+                                                            data-toggle="modal"
+                                                            data-id ="<%= get_bio_data.id %>"
+                                                            data-firstname= "<%= get_bio_data.firstname%>"
+                                                            data-lastname="<%= get_bio_data.lastname%>"
+                                                            data-othername="<%= get_bio_data.othername%>"
+                                                            data-email ="<%= get_bio_data.emailaddress%> "
+                                                            data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                            data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                            data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                            data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                            data-title = "<%=get_bio_data.title %>"
+                                                            data-gender = "<%=get_bio_data.gender %>"
+                                                        >View</a>
+
+                                                        <a class="btn ripple btn-sm" href="#"
+                                                            data-target="#fund_funder"
+                                                            data-toggle="modal"
+                                                            data-id ="<%= get_bio_data.id %>"
+                                                            data-firstname= "<%= get_bio_data.firstname%>"
+                                                            data-lastname="<%= get_bio_data.lastname%>"
+                                                            data-othername="<%= get_bio_data.othername%>"
+                                                            data-email ="<%= get_bio_data.emailaddress%> "
+                                                            data-dob = "<%=get_bio_data.dateofbirth %>"
+                                                            data-phone = "<%=get_bio_data.mobilenumber %>"
+                                                            data-meansofidentificationtype = "<%=get_bio_data.meansofidentificationtype %>"
+                                                            data-meansofidentificationnumber = "<%=get_bio_data.meansofidentificationnumber %>"
+                                                            data-title = "<%=get_bio_data.title %>"
+                                                            data-gender = "<%=get_bio_data.gender %>"
+                                                        >Fund</a>
+                                                    </div>
+                                                </div>
 
                                             </td>
                                         </tr>
@@ -238,7 +264,7 @@
                 <h6 class="modal-title"> Create Funder - Individual </h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
             </div>
-            <form action="<%= Routes.user_path(@conn, :create_funder) %>" method="post"  enctype="multipart/form-data" id="tst" >
+            <form method="post"  enctype="multipart/form-data" id="create_funder_individual_form" >
                 <div class="modal-body">
                     <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
                     <input type="hidden" name="password" id="password-gen" >
@@ -255,11 +281,11 @@
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">First Name</p>
-                            <input name="firstName" class="form-control" type="text">
+                            <input name="firstName" id="first_name" class="form-control" type="text">
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Last Name</p>
-                            <input name="lastName" class="form-control" type="text">
+                            <input name="lastName" id="last_name" class="form-control" type="text">
                         </div>
                     </div>
                     <div class="row row-sm mg-b-20">
@@ -269,18 +295,18 @@
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Date Of Birth</p>
-                            <input class="form-control" name="dateOfBirth" type="date">
+                            <input class="form-control" max="<%= Timex.shift(Timex.today(), years: -18) %>" id="dateOfBirth" name="dateOfBirth" type="date">
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Personal Email</p>
-                            <input class="form-control" name="emailAddress" type="email">
+                            <input class="form-control" id="emailAddress" name="emailAddress" type="email">
                         </div>
 
                     </div>
                     <div class="row row-sm mg-b-20">
                         <div class="col-lg">
                             <p class="mg-b-10">Identification Type</p>
-                            <select name="meansOfIdentificationType" class="form-control">
+                            <select name="meansOfIdentificationType" id="meansOfIdentificationType" class="form-control">
                                 <option label="Select Type"></option>
                                 <option value="Drivers License">Drivers License</option>
                                 <option value="National Registration Card">National Registration Card</option>
@@ -289,11 +315,11 @@
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Identification Number</p>
-                            <input class="form-control" name="meansOfIdentificationNumber" type="text">
+                            <input class="form-control" id="meansOfIdentificationNumber" name="meansOfIdentificationNumber" type="text">
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Mobile Number</p>
-                            <input class="form-control" name="mobileNumber" type="text">
+                            <input class="form-control" id="mobileNumber" name="mobileNumber" type="text">
                         </div>
                     </div>
                     <div class="row row-sm mg-b-20">
@@ -311,7 +337,7 @@
                         </div>
                         <div class="col-lg">
                             <p class="mg-b-10">Funder Type</p>
-                            <select name="funder_type" id="" class="form-control">
+                            <select name="funder_type" id="funder_type" class="form-control">
                                 <option label="Select One"></option>
                                 <option value="INTERNAL FUNDER">INTERNAL FUNDER</option>
                                 <option value="EXTERNAL FUNDER">EXTERNAL FUNDER</option>
@@ -339,7 +365,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-                        <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Submit</button>
+                        <button type="button" id="create_funder_individual_submit" class="btn btn-success font-weight-bolder">Submit</button>
                     </div>
                 </div>
             </form>
@@ -354,7 +380,7 @@
                 <h6 class="modal-title"> Create Funder  </h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
             </div>
-            <form action="<%= Routes.user_path(@conn, :create_funder_as_company) %>" method="post"  enctype="multipart/form-data" id="tst" >
+            <form  method="post"  id="create_funder_company_form" enctype="multipart/form-data" >
                 <div class="modal-body">
                     <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
                         <div class="row">
@@ -370,7 +396,7 @@
                                             </div>
                                             <div class="card-body p-0">
 												<!--begin: Wizard-->
-												<div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+												 <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
 													<!--begin: Wizard Nav-->
 													<div class="wizard-nav">
 														<div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
@@ -408,7 +434,7 @@
 													<div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
 														<div class="col-xl-12 col-xxl-12">
 															<!--begin: Wizard Form-->
-															<form class="form fv-plugins-bootstrap fv-plugins-framework" id="kt_form" action="<%= Routes.user_path(@conn, :create_funder_as_company) %>" enctype="multipart/form-data" method="post">
+															<form class="form fv-plugins-bootstrap fv-plugins-framework" enctype="multipart/form-data" method="post">
 																<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
 																<!--begin: Wizard Step 1-->
 																<div class="pb-5" data-wizard-type="step-content">
@@ -421,7 +447,7 @@
 																				<label class="col-3 col-form-label">Company Name: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="companyName">
+																						<input type="text" class="form-control" name="companyName" id="companyName">
 																					</div>
 																					<span class="form-text text-muted">Please enter company name.</span>
 																				</div>
@@ -431,7 +457,7 @@
 																				<label class="col-3 col-form-label">Company Number: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="companyPhone">
+																						<input type="text" class="form-control" name="companyPhone" id="companyPhone">
 																					</div>
 																					<span class="form-text text-muted">Please enter company mobile.</span>
 																				</div>
@@ -441,7 +467,7 @@
 																				<label class="col-3 col-form-label">Contact Email: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="contactEmail">
+																						<input type="text" class="form-control" name="contactEmail" id="contactEmail">
 																					</div>
 																					<span class="form-text text-muted">Please enter company email.</span>
 																				</div>
@@ -451,7 +477,7 @@
 																				<label class="col-3 col-form-label">Registration Date:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="date" class="form-control" name="companyRegistrationDate">
+																						<input type="date" class="form-control" name="companyRegistrationDate" id="companyRegistrationDate">
 																					</div>
 																					<span class="form-text text-muted">Please Select company registration date.</span>
 																				</div>
@@ -461,7 +487,7 @@
 																				<label class="col-3 col-form-label">TPIN:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="taxno">
+																						<input type="text" class="form-control" name="taxno" id="taxno">
 																					</div>
 																					<span class="form-text text-muted">Please enter company TPin.</span>
 																				</div>
@@ -471,7 +497,7 @@
 																				<label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="registrationNumber">
+																						<input type="text" class="form-control" name="registrationNumber" id="registrationNumber">
 																					</div>
 																					<span class="form-text text-muted">Please enter company registration No.</span>
 																				</div>
@@ -484,7 +510,7 @@
 																				<label class="col-3 col-form-label">Select Bank:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<select name="bank_id" class="form-control">
+																						<select name="bank_id" id="bank_id" class="form-control">
                                                                                             <option value="">Select</option>
                                                                                             <%= for bank <- @banks do %>
                                                                                                 <option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)</option>
@@ -499,7 +525,7 @@
 																				<label class="col-3 col-form-label">Account Number:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="companyAccountNumber">
+																						<input type="text" class="form-control" name="companyAccountNumber" id="companyAccountNumber">
 																					</div>
 																					<span class="form-text text-muted">Please enter your account No.</span>
 																				</div>
@@ -509,7 +535,7 @@
 																				<label class="col-3 col-form-label">Funder Type:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<select name="funder_type" class="form-control">
+																						<select name="funder_type" id="funder_type_com" class="form-control">
                                                                                             <option value="">Select One</option>
                                                                                             <option value="INTERNAL FUNDER">INTERNAL FUNDER</option>
                                                                                             <option value="EXTERNAL FUNDER">EXTERNAL FUNDER</option>
@@ -550,7 +576,7 @@
 																				<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="firstName">
+																						<input type="text" class="form-control" id="com_first_name" name="firstName">
 																					</div>
 																					<span class="form-text text-muted">Please enter first name.</span>
 																				</div>
@@ -560,7 +586,7 @@
 																				<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="lastName">
+																						<input type="text" class="form-control" id="com_last_name" name="lastName">
 																					</div>
 																					<span class="form-text text-muted">Please enter last name.</span>
 																				</div>
@@ -580,7 +606,7 @@
 																				<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="mobileNumber">
+																						<input type="text" class="form-control" name="mobileNumber" id="com_mobileNumber">
 																					</div>
 																					<span class="form-text text-muted">Please enter mobile number.</span>
 																				</div>
@@ -590,7 +616,7 @@
 																				<label class="col-3 col-form-label">Date Of Birth:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="date" class="form-control" name="dateOfBirth">
+																						<input type="date" class="form-control" id="com_dateOfBirth" name="dateOfBirth">
 																					</div>
 																					<span class="form-text text-muted">Please Select date of birth.</span>
 																				</div>
@@ -600,7 +626,7 @@
 																				<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="emailAddress">
+																						<input type="text" class="form-control" id="com_emailAddress" name="emailAddress">
 																					</div>
 																					<span class="form-text text-muted">Please enter email address.</span>
 																				</div>
@@ -610,7 +636,7 @@
 																				<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="meansOfIdentificationNumber">
+																						<input type="text" class="form-control" id="com_meansOfIdentificationNumber" name="meansOfIdentificationNumber">
 																					</div>
 																					<span class="form-text text-muted">Please enter ID No.</span>
 																				</div>
@@ -620,7 +646,7 @@
 																				<label class="col-3 col-form-label">Choose Gender:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<select name="gender" class="form-control">
+																						<select name="gender" id="com_gender" class="form-control">
 																							<option value="">Select</option>
 																							<option value="Male">Male </option>
 																							<option value="Female">Female </option>
@@ -637,7 +663,7 @@
 																				<label class="col-3 col-form-label">House/Plot Number</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="house_number">
+																						<input type="text" class="form-control" id="com_house_number" name="house_number">
 																					</div>
 																					<span class="form-text text-muted">Please enter House/Plot Number.</span>
 																				</div>
@@ -658,7 +684,7 @@
 																				<label class="col-3 col-form-label">Area:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="area">
+																						<input type="text" class="form-control" id="com_area" name="area">
 																					</div>
 																					<span class="form-text text-muted">Please enter area.</span>
 																				</div>
@@ -668,7 +694,7 @@
 																				<label class="col-3 col-form-label">Town:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="town">
+																						<input type="text" class="form-control" id="com_town" name="town">
 																					</div>
 																					<span class="form-text text-muted">Please enter town.</span>
 																				</div>
@@ -678,7 +704,7 @@
 																				<label class="col-3 col-form-label">Accomodation Status:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="text" class="form-control" name="accomodation_status">
+																						<input type="text" class="form-control" id="com_accomodation_status" name="accomodation_status">
 																					</div>
 																					<span class="form-text text-muted">Please enter accomodation status.</span>
 																				</div>
@@ -688,7 +714,7 @@
 																				<label class="col-3 col-form-label">Years At Current Address:</label>
 																				<div class="col-9">
 																					<div class="input-group input-group-sm">
-																						<input type="number" class="form-control" name="year_at_current_address">
+																						<input type="number" class="form-control" id="com_year_at_current_address" name="year_at_current_address">
 																					</div>
 																					<span class="form-text text-muted">Please enter years At current address.</span>
 																				</div>
@@ -719,7 +745,7 @@
 																						</div>
 																					</td>
 																					<td>
-																						<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+																						<input class="receiver form-control" id="com_funder_document" name="file[]" type="file" multiple="<%= is_required?(item.is_required) %>" >
 																					</td>
 																				</tr>
 																			<% end %>
@@ -733,7 +759,8 @@
 																		<button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
 																	</div>
 																	<div>
-																		<button type="submit" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+
+                                                                        <button type="button" id="create_funder_company_submit" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
 																		<button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
 																	</div>
 																</div>
@@ -755,10 +782,6 @@
     </div>
 </div>
 
-
-
-
-
 <%#  the edit a user %>
 
 <div class="modal fade" id="enableusermodal" >
@@ -767,7 +790,83 @@
           <div class="modal-header">
 							<h6 class="modal-title"> Enable  User </h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
 						</div>
-                <form action="<%= Routes.user_path(@conn, :admin_activate_user) %>" method="post">
+                <form action="<%= Routes.user_path(@conn, :admin_activate_individual_funder) %>" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="id" id="id">
+
+                         <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                            <p class="mg-b-10">Title</p>
+                                <input class="form-control" id="edit-title" name="title" type="text" readonly>
+                            </div>
+                            <div class="col-lg">
+                            <p class="mg-b-10">First Name</p>
+                                <input name="firstName" id="firstname" class="form-control"  type="text" readonly>
+                            </div>
+                            <div class="col-lg">
+                            <p class="mg-b-10">Last Name</p>
+                                <input name="lastName" id="lastname" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                            <p class="mg-b-10">Other Name</p>
+                                <input class="form-control" id="othername" name="otherName"  type="text" readonly>
+                            </div>
+                            <div class="col-lg">
+                            <p class="mg-b-10">Date Of Birth</p>
+                                <input class="form-control" id="dob" name="dateOfBirth" type="date" readonly>
+                            </div>
+                                <div class="col-lg">
+                            <p class="mg-b-10">Personal Email</p>
+                                <input class="form-control" id="email" name="emailAddress"  type="email" readonly>
+                            </div>
+
+                        </div>
+                        <div class="row row-sm mg-b-20">
+
+                            <div class="col-lg-4">
+                            <p class="mg-b-10">Identification Type</p>
+                                <input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType" type="text" readonly>
+                            </div>
+                            <div class="col-lg-4">
+                            <p class="mg-b-10">Identification Number</p>
+                                <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
+                            </div>
+                            <div class="col-lg-4">
+                            <p class="mg-b-10">Mobile Number</p>
+                                <input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
+                            </div>
+
+                        </div>
+                        <div class="row row-sm mg-b-20">
+
+
+                            <div class="col-lg">
+                            <p class="mg-b-10">Gender</p>
+                                <input class="form-control" id="gender" name="gender" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                            <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Enable User</button>
+                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="disableusermodal" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+							<h6 class="modal-title"> Disable  User </h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+						</div>
+                <form action="<%= Routes.user_path(@conn, :admin_deactivate_individual_funder) %>" method="post">
                                 <div class="modal-body">
                                     <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
                                     <input type="hidden" name="id" id="id">
@@ -804,15 +903,15 @@
 										</div>
                                         <div class="row row-sm mg-b-20">
 
-                                            <div class="col-lg">
+                                            <div class="col-lg-4">
                                             <p class="mg-b-10">Identification Type</p>
 												<input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType" type="text" readonly>
 											</div>
-                                            <div class="col-lg">
+                                            <div class="col-lg-4">
                                             <p class="mg-b-10">Identification Number</p>
 												<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
 											</div>
-                                            <div class="col-lg">
+                                            <div class="col-lg-4">
                                             <p class="mg-b-10">Mobile Number</p>
 												<input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
 											</div>
@@ -825,15 +924,11 @@
                                             <p class="mg-b-10">Gender</p>
 												<input class="form-control" id="gender" name="gender" type="text" readonly>
 											</div>
-                                            <div class="col-lg">
-                                            <p class="mg-b-10">Role Type</p>
-												<input class="form-control" id="roletype" name="roleType" type="text" readonly>
-											</div>
 										</div>
 									</div>
 
                                     <div class="modal-footer">
-                                         <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Enable User</button>
+                                         <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Disable User</button>
                                         <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
                                     </div>
                                 </div>
@@ -847,80 +942,79 @@
 
 <%#  the edit a user %>
 
-
 <div class="modal fade" id="fund_funder">
-	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Update Funds</h6>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
-			</div>
-			<form action="<%= Routes.user_path(@conn, :admin_update_funders_funds) %>" method="post" method="post">
-             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-				<div class="modal-body">
-
-					<input type="hidden" name="funder_id" id="id">
-					<div class="row row-sm mg-b-20">
-						<div class="col-lg">
-							<p class="mg-b-10">First Name</p>
-							<input name="firstName" id="firstname" class="form-control" type="text" readonly> </div>
-						<div class="col-lg">
-							<p class="mg-b-10">Last Name</p>
-							<input name="lastName" id="lastname" class="form-control" type="text" readonly> </div>
-                        <div class="col-lg">
-							<p class="mg-b-10">Other Name</p>
-							<input class="form-control" id="othername" name="otherName" type="text" readonly> </div>
-					</div>
-					<div class="row row-sm mg-b-20">
-						<div class="col-lg">
-							<p class="mg-b-10">Identification Type</p>
-							<input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType" type="text" readonly> </div>
-						<div class="col-lg">
-							<p class="mg-b-10">Identification Number</p>
-							<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly> </div>
-						<div class="col-lg">
-							<p class="mg-b-10">Mobile Number</p>
-							<input class="form-control" id="phone" name="mobileNumber" type="text" readonly> </div>
-					</div>
-                    <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
-                            <p class="mg-b-10">Mode Of Payment</p>
-                                <select name="payment_mode" id="payment_mode"class="form-control">
-                                    <option>Choose one
-                                    </option>
-                                     <option value="Cash">Cash
-                                    </option>
-                                    <option value="Cheque">Cheque
-                                    </option>
-                                    <option value="MOMO">MOMO
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-lg">
-                            <p class="mg-b-10">Amount (ZMW)</p>
-                                <input name="totalAmountFunded" id="TotalAmountFunded" class="form-control"  type="text">
-                            </div>
-                        </div>
-				</div>
-                    <div class="modal-footer">
-                            <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Submit</button>
-                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-                    </div>
-		</div>
-		</form>
-	</div>
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">Update Funds</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i aria-hidden="true" class="ki ki-close"></i>
+        </button>
+      </div>
+      <form action="<%= Routes.user_path(@conn, :admin_update_funders_funds) %>" method="post">
+        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+        <div class="modal-body">
+          <input type="hidden" name="funder_id" id="id">
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg">
+              <p class="mg-b-10">First Name</p>
+              <input name="firstName" id="firstname" class="form-control" type="text" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">Last Name</p>
+              <input name="lastName" id="lastname" class="form-control" type="text" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">Other Name</p>
+              <input class="form-control" id="othername" name="otherName" type="text" readonly>
+            </div>
+          </div>
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg">
+              <p class="mg-b-10">Identification Type</p>
+              <input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType" type="text" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">Identification Number</p>
+              <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">Mobile Number</p>
+              <input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
+            </div>
+          </div>
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg-4">
+              <p class="mg-b-10">Mode Of Payment</p>
+              <select name="payment_mode" id="payment_mode" class="form-control">
+                <option>Choose one</option>
+                <option value="Cash">Cash</option>
+                <option value="Cheque">Cheque</option>
+                <option value="MOMO">MOMO</option>
+              </select>
+            </div>
+            <div class="col-lg-4">
+              <p class="mg-b-10">Amount (ZMW)</p>
+              <input name="totalAmountFunded" id="TotalAmountFunded" class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Submit</button>
+          <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
-</div>
-
-
 
 
 <div class="modal fade" id="edituseradmin" >
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content modal-content-demo">
-          <div class="modal-header">
-				<h6 class="modal-title">Edit User Details</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
-						</div>
+        <div class="modal-header">
+                <h6 class="modal-title">Edit User Details</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                        </div>
                 <form action="<%= Routes.user_path(@conn, :admin_update_user) %>" method="post">
                     <div class="modal-body">
                         <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
@@ -929,17 +1023,12 @@
                         <div class="row row-sm mg-b-20">
                             <div class="col-lg">
                             <p class="mg-b-10">Title</p>
-                                <select name="title" id="edit-title"class="form-control">
+                            <select name="title" id="title" class="form-control">
+                                <%= for option <- ["Mr", "Mrs", "Dr", "Ms"] do %>
+                                <option value="<%= option %>"><%= option %></option>
+                                <% end %>
+                            </select>
 
-                                    <option value="Mr">Mr
-                                    </option>
-                                    <option value="Mrs">Mrs
-                                    </option>
-                                    <option value="Ms">Ms
-                                    </option>
-                                    <option value="Dr">Dr
-                                    </option>
-                                </select>
                             </div>
                             <div class="col-lg">
                             <p class="mg-b-10">First Name</p>
@@ -969,40 +1058,33 @@
                             <div class="col-lg">
                             <p class="mg-b-10">Identification Type</p>
                                 <select name="meansOfIdentificationType" id ="meansofidentificationtype"class="form-control">
-                                    <option label="Choose Currency"></option>
-                                    <option value="Drivers License">Drivers License
-                                    </option>
-                                    <option value="National Registration Card">National Registration Card
-                                    </option>
-                                    <option value="Passport">Passport
-                                    </option>
+                                    <%= for option <- ["Drivers License", "National Registration Card", "Passport"] do %>
+                                        <option value="<%= option %>"><%= option %></option>
+                                    <% end %>
                                 </select>
                             </div>
-                            <div class="col-lg">
+                            <div class="col-lg-4">
                             <p class="mg-b-10">Identification Number</p>
                                 <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text">
                             </div>
-                                <div class="col-lg">
+                                <div class="col-lg-4">
                             <p class="mg-b-10">Mobile Number</p>
                                 <input class="form-control" id="phone" name="mobileNumber" type="text">
                             </div>
 
                         </div>
                         <div class="row row-sm mg-b-20">
-                            <div class="col-lg">
+                            <div class="col-lg-4">
                             <p class="mg-b-10">Choose Gender</p>
                                 <select name="gender" id="gender" class="form-control">
-
-                                    <option value="Male">Male
-                                    </option>
-                                    <option value="Female">Female
-                                    </option>
-
+                                    <%= for option <- ["Male", "Female"] do %>
+                                        <option value="<%= option %>"><%= option %></option>
+                                    <% end %>
                                 </select>
                             </div>
-                            <div class="col-lg">
+                            <div class="col-lg-4">
                             <p class="mg-b-10">Choose Funder Type</p>
-                                    <select class="form-control form-control-sm" id="funder_type" name="funder_type" required="required">
+                                    <select class="form-control form-control-sm" id="funder_type" name="funder_type">
                                         <option value="EXTERNAL FUNDER">EXTERNAL FUNDER</option>
                                         <option value="INTERNAL FUNDER">INTERNAL FUNDER</option>
                                 </select>
@@ -1025,85 +1107,74 @@
 
 <%#  the View a user %>
 
-<div class="modal fade" id="viewuseradmin" >
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content modal-content-demo">
-          <div class="modal-header">
-							<h6 class="modal-title">View User Details</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
-						</div>
-                <form action="#" method="post">
-                                <div class="modal-body">
-                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
-                                    <input type="hidden" name="id" id="id">
-
-                         <div class="row row-sm mg-b-20">
-                                              <div class="col-lg">
-                                            <p class="mg-b-10">Title</p>
-												<input name="title" id="edit-title" class="form-control"  type="text" readonly>
-											</div>
-                                            <div class="col-lg">
-                                            <p class="mg-b-10">First Name</p>
-												<input name="firstName" id="firstname" class="form-control"  type="text" readonly>
-											</div>
-                                            <div class="col-lg">
-                                            <p class="mg-b-10">Last Name</p>
-												<input name="lastName" id="lastname" class="form-control" type="text" readonly>
-											</div>
-										</div>
-                                        <div class="row row-sm mg-b-20">
-                                        	<div class="col-lg">
-                                            <p class="mg-b-10">Other Name</p>
-												<input class="form-control" id="othername" name="otherName"  type="text" readonly>
-											</div>
-                                            <div class="col-lg">
-                                            <p class="mg-b-10">Date Of Birth</p>
-												<input class="form-control" id="dob" name="dateOfBirth" type="date" readonly>
-											</div>
-                                             <div class="col-lg">
-                                            <p class="mg-b-10">Personal Email</p>
-												<input class="form-control" id="email" name="emailAddress"  type="email" readonly>
-											</div>
-
-										</div>
-
-                                        <div class="row row-sm mg-b-20">
-                                        	<div class="col-lg">
-                                            <p class="mg-b-10">Identification Type</p>
-												<input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType"  type="text" readonly>
-											</div>
-                                            <div class="col-lg">
-                                            <p class="mg-b-10">Gender</p>
-												<input class="form-control" id="gender" name="gender" type="text" readonly>
-											</div>
-                                             <div class="col-lg">
-                                            <p class="mg-b-10">Role Type</p>
-												<input class="form-control" id="roletype" name="roleType"  type="email" readonly>
-											</div>
-
-										</div>
-                                        <div class="row row-sm mg-b-20">
-
-                                            <div class="col-lg">
-                                            <p class="mg-b-10">Identification Number</p>
-												<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
-											</div>
-                                            <div class="col-lg">
-                                                <p class="mg-b-10">Mobile Number</p>
-												<input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
-											</div>
-
-										</div>
-
-									</div>
-
-                                    <div class="modal-footer">
-
-                                        <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-                                    </div>
-                                </div>
-                        </form>
+<div class="modal fade" id="viewuseradmin">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title">View User Details</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i aria-hidden="true" class="ki ki-close"></i>
+        </button>
+      </div>
+      <form action="#" method="post">
+        <div class="modal-body">
+          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+          <input type="hidden" name="id" id="id">
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg">
+              <p class="mg-b-10">Title</p>
+              <input name="title" id="edit-title" class="form-control" type="text" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">First Name</p>
+              <input name="firstName" id="firstname" class="form-control" type="text" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">Last Name</p>
+              <input name="lastName" id="lastname" class="form-control" type="text" readonly>
+            </div>
+          </div>
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg">
+              <p class="mg-b-10">Other Name</p>
+              <input class="form-control" id="othername" name="otherName" type="text" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">Date Of Birth</p>
+              <input class="form-control" id="dob" name="dateOfBirth" type="date" readonly>
+            </div>
+            <div class="col-lg">
+              <p class="mg-b-10">Personal Email</p>
+              <input class="form-control" id="email" name="emailAddress" type="email" readonly>
+            </div>
+          </div>
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg-4">
+              <p class="mg-b-10">Identification Type</p>
+              <input class="form-control" id="meansofidentificationtype" name="meansOfIdentificationType" type="text" readonly>
+            </div>
+            <div class="col-lg-4">
+              <p class="mg-b-10">Gender</p>
+              <input class="form-control" id="gender" name="gender" type="text" readonly>
+            </div>
+          </div>
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg-4">
+              <p class="mg-b-10">Identification Number</p>
+              <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
+            </div>
+            <div class="col-lg-4">
+              <p class="mg-b-10">Mobile Number</p>
+              <input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
+            </div>
+          </div>
         </div>
+        <div class="modal-footer">
+          <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
 
 
@@ -1141,98 +1212,109 @@
 
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function(){
 
-    $('#edituseradmin').on('show.bs.modal', function (event){
+        $('#edituseradmin').on('show.bs.modal', function (event){
             var button = $(event.relatedTarget)
-
             var modal = $(this)
             modal.find('.modal-body #id').val(button.data('id'));
             modal.find('.modal-body #firstname').val(button.data('firstname'));
+            modal.find('.modal-body #title').val(button.data('title'));
             modal.find('.modal-body #lastname').val(button.data('lastname'));
             modal.find('.modal-body #othername').val(button.data('othername'));
             modal.find('.modal-body #email').val(button.data('email'));
             modal.find('.modal-body #dob').val(button.data('dob'));
             modal.find('.modal-body #phone').val(button.data('phone'));
             modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-
-
-            $('#edit-title').val(button.data('title')).trigger("change")
-            $('#meansofidentificationtype').val(button.data('meansofidentificationtype')).trigger("change")
-            $('#gender').val(button.data('gender')).trigger("change")
-            $('#roletype').val(button.data('roletype')).trigger("change")
-
-
-
-    });
-
-      $('#enableusermodal').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
-
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #firstname').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email').val(button.data('email'));
-            modal.find('.modal-body #dob').val(button.data('dob'));
-            modal.find('.modal-body #phone').val(button.data('phone'));
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-            modal.find('.modal-body #gender').val(button.data('gender'));
-            modal.find('.modal-body #edit-title').val(button.data('title'));
-            modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
-            modal.find('.modal-body #roletype').val(button.data('roletype'));
-
-
-
-    });
-
-      $('#viewuseradmin').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
-
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #firstname').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email').val(button.data('email'));
-            modal.find('.modal-body #dob').val(button.data('dob'));
-            modal.find('.modal-body #phone').val(button.data('phone'));
-
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-
-
-            modal.find('.modal-body #edit-title').val(button.data('title'));
             modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
             modal.find('.modal-body #gender').val(button.data('gender'));
-            modal.find('.modal-body #roletype').val(button.data('roletype'));
+            modal.find('.modal-body #funder_type').val(button.data('funder_type'));
+        });
+
+        $('#enableusermodal').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #firstname').val(button.data('firstname'));
+                modal.find('.modal-body #lastname').val(button.data('lastname'));
+                modal.find('.modal-body #othername').val(button.data('othername'));
+                modal.find('.modal-body #email').val(button.data('email'));
+                modal.find('.modal-body #dob').val(button.data('dob'));
+                modal.find('.modal-body #phone').val(button.data('phone'));
+                modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+                modal.find('.modal-body #gender').val(button.data('gender'));
+                modal.find('.modal-body #edit-title').val(button.data('title'));
+                modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+
+
+
+        });
+
+        $('#disableusermodal').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #firstname').val(button.data('firstname'));
+                modal.find('.modal-body #lastname').val(button.data('lastname'));
+                modal.find('.modal-body #othername').val(button.data('othername'));
+                modal.find('.modal-body #email').val(button.data('email'));
+                modal.find('.modal-body #dob').val(button.data('dob'));
+                modal.find('.modal-body #phone').val(button.data('phone'));
+                modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+                modal.find('.modal-body #gender').val(button.data('gender'));
+                modal.find('.modal-body #edit-title').val(button.data('title'));
+                modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+
+
+
+        });
+
+        $('#viewuseradmin').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #firstname').val(button.data('firstname'));
+                modal.find('.modal-body #lastname').val(button.data('lastname'));
+                modal.find('.modal-body #othername').val(button.data('othername'));
+                modal.find('.modal-body #email').val(button.data('email'));
+                modal.find('.modal-body #dob').val(button.data('dob'));
+                modal.find('.modal-body #phone').val(button.data('phone'));
+
+                modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+
+
+                modal.find('.modal-body #edit-title').val(button.data('title'));
+                modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+                modal.find('.modal-body #gender').val(button.data('gender'));
+
+        });
+
+        $('#fund_funder').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(button.data('id'));
+                modal.find('.modal-body #firstname').val(button.data('firstname'));
+                modal.find('.modal-body #lastname').val(button.data('lastname'));
+                modal.find('.modal-body #othername').val(button.data('othername'));
+                modal.find('.modal-body #email').val(button.data('email'));
+                modal.find('.modal-body #dob').val(button.data('dob'));
+                modal.find('.modal-body #phone').val(button.data('phone'));
+
+                modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+
+
+                modal.find('.modal-body #edit-title').val(button.data('title'));
+                modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
+                modal.find('.modal-body #gender').val(button.data('gender'));
+
+        });
+
 
     });
-
-      $('#fund_funder').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)
-
-            var modal = $(this)
-            modal.find('.modal-body #id').val(button.data('id'));
-            modal.find('.modal-body #firstname').val(button.data('firstname'));
-            modal.find('.modal-body #lastname').val(button.data('lastname'));
-            modal.find('.modal-body #othername').val(button.data('othername'));
-            modal.find('.modal-body #email').val(button.data('email'));
-            modal.find('.modal-body #dob').val(button.data('dob'));
-            modal.find('.modal-body #phone').val(button.data('phone'));
-
-            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
-
-
-            modal.find('.modal-body #edit-title').val(button.data('title'));
-            modal.find('.modal-body #meansofidentificationtype').val(button.data('meansofidentificationtype'));
-            modal.find('.modal-body #gender').val(button.data('gender'));
-            modal.find('.modal-body #roletype').val(button.data('roletype'));
-
-    });
-
-
-});
 </script>
 
 <script>

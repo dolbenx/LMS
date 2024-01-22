@@ -1,0 +1,735 @@
+<style>
+	#select_company{display: none;}
+	#select1_company{display: none;}
+	#select2_company{display: none;}
+	#select3_company{display: none;}
+	#client_employment_Status{display: none;}
+	#mobile{display: none;}
+	#bank{display: none;}
+	#limit{display: none;}
+	#loan_amount{display: none;}
+	#employment_status{display: none;}
+    #move_right{
+        text-align: right;
+        font-weight: bold;
+    }
+
+    .text-right {
+    text-align: right;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" href="styles.css">
+
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Loan Repayments</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    </br>
+
+    <!--begin::Container-->
+    <div class="container">
+    </br>
+
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <!--begin: Wizard-->
+                </br>
+                <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="step-first" data-wizard-clickable="true">
+                    <!--begin: Wizard Nav-->
+                    <h5>&nbsp;Reference No : <%= @loan_details && @loan_details.reference_no %></h5>
+                    <div class="wizard-nav">
+
+                        <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                            <!--begin::Wizard Step 1 Nav-->
+                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                    <span>1.</span>Loan Details</h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+
+                            <!--end::Wizard Step 1 Nav-->
+                            <!--begin::Wizard Step 2 Nav-->
+                        <%= if is_nil(@loan_details && @loan_details.offtakerID) != true  and is_nil(@loan_details && @loan_details.company_id) != true  do%>
+                            <div class="wizard-step" data-wizard-type="step">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                    <span>2.</span>Company & Offtaker Details</h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                        <% end %>
+                        <%= if is_nil(@loan_details && @loan_details.company_id) != true and is_nil(@loan_details && @loan_details.offtakerID) do%>
+                            <div class="wizard-step" data-wizard-type="step">
+                            <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                    <span>2.</span>Company Details</h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                        <% end %>
+                        <%= if is_nil(@loan_details && @loan_details.offtakerID)  and is_nil(@loan_details && @loan_details.company_id) do%>
+                            <div class="wizard-step" data-wizard-type="step">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                    <span>2.</span>Individual Business Details</h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                        <% end %>
+
+
+
+                            <!--end::Wizard Step 2 Nav-->
+                            <!--begin::Wizard Step 3 Nav-->
+                            <div class="wizard-step" data-wizard-type="step">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                    <span>3.</span>Repayment Details & Document Upload</h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                            <!--end::Wizard Step 3 Nav-->
+                        </div>
+                    </div>
+                    <!--end: Wizard Nav-->
+                    <!--begin: Wizard Body-->
+
+                    <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+
+                        <div class="col-xl-12">
+                            <!--begin: Wizard Form-->
+                            <form class="form" id="loan-repayment"  enctype="multipart/form-data">
+                                <!--begin: Wizard Step 1-->
+                                    <!--
+                                        <div id="move_right">
+                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                <label class="col-form-label"><strong>Actual Balance:</strong></label>
+                                                <div class="col-2">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" name="" value="ZMW <%= @loan_details && @loan_details.calculated_balance |> Number.Delimit.number_to_delimited %>" readonly/>
+                                                    </div>
+                                                </div>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                        </div>
+                                    -->
+
+
+                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                  <h4 class="mb-10 font-weight-bold text-dark">Loan Details<span class="text-right">Test</span></h4>
+
+
+                                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                        <input type="hidden" class="form-control" name="loan_id" value="<%= @loan_details && @loan_details.loan_id %>" readonly/>
+                                        <input type="hidden" class="form-control" name="reference_no" value="<%= @loan_details && @loan_details.reference_no %>" readonly/>
+                                        <input type="hidden" class="form-control" name="loan_type" value="<%= @loan_details && @loan_details.loan_type %>" readonly/>
+                                        <input type="hidden" class="form-control" name="customer_id" value="<%= @loan_details && @loan_details.customer_id %>" readonly/>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Customer Name</label>
+                                                <input type="text" class="form-control" name="customer_name"  value="<%=@loan_details && @loan_details.customer_names %>" readonly/>
+                                                <span class="form-text text-muted">Customer Name</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Principal Amount</label>
+                                                <input type="text" class="form-control" name="principal_amount"  value="<%=@loan_details && @loan_details.requested_amount |> Number.Delimit.number_to_delimited %>" readonly/>
+                                                <span class="form-text text-muted">Principal Amount</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Input-->
+                                    <div class="row">
+                                        <!-- <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Repayment Amount</label>
+                                                <input type="text" class="form-control" name="total_repayment_derived" value="<%=@loan_details && @loan_details.total_repayment_derived |> Number.Delimit.number_to_delimited %>" readonly/>
+                                                <span class="form-text text-muted">Repayment Amount</span>
+                                            </div>
+                                        </div>
+                                        -->
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <%= if @loan_details.loan_status == "DISBURSED" and @loan_details.total_repayment_derived == nil do %>
+                                                <div class="form-group">
+                                                    <label>Balance</label>
+                                                    <input type="text" class="form-control" id="balance" name="balance" value="<%= @loan_details && @loan_details.total_balance_acrued |> Number.Delimit.number_to_delimited %>" readonly/>
+                                                    <span class="form-text text-muted">Balance</span>
+                                                </div>
+                                                <% else %>
+                                                        <div class="form-group">
+                                                            <label>Balance</label>
+                                                            <input type="text" class="form-control" id="balance" name="balance" value="<%=@loan_details && @loan_details.total_balance_acrued |> Number.Delimit.number_to_delimited %>" readonly/>
+                                                            <span class="form-text text-muted">Balance</span>
+                                                        </div>
+                                                <% end %>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Total Repaid</label>
+                                                    <input type="text" class="form-control" name="total_repaid" value="<%= if is_nil(@loan_details && @loan_details.total_repaid) == nil do 0 else @loan_details && @loan_details.total_repaid|> Number.Delimit.number_to_delimited end %>" readonly/>
+                                                    <span class="form-text text-muted">Total Repaid</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>Interest Amount</label>
+                                                <input type="text" class="form-control" name="interest" value="<%=@loan_details && @loan_details.daily_accrued_interest|> Number.Delimit.number_to_delimited %>" readonly/>
+                                                <span class="form-text text-muted">Interest Amount</span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>Finance Cost</label>
+                                                <input type="text" class="form-control" name="finance_cost" value="<%=@loan_details && @loan_details.daily_accrued_finance_cost|> Number.Delimit.number_to_delimited %>" readonly/>
+                                                <span class="form-text text-muted">Finance Cost</span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+
+
+
+
+
+
+
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>Disbursed Date</label>
+                                                <input type="date" class="form-control" name="disbursedon_date" value="<%=@loan_details && @loan_details.disbursedon_date %>" readonly/>
+                                                <span class="form-text text-muted">Disbursed Date</span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>Approved Date</label>
+                                                <input type="date" class="form-control" name="approvedon_date" value="<%=@loan_details && @loan_details.approvedon_date%>" readonly/>
+                                                <span class="form-text text-muted">Approved Date</span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>Application Date</label>
+                                                <input type="text" class="form-control" name="applied_date" value="<%=@loan_details && @loan_details.applied_date %>" readonly/>
+                                                <span class="form-text text-muted">Application Date</span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end: Wizard Step 1-->
+                                <!--begin: Wizard Step 2-->
+                                <%= if is_nil(@loan_details && @loan_details.offtakerID) != true  and is_nil(@loan_details && @loan_details.company_id) != true  do%>
+                                    <div class="pb-5" data-wizard-type="step-content">
+                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Company Details</u></h4>
+                                        <input type="hidden" class="form-control" name="company_id" value="<%= @company_details && @company_details.company_id %>" readonly/>
+
+                                        <!--begin::Input-->
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Name</label>
+                                                    <input type="text" class="form-control" name="company_companyName" value="<%= @company_details && @company_details.company_companyName %>" readonly/>
+                                                    <span class="form-text text-muted">Company Name</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Phone Number</label>
+                                                    <input type="text" class="form-control" name="company_companyPhone" value="<%=@company_details && @company_details.company_companyPhone %>" readonly/>
+                                                    <span class="form-text text-muted">Company Phone Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Email</label>
+                                                    <input type="text" class="form-control" name="company_contactEmail" value="<%=@company_details && @company_details.company_contactEmail %>" readonly/>
+                                                    <span class="form-text text-muted">Company Email</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Registration Number</label>
+                                                    <input type="text" class="form-control" name="company_registrationNumber" value="<%=@company_details && @company_details.company_registrationNumber %>" readonly/>
+                                                    <span class="form-text text-muted">Company Registration Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>TPIN</label>
+                                                    <input type="text" class="form-control" name="company_taxno" value="<%=@company_details && @company_details.company_taxno %>" readonly/>
+                                                    <span class="form-text text-muted">TPIN</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Registration Date</label>
+                                                    <input type="text" class="form-control" name="company_companyRegistrationDate" value="<%=@company_details && @company_details.company_companyRegistrationDate %>" readonly/>
+                                                    <span class="form-text text-muted">Registration Date</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Offtaker Details</u></h4>
+
+                                        <!--begin::Input-->
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Name</label>
+                                                    <input type="text" class="form-control" name="offtaker_companyName" value="<%= @loan_details && @loan_details.offtaker_companyName %>" readonly/>
+                                                    <span class="form-text text-muted">Company Name</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Phone Number</label>
+                                                    <input type="text" class="form-control" name="offtaker_companyPhone" value="<%=@loan_details && @loan_details.offtaker_companyPhone %>" readonly/>
+                                                    <span class="form-text text-muted">Company Phone Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Email</label>
+                                                    <input type="text" class="form-control" name="offtaker_contactEmail" value="<%=@loan_details && @loan_details.offtaker_contactEmail %>" readonly/>
+                                                    <span class="form-text text-muted">Company Email</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Registration Number</label>
+                                                    <input type="text" class="form-control" name="offtaker_registrationNumber" value="<%=@loan_details && @loan_details.offtaker_registrationNumber %>" readonly/>
+                                                    <span class="form-text text-muted">Company Registration Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>TPIN</label>
+                                                    <input type="text" class="form-control" name="offtaker_taxno" value="<%=@loan_details && @loan_details.offtaker_taxno %>" readonly/>
+                                                    <span class="form-text text-muted">TPIN</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Registration Date</label>
+                                                    <input type="text" class="form-control" name="offtaker_companyRegistrationDate" value="<%=@loan_details && @loan_details.offtaker_companyRegistrationDate %>" readonly/>
+                                                    <span class="form-text text-muted">Registration Date</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                <% end %>
+
+                                <%= if is_nil(@loan_details && @loan_details.company_id) != true and is_nil(@loan_details && @loan_details.offtakerID) do%>
+                                    <div class="pb-5" data-wizard-type="step-content">
+                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Company Details</u></h4>
+                                        <input type="hidden" class="form-control" name="company_id" value="<%= @company_details && @company_details.company_id %>" readonly/>
+                                        <!--begin::Input-->
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Name</label>
+                                                    <input type="text" class="form-control" name="company_companyName" value="<%= @company_details && @company_details.company_companyName %>" readonly/>
+                                                    <span class="form-text text-muted">Company Name</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Phone Number</label>
+                                                    <input type="text" class="form-control" name="company_companyPhone" value="<%=@company_details && @company_details.company_companyPhone %>" readonly/>
+                                                    <span class="form-text text-muted">Company Phone Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Email</label>
+                                                    <input type="text" class="form-control" name="company_contactEmail" value="<%=@company_details && @company_details.company_contactEmail %>" readonly/>
+                                                    <span class="form-text text-muted">Company Email</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Registration Number</label>
+                                                    <input type="text" class="form-control" name="company_registrationNumber" value="<%=@company_details && @company_details.company_registrationNumber %>" readonly/>
+                                                    <span class="form-text text-muted">Company Registration Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>TPIN</label>
+                                                    <input type="text" class="form-control" name="company_taxno" value="<%=@company_details && @company_details.company_taxno %>" readonly/>
+                                                    <span class="form-text text-muted">TPIN</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Registration Date</label>
+                                                    <input type="text" class="form-control" name="company_companyRegistrationDate" value="<%=@company_details && @company_details.company_companyRegistrationDate %>" readonly/>
+                                                    <span class="form-text text-muted">Registration Date</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% end %>
+
+                                <%= if is_nil(@loan_details && @loan_details.offtakerID) == true  and is_nil(@loan_details && @loan_details.company_id) == true do%>
+                                    <div class="pb-5" data-wizard-type="step-content">
+                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Individual Business Details</u></h4>
+                                        <!--begin::Input-->
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Name</label>
+                                                    <input type="text" class="form-control" name="individual_company_name" value="<%= @individual_details && @individual_details.individual_company_name %>" readonly/>
+                                                    <span class="form-text text-muted">Company Name</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Phone Number</label>
+                                                    <input type="text" class="form-control" name="individual_company_phone" value="<%=@individual_details && @individual_details.individual_company_phone %>" readonly/>
+                                                    <span class="form-text text-muted">Company Phone Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Email</label>
+                                                    <input type="text" class="form-control" name="company_contactEmail" value="<%=@individual_details && @individual_details.individual_contact_email %>" readonly/>
+                                                    <span class="form-text text-muted">Company Email</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Company Registration Number</label>
+                                                    <input type="text" class="form-control" name="individual_contact_email" value="<%=@individual_details && @individual_details.individual_registration_number %>" readonly/>
+                                                    <span class="form-text text-muted">Company Registration Number</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>TPIN</label>
+                                                    <input type="text" class="form-control" name="individual_taxno" value="<%=@individual_details && @individual_details.individual_taxno %>" readonly/>
+                                                    <span class="form-text text-muted">TPIN</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Registration Date</label>
+                                                    <input type="text" class="form-control" name="individual_company_registration_date" value="<%=@individual_details && @individual_details.individual_company_registration_date %>" readonly/>
+                                                    <span class="form-text text-muted">Registration Date</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% end %>
+                                <!--end: Wizard Step 2-->
+                                <!--begin: Wizard Step 3-->
+                                <div class="pb-5" data-wizard-type="step-content">
+                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Repayment Details & Document Upload</u></h4>
+
+                                        <div id="mobile">
+                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                <label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+                                                <div class="col-9">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" name="mobile_number">
+                                                    </div>
+                                                    <span class="form-text text-muted">Please enter mobile number.</span>
+                                                </div>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                        </div>
+                                        <div id="bank">
+                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                <label class="col-3 col-form-label">Bank Name<span style="color: red;">*</span></label>
+                                                <div class="col-9">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" name="bank_name">
+                                                    </div>
+                                                    <span class="form-text text-muted">Please select your bank.</span>
+                                                </div>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                <label class="col-3 col-form-label">Account Number: <span style="color: red;">*</span></label>
+                                                <div class="col-9">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" name="bank_account_number">
+                                                    </div>
+                                                    <span class="form-text text-muted">Please enter account number.</span>
+                                                </div>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                <label class="col-3 col-form-label">Account Name: </label>
+                                                <div class="col-9">
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" name="accountName">
+                                                    </div>
+                                                    <span class="form-text text-muted">Please enter account name.</span>
+                                                </div>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    <!--begin::Input-->
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Repayment Type</label>
+                                                <div class="input-group input-group-sm">
+                                                    <select class="form-control" id="repayment_status" name="repayment_status" >
+                                                    <option value="">Select</option>
+                                                        <option value="FULL REPAYMENT">FULL REPAYMENT</option>
+                                                        <option value="PARTIAL REPAYMENT">PARTIAL REPAYMENT</option>
+                                                    </select>
+                                                </div>
+                                                <span class="form-text text-muted">Please select Repayment type</span>
+                                            </div>
+                                        </div>
+
+                                         <div class="col-xl-6">
+                                             <div class="form-group">
+                                                <label>Repayment Method</label>
+                                                <div class="input-group input-group-sm">
+                                                    <select name="repayment_method" class="form-control" id="payment_type">
+                                                            <option value="">Select</option>
+                                                            <option data-payment-type="Mobile" value="Mobile Transfer">Mobile Transfer</option>
+                                                            <option data-payment-type="Bank" value="Bank Transfer">Bank Transfer</option>
+                                                    </select>
+                                                </div>
+                                                <span class="form-text text-muted">Please select Repayment method</span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Repayment Amount</label>
+                                                <input type="text" class="form-control" id="repayment_amount"  name="repayment_amount" />
+                                                <span class="form-text text-muted">Enter Repayment Amount</span>
+                                            </div>
+                                        </div>
+                                            <!--end::Input-->
+                                            <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Date Of Repayment</label>
+                                                    <input type="date" class="form-control" name="repayment_date" value="<%= Timex.today %>" readonly/>
+                                                    <span class="form-text text-muted"></span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                    </div>
+
+                                    <!--end::Select-->
+                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+                                    <!--begin::Select-->
+                                    <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                    <label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%= for item <- accountant_loan_repayment_document_upload() do %>
+                                                <tr class="tr_clone">
+                                                    <td>
+                                                        <div class="col-md-12 form-group">
+                                                                <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                            <input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[<%= item.name %>]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+                                                    </td>
+                                                </tr>
+                                            <% end %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end: Wizard Step 3-->
+                                <!--begin: Wizard Step 4-->
+
+                                <!--end: Wizard Step 4-->
+                                <!--begin: Wizard Actions-->
+                                <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                    <div class="mr-2">
+                                        <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" id="loan-repayment-for-all-products" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+                                        <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                    </div>
+                                </div>
+                                <!--end: Wizard Actions-->
+                            </form>
+                            <!--end: Wizard Form-->
+                        </div>
+                    </div>
+                    <!--end: Wizard Body-->
+                </div>
+                <!--end: Wizard-->
+            </div>
+        </div>
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
+
+</br></br></br>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Attach change event to the repayment_status dropdown
+        $("#repayment_status").change(function () {
+            // Get the selected value
+            var selectedValue = $(this).val();
+
+            // Reference the repayment_amount input
+            var repaymentAmountInput = $("#repayment_amount");
+
+            // Check if FULL REPAYMENT is selected
+            if (selectedValue === "FULL REPAYMENT") {
+                // Automatically fill in the repayment_amount
+                var balance = $("#balance").val();
+                repaymentAmountInput.val(balance);
+                // Disable the input to prevent manual changes
+                repaymentAmountInput.prop("disabled", true);
+            } else {
+                // Enable the input for manual entry
+                repaymentAmountInput.prop("disabled", false);
+                // Clear the automatic value
+                repaymentAmountInput.val("");
+            }
+
+            // Show/hide the repaymentAmountContainer based on the selected value
+
+        });
+    });
+</script>

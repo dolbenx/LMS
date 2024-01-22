@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Maintenance.Currency do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_currency" do
     field :countryId, :integer
     field :isoCode, :string

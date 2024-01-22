@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_disbursement do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_disbursement" do
     field :comp_bank_account_no, :string
     field :amount, :float

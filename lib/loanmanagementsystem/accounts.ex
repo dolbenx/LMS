@@ -406,7 +406,7 @@ defmodule Loanmanagementsystem.Accounts do
     # |> Repo.all()
   end
 
-  # Loanmanagementsystem.Accounts.get_user!(8)
+  # Loanmanagementsystem.Accounts.get_user!(250)
   def get_user!(id), do: Repo.get!(User, id)
 
   def get_users!(userId), do: Repo.get!(UserRole, userId)
@@ -456,7 +456,11 @@ defmodule Loanmanagementsystem.Accounts do
       iex> update_user(user, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
+      update_user(user, %{password: "test"})
+
   """
+    # Loanmanagementsystem.Accounts.update_user(user, %{password: "test"})
+
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
@@ -526,7 +530,7 @@ defmodule Loanmanagementsystem.Accounts do
 
   # Loanmanagementsystem.Accounts.get_user_role_by_user_id(10)
 
-  # Loanmanagementsystem.Accounts.get_user_role_by_user_id(121)
+  # Loanmanagementsystem.Accounts.get_user_role_by_user_id(139)
   def get_user_role_by_user_id(id), do: Repo.get_by(UserRole, userId: id)
 
   # Loanmanagementsystem.Accounts.get_user_user_id(8)
@@ -775,6 +779,19 @@ defmodule Loanmanagementsystem.Accounts do
       company_id: uS.company_id,
       user_role_id: uR.id,
       classification_id: uS.classification_id
+    })
+    |> Repo.all()
+  end
+
+  # Loanmanagementsystem.Accounts.get_user_role_type_for_inactive()
+  def get_user_role_type_for_inactive do
+    UserRole
+    |> join(:left, [uB], uS in "tbl_users", on: uB.userId == uS.id)
+    |> where([uB, uS], uS.status == "INACTIVE")
+    |> select([uB], %{
+
+      id: uB.id,
+      roleType: uB.roleType
     })
     |> Repo.all()
   end
@@ -2561,5 +2578,141 @@ defmodule Loanmanagementsystem.Accounts do
   #   })
   #   |> Repo.one()
   # end
+
+# Loanmanagementsystem.Accounts.get_individual_funder_users()
+
+
+# Loanmanagementsystem.Accounts.get_corporate_funder_users()
+  def get_corporate_funder_users do
+    Loanmanagementsystem.Loan.Loan_funder
+    |> join(:left, [lF], uA in Loanmanagementsystem.Accounts.User, on: lF.funderID == uA.id)
+    |> join(:left, [lF, uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+    |> join(:left, [lF, uA, uB], cO in Loanmanagementsystem.Companies.Company, on: uB.id == cO.user_bio_id)
+    |> join(:left, [lF, uA, uB, cO], uX in "tbl_address_details", on: uA.id == uX.userId)
+    # |> join(:left, [lF, uA, uB, uX], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    # |> join(:left, [lF, uA, uB, uX, uR], cO in Loanmanagementsystem.Companies.Company, on: uB.id == cO.user_bio_id)
+    |> where([lF, uA, uB, cO, uX], lF.is_company == true)
+
+    # |> select([lF, uA, uB, uX, uR, cO], %{
+    |> select([lF, uA, uB, cO, uX], %{
+      funder_type: lF.funder_type,
+      id: uA.id,
+      company_name: cO.companyName,
+      company_id: uA.company_id,
+      status: uA.status,
+      username: uA.username,
+      # roletype: uR.roleType,
+      # bio_id: uB.userId,
+      # role_id: uR.userId,
+
+      bio_data_id: uB.id,
+      firstname: uB.firstName,
+      lastname: uB.lastName,
+      othername: uB.otherName,
+      dateofbirth: uB.dateOfBirth,
+      meansofidentificationtype: uB.meansOfIdentificationType,
+      meansofidentificationnumber: uB.meansOfIdentificationNumber,
+      title: uB.title,
+      nationality: uB.nationality,
+      gender: uB.gender,
+      marital_status: uB.marital_status,
+      number_of_dependants: uB.number_of_dependants,
+      mobilenumber: uB.mobileNumber,
+      emailaddress: uB.emailAddress,
+
+      # accomodation_status: uX.accomodation_status,
+      # area: uX.area,
+      # house_number: uX.house_number,
+      # street_name: uX.street_name,
+      # town: uX.town,
+      # year_at_current_address: uX.year_at_current_address,
+      # province: uX.province
+
+    })
+    |> Repo.all()
+    #Russkay the beat bender
+  end
+
+# Loanmanagementsystem.Accounts.get_individual_funder_users()
+  def get_individual_funder_users do
+    Loanmanagementsystem.Loan.Loan_funder
+    |> join(:left, [lF], uA in Loanmanagementsystem.Accounts.User, on: lF.funderID == uA.id)
+    |> join(:left, [lF, uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
+    # |> join(:left, [lF, uA, uB], cO in Loanmanagementsystem.Companies.Company, on: uB.id == cO.user_bio_id)
+    |> join(:left, [lF, uA, uB], uX in "tbl_address_details", on: uA.id == uX.userId)
+    # |> join(:left, [lF, uA, uB, uX], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    # |> join(:left, [lF, uA, uB, uX, uR], cO in Loanmanagementsystem.Companies.Company, on: uB.id == cO.user_bio_id)
+    |> where([lF, uA, uB, uX], lF.is_company == false)
+
+    # |> select([lF, uA, uB, uX, uR, cO], %{
+    |> select([lF, uA, uB, uX], %{
+      funder_type: lF.funder_type,
+      id: uA.id,
+      status: uA.status,
+      username: uA.username,
+      # roletype: uR.roleType,
+      # bio_id: uB.userId,
+      # role_id: uR.userId,
+      bio_data_id: uB.id,
+      firstname: uB.firstName,
+      lastname: uB.lastName,
+      othername: uB.otherName,
+      dateofbirth: uB.dateOfBirth,
+      meansofidentificationtype: uB.meansOfIdentificationType,
+      meansofidentificationnumber: uB.meansOfIdentificationNumber,
+      title: uB.title,
+      nationality: uB.nationality,
+      gender: uB.gender,
+      marital_status: uB.marital_status,
+      number_of_dependants: uB.number_of_dependants,
+      mobilenumber: uB.mobileNumber,
+      emailaddress: uB.emailAddress,
+
+      # accomodation_status: uX.accomodation_status,
+      # area: uX.area,
+      # house_number: uX.house_number,
+      # street_name: uX.street_name,
+      # town: uX.town,
+      # year_at_current_address: uX.year_at_current_address,
+      # province: uX.province
+
+    })
+    |> Repo.all()
+    #Russkay the beat bender
+  end
+
+  # Loanmanagementsystem.Accounts.get_next_loan_approver()
+  def get_next_loan_approver(role) do
+    Loanmanagementsystem.Accounts.User
+    |> join(:left, [lF], uA in Loanmanagementsystem.Accounts.UserRole, on: lF.id == uA.userId)
+    |> join(:left, [lF, uA], uB in "tbl_user_bio_data", on: lF.id == uB.userId)
+    # |> join(:left, [lF, uA, uB, uX], uR in "tbl_user_roles", on: uA.id == uR.userId)
+    # |> join(:left, [lF, uA, uB, uX, uR], cO in Loanmanagementsystem.Companies.Company, on: uB.id == cO.user_bio_id)
+    |> where([lF, uA, uB], uA.roleType == ^role)
+    # |> select([lF, uA, uB, uX, uR, cO], %{
+    |> select([lF, uA, uB], %{
+
+      roleType: uA.roleType,
+
+      bio_data_id: uB.id,
+      firstname: uB.firstName,
+      lastname: uB.lastName,
+      othername: uB.otherName,
+      dateofbirth: uB.dateOfBirth,
+      meansofidentificationtype: uB.meansOfIdentificationType,
+      meansofidentificationnumber: uB.meansOfIdentificationNumber,
+      title: uB.title,
+      nationality: uB.nationality,
+      gender: uB.gender,
+      marital_status: uB.marital_status,
+      number_of_dependants: uB.number_of_dependants,
+      mobilenumber: uB.mobileNumber,
+      emailaddress: uB.emailAddress,
+
+    })
+    |> Repo.all()
+    #Russkay the beat bender
+  end
+
 
 end

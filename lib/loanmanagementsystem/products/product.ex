@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Products.Product do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_products" do
     field(:clientId, :integer)
     field(:code, :string)
@@ -24,11 +25,12 @@ defmodule Loanmanagementsystem.Products.Product do
     field(:principle_account_id, :integer)
     field(:interest_account_id, :integer)
     field(:charges_account_id, :integer)
+    field(:classification_id, :integer)
     field(:charge_id, :map)
     field(:reference_id, :integer)
     field(:reason, :string)
-    field(:finance_cost, :float,  default: 0.0)
-    field(:arrangement_fee, :float, default: 0.0)
+    field :finance_cost, :float,  default: 0.0
+    field :arrangement_fee, :float, default: 0.0
 
     timestamps()
   end
@@ -40,6 +42,7 @@ defmodule Loanmanagementsystem.Products.Product do
       :charge_id,
       :reference_id,
       :reason,
+      :classification_id,
       :charges_account_id,
       :interest_account_id,
       :principle_account_id,

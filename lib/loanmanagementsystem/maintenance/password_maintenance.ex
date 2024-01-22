@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Maintenance.Password_maintenance do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_password_maintenance" do
     field :max_length, :string
     field :min_length, :string

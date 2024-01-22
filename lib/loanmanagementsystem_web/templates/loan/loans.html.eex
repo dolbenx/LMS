@@ -1,183 +1,193 @@
-<div class="container  mx-auto px-2">
-        <div class="flex flex-wrap">
-            <div class="flex items-center py-4 w-full">
-                <div class="w-full">
-                    <div class="">
-                        <div class="flex flex-wrap justify-between">
-                            <div class="items-center ">
-                                <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">Loans</h1>
-                                <ol class="list-reset flex text-sm">
-                                    <li><a href="#" class="text-gray-500">Customer</a></li>
-                                    <li><span class="text-gray-500 mx-2">/</span></li>
-                                    <li class="text-gray-500">Loans</li>
-                                </ol>
-                            </div>
-                            <div class="flex items-center">
-                            <button class="px-3 py-2 lg:px-4 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600">Filter</button>
-                            </div>
-                        </div>
-                    </div>
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">All Loans Table</li>
+                </ol>
+            </div>
+
+            <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" type="button" id="admin-customer-loans-filter"><i class="fe fe-filter me-2"></i>  Filter</button>
                 </div>
             </div>
 
         </div>
-    </div><!--end container-->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4  mb-4">
-        <div class="sm:col-span-12  md:col-span-12 lg:col-span-12 xl:col-span-12 ">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Customer Loans Table</h4>
-                </div><!--end card-header-->
-                <div class="card-body">
-                    <div class="relative overflow-x-auto  sm:rounded">
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns"><div class="dataTable-top"><div class="dataTable-dropdown"><label><select class="dataTable-selector"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option></select> entries per page</label></div><div class="dataTable-search"><input class="dataTable-input" placeholder="Search..." type="text"></div></div><div class="dataTable-container"><table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 dataTable-table" id="datatable_2">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-slate-700 dark:text-gray-400">
-                                <tr><th scope="col" class="p-4" data-sortable="" style="width: 3.8961%;"><a href="#" class="dataTable-sorter">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 33.7662%;"><a href="#" class="dataTable-sorter">
-                                        Product name
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.8539%;"><a href="#" class="dataTable-sorter">
-                                        Color
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 20.3734%;"><a href="#" class="dataTable-sorter">
-                                        Category
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.6916%;"><a href="#" class="dataTable-sorter">
-                                        Price
-                                    </a></th><th scope="col" class="px-6 py-3" data-sortable="" style="width: 12.4188%;"><a href="#" class="dataTable-sorter">
-                                        <span class="sr-only">Edit</span>
-                                    </a></th></tr>
-                            </thead>
-                            <tbody><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Apple MacBook Pro 17"
-                                    </th><td class="px-6 py-4">
-                                        Sliver
-                                    </td><td class="px-6 py-4">
-                                        Laptop
-                                    </td><td class="px-6 py-4">
-                                        $2999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden" checked="">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Microsoft Surface Pro
-                                    </th><td class="px-6 py-4">
-                                        White
-                                    </td><td class="px-6 py-4">
-                                        Laptop PC
-                                    </td><td class="px-6 py-4">
-                                        $1999
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr><tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50"><td class="w-4 p-4">
-                                        <label class="custom-label">
-                                            <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                                <input type="checkbox" class="hidden">
-                                                <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                            </div>
-                                        </label>
-                                    </td><th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        Magic Mouse 2
-                                    </th><td class="px-6 py-4">
-                                        Black
-                                    </td><td class="px-6 py-4">
-                                        Accessories
-                                    </td><td class="px-6 py-4">
-                                        $99
-                                    </td><td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td></tr></tbody>
-                        </table></div><div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to 7 of 7 entries</div><nav class="dataTable-pagination"><ul class="dataTable-pagination-list"></ul></nav></div></div>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded csv">Export CSV</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded sql">Export SQL</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded txt">Export TXT</button>
-                        <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded json">Export JSON</button>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div>
+                            <h6 class="main-content-label mb-1">All Loans Table</h6><br>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="dt-customer-all-loans-list">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <input type="hidden" name="id" id="data-product-id" >
+
+
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Client Name</th>
+                                        <th class="wd-20p">Product Name</th>
+                                        <th class="wd-25p">Principle</th>
+                                        <th class="wd-20p">Interest</th>
+                                        <th class="wd-15p">Disbursed Date</th>
+                                        <th class="wd-20p">Applied Date</th>
+                                        <th class="wd-20p">Status</th>
+                                        <th class="wd-15p">Amount Repaid</th>
+                                        <th class="wd-20p">Maturity Date</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div><!--end card-body-->
-            </div> <!--end card-->
+                </div>
+            </div>
         </div>
+        <!-- End Row -->
+
     </div>
+
+
+</div>
+
+
+
+
+<!-- ###################################### Product Filter ############################## -->
+
+<div class="modal" id="customer_loans_filter_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeLg" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filter Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+         </div>
+         <form >
+            <div class="modal-body">
+               <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>First Name:</label>
+                     <div class="input-group">
+                        <input type="text" name="filter_customer_first_name" id="filter_customer_first_name" class="form-control" autocomplete="off">
+                        <div class="input-group-append">
+                           <span class="input-group-text">
+                              <i class="si si-tag"></i>
+                           </span>
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter first name</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>Last Name:</label>
+                     <div class="input-group">
+                        <input type="text" name="productType" id="filter_customer_last_name" class="form-control"  autocomplete="off">
+                        <div class="input-group-append">
+                           <span class="input-group-text">
+                              <i class="si si-tag"></i>
+                           </span>
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter last name</span>
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>Product Name:</label>
+                     <div class="input-group">
+                        <input type="text" name="name" id="filter_product_name" class="form-control" autocomplete="off">
+                        <div class="input-group-append">
+                           <span class="input-group-text">
+                              <i class="si si-tag"></i>
+                           </span>
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter product name</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>Product Type:</label>
+                     <div class="input-group">
+                        <input type="text" name="productType" id="filter_product_type" class="form-control"  autocomplete="off">
+                        <div class="input-group-append">
+                           <span class="input-group-text">
+                              <i class="si si-tag"></i>
+                           </span>
+                        </div>
+                     </div>
+                     <span class="form-text text-muted">Please enter product type</span>
+                  </div>
+               </div>
+               <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Minimum Amount:</label>
+                        <div class="input-group">
+                            <input type="text" name="minimumPrincipal" id="filter_minimum_principal" class="form-control" autocomplete="off">
+                            <div class="input-group-append">
+                            <span class="input-group-text">
+                                ZMW
+                            </span>
+                            </div>
+                        </div>
+                        <span class="form-text text-muted">Please enter min amount</span>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Max Amount:</label>
+                        <div class="input-group">
+                            <input type="text" name="maximumPrincipal" id="filter_maximum_principal" class="form-control" autocomplete="off">
+                            <div class="input-group-append">
+                            <span class="input-group-text">
+                                ZMW
+                            </span>
+                            </div>
+                        </div>
+                        <span class="form-text text-muted">Please enter max amount</span>
+                    </div>
+               </div>
+               <div class="form-group row">
+                  <div class="col-lg-6">
+                     <label>Start Date:</label>
+                     <div class="input-group">
+                         <input type="date" class="form-control m-input" placeholder="" name="from" id="from">
+
+                     </div>
+                     <span class="form-text text-muted">Please enter start date</span>
+                  </div>
+                  <div class="col-lg-6">
+                     <label>End Date:</label>
+                     <div class="input-group">
+                         <input type="date" class="form-control m-input" placeholder="" name="to" id="to">
+
+                     </div>
+                     <span class="form-text text-muted">Please enter end date</span>
+                  </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="admin_customer_loan_filter" style="margin:2px;">filter</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<!-- ###################################### Product Filter ############################## -->

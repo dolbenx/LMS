@@ -1,0 +1,574 @@
+<head>
+    <style>
+    #background {
+    padding-bottom: 1px;
+    padding-top: 5px;
+    padding-left: 6px;
+    background-size: 15;
+    }
+    .col-md-4{
+        background-color: #E8EBEA;
+    }
+    .parallelogram {
+	width: 100%;
+	height: 20px;
+	transform: skew(-20deg);
+    background: linear-gradient(90deg, #003651 50%, #F6000F 50%);
+    }
+    </style>
+</head>
+
+
+<div id="kt_header" class="header header-fixed">
+	<!--begin::Container-->
+	<div class="container-fluid d-flex align-items-stretch justify-content-between">
+		<!--begin::Header Menu Wrapper-->
+		<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+			<!--end::Header Menu Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Header-->
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-2">
+				<!--begin::Page Title-->
+				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Employer Onboading</h5>
+				<!--end::Page Title-->
+				<!--begin::Actions-->
+				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+				<!--end::Actions-->
+			</div>
+			<!--end::Info-->
+			<!--begin::Toolbar-->
+			<div class="d-flex align-items-center">
+				<!--begin::Daterange-->TIME </div>
+			<!--end::Toolbar-->
+		</div>
+	</div>
+	<!--end::Subheader-->
+	<!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+		<!--begin::Container-->
+		<div class="container-fluid">
+			<!--begin::Dashboard-->
+			<!--begin::Row-->
+			<div class="row">
+				<div class="col-md-12 col-xxl-12">
+					<div class="card card-custom card-stretch gutter-b">
+						<div class="card-header flex-wrap border-0 pt-6 pb-0">
+							<div class="card-title">
+								<h3 class="card-label">Update Employer Details
+                                                    <span class="text-muted pt-2 font-size-sm d-block">Provide all the required details for the employer</span></h3> </div>
+							<div class="card-toolbar"> </div>
+						</div>
+						<div class="card-body p-0">
+							<!--begin: Wizard-->
+							<div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+								<!--begin: Wizard Nav-->
+								<div class="wizard-nav">
+									<div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+										<!--begin::Wizard Step 1 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+																	<span>1.</span>Company Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 1 Nav-->
+										<!--begin::Wizard Step 3 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+																	<span>2.</span>Representative Details</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 3 Nav-->
+										<!--begin::Wizard Step 4 Nav-->
+										<div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+											<div class="wizard-label">
+												<h3 class="wizard-title">
+																	<span>3.</span>Document Upload</h3>
+												<div class="wizard-bar"></div>
+											</div>
+										</div>
+										<!--end::Wizard Step 4 Nav-->
+									</div>
+								</div>
+								<!--end: Wizard Nav-->
+								<!--begin: Wizard Body-->
+								<div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+									<div class="col-xl-12 col-xxl-12">
+										<!--begin: Wizard Form-->
+										<form class="form fv-plugins-bootstrap fv-plugins-framework" id="update_employer_details_form" enctype="multipart/form-data" method="post">
+											<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+											<!--begin: Wizard Step 1-->
+											<div class="pb-5" data-wizard-type="step-content">
+												<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Enter company Details</u></h4>
+												<!--begin::Input-->
+												<div class="row">
+													<%= for company <- @companies do %>
+														<div class="col-md-6 border">
+															<br>
+															<h5 class="text-center"> <u>Company Details</u> </h5>
+															<br>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Company Name: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.companyName %>" name="companyName" id="companyName">
+																		<input type="hidden" name="company_id" id="company_id" value="<%= company.company_id %>"> </div> <span class="form-text text-muted">Please enter company name.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Company Phone Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.companyPhone %>" name="companyPhone" id="companyPhone"> </div> <span class="form-text text-muted">Please enter company mobile.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Contact Email: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.contactEmail %>" name="contactEmail" id="contactEmail"> </div> <span class="form-text text-muted">Please enter company email.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Registration Date:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="date" class="form-control" value="<%= company.companyRegistrationDate %>" name="companyRegistrationDate" id="companyRegistrationDate"> </div> <span class="form-text text-muted">Please Select company registration date.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">TPIN:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.taxno %>" name="taxno" id="taxno"> </div> <span class="form-text text-muted">Please enter company TPin.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Pacra-Registration Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.taxno %>" name="registrationNumber" id="registrationNumber"> </div> <span class="form-text text-muted">Please enter company registration No.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+														</div>
+														<%= if company.bank_id != nil do %>
+															<%= for attached_bank <- Loanmanagementsystem.Operations.get_company_bank_name_by_id(company.bank_id, company.company_id) do %>
+																<div class="col-md-6 border">
+																	<br>
+																	<h5 class="text-center"> <u>Bank Details</u> </h5>
+																	<br>
+																	<div class="form-group row fv-plugins-icon-container has-success">
+																		<label class="col-3 col-form-label">Current Bank Name:</label>
+																		<div class="col-9">
+																			<div class="input-group input-group-sm">
+																				<input type="text" class="form-control" value="<%= attached_bank.bankName %>" id="company_bank_name" name="company_bank_name" readonly> </div> <span class="form-text text-muted">Please enter your account No.</span> </div>
+																		<div class="fv-plugins-message-container"></div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container has-success">
+																		<label class="col-3 col-form-label">Account Number:</label>
+																		<div class="col-9">
+																			<div class="input-group input-group-sm">
+																				<input type="text" class="form-control" value="<%= attached_bank.bank_account_number %>" id="companyAccountNumber" name="companyAccountNumber"> </div> <span class="form-text text-muted">Please enter your account No.</span> </div>
+																		<div class="fv-plugins-message-container"></div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container has-success">
+																		<label class="col-3 col-form-label">Select Bank:</label>
+																		<div class="col-9">
+																			<div class="input-group input-group-sm">
+																				<select id="bank_id" name="bank_id" class="form-control">
+																					<option value="">Select</option>
+																					<%= for bank <- @banks do %>
+																						<option value="<%= bank.id %>">
+																							<%= bank.bankName %> (
+																								<%= bank.process_branch %>)</option>
+																					<% end %>
+																				</select>
+																			</div> <span class="form-text text-muted">Please select your bank.</span> </div>
+																		<div class="fv-plugins-message-container"></div>
+																	</div>
+																</div>
+																<% end %>
+																	<% else %>
+																		<div class="col-md-6 border">
+																			<br>
+																			<h5 class="text-center"> <u>Bank Details</u> </h5>
+																			<br>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Select Bank:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<select id="bank_id" name="bank_id" class="form-control">
+																							<option value="">Select</option>
+																							<%= for bank <- @banks do %>
+																								<option value="<%= bank.id %>">
+																									<%= bank.bankName %> (
+																										<%= bank.process_branch %>)</option>
+																								<% end %>
+																						</select>
+																					</div> <span class="form-text text-muted">Please select your bank.</span> </div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container has-success">
+																				<label class="col-3 col-form-label">Account Number:</label>
+																				<div class="col-9">
+																					<div class="input-group input-group-sm">
+																						<input type="text" class="form-control" id="companyAccountNumber" name="companyAccountNumber"> </div> <span class="form-text text-muted">Please enter your account No.</span> </div>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																	<% end %>
+																<% end %>
+												</div>
+											</div>
+											<!--end: Wizard Step 1-->
+											<!--begin: Wizard Step 3-->
+											<%= for company <- @companies do %>
+												<div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+													<h4 class="mb-10 font-weight-bold text-dark"><u>Enter Representative Details</u></h4>
+													<div class="row">
+														<div class="col-md-6 border">
+															<br>
+															<h5 class="text-center"> <u>Personal Details</u> </h5>
+															<br>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Title:</label>
+																<div class="col-4">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.title %>" name="title" id="title" readonly> </div> <span class="form-text text-muted">Current title.</span> </div>
+																<div class="col-5">
+																	<div class="input-group input-group-sm">
+																		<select name="title" class="form-control" id="title">
+																			<option value="">Select</option>
+																			<option value="Mr">Mr </option>
+																			<option value="Mrs">Mrs </option>
+																			<option value="Ms">Ms </option>
+																			<option value="Dr">Dr </option>
+																		</select>
+																	</div> <span class="form-text text-muted">Please title.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">First Name: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.firstName %>" name="firstName" id="firstName"> </div> <span class="form-text text-muted">Please enter first name.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Last Name: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.lastName %>" name="lastName" id="lastName"> </div> <span class="form-text text-muted">Please enter last name.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Other Name:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.otherName %>" name="otherName" id="otherName"> </div> <span class="form-text text-muted">Please enter other name.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Mobile Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.mobileNumber %>" name="mobileNumber" id="mobileNumber"> </div> <span class="form-text text-muted">Please enter mobile number.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Date Of Birth:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="date" class="form-control" value="<%= company.dateOfBirth %>" name="dateOfBirth" id="dateOfBirth"> </div> <span class="form-text text-muted">Please Select date of birth.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Personal Email: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.emailAddress %>" name="emailAddress" id="emailAddress"> </div> <span class="form-text text-muted">Please enter email address.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.meansOfIdentificationNumber %>" name="meansOfIdentificationNumber" id="meansOfIdentificationNumber"> </div> <span class="form-text text-muted">Please enter ID No.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Gender:</label>
+																<div class="col-4">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.gender %>" name="gender" id="gender" readonly> </div> <span class="form-text text-muted">Current Gender.</span> </div>
+																<div class="col-5">
+																	<div class="input-group input-group-sm">
+																		<select name="gender" class="form-control" id="gender">
+																			<option value="">Select</option>
+																			<option value="Male">Male </option>
+																			<option value="Female">Female </option>
+																		</select>
+																	</div> <span class="form-text text-muted">Please select gender.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+														</div>
+														<div class="col-md-6 border">
+															<br>
+															<h5 class="text-center"> <u>Address Details</u> </h5>
+															<br>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">House/Plot Number</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.house_number %>" name="house_number" id="house_number"> </div> <span class="form-text text-muted">Please enter House/Plot Number.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Road/Street Name:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.street_name %>" name="street_name" id="street_name"> </div> <span class="form-text text-muted">Please enter Road/Street Name.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Area:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.area %>" name="area" id="area"> </div> <span class="form-text text-muted">Please enter area.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Town:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.town %>" name="town" id="town"> </div> <span class="form-text text-muted">Please enter town.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Accomodation Status:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="text" class="form-control" value="<%= company.accomodation_status %>" name="accomodation_status" id="accomodation_status"> </div> <span class="form-text text-muted">Please enter accomodation status.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+															<div class="form-group row fv-plugins-icon-container has-success">
+																<label class="col-3 col-form-label">Years At Current Address:</label>
+																<div class="col-9">
+																	<div class="input-group input-group-sm">
+																		<input type="number" class="form-control" value="<%= company.year_at_current_address %>" name="year_at_current_address" id="year_at_current_address"> </div> <span class="form-text text-muted">Please enter years At current address.</span> </div>
+																<div class="fv-plugins-message-container"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<% end %>
+													<div class="pb-5" data-wizard-type="step-content">
+														<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Attached Documents</u></h4>
+														<!--begin::Select-->
+														<%= if @employer_doc == [] do %>
+															<table class="table table-bordered border-bottom" id="example1">
+																<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+																<thead>
+																	<tr>
+																		<th>Document Name</th>
+																		<th>Action</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td> No document(s) attached</td>
+																		<td> No document(s) attached</td>
+																	</tr>
+																</tbody>
+															</table>
+															<% else %>
+																<table class="table table-bordered border-bottom" id="company_documents">
+																	<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+																	<thead>
+																		<tr>
+																			<th>Document Name</th>
+																			<th>Action</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<%= for loanDocs <- @employer_doc do %>
+																			<tr>
+																				<td>
+																					<%= loanDocs.docName %>
+																				</td>
+																				<td class="text-center">
+																					<div class="dropdown">
+																						<button class="dropbtn">Options</button>
+																						<div class="dropdown-content">
+																							<%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+																								<a class="btn ripple btn-sm activate-company-document" data-activate-id="<%= loanDocs.id %>" href="#">Enable</a>
+																							<% end %>
+																							<a class="btn ripple btn-sm deactivate-company" data-target="#viewDocument" data-id="<%= loanDocs.id%>" data-path="<%= loanDocs.docPath %>" data-content_type="<%= loanDocs.docType %>" data-toggle="modal" title="View" href="#"><i class="flaticon-eye icon-sm"></i> View</a> </div>
+																					</div>
+																				</td>
+																			</tr>
+																			<% end %>
+																	</tbody>
+																</table>
+																<% end %>
+																	<hr>
+																	<h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Documents</u></h4>
+																	<!--begin::Select-->
+																	<div class="table-responsive">
+																		<input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+																		<table class="table table-bordered border-bottom" id="example1">
+																			<tbody>
+																				<tr>
+																					<th scope="row">Document Name</th>
+																					<th scope="row">File</th>
+																					<th>Add</th>
+																				</tr>
+																				<tr class="tr_clone">
+																					<td>
+																						<div class="form-group">
+																							<input class="form-control" name="filename[]" type="text" id="client_doc"> </div>
+																					</td>
+																					<td scope="row">
+																						<div class="form-group">
+																							<input class="form-control" id="tenor" id="phx-FuvZHeMu4hedhwED" id="client_file" name="file[]" multiple type="file" accept=".pdf"> </div>
+																					</td>
+																					<td class="fitwidth">
+																						<div class="form-group"> <i style="cursor:pointer; color: green;" onclick="addrow(this)" class="adder flaticon2-plus tr_clone_add"></i> &nbsp;&nbsp;&nbsp; <i style="cursor:pointer; color: red;" onclick="removerow(this)" class="minus flaticon2-line"></i> </div>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+													</div>
+													<!--end: Wizard Step 4-->
+													<!--begin: Wizard Actions-->
+													<div class="d-flex justify-content-between border-top mt-5 pt-10">
+														<div class="mr-2">
+															<button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+														</div>
+														<div>
+															<button type="button" id="update_employer_details" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Update</button>
+															<button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+														</div>
+													</div>
+													<!--end: Wizard Actions-->
+													<div></div>
+													<div></div>
+										</form>
+										<!--end: Wizard Form-->
+									</div>
+								</div>
+								<!--end: Wizard Body-->
+							</div>
+							<!--end: Wizard-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Row-->
+			<!--end::Dashboard-->
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->
+<div class="card custom-card">
+	<div class="modal" id="viewDocument" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+			<div class="modal-content modal-content-demo">
+				<div class="modal-header">
+					<h6 class="main-content-label mb-3">View Document</h6>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+				</div>
+				<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+				<div class="modal-body">
+					<div class="row row-lg">
+						<div class="col-sm-12 col-md-12 col-lg-12" id="theDocumentView"> </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include jQuery Validate plugin -->
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+
+<script>
+
+    function addrow(e)
+    {
+        var $tr = $(e).closest('.tr_clone');
+        var $clone = $tr.clone();
+        $clone.find(':text').val('');
+        $tr.after($clone);
+    }
+
+    function removerow(e)
+    {
+        var tag = document.getElementsByClassName('tr_clone')
+
+        if (tag.length <= 1){
+            return tag
+        } else {
+
+        var $tr = $(e).closest('.tr_clone');
+        var $remove = $tr.remove();
+        $remove.find(':text').val('');
+        $tr.after($remove);
+        }
+    }
+
+    function prt(){
+    window.print();
+    }
+
+</script>
+
+
+<script>
+
+    $(document).ready(function(){
+        //JS FOR VIEWING USER PROFILE
+        $('#viewDocument').on('show.bs.modal', function (event){
+            console.log("qwertyuiop")
+            let button = $(event.relatedTarget)
+            let id = button.data('id')
+            let content_type = button.data('content_type')
+            let path = button.data('path')
+
+
+            let portocal = location.protocol;
+            let host = portocal+"//" + window.location.host
+            let route = host + "<%= Routes.offtaker_management_path(@conn, :display_pdf) %>";
+            let url = route + "?path="+path+"&content_type="+content_type;
+
+
+            let the_document = '<embed src="'+ url +'" width="100%" height="870px" />';
+
+
+            var modal = $(this)
+            modal.find('.modal-body #theDocumentView').html(the_document);
+        });
+    });
+
+</script>

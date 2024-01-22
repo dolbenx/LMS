@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_employment_info do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_employment_info" do
     field :accrued_gratuity, :string
     field :address, :string

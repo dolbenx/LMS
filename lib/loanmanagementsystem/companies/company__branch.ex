@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Companies.Company_Branch do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_company_branches" do
     field :branchCode, :string
     field :companyId, :string

@@ -1,0 +1,282 @@
+
+							<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+								<!--begin::Header Menu-->
+								<div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
+									<!--begin::Header Nav-->
+									<ul class="menu-nav">
+										<li class="menu-item menu-item-open menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here menu-item-active" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="flaticon-folder-3 menu-icon"></i> Organization Management</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<!----li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.change_management_path(@conn, :company_maintainance) %>" class="menu-link">
+															<i class="flaticon-presentation menu-icon"></i>
+															<span class="menu-text">Company Maintenance</span>
+														</a>
+													</li ----->
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :admin_department) %>" class="menu-link">
+															<i class="flaticon-symbol menu-icon"></i>
+															<span class="menu-text">Department Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :password_maintianance) %>" class="menu-link">
+															<i class="flaticon-lock menu-icon"></i>
+															<span class="menu-text">Password Management</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :qfin_branch_maintianance) %>" class="menu-link">
+															<i class="flaticon-business menu-icon"></i>
+															<span class="menu-text">Branch Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :working_day_maintianance) %>" class="menu-link">
+															<i class="flaticon-calendar-2 menu-icon"></i>
+															<span class="menu-text">Working Days Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :holiday_maintianance) %>" class="menu-link">
+															<i class="flaticon-time-3 menu-icon"></i>
+															<span class="menu-text">Holiday Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :currency_maintianance) %>" class="menu-link">
+															<i class="flaticon2-infographic menu-icon"></i>
+															<span class="menu-text">Currency Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :bulk_loan_reassignment) %>" class="menu-link">
+															<i class="flaticon2-layers menu-icon"></i>
+															<span class="menu-text">Bulk Loan Re-Assignment<</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :payment_type_maintianance) %>" class="menu-link">
+															<i class="flaticon-folder-1 menu-icon"></i>
+															<span class="menu-text">Payment Type Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :collection_maintianance) %>" class="menu-link">
+															<i class="flaticon-file-2 menu-icon"></i>
+															<span class="menu-text">Collection Type Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.organization_management_path(@conn, :alert_maintianance) %>" class="menu-link">
+															<i class="flaticon-alarm menu-icon"></i>
+															<span class="menu-text">Alert Maintenance</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="flaticon-settings-1 menu-icon"></i> System Management</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.user_path(@conn, :user_mgt)%>" class="menu-link">
+															<i class="flaticon2-user menu-icon"></i>
+															<span class="menu-text">User Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :role_maintianence) %>" class="menu-link">
+															<i class="flaticon2-list-2 menu-icon"></i>
+															<span class="menu-text">Role Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :maker_checker_configuration) %>" class="menu-link">
+															<i class="flaticon2-check-mark menu-icon"></i>
+															<span class="menu-text">Maker-Checker Configuration</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :audit_trail) %>" class="menu-link">
+															<i class="flaticon-edit-1 menu-icon"></i>
+															<span class="menu-text">Audit Trail</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.maintenance_path(@conn, :admin_configure_sms) %>" class="menu-link">
+															<i class="flaticon-speech-bubble-1 menu-icon"></i>
+															<span class="menu-text">SMS Configurations</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :account_number_generation) %>" class="menu-link">
+															<i class="flaticon2-list-3 menu-icon"></i>
+															<span class="menu-text">Number Generation</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.maintenance_path(@conn, :bank) %>" class="menu-link">
+															<i class="flaticon2-shelter menu-icon"></i>
+															<span class="menu-text">Bank Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.maintenance_path(@conn, :loans_branch) %>" class="menu-link">
+															<i class="flaticon2-protection menu-icon"></i>
+															<span class="menu-text">Bank Branch Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :charge_maintenance) %>" class="menu-link">
+															<i class="flaticon-notepad menu-icon"></i>
+															<span class="menu-text">Charge Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :commission_maintenance) %>" class="menu-link">
+															<i class="flaticon2-medical-records menu-icon"></i>
+															<span class="menu-text">Commission Maintenance </span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :countries) %>" class="menu-link">
+															<i class="flaticon-earth-globe menu-icon"></i>
+															<span class="menu-text">Country Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :province) %>" class="menu-link">
+															<i class="flaticon-placeholder-1 menu-icon"></i>
+															<span class="menu-text">Province Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.system_management_path(@conn, :district) %>" class="menu-link">
+															<i class="flaticon-placeholder-3 menu-icon"></i>
+															<span class="menu-text">City Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.maintenance_path(@conn, :admin_configure_email_sender) %>" class="menu-link">
+															<i class="flaticon-speech-bubble-1 menu-icon"></i>
+															<span class="menu-text">Email Sender Configurations</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.maintenance_path(@conn, :admin_configure_email_receiver) %>" class="menu-link">
+															<i class="flaticon-speech-bubble-1 menu-icon"></i>
+															<span class="menu-text">Email Recipient Configurations</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="flaticon2-delivery-package menu-icon"></i> Funder Management</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.user_path(@conn, :corporate_funder_mgt)%>" class="menu-link">
+															<i class="flaticon2-box-1 menu-icon"></i>
+															<span class="menu-text">Corporate</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.user_path(@conn, :funder_mgt)%>" class="menu-link">
+															<i class="flaticon-avatar menu-icon"></i>
+															<span class="menu-text">Individual</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="flaticon2-delivery-package menu-icon"></i> Product Management</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.products_path(@conn, :admin_all_products) %>" class="menu-link">
+															<i class="flaticon2-box-1 menu-icon"></i>
+															<span class="menu-text">Loan Product Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.change_management_path(@conn, :alert_template_maintainence) %>" class="menu-link">
+															<i class="flaticon-bell menu-icon"></i>
+															<span class="menu-text">Alert Template Maintenance</span>
+														</a>
+													</li>
+													<!-- <li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.change_management_path(@conn, :loyal_program_maintainence) %>" class="menu-link">
+															<i class="flaticon2-sheet menu-icon"></i>
+															<span class="menu-text">Loyalty Program Maintenance</span>
+														</a>
+													</li> -->
+												</ul>
+											</div>
+										</li>
+
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="flaticon-shapes menu-icon"></i> Accounting Set-Up</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.chart_of_accounts_path(@conn, :chart_of_accounts) %>" class="menu-link">
+															<i class="flaticon-file-1 menu-icon"></i>
+															<span class="menu-text">Chart of Accounts Maintenance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.chart_of_accounts_path(@conn, :chart_of_accounts) %>" class="menu-link">
+															<i class="flaticon-notes menu-icon"></i>
+															<span class="menu-text">Accounting Rule Maintenance</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+									</ul>
+									<!--end::Header Nav-->
+								</div>
+								<!--end::Header Menu-->
+							</div>
+
+
+
+
+
+
+
+							<div class="topbar">
+								<!--begin::User-->
+								<div class="topbar-item">
+									<div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
+										<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
+										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"><%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
+										<span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
+											<span class="symbol-label font-size-h5 font-weight-bold"><%= String.at(String.upcase(@conn.private.plug_session["current_user_bio_data"].firstName), 0) %><%= String.at(String.upcase(@conn.private.plug_session["current_user_bio_data"].lastName), 0) %></span>
+										</span>
+									</div>
+								</div>
+								<!--end::User-->
+							</div>

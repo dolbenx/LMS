@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Accounts.Role do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_roles" do
     field :role_desc, :string
     field :role_group, :string

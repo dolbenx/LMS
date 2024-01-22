@@ -1,7 +1,7 @@
 defmodule Loanmanagementsystem.Accounts.Account do
   use Ecto.Schema
   import Ecto.Changeset
-
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_account" do
     field :accountNo, :string
     field :clientId, :integer
@@ -76,5 +76,10 @@ defmodule Loanmanagementsystem.Accounts.Account do
       :security_question_fail_count,
       :telegram_id
     ])
+  end
+
+
+  defmodule Localtime do
+    def autogenerate, do: Timex.local() |> DateTime.truncate(:second) |> DateTime.to_naive()
   end
 end

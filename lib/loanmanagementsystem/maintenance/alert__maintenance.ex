@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Maintenance.Alert_Maintenance do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_alert_maintenance" do
     field :alert_description, :string
     field :alert_type, :string

@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.SystemSetting.SystemSettings do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_system_settings" do
     field :username, :string
     field :password, :string

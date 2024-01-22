@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Maintenance.Message_Management do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_msg_mgt" do
     field :msg, :string
     field :msg_type, :string

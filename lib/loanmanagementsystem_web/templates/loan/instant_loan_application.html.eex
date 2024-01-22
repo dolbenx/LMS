@@ -1,0 +1,788 @@
+
+    <script>
+        function hide_receiver_number() {
+            $( "#receiver_number" ).hide();
+            $( "#bank_details" ).hide();
+            $("#wallet_number").hide();
+            $("#bank_details_summary" ).hide();
+
+        }
+    </script>
+    <style>
+        .dottedLines {
+        border-bottom: thin red dotted;
+        margin: 30px;
+        }
+    </style>
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Loan Application</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+
+
+
+                <!--begin::Dashboard-->
+                <body  onload="hide_receiver_number()">
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                             <div class="flex-wrap border-0 pt-6 pb-0">
+                                <div class="text-center">
+                                    <h3 class="card-label "><u>CONSUMER LOAN AGREEMENT FORM </u>
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span></h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+								<!--begin: Wizard-->
+                                <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+                                    <!--begin: Wizard Nav-->
+                                    <div class="wizard-nav">
+                                        <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                                            <!--begin::Wizard Step 1 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>1.</span>Personal Details</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 1 Nav-->
+                                            <!--begin::Wizard Step 2 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>2.</span>Loan Details</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 2 Nav-->
+                                                <%= for product_detail <- @product_details do %>
+                                                    <%= if product_detail.product_type != "CONSUMER LOAN" do %>
+                                                        <!--begin::Wizard Step 3 Nav-->
+                                                        <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                            <div class="wizard-label">
+                                                                <h3 class="wizard-title">
+                                                                <span>3.</span>Collateral</h3>
+                                                                <div class="wizard-bar"></div>
+                                                            </div>
+                                                        </div>
+                                                    <% end %>
+                                                <% end %>
+                                                    <!--end::Wizard Step 3 Nav-->
+                                            <!--begin::Wizard Step 4 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>4.</span>Agreement</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>5.</span>Upload Documents</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                            <!--begin::Wizard Step 4 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>5.</span>Documents</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                        </div>
+                                    </div>
+                                    <!--end: Wizard Nav-->
+                                    <!--begin: Wizard Body-->
+                                    <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                                        <div class="col-xl-12 col-xxl-12">
+                                            <!--begin: Wizard Form-->
+                                            <form class="form fv-plugins-bootstrap fv-plugins-framework" id="emp_consumer_loan_application" enctype="multipart/form-data" method="post">
+                                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <input type="hidden" name="customer_id" value="<%= @client_data.userId %>">
+                                                <input type="hidden" name="company_id" value="<%= @client_data.company_id %>">
+                                                <input name="application_date" value="<%= Timex.today %>" type="hidden">
+                                                <%= for product_detail <- @product_details do %>
+                                                    <input type="hidden" name="product_id" value="<%= product_detail.id %>">
+                                                    <input type="hidden" name="loan_type" value="<%= product_detail.product_type %>">
+                                                    <input type="hidden" name="currency_code" value="<%= product_detail.currencyName %>">
+                                                    <input type="hidden" name="interest_method" value="<%= product_detail.interestMode %>">
+                                                    <input type="hidden" id="interest_rate" value="<%= product_detail.interest %>" onchange="calculate()">
+                                                    <input type="hidden" id="finance_cost" name="finance_cost" value="<%= product_detail.finance_cost %>">
+                                                    <input type="hidden" id="calculated_interest" name="calculated_interest" value="<%= product_detail.finance_cost + product_detail.interest %>">
+                                                    <input type="hidden" id="arrangement_fee" name="arrangement_fee" value="<%= product_detail.arrangement_fee %>">
+                                                <% end %>
+                                                    <input type="hidden" name="firstname" value="<%= @client_data.firstName %>">
+                                                    <input type="hidden" name="othername" value="<%= @client_data.otherName %>">
+                                                    <input type="hidden" name="surname" value="<%= @client_data.lastName %>">
+                                                <!--begin: Wizard Step 1-->
+                                                <div class="pb-5" data-wizard-type="step-content">
+                                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Customer Details</u></h4>
+                                                    <!--begin::Input-->
+                                                    <div class="row">
+                                                        <div class="col-md-6 border">
+                                                        <br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Full Name: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_data.firstName %> <%= @client_data.otherName %> <%= @client_data.lastName %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Gender: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_data.gender %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">NRC Number: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text"  name="id_number" class="form-control" value="<%= @client_data.meansOfIdentificationNumber %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Date Of Birth:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" name="dob" class="form-control" value="<%= @client_data.dateOfBirth %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Phone Number:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" name="cell_number" class="form-control" value="<%= @client_data.mobileNumber %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Email Address: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" name="email" class="form-control" value="<%= @client_data.emailAddress %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Home Address: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" name="residential_address" class="form-control" value="<%= @customers_address.house_number %> <%= @customers_address.street_name %> <%= @customers_address.province %>"  readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Business/Work Address: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @customers_address.town %> <%= @customers_address.province %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <!--
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Nationality: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @client_data.nationality %>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Marital Status: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @client_data.marital_status %>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                            -->
+                                                        </div>
+                                                        <div class="col-md-6 border">
+                                                             <br><h5 class="text-center"> <u>Employer Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Employer: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="" class="form-control" value="<%= @customers_employment.employer %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Employee No::</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @customers_employment.employee_number %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Net Salary:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= if is_nil(@customers_income) do 0.0 else :erlang.float_to_binary((Float.ceil(@customers_income.net_pay, 2)), [{:decimals, 2}]) end %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label"><strong>Pay day:</strong> </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="" class="form-control" value="<%=if is_nil(@customers_income) do 0 else @customers_income.pay_day end %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                           <h5 class="text-center"> <u>Loan Guarantor</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Full Name: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" id="" name="guarantor_name">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter first name</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Identification Number: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" id="guarantor_nrc"  name="guarantor_nrc">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter identification number</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Phone Number: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="guarantor_phone_no" class="form-control" name="guarantor_phone_no" >
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter phone number</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Occupation: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="occupation" class="form-control" name="occupation">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter occupation</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end: Wizard Step 1-->
+                                                <!--begin: Wizard Step 3-->
+                                                <div class="pb-5" data-wizard-type="step-content">
+                                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Loan Details</u></h4>
+                                                    <!--begin::Select-->
+                                                    <div class="row">
+                                                         <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Loan Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Principle Loan Amount: <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control principal_amount" id="numberInput" oninput="calculate()" name="requested_amount">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter amount.</span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Tenure (days): <span style="color: red;">*</span></label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control principal_amount" id="months" oninput="calculate()" name="tenor_log">
+                                                                    </div>
+                                                                    <span class="form-text text-muted">Please enter Tenor in days. <strong>Note: month set to 30 days</strong></span>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Interest: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="total_loan_interest" class="form-control" name="total_interest" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Arrangement Fee: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="total_arrangement_fee" class="form-control" name="arrangement_fee" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Finance Cost: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="total_finance_cost" class="form-control" name="finance_cost" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Repayment Period(months):</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" id="loanTerm_in_months" name="repayment" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Monthly Installments:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" id="monthly_installment" name="monthly_installment" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label"><strong>Total Loan:</strong> </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" id="total_loan_amount" class="form-control" name="totalPayment" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Agreement</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                       <u>The Financial Service Provider</u><br>
+                                                                        Pangaea ADD Capital, P.O Box 70400 Ndola. Suite 3, 1st floor, at ZMART City on President Avenue, town centre Ndola
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Date of Agreement</u><br>
+                                                                        This financial service agreement is effective from the date of disbursement of funds….................................................................
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                       <u> PERSONAL GUARANTEE</u><br>
+                                                                        This document serves to confirm the personal guarantee of the client together with the loan guarantor and PADDC the Financial
+                                                                        Service Provider, for the services of Personal Consumer Loans and the assignment by the client of the Monthly Salary
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u> Repayment Period</u><br>
+                                                                        This loan shall endure for a period of …................ months from the date of disbursement as stated above. 6 months is the maximum
+                                                                        allowed repayment period. The loan shall be repaid as indicated below.
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Loan Amount (Principle)</u><br>
+                                                                        The Borrower shall be obliged to pay the lender simple interest at a rate of 4% per month on the principal amount, plus finance cost
+                                                                        of 11 % per month for the duration of the loan.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Arrangement fee</u><br>
+                                                                        Arrangement fee is charged at 5% of the principle loan amount and shall be paid upfront by the borrower or borrower can request that
+                                                                        the fee be deducted from the loan amount to be disbursed
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end: Wizard Step 3-->
+                                                    <%= for product_detail <- @product_details do %>
+                                                        <%= if product_detail.product_type != "CONSUMER LOAN" do %>
+                                                            <!--begin: Wizard Step 4-->
+                                                            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                                                <h4 class="mb-10 font-weight-bold text-dark"><u>Collateral Details</u></h4>
+                                                                <div class="row">
+                                                                    <div class="col-md-12 border">
+                                                                    <h4 class="mb-10 font-weight-bold text-dark"><u>Collateral</u></h4>
+                                                                        <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                                            <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                                            <thead>
+                                                                                <tr role="row">
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Owner</th>
+                                                                                    <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name Of Collateral</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Serial No.</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Color</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Asset Value (K)</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="tr_clone">
+                                                                                    <td>
+                                                                                        <div class="col-md-12 form-group">
+                                                                                            <div class="form-group">
+                                                                                                <select name="owner" class="form-control">
+                                                                                                    <option label="Choose One"></option>
+                                                                                                    <option value="Applicant">Applicant</option>
+                                                                                                    <option value="Guarantor">Guarantor</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="col-md-12 form-group">
+                                                                                            <div class="form-group">
+                                                                                                <input type="text" name="name_of_collateral[]" class="form-control form-control-sm">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="col-md-12 form-group">
+                                                                                            <div class="form-group">
+                                                                                            <input type="text" name="id_number_collateral[]" class="form-control form-control-sm">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="col-md-12 form-group">
+                                                                                            <div class="form-group">
+                                                                                            <input type="text" name="color[]" class="form-control form-control-sm">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="col-md-12 form-group">
+                                                                                            <div class="form-group">
+                                                                                            <input type="text" name="asset_value[]" class="form-control form-control-sm">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="col-md-12 form-group">
+                                                                                            <div class="form-group">
+                                                                                            <input type="file" name="file[]" class="form-control form-control-sm">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                    <i style="cursor:pointer; color: #003651;" onclick="addrow(this)" class="adder fa fa-plus tr_clone_add"></i>
+                                                                                    <i style="cursor:pointer; color: #F6000F;" onclick="removerow(this)" class="minus fa fa-minus"></i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <% end %>
+                                                    <% end %>
+                                                    <!--end: Wizard Step 4-->
+                                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                                    <h4 class="mb-10 font-weight-bold text-dark"><u>Agreement Details</u></h4>
+                                                    <div class="row">
+                                                        <div class="col-md-12 border">
+                                                        <br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Late Payment Charge:</u><br>
+                                                                        Any payment not remunerated within 5 days of its due date shall be subject to a late payment charge of 10% of the overdue
+                                                                        amount per month for period the amount remains outstanding
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Collateral:</u><br>
+                                                                        Collateral pledged to secure this loan is as per schedule attached. In the case of movable property, the borrower by signing
+                                                                        this agreement agrees to release the pledged property into the custody of the lender once the borrower misses or fails to pay
+                                                                        the full monthly instalment as stipulated under clause 6 of this agreement.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Default:</u><br>
+                                                                        If Borrower has not paid the full amount of the laon when the final payment is due, the lender will continue to charge interest plus
+                                                                        full finance costs on principle until the loan is fully repaid.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                         <u>Collection Fees:</u><br>
+                                                                        If an overdue amount is placed with a vendor for collection, then Borrower agrees to pay the debt collector a fee of 10 % of the
+                                                                        overdue balance. This fee will be added to the overdue balance of the loan.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Severance:</u><br>
+                                                                        Any provision of this agreement that is invalid or unenforceable will be read down where possible so as to be valid and
+                                                                        enforceable, or, if that is not possible, will be severed from this agreement to the extent of its invalidity of unenforceability
+                                                                        without affecting the remaining provisions, which will remain binding on the parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Dispute Resolution:</u><br>
+                                                                        Where any dispute arises among the parties as to the performance or interpretation of this agreement, the parties will resolve the
+                                                                        the dispute in the following manner:<br>
+                                                                        1. The Party raising the dispute must in writing notify the other Party of the dispute, providing a reasonable amount of information
+                                                                        information about the nature of the dispute.<br>
+                                                                        2. The Parties will meet as soon as possible, in person and attempt to resolve the dispute by mutual agreement.<br>
+                                                                        3. If such negotiation fails, the Parties will be at liberty to seek litigation
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>Payments:</u><br>
+                                                                        All payments due from the Borrower to the Lender under this agreement will be made by cash, cheque or trasfer on the respective
+                                                                        due dates as per repayment schedule under clause 6.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <div class="col-12">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <u>15. Entire Agreement:</u><br>
+                                                                        The parties confirm that this contract contains the full terms of their agreement and that no addition to or variation of the contract shall
+                                                                        be of any force and effect unless done in writing and signed by both parties.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br><h5 class="text-center"> <u>Execution</u> </h5><br>
+
+                                                               <div class="form-group row">
+                                                                        <div class="col-lg-6">
+                                                                            <label>Name of Loan Applicant:</label>
+                                                                            <input type="text" class="form-control" value="<%= @client_data.firstName %> <%= @client_data.otherName %> <%= @client_data.lastName %>" readonly />
+
+                                                                        </div>
+                                                                        <div class="col-lg-6">
+                                                                            <label>Date:</label>
+                                                                            <input type="text" class="form-control" value="<%= Timex.today %>" readonly />
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="pb-5" data-wizard-type="step-content">
+                                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Upload Required Documents</u></h4>
+                                                    <!--begin::Select-->
+                                                    <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                                    <label for="example-input-small" class="form-label">Document Type <span style="color: red;">*</span></label>
+                                                                </th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <%= for item <- consumer_loan_application_document_upload() do %>
+                                                                <tr class="tr_clone">
+                                                                    <td>
+                                                                        <div class="col-md-12 form-group">
+                                                                            <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                                            <input type="hidden" class="form-control" value="<%= "#{item.name}" %>" name="fileName[]">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input class="receiver form-control" id="emp_consumer_app_docs" name="file[<%= item.name %>]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+                                                                    </td>
+                                                                </tr>
+                                                            <% end %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!--end: Wizard Step 4-->
+                                                <!--begin: Wizard Actions-->
+                                                <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                                    <div class="mr-2">
+                                                        <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                                    </div>
+                                                    <div>
+                                                        <button type="button" id="employee-consumer-loan_application" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+                                                        <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                                    </div>
+                                                </div>
+                                                <!--end: Wizard Actions-->
+                                            <div></div><div></div><div></div><div></div></form>
+                                            <!--end: Wizard Form-->
+                                        </div>
+                                    </div>
+                                    <!--end: Wizard Body-->
+                                </div>
+                                <!--end: Wizard-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            </body>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+
+<script>
+	function calculate() {
+	// Get the values entered by the user
+
+        var loanAmount = document.getElementById('numberInput').value;
+        var interestRate = document.getElementById('interest_rate').value / 100;
+        var loanTerm_in_days = document.getElementById('months').value;
+        var finance_cost = document.getElementById('finance_cost').value / 100;
+        var arrangement_fee = document.getElementById('arrangement_fee').value / 100;
+
+    if (loanAmount === "" || interestRate === "" || loanTerm_in_days === "") {
+		var monthlyPayment = 0;
+        var totalPayment = 0;
+        var totalInterest = 0;
+
+		} else {
+
+            loanTerm_in_months = loanTerm_in_days/30
+
+            monthlyInterestRate = loanAmount * interestRate
+            monthlyfinance_cost = loanAmount * finance_cost
+            total_finance_cost = monthlyfinance_cost * loanTerm_in_months
+
+            sum_interest = monthlyInterestRate + monthlyfinance_cost
+            total_interest = sum_interest * loanTerm_in_months
+            total_loan_amount = +loanAmount + +total_interest
+            monthly_installment = total_loan_amount/loanTerm_in_months
+            total_arrangement_fee = loanAmount * arrangement_fee
+            loan_monthlyInterestRate = monthlyInterestRate * loanTerm_in_months
+
+
+            $('#total_finance_cost').val(total_finance_cost.toFixed(2));
+            $('#total_arrangement_fee').val(total_arrangement_fee.toFixed(2));
+            $('#loanTerm_in_months').val(loanTerm_in_months);
+            $('#total_loan_interest').val(loan_monthlyInterestRate.toFixed(2));
+            $('#total_loan_amount').val(total_loan_amount.toFixed(2));
+            $('#monthly_installment').val(monthly_installment.toFixed(2));
+
+		}
+
+
+
+
+
+	}
+
+</script>

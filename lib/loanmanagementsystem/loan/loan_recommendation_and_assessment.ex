@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_recommendation_and_assessment do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_recommendation" do
     field :comments, :string
     field :customer_id, :integer

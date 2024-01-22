@@ -1,0 +1,130 @@
+
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render  "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5"> End of Day Totals Report </h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">  End of Day Totals Report
+                                <span class="text-muted pt-2 font-size-sm d-block"> End of Day Totals Report </span></h3>
+                            </div>
+                            <div class="card-toolbar">
+                                <a class="btn text-white font-weight-bolder" onclick="reloadPage()" style="background-color: #011941;" type="button"> Reset Filter </a>&nbsp;
+                                <a href="#" id="loans_end_of_day-listing-filter" class="btn text-white font-weight-bolder" style="background-color: #011941;">
+                                    <span><i class="fe fe-filter me-2"></i></span>Filter </a>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover table-striped w-100" id="end_of_day_totals_report">
+                            <input type="hidden" name="csrf" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                             <input type="hidden" name="id" id="id">
+                                <thead>
+                                    <tr>
+
+                                        <th class="wd-20p">End of Day Date</th>
+                                        <th class="wd-20p">Date Ran</th>
+                                        <th class="wd-20p">Date Accrued</th>
+                                        <th class="wd-20p">Accrued Period</th>
+                                        <th class="wd-25p">Status</th>
+                                        <th class="wd-20p">Total Interest Accrued</th>
+                                        <th class="wd-20p">Penalties Incurred</th>
+                                        <th class="wd-25p">Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+
+
+
+
+
+<!-- loan Filter  -->
+<div class="modal fade" id="loans_end_of_day_filter-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSizeSm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                     <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>EOD Start Date:</label>
+                            <div class="input-group">
+                                <input type="date" class="form-control m-input" name="eod_start_date" id="eod_start_date"  max="<%= Timex.shift(Timex.today(), days: -1) %>">
+                            </div>
+                            <span class="form-text text-muted">Please enter Disbursement end date</span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>EOD End Date:</label>
+                            <div class="input-group">
+                                <input type="date" class="form-control m-input" name="eod_end_date" id="eod_end_date" max="<%= Timex.shift(Timex.today(), days: -1) %>" >
+                            </div>
+                            <span class="form-text text-muted">Please enter Disbursement end date</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                    <button type="button" class="btn btn-primary" id="loans_end_of_day_listing_filter_miz" style="margin:2px;">Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Filter end -->

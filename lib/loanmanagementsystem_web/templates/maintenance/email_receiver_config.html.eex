@@ -1,0 +1,270 @@
+
+
+<div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Email Receiver Configurations</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Email Receiver Configurations List
+                                    <span class="text-muted pt-2 font-size-sm d-block">List of Email Receiver configurations</span></h3>
+                                </div>
+                                <div class="card-toolbar">
+
+                                    <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#modaldemo12" style="background-color: #011941;">
+                                        Add Email Receiver
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered border-bottom" id="kt_datatable_email_sender">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email Address</th>
+                                            <th class="text-center" style="width: 95px;">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <%= for receiver_email_details <-@receiver_email do %>
+
+                                        <tr>
+
+                                            <td> <%= receiver_email_details.name  %> </td>
+                                            <td> <%= receiver_email_details.email  %> </td>
+                                            <td>
+                                                <div class="dropdown text-center" style="width: 95px;">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Options
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" title= "Edit"
+                                                        data-target="#edit_email_receiver"
+                                                        data-toggle="modal"
+                                                        data-id="<%= receiver_email_details.id %>"
+                                                        data-name="<%= receiver_email_details.name %>"
+                                                        data-email="<%= receiver_email_details.email %>"
+                                                        ><i class="flaticon-edit"></i>&nbsp;  Edit </a>
+
+                                                        <a class="dropdown-item" title= "View"
+                                                        data-target="#view_email_receiver"
+                                                        data-toggle="modal"
+                                                        data-id="<%= receiver_email_details.id %>"
+                                                        data-name="<%= receiver_email_details.name %>"
+                                                        data-email="<%= receiver_email_details.email %>"
+                                                        ><i class="flaticon-eye"></i>&nbsp;  View </a>
+                                                   </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    <% end %>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Email Receiver Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.maintenance_path(@conn, :create_receiver_email) %>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Name</label>
+                                    <input class="form-control" name="name" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Email Adress</label>
+                                    <input class="form-control" name="email" required type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Save</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+<!-- Tooltips and Popovers -->
+
+
+<div class="modal fade" id="edit_email_receiver">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Update Email Receiver Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.maintenance_path(@conn, :admin_update_email_receiver) %>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Name</label>
+                                    <input class="form-control" name="name" id="name" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Email Address</label>
+                                    <input class="form-control" name="email" id="email" required type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Save</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="view_email_receiver">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Email Receiver Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="<%= Routes.maintenance_path(@conn, :admin_configure_update_sms) %>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Name</label>
+                                    <input class="form-control" name="name" id="name" required type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <label class="mg-b-10">Email Address</label>
+                                    <input class="form-control" name="email" id="email" required type="text" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#edit_email_receiver').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var email = button.data('email')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #email').val(email);
+
+    });
+
+    $('#view_email_receiver').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var email = button.data('email')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #email').val(email);
+
+    });
+});
+</script>

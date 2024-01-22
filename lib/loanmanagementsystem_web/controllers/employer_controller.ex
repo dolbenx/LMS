@@ -74,7 +74,7 @@ use PipeTo.Override
 
 
   def employer_employee_all_loans(conn, _params) do
-    current_user = get_session(conn, :current_user)
+    # current_user = get_session(conn, :current_user)
     current_user_role = get_session(conn, :current_user_role)
 
     # IO.inspect("%%%%%%%%%%START current_user%%%%%%%%%%%%%")
@@ -413,7 +413,7 @@ use PipeTo.Override
       )
 
   def staff_all_loans(conn, _params) do
-    products = Loanmanagementsystem.Products.list_tbl_products()
+    # products = Loanmanagementsystem.Products.list_tbl_products()
     render(conn, "staff_all_loans.html")
   end
   @headers ~w/ title	firstName	lastName	otherName	 gender	idType	idNumber	mobileNumber	emailAddress	marital_status	nationality	dateOfBirth number_of_dependants accomodation_status year_at_current_address	area house_number	street_name	town province productName	loan_limit mobile_network_operator registered_name_mobile_number  /a
@@ -543,13 +543,13 @@ use PipeTo.Override
     |> case do
       {:ok, _result} ->
         nil
-      {:error, _failed_operation, failed_value, changes_so_far} ->
+      {:error, _failed_operation, failed_value, _changes_so_far} ->
         IO.inspect(failed_value)
         {:error, failed_value}
     end
   end
 
-  defp prepare_userbio_bulk_params(user_bio_resp, _user) when not is_nil(user_bio_resp), do: user_bio_resp
+  # defp prepare_userbio_bulk_params(user_bio_resp, _user) when not is_nil(user_bio_resp), do: user_bio_resp
   defp prepare_userbio_bulk_params(_user_bio_resp, user, _filename, items) do
       items
       |> Stream.with_index(1)
@@ -563,7 +563,7 @@ use PipeTo.Override
       |> execute_multi()
   end
 
-  defp prepare_address_detail_bulk_params(address_resp, _user) when not is_nil(address_resp), do: address_resp
+  # defp prepare_address_detail_bulk_params(address_resp, _user) when not is_nil(address_resp), do: address_resp
   defp prepare_address_detail_bulk_params(_address_resp, user, _filename, items) do
     items
     |> Stream.with_index(1)
@@ -576,7 +576,7 @@ use PipeTo.Override
     |> execute_multi()
   end
 
-  defp prepare_userrole_bulk_params(role_resp, _user) when not is_nil(role_resp), do: role_resp
+  # defp prepare_userrole_bulk_params(role_resp, _user) when not is_nil(role_resp), do: role_resp
   defp prepare_userrole_bulk_params(_role_resp, user, _filename, items) do
     items
     |> Stream.with_index(1)
@@ -605,7 +605,7 @@ use PipeTo.Override
 
   end
 
-  defp prepare_customer_account_bulk_params(acc_resp, _user) when not is_nil(acc_resp), do: acc_resp
+  # defp prepare_customer_account_bulk_params(acc_resp, _user) when not is_nil(acc_resp), do: acc_resp
   defp prepare_customer_account_bulk_params(_acc_resp, user, _filename, items) do
 
     items
@@ -623,7 +623,7 @@ use PipeTo.Override
 
   end
 
-  defp prepare_emploee_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
+  # defp prepare_emploee_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
   defp prepare_emploee_bulk_params(_emplo_resp, user, _filename, items) do
 
     items
@@ -639,7 +639,7 @@ use PipeTo.Override
 
   end
 
-  defp prepare_employee_maintenance_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
+  # defp prepare_employee_maintenance_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
   defp prepare_employee_maintenance_bulk_params(_emplo_resp, user, _filename, items) do
 
     items
@@ -656,7 +656,7 @@ use PipeTo.Override
   end
 
 
-  defp prepare_logs_bulk_params(logs_resp, _user) when not is_nil(logs_resp), do: logs_resp
+  # defp prepare_logs_bulk_params(logs_resp, _user) when not is_nil(logs_resp), do: logs_resp
   defp prepare_logs_bulk_params(_logs_resp, user, _filename, items) do
 
     items

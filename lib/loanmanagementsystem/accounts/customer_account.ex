@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Accounts.Customer_account do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_customer_accounts" do
     field(:account_number, :string)
     field(:status, :string)

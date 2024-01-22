@@ -1,0 +1,67 @@
+
+							<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+								<!--begin::Header Menu-->
+								<div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
+									<!--begin::Header Nav-->
+									<ul class="menu-nav">
+										<li class="menu-item menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here menu-item-active" data-menu-toggle="click" aria-haspopup="true">
+											<a href="<%= Routes.change_management_path(@conn, :company_bulkupload_view) %>" class="menu-link">
+												 <span class="menu-text text-white"><i class="fas fa-handshake text-dark menu-icon"></i>Corporate Upload</span>
+												<i class="menu-arrow"></i>
+											</a>
+										</li>
+										<li class="menu-item menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here menu-item-active" data-menu-toggle="click" aria-haspopup="true">
+											<a href="<%= Routes.client_management_path(@conn, :client_onboarding_upload) %>" class="menu-link">
+												 <span class="menu-text text-white"><i class="fas fa-users text-dark menu-icon"></i>Individual Upload</span>
+												<i class="menu-arrow"></i>
+											</a>
+										</li>
+									
+										<li class="menu-item menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here menu-item-active" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="flaticon-coins menu-icon"></i> Loan Uploads</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.loan_path(@conn, :loan_bulkupload) %>" class="menu-link">
+															<i class="flaticon-file-2 menu-icon"></i>
+															<span class="menu-text">Individual Loans</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.loan_path(@conn, :corperate_loan_bulkupload) %>" class="menu-link">
+															<i class="flaticon-file-2 menu-icon"></i>
+															<span class="menu-text">Corporate Loans</span>
+														</a>
+													</li>
+
+												</ul>
+											</div>
+										</li>
+									</ul>
+									<!--end::Header Nav-->
+								</div>
+								<!--end::Header Menu-->
+							</div>
+
+
+
+
+
+
+
+							<div class="topbar">
+								<!--begin::User-->
+								<div class="topbar-item">
+									<div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
+										<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
+										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"><%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
+										<span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
+											<span class="symbol-label font-size-h5 font-weight-bold"><%= String.at(String.upcase(@conn.private.plug_session["current_user_bio_data"].firstName), 0) %><%= String.at(String.upcase(@conn.private.plug_session["current_user_bio_data"].lastName), 0) %></span>
+										</span>
+									</div>
+								</div>
+								<!--end::User-->
+							</div>

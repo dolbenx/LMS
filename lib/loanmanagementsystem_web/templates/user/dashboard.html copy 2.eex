@@ -1,0 +1,623 @@
+
+<style>
+
+		.highcharts-figure,
+		.highcharts-data-table table {
+		min-width: 320px;
+		max-width: 660px;
+		margin: 1em auto;
+		}
+
+		.highcharts-data-table table {
+		font-family: Verdana, sans-serif;
+		border-collapse: collapse;
+		border: 1px solid #ebebeb;
+		margin: 10px auto;
+		text-align: center;
+		width: 100%;
+		max-width: 500px;
+		}
+
+		.highcharts-data-table caption {
+		padding: 1em 0;
+		font-size: 1.2em;
+		color: #555;
+		}
+
+		.highcharts-data-table th {
+		font-weight: 600;
+		padding: 0.5em;
+		}
+
+		.highcharts-data-table td,
+		.highcharts-data-table th,
+		.highcharts-data-table caption {
+		padding: 0.5em;
+		}
+
+		.highcharts-data-table thead tr,
+		.highcharts-data-table tr:nth-child(even) {
+		background: #f8f8f8;
+		}
+
+		.highcharts-data-table tr:hover {
+		background: #f1f7ff;
+		}
+
+
+		.barhighcharts-figure,
+		.barhighcharts-data-table table {
+		min-width: 310px;
+		max-width: 800px;
+		margin: 1em auto;
+		}
+
+		#barcontainer {
+		height: 400px;
+		}
+
+		.barhighcharts-data-table table {
+		font-family: Verdana, sans-serif;
+		border-collapse: collapse;
+		border: 1px solid #ebebeb;
+		margin: 10px auto;
+		text-align: center;
+		width: 100%;
+		max-width: 500px;
+		}
+
+		.barhighcharts-data-table caption {
+		padding: 1em 0;
+		font-size: 1.2em;
+		color: #555;
+		}
+
+		.barhighcharts-data-table th {
+		font-weight: 600;
+		padding: 0.5em;
+		}
+
+		.barhighcharts-data-table td,
+		.barhighcharts-data-table th,
+		.barhighcharts-data-table caption {
+		padding: 0.5em;
+		}
+
+		.barhighcharts-data-table thead tr,
+		.barhighcharts-data-table tr:nth-child(even) {
+		background: #f8f8f8;
+		}
+
+		.barhighcharts-data-table tr:hover {
+		background: #f1f7ff;
+		}
+
+</style>
+
+<script src="<%= Routes.static_path(@conn, "/webstatic/js/dashboard-widget.js") %>"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Dashboard</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<span class="text-muted font-weight-bold mr-4"></span>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Actions-->
+									<a href="#" class="btn btn-clean btn-sm font-weight-bold font-size-base mr-1">Today</a>
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+
+										<!--Begin::Row-->
+								<div class="row">
+									<div class="col-xl-3">
+										<!--begin::Stats Widget 29-->
+										<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+											<!--begin::Body-->
+											<div class="card-body">
+												<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
+													<i class="flaticon2-graph-1 text-dark icon-3x"></i>
+													<!--end::Svg Icon-->
+												</span>
+												<span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block"> <%= @count_disbursed_loans %></span>
+												<span class="font-weight-bold text-white font-size-sm">Total Sales</span>
+											</div>
+											<!--end::Body-->
+										</div>
+										<!--end::Stats Widget 29-->
+									</div>
+
+									<div class="col-xl-3">
+										<!--begin::Stats Widget 30-->
+										<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+											<!--begin::Body-->
+											<div class="card-body">
+													<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+														<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
+														<i class="flaticon-users text-dark icon-3x"></i>
+														<!--end::Svg Icon-->
+													</span>
+												<span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block"><%= Number.Delimit.number_to_delimited(@count_all_clients, precision: 0) %></span>
+												<span class="font-weight-bold text-white font-size-sm">No of Clients</span>
+											</div>
+											<!--end::Body-->
+										</div>
+										<!--end::Stats Widget 30-->
+									</div>
+									<div class="col-xl-3">
+										<!--begin::Stats Widget 31-->
+										<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+											<!--begin::Body-->
+											<div class="card-body">
+												<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
+													<i class="flaticon-price-tag text-dark icon-3x"></i>
+													<!--end::Svg Icon-->
+												</span>
+													<span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">$ <%= :erlang.float_to_binary((@disbursed_amount_count_in_dollars), [{:decimals, 2}])  %></span>
+												<span class="font-weight-bold text-white font-size-sm">Application amount in $</span>
+											</div>
+											<!--end::Body-->
+										</div>
+										<!--end::Stats Widget 31-->
+									</div>
+									<div class="col-xl-3">
+										<!--begin::Stats Widget 32-->
+										<div class="card card-custom bgi-no-repeat card-stretch gutter-b" style="background-position: center top; background-size: 30% auto; background-color: #24BFCD; border-radius: 35px;">
+											<!--begin::Body-->
+											<div class="card-body">
+												<span class="svg-icon svg-icon-2x svg-icon-white">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group-chat.svg-->
+													<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+														<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
+															<i class="text-dark icon-3x">zmw</i>
+														<!--end::Svg Icon-->
+													</span>
+														<!--end::Svg Icon-->
+												</span>
+												<span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 text-hover-primary d-block"><%= if @principal_amount_proposed != [] do Number.Currency.number_to_currency(@principal_amount_proposed, unit: "ZMW ")  else 0.0 end %></span>
+												<span class="font-weight-bold text-white font-size-sm">Application amount in ZMW</span>
+											</div>
+											<!--end::Body-->
+										</div>
+										<!--end::Stats Widget 32-->
+									</div>
+								</div>
+								<!--End::Row-->
+								<!--end::Row-->
+								<!--begin::Row-->
+								<div class="row">
+									<div class="col-lg-6">
+										<!--begin::Mixed Widget 14-->
+
+											<!--begin::Header-->
+
+											<!--end::Header-->
+											<!--begin::Body-->
+												<figure class="highcharts-figure">
+													<div id="container"></div>
+
+												</figure>
+											<!--end::Body-->
+
+										<!--end::Mixed Widget 14-->
+									</div>
+
+									<div class="col-lg-6">
+
+										<!--begin::Mixed Widget 14-->
+
+											<!--begin::Header-->
+
+											<!--end::Header-->
+											<!--begin::Body-->
+
+											<figure class="barhighcharts-figure">
+											<div id="barcontainer"></div>
+
+											</figure>
+											<!--end::Body-->
+
+										<!--end::Mixed Widget 14-->
+									</div>
+
+
+											<div class="col-lg-12">
+												<div class="card card-custom card-stretch gutter-b">
+													<!--begin::Header-->
+													<div class="card-header border-0 py-5">
+														<h3 class="card-title align-items-start flex-column">
+																<span class="text-muted mt-3 font-weight-bold font-size-sm">A list of Last 5 Disbursed loans </span>
+														</h3>
+													</div>
+													<!--end::Header-->
+													<!--begin::Body-->
+													<div class="card-body">
+															<!--begin::Table-->
+															<div class="table-responsive">
+																<table class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+																	<thead>
+																		<tr class="text-left">
+																			<th style="min-width: 120px">Client Name</th>
+																			<th style="min-width: 100px">Product Name</th>
+																			<th style="min-width: 100px">Principle</th>
+																			<th style="min-width: 100px">Interest</th>
+																			<th style="min-width: 100px">Expected Repayment</th>
+																			<th style="min-width: 100px">Applied Date</th>
+																			<th style="min-width: 100px">Disbursed Date</th>
+																			<th style="min-width: 100px">Status</th>
+																		</tr>
+																	</thead>
+
+																	<tbody>
+																	  	<%= for loan_item <- @last_five_disbursed_loans do %>
+																			<tr>
+																				<td> <%= loan_item.customer_name %> </td>
+																				<td> <%= loan_item.product_name %> </td>
+																				<td> <%= Number.Delimit.number_to_delimited(loan_item.principal_amount) %></td>
+																				<td> <%= Number.Delimit.number_to_delimited(loan_item.interest_amount) %></td>
+																				<td> <%= Number.Delimit.number_to_delimited(loan_item.total_expected_repayment) %></td>
+																				<td> <%= loan_item.application_date %> </td>
+																				<td> <%= loan_item.disbursedon_date %> </td>
+																				<td> <%= loan_item.loan_status %> </td>
+																			</tr>
+																		<% end %>
+																	</tbody>
+																</table>
+															</div>
+															<!--end::Table-->
+														</div>
+													</div>
+													<!--end::Body-->
+												</div>
+
+
+											<!--end::Entry-->
+
+
+											 <!--begin::Entry-->
+											<div class="col-lg-12">
+												<div class="card card-custom card-stretch gutter-b">
+													<!--begin::Header-->
+													<div class="card-header border-0 py-5">
+														<h3 class="card-title align-items-start flex-column">
+															<!--
+																<span class="card-label font-weight-bolder text-dark">PENDING LOANS</span>
+																<span class="text-muted mt-3 font-weight-bold font-size-sm">A list of loans pending your approval</span>
+															-->
+														</h3>
+
+													</div>
+													<!--end::Header-->
+													<!--begin::Body-->
+													<div class="card-body">
+															<table class="table table-bordered table-hover table-striped w-100" id="kt_dashboard_datatable">
+																<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+																	<thead>
+																		<tr style="background-color: #24BFCD; color:white;">
+																			<th >Date</th>
+																			<th >Contacted On</th>
+																			<th >Customer Name</th>
+																			<th >Product</th>
+																			<th >Initiated</th>
+																			<th class="wd-20p text-center">Status</th>
+																			<th >Contact</th>
+																			<th >Contact Number</th>
+																			<th >Role</th>
+																			<th class="wd-15p">Amount(zmw)</th>
+
+																		</tr>
+																	</thead>
+																<tbody>
+																	<tr>
+
+																	</tr>
+
+																</tbody>
+															</table>
+														<br>
+													</div>
+													<!--end::Body-->
+
+												</div>
+											</div>
+
+
+													<!--begin::Advance Table Widget 9-->
+
+								<!--end::Advance Table Widget 9-->
+								<!--begin::Advance Table Widget 10-->
+								<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->
+	<!--begin::Page Vendors(used by this page)-->
+
+<script>
+
+ //const loan_types = '<%= raw Poison.encode!(@my_data) %>';
+	const loanTypes = <%= raw Poison.encode!(@my_data) %>;
+
+
+// Accessing each item by index
+const itemAtIndex0 = loanTypes[0]?.loan_type;
+const itemAtIndex1 = loanTypes[1]?.loan_type;
+const itemAtIndex2 = loanTypes[2]?.loan_type;
+const itemAtIndex3 = loanTypes[3]?.loan_type;
+
+
+const countitemAtIndex0 = loanTypes[0]?.count_loan;
+const countitemAtIndex1 = loanTypes[1]?.count_loan;
+const countitemAtIndex2 = loanTypes[2]?.count_loan;
+const countitemAtIndex3 = loanTypes[3]?.count_loan;
+
+
+	var colors = Highcharts.getOptions().colors,
+	categories = [
+		itemAtIndex0,
+		itemAtIndex1,
+		itemAtIndex2,
+		itemAtIndex3,
+	],
+	data = [
+		 {
+
+			color: colors[1],
+			drilldown: {
+				name: itemAtIndex0,
+				categories: [
+				itemAtIndex0,
+
+				],
+				data: [
+				countitemAtIndex0,
+				]
+			}
+			},
+		 {
+
+			color: colors[2],
+			drilldown: {
+				name: itemAtIndex1,
+				categories: [
+				itemAtIndex1,
+
+				],
+				data: [
+				countitemAtIndex1
+				]
+			}
+			},
+			 {
+
+			color: colors[3],
+			drilldown: {
+				name: itemAtIndex2,
+				categories: [
+				itemAtIndex2,
+
+				],
+				data: [
+				countitemAtIndex2
+				]
+			}
+			},
+
+			 {
+
+			color: colors[4],
+			drilldown: {
+				name: itemAtIndex3,
+				categories: [
+				itemAtIndex3,
+
+				],
+				data: [
+				countitemAtIndex3
+				]
+			}
+			},
+
+	],
+	browserData = [],
+	versionsData = [],
+	i,
+	j,
+	dataLen = data.length,
+	drillDataLen,
+	brightness;
+
+
+	// Build the data arrays
+	for (i = 0; i < dataLen; i += 1) {
+
+	// add browser data
+	browserData.push({
+		name: categories[i],
+		y: data[i].y,
+		color: data[i].color
+	});
+
+	// add version data
+	drillDataLen = data[i].drilldown.data.length;
+	for (j = 0; j < drillDataLen; j += 1) {
+		brightness = 0.2 - (j / drillDataLen) / 5;
+		versionsData.push({
+		name: data[i].drilldown.categories[j],
+		y: data[i].drilldown.data[j],
+		color: Highcharts.color(data[i].color).brighten(brightness).get()
+		});
+	}
+	}
+
+	// Create the chart
+	Highcharts.chart('container', {
+	chart: {
+		type: 'pie'
+	},
+	title: {
+		text: 'Split on Product Type',
+		align: 'left'
+	},
+
+	plotOptions: {
+		pie: {
+		shadow: false,
+		center: ['50%', '50%']
+		}
+	},
+	tooltip: {
+		//valueSuffix: '%'
+	},
+	series: [{
+		name: 'Browsers',
+		data: browserData,
+		size: '60%',
+		dataLabels: {
+		formatter: function () {
+			return this.y > 5 ? this.point.name : null;
+		},
+		color: '#ffffff',
+		distance: -30
+		}
+	}, {
+		name: 'number of loans',
+		data: versionsData,
+		size: '80%',
+		innerSize: '60%',
+		dataLabels: {
+		formatter: function () {
+			// display only if larger than 1
+			return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
+			this.y : null;
+		}
+		},
+		id: 'versions'
+	}],
+	responsive: {
+		rules: [{
+		condition: {
+			maxWidth: 400
+		},
+		chartOptions: {
+			series: [{
+			}, {
+			id: 'versions',
+			dataLabels: {
+				enabled: false
+			}
+			}]
+		}
+		}]
+	}
+	});
+</script>
+
+
+
+
+
+<script>
+	const get_loans_by_product_and_loan_officer = <%= raw Poison.encode!(@loans_by_product_and_loan_officer) %>;
+
+	const loan_type_Index0 = get_loans_by_product_and_loan_officer[0]?.loan_type || '';
+	const loan_type_Index1 = get_loans_by_product_and_loan_officer[1]?.loan_type || '';
+	const loan_type_Index2 = get_loans_by_product_and_loan_officer[2]?.loan_type || '';
+	const loan_type_Index3 = get_loans_by_product_and_loan_officer[3]?.loan_type || '';
+
+	const count_loan_Index0 = get_loans_by_product_and_loan_officer[0]?.count_loan || 0;
+	const count_loan_Index1 = get_loans_by_product_and_loan_officer[1]?.count_loan || 0;
+	const count_loan_Index2 = get_loans_by_product_and_loan_officer[2]?.count_loan || 0;
+	const count_loan_Index3 = get_loans_by_product_and_loan_officer[3]?.count_loan || 0;
+
+	Highcharts.chart('barcontainer', {
+		chart: {
+			type: 'column'
+		},
+		title: {
+			text: 'Split on Application Initiated'
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: ''
+			}
+		},
+		tooltip: {
+			headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+				'<td style="padding:0"><b>{point.y}</b></td></tr>',
+			footerFormat: '</table>',
+			shared: true,
+			useHTML: true
+		},
+		plotOptions: {
+			column: {
+				pointPadding: 0.2,
+				borderWidth: 0
+			}
+		},
+		series: [
+			{
+				name: loan_type_Index0,
+				data: [count_loan_Index0]
+			},
+			{
+				name: loan_type_Index1,
+				data: [count_loan_Index1]
+			},
+			{
+				name: loan_type_Index2,
+				data: [count_loan_Index2]
+			},
+			{
+				name: loan_type_Index3,
+				data: [count_loan_Index3]
+			}
+		]
+	});
+</script>
+
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>

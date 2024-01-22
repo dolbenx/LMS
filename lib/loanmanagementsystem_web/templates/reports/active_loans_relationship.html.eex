@@ -1,0 +1,139 @@
+
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render  "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5"> Active Loans By Loan Officer </h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label"> Active Loans By Loan Officer
+                                <span class="text-muted pt-2 font-size-sm d-block"> Active Loans By Loan Officer Table </span></h3>
+                            </div>
+                            <div class="card-toolbar">
+                                <a class="btn text-white font-weight-bolder" id="active_loans_by_loan_office_filter_clear" style="background-color: #011941;" type="button"> Reset Filter </a>&nbsp;
+
+                                <a href="#" data-target="#modaldemo12" data-toggle="modal" class="btn text-white font-weight-bolder" style="background-color: #011941;"> Filter </a>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover table-striped w-100" id="dt-active-loans-by-loan-officer">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Loan Officer</th>
+                                        <th class="wd-25p">Product Type</th>
+                                        <th class="wd-20p">Principal Amaount</th>
+                                        <th class="wd-15p">Interest</th>
+                                        <th class="wd-15p">Balance</th>
+                                        <th class="wd-15p">Total Initiated</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Filter Report</h6>
+                <button aria-label="Close" class="btn-close" data-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-lg-6">
+                                <label for="first_name_filter">First Name:</label>
+                                <div class="input-group">
+                                    <input type="text" name="" id="f_name" class="form-control clear_form">
+                                    <div class="input-group-append">
+                                    </div>
+                                </div>
+                                <span class="form-text text-muted">Please enter first name</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="first_name_filter">Last Name:</label>
+                                <div class="input-group">
+                                    <input type="text" name="" id="l_name" class="form-control clear_form">
+                                    <div class="input-group-append">
+                                    </div>
+                                </div>
+                                <span class="form-text text-muted">Please enter last name</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="first_name_filter">Product Type:</label>
+                                <div class="input-group">
+                                    <select type="text" name="" id="p_type" class="form-control clear_form">
+                                        <option label="Choose Type"></option>
+                                        <option value="INVOICE DISCOUNTING"> INVOICE DISCOUNTING </option>
+                                        <option value="ORDER FINANCE"> ORDER FINANCE </option>
+                                        <option value="CONSUMER LOAN"> CONSUMER LOAN </option>
+                                        <option value="PURCHACE ORDER"> PURCHACE ORDER </option>
+                                    </select>
+                                    <div class="input-group-append">
+                                    </div>
+                                </div>
+                                <span class="form-text text-muted">Please enter product type</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="active_loans_by_loan_office_filter_search" data-dismiss="modal" class="btn ripple " style="background-color: #1E1E2D; color: white;" id=""><span><i class="la la-search"></i><span>Search</span></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

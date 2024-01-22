@@ -1,0 +1,38 @@
+ <style>
+    #color{color: black;}
+</style>
+
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="panel registration-form">
+            <div class="panel-body" style="padding: 25px 30px 25px 20px; border: 1px solid rgba(0,0,0,0.15);">
+                <div class="row" style="padding: 10px 10px 10px 20px; background-color: black;">
+                    <h1 style="padding-left: 35%"><span style="color: white;">PANGAEA</span><span class="btn ripple btn-success btn-sm" style="color: #24BFCD;"> ADD </span><span style="color: white;">CAPITAL</span></h1>
+                </div>
+                <div id="color">
+                    <div class="row" style="padding: 10px 10px 10px 100px; background-color: whitesmoke;">
+                        <p>Dear system user,</p>
+                        <br>
+                        <p>The Loan Officer initiated a loan for the following client for you to review.</p>
+
+                        <p>Client Name: <b><%= @client_name %></b> </p>
+                        <p>Requested Amount: <b>K<%= Number.Delimit.number_to_delimited((@requested_amount), [{:decimals, 2}]) %></b> </p>
+                        <p>Loan Reference Number: <b><%= @reference_number %></b> </p>
+                        <p>Client NRC NUmber: <b><%= @client_id_number %></b> </p>
+                        <p>Client Phone Number: <b><%= @client_contact %></b> </p>
+
+                        <p>Review the loan and send it to the next stage </p>
+
+                        <p>To review the loan click the link || <a href="https://pangaeaaddcapital.finance/" target="_blank">Rewiew Loan</a></p>
+
+                        <p>Thank you</p>
+                    </div>
+                </div>
+                <div class="row" style="padding: 10px 10px 10px 100px; background-color: whitesmoke;">
+                    <p>Regards, </p>
+                    <p>Pangaea Add Capital.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

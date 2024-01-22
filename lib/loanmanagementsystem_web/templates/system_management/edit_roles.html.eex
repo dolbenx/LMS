@@ -1,0 +1,1391 @@
+
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Role Maintainence</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Edit Role
+                                    <span class="text-muted pt-2 font-size-sm d-block">Click on each module and apply each module permission</span></h3>
+                                </div>
+                            </div>
+                            <div class="card-body" id="edit-role-form">
+
+                              <form>
+                                 <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <div class="p-6">
+                                    <!--begin::Accordion-->
+                                    <div class="row">
+                                       <div class="col-md-6">
+                                          <input type="hidden" name="id" value="<%= @role.id %>" id="id"  class="form-control form-control-sm" required="required">
+                                          <div class="form-group row fv-plugins-icon-container has-success">
+                                             <label class="col-3 col-form-label">Role Group:</label>
+                                             <div class="col-9">
+                                                   <div class="input-group input-group-sm">
+                                                      <input type="text" name="user_role[role_group]" class="form-control" value="<%= @role.role_group %>" id="role_group">
+                                                   </div>
+                                             </div>
+                                             <div class="fv-plugins-message-container"></div>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <div class="form-group row fv-plugins-icon-container has-success">
+                                             <label class="col-3 col-form-label">Role Description:</label>
+                                             <div class="col-9">
+                                                   <div class="input-group input-group-sm">
+                                                      <input type="text" name="user_role[role_desc]" class="form-control" value="<%= @role.role_desc %>" id="role-desc">
+                                                   </div>
+                                             </div>
+                                             <div class="fv-plugins-message-container"></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle" id="accordionExample1">
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="headingOne1">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="false" aria-controls="collapseOne1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">User Management</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapseOne1" class="collapse" aria-labelledby="headingOne1" data-parent="#accordionExample1" style="">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <div class="col-lg">
+                                                   <div class="form-group">
+                                                      <p class="mb-2">User Maintenance</p>
+                                                      <div class="form-group row">
+                                                         <label class="col-2 col-form-label" for="user_create">Create</label>
+                                                         <input type="hidden" name="role_str[user][create]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_create" type="checkbox" name="role_str[user][create]" data-role-val="<%= @role.role_str.user.create %>" value="Y">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="user_view">View</label>
+                                                         <input type="hidden" name="role_str[user][view]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_view" type="checkbox" name="role_str[user][view]" data-role-val="<%= @role.role_str.user.view %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="user_edit">Edit</label>
+                                                         <input type="hidden" name="role_str[user][edit]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_edit" type="checkbox" name="role_str[user][edit]" data-role-val="<%= @role.role_str.user.edit %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="user_change_status">Change Status</label>
+                                                         <input type="hidden" name="role_str[user][change_status]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_change_status" type="checkbox" name="role_str[user][change_status]" data-role-val="<%= @role.role_str.user.change_status %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="form-group">
+                                                      <p class="mb-2">System User Maintenance</p>
+                                                      <div class="form-group row">
+                                                         <label class="col-2 col-form-label" for="system_user_create">Create</label>
+                                                         <input type="hidden" name="role_str[system_user][create]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="system_user_create" type="checkbox" name="role_str[system_user][create]" data-role-val="<%= @role.role_str.system_user.create %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="system_user_view">View</label>
+                                                         <input type="hidden" name="role_str[system_user][view]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="system_user_view" type="checkbox" name="role_str[system_user][view]" data-role-val="<%= @role.role_str.system_user.view %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="system_user_edit">Edit</label>
+                                                         <input type="hidden" name="role_str[system_user][edit]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="system_user_edit" type="checkbox" name="role_str[system_user][edit]" data-role-val="<%= @role.role_str.system_user.edit %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="system_user_change_status">Change Status</label>
+                                                         <input type="hidden" name="role_str[system_user][change_status]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="system_user_change_status" type="checkbox" name="role_str[system_user][change_status]" data-role-val="<%= @role.role_str.system_user.change_status %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="form-group">
+                                                      <p class="mb-2">Role Maintenance</p>
+                                                      <div class="form-group row">
+                                                         <label class="col-2 col-form-label" for="user_role_create">Create</label>
+                                                         <input type="hidden" name="role_str[user_role_maintenance][create]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_role_create" type="checkbox" name="role_str[user_role_maintenance][create]" data-role-val="<%= @role.role_str.user_role_maintenance.create %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="user_role_view">View</label>
+                                                         <input type="hidden" name="role_str[user_role_maintenance][view]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_role_view" type="checkbox" name="role_str[user_role_maintenance][view]" data-role-val="<%= @role.role_str.user_role_maintenance.view %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="user_role_edit">Edit</label>
+                                                         <input type="hidden" name="role_str[user_role_maintenance][edit]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_role_edit" type="checkbox" name="role_str[user_role_maintenance][edit]" data-role-val="<%= @role.role_str.user_role_maintenance.edit %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="user_role_change_status">Change Status</label>
+                                                         <input type="hidden" name="role_str[user_role_maintenance][change_status]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_role_change_status" type="checkbox" name="role_str[user_role_maintenance][change_status]" data-role-val="<%= @role.role_str.user_role_maintenance.change_status %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="form-group">
+                                                      <p class="mb-2">Client </p>
+                                                      <div class="form-group row">
+                                                         <label class="col-2 col-form-label" for="client_create">Create</label>
+                                                         <input type="hidden" name="role_str[client][create]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="client_create" type="checkbox" name="role_str[client][create]" data-role-val="<%= @role.role_str.client.create %>"value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="client_view">View</label>
+                                                         <input type="hidden" name="role_str[client][view]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="client_view" type="checkbox" name="role_str[client][view]" data-role-val="<%= @role.role_str.client.view %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="client_edit">Edit</label>
+                                                         <input type="hidden" name="role_str[client][edit]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="client_edit" type="checkbox" name="role_str[client][edit]" data-role-val="<%= @role.role_str.client.edit %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                         <label class="col-2 col-form-label" for="client_change_status">Change Status</label>
+                                                         <input type="hidden" name="role_str[client][change_status]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="client_change_status" type="checkbox" name="role_str[client][change_status]" data-role-val="<%= @role.role_str.client.change_status %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="form-group">
+                                                      <p class="mb-2">User Logs</p>
+                                                      <div class="form-group row">
+                                                         <label class="col-2 col-form-label" for="user_user_logs_view">View</label>
+                                                         <input type="hidden" name="role_str[user_logs][view]" value="N">
+                                                         <div class="col-1">
+                                                            <span class="switch switch-icon switch-sm">
+                                                               <label>
+                                                                  <input id="user_user_logs_view" type="checkbox" name="role_str[user_logs][view]" data-role-val="<%= @role.role_str.user_logs.view %>" value="Y" class="custom-switch-input">
+                                                                  <span></span>
+                                                               </label>
+                                                            </span>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                             </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card border-top-0">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="headingTwo1">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Financial Management</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapseTwo1" class="collapse" aria-labelledby="headingTwo1" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Finacial Management</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="financial_mgt_create">Create</label>
+                                                   <input type="hidden" name="role_str[financial_mgt][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="financial_mgt_create" type="checkbox" name="role_str[financial_mgt][create]" data-role-val="<%= @role.role_str.financial_mgt.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="financial_mgt_view">View</label>
+                                                   <input type="hidden" name="role_str[financial_mgt][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="financial_mgt_view" type="checkbox" name="role_str[financial_mgt][view]" data-role-val="<%= @role.role_str.financial_mgt.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="financial_mgt_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[financial_mgt][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="financial_mgt_edit" type="checkbox" name="role_str[financial_mgt][edit]" data-role-val="<%= @role.role_str.financial_mgt.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="financial_mgt_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[financial_mgt][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="financial_mgt_change_status" type="checkbox" name="role_str[financial_mgt][change_status]" data-role-val="<%= @role.role_str.financial_mgt.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="headingThree1">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseThree1" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Relationship Management</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapseThree1" class="collapse" aria-labelledby="headingThree1" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Relationship Management</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="relationship_mgt_create">Create</label>
+                                                      <input type="hidden" name="role_str[relationship_mgt][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="relationship_mgt_create" type="checkbox" name="role_str[relationship_mgt][create]" data-role-val="<%= @role.role_str.relationship_mgt.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="relationship_mgt_view">View</label>
+                                                      <input type="hidden" name="role_str[relationship_mgt][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="relationship_mgt_view" type="checkbox" name="role_str[relationship_mgt][view]" data-role-val="<%= @role.role_str.relationship_mgt.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="relationship_mgt_edit">Edit</label>
+                                                      <input type="hidden" name="role_str[relationship_mgt][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="relationship_mgt_edit" type="checkbox" name="role_str[relationship_mgt][edit]" data-role-val="<%= @role.role_str.relationship_mgt.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="relationship_mgt_change_status">Change Status</label>
+                                                      <input type="hidden" name="role_str[relationship_mgt][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="relationship_mgt_change_status" type="checkbox" name="role_str[relationship_mgt][change_status]" data-role-val="<%= @role.role_str.relationship_mgt.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading4">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Change Management</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Change Management</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="change_mgt_create">Create</label>
+                                                      <input type="hidden" name="role_str[change_mgt][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="change_mgt_create" type="checkbox" name="role_str[change_mgt][create]" data-role-val="<%= @role.role_str.change_mgt.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="change_mgt_view">View</label>
+                                                      <input type="hidden" name="role_str[change_mgt][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="change_mgt_view" type="checkbox" name="role_str[change_mgt][view]" data-role-val="<%= @role.role_str.change_mgt.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="change_mgt_edit">Edit</label>
+                                                      <input type="hidden" name="role_str[change_mgt][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="change_mgt_edit" type="checkbox" name="role_str[change_mgt][edit]" data-role-val="<%= @role.role_str.change_mgt.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="change_mgt_change_status">Change Status</label>
+                                                      <input type="hidden" name="role_str[change_mgt][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="change_mgt_change_status" type="checkbox" name="role_str[change_mgt][change_status]" data-role-val="<%= @role.role_str.change_mgt.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading5">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Notication Management</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">SMS Settings Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="sms_settings_create">Create</label>
+                                                   <input type="hidden" name="role_str[sms_settings][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="sms_settings_create" type="checkbox" name="role_str[sms_settings][create]" data-role-val="<%= @role.role_str.sms_settings.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="sms_settings_view">View</label>
+                                                   <input type="hidden" name="role_str[sms_settings][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="sms_settings_view" type="checkbox" name="role_str[sms_settings][view]" data-role-val="<%= @role.role_str.sms_settings.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="sms_settings_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[sms_settings][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="sms_settings_edit" type="checkbox" name="role_str[sms_settings][edit]" data-role-val="<%= @role.role_str.sms_settings.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="sms_settings_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[sms_settings][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="sms_settings_change_status" type="checkbox" name="role_str[sms_settings][change_status]" data-role-val="<%= @role.role_str.sms_settings.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Email Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="email_create">Create</label>
+                                                   <input type="hidden" name="role_str[email][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="email_create" type="checkbox" name="role_str[email][create]" data-role-val="<%= @role.role_str.email.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="email_view">View</label>
+                                                   <input type="hidden" name="role_str[email][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="email_view" type="checkbox" name="role_str[email][view]" data-role-val="<%= @role.role_str.email.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="email_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[email][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="email_edit" type="checkbox" name="role_str[email][edit]" data-role-val="<%= @role.role_str.email.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="email_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[email][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="email_change_status" type="checkbox" name="role_str[email][change_status]" data-role-val="<%= @role.role_str.email.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading6">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Maker / Checker</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Maker/Checker Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="maker_checker_create">Create</label>
+                                                      <input type="hidden" name="role_str[maker_checker][maker]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="maker_checker_create" type="checkbox" name="role_str[maker_checker][maker]" data-role-val="<%= @role.role_str.maker_checker.maker %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="maker_checker_view">View</label>
+                                                      <input type="hidden" name="role_str[maker_checker][checker]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="maker_checker_view" type="checkbox" name="role_str[maker_checker][checker]" data-role-val="<%= @role.role_str.maker_checker.checker %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading7">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Product Maintenance</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Product</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="product_create">Create</label>
+                                                      <input type="hidden" name="role_str[product][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="product_create" type="checkbox" name="role_str[product][create]" data-role-val="<%= @role.role_str.product.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="product_view">View</label>
+                                                      <input type="hidden" name="role_str[product][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="product_view" type="checkbox" name="role_str[product][view]" data-role-val="<%= @role.role_str.product.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="product_edit">Edit</label>
+                                                      <input type="hidden" name="role_str[product][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="product_edit" type="checkbox" name="role_str[product][edit]" data-role-val="<%= @role.role_str.product.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="product_change_status">Change Status</label>
+                                                      <input type="hidden" name="role_str[product][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="product_change_status" type="checkbox" name="role_str[product][change_status]" data-role-val="<%= @role.role_str.product.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading8">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Reports</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Reports</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="reports_create">Create</label>
+                                                      <input type="hidden" name="role_str[reports][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="reports_create" type="checkbox" name="role_str[reports][create]" data-role-val="<%= @role.role_str.reports.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="reports_view">View</label>
+                                                      <input type="hidden" name="role_str[reports][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="reports_view" type="checkbox" name="role_str[reports][view]" data-role-val="<%= @role.role_str.reports.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="reports_edit">Edit</label>
+                                                      <input type="hidden" name="role_str[reports][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="reports_edit" type="checkbox" name="role_str[reports][edit]" data-role-val="<%= @role.role_str.reports.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="reports_change_status">Change Status</label>
+                                                      <input type="hidden" name="role_str[reports][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="reports_change_status" type="checkbox" name="role_str[reports][change_status]" data-role-val="<%= @role.role_str.reports.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading9">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Maintenance</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Calender</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="calender_create">Create</label>
+                                                   <input type="hidden" name="role_str[calender][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="calender_create" type="checkbox" name="role_str[calender][create]" data-role-val="<%= @role.role_str.calender.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="calender_view">View</label>
+                                                   <input type="hidden" name="role_str[calender][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="calender_view" type="checkbox" name="role_str[calender][view]" data-role-val="<%= @role.role_str.calender.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="calender_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[calender][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="calender_edit" type="checkbox" name="role_str[calender][edit]" data-role-val="<%= @role.role_str.calender.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="calender_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[calender][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="calender_change_status" type="checkbox" name="role_str[calender][change_status]" data-role-val="<%= @role.role_str.calender.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Holiday Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="holiday_create">Create</label>
+                                                   <input type="hidden" name="role_str[holiday][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="holiday_create" type="checkbox" name="role_str[holiday][create]" data-role-val="<%= @role.role_str.holiday.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="holiday_view">View</label>
+                                                   <input type="hidden" name="role_str[holiday][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="holiday_view" type="checkbox" name="role_str[holiday][view]" data-role-val="<%= @role.role_str.holiday.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="holiday_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[holiday][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="holiday_edit" type="checkbox" name="role_str[holiday][edit]" data-role-val="<%= @role.role_str.holiday.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="holiday_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[holiday][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="holiday_change_status" type="checkbox" name="role_str[holiday][change_status]" data-role-val="<%= @role.role_str.holiday.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Charges Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="charges_create">Create</label>
+                                                   <input type="hidden" name="role_str[charges][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="charges_create" type="checkbox" name="role_str[charges][create]" data-role-val="<%= @role.role_str.charges.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="charges_view">View</label>
+                                                   <input type="hidden" name="role_str[charges][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="charges_view" type="checkbox" name="role_str[charges][view]" data-role-val="<%= @role.role_str.charges.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="charges_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[charges][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="charges_edit" type="checkbox" name="role_str[charges][edit]" data-role-val="<%= @role.role_str.charges.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="charges_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[charges][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="charges_change_status" type="checkbox" name="role_str[charges][change_status]" data-role-val="<%= @role.role_str.charges.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Company Branch Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="company_branches_create">Create</label>
+                                                   <input type="hidden" name="role_str[company_branches][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="company_branches_create" type="checkbox" name="role_str[company_branches][create]" data-role-val="<%= @role.role_str.company_branches.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="company_branches_view">View</label>
+                                                   <input type="hidden" name="role_str[company_branches][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="company_branches_view" type="checkbox" name="role_str[company_branches][view]" data-role-val="<%= @role.role_str.company_branches.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="company_branches_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[company_branches][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="company_branches_edit" type="checkbox" name="role_str[company_branches][edit]" data-role-val="<%= @role.role_str.company_branches.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="company_branches_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[company_branches][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="company_branches_change_status" type="checkbox" name="role_str[company_branches][change_status]" data-role-val="<%= @role.role_str.company_branches.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Countries Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="countries_create">Create</label>
+                                                   <input type="hidden" name="role_str[countries][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="countries_create" type="checkbox" name="role_str[countries][create]" data-role-val="<%= @role.role_str.countries.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="countries_view">View</label>
+                                                   <input type="hidden" name="role_str[countries][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="countries_view" type="checkbox" name="role_str[countries][view]" data-role-val="<%= @role.role_str.countries.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="countries_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[countries][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="countries_edit" type="checkbox" name="role_str[countries][edit]" data-role-val="<%= @role.role_str.countries.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="countries_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[countries][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="countries_change_status" type="checkbox" name="role_str[countries][change_status]" data-role-val="<%= @role.role_str.countries.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Bank Branch Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="bank_branch_create">Create</label>
+                                                   <input type="hidden" name="role_str[bank_branch][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="bank_branch_create" type="checkbox" name="role_str[bank_branch][create]" data-role-val="<%= @role.role_str.bank_branch.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="bank_branch_view">View</label>
+                                                   <input type="hidden" name="role_str[bank_branch][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="bank_branch_view" type="checkbox" name="role_str[bank_branch][view]" data-role-val="<%= @role.role_str.bank_branch.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="bank_branch_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[bank_branch][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="bank_branch_edit" type="checkbox" name="role_str[bank_branch][edit]" data-role-val="<%= @role.role_str.bank_branch.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="bank_branch_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[bank_branch][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="bank_branch_change_status" type="checkbox" name="role_str[bank_branch][change_status]" data-role-val="<%= @role.role_str.bank_branch.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Currency Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="currency_create">Create</label>
+                                                   <input type="hidden" name="role_str[currency][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="currency_create" type="checkbox" name="role_str[currency][create]" data-role-val="<%= @role.role_str.currency.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="currency_view">View</label>
+                                                   <input type="hidden" name="role_str[currency][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="currency_view" type="checkbox" name="role_str[currency][view]" data-role-val="<%= @role.role_str.currency.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="currency_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[currency][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="currency_edit" type="checkbox" name="role_str[currency][edit]" data-role-val="<%= @role.role_str.currency.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="currency_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[currency][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="currency_change_status" type="checkbox" name="role_str[currency][change_status]" data-role-val="<%= @role.role_str.currency.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                                <p class="mb-2">Security Question Maintenance</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="security_question_create">Create</label>
+                                                   <input type="hidden" name="role_str[security_question][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="security_question_create" type="checkbox" name="role_str[security_question][create]" data-role-val="<%= @role.role_str.security_question.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="security_question_view">View</label>
+                                                   <input type="hidden" name="role_str[security_question][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="security_question_view" type="checkbox" name="role_str[security_question][view]" data-role-val="<%= @role.role_str.security_question.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="security_question_edit">Edit</label>
+                                                   <input type="hidden" name="role_str[security_question][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="security_question_edit" type="checkbox" name="role_str[security_question][edit]" data-role-val="<%= @role.role_str.security_question.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="security_question_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[security_question][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="security_question_change_status" type="checkbox" name="role_str[security_question][change_status]" data-role-val="<%= @role.role_str.security_question.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading10">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse10" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Transactions</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Transactions</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="transaction_view">View</label>
+                                                   <input type="hidden" name="role_str[transaction][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="transaction_view" type="checkbox" name="role_str[transaction][view]" data-role-val="<%= @role.role_str.transaction.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="transaction_change_status">Change Status</label>
+                                                   <input type="hidden" name="role_str[transaction][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="transaction_change_status" type="checkbox" name="role_str[transaction][change_status]" data-role-val="<%= @role.role_str.transaction.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                       <div class="card">
+                                          <!--begin::Header-->
+                                          <div class="card-header" id="heading11">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse11" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Loan</div>
+                                             </div>
+                                          </div>
+                                          <!--end::Header-->
+                                          <!--begin::Body-->
+                                          <div id="collapse11" class="collapse" aria-labelledby="heading11" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">Loan</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="loan_create">Create</label>
+                                                      <input type="hidden" name="role_str[loan][create]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="loan_create" type="checkbox" name="role_str[loan][create]" data-role-val="<%= @role.role_str.loan.create %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="loan_view">View</label>
+                                                      <input type="hidden" name="role_str[loan][view]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="loan_view" type="checkbox" name="role_str[loan][view]" data-role-val="<%= @role.role_str.loan.view %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="loan_edit">Edit</label>
+                                                      <input type="hidden" name="role_str[loan][edit]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="loan_edit" type="checkbox" name="role_str[loan][edit]" data-role-val="<%= @role.role_str.loan.edit %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="loan_change_status">Change Status</label>
+                                                      <input type="hidden" name="role_str[loan][change_status]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="loan_change_status" type="checkbox" name="role_str[loan][change_status]" data-role-val="<%= @role.role_str.loan.change_status %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <!--end::Body-->
+                                       </div>
+                                       <!--end::Item-->
+                                       <!--begin::Item-->
+                                     <!--  <div class="card">
+                                         
+                                          <div class="card-header" id="heading12">
+                                             <div class="card-title collapsed" data-toggle="collapse" data-target="#collapse12" aria-expanded="false" aria-controls="collapseThree1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                   
+                                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                         <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                         <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                      </g>
+                                                   </svg>
+                                                   
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Dashboard</div>
+                                             </div>
+                                          </div>
+
+                                          <div id="collapse12" class="collapse" aria-labelledby="heading12" data-parent="#accordionExample1">
+                                             <div class="card-body text-dark-50 font-size-lg pl-12">
+                                                <p class="mb-2">DashBoard</p>
+                                                <div class="form-group row">
+                                                   <label class="col-2 col-form-label" for="dashboard">Admin</label>
+                                                   <input type="hidden" name="role_str[dashboard][admin]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="dashboard" type="checkbox" name="role_str[dashboard][admin]" data-role-val="<%= @role.role_str.dashboard.admin %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                   <label class="col-2 col-form-label" for="individual">Individual</label>
+                                                   <input type="hidden" name="role_str[dashboard][individual]" value="N">
+                                                   <div class="col-1">
+                                                      <span class="switch switch-icon switch-sm">
+                                                         <label>
+                                                            <input id="individual" type="checkbox" name="role_str[dashboard][individual]" data-role-val="<%= @role.role_str.dashboard.individual %>" value="Y" class="custom-switch-input">
+                                                            <span></span>
+                                                         </label>
+                                                      </span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+
+                                       </div>
+                                    
+                                    </div> -->
+                                    <!--end::Accordion-->
+                                 </div>
+                                 <div style="float: right;" >
+                                    <button class="btn ripple btn-secondary" onclick="history.back(-1)" data-bs-dismiss="modal" type="button">Back</button>
+                                    <button class="btn ripple" style="background-color: #003651; color: white;" type="button" id="update-usr-role" data-dismiss="modal">Save</button>
+                                 </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->

@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Loan.Loan_amortization_schedule do
   import Ecto.Changeset
   use Endon
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_amortization_schedule" do
     field :beginning_balance, :float
     field :customer_id, :integer

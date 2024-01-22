@@ -21,14 +21,14 @@
 				<!--end::Page Title-->
 				<!--begin::Actions-->
 				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
-				<span class="text-muted font-weight-bold mr-4">Hi <%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
+				<span class="text-muted font-weight-bold mr-4">#XRS-45670</span>
 				<!--end::Actions-->
 			</div>
 			<!--end::Info-->
 			<!--begin::Toolbar-->
 			<div class="d-flex align-items-center">
 				<!--begin::Actions-->
-				<div id="datetime"></div>
+				<a href="#" class="btn btn-clean btn-sm font-weight-bold font-size-base mr-1">Today</a>
 			</div>
 			<!--end::Toolbar-->
 		</div>
@@ -55,7 +55,7 @@
 							<!--begin::Mixed Widget 1-->
 							<div class="card card-custom bg-gray-100 card-stretch gutter-b">
 								<!--begin::Header-->
-								<div class="card-header border-0 bg-info py-5">
+								<div class="card-header border-0 bg-danger py-5">
 									<h3 class="card-title font-weight-bolder text-white">Loan Transactions</h3>
 									<div class="card-toolbar">
 									</div>
@@ -64,7 +64,7 @@
 								<!--begin::Body-->
 								<div class="card-body p-0 position-relative overflow-hidden">
 									<!--begin::Chart-->
-									<div id="kt_mixed_widget_1_chart" class="card-rounded-bottom bg-info" style="height: 200px"></div>
+									<div id="kt_mixed_widget_1_chart" class="card-rounded-bottom bg-danger" style="height: 200px"></div>
 									<!--end::Chart-->
 									<!--begin::Stats-->
 									<div class="card-spacer mt-n25">
@@ -98,7 +98,7 @@
 													</svg>
 													<!--end::Svg Icon-->
 												</span>
-												<a href="#" class="text-primary font-weight-bold font-size-h6 mt-2">Profile</a>
+												<a href="#" class="text-primary font-weight-bold font-size-h6 mt-2">All Users</a>
 											</div>
 										</div>
 										<!--end::Row-->
@@ -164,8 +164,8 @@
 											</span>
 										</span>
 										<div class="d-flex flex-column text-right">
-											<span class="text-dark-75 font-weight-bolder font-size-h3">ZMW 1750</span>
-											<span class="text-muted font-weight-bold mt-2">Total Balance</span>
+											<span class="text-dark-75 font-weight-bolder font-size-h3">ZMW 750</span>
+											<span class="text-muted font-weight-bold mt-2">Weekly Income</span>
 										</div>
 									</div>
 									<div id="kt_stats_widget_11_chart" class="card-rounded-bottom" data-color="success" style="height: 150px"></div>
@@ -194,8 +194,8 @@
 											</span>
 										</span>
 										<div class="d-flex flex-column text-right">
-											<span class="text-dark-75 font-weight-bolder font-size-h3">2</span>
-											<span class="text-muted font-weight-bold mt-2">Total Loans</span>
+											<span class="text-dark-75 font-weight-bolder font-size-h3">200</span>
+											<span class="text-muted font-weight-bold mt-2">New Users</span>
 										</div>
 									</div>
 									<div id="kt_stats_widget_12_chart" class="card-rounded-bottom" data-color="primary" style="height: 150px"></div>

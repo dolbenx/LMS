@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Companies.SmeOfftaker do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_sme_offtaker" do
     field :contract_date, :date
     field :end_contract_date, :date

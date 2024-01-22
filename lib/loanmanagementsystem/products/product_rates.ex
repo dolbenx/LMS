@@ -3,6 +3,7 @@ defmodule Loanmanagementsystem.Products.Product_rates do
   use Endon
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_product_rates" do
     field :interest_rates, :float
     field :processing_fee, :float

@@ -1,0 +1,388 @@
+
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Bank</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Bank List
+                                    <span class="text-muted pt-2 font-size-sm d-block">List of banks</span></h3>
+                                </div>
+                                <div class="card-toolbar">
+                                    <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :bank_branch, :create) do %>
+                                        <button type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#modaldemo12" style="background-color: #011941;">
+                                            Add Bank
+                                        </button>
+                                    <%end %>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-10p">No#</th>
+                                            <th class="wd-20p">Name</th>
+                                            <th class="wd-20p">Branch</th>
+                                            <th class="wd-15p">Switf Code</th>
+                                            <th class="wd-20p">Short Code</th>
+                                            <th class="wd-20p">Bank Code</th>
+                                            <th class="wd-25p">Bank Description</th>
+                                            <th class="wd-15p">Status</th>
+                                            <th class="wd-15p">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%= for bank <- @banks do %>
+                                            <tr>
+                                                <td> <%= bank.id %> </td>
+                                                <td><%= bank.bankName %></td>
+                                                <td><%= bank.process_branch %></td>
+                                                <td> <%= bank.swift_code %> </td>
+                                                <td><%= bank.acronym %></td>
+                                                <td><%= bank.bank_code %></td>
+                                                <td> <%= bank.bank_descrip %> </td>
+                                                <%= if bank.status == "ACTIVE" do %>
+
+                                                    <td><span class= "badge bg-pill bg-success" ><%= bank.status %></span> </td>
+
+                                                <% else %>
+
+                                                    <td><span class="badge bg-pill bg-danger"><%= bank.status %></span> </td>
+
+                                                <% end %>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn">Options</button>
+                                                        <div class="dropdown-content">
+                                                            <%= if bank.status == "INACTIVE" do %>
+
+                                                                <a class="btn ripple btn-sm activatebank" data-activate-id="<%= bank.id %>" href="#">Enable</a>
+
+                                                            <% else %>
+
+                                                                <a class="btn ripple btn-sm deactivatebank" data-activate-id="<%= bank.id %>" href="#">Disable</a>
+
+                                                            <% end %>
+
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-id="<%= bank.id %>"
+                                                                data-bank_name="<%= bank.bankName %>"
+                                                                data-process_branch="<%= bank.id %>|||<%= bank.process_branch %>"
+                                                                data-swift_code="<%= bank.swift_code %>"
+                                                                data-acronym="<%= bank.acronym %>"
+                                                                data-bank_code="<%= bank.bank_code %>"
+                                                                data-bank_descrip="<%= bank.bank_descrip %>"
+                                                            >Edit</a>
+
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-id="<%= bank.id %>"
+                                                                data-bank_name="<%= bank.bankName %>"
+                                                                data-process_branch="<%= bank.process_branch %>"
+                                                                data-swift_code="<%= bank.swift_code %>"
+                                                                data-acronym="<%= bank.acronym %>"
+                                                                data-bank_code="<%= bank.bank_code %>"
+                                                                data-bank_descrip="<%= bank.bank_descrip %>"
+                                                            >View</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% end %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="modaldemo12" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Bank</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label=""><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action=" <%= Routes.maintenance_path(@conn, :create_bank) %> " method="post">
+            <div class="modal-body">Close
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="INACTIVE">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Bank Name<span style="color: red;">*</span></label>
+                                <input class="form-control" name="bankName"  type="text">
+                            </div>
+
+                            <div class="col-sm">
+                                <label class="form-label">Select Branch<span style="color: red;">*</span></label>
+                                <select required  name="process_branch" class="form-control">
+                                        <option label="Choose Branch"></option>
+                                    <%= for branch <- @branches do %>
+                                        <option value="<%= branch.id %>|||<%= branch.branchName %>"><%= branch.branchName %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Bank Description<span style="color: red;">*</span></label>
+                                <input class="form-control" name="bank_descrip"  type="text">
+                            </div>
+
+                            <div class="col-sm">
+                                <label class="form-label">Bank Code<span style="color: red;">*</span></label>
+                                <input class="form-control" name="bank_code"  type="text">
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Swift Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="name"name="swift_code"  type="text">
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Short Code/Acronym<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchCode"name="acronym"  type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Add Bank</button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="editbank" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Bank</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action=" <%= Routes.maintenance_path(@conn, :update_bank) %> " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="INACTIVE">
+                     <input type="hidden" name="id" id="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Bank Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="bank_name" name="bankName"  type="text">
+                            </div>
+
+                            <div class="col-sm">
+                                <label class="form-label">Select Branch<span style="color: red;">*</span></label>
+                                <select required id="process_branch" name="process_branch" class="form-control">
+                                <option label="Choose Branch"></option>
+                                    <%= for branch <- @branches do %>
+                                        <option value="<%= branch.id %>|||<%= branch.branchName %>"><%= branch.branchName %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Bank Description<span style="color: red;">*</span></label>
+                                <input class="form-control" id="bank_descrip" name="bank_descrip"  type="text">
+                            </div>
+
+                            <div class="col-sm">
+                                <label class="form-label">Bank Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="bank_code" name="bank_code"  type="text">
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Swift Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="swift_code"name="swift_code"  type="text">
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Short Code/Acronym<span style="color: red;">*</span></label>
+                                <input class="form-control" id="acronym" name="acronym"  type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple" style="background-color: #1E1E2D; color: white;" type="submit">Update</button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="viewbank" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Bank</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action="#" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="INACTIVE">
+                     <input type="hidden" name="id" id="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Bank Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="bank_name" name="bankName"  type="text" readonly>
+                            </div>
+
+                            <div class="col-sm">
+                                <label class="form-label">Select Branch<span style="color: red;">*</span></label>
+                                <input required id="process_branch" name="process_branch" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Bank Description<span style="color: red;">*</span></label>
+                                <input class="form-control" id="bank_descrip" name="bank_descrip"  type="text" readonly>
+                            </div>
+
+                            <div class="col-sm">
+                                <label class="form-label">Bank Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="bank_code" name="bank_code"  type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Swift Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="swift_code"name="swift_code"  type="text" readonly>
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Short Code/Acronym<span style="color: red;">*</span></label>
+                                <input class="form-control" id="acronym" name="acronym"  type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+
+        $('#editbank').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                var bank_name = button.data('bank_name')
+                var process_branch = button.data('process_branch')
+                var swift_code = button.data('swift_code')
+                var acronym = button.data('acronym')
+                var bank_code = button.data('bank_code')
+                var bank_descrip = button.data('bank_descrip')
+
+
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(id);
+                modal.find('.modal-body #bank_name').val(bank_name);
+                modal.find('.modal-body #process_branch').val(process_branch);
+                modal.find('.modal-body #swift_code').val(swift_code);
+                modal.find('.modal-body #acronym').val(acronym);
+                modal.find('.modal-body #bank_code').val(bank_code);
+                modal.find('.modal-body #bank_descrip').val(bank_descrip);
+
+
+        });
+
+        $('#viewbank').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                var bank_name = button.data('bank_name')
+                var process_branch = button.data('process_branch')
+                var swift_code = button.data('swift_code')
+                var acronym = button.data('acronym')
+                var bank_code = button.data('bank_code')
+                var bank_descrip = button.data('bank_descrip')
+
+
+
+                var modal = $(this)
+                modal.find('.modal-body #id').val(id);
+                modal.find('.modal-body #bank_name').val(bank_name);
+                modal.find('.modal-body #process_branch').val(process_branch);
+                modal.find('.modal-body #swift_code').val(swift_code);
+                modal.find('.modal-body #acronym').val(acronym);
+                modal.find('.modal-body #bank_code').val(bank_code);
+                modal.find('.modal-body #bank_descrip').val(bank_descrip);
+
+
+        });
+    });
+</script>

@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Loan.Loan_invoice do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_loan_invoice" do
     field :invoiceValue, :float
     field :paymentTerms, :string
@@ -21,4 +22,6 @@ defmodule Loanmanagementsystem.Loan.Loan_invoice do
     |> cast(attrs, [:customer_id, :invoiceValue, :loanID, :dateOfIssue, :paymentTerms, :status, :invoiceNo, :vendorName])
     # |> validate_required([:customer_id, :invoiceValue, :loanID, :dateOfIssue, :paymentTerms, :status, :invoiceNo, :vendorName])
   end
+
+
 end

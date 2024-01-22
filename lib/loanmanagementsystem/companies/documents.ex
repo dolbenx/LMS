@@ -2,6 +2,7 @@ defmodule Loanmanagementsystem.Companies.Documents do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Accounts.Account.Localtime, :autogenerate, []}]
   schema "tbl_company_documents" do
     field :companyID, :integer
     field :docName, :string
