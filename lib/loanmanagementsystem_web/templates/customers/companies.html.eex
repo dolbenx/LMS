@@ -1,0 +1,347 @@
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Corporate</h2>
+                <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Corporate Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                  <button class="btn ripple btn-primary mb-0" id="create_user" data-bs-toggle="modal" href=""> Add Corporate</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+
+						    <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Name</th>
+                                        <th class="wd-25p">Mobile Number</th>
+                                        <th class="wd-20p">Registration Number</th>
+                                        <th class="wd-15p">TPIN</th>
+                                        <th class="wd-20p">Email</th>
+
+                                        <th class="wd-20p">Status</th>
+                                        <th class="wd-20p">Action</th>
+                                    </tr>
+                                </thead>
+
+                                 <%= for company <- @companies do %>
+                                    <tr>
+                                        <td> <%= company.companyName %> </td>
+                                        <td> <%= company.companyPhone %> </td>
+                                        <td> <%= company.registrationNumber %> </td>
+                                        <td> <%= company.taxno %> </td>
+                                        <td> <%= company.contactEmail %> </td>
+                                        <td> <%= company.status %> </td>
+                                        <td>
+											<div class="input-group">
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fe fe-chevron-down"></i> </span>
+															<div class="dropdown-menu">
+
+																	<a class="dropdown-item"
+																		data-bs-target="#viewcompany"
+																		data-bs-toggle="modal"
+																		data-id ="<%= company.id %> "
+																		data-name="<%= company.companyName %>"
+																	><i class="fe fe-edit"></i> View </a>
+																	<a class="dropdown-item"
+																		data-bs-target="#editcompany"
+																		data-bs-toggle="modal"
+																		data-id ="<%= company.id %>"
+																		data-name="<%= company.companyName %> "
+																	><i class="fe fe-edit"></i> Edit </a>
+
+
+
+																<%=if company.status == "ACTIVE" do %>
+
+																	<a class="dropdown-item deactivate-company" data-activate-id="<%= company.id %>" ><i class="fe fe-eye"></i> Disable </a>
+																<% else %>
+																	<a class="dropdown-item activate-company" data-activate-id="<%= company.id %>" ><i class="fe fe-eye"></i> Enable </a>
+																<% end %>
+
+															</div>
+														</div>
+													</div>
+											</div>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal" id="modaldemo12">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+						<h6 class="modal-title">Create Company</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+										<form action="<%= Routes.maintenance_path(@conn, :admin_create_company)%>" enctype="multipart/form-data" id="tst" method="post">
+											<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+											<input type="hidden" name="roleType" value="EMPLOYER">
+											<input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+											<div id="wizard1">
+												<h3>Corporate Details</h3>
+												<section>
+													<div class="row row-sm mg-b-20">
+														<!-- col-4 -->
+														<div class="col-lg">
+															<p class="mg-b-10">Name</p>
+															<input type="text" class="form-control" name="companyName" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10">Mobile Number</p>
+															<input type="text" class="form-control" name="companyPhone" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10"> Pacra-Registration Number</p>
+															<input type="text" class="form-control" name="registrationNumber" required>
+														</div>
+
+													</div>
+													<div class="row row-sm mg-b-20">
+
+														<div class="col-lg">
+															<p class="mg-b-10">Registration Date</p>
+															<input type="date" class="form-control" name="companyRegistrationDate" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10">TPIN</p>
+															<input type="text" class="form-control" name="taxno" required>
+														</div>
+														<div class="col-lg">
+															<p class="mg-b-10">Contact Email</p>
+															<input type="text" class="form-control" name="contactEmail" required>
+														</div>
+
+													</div>
+												</section>
+													<h3> Bank Details</h3>
+													<section>
+														<div class="card-body">
+																<div class="row row-sm mg-b-20">
+																	<div class="col-lg">
+																	<p class="mg-b-10">Select Bank</p>
+																		<select name="bank_id" class="form-control select2">
+																		<option label="Choose Bank">
+																		</option>
+																		<%= for bank <- @banks do %>
+
+																			<option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+																			</option>
+																		<% end %>
+																		</select>
+																	</div>
+																	<div class="col-lg">
+																		<p class="mg-b-10">Account Number</p>
+																		<input class="form-control"  name="companyAccountNumber" type="text">
+																	</div>
+
+																</div>
+
+														</div>
+													</section>
+													<h3>Document Upload</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+															<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+																<thead>
+																	<tr role="row">
+																		<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+																			<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+																		</th>
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+																		<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr class="tr_clone">
+																		<td>
+																			<div class="col-md-12 form-group">
+																				<div class="form-group">
+																					<select name="meansOfIdentificationType" class="form-control select2">
+																						<option value="NRC">NRC</option>
+																					</select>
+																				</div>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="file" name="document" class="form-control form-control-sm-10"> </td>
+																			<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+																		<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</section>
+													<h3>Representative Details</h3>
+													<section>
+														<div class="row row-sm mg-b-20">
+																<input type="hidden" name="password" id="password-gen">
+																<div class="col-lg">
+																	<p class="mg-b-10">Title</p>
+																	<select name="title" class="form-control select2">
+																		<option label="Choose Currency"></option>
+																		<option value="Mr">Mr </option>
+																		<option value="Mrs">Mrs </option>
+																		<option value="Ms">Ms </option>
+																		<option value="Dr">Dr </option>
+																	</select>
+																</div>
+																<div class="col-lg">
+																	<p class="mg-b-10">First Name</p>
+																	<input name="firstName" class="form-control" type="text">
+																</div>
+																<div class="col-lg">
+																	<p class="mg-b-10">Last Name</p>
+																	<input name="lastName" class="form-control" type="text">
+																</div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Other Name</p>
+																<input class="form-control" name="otherName" type="text">
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Date Of Birth</p>
+																<input class="form-control" name="dateOfBirth" type="date">
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Personal Email</p>
+																<input class="form-control" name="emailAddress" type="email">
+															</div>
+														</div>
+														<div class="row row-sm mg-b-20">
+															<div class="col-lg">
+																<p class="mg-b-10">Identification Type</p>
+																<select name="meansOfIdentificationType" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Drivers License">Drivers License </option>
+																	<option value="National Registration Card">National Registration Card </option>
+																	<option value="Passport">Passport </option>
+																</select>
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Identification Number</p>
+																<input class="form-control" name="meansOfIdentificationNumber" type="text">
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Mobile Number</p>
+																<input class="form-control" name="mobileNumber" type="text">
+															</div>
+															<div class="col-lg">
+																<p class="mg-b-10">Choose Gender</p>
+																<select name="gender" class="form-control select2">
+																	<option label="Choose Currency"></option>
+																	<option value="Male">Male </option>
+																	<option value="Female">Female </option>
+																</select>
+															</div>
+														</div>
+													</section>
+												<div>
+										</form>
+			</div>
+			</div>
+			</div>
+	 		 </div>
+    	</div>
+  	</div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+
+    $('#create_user').on('click', function (event){
+        var modal= $("#modaldemo12");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+
+
+</script>
+
+
+<script>
+  function addrow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $clone = $tr.clone();
+      $clone.find(':text').val('');
+      $tr.after($clone);
+  }
+
+  function removerow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $remove = $tr.remove();
+      $remove.find(':text').val('');
+      $tr.after($remove);
+  }
+</script>

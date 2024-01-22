@@ -1,94 +1,67 @@
+<div class="container">
+    <div class="col-md-12">
 
-<div id="kt_header" class="header header-fixed">
-        <!--begin::Container-->
-        <div class="container-fluid d-flex align-items-stretch justify-content-between">
-            <!--begin::Header Menu Wrapper-->
-            <%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
-            <!--end::Header Menu Wrapper-->
-        </div>
-        <!--end::Container-->
-    </div>
-    <!--end::Header-->
-    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
-    <!--begin::Content-->
-    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Subheader-->
-        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-                <!--begin::Info-->
-                <div class="d-flex align-items-center flex-wrap mr-2">
-                    <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Rejected Loans</h5>
-                    <!--end::Page Title-->
-                    <!--begin::Actions-->
-                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
-                    <!--end::Actions-->
-                </div>
-                <!--end::Info-->
-                <!--begin::Toolbar-->
-                <div class="d-flex align-items-center">
-                    <!--begin::Daterange-->
-                    TIME
-                </div>
-                <!--end::Toolbar-->
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Rejected Loans</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Administrators</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Rejected Loans Table</li>
+                </ol>
             </div>
+            <%# <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Staff</button>
+                </div>
+            </div> %>
         </div>
-        <!--end::Subheader-->
-        <!--begin::Entry-->
-        <div class="d-flex flex-column-fluid">
-            <!--begin::Container-->
-            <div class="container-fluid">
-                <!--begin::Dashboard-->
-                <!--begin::Row-->
-                <div class="row">
-                    <div class="col-md-12 col-xxl-12">
-                        <div class="card card-custom card-stretch gutter-b">
-                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                                <div class="card-title">
-                                    <h3 class="card-label">Rejected Loans
-                                    <span class="text-muted pt-2 font-size-sm d-block">Rejected Loans Table</span></h3>
-                                </div>
-                                <div class="card-toolbar">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-bordered table-hover table-striped w-100" id="dt_employer_employee_rejected_loans">
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom dt-responsive" id="dt_employer_employee_rejected_loans">
                                 <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
                                 <input type="hidden" name="id" id="id">
-                                    <thead>
-                                        <tr>
-                                            <th class="wd-20p">Customer Name</th>
-                                            <th class="wd-25p">ID Number</th>
-                                            <th class="wd-20p">Product Code</th>
-                                            <th class="wd-15p">Loan Amount</th>
-                                            <th class="wd-20p">Total Interest</th>
-                                            <th class="wd-20p">Paid Amount</th>
-                                            <th class="wd-20p">Outstanding Bal</th>
-                                            <th class="wd-25p">Status</th>
-                                            <%# <th class="wd-25p">Action</th> %>
+                                 <thead>
+                               <tr>
+                                        <th class="wd-20p">Customer Name</th>
+                                        <th class="wd-25p">ID Number</th>
+                                        <th class="wd-20p">Product Code</th>
+                                        <th class="wd-15p">Loan Amount</th>
+                                        <th class="wd-20p">Total Interest</th>
+                                        <th class="wd-20p">Paid Amount</th>
+                                        <th class="wd-20p">Outstanding Bal</th>
+                                        <th class="wd-25p">Status</th>
+                                        <%# <th class="wd-25p">Action</th> %>
 
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <!--end::Row-->
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::Entry-->
+        <!-- End Row -->
     </div>
+</div>
 
 
 <!-- Tooltips and Popovers -->
 <div class="modal fade" id="modaldemo12">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
                 <h6 class="modal-title">Loans Details</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <div class="row row-lg">

@@ -103,21 +103,6 @@ defmodule Loanmanagementsystem.Loan.Loans do
     field(:repayment_frequency, :string)
     field(:reason, :string)
 
-    field :requested_amount, :float
-    field :loan_duration_month, :string
-    field :monthly_installment, :string
-    field :proposed_repayment_date, :date
-    field :loan_purpose, :string
-    field :application_date, :date
-    field :offtakerID, :integer
-    field :has_mou, :string
-    field :funderID, :integer
-    field :loan_limit, :float
-    field :arrangement_fee, :float
-    field :finance_cost, :float
-    field :disbursement_status, :string
-    field :loan_officer_id, :integer
-
     timestamps()
   end
 
@@ -125,18 +110,13 @@ defmodule Loanmanagementsystem.Loan.Loans do
   def changeset(loans, attrs) do
     loans
     |> cast(attrs, [
-      :loan_limit,
       :sms_status,
-      :arrangement_fee,
-      :finance_cost,
-      :offtakerID,
       :reason,
       :repayment_type,
       :expiry_month,
       :expiry_year,
       :repayment_amount,
       :tenor,
-      :disbursement_status,
       :balance,
       :interest_amount,
       :company_id,
@@ -220,17 +200,7 @@ defmodule Loanmanagementsystem.Loan.Loans do
       :account_name,
       :bevura_wallet_no,
       :receipient_number,
-      :reference_no,
-      :application_date,
-      :requested_amount,
-      :loan_duration_month,
-      :monthly_installment,
-      :proposed_repayment_date,
-      :loan_purpose,
-      :has_mou,
-      :funderID,
-      :loan_officer_id
-
+      :reference_no
     ])
     # |> validate_required([
     #   :customer_id,
@@ -252,7 +222,6 @@ defmodule Loanmanagementsystem.Loan.Loans do
     loans
     |> cast(attrs, [
       :sms_status,
-      :offtakerID,
       :reason,
       :repayment_type,
       :expiry_month,
@@ -327,10 +296,7 @@ defmodule Loanmanagementsystem.Loan.Loans do
       :loan_counter,
       :is_npa,
       :is_legacyloan,
-      :loan_userroleid,
-      :has_mou,
-      :funderID,
-      :loan_officer_id
+      :loan_userroleid
     ])
   end
 

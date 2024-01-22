@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="panel registration-form">
+            <div class="panel-body" style="padding: 25px 30px 25px 20px; border: 1px solid rgba(0,0,0,0.15);">
+                <div class="row" style="padding: 10px 10px 10px 20px; background-color: lightgrey;">
+                    <h1 style="padding-left: 35%"><span style="black">PRO</span><span style="color: orange;">BASE</span></h1>
+                </div>
+                <div class="row" style="padding: 10px 10px 10px 100px; background-color: whitesmoke;">
+                    <p>Dear User,</p>
+                    <br>
+                    <p>Your User Account for Loan Management System has been created.</p>
+                    <p>Username: <b>use your email address</b> </p>
+                    <p>Password is: <b><%= @password %></b> </p>
+                    <br>
+                    <p>You should change this password after your first sign in to the system.</p>
+                    <br>
+                    <p>Thank you,</p>
+                    <p>Laxim Loan Management System</p>
+                </div>
+                <div class="row" style="padding: 10px 10px 10px 100px; background-color: whitesmoke;">
+                    <p>Regards, </p>
+                    <p>Customer Service - Online Help</p>
+                    <p>+260 976360360 || <a href="mailto:info@probasegroup.com" target="_blank">business@probasegroup.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

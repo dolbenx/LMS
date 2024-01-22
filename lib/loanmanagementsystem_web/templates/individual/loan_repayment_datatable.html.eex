@@ -1,0 +1,90 @@
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5"> Loan Repayment </h2>
+
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <button type="button" class="btn btn-primary my-2 btn-icon-text">
+                        <i class="fe fe-download-cloud me-2"></i> Download Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">S/N</th>
+                                        <th class="wd-25p">Due Date</th>
+                                        <th class="wd-20p">Product</th>
+                                        <th class="wd-15p">Repayment Amount</th>
+                                        <th class="wd-15p">Principal Amount</th>
+                                        <th class="wd-20p">Interest Amount</th>
+                                        <th class="wd-20p">Balance</th>
+                                        <th class="wd-25p">Status</th>
+                                        <th class="wd-25p">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <%=for loan_details <- @loan_details do %>
+                                    <tr>
+                                        <td><%= loan_details.id %> </td>
+                                        <td><%= loan_details.closedon_date %></td>
+                                        <td><%= loan_details.product_name %></td>
+                                        <td>
+                                        <%= loan_details.repayment_amount |> Number.Delimit.number_to_delimited  %>
+                                        </td>
+                                        <td>
+                                            <%= loan_details.principal_amount |> Number.Delimit.number_to_delimited   %>
+                                        </td>
+
+                                        <td>
+                                            <%= loan_details.interest_amount |> Number.Delimit.number_to_delimited   %>
+                                        </td>
+                                        <td>
+                                             <%= loan_details.balance  |> Number.Delimit.number_to_delimited  %>
+                                        </td>
+                                        <td><%= String.replace(loan_details.loan_status, "_", " ") %> </td>
+
+                                        <td>
+                                            <span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fe fe-chevron-down"></i> </span>
+                                            <div class="dropdown-menu">
+                                             <a  class="deactivate-sme-loans dropdown-item btn ripple text-success" href="<%= Routes.individual_path(@conn, :create_loan_repayment_view, loan_id: loan_details.id, product_id: loan_details.product_id) %>" ><i class= "fe fe-check-circle"></i>Repay Loan</a>
+                                            </div>
+                                        </td>
+
+
+                                    </tr>
+                                <% end %>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+</div>

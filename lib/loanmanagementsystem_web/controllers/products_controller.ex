@@ -6,64 +6,15 @@ defmodule LoanmanagementsystemWeb.ProductsController do
   alias Loanmanagementsystem.Repo
   alias Loanmanagementsystem.Products.Product_rates
 
-
-  plug LoanmanagementsystemWeb.Plugs.Authenticate,
-		       [module_callback: &LoanmanagementsystemWeb.ProductsController.authorize_role/1]
-		       when action not in [
-						:admin_activate_product,
-						:admin_add_product,
-						:admin_all_products,
-						:admin_charge_lookup,
-						:admin_deactivate_product,
-						:admin_update_product,
-						:admin_view_add_product,
-						:calculate_page_num,
-						:calculate_page_size,
-						:chip,
-						:entries,
-						:generate_product_ref_id,
-						:inactive_products,
-						:oct_product_charge_lookup,
-						:pending_products,
-						:product_item_lookup,
-						:search_options,
-						:total_entries,
-						:traverse_errors,
-            :admin_edit_product,
-            :admin_update_product_details
-		      ]
-
-		  use PipeTo.Override
-
   def admin_all_products(conn, _params) do
     products = Loanmanagementsystem.Products.list_tbl_products()
 
     render(conn, "add_products.html",
       products: products,
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
-      charges: Loanmanagementsystem.Charges.list_tbl_charges()
-    )
-  end
-
-  def admin_edit_product(conn, params) do
-
-    # IO.inspect(params, label: "CHECK MY PRODUCT")
-    products = Loanmanagementsystem.Products.list_tbl_products()
-    product_detail = Loanmanagementsystem.Products.Product.find_by(id: params["product_id"])
-
-    get_product_by = Loanmanagementsystem.Products.get_product_by_product_id(params["product_id"])
-    product_currency = Loanmanagementsystem.Maintenance.Currency.find_by(id: product_detail.currencyId)
-    get_product_rates = Loanmanagementsystem.Products.Product_rates.find_by(product_id: params["product_id"])
-
-    render(conn, "edit_products.html",
-      products: products,
-      currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
       classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
-      charges: Loanmanagementsystem.Charges.list_tbl_charges(),
-      product_detail: product_detail,
-      get_product_by: get_product_by,
-      product_currency: product_currency,
-      get_product_rates: get_product_rates
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
+      charges: Loanmanagementsystem.Charges.list_tbl_charges()
     )
   end
 
@@ -72,6 +23,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
       products: Loanmanagementsystem.Products.list_tbl_products(),
       currencies: Loanmanagementsystem.Maintenance.list_tbl_currency(),
       classifications: Loanmanagementsystem.Maintenance.list_tbl_classification(),
+      accounts: Loanmanagementsystem.Chart_of_accounts.list_tbl_chart_of_accounts(),
       charges: Loanmanagementsystem.Charges.list_tbl_charges()
     )
   end
@@ -199,9 +151,7 @@ defmodule LoanmanagementsystemWeb.ProductsController do
                 processing_fee: Enum.at(params["processing_fee_log"], index),
                 interest_rates: Enum.at(params["interest_rates_log"], index),
                 status: "ACTIVE",
-                product_id: product_id_to_log,
-                arrangement_fee: params["loan_arrangement_fee"],
-                finance_cost: params["finance_cost"],
+                product_id: product_id_to_log
               }
 
               Product_rates.changeset(%Product_rates{}, log_product)
@@ -467,89 +417,4 @@ defmodule LoanmanagementsystemWeb.ProductsController do
 
   def traverse_errors(errors),
     do: for({key, {msg, _opts}} <- errors, do: "#{String.upcase(to_string(key))} #{msg}")
-
-
-    def admin_update_product_details(conn, params) do
-      IO.inspect(params, label: "product edit")
-
-      # params = Map.put(params, "charge_id", params["charge_id_str"])
-      IO.inspect(params["price_rate_id"], label: "CHeck price_rate_id")
-
-      product = Loanmanagementsystem.Products.get_product!(params["product_id"])
-      price_rate_id = Loanmanagementsystem.Products.get_product_rates!(params["price_rate_id"])
-      clientId = conn.assigns.user.id
-      # currency_in_decimal = 2
-      # params = Map.put(params, "clientId", clientId)
-      # currencyVal = params["currencyName"]
-      # currencyVal = String.split(currencyVal, "|||")
-      # currencyId = Enum.at(currencyVal, 0)
-      # currency_name = Enum.at(currencyVal, 1)
-      # params = Map.put(params, "currencyId", currencyId)
-      # params = Map.put(params, "currencyName", currency_name)
-      # params = Map.put(params, "status", "INACTIVE")
-      # # params = Map.put(params, "productType", "LOANS")
-      # params = Map.put(params, "currencyDecimals", currency_in_decimal)
-
-      # new_param =
-      #   Map.merge(params, %{
-      #     "reference_id" => String.to_integer(generate_product_ref_id())
-      #   })
-
-      Ecto.Multi.new()
-      |> Ecto.Multi.update(:update_product, Product.changeset(product, params))
-      |> Ecto.Multi.run(:user_los, fn _repo, %{update_product: update_product} ->
-        UserLogs.changeset(%UserLogs{}, %{
-          activity: "Update #{update_product.name} Successfully",
-          user_id: conn.assigns.user.id
-        })
-        |> Repo.insert()
-      end)
-      |> Repo.transaction()
-      |> case do
-        {:ok, %{update_product: update_product}} ->
-
-          params["repayment_log"]
-          |> Enum.with_index()
-          |> Enum.each(fn {_x, index} ->
-            log_product = %{
-              product_name: params["name"],
-              repayment: Enum.at(params["repayment_log"], index),
-              tenor: Enum.at(params["tenor_log"], index),
-              processing_fee: Enum.at(params["processing_fee_log"], index),
-              interest_rates: Enum.at(params["interest_rates_log"], index),
-              status: "ACTIVE",
-              product_id: update_product.id,
-              arrangement_fee: params["loan_arrangement_fee"],
-              finance_cost: params["finance_cost"],
-            }
-
-            Product_rates.changeset(price_rate_id, log_product)
-            |> Repo.update()
-          end)
-
-          conn
-          |> put_flash(:info, "You Have Successfully Updated #{update_product.name} Product")
-          |> redirect(to: Routes.products_path(conn, :admin_all_products))
-
-        {:error, _failed_operation, failed_value, _changes_so_far} ->
-          reason = traverse_errors(failed_value.errors) |> List.first()
-
-          conn
-          |> put_flash(:error, reason)
-          |> redirect(to: Routes.products_path(conn, :admin_all_products))
-      end
-    end
-
-
-
-  def authorize_role(conn) do
-    case Phoenix.Controller.action_name(conn) do
-      act when act in ~w(new create)a -> {:product, :create}
-      act when act in ~w(index view)a -> {:product, :view}
-      act when act in ~w(update edit)a -> {:product, :edit}
-      act when act in ~w(change_status)a -> {:product, :change_status}
-      _ -> {:product, :unknown}
-    end
-  end
-
 end

@@ -1,0 +1,559 @@
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Offtakers</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :sme_dashboard) %>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Offtakerss</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+
+                    <%# <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #004d99; color: white;" type="button" data-bs-target="#modaldemo" data-bs-toggle="modal"> Filter </button> %>
+
+
+                    <button class="btn btn btn-sm waves-effect waves-themed" type="button" style="background-color: #004d99; color: white;" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Off Taker</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                        <form class="m-form m-form--fit m--margin-bottom-20" id = "">
+
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h6 class="modal-title">Filter OffTaker</h6>
+                                    <br>
+                                        <div class="form-group">
+                                            <div class="row row-sm">
+                                                <div class="col-sm-4">
+                                                    <label class="">Registration Number</label>
+                                                    <div class="input-group-prepend">
+                                                        <input class="form-control clear_form" required="" type="text" name="reg_number" id="reg_number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <button type="button" id="offtaker-filter-search" class="btn ripple " style="background-color: #004d99; color: white;" >
+                                            <span>
+                                                <i class="la la-search"></i>
+                                                <span>Search</span>
+                                            </span>
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <button  type="button" id="offtaker-filter-clear" class="btn btn-danger m-btn m-btn--icon" >
+                                            <span>
+                                                <i class="la la-close"></i>
+                                                <span>Reset</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div><br>
+                            </div>
+                             <br>
+                        </form>
+                            <table class="table table-bordered border-bottom" id="dt-off-taker">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Company Name</th>
+                                        <th class="wd-25p">Reg Numder</th>
+                                        <th class="wd-20p">Tax Number</th>
+                                        <th class="wd-15p">Status</th>
+                                        <th class="wd-15p">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+
+
+<%#  the Edit Offtaker %>
+
+<div class="modal" id="editofftaker">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Edit Company Details</h6>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<form action=" <%= Routes.sme_path(@conn, :sme_update_offtaker) %> " method="post">
+				<div class="modal-body">
+					<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" id="id" name="id">
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Company Name</p>
+							<input name="companyName" id="companyname" class="form-control" type="text" > </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Account Number</p>
+							<input name="companyAccountNumber" id="accountnumber" class="form-control" type="text" > </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Registration Number</p>
+							<input class="form-control" id="registrationnumber" name="registrationNumber" type="text" > </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Tax Number</p>
+							<input class="form-control" id="taxno" name="taxno" type="text" > </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Company Contact</p>
+							<input class="form-control" id="companyphone" name="companyPhone" type="text" > </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Email</p>
+							<input class="form-control" id="contactemail" name="contactEmail" type="text" > </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Registration Date</p>
+							<input class="form-control" id="registrationdate" name="companyRegistrationDate" type="date" > </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn ripple btn-primary" type="submit">Update User info!</button>
+					<button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				</div>
+		</div>
+		    </form>
+	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+<%#  the View a Offtaker %>
+
+<div class="modal" id="viewofftaker">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">View Company Details</h6>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<form action="#" method="post">
+				<div class="modal-body">
+					<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<input type="hidden" name="id" id="id">
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Company Name</p>
+							<input name="companyName" id="companyname" class="form-control" type="text" readonly> </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Account Number</p>
+							<input name="companyAccountNumber" id="accountnumber" class="form-control" type="text" readonly> </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Registration Number</p>
+							<input class="form-control" id="registrationnumber" name="registrationNumber" type="text" readonly> </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Tax Number</p>
+							<input class="form-control" id="taxno" name="taxno" type="text" readonly> </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Company Contact</p>
+							<input class="form-control" id="companyphone" name="companyPhone" type="text" readonly> </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Email</p>
+							<input class="form-control" id="contactemail" name="contactEmail" type="text" readonly> </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Registration Date</p>
+							<input class="form-control" id="registrationdate" name="companyRegistrationDate" type="date" readonly> </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				</div>
+		</div>
+		</form>
+	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+</div>
+
+<%#  Add Offtaker %>
+
+<div class="modal" id="modaldemo12">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+
+                <div class="modal-header">
+                    <h6 class="modal-title">Add OffTaker</h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <form action=" <%= Routes.sme_path(@conn, :admin_register_offtaker) %> " id="tst" method="post">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                    <div id="wizard1">
+
+
+                      <h3>Company Details</h3>
+                        <section>
+
+                    <div class="modal-body">
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Name</p>
+                                        <input type="text" class="form-control" name="companyName"required>
+                                    </div>
+
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Account Number</p>
+                                        <input type="text" class="form-control" name="companyAccountNumber" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10"> Company Registration Number </p>
+                                        <input type="text" class="form-control" name="registrationNumber" required>
+                                    </div>
+
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Tax Number</p>
+                                        <input type="text" class="form-control" name="taxno" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                     <div class="col-lg">
+                                        <p class="mg-b-10"> Company Mobile Number </p>
+                                        <input type="text" class="form-control" name="companyPhone" required>
+                                    </div>
+
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Contact Email</p>
+                                        <input type="text" class="form-control" name="contactEmail" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                     <div class="col-lg">
+                                        <p class="mg-b-10">Company Registration Date</p>
+                                        <input type="date" class="form-control" name="companyRegistrationDate" required>
+                                    </div>
+                                </div>
+                        </section>
+
+                        <h3>Personal Details</h3>
+                      <section>
+                <div class="row row-sm mg-b-20">
+                <input type="hidden" name="password" id="password-gen" >
+                    <div class="col-lg">
+                        <p class="mg-b-10">Title</p>
+                            <select name="title" class="form-control select2">
+                                <option label="Choose Title"></option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Dr">Dr</option>
+                            </select>
+                    </div>
+
+                    <div class="col-lg">
+                        <p class="mg-b-10">First Name</p>
+                        <input name="firstName" class="form-control"  type="text">
+                    </div>
+
+                    <div class="col-lg">
+                        <p class="mg-b-10">Last Name</p>
+                        <input name="lastName" class="form-control"  type="text">
+                    </div>
+                </div>
+
+                <div class="row row-sm mg-b-20">
+                    <div class="col-lg">
+                        <p class="mg-b-10">Other Name</p>
+                        <input class="form-control" name="otherName"  type="text">
+                    </div>
+
+                    <div class="col-lg">
+                    <p class="mg-b-10">Choose Gender</p>
+                        <select name="gender" class="form-control select2">
+                            <option label="Choose Currency"></option>
+                            <option value="Male">Male
+                            </option>
+                            <option value="Female">Female
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-lg">
+                        <p class="mg-b-10">Date Of Birth</p>
+                        <input class="form-control" name="dateOfBirth" type="date">
+                    </div>
+                </div>
+
+                <div class="row row-sm mg-b-20">
+                    <div class="col-lg">
+                        <p class="mg-b-10">Identification Type</p>
+                            <select name="meansOfIdentificationType" class="form-control select2">
+                                <option label="Choose Currency"></option>
+                                <option value="Drivers License">Drivers License
+                                </option>
+                                <option value="National Registration Card">National Registration Card
+                                </option>
+                                <option value="Passport">Passport
+                                </option>
+                            </select>
+                    </div>
+
+                    <div class="col-lg">
+                        <p class="mg-b-10">Identification Number</p>
+                        <input class="form-control" name="meansOfIdentificationNumber"  type="text">
+                    </div>
+
+                    <div class="col-lg">
+                        <p class="mg-b-10">Mobile Number</p>
+                        <input class="form-control" name="mobileNumber"  type="text">
+                    </div>
+
+                    <div class="col-lg">
+                        <p class="mg-b-10">Email</p>
+                        <input class="form-control" name="emailAdress"  type="text">
+                    </div>
+                </div>
+                </section>
+
+                 <h3>OffTaker Documents</h3>
+                        <section>
+                                <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label></th>
+                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                            <!--<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Charge When</th>-->
+                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                        </tr>
+                                    </thead>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr class="tr_clone">
+                                            <td>
+                                            <div class="col-md-12 form-group">
+                                                <div class="form-group">
+                                                <select name="#" class="form-control select2">
+                                                    <option label="Choose Title"></option>
+                                                    <option value="NRC">NRC</option>
+                                                    <option value="PACRA">PACRA</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            </td>
+                                            <td><input type="file" name="document[]" class="form-control form-control-sm-10"></td>
+                                            <!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+                                            <td>
+                                            <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i>
+                                            <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+            </div>
+                        </section>
+
+
+
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+<!-- Filter OffTaker -->
+
+<div class="modal" id="modaldemo">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                <h6 class="modal-title">Filter Offtaker</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <form action=" # " id="tst" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <p class="mg-b-10">Company Account Number</p>
+                                <input type="text" class="form-control" name="companyPhone" required>
+                            </div>
+                            <div class="col-sm">
+                                <p class="mg-b-10">Date</p>
+                                <input type="date" class="form-control" name="companyPhone" required>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">Submit</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+            </form>
+    </div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+<script>
+
+
+
+    $('#create_user').on('click', function (event){
+        var modal= $("#modaldemo12");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+
+
+</script>
+
+<script>
+  function addrow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $clone = $tr.clone();
+      $clone.find(':text').val('');
+      $tr.after($clone);
+  }
+
+  function removerow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $remove = $tr.remove();
+      $remove.find(':text').val('');
+      $tr.after($remove);
+  }
+</script>
+
+<script>
+
+$(document).ready(function(){
+
+    $('#editofftaker').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var companyname = button.data('companyname')
+            var companyphone = button.data('companyphone')
+            var accountnumber = button.data('accountnumber')
+            var registrationnumber = button.data('registrationnumber')
+            var taxno = button.data('taxno')
+            var contactemail = button.data('contactemail')
+            var registrationdate = button.data('registrationdate')
+
+
+            console.log(companyname);
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #companyname').val(companyname);
+            modal.find('.modal-body #companyphone').val(companyphone);
+            modal.find('.modal-body #accountnumber').val(accountnumber);
+            modal.find('.modal-body #registrationnumber').val(registrationnumber);
+            modal.find('.modal-body #taxno').val(taxno);
+            modal.find('.modal-body #contactemail').val(contactemail);
+            modal.find('.modal-body #registrationdate').val(registrationdate);
+
+
+
+    });
+
+    $('#viewofftaker').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var companyname = button.data('companyname')
+        var companyphone = button.data('companyphone')
+        var accountnumber = button.data('accountnumber')
+        var registrationnumber = button.data('registrationnumber')
+        var taxno = button.data('taxno')
+        var contactemail = button.data('contactemail')
+        var registrationdate = button.data('registrationdate')
+
+
+        console.log(registrationnumber);
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #companyname').val(companyname);
+        modal.find('.modal-body #companyphone').val(companyphone);
+        modal.find('.modal-body #accountnumber').val(accountnumber);
+        modal.find('.modal-body #registrationnumber').val(registrationnumber);
+        modal.find('.modal-body #taxno').val(taxno);
+        modal.find('.modal-body #contactemail').val(contactemail);
+        modal.find('.modal-body #registrationdate').val(registrationdate);
+
+
+
+    });
+});
+</script>
+
+<script  src="<%= Routes.static_path(@conn, "/webstatic/js/default.js") %>"></script>

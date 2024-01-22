@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<div class="container">
+<body>
+    <div class="col-sm-12">
+         <div class="pull-right" style = "position:relative; left:10px; top:2px;">
+
+                <img id="barcode"  width="300px" height="150px" alt="" class="position-absolute pos-top pos-right height-3 mt-1 hidden-md-down" src="data:image/png;base64, {{logo}}">
+
+            </div>
+      <div class="container">
+    </div><br><br>
+    <h1 style="color:#172B4D; font-weight:bold;"> Loan Statement</h1>
+    
+<br>
+<h4 style="font-weight:bold;">Transactions</h4>
+<hr style="height:4px; width:100%; border-width:0; color:red; background-color:red; bottom:-200px;">
+  <table class="table table-bordered" style="margin-top:-20px;">
+    <thead style="background-color:#172B4D;">
+      <tr>
+        <th style="color:#fff;">Date</th>
+        <th style="color:#fff;">Description</th>
+        <th style="color:#fff;">Reference</th>
+        <th style="color:#fff;border-left:dotted 2px #000000 ">Amount</th>
+        <th style="color:#fff;border-left:dotted 2px #000000 ">Balance</th>
+        <th style="color:#fff;border-left:dotted 2px #000000 ">Arrears</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<meta name="description" content="Spruha -  Admin Panel HTML Dashboard Template">
+	<meta name="author" content="Spruko Technologies Private Limited">
+	<meta name="keywords" content="admin,dashboard,panel,bootstrap admin template,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin template,themeforest admin dashboard,cool admin,it dashboard,admin design,dash templates,saas dashboard,dmin ui design">
+
+	<!-- Favicon -->
+	<link rel="icon" href="<%= Routes.static_path(@conn, "/images/qfinrel.png") %>" type="image/x-icon"/>
+
+	<!-- Title -->
+	<title>Loan Management System</title>
+
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/css/bootstrap.min.css") %>">
+
+		<!-- Bootstrap css-->
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/css/bootstrap.min.css") %>">
+	<link  rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/webstatic/css/notifications/sweetalert2/sweetalert2.bundle.css") %>">
+
+
+	<!-- Icons css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/icons.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/font-awesome/font-awesome.min.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/plugin.css") %>">
+
+
+	<!-- Internal Daterangepicker css-->
+	<link href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap-daterangepicker/daterangepicker.css") %>" rel="stylesheet">
+
+
+
+	<!-- Style css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/skins.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/default.css") %>">
+
+
+
+
+	<!-- Internal DataTables css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/dataTables.bootstrap5.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/buttons.bootstrap5.min.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/responsive.bootstrap5.css") %>">
+
+
+
+	<!-- Color css-->
+	<link id="theme" rel="stylesheet" type="text/css" media="all" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/color.css") %>">
+
+	<!-- Owl-carousel css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.css") %>">
+
+	<!-- Select2 css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/css/select2.min.css") %>">
+
+	<!-- Mutipleselect css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/multipleselect/multiple-select.css") %>">
+
+	<!-- Sidemenu css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/sidemenu/sidemenu.css") %>">
+
+	 <style>
+            td.details-control {
+    			background: url(/images/details_open.png) no-repeat center center;
+    			cursor: pointer;
+    		}
+    		tr.shown td.details-control {
+    			background: url(/images/details_close.png) no-repeat center center;
+    		}
+
+			  td.details-control-2-2 {
+    			background: url(/images/details_open.png) no-repeat center center;
+    			cursor: pointer;
+    		}
+    		tr.shown td.details-control-2-2 {
+    			background: url(/images/details_close.png) no-repeat center center;
+    		}
+
+			   td.details-control-loan-portfolio {
+    			background: url(/images/details_open.png) no-repeat center center;
+    			cursor: pointer;
+    		}
+    		tr.shown td.details-control-loan-portfolio {
+    			background: url(/images/details_close.png) no-repeat center center;
+    		}
+
+
+	</style>
+	<!-- form wizard-->
+	<!-- CSS only -->
+		<!-- Jquery js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery/jquery.min.js") %>"></script>
+
+
+	</head>
+
+<body class="main-body leftmenu hover-submenu">
+
+
+
+
+		<!-- Page -->
+		<div class="page">
+			<!-- Sidemenu -->
+			<div class="main-sidebar main-sidebar-sticky side-menu">
+				<div class="sidemenu-logo">
+				Qfin
+				</div>
+				<div class="main-sidebar-body">
+					<ul class="nav">
+						<li class="nav-header"><span class="nav-label">Home</span></li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.user_path(@conn, :admin_dashboard) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-home sidemenu-icon"></i><span class="sidemenu-label">Dashboard</span></a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.customer_relationship_management_path(@conn, :leeds) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-control-shuffle sidemenu-icon"></i><span class="sidemenu-label">Business</span></a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.offtaker_management_path(@conn, :employer_maintenance) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-user sidemenu-icon"></i><span class="sidemenu-label">Customer</span></a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.credit_management_path(@conn, :loan_appraisal) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-wallet sidemenu-icon"></i><span class="sidemenu-label">Credit</span></a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.core_transaction_path(@conn, :create_journal_entries_batch_no_screen) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-files sidemenu-icon"></i><span class="sidemenu-label">Accounting</span></a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.change_management_path(@conn, :company_maintainance) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-settings sidemenu-icon"></i><span class="sidemenu-label">Administration</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.tickets_path(@conn, :change_request) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-list sidemenu-icon"></i><span class="sidemenu-label">Tickets	</span></a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.reports_path(@conn, :transaction_reports) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-write sidemenu-icon"></i><span class="sidemenu-label">Reports</span></a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+			<!-- End Sidemenu -->
+
+			<!-- Main Header-->
+			<div class="main-header side-header sticky">
+				<div class="container-fluid">
+					<div class="main-header-left">
+						<a class="main-header-menu-icon" href="#" id="mainSidebarToggle"><span></span></a>
+					</div>
+					<div class="main-header-right">
+						<div class="dropdown d-md-flex">
+							<a class="nav-link icon full-screen-link" href="">
+								<i class="fe fe-maximize fullscreen-button fullscreen header-icons"></i>
+								<i class="fe fe-minimize fullscreen-button exit-fullscreen header-icons"></i>
+							</a>
+						</div>
+						<div class="dropdown main-header-notification">
+							<a class="nav-link icon" href="">
+								<i class="fe fe-bell header-icons"></i>
+								<span class="badge bg-danger nav-link-badge">4</span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<p class="main-notification-text">You have 1 unread notification<span class="badge bg-pill bg-primary ms-3">View all</span></p>
+								</div>
+								<div class="main-notification-list">
+									<div class="media new">
+										<div class="main-img-user online"><img alt="avatar" src="../../assets/img/users/5.jpg"></div>
+										<div class="media-body">
+											<p>Congratulate <strong>Olivia James</strong> for New template start</p><span>Oct 15 12:32pm</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user"><img alt="avatar" src="../../assets/img/users/2.jpg"></div>
+										<div class="media-body">
+											<p><strong>Joshua Gray</strong> New Message Received</p><span>Oct 13 02:56am</span>
+										</div>
+									</div>
+									<div class="media">
+										<div class="main-img-user online"><img alt="avatar" src="../../assets/img/users/3.jpg"></div>
+										<div class="media-body">
+											<p><strong>Elizabeth Lewis</strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+										</div>
+									</div>
+								</div>
+								<div class="dropdown-footer">
+									<a href="#">View All Notifications</a>
+								</div>
+							</div>
+						</div>
+						<div class="dropdown main-profile-menu">
+							<a class="d-flex" href="">
+								<span class="main-img-user" ><img alt="avatar" src="<%= Routes.static_path(@conn, "/images/img/pngs/upgrade.png") %>"></span>
+							</a>
+							<div class="dropdown-menu">
+								<div class="header-navheading">
+									<h6 class="main-notification-title">Sonia Taylor</h6>
+									<p class="main-notification-text">Web Designer</p>
+								</div>
+								<a class="dropdown-item border-top" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-user"></i> My Profile
+								</a>
+								<a class="dropdown-item" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-edit"></i> Edit Profile
+								</a>
+								<a class="dropdown-item" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-settings"></i> Account Settings
+								</a>
+								<a class="dropdown-item" href="<%= Routes.user_path(@conn, :my_profile) %>">
+									<i class="fe fe-settings"></i> Support
+								</a>
+								<a class="dropdown-item" href="profile.html">
+									<i class="fe fe-compass"></i> Activity
+								<a class="dropdown-item" href="<%= Routes.session_path(@conn, :signout) %>" >
+									<i class="fe fe-power"></i> Sign Out
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Main Header-->
+
+			<!-- Mobile-header -->
+			<div class="mobile-main-header">
+				<div class="mb-1 navbar navbar-expand-lg  nav nav-item  navbar-nav-right responsive-navbar navbar-dark  ">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+						<div class="d-flex order-lg-2 ms-auto">
+							<div class="dropdown header-search">
+								<a class="nav-link icon header-search">
+									<i class="fe fe-search header-icons"></i>
+								</a>
+								<div class="dropdown-menu">
+									<div class="main-form-search p-2">
+										<div class="input-group">
+											<div class="input-group-btn search-panel">
+												<select class="form-control select2">
+													<option label="All categories">
+													</option>
+													<option value="IT Projects">
+														IT Projects
+													</option>
+													<option value="Business Case">
+														Business Case
+													</option>
+													<option value="Microsoft Project">
+														Microsoft Project
+													</option>
+													<option value="Risk Management">
+														Risk Management
+													</option>
+													<option value="Team Building">
+														Team Building
+													</option>
+												</select>
+											</div>
+											<input type="search" class="form-control" placeholder="Search for anything...">
+											<button class="btn search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="dropdown main-header-notification flag-dropdown">
+								<a class="nav-link icon country-Flag">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><circle cx="256" cy="256" r="256" fill="#f0f0f0"/><g fill="#0052b4"><path d="M52.92 100.142c-20.109 26.163-35.272 56.318-44.101 89.077h133.178L52.92 100.142zM503.181 189.219c-8.829-32.758-23.993-62.913-44.101-89.076l-89.075 89.076h133.176zM8.819 322.784c8.83 32.758 23.993 62.913 44.101 89.075l89.074-89.075H8.819zM411.858 52.921c-26.163-20.109-56.317-35.272-89.076-44.102v133.177l89.076-89.075zM100.142 459.079c26.163 20.109 56.318 35.272 89.076 44.102V370.005l-89.076 89.074zM189.217 8.819c-32.758 8.83-62.913 23.993-89.075 44.101l89.075 89.075V8.819zM322.783 503.181c32.758-8.83 62.913-23.993 89.075-44.101l-89.075-89.075v133.176zM370.005 322.784l89.075 89.076c20.108-26.162 35.272-56.318 44.101-89.076H370.005z"/></g><g fill="#d80027"><path d="M509.833 222.609H289.392V2.167A258.556 258.556 0 00256 0c-11.319 0-22.461.744-33.391 2.167v220.441H2.167A258.556 258.556 0 000 256c0 11.319.744 22.461 2.167 33.391h220.441v220.442a258.35 258.35 0 0066.783 0V289.392h220.442A258.533 258.533 0 00512 256c0-11.317-.744-22.461-2.167-33.391z"/><path d="M322.783 322.784L437.019 437.02a256.636 256.636 0 0015.048-16.435l-97.802-97.802h-31.482v.001zM189.217 322.784h-.002L74.98 437.019a256.636 256.636 0 0016.435 15.048l97.802-97.804v-31.479zM189.217 189.219v-.002L74.981 74.98a256.636 256.636 0 00-15.048 16.435l97.803 97.803h31.481zM322.783 189.219L437.02 74.981a256.328 256.328 0 00-16.435-15.047l-97.802 97.803v31.482z"/></g></svg>
+								</a>
+								<div class="dropdown-menu">
+									<a href="#" class="dropdown-item d-flex ">
+										<span class="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/french_flag.jpg" alt="img"></span>
+										<div class="d-flex">
+											<span class="mt-2">French</span>
+										</div>
+									</a>
+									<a href="#" class="dropdown-item d-flex">
+										<span class="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/germany_flag.jpg" alt="img"></span>
+										<div class="d-flex">
+											<span class="mt-2">Germany</span>
+										</div>
+									</a>
+									<a href="#" class="dropdown-item d-flex">
+										<span class="avatar me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/italy_flag.jpg" alt="img"></span>
+										<div class="d-flex">
+											<span class="mt-2">Italy</span>
+										</div>
+									</a>
+									<a href="#" class="dropdown-item d-flex">
+										<span class="avatar me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/russia_flag.jpg" alt="img"></span>
+										<div class="d-flex">
+											<span class="mt-2">Russia</span>
+										</div>
+									</a>
+									<a href="#" class="dropdown-item d-flex">
+										<span class="avatar  me-3 align-self-center bg-transparent"><img src="../../assets/img/flags/spain_flag.jpg" alt="img"></span>
+										<div class="d-flex">
+											<span class="mt-2">spain</span>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div class="dropdown ">
+								<a class="nav-link icon full-screen-link">
+									<i class="fe fe-maximize fullscreen-button fullscreen header-icons"></i>
+									<i class="fe fe-minimize fullscreen-button exit-fullscreen header-icons"></i>
+								</a>
+							</div>
+							<div class="dropdown main-header-notification">
+								<a class="nav-link icon" href="">
+									<i class="fe fe-bell header-icons"></i>
+									<span class="badge bg-danger nav-link-badge">4</span>
+								</a>
+								<div class="dropdown-menu">
+									<div class="header-navheading">
+										<p class="main-notification-text">You have 1 unread notification<span class="badge bg-pill bg-primary ms-3">View all</span></p>
+									</div>
+									<div class="main-notification-list">
+										<div class="media new">
+											<div class="main-img-user online"><img alt="avatar" src="../../assets/img/users/5.jpg"></div>
+											<div class="media-body">
+												<p>Congratulate <strong>Olivia James</strong> for New template start</p><span>Oct 15 12:32pm</span>
+											</div>
+										</div>
+										<div class="media">
+											<div class="main-img-user"><img alt="avatar" src="../../assets/img/users/2.jpg"></div>
+											<div class="media-body">
+												<p><strong>Joshua Gray</strong> New Message Received</p><span>Oct 13 02:56am</span>
+											</div>
+										</div>
+										<div class="media">
+											<div class="main-img-user online"><img alt="avatar" src="../../assets/img/users/3.jpg"></div>
+											<div class="media-body">
+												<p><strong>Elizabeth Lewis</strong> added new schedule realease</p><span>Oct 12 10:40pm</span>
+											</div>
+										</div>
+									</div>
+									<div class="dropdown-footer">
+										<a href="#">View All Notifications</a>
+									</div>
+								</div>
+							</div>
+							<div class="main-header-notification mt-2">
+								<a class="nav-link icon" href="chat.html">
+									<i class="fe fe-message-square header-icons"></i>
+									<span class="badge bg-success nav-link-badge">6</span>
+								</a>
+							</div>
+							<div class="dropdown main-profile-menu">
+								<a class="d-flex" href="#">
+									<span class="main-img-user" ><img alt="avatar" src="../../assets/img/users/1.jpg"></span>
+								</a>
+								<div class="dropdown-menu">
+									<div class="header-navheading">
+										<h6 class="main-notification-title">Sonia Taylor</h6>
+										<p class="main-notification-text">Web Designer</p>
+									</div>
+									<a class="dropdown-item border-top" href="profile.html">
+										<i class="fe fe-user"></i> My Profile
+									</a>
+									<a class="dropdown-item" href="profile.html">
+										<i class="fe fe-edit"></i> Edit Profile
+									</a>
+									<a class="dropdown-item" href="profile.html">
+										<i class="fe fe-settings"></i> Account Settings
+									</a>
+									<a class="dropdown-item" href="profile.html">
+										<i class="fe fe-settings"></i> Support
+									</a>
+									<a class="dropdown-item" href="profile.html">
+										<i class="fe fe-compass"></i> Activity
+									</a>
+									<a class="dropdown-item" href="signin.html">
+										<i class="fe fe-power"></i> Sign Out
+									</a>
+								</div>
+							</div>
+							<div class="dropdown  header-settings">
+								<a href="#" class="nav-link icon" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right">
+									<i class="fe fe-align-right header-icons"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Mobile-header closed -->
+
+			<!-- Main Content-->
+			<div class="main-content side-content pt-0">
+				<div class="container-fluid"><br>
+						<div class="row">
+							<div class="col-md-12 col-lg-offset-2">
+								<div class="form-group">
+									<%= if get_flash(@conn, :info) do %>
+									<div class="alert alert-info ">
+									<button type="button" class="close" data-bs-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+									<%= get_flash(@conn, :info) %>
+									</div>
+									<% end %>
+									<%= if get_flash(@conn, :error) do %>
+									<div class=" alert alert-danger mg-b-0 ">
+									<button type="button" class="close" data-bs-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+									Sorry! <%= get_flash(@conn, :error) %>
+									</div>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					<!--Row-->
+					<div class="row row-sm">
+						<%= @inner_content %>
+					</div>
+					<!-- Row end -->
+				</div>
+			</div>
+			<!-- End Main Content-->
+
+			<!-- Main Footer-->
+			<div class="main-footer text-center">
+				<div class="container">
+					<div class="row row-sm">
+						<div class="col-md-12">
+							<span><%= Timex.today.year %> © Loan Management System Powered By&nbsp;</span>
+                        	<a href="https://www.probasegroup.com/" target="_blank" class="font-weight-bold text-hover-primary">Probase</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--End Footer-->
+		</div>
+		<!-- End Page -->
+
+		<!-- Back-to-top -->
+		<a href="#top" id="back-to-top"><i class="fe fe-arrow-up"></i></a>
+
+			<!-- Bootstrap js-->
+
+
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+
+
+			<!-- formwizard-->
+	<script src="<%= Routes.static_path(@conn, "/webstatic/js/form.js") %>"></script>
+
+
+
+
+		<!-- Select2 js-->
+
+
+
+	<!-- Perfect-scrollbar js -->
+
+
+
+
+		<!-- Owl Carousel js -->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.js") %>"></script>
+
+	<!-- Internal Apexchart js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/apexcharts.js") %>"></script>
+
+
+		<!-- Internal Polyfills js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/classList.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill_mdn.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/dataTables.responsive.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/responsive.bootstrap5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/table-data.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jquery.dataTables.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.bootstrap5.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.buttons.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.bootstrap5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jszip.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/pdfmake.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/vfs_fonts.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.html5.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.print.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.colVis.min.js") %>"></script>
+
+
+
+
+
+
+
+
+		<!-- Sparkline js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-sparkline/jquery.sparkline.min.js") %>"></script>
+
+		<!-- Internal Dashboard js-->
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/js/crypto-dashboard.js") %>"></script>
+
+
+
+
+				<!-- Internal Prism js-->
+			<script  src="<%= Routes.static_path(@conn, "/webstatic/plugins/prism/prism.js") %>"></script>
+
+			<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-steps/jquery.steps.min.js") %>"></script>
+
+
+				<!-- Internal Form-wizard js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/form-wizard.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/default.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/journalentry.js") %>"></script>
+
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/financial_statement.js") %>"></script>
+
+
+
+
+			<!-- Internal Jquery-Ui js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-ui/ui/widgets/datepicker.js") %>"></script>
+
+		<!--Bootstrap-datepicker js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap-datepicker/bootstrap-datepicker.js") %>"></script>
+		<!-- Internal TelephoneInput js-->
+		<script src="<%= Routes.static_path(@conn, "/assets/plugins/telephoneinput/telephoneinput.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/assets/plugins/telephoneinput/inttelephoneinput.js") %>"></script>
+
+
+
+
+
+		<!-- Bootstrap js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/popper.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+
+		<!-- Internal Chart.Bundle js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/chart.js/Chart.bundle.min.js") %>"></script>
+
+		<!-- Peity js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/peity/jquery.peity.min.js") %>"></script>
+
+		<!-- Select2 js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/js/select2.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/select2.js") %>"></script>
+
+		<!-- Perfect-scrollbar js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/perfect-scrollbar/perfect-scrollbar.min.js") %>"></script>
+
+		<!-- Sidemenu js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/sidemenu/sidemenu.js") %>"></script>
+
+		<!-- Sidebar js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/sidebar/sidebar.js") %>"></script>
+
+		<!-- Internal Morris js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/raphael/raphael.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/morris.js/morris.min.js") %>"></script>
+
+		<!-- Circle Progress js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/circle-progress.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/chart-circle.js") %>"></script>
+
+		<!-- Internal Dashboard js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/index.js") %>"></script>
+
+		<!-- Sticky js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/sticky.js") %>"></script>
+
+		<!-- Custom js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/custom.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/loan-application.js") %>"></script>
+
+
+
+		<!-- Victor js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/victor.js") %>"></script>
+		<!-- Jquery-Ui js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-ui/ui/widgets/datepicker.js") %>"></script>
+
+		<!-- Internal Daternagepicker js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap-daterangepicker/moment.min.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap-daterangepicker/daterangepicker.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/advanced-form-elements.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/change-mgt.js") %>"></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/chart-of-accounts.js") %>"></script>
+
+
+
+
+
+	</body>
+</html>

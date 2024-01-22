@@ -1,0 +1,105 @@
+
+	<!-- Card Rotator css-->
+
+<div class="container">
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/victor/rotating-card.css") %>">
+    <div class="col-md-12">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Application</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Application Table</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+        <!-- Row -->
+        <%= if Loanmanagementsystem.Products.Product.exists?(status: "ACTIVE") == true do %>
+
+            <div class="row row-sm">
+                <%= for product <-@products do %>
+                <div class="col-md-4 col-sm-6">
+                    <div class="card-container manual-flip">
+                        <div class="card">
+                            <div class="front">
+                                <div class="card custom-card pricingTable2">
+                                    <div class="pricingTable2-header">
+                                        <h3><%=product.name %> </h3>
+                                        <span>Loan Product</span>
+                                    </div>
+                                    <div class="pricing-plans  bg-primary">
+                                        <span class="price-value1"><%=product.currencyName %> <%=Decimal.round(Decimal.from_float(product.minimumPrincipal)) %> to <%=Decimal.round(Decimal.from_float(product.maximumPrincipal)) %></span>
+                                        <span class="month">/<%=product.periodType %></span>
+                                    </div>
+                                    <div class="pricingContent2">
+                                        <ul>
+                                            <li><b><%=product.interest %></b> Interest %</li>
+                                            <li>Product Type: <b><%=product.productType %></b></li>
+                                        </ul>
+                                    </div><!-- CONTENT BOX-->
+                                    <div class="pricingTable2-sign-up">
+                                        <%= if product.productType=="Quick Loan" do %>
+                                            <a href="<%= Routes.employee_path(@conn, :get_otp, product_id: product.id) %>" class="btn btn-block btn-primary">Apply</a>
+                                        <% end %>
+                                        <%= if product.productType=="Quick Advance" do %>
+                                            <a href="<%= Routes.employee_path(@conn, :get_otp, product_id: product.id) %>" class="btn btn-block btn-primary">Apply</a>
+                                        <% end %>
+                                        <button class="btn btn-simple" onclick="rotateCard(this)">
+                                        <i class="fa fa-mail-forward"></i> Read Description...</button>
+                                    </div><!-- BUTTON BOX-->
+                                </div>
+                            </div> <!-- end front panel -->
+                            <div class="back">
+                                <div class="content">
+                                    <div class="main">
+                                        <h4 class="text-center">Product Description</h4>
+                                        <p class="text-center"><%= product.details %></p>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                        <i class="fa fa-reply"></i> Back
+                                    </button>
+                                </div>
+                            </div> <!-- end back panel -->
+                        </div> <!-- end card -->
+                    </div> <!-- end card-container -->
+                </div>
+                <% end %>
+            </div>
+            <% else %>
+                <div class="card custom-card pricingTable2">
+                    <div class="pricingContent2">
+                        <h3 class="mt-4 mb-3">No loan Product Maintained</h3>
+                        <p class="tx-18 text-white-50">Apologize for the Invoncenience</p>
+                    </div><!-- CONTENT BOX-->
+                    <div class="pricingTable2-sign-up">
+                        <a href="<%= Routes.user_path(@conn, :employee_dashboard) %>" class="btn btn-success">Back to Home</a>
+                    </div><!-- BUTTON BOX-->
+                </div>
+        <% end %>
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+
+    function rotateCard(btn){
+        var $card = $(btn).closest('.card-container');
+        console.log($card);
+        if($card.hasClass('hover')){
+            $card.removeClass('hover');
+        } else {
+            $card.addClass('hover');
+        }
+    }
+
+
+</script>

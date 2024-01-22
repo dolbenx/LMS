@@ -1,0 +1,629 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">E-Money Issuer</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">E-Money Issuer</li>
+                </ol>
+            </div>
+             <div class="d-flex">
+                <div class="justify-content-center">
+                    <button class="btn ripple btn-primary mb-0" id="create_merchant_agent" data-bs-toggle="modal" > Add Money Issuer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+           <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                       <tr>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Company Name</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Company Dir</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Business Nature</th>
+                                            <th class="wd-15p" style="text-align: center; vertical-align: middle;">Phone</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Pacra Number</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Action</th>
+
+
+                                        </tr>
+                                </thead>
+                                 <%= for merchant <- @agent_merchant_list  do %>
+                                    <tr>
+                                        <td><%= merchant.companyName %></td>
+                                        <td><%= merchant.dirFirstName %> <%= merchant.dirLastName %></td>
+                                        <td><%= merchant.businessNature %></td>
+                                        <td><%= merchant.companyPhone %></td>
+                                        <td><%= merchant.registrationNumber %></td>
+                                        <td><%= merchant.merchantstatus %></td>
+                                         <td>
+											<%= if merchant.merchantstatus != "ACTIVE" do %>
+												<button class="btn ripple activate-e-money-user" title="Activate" data-activate-id="<%= merchant.id %>" style="color: #008000" ><i class="fe fe-check-circle"></i></button>
+											<% else %>
+												<button class="btn ripple deactivate-e-money-user" title="Disable" data-activate-id="<%= merchant.id %>" style="color: #008000" ><i class="fe fe-x-circle"></i></button>
+											<% end %>
+												<button class="btn ripple " title="view" data-bs-target="#view_merchant_modal" data-bs-toggle="modal" data-id ="<%=merchant.id %>" data-company_name="<%= merchant.companyName %>"><i class="si si-eye"></i></button>
+												<button class="btn ripple " title="edit" data-bs-target="#view_merchant_modal" data-bs-toggle="modal" data-id ="<%=merchant.id %>"> <i class="si si-note"></i></button>
+                                        </td>
+                                    </tr>
+                                <% end %>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+</div>
+
+
+
+
+<div class="modal" id="create_merchant_modal">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Create Merchant</h6>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<form action="<%= Routes.client_management_path(@conn, :admin_create_merchant) %>" enctype="multipart/form-data" id="tst" method="post">
+				<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+				<input type="hidden" name="merchantType" value="MERCHANT">
+				<div id="wizard1">
+                    <h3>Corporate Details</h3>
+					<section>
+						<div class="row row-sm mg-b-20">
+							<%# <input name="employer" class="form-control" id="company_name" type="hidden"> %>
+							<!-- col-4 -->
+                            <div class="col-lg">
+								<p class="mg-b-10">Company Name</p>
+								<input type="text" class="form-control" name="companyName" id="" required>
+                            </div>
+                            <div class="col-lg">
+								<p class="mg-b-10">Business Name</p>
+								<input type="text" class="form-control" name="businessName" id="" required>
+                            </div>
+                            <div class="col-lg">
+								<p class="mg-b-10">Business Nature</p>
+								<input type="text" class="form-control" name="businessNature" id="" required>
+                            </div>
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                             <div class="col-lg">
+								<p class="mg-b-10">Address</p>
+								<input type="text" class="form-control" name="" id="" required>
+                            </div>
+							<div class="col-lg">
+								<p class="mg-b-10">Company Mobile Number</p>
+								<input type="text" class="form-control" name="companyPhone" id="" required>
+                            </div>
+                            <div class="col-lg-4">
+								<p class="mg-b-10">Company Contact Email</p>
+								<input type="text" class="form-control" name="contactEmail" id="" required>
+                            </div>
+
+						</div>
+						<div class="row row-sm mg-b-20">
+                            <div class="col-lg-4">
+								<p class="mg-b-10">Company TPIN</p>
+								<input type="text" class="form-control" name="taxno" id="" required>
+                            </div>
+							<div class="col-lg">
+								<p class="mg-b-10"> Pacra-Registration Number</p>
+								<input type="text" class="form-control" name="registrationNumber" id="" required>
+                            </div>
+                            <div class="col-lg-4">
+								<p class="mg-b-10">Registration Date</p>
+								<input type="date" class="form-control" name="companyRegistrationDate" id="" required>
+                            </div>
+						</div>
+                        <h5>Director's Details</h5>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">First Name</p>
+                                <input name="dirFirstName" class="form-control" type="text">
+                            </div>
+							<div class="col-lg">
+								<p class="mg-b-10">Last Name</p>
+								<input name="dirLastName" class="form-control" type="text">
+                            </div>
+                            <div class="col-lg">
+								<p class="mg-b-10">Other Name</p>
+								<input class="form-control" name="dirOtherName" type="text">
+                            </div>
+						</div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg-4">
+								<p class="mg-b-10">Mobile Number</p>
+								<input class="form-control" name="dirMobileNumber" type="text">
+                            </div>
+							<div class="col-lg-4">
+								<p class="mg-b-10">Email</p>
+								<input class="form-control" name="dirEmailAddress" type="email">
+                            </div>
+                            <div class="col-lg-4">
+								<p class="mg-b-10">Identification Number</p>
+								<input class="form-control" name="dirDirectorIdentificationnNumber" type="text">
+                                <input class="form-control" name="dirDirectorIdType" value="NRC" type="hidden">
+                            </div>
+						</div>
+
+                        <h5>Device Details</h5>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Device Type</p>
+                                <input name="deviceType" class="form-control" type="text">
+                            </div>
+							<div class="col-lg">
+								<p class="mg-b-10">Device Model</p>
+								<input name="deviceModel" class="form-control" type="text">
+                            </div>
+						</div>
+                        <div class="row row-sm mg-b-20 col-lg-12">
+                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+								<thead>
+									<tr role="row">
+										<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+											<label for="example-input-small" class="form-label">Agent Details<span style="color: red;">*</span></label>
+										</th>
+										<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+										<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+									</tr>
+								</thead>
+								<tbody>
+                                 <p class="mg-b-10">NOTE: <span style="color: red;">include both IMEI if dual sim</span></p>
+									<tr class="tr_clone">
+										<td>
+											<div class="col-md-12 form-group">
+												<div class="col-lg">
+                                                    <p class="mg-b-10">Agent Number</p>
+                                                    <input name="deviceAgentLine[]" class="form-control" type="text">
+                                                </div>
+											</div>
+										</td>
+										<td>
+											<div class="col-md-12 form-group">
+												<div class="col-lg">
+                                                    <p class="mg-b-10">Phone IMEI</p>
+                                                    <input name="deviceIMEI[]" class="form-control" type="text">
+                                                </div>
+											</div>
+										</td>
+										<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+										<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+
+
+					</section>
+
+					<h3>Contact Person Details</h3>
+					<section>
+
+						<div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">First Name</p>
+                                <input name="firstName" class="form-control" type="text">
+                            </div>
+							<div class="col-lg">
+								<p class="mg-b-10">Last Name</p>
+								<input name="lastName" class="form-control" type="text">
+                            </div>
+                            <div class="col-lg">
+								<p class="mg-b-10">Other Name</p>
+								<input class="form-control" name="otherName" type="text">
+                            </div>
+						</div>
+						<div class="row row-sm mg-b-20">
+							<div class="col-lg">
+								<p class="mg-b-10">Date Of Birth</p>
+								<input class="form-control" name="dateOfBirth" type="date">
+                            </div>
+                            <div class="col-lg">
+								<p class="mg-b-10">Mobile Number</p>
+								<input class="form-control" name="mobileNumber" type="text">
+                            </div>
+							<div class="col-lg">
+								<p class="mg-b-10">Personal Email</p>
+								<input class="form-control" name="emailAddress" type="email">
+                            </div>
+						</div>
+						<div class="row row-sm mg-b-20">
+							<input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+							<div class="col-lg-4">
+								<p class="mg-b-10">Identification Number</p>
+								<input class="form-control" name="meansOfIdentificationNumber" type="text">
+                            </div>
+
+							<div class="col-lg-4">
+								<p class="mg-b-10">Choose Gender</p>
+								<select name="gender" class="form-control select2">
+									<option label="Choose Currency"></option>
+									<option value="Male">Male </option>
+									<option value="Female">Female </option>
+								</select>
+							</div>
+						</div>
+					</section>
+
+					<h3> Bank Details</h3>
+					<section>
+						<div class="card-body">
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Select Bank</p>
+									<select name="bank_id" class="form-control select2">
+										<option label="Choose Bank"> </option>
+                                        <%= for bank <- @banks do %>
+
+                                            <option name="bankId" value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+                                            </option>
+                                            <input name="bankName" value="<%= bank.bankName %>" type="hidden">
+                                            <input name="branchName" value="<%= bank.process_branch %>" type="hidden">
+                                        <% end %>
+
+									</select>
+								</div>
+								<div class="col-lg">
+									<p class="mg-b-10">Account Number</p>
+									<input class="form-control" name="companyAccountNumber" type="text"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Account Name</p>
+									<input class="form-control" name="accountName" type="text">
+                                </div>
+							</div>
+						</div>
+					</section>
+					<h3>Document Upload</h3>
+					<section>
+						<div class="row row-sm mg-b-20">
+							<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+								<thead>
+									<tr role="row">
+										<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+											<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+										</th>
+										<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<%= for item <- required_document() do %>
+										<tr class="tr_clone">
+											<td>
+												<div class="col-md-12 form-group">
+													<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+												</div>
+											</td>
+											<td>
+												<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> >
+											</td>
+										</tr>
+									<% end %>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				<div>
+			</form>
+
+		</div>
+	</div>
+</div>
+	</div>
+</div>
+
+
+
+<div class="modal" id="view_merchant_modal">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">View Merchant</h6>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				<form action="<%= Routes.client_management_path(@conn, :admin_create_merchant) %>" enctype="multipart/form-data" id="tst" method="post">
+					<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<input type="hidden" name="merchantType" value="MERCHANT">
+					<div id="wizard2">
+						<h3>Corporate Details</h3>
+						<section>
+							<div class="row row-sm mg-b-20">
+								<%# <input name="employer" class="form-control" id="company_name" type="hidden"> %>
+									<!-- col-4 -->
+									<div class="col-lg">
+										<p class="mg-b-10">Company Name</p>
+										<input type="text" class="form-control" name="companyName" id="company_name" required> </div>
+									<div class="col-lg">
+										<p class="mg-b-10">Business Name</p>
+										<input type="text" class="form-control" name="businessName" id="company_phone" required> </div>
+									<div class="col-lg">
+										<p class="mg-b-10">Business Nature</p>
+										<input type="text" class="form-control" name="businessNature" id="company_phone" required> </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Address</p>
+									<input type="text" class="form-control" name="" id="company_phone" required> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Company Mobile Number</p>
+									<input type="text" class="form-control" name="companyPhone" id="company_phone" required> </div>
+								<div class="col-lg-4">
+									<p class="mg-b-10">Company Contact Email</p>
+									<input type="text" class="form-control" name="contactEmail" id="company_phone" required> </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg-4">
+									<p class="mg-b-10">Company TPIN</p>
+									<input type="text" class="form-control" name="taxno" id="company_phone" required> </div>
+								<div class="col-lg">
+									<p class="mg-b-10"> Pacra-Registration Number</p>
+									<input type="text" class="form-control" name="registrationNumber" id="registration_number" required> </div>
+								<div class="col-lg-4">
+									<p class="mg-b-10">Registration Date</p>
+									<input type="date" class="form-control" name="companyRegistrationDate" id="company_phone" required> </div>
+							</div>
+							<h5>Director's Details</h5>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">First Name</p>
+									<input name="dirFirstName" class="form-control" type="text"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Last Name</p>
+									<input name="dirLastName" class="form-control" type="text"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Other Name</p>
+									<input class="form-control" name="dirOtherName" type="text"> </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg-4">
+									<p class="mg-b-10">Mobile Number</p>
+									<input class="form-control" name="dirMobileNumber" type="text"> </div>
+								<div class="col-lg-4">
+									<p class="mg-b-10">Email</p>
+									<input class="form-control" name="dirEmailAddress" type="email"> </div>
+								<div class="col-lg-4">
+									<p class="mg-b-10">Identification Number</p>
+									<input class="form-control" name="dirDirectorIdentificationnNumber" type="text">
+									<input class="form-control" name="dirDirectorIdType" value="NRC" type="hidden"> </div>
+							</div>
+							<h5>Device Details</h5>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Device Type</p>
+									<input name="deviceType" class="form-control" type="text"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Device Model</p>
+									<input name="deviceModel" class="form-control" type="text"> </div>
+							</div>
+							<div class="row row-sm mg-b-20 col-lg-12">
+								<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+									<thead>
+										<tr role="row">
+											<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+												<label for="example-input-small" class="form-label">Agent Details<span style="color: red;">*</span></label>
+											</th>
+											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+										</tr>
+									</thead>
+									<tbody>
+										<p class="mg-b-10">NOTE: <span style="color: red;">include both IMEI if dual sim</span></p>
+										<tr class="tr_clone">
+											<td>
+												<div class="col-md-12 form-group">
+													<div class="col-lg">
+														<p class="mg-b-10">Agent Number</p>
+														<input name="deviceAgentLine[]" class="form-control" type="text"> </div>
+												</div>
+											</td>
+											<td>
+												<div class="col-md-12 form-group">
+													<div class="col-lg">
+														<p class="mg-b-10">Phone IMEI</p>
+														<input name="deviceIMEI[]" class="form-control" type="text"> </div>
+												</div>
+											</td>
+											<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+											<td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</section>
+						<h3>Contact Person Details</h3>
+						<section>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">First Name</p>
+									<input name="firstName" class="form-control" type="text"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Last Name</p>
+									<input name="lastName" class="form-control" type="text"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Other Name</p>
+									<input class="form-control" name="otherName" type="text"> </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Date Of Birth</p>
+									<input class="form-control" name="dateOfBirth" type="date"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Mobile Number</p>
+									<input class="form-control" name="mobileNumber" type="text"> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Personal Email</p>
+									<input class="form-control" name="emailAddress" type="email"> </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+								<div class="col-lg-4">
+									<p class="mg-b-10">Identification Number</p>
+									<input class="form-control" name="meansOfIdentificationNumber" type="text"> </div>
+								<div class="col-lg-4">
+									<p class="mg-b-10">Choose Gender</p>
+									<select name="gender" class="form-control select2">
+										<option label="Choose Currency"></option>
+										<option value="Male">Male </option>
+										<option value="Female">Female </option>
+									</select>
+								</div>
+							</div>
+						</section>
+						<h3> Bank Details</h3>
+						<section>
+							<div class="card-body">
+								<div class="row row-sm mg-b-20">
+									<div class="col-lg">
+										<p class="mg-b-10">Select Bank</p>
+										<select name="bank_id" class="form-control select2">
+											<option label="Choose Bank"> </option>
+											<%= for bank <- @banks do %>
+												<option name="bankId" value="<%= bank.id %>">
+													<%= bank.bankName %> (
+														<%= bank.process_branch %>) </option>
+												<input name="bankName" value="<%= bank.bankName %>" type="hidden">
+												<input name="branchName" value="<%= bank.process_branch %>" type="hidden">
+												<% end %>
+										</select>
+									</div>
+									<div class="col-lg">
+										<p class="mg-b-10">Account Number</p>
+										<input class="form-control" name="companyAccountNumber" type="text"> </div>
+									<div class="col-lg">
+										<p class="mg-b-10">Account Name</p>
+										<input class="form-control" name="accountName" type="text"> </div>
+								</div>
+							</div>
+						</section>
+						<h3>Document Upload</h3>
+						<section>
+							<div class="row row-sm mg-b-20">
+								<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+									<thead>
+										<tr role="row">
+											<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+												<label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+											</th>
+											<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+										</tr>
+									</thead>
+									<tbody>
+										<%= for item <- required_document() do %>
+											<tr class="tr_clone">
+												<td>
+													<div class="col-md-12 form-group">
+														<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+													</div>
+												</td>
+												<td>
+													<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> > </td>
+											</tr>
+											<% end %>
+									</tbody>
+								</table>
+							</div>
+						</section>
+						<div>
+				</form>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+    $('#create_merchant_agent').on('click', function (event){
+        var modal= $("#create_merchant_modal");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    console.log(acc)
+                    console.log(modal.find('#password-generate').val(acc));
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+
+
+</script>
+
+
+<script>
+  function addrow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $clone = $tr.clone();
+      $clone.find(':text').val('');
+      $tr.after($clone);
+  }
+
+  function removerow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $remove = $tr.remove();
+      $remove.find(':text').val('');
+      $tr.after($remove);
+  }
+</script>
+
+
+
+
+<script>
+$(document).ready(function(){
+
+      $('#view_merchant_modal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var company_name = button.data('company_name')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #company_name').val(button.data('company_name'));
+            console.log("here man!!!!!");
+            console.log(company_name);
+
+
+    });
+});
+</script>

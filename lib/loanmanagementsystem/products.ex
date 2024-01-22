@@ -18,61 +18,11 @@ defmodule Loanmanagementsystem.Products do
       [%Product{}, ...]
 
   """
-  #Loanmanagementsystem.Products.application_by_product
-  def application_by_product() do
-    Product
-    |> join(:left, [p], l in Loanmanagementsystem.Loan.Loans, on: p.id == l.product_id)
-    |> where([p], p.status == ^"ACTIVE")
-    |> select([p, l], %{
-      principal_amount_proposed: l.principal_amount_proposed,
-      clientId: p.clientId,
-      product_code: p.code,
-      currency_decimals: p.currencyDecimals,
-      currency_name: p.currencyName,
-      defaultPeriod: p.defaultPeriod,
-      details: p.details,
-      interest: p.interest,
-      interestMode: p.interestMode,
-      interestType: p.interestType,
-      max_amount: p.maximumPrincipal,
-      min_amount: p.minimumPrincipal,
-      product_name: p.name,
-      period_type: p.periodType,
-      product_type: p.productType,
-      status: p.status,
-      yearLengthInDays: p.yearLengthInDays,
-    })
-    |> Repo.all()
-  end
 
   # Loanmanagementsystem.Products.list_tbl_products()
 
   def list_tbl_products do
     Repo.all(Product)
-  end
-
-  def get_products() do
-    Product
-    |> where([p], p.status == ^"ACTIVE")
-    |> select([p], %{
-      id: p.id,
-      name: p.name,
-      code: p.code,
-      currencyDecimals: p.currencyDecimals,
-      currencyName: p.currencyName,
-      defaultPeriod: p.defaultPeriod,
-      details: p.details,
-      interest: p.interest,
-      interestMode: p.interestMode,
-      interestType: p.interestType,
-      maximumPrincipal: p.maximumPrincipal,
-      minimumPrincipal: p.minimumPrincipal,
-      periodType: p.periodType,
-      productType: p.productType,
-      status: p.status,
-      yearLengthInDays: p.yearLengthInDays,
-    })
-    |> Repo.all()
   end
 
   @doc """
@@ -208,10 +158,7 @@ defmodule Loanmanagementsystem.Products do
       yearLengthInDays: p.yearLengthInDays,
       product_id: p.id,
       id: p.id,
-      code: p.code,
-      currencyName: p.currencyName,
-      finance_cost: p.finance_cost,
-      arrangement_fee: p.arrangement_fee,
+      code: p.code
     })
     |> Repo.all()
   end
@@ -287,7 +234,7 @@ defmodule Loanmanagementsystem.Products do
         # max_amount: fragment("SELECT  cast((?) as text) FROM tbl_products", p.maximumPrincipal),
         max_amount: p.maximumPrincipal,
         min_amount: p.minimumPrincipal,
-        profit: fragment("concat(?, concat(' To ', ?))", p.minimumPrincipal, p.maximumPrincipal),
+        profit: fragment("concat(?, concat(' To ', ?))", p.maximumPrincipal, p.minimumPrincipal),
         product_name: p.name,
         period_type: p.periodType,
         product_type: p.productType,
@@ -528,7 +475,6 @@ defmodule Loanmanagementsystem.Products do
     Product_rates.changeset(product_rates, attrs)
   end
 
-  # Loanmanagementsystem.Products.product_rate_details_list(1)
   def product_rate_details_list(product_id) do
     Product_rates
     |> where([p], p.product_id == ^product_id)
@@ -544,53 +490,4 @@ defmodule Loanmanagementsystem.Products do
     })
     |> Repo.all()
   end
-
-
-  def get_product_by_product_id(product_id) do
-    Product
-    |> where([p], p.id == ^product_id)
-    |> select(
-      [p],
-      %{
-        clientId: p.clientId,
-        product_code: p.code,
-        currency_decimals: p.currencyDecimals,
-        currencyId: p.currencyId,
-        currency_name: p.currencyName,
-        defaultPeriod: p.defaultPeriod,
-        details: p.details,
-        interest: p.interest,
-        interestMode: p.interestMode,
-        interest_type: p.interestType,
-        # max_amount: fragment("SELECT  cast((?) as text) FROM tbl_products", p.maximumPrincipal),
-        max_amount: p.maximumPrincipal,
-        min_amount: p.minimumPrincipal,
-        profit: fragment("concat(?, concat(' To ', ?))", p.minimumPrincipal, p.maximumPrincipal),
-        product_name: p.name,
-        period_type: p.periodType,
-        product_type: p.productType,
-        status: p.status,
-        yearLengthInDays: p.yearLengthInDays,
-        product_id: p.id,
-        id: p.id,
-        inserted_at: p.inserted_at,
-        updated_at: p.updated_at,
-        code: p.code,
-        principle_account_id: p.principle_account_id,
-        interest_account_id: p.interest_account_id,
-        charges_account_id: p.charges_account_id,
-        classification_id: p.classification_id,
-        # interest_rates: pR.interest_rates,
-        # processing_fee: pR.processing_fee,
-        # repayment: pR.repayment,
-        # tenor: pR.tenor,
-        # price_rate_id: pR.id,
-        product_charge_id: p.charge_id
-      }
-    )
-    |> Repo.all()
-  end
-
-
-
 end

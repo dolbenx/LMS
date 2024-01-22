@@ -20,8 +20,6 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLeads do
       add :number_of_dependants, :integer
       add :userId, :integer
       add :bankId, :integer
-      add :comment, :string
-
 
       timestamps()
     end

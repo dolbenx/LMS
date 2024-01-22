@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+		<meta name="description" content="Spruha -  Admin Panel HTML Dashboard Template">
+		<meta name="author" content="Spruko Technologies Private Limited">
+		<meta name="keywords" content="admin,dashboard,panel,bootstrap admin template,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin template,themeforest admin dashboard,cool admin,it dashboard,admin design,dash templates,saas dashboard,dmin ui design">
+
+		<!-- Favicon -->
+		<link rel="icon" href="../../assets/img/brand/favicon.ico" type="image/x-icon"/>
+
+		<!-- Title -->
+		<title>Loan Management System</title>
+<link  rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/webstatic/css/notifications/sweetalert2/sweetalert2.bundle.css") %>">
+
+
+
+	<!-- Icons css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/icons.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/font-awesome/font-awesome.min.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/plugin.css") %>">
+
+	<!-- Style css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/skins.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/default.css") %>">
+	<!-- Internal DataTables css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/dataTables.bootstrap5.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/buttons.bootstrap5.min.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/css/responsive.bootstrap5.css") %>">
+
+	<!-- Color css-->
+	<link id="theme" rel="stylesheet" type="text/css" media="all" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/color.css") %>">
+
+	<!-- Owl-carousel css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.css") %>">
+
+	<!-- Select2 css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/css/select2.min.css") %>">
+
+	<!-- Mutipleselect css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/multipleselect/multiple-select.css") %>">
+
+	<!-- Sidemenu css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/sidemenu/sidemenu.css") %>">
+	<!-- form wizard-->
+	<!-- CSS only -->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery/jquery.min.js") %>"></script>
+	<style>
+		.russ{
+		width: 100px;
+		height: 50px;
+		position: relative;
+		animation-name: example;
+		animation-duration: 2s;
+		}
+
+		@keyframes example {
+		0%   {left:25px; top:0px;}
+		25%  {left:200px; top:0px;}
+
+		60% {left:0px; top:0px;}
+		}
+
+		.russkay{
+		width: 100px;
+		height: 100px;
+		position: relative;
+		animation-name: example;
+		animation-duration: 4s;
+
+		}
+
+		@keyframes example {
+		0%   {left:25px; top:0px;}
+		25%  {left:200px; top:0px;}
+
+		60% {left:0px; top:0px;}
+		}
+
+	</style>
+	</head>
+
+
+	</head>
+
+
+	<body style="background-color: #231d66;">
+
+
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="<%= Routes.static_path(@conn, "/images/img/loader.svg") %>" class="loader-img" alt="Loader">
+		</div>
+		<!-- End Loader -->
+
+		<div class="row row-sm">
+			<div class="col-lg-12 col-md-12">
+				<div class="card custom-card">
+					<div class="card-body">
+						<div>
+							<h6 class="main-content-label mb-1">Sign Up With Us!</h6>
+							<p class="text-muted card-sub-title"></p>
+						</div>
+						<div id="wizard3">
+							<h3>Personal Information</h3>
+							<section>
+									<div class="row row-sm mg-b-20">
+										<input type="hidden" name="password" id="password-gen" >
+											<div class="col-lg">
+												<p class="mg-b-10">Title</p>
+												<select name="title" class="form-control select2">
+													<option label="Choose Currency"></option>
+													<option value="Mr">Mr
+													</option>
+													<option value="Mrs">Mrs
+													</option>
+													<option value="Ms">Ms
+													</option>
+													<option value="Dr">Dr
+													</option>
+												</select>
+											</div>
+											<div class="col-lg">
+												<p class="mg-b-10">First Name</p>
+												<input name="firstName" class="form-control"  type="text">
+											</div>
+											<div class="col-lg">
+													<p class="mg-b-10">Last Name</p>
+													<input name="lastName" class="form-control"  type="text">
+											</div>
+									</div>
+									<div class="row row-sm mg-b-20">
+										<div class="col-lg">
+											<p class="mg-b-10">Other Name</p>
+														<input class="form-control" name="otherName"  type="text">
+										</div>
+										<div class="col-lg">
+											<p class="mg-b-10">Date Of Birth</p>
+											<input class="form-control" name="dateOfBirth" type="date">
+										</div>
+											<div class="col-lg">
+												<p class="mg-b-10">Choose Gender</p>
+												<select name="gender" class="form-control select2">
+													<option label="Choose Currency"></option>
+													<option value="Male">Male
+													</option>
+													<option value="Female">Female
+													</option>
+
+												</select>
+											</div>
+									</div>
+									<div class="row row-sm mg-b-20">
+											<div class="col-lg">
+												<p class="mg-b-10">Identification Type</p>
+												<select name="meansOfIdentificationType" class="form-control select2">
+													<option label="Choose Currency"></option>
+													<option value="Drivers License">Drivers License
+													</option>
+													<option value="National Registration Card">National Registration Card
+													</option>
+													<option value="Passport">Passport
+													</option>
+												</select>
+											</div>
+											<div class="col-lg">
+												<p class="mg-b-10">Identification Number</p>
+												<input class="form-control" name="meansOfIdentificationNumber"  type="text">
+											</div>
+											<div class="col-lg">
+												<p class="mg-b-10">Mobile Number</p>
+												<input class="form-control" name="mobileNumber"  type="text">
+											</div>
+									</div>
+									<div class="row row-sm mg-b-20">
+												<div class="col-lg">
+												<p class="mg-b-10">Email Address</p>
+												<input class="form-control" required="" type="email">
+											</div>
+
+											<div class="col-lg">
+												<p class="mg-b-10">Password</p>
+												<input class="form-control" required="" type="password">
+											</div>
+									</div>
+							</section>
+
+								<h3>Document Upload</h3>
+							<section>
+
+									<div class="row row-sm mg-b-20">
+										<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+											<thead>
+												<tr role="row">
+													<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label></th>
+													<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+													<!--<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Charge When</th>-->
+													<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="tr_clone">
+													<td>
+														<div class="col-md-12 form-group">
+															<div class="form-group">
+																<select name="#" class="form-control select2">
+																	<option label="Choose Title"></option>
+																	<option value="NRC">NRC</option>
+																	<option value="PACRA">PACRA</option>
+																</select>
+															</div>
+														</div>
+													</td>
+													<td>
+														<input type="file" name="document" class="form-control form-control-sm-10">
+													</td>
+													<!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+													<td>
+														<i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i>
+														<i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+							</section>
+							<h3>End</h3>
+							<section>
+								<label class="ckbox">
+									<input type="checkbox"><span class="tx-13">I agree terms & Conditions</span>
+								</label>
+							</section>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="blankpage-footer text-center text-white">
+		©  <%= Timex.today.year %> Loan System powered by&nbsp;
+			<a href='http://www.probasegroup.com/' class='text-black' title='ProBASE' target='_blank'>
+				<img class="russ" src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>" width="120">
+			</a>
+		</div>
+
+						<!-- Row -->
+
+		<!-- Main Footer-->
+
+
+<script>
+  function addrow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $clone = $tr.clone();
+      $clone.find(':text').val('');
+      $tr.after($clone);
+  }
+
+  function removerow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $remove = $tr.remove();
+      $remove.find(':text').val('');
+      $tr.after($remove);
+  }
+</script>
+
+
+			<!--End Footer-->
+		<!-- End Page -->
+
+		<!-- Bootstrap js-->
+
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+	<!-- formwizard-->
+	<script src="<%= Routes.static_path(@conn, "/webstatic/js/form.js") %>"></script>
+
+	<!-- Internal Chart.Bundle js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/chart.js/Chart.bundle.min.js") %>"></script>
+		<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/popper.min.js") %>"></script>
+
+	<!-- Peity js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/peity/jquery.peity.min.js") %>"></script>
+
+	<!-- Select2 js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/js/select2.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/js/select2.js") %>"></script>
+
+	<!-- Perfect-scrollbar js -->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/perfect-scrollbar/perfect-scrollbar.min.js") %>"></script>
+
+	<!-- Sidebar js -->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/sidebar/sidebar.js") %>"></script>
+
+	<!-- Owl Carousel js -->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/owl-carousel/owl.carousel.js") %>"></script>
+
+	<!-- Internal Apexchart js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/js/apexcharts.js") %>"></script>
+
+	<!-- Internal Polyfills js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/classList.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/polyfill/polyfill_mdn.js") %>"></script>
+
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/dataTables.responsive.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/responsive.bootstrap5.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/js/table-data.js") %>"></script>
+
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jquery.dataTables.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.bootstrap5.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/dataTables.buttons.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.bootstrap5.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/jszip.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/pdfmake.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/pdfmake/vfs_fonts.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.html5.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.print.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/datatable/js/buttons.colVis.min.js") %>"></script>
+
+
+
+
+	<!-- Internal Morris js -->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/raphael/raphael.min.js") %>"></script>
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/morris.js/morris.min.js") %>"></script>
+
+	<!-- Internal Dashboard js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/js/apexcharts.js") %>"></script>
+
+	<!-- Sparkline js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-sparkline/jquery.sparkline.min.js") %>"></script>
+
+	<!-- Internal Dashboard js-->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/js/crypto-dashboard.js") %>"></script>
+
+	<!-- Sticky js -->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/js/sticky.js") %>"></script>
+
+	<!-- Custom js -->
+	<script   src="<%= Routes.static_path(@conn, "/webstatic/js/custom.js") %>"></script>
+
+
+
+	<!-- Internal Prism js-->
+	<script  src="<%= Routes.static_path(@conn, "/webstatic/plugins/prism/prism.js") %>"></script>
+
+
+	<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %>"></script>
+
+	<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery-steps/jquery.steps.min.js") %>"></script>
+
+	<!-- Internal Form-wizard js-->
+	<script src="<%= Routes.static_path(@conn, "/webstatic/js/form-wizard.js") %>"></script>
+	<script src="<%= Routes.static_path(@conn, "/webstatic/js/default.js") %>"></script>
+	<script src="<%= Routes.static_path(@conn, "/webstatic/js/journalentry.js") %>"></script>
+
+	</body>
+
+</html>

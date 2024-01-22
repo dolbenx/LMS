@@ -1,0 +1,77 @@
+<%= render LoanmanagementsystemWeb.FinancialManagementView, "submenu.html", assigns %>
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Re-Assign Batch</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Batch Processing</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Re-Assign Batch</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+        <div class="row">
+            <div class="col-xl-12 text-center" id="loader" style="display: none;">
+                <button class="btn btn-info" type="button" disabled>
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </div>
+        </div><br>
+        <!-- Row -->
+      <div class="row">
+          <div class="col-xl-12">
+                <div id="panel-1" class="panel">
+                    <div class="panel-hdr">
+
+                    </div>
+                   <div class="card custom-card overflow-hidden">
+                    <div class="card-body" data-select2-id="27">
+                        <form action="<%= Routes.core_transaction_path(@conn, :change_last_btch_usr)%>" method="POST" >
+                                <div class="form-group">
+                                    <label class="col-form-label" for="example-select">Select Batch ID:</label>
+                                    <select class="select2 form-control" data-placeholder="Choose batch" name="batch_id" id="last_batch_usr">
+                                        <option></option>
+                                        <%= for batch <- @batches do %>
+                                            <option value="<%= batch.id %>"><%= batch.trans_date %> ~ <%= batch.batch_no %></option>
+                                        <% end %>
+
+                                    </select>
+                                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-form-label" for="example-select">Last user:</label>
+                                    <input type="text" id="last-user" class="form-control" name="last_user" placeholder="Last user" readonly="true">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-form-label" for="example-select">Reassign to:</label>
+                                    <select class="select2 form-control" name="current_user_id" id="example-select">
+                                        <%= for user <- @users do %>
+                                            <option value="<%= user.id %>"> <%= "#{user.firstName} #{user.lastName}"%></option>
+                                        <% end %>
+                                    </select>
+                                </div>
+                                <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row">
+                                    <button type="button" class="btn btn-secondary submit ml-auto" onclick="history.back(-1)" style="border-radius:8px" >Go Back</button>
+                                    <button class="btn btn-info ml-2" type="submit" style="border-radius:8px" id="assign-last-">Re-assign batch</button>
+                                </div>
+                            </form>
+                    </div>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>

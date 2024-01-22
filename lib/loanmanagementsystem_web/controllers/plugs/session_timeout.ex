@@ -2,11 +2,13 @@ defmodule LoanmanagementsystemWeb.Plugs.SessionTimeout do
   import Plug.Conn
 
   def init(opts \\ []) do
-    Keyword.merge([timeout_after_seconds: 30000], opts)
+    Keyword.merge([timeout_after_seconds: 300000], opts)
   end
 
   def call(conn, opts) do
+    IO.inspect("Timeourt")
     timeout_at = get_session(conn, :session_timeout_at)
+    IO.inspect(timeout_at)
 
     if timeout_at && now() > timeout_at do
       logout_user(conn)
@@ -16,19 +18,19 @@ defmodule LoanmanagementsystemWeb.Plugs.SessionTimeout do
   end
 
   defp logout_user(conn) do
+    IO.inspect("Logout user now")
+
     case conn.assigns.user do
       nil ->
         conn
         |> clear_session()
-        |> configure_session(renew: true)
+        |> configure_session([:renew])
         |> assign(:session_timeout, true)
 
       user ->
-        Cachex.del(:client, to_string(user.id))
-
         conn
         |> clear_session()
-        |> configure_session(renew: true)
+        |> configure_session([:renew])
         |> assign(:session_timeout, true)
     end
   end

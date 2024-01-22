@@ -1,0 +1,555 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+
+<div class="inner-body">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex">
+            <div class="justify-content-center">
+                <button class="btn ripple btn-primary" style="background-color: #004d99; color: white;" type="button" id="create_employer"> Employer</button>
+                <a class="btn ripple btn-primary" style="background-color: #004d99; color: white;" href="<%= Routes.offtaker_management_path(@conn, :e_money) %>" > BNPL Partner </a>
+                <a class="btn ripple btn-primary" style="background-color: #004d99; color: white;" href="<%= Routes.offtaker_management_path(@conn, :e_money) %>"> E-Money Issuer </a>
+                <a class="btn ripple btn-primary" style="background-color: #004d99; color: white;" href="#"> Corporate Off-taker </a>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Header -->
+    <!-- Row -->
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card custom-card overflow-hidden">
+                <div class="card-body">
+                <h5>   Partner Search</h5>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Company Name</p>
+                                <input type="text" class="form-control" name="" required>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Registration Number</p>
+                                <input type="text" class="form-control" name="" required>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10"> Status</p>
+                                    <select name="" class="form-control select2" required>
+                                        <option label="Choose Currency"></option>
+                                        <option value="Mr">Active </option>
+                                        <option value="Mrs">In Active </option>
+                                        <option value="Ms">Initiated </option>
+                                        <option value="Ms">Approved By Company </option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <button class="btn ripple btn-primary" style="background-color: #004d99; color: white; float: right;" type="button"><i class="ti-search sidemenu-icon"> </i>Search</button>
+                        </div>
+                </div>
+            </div>
+            <div class="card custom-card overflow-hidden">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-bottom" id="example1">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <thead>
+                                <tr>
+                                    <th class="wd-20p">Company Number</th>
+                                    <th class="wd-25p">Company Name</th>
+                                    <th class="wd-15p">Primary Contact Person</th>
+                                    <th class="wd-20p">Primary Contact Number</th>
+                                    <th class="wd-20p">Primary Email ID </th>
+                                    <th class="wd-20p">Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <%= for company <- @companies do %>
+                                <tr>
+                                    <td> <%= company.companyPhone %> </td>
+                                    <td> <%= company.companyName %> </td>
+                                    <td> <%= company.firstName %>  <%= company.lastName %> </td>
+                                    <td> <%= company.mobileNumber %> </td>
+                                    <td> <%= company.contactEmail %> </td>
+                                    <%= if company.companystatus == "ACTIVE" do %>
+
+                                        <td><span class= "badge bg-pill bg-success" ><%= company.companystatus %></span> </td>
+
+                                    <% else %>
+
+                                        <%= if company.companystatus == "INACTIVE" do %>
+
+                                            <td><span class="badge bg-pill bg-danger"><%= company.companystatus %></span> </td>
+
+                                        <% end %>
+
+                                    <% end %>
+                                    <td>
+                                        <%=if company.companystatus == "ACTIVE" do %>
+
+                                            <a class="btn ripple btn-danger btn-sm deactivate-company" data-activate-id="<%= company.id %>" title= "Disable" ><i class="fe fe-x-circle"></i> Disable </a>
+
+                                        <% else %>
+
+
+
+                                            <a class="btn ripple btn-success btn-sm activate-company" data-activate-id="<%= company.id %>" title= "Enable"><i class="fe fe-check-circle"></i>Enable</a>
+
+                                        <% end %>
+
+                                        <a class="btn ripple btn-info btn-sm" title= "edit"
+                                            data-bs-target= "#edit-employer"
+                                            data-bs-toggle="modal"
+                                            data-id ="<%= company.id %>"
+                                            data-companyname="<%= company.companyName %>"
+                                            data-company_phone ="<%= company.companyPhone%>"
+                                            data-company_account_number="<%= company.companyAccountNumber %>"
+                                            data-company_registration_number ="<%= company.registrationNumber %>"
+                                            data-company_email="<%= company.contactEmail%>"
+                                            data-taxno ="<%= company.taxno %>"
+                                            data-company_bank_id="<%= company.bank_id %>"
+                                            data-company_bank="<%= company.bankName %>"
+                                            data-company_registration_date="<%= company.companyRegistrationDate %>"
+                                        ><i class="fe fe-edit"></i> Edit </a>
+
+                                        <a class="btn ripple btn-warning btn-sm" title= "view"
+                                            data-bs-target="#view-employer"
+                                            data-bs-toggle="modal"
+                                            data-id ="<%= company.id %>"
+                                            data-companyname="<%= company.companyName %>"
+                                            data-company_phone ="<%= company.companyPhone%>"
+                                            data-company_account_number="<%= company.companyAccountNumber %>"
+                                            data-company_registration_number ="<%= company.registrationNumber %>"
+                                            data-company_email="<%= company.contactEmail%>"
+                                            data-taxno ="<%= company.taxno %>"
+                                            data-company_bank_id="<%= company.bank_id %>"
+                                            data-company_bank="<%= company.bankName %>"
+                                            data-company_registration_date="<%= company.companyRegistrationDate %>"
+                                        ><i class="fe fe-eye"></i> View </a>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Row -->
+</div>
+
+<%#  Add Employer %>
+
+<div class="modal" id="addemployer">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Add Company</h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <form action=" <%= Routes.offtaker_management_path(@conn, :create_employer_maintenance) %>" enctype="multipart/form-data" method="post" id="tst">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input value="true|||false|||false" name="defaultSwitchRadioExample" type="hidden">
+                        <div id="wizard1">
+                            <h3>Corporate Details</h3>
+                            <section>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Name</p>
+                                        <input type="text" class="form-control" name="companyName" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input type="text" class="form-control" name="companyPhone" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10"> Pacra-Registration Number</p>
+                                        <input type="text" class="form-control" name="registrationNumber" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Registration Date</p>
+                                        <input type="date" class="form-control" name="companyRegistrationDate" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">TPIN</p>
+                                        <input type="text" class="form-control" name="taxno" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Contact Email</p>
+                                        <input type="text" class="form-control" name="contactEmail" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <h5 class="modal-title"> Bank Details </h5><br>
+                                        <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                        <p class="mg-b-10">Select Bank</p>
+                                            <select name="bank_id" class="form-control select2">
+                                            <option label="Choose Bank">
+                                            </option>
+                                            <%= for bank <- @banks do %>
+                                                <option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+                                                </option>
+                                            <% end %>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Account Number</p>
+                                            <input class="form-control"  name="companyAccountNumber" type="text">
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>Document Upload</h3>
+                            <section>
+                                <div class="row row-sm mg-b-20">
+                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                            <label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+                                        <%# <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th> %>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%= for item <- required_document() do %>
+										<tr class="tr_clone">
+											<td>
+												<div class="col-md-12 form-group">
+													<div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+												</div>
+											</td>
+											<td>
+												<input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple="<%= is_required?(item.is_required) %>" >
+											</td>
+										</tr>
+									<% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                            </section>
+
+                            <h3>Representative Details</h3>
+                            <section>
+                                <input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+                                <div class="row row-sm mg-b-20">
+                                    <input type="hidden" name="password" id="password-gen">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Title</p>
+                                        <select name="title" class="form-control select2" required>
+                                            <option label="Choose Currency"></option>
+                                            <option value="Mr">Mr </option>
+                                            <option value="Mrs">Mrs </option>
+                                            <option value="Ms">Ms </option>
+                                            <option value="Dr">Dr </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">First Name</p>
+                                        <input name="firstName" class="form-control" type="text" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Last Name</p>
+                                        <input name="lastName" class="form-control" type="text" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Other Name</p>
+                                        <input class="form-control" name="otherName" type="text" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Date Of Birth</p>
+                                        <input class="form-control" name="dateOfBirth" type="date" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Personal Email</p>
+                                        <input class="form-control" name="emailAddress" type="email" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Identification Number</p>
+                                        <input class="form-control" name="meansOfIdentificationNumber" type="text" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input class="form-control" name="mobileNumber" type="text" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Choose Gender</p>
+                                        <select name="gender" class="form-control select2" required>
+                                            <option label="Choose Currency"></option>
+                                            <option value="Male">Male </option>
+                                            <option value="Female">Female </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">House/Plot Number</p>
+                                        <input name="house_number" class="form-control" type="text" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Road/Street Name</p>
+                                        <input name="street_name" class="form-control" type="text" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Area</p>
+                                        <input name="area" class="form-control" type="text" required>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">City</p>
+                                        <select name="town_address" class="form-control select2">
+                                            <option label="Choose One"></option>
+                                            <%= for town <- @town do %>
+                                                <option value="<%= town.name %>"><%= town.name %> </option>
+                                            <% end %>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Accomodation Status</p>
+                                        <select name="accomodation_status" class="form-control select2" required>
+                                            <option label="Choose One"></option>
+                                            <option value="Owner">Owner</option>
+                                            <option value="Rented">Rented</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Years At Current Address</p>
+                                        <input class="form-control" name="year_at_current_address" type="number" min="0" required>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </form>
+    	</div>
+  	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<%#  Edit Employer %>
+
+<div class="modal" id="edit-employer">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Edit Company</h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <form action=" <%= Routes.offtaker_management_path(@conn, :edit_company) %> " method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="id" id="id">
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Name</p>
+                                <input type="text" class="form-control" name="companyName" id="companyname" >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Mobile Number</p>
+                                <input type="text" class="form-control" name="companyPhone" id="company_phone"  >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10"> Pacra-Registration Number</p>
+                                <input type="text" class="form-control" id="company_registration_number" name="registrationNumber"  >
+                            </div>
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Registration Date</p>
+                                <input type="date" class="form-control" name="companyRegistrationDate" id="company_registration_date"  >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">TPIN</p>
+                                <input type="text" class="form-control" id="taxno" name="taxno"  >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Contact Email</p>
+                                <input type="text" class="form-control" id="company_email" name="contactEmail"  >
+                            </div>
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Bank</p>
+                                <input class="form-control" id="company_bank"  name="bankName" type="text" >
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Account Number</p>
+                                <input class="form-control" id="company_account_number"  name="companyAccountNumber" type="text" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple" style="background-color: #004d99; color: white;" type="submit">Update Company info!</button>
+                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+    	</div>
+  	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<%#  View Employer %>
+
+<div class="modal" id="view-employer">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+                <h6 class="modal-title">View Company</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+            <form action="#" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="id" id="id">
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Name</p>
+                                <input type="text" class="form-control" name="companyName" id="companyname"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Mobile Number</p>
+                                <input type="text" class="form-control" name="companyPhone" id="company_phone"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10"> Pacra-Registration Number</p>
+                                <input type="text" class="form-control" id="company_registration_number" name="registrationNumber"  readonly>
+                            </div>
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Registration Date</p>
+                                <input type="date" class="form-control" name="companyRegistrationDate" id="company_registration_date"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">TPIN</p>
+                                <input type="text" class="form-control" id="taxno" name="taxno"  readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Contact Email</p>
+                                <input type="text" class="form-control" id="company_email" name="contactEmail"  readonly>
+                            </div>
+
+                        </div>
+
+                        <div class="row row-sm mg-b-20">
+                            <div class="col-lg">
+                                <p class="mg-b-10">Bank</p>
+                                <input class="form-control" id="company_bank"  name="company_bank" type="text" readonly>
+                            </div>
+                            <div class="col-lg">
+                                <p class="mg-b-10">Account Number</p>
+                                <input class="form-control" id="company_account_number"  name="companyAccountNumber" type="text" readonly>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+    	</div>
+  	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<script>
+
+$(document).ready(function(){
+
+    $('#edit-employer').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var companyname = button.data('companyname')
+        var company_phone = button.data('company_phone')
+        var company_account_number = button.data('company_account_number')
+        var company_registration_number = button.data('company_registration_number')
+        var company_email = button.data('company_email')
+        var taxno = button.data('taxno')
+        var company_bank_id = button.data('company_bank_id')
+        var company_bank = button.data('company_bank')
+        var company_registration_date = button.data('company_registration_date')
+
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #companyname').val(companyname);
+        modal.find('.modal-body #company_phone').val(company_phone);
+        modal.find('.modal-body #company_account_number').val(company_account_number);
+        modal.find('.modal-body #company_registration_number').val(company_registration_number);
+        modal.find('.modal-body #company_email').val(company_email);
+        modal.find('.modal-body #taxno').val(taxno);
+        modal.find('.modal-body #company_bank_id').val(company_bank_id);
+        modal.find('.modal-body #company_bank').val(company_bank);
+        modal.find('.modal-body #company_registration_date').val(company_registration_date);
+    });
+
+	$('#view-employer').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var modal = $(this)
+        modal.find('.modal-body #id').val(button.data('id'));
+        modal.find('.modal-body #companyname').val(button.data('companyname'));
+        modal.find('.modal-body #company_phone').val(button.data('company_phone'));
+        modal.find('.modal-body #company_account_number').val(button.data('company_account_number'));
+        modal.find('.modal-body #company_registration_number').val(button.data('company_registration_number'));
+        modal.find('.modal-body #company_email').val(button.data('company_email'));
+        modal.find('.modal-body #taxno').val(button.data('taxno'));
+        modal.find('.modal-body #company_bank_id').val(button.data('company_bank_id'));
+        modal.find('.modal-body #company_bank').val(button.data('company_bank'));
+        modal.find('.modal-body #company_registration_date').val(button.data('company_registration_date'));
+
+    });
+
+});
+
+</script>
+
+<script>
+    $('#create_employer').on('click', function (event){
+        var modal= $("#addemployer");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+</script>

@@ -11,8 +11,7 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUsers do
       add :password_fail_count, :integer
       add :company_id, :integer
       add :classification_id, :integer
-      add :login_attempt, :integer
-      add(:role_id, :integer)
+      add :isRm, :boolean
 
       timestamps()
     end

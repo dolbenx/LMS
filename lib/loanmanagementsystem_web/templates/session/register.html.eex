@@ -459,11 +459,8 @@ body {font-family: Arial;
 														<br>
 													</div>
 												</div>
-												<div class="form-group mg-b-25">
-													<label class="ckbox mg-b-5"><input type="checkbox" id="check"> <span class="tx-13">I agree to <a data-bs-target="#company_terms"  data-bs-toggle="modal" href=""><b>Terms</b></a> and <a data-bs-target="#privacy_policy"  data-bs-toggle="modal" href=""><b>Privacy Policy</b></a></span></label>
-												</div>
 												<div class="modal-footer">
-													<button href="#" class="btn ripple btn-primary btn-rounded" value="submit" type="submit" id="submit1" disabled>Sign Up &nbsp; <i class="fas fa-user-plus mr-1"></i></button>
+													<button href="#" class="btn ripple btn-primary btn-rounded" value="submit" type="submit">Sign Up &nbsp; <i class="fas fa-user-plus mr-1"></i></button>
 												</div>
 											</form>
 										</div>
@@ -507,12 +504,9 @@ body {font-family: Arial;
 															<br>
 														</div>
 													</div>
-													<div class="form-group mg-b-25">
-													<label class="ckbox mg-b-5"><input type="checkbox" id="check"> <span class="tx-13">I agree to <a data-bs-target="#company_terms"  data-bs-toggle="modal" href=""><b>Terms</b></a> and <a data-bs-target="#privacy_policy"  data-bs-toggle="modal" href=""><b>Privacy Policy</b></a></span></label>
-												</div>
-												<div class="modal-footer">
-													<button href="#" class="btn ripple btn-primary btn-rounded" value="submit" type="submit" id="submit" disabled>Sign Up &nbsp; <i class="fas fa-user-plus mr-1"></i></button>
-												</div>
+													<div class="modal-footer">
+														<button href="#" class="btn ripple btn-primary btn-rounded" value="submit" type="submit">Sign Up &nbsp; <i class="fas fa-user-plus mr-1"></i></button>
+													</div>
 												</form>
 											</div>
 										</div>
@@ -555,11 +549,8 @@ body {font-family: Arial;
 																<br>
 															</div>
 														</div>
-														<div class="form-group mg-b-25">
-															<label class="ckbox mg-b-5"><input type="checkbox" id="check"> <span class="tx-13">I agree to <a data-bs-target="#company_terms"  data-bs-toggle="modal" href=""><b>Terms</b></a> and <a data-bs-target="#privacy_policy"  data-bs-toggle="modal" href=""><b>Privacy Policy</b></a></span></label>
-														</div>
 														<div class="modal-footer">
-															<button href="#" class="btn ripple btn-primary btn-rounded" value="submit" type="submit" id="submit" disabled>Sign Up &nbsp; <i class="fas fa-user-plus mr-1"></i></button>
+															<button href="#" class="btn ripple btn-primary btn-rounded" value="submit" type="submit">Sign Up &nbsp; <i class="fas fa-user-plus mr-1"></i></button>
 														</div>
 													</form>
 												</div>
@@ -588,7 +579,7 @@ body {font-family: Arial;
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
-				<h6 class="modal-title">Company</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+				<h6 class="modal-title">Company</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 			</div>
 			<div class="modal-body">
 				<h2><strong>TERMS AND CONDITIONS</strong></h2>
@@ -816,7 +807,7 @@ body {font-family: Arial;
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
-				<h6 class="modal-title">Company</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+				<h6 class="modal-title">Company</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 			</div>
 			<div class="modal-body">
 				<h2><strong>TERMS AND CONDITIONS</strong></h2>
@@ -1305,13 +1296,6 @@ body {font-family: Arial;
 		} else {
 			$('#submit').attr('disabled', 'disabled');
 		}
-
-			if ($(this).is(':checked')) {
-			$('#submit1').removeAttr('disabled');
-		} else {
-			$('#submit1').attr('disabled', 'disabled');
-		}
-
 		});
 
 		</script>

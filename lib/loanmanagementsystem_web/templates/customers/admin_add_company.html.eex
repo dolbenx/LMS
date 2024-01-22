@@ -1,0 +1,191 @@
+
+
+
+
+
+
+
+
+
+<div class="modal" id="modaldemo12">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+
+                <div class="modal-header">
+                    <h6 class="modal-title">Add Company</h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <form action=" <%= Routes.maintenance_path(@conn, :admin_create_company) %> " id="tst" method="post">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="roleType" value="EMPLOYER">
+                    <div id="wizard1">
+
+
+                      <h3>Company Details</h3>
+                        <section>
+                                <div class="row row-sm mg-b-20">
+                                    <!-- col-4 -->
+                                    <div class="col-lg">
+                                            <p class="mg-b-10">Company Name</p>
+                                        <input type="text" class="form-control" name="companyName" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Mobile Number</p>
+                                        <input type="text" class="form-control" name="companyPhone" required>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Registration Number</p>
+                                        <input type="text" class="form-control" name="registrationNumber"required>
+                                    </div>
+
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Registration Date</p>
+                                        <input type="date" class="form-control" name="companyRegistrationDate"required>
+                                    </div>
+                                        <div class="col-lg">
+                                        <p class="mg-b-10">Company TPIN</p>
+                                        <input type="text" class="form-control" name="taxno" required>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Contact Email</p>
+                                        <input type="text" class="form-control" name="contactEmail" required>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Company Account Number</p>
+                                        <input type="email" class="form-control" name="companyAccountNumber" required>
+                                    </div>
+                                    <div class="form-group">
+                                            <p class="mg-b">Select Company Type</p>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="rdiobox"><input value="false|||false|||true"  name="defaultSwitchRadioExample" type="radio"> <span >OFFTAKER</span></label>
+                                                    </div> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <div class="col-md-3">
+                                                        <label class="rdiobox"><input value="false|||true|||false"  name="defaultSwitchRadioExample" type="radio"> <span>SME</span></label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="rdiobox"><input value="true|||false|||false"  name="defaultSwitchRadioExample" type="radio"> <span>EMPLOYER</span></label>
+                                                    </div>
+
+                                                </div>
+                                    </div>
+
+                                </div>
+                        </section>
+                        <h3>Personal Details</h3>
+                      <section>
+                <div class="row row-sm mg-b-20">
+                <input type="hidden" name="password" id="password-gen" >
+                    <div class="col-lg">
+                        <p class="mg-b-10">Title</p>
+                                    <select name="title" class="form-control select2">
+                                        <option label="Choose Currency"></option>
+                                        <option value="Mr">Mr
+                                        </option>
+                                        <option value="Mrs">Mrs
+                                        </option>
+                                        <option value="Ms">Ms
+                                        </option>
+                                        <option value="Dr">Dr
+                                        </option>
+                                    </select>
+                    </div>
+                    <div class="col-lg">
+                        <p class="mg-b-10">First Name</p>
+                                    <input name="firstName" class="form-control"  type="text">
+                    </div>
+                    <div class="col-lg">
+                            <p class="mg-b-10">Last Name</p>
+                                    <input name="lastName" class="form-control"  type="text">
+                    </div>
+                </div>
+                <div class="row row-sm mg-b-20">
+                    <div class="col-lg">
+                        <p class="mg-b-10">Other Name</p>
+                                    <input class="form-control" name="otherName"  type="text">
+                    </div>
+                    <div class="col-lg">
+                        <p class="mg-b-10">Date Of Birth</p>
+                                    <input class="form-control" name="dateOfBirth" type="date">
+                    </div>
+                    <div class="col-lg">
+                        <p class="mg-b-10">Personal Email</p>
+                                    <input class="form-control" name="emailAddress" type="email">
+                    </div>
+                </div>
+                <div class="row row-sm mg-b-20">
+                    <div class="col-lg">
+                        <p class="mg-b-10">Identification Type</p>
+                                    <select name="meansOfIdentificationType" class="form-control select2">
+                                        <option label="Choose Currency"></option>
+                                        <option value="Drivers License">Drivers License
+                                        </option>
+                                        <option value="National Registration Card">National Registration Card
+                                        </option>
+                                        <option value="Passport">Passport
+                                        </option>
+                                    </select>
+                    </div>
+                    <div class="col-lg">
+                        <p class="mg-b-10">Identification Number</p>
+                                    <input class="form-control" name="meansOfIdentificationNumber"  type="text">
+                    </div>
+                    <div class="col-lg">
+                        <p class="mg-b-10">Mobile Number</p>
+                                    <input class="form-control" name="mobileNumber"  type="text">
+                    </div>
+                        <div class="col-lg">
+                        <p class="mg-b-10">Choose Gender</p>
+                                    <select name="gender" class="form-control select2">
+                                        <option label="Choose Currency"></option>
+                                        <option value="Male">Male
+                                        </option>
+                                        <option value="Female">Female
+                                        </option>
+
+                                    </select>
+                    </div>
+
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+
+
+    $('#create_user').on('click', function (event){
+        var modal= $("#modaldemo12");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+
+}
+</script>

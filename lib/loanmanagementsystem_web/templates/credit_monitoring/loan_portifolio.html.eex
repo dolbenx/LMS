@@ -1,0 +1,51 @@
+<%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Portifolio</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href=" <%= Routes.user_path(@conn, :admin_dashboard) %> ">Loan Monitoring</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Loan Portifolio Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <button class="btn ripple btn-primary mb-0" type="button" id="quick-filter-loan-portifolio"><i class="fe fe-filter me-2"></i>  Filter</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="tb-loan-portifolio-tbl">
+                              <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th> Date </th>
+                                        <th> Product Code </th>
+                                        <th> Loan Product</th>
+                                        <th> Interest </th>
+                                        <th> Repayment Amount </th>
+                                        <th> Balance </th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+</div>

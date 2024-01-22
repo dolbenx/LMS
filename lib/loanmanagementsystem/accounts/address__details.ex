@@ -1,6 +1,5 @@
 defmodule Loanmanagementsystem.Accounts.Address_Details do
   use Ecto.Schema
-  use Endon
   import Ecto.Changeset
 
   schema "tbl_address_details" do
@@ -8,10 +7,10 @@ defmodule Loanmanagementsystem.Accounts.Address_Details do
     field :area, :string
     field :house_number, :string
     field :street_name, :string
-    field :town, :string
+    field :town_address, :string
     field :userId, :integer
-    field :year_at_current_address, :integer
-    field :province, :string
+    field :year_at_current_address, :string
+    field :province_address, :string
 
     timestamps()
   end
@@ -20,14 +19,14 @@ defmodule Loanmanagementsystem.Accounts.Address_Details do
   def changeset(address__details, attrs) do
     address__details
     |> cast(attrs, [
-      :province,
+      :province_address,
       :accomodation_status,
       :area,
       :house_number,
       :street_name,
-      :town,
+      :town_address,
       :userId,
-      :year_at_current_address,
+      :year_at_current_address
     ])
 
     # |> validate_required([:accomodation_status, :area, :house_number, :street_name, :town, :userId, :year_at_current_address])

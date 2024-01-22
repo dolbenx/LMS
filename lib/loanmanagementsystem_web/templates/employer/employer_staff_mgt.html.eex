@@ -1,372 +1,806 @@
-<div class="container  mx-auto px-2">
-   <div class="flex flex-wrap">
-      <div class="flex items-center py-4 w-full">
-         <div class="w-full">
-            <div class="">
-               <div class="flex flex-wrap justify-between">
-                  <div class="items-center ">
-                     <h1 class="font-semibold text-xl mb-0 block dark:text-slate-100">Employee</h1>
-                     <ol class="list-reset flex text-sm">
-                        <li><a href="#" class="text-gray-500">Employee</a></li>
-                        <li><span class="text-gray-500 mx-2">/</span></li>
-                        <li class="text-gray-500">Maintenance</li>
-                     </ol>
-                  </div>
-                  <div class="flex items-center">
-                     <button href="#addemployee" data-modal-toggle="modal" class="px-3 py-2 lg:px-4 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600">Add Staff</button>&nbsp;
-                     <button href="#addemployeebulk" data-modal-toggle="modal" class="px-3 py-2 lg:px-4 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600">Bulk Upload</button>
-                  </div>
-               </div>
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Staff</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :employer_dashboard) %>">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Staffs Table</li>
+                </ol>
             </div>
-         </div>
-      </div>
-   </div>
-</div>
-<!--end container-->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4  mb-4">
-   <div class="sm:col-span-12  md:col-span-12 lg:col-span-12 xl:col-span-12 ">
-      <div class="card">
-         <div class="card-header">
-            <h4 class="card-title">Products Table</h4>
-         </div>
-         <!--end card-header-->
-         <div class="card-body">
-            <div class="relative overflow-x-auto  sm:rounded">
-               <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                  <div class="dataTable-top">
-                     <div class="dataTable-dropdown">
-                        <label>
-                           <select class="dataTable-selector">
-                              <option value="5">5</option>
-                              <option value="10" selected="">10</option>
-                              <option value="15">15</option>
-                              <option value="20">20</option>
-                              <option value="25">25</option>
-                           </select>
-                           entries per page
-                        </label>
-                     </div>
-                     <div class="dataTable-search"><input class="dataTable-input" placeholder="Search..." type="text"></div>
-                  </div>
-                  <div class="dataTable-container">
-                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 dataTable-table" id="datatable_1">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-slate-700 dark:text-gray-400">
-                           <tr>
-                              <th scope="col" class="p-4" data-sortable="" style="width: 3.8961%;">
-                                 <a href="#" class="dataTable-sorter">
-                                    <label class="custom-label">
-                                       <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                          <input type="checkbox" class="hidden">
-                                          <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                       </div>
-                                    </label>
-                                 </a>
-                              </th>
-                              <th scope="col" class="px-6 py-3" data-sortable="" style="width: 33.7662%;"><a href="#" class="dataTable-sorter">
-                                 Product name
-                                 </a>
-                              </th>
-                              <th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.8539%;"><a href="#" class="dataTable-sorter">
-                                 Color
-                                 </a>
-                              </th>
-                              <th scope="col" class="px-6 py-3" data-sortable="" style="width: 20.3734%;"><a href="#" class="dataTable-sorter">
-                                 Category
-                                 </a>
-                              </th>
-                              <th scope="col" class="px-6 py-3" data-sortable="" style="width: 14.6916%;"><a href="#" class="dataTable-sorter">
-                                 Price
-                                 </a>
-                              </th>
-                              <th scope="col" class="px-6 py-3" data-sortable="" style="width: 12.4188%;"><a href="#" class="dataTable-sorter">
-                                 <span class="sr-only">Edit</span>
-                                 </a>
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                              <td class="w-4 p-4">
-                                 <label class="custom-label">
-                                    <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                       <input type="checkbox" class="hidden" checked="">
-                                       <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                    </div>
-                                 </label>
-                              </td>
-                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                 Apple MacBook Pro 17"
-                              </th>
-                              <td class="px-6 py-4">
-                                 Sliver
-                              </td>
-                              <td class="px-6 py-4">
-                                 Laptop
-                              </td>
-                              <td class="px-6 py-4">
-                                 $2999
-                              </td>
-                              <td class="px-6 py-4 text-right">
-                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                              </td>
-                           </tr>
-                           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                              <td class="w-4 p-4">
-                                 <label class="custom-label">
-                                    <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                       <input type="checkbox" class="hidden" checked="">
-                                       <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                    </div>
-                                 </label>
-                              </td>
-                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                 Microsoft Surface Pro
-                              </th>
-                              <td class="px-6 py-4">
-                                 White
-                              </td>
-                              <td class="px-6 py-4">
-                                 Laptop PC
-                              </td>
-                              <td class="px-6 py-4">
-                                 $1999
-                              </td>
-                              <td class="px-6 py-4 text-right">
-                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                              </td>
-                           </tr>
-                           <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                              <td class="w-4 p-4">
-                                 <label class="custom-label">
-                                    <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                       <input type="checkbox" class="hidden">
-                                       <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                    </div>
-                                 </label>
-                              </td>
-                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                 Magic Mouse 2
-                              </th>
-                              <td class="px-6 py-4">
-                                 Black
-                              </td>
-                              <td class="px-6 py-4">
-                                 Accessories
-                              </td>
-                              <td class="px-6 py-4">
-                                 $99
-                              </td>
-                              <td class="px-6 py-4 text-right">
-                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                              </td>
-                           </tr>
-                           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                              <td class="w-4 p-4">
-                                 <label class="custom-label">
-                                    <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                       <input type="checkbox" class="hidden" checked="">
-                                       <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                    </div>
-                                 </label>
-                              </td>
-                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                 Microsoft Surface Pro
-                              </th>
-                              <td class="px-6 py-4">
-                                 White
-                              </td>
-                              <td class="px-6 py-4">
-                                 Laptop PC
-                              </td>
-                              <td class="px-6 py-4">
-                                 $1999
-                              </td>
-                              <td class="px-6 py-4 text-right">
-                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                              </td>
-                           </tr>
-                           <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                              <td class="w-4 p-4">
-                                 <label class="custom-label">
-                                    <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                       <input type="checkbox" class="hidden">
-                                       <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                    </div>
-                                 </label>
-                              </td>
-                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                 Magic Mouse 2
-                              </th>
-                              <td class="px-6 py-4">
-                                 Black
-                              </td>
-                              <td class="px-6 py-4">
-                                 Accessories
-                              </td>
-                              <td class="px-6 py-4">
-                                 $99
-                              </td>
-                              <td class="px-6 py-4 text-right">
-                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                              </td>
-                           </tr>
-                           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                              <td class="w-4 p-4">
-                                 <label class="custom-label">
-                                    <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                       <input type="checkbox" class="hidden" checked="">
-                                       <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                    </div>
-                                 </label>
-                              </td>
-                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                 Microsoft Surface Pro
-                              </th>
-                              <td class="px-6 py-4">
-                                 White
-                              </td>
-                              <td class="px-6 py-4">
-                                 Laptop PC
-                              </td>
-                              <td class="px-6 py-4">
-                                 $1999
-                              </td>
-                              <td class="px-6 py-4 text-right">
-                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                              </td>
-                           </tr>
-                           <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                              <td class="w-4 p-4">
-                                 <label class="custom-label">
-                                    <div class="bg-white border border-slate-200 rounded w-4 h-4  inline-block leading-4 text-center -mb-[3px]">
-                                       <input type="checkbox" class="hidden">
-                                       <i class="fas fa-check hidden text-xs text-slate-700"></i>
-                                    </div>
-                                 </label>
-                              </td>
-                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                 Magic Mouse 2
-                              </th>
-                              <td class="px-6 py-4">
-                                 Black
-                              </td>
-                              <td class="px-6 py-4">
-                                 Accessories
-                              </td>
-                              <td class="px-6 py-4">
-                                 $99
-                              </td>
-                              <td class="px-6 py-4 text-right">
-                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <div class="dataTable-bottom">
-                     <div class="dataTable-info">Showing 1 to 7 of 7 entries</div>
-                     <nav class="dataTable-pagination">
-                        <ul class="dataTable-pagination-list"></ul>
-                     </nav>
-                  </div>
-               </div>
-               <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded csv">Export CSV</button>
-               <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded sql">Export SQL</button>
-               <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded txt">Export TXT</button>
-               <button type="button" class="focus:outline-none focus:bg-opacity-50 focus:text-black hover:text-black  text-indigo-700 hover:bg-opacity-50 bg-gray-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:text-slate-200 text-sm font-medium py-2 px-3 rounded json">Export JSON</button>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                  <a class="btn ripple btn-primary" style="background-color: #004d99; color: white;" data-bs-toggle="modal"id="create_employee">Add Staff</a>
+
+                  <a class="btn ripple btn-primary" style="background-color: #004d99; color: white;" data-bs-toggle="modal" data-bs-target="#bulkuploademployer"  href="#"> Bulk Upload </a>
+                </div>
             </div>
-         </div>
-         <!--end card-body-->
-      </div>
-      <!--end card-->
-   </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                                 <thead>
+                                       <tr>
+                                        <th >First Name</th>
+                                        <th >Last Name</th>
+                                        <th class="wd-20p">Email</th>
+                                        <th class="wd-15p">Date Of Birth</th>
+                                        <th class="wd-20p">Mobile Number</th>
+                                        <th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
+                                        <th class="wd-20p1" style="text-align: center; vertical-align: middle;">Action</th>
+
+
+                                    </tr>
+                                </thead>
+                                   <%= for get_bio_data <- @get_bio_datas  do %>
+                                    <tr>
+                                        <td><%= get_bio_data.firstname %></td>
+                                        <td> <%= get_bio_data.lastname %></td>
+                                        <td><%= get_bio_data.emailaddress %></td>
+                                        <td><%= get_bio_data.dateofbirth %></td>
+                                        <td><%= get_bio_data.mobilenumber %></td>
+                                        <td style="text-align: center; ">
+                                            <%= if get_bio_data.status == "ACTIVE" do %>
+                                                <span class="badge bg-pill bg-success"><%= get_bio_data.status %></span>
+                                            <% else %>
+                                                <span class="badge bg-pill bg-danger"><%= get_bio_data.status %></span>
+                                            <% end %>
+                                        </td>
+                                        <td style="text-align: center; ">
+
+                                            <%= if get_bio_data.status == "ACTIVE" do %>
+
+                                                <a class="btn ripple btn-danger btn-sm employer-deactivate-employee" title="Disable" data-deactivate-id="<%= get_bio_data.id %>"><i class="fe fe-x-circle"> Disable </i></a>
+
+                                            <% else %>
+
+                                                <a class="btn ripple btn-success btn-sm employer_activate_employee" data-activate-id="<%= get_bio_data.id%>" title= "Enable"><i class="fe fe-check-circle" ></i> Enable </a>
+
+                                            <% end %>
+
+                                            <a class=" btn ripple btn-info btn-sm " title="Edit"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#edit_employee_modal"
+                                            data-id= "<%= get_bio_data.id %>"
+                                            data-bio_title ="<%= get_bio_data.bio_title %>"
+                                            data-gender ="<%= get_bio_data.gender %>"
+                                            data-nationality ="<%= get_bio_data.nationality %>"
+                                            data-firstname= "<%= get_bio_data.firstname %>"
+                                            data-meansofidentificationnumber= "<%= get_bio_data.meansofidentificationnumber %>"
+                                            data-lastname= "<%= get_bio_data.lastname %>"
+                                            data-dateofbirth= "<%= get_bio_data.dateofbirth %>"
+                                            data-emailaddress= "<%= get_bio_data.emailaddress %>"
+                                            data-mobilenumber= "<%= get_bio_data.mobilenumber %>"
+                                            data-marital_status= "<%= get_bio_data.marital_status %>"
+                                            data-marital_status= "<%= get_bio_data.marital_status %>"
+                                            data-number_of_dependants= "<%= get_bio_data.number_of_dependants %>"
+                                            data-accomodation_status= "<%= get_bio_data.accomodation_status %>"
+                                            data-area= "<%= get_bio_data.area %>"
+                                            data-house_number= "<%= get_bio_data.house_number %>"
+                                            data-street_name= "<%= get_bio_data.street_name %>"
+                                            data-town= "<%= get_bio_data.town %>"
+                                            data-year_at_current_address= "<%= get_bio_data.year_at_current_address %>"
+                                            data-province= "<%= get_bio_data.province %>"
+                                            data-mobile_network_operator= "<%= get_bio_data.mobile_network_operator %>"
+                                            data-registered_name_mobile_number= "<%= get_bio_data.registered_name_mobile_number %>"
+                                            ><i class="si si-note"> Edit </i></a>
+
+                                            <a class="btn ripple btn-warning btn-sm " title="View"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#view_employee_modal"
+                                            data-id= "<%= get_bio_data.id %>"
+                                            data-bio_title ="<%= get_bio_data.bio_title %>"
+                                            data-gender ="<%= get_bio_data.gender %>"
+                                            data-nationality ="<%= get_bio_data.nationality %>"
+                                            data-firstname= "<%= get_bio_data.firstname %>"
+                                            data-meansofidentificationnumber= "<%= get_bio_data.meansofidentificationnumber %>"
+                                            data-lastname= "<%= get_bio_data.lastname %>"
+                                            data-dateofbirth= "<%= get_bio_data.dateofbirth %>"
+                                            data-emailaddress= "<%= get_bio_data.emailaddress %>"
+                                            data-mobilenumber= "<%= get_bio_data.mobilenumber %>"
+                                            data-marital_status= "<%= get_bio_data.marital_status %>"
+                                            data-marital_status= "<%= get_bio_data.marital_status %>"
+                                            data-number_of_dependants= "<%= get_bio_data.number_of_dependants %>"
+                                            data-accomodation_status= "<%= get_bio_data.accomodation_status %>"
+                                            data-area= "<%= get_bio_data.area %>"
+                                            data-house_number= "<%= get_bio_data.house_number %>"
+                                            data-street_name= "<%= get_bio_data.street_name %>"
+                                            data-town= "<%= get_bio_data.town %>"
+                                            data-year_at_current_address= "<%= get_bio_data.year_at_current_address %>"
+                                            data-province= "<%= get_bio_data.province %>"
+                                            data-mobile_network_operator= "<%= get_bio_data.mobile_network_operator %>"
+                                            data-registered_name_mobile_number= "<%= get_bio_data.registered_name_mobile_number %>"
+                                            ><i class="si si-eye"> View </i></a>
+
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
 </div>
-<div class="modal fade" id="addemployee">
-   <div class="modal-dialog modal-dialog-center modal-lg">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h6 class="modal-title" id="staticBackdropLabel5">Add Employee</h6>
-            <button type="button" class="btn-close">&times;</button>
-         </div>
-         <div class="modal-body  text-muted leading-relaxed">
-            <p class="font-medium">Overflowing text to show scroll behavior</p>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-               Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-            </p>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="focus:outline-none text-white bg-red-500 hover:bg-red-600  font-medium rounded text-sm px-3 py-2 mr-2 dark:bg-red-500 dark:hover:bg-red-600  close"
-               data-bs-dismiss="modal">Close</button>
-            <button type="button" class="text-white bg-blue-500 hover:bg-blue-600  font-medium rounded text-sm px-3 py-2 dark:bg-blue-500 dark:hover:bg-blue-600 focus:outline-none  my-auto">Save</button>
-         </div>
-      </div>
-   </div>
+
+
+
+
+<!-------------------------------- Add Staff -------------------------------->
+
+<div class="modal" id="create_employee_modal">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+                <h6 class="modal-title">Create Staff</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+            <form action="<%= Routes.employer_path(@conn, :employer_create_employee) %>" method="post">
+            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="modal-body">
+                    <div id="wizard1">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="password" id="password-generate">
+
+
+                        <h3>Employee Details</h3>
+                        <section>
+
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h5 class="modal-title"> Personal Details </h5><br>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Title</p>
+                                            <select name="title" class="form-control select2">
+                                                <option label="Choose Currency"></option>
+                                                <option value="Mr">Mr</option>
+                                                <option value="Mrs">Mrs</option>
+                                                <option value="Ms">Ms</option>
+                                                <option value="Dr">Dr </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">First Name</p>
+                                            <input name="firstName" class="form-control" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Last Name</p>
+                                            <input name="lastName" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Choose Gender</p>
+                                            <select name="gender" class="form-control select2">
+                                                <option label="Choose Currency"></option>
+                                                <option value="Male">Male </option>
+                                                <option value="Female">Female </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Nationality</p>
+                                            <input class="form-control" name="nationality" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">National Registration Card Number</p>
+                                            <input class="form-control" name="meansOfIdentificationNumber" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                            <p class="mg-b-10">Date Of Birth</p>
+                                            <input class="form-control" name="dateOfBirth" type="date" max="<%= Timex.shift(Timex.today(), years: -18) %>">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Choose Marital</p>
+                                            <select name="marital_status" class="form-control select2">
+                                                <option label="Choose Currency"></option>
+                                                <option value="Single">Single </option>
+                                                <option value="Married">Married </option>
+                                                <option value="Widow">Widow </option>
+                                                <option value="Widower">Widower </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Number Of Dependents</p>
+                                            <input class="form-control" name="number_of_dependants" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Network Operator</p>
+                                            <input class="form-control" name="mobile_network_operator" type="email">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Mobile Number</p>
+                                            <input class="form-control" name="mobileNumber" type="text">
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Registered Names for the Mobile Number</p>
+                                            <input class="form-control" name="registered_name_mobile_number" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg-4">
+                                            <p class="mg-b-10">Email Address</p>
+                                            <input class="form-control" name="emailAddress" type="email">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <p class="mg-b-10">Account Type</p>
+                                            <select class="form-control select2"  name="product_name">
+                                                <option label="Choose Type"></option>
+                                                <option value="01">Loans</option>
+                                                <option value="02">Savings</option>
+                                                <option value="03">Investments</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                        <label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+                                                    <%# <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th> %>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%= for item <- required_document() do %>
+                                                    <tr class="tr_clone">
+                                                        <td>
+                                                            <div class="col-md-12 form-group">
+                                                                <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="nrc_image" type="file" multiple <%= is_required?(item.is_required) %> >
+                                                        </td>
+                                                    </tr>
+                                                <% end %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </section>
+                            <h3>Address Details</h3>
+                            <section>
+                            <div class="row row-sm">
+                                <div class="col-md-12 col-lg-12 col-xl-12">
+                                    <h5 class="modal-title"> Address Details </h5><br>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">House/Plot Number</p>
+                                            <input name="house_number" class="form-control" type="text" required>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Road/Street Name</p>
+                                            <input name="street_name" class="form-control" type="text" required>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Area</p>
+                                            <input name="area" class="form-control" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Town</p>
+                                            <input class="form-control" name="town" type="text" required>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Accomodation Status</p>
+                                            <input class="form-control" name="accomodation_status" type="text" required>
+                                        </div>
+                                        <div class="col-lg">
+                                            <p class="mg-b-10">Years At Current Address</p>
+                                            <input class="form-control" name="year_at_current_address" type="number" required>
+                                        </div>
+                                    </div>
+                                    <div class="row row-sm mg-b-20">
+
+                                        <div class="col-lg-4">
+                                            <p class="mg-b-10">Select Province</p>
+                                            <select name="departmentId" class="form-control select2">
+                                                <option label="Choose Currency"></option>
+                                                <%= for province <- @provinces do %>
+                                                <option value="<%= province.id %>"><%= province.name %> </option>
+                                                <% end %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </form>
+    	</div>
+  	</div>
 </div>
-<div class="modal fade" id="addemployeebulk">
-   <div class="modal-dialog modal-dialog-center modal-lg">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h6 class="modal-title" id="staticBackdropLabel5">Bulk Employee Upload</h6>
-            <button type="button" class="btn-close">&times;</button>
-         </div>
-         <div class="modal-body  text-muted leading-relaxed">
-            <p class="font-medium">Overflowing text to show scroll behavior</p>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-               facilisis
-               in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-            </p>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="focus:outline-none text-white bg-red-500 hover:bg-red-600  font-medium rounded text-sm px-3 py-2 mr-2 dark:bg-red-500 dark:hover:bg-red-600  close"
-               data-bs-dismiss="modal">Close</button>
-            <button type="button" class="text-white bg-blue-500 hover:bg-blue-600  font-medium rounded text-sm px-3 py-2 dark:bg-blue-500 dark:hover:bg-blue-600 focus:outline-none  my-auto">Save</button>
-         </div>
-      </div>
-   </div>
+
+<!------------------------------------ End -------------------------------------->
+
+
+
+<!-------------------------------- Edit Staff -------------------------------->
+
+<div class="modal" id="edit_employee_modal">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+            <h6 class="modal-title">Edit Staff Details</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                   <form action= "<%= Routes.employer_path(@conn, :employer_update_employee) %>" enctype="multipart/form-data" id="tst"  method="post">
+                        <div class="modal-body">
+                            <div id="russ-wizard">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <input type="hidden" name="id" id="id">
+
+
+                                <h3>Personal Details</h3>
+                                <section>
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12 col-xl-12">
+                                            <h5 class="modal-title"> Personal Details </h5><br>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Title</p>
+                                                    <select name="title" id="bio_title" class="form-control">
+                                                        <option label="Choose Title"></option>
+                                                        <option value="Mr">Mr</option>
+                                                        <option value="Mrs">Mrs</option>
+                                                        <option value="Ms">Ms</option>
+                                                        <option value="Dr">Dr </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">First Name</p>
+                                                    <input name="firstName" id="firstname" class="form-control" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Last Name</p>
+                                                    <input name="lastName" id="lastname" class="form-control" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Choose Gender</p>
+                                                    <select name="gender" id="gender" class="form-control">
+                                                        <option label="Choose Gender"></option>
+                                                        <option value="Male">Male </option>
+                                                        <option value="Female">Female </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Nationality</p>
+                                                    <input class="form-control" name="nationality" id="nationality" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">National Registration Card Number</p>
+                                                    <input class="form-control" name="meansOfIdentificationNumber" id="meansofidentificationnumber" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Date Of Birth</p>
+                                                    <input class="form-control" name="dateOfBirth" id="dateofbirth" type="date" max="<%= Timex.shift(Timex.today(), years: -18) %>">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Choose Marital</p>
+                                                    <select name="marital_status" id="marital_status" class="form-control">
+                                                        <option label="Choose Currency"></option>
+                                                        <option value="Single">Single </option>
+                                                        <option value="Married">Married </option>
+                                                        <option value="Widow">Widow </option>
+                                                        <option value="Widower">Widower </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Number Of Dependents</p>
+                                                    <input class="form-control" name="number_of_dependants" id="number_of_dependants" type="number">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Mobile Network Operator</p>
+                                                    <input class="form-control" name="mobile_network_operator" id="mobile_network_operator" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Mobile Number</p>
+                                                    <input class="form-control" name="mobileNumber" id="mobilenumber" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Registered Names for the Mobile Number</p>
+                                                    <input class="form-control" name="registered_name_mobile_number" id="registered_name_mobile_number" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Email Address</p>
+                                                    <input class="form-control" name="emailAddress" id="emailaddress" type="email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <h3>Address Details</h3>
+                                <section>
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12 col-xl-12">
+                                            <h5 class="modal-title"> Address Details </h5><br>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">House/Plot Number</p>
+                                                    <input name="house_number" id="house_number" class="form-control" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Road/Street Name</p>
+                                                    <input name="street_name" id="street_name" class="form-control" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Area</p>
+                                                    <input name="area" id="area" class="form-control" type="text" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Town</p>
+                                                    <input class="form-control" name="town" id="town" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Accomodation Status</p>
+                                                    <input class="form-control" name="accomodation_status" id="accomodation_status" type="text" required>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Years At Current Address</p>
+                                                    <input class="form-control" name="year_at_current_address" id="year_at_current_address" type="number" required>
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+
+                                                <div class="col-lg-4">
+                                                    <p class="mg-b-10">Select Province</p>
+                                                    <select name="province" id="province" class="form-control">
+                                                        <option label="Choose Province"></option>
+                                                        <%= for province <- @provinces do %>
+                                                        <option value="<%= province.name %>"><%= province.name %> </option>
+                                                        <% end %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!------------------------------------ End -------------------------------------->
+
+<!-------------------------------- View Staff -------------------------------->
+
+<div class="modal fade" id="view_employee_modal" class="edit_country">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+
+            <form action="#" method="post">
+                <div class="modal-header">
+                    <h6 class="modal-title">View Staff Details</h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-sm">
+                        <div class="col-md-12 col-lg-12 col-xl-12">
+                            <h5 class="modal-title"> Personal Details </h5><br>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Title</p>
+                                    <input name="title" id="bio_title" class="form-control" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">First Name</p>
+                                    <input name="firstName" id="firstname" class="form-control" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Last Name</p>
+                                    <input name="lastName" id="lastname" class="form-control" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10"> Gender </p>
+                                    <input name="gender" id="gender" class="form-control" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Nationality</p>
+                                    <input class="form-control" name="nationality" id="nationality" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">National Registration Card Number</p>
+                                    <input class="form-control" name="meansOfIdentificationNumber" id="meansofidentificationnumber" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Date Of Birth</p>
+                                    <input class="form-control" name="dateOfBirth" id="dateofbirth" type="date" max="<%= Timex.shift(Timex.today(), years: -18) %>" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10"> Marital Staus </p>
+                                    <input name="marital_status" id="marital_status" class="form-control" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Number Of Dependents</p>
+                                    <input class="form-control" name="number_of_dependants" id="number_of_dependants" type="number" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Mobile Network Operator</p>
+                                    <input class="form-control" name="mobile_network_operator" id="mobile_network_operator" type="email" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Mobile Number</p>
+                                    <input class="form-control" name="mobileNumber" id="mobilenumber" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Registered Names for the Mobile Number</p>
+                                    <input class="form-control" name="registered_name_mobile_number" id="registered_name_mobile_number" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg-4">
+                                    <p class="mg-b-10">Email Address</p>
+                                    <input class="form-control" name="emailAddress" id="emailaddress" type="email" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-sm">
+                        <div class="col-md-12 col-lg-12 col-xl-12">
+                            <h5 class="modal-title"> Address Details </h5><br>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">House/Plot Number</p>
+                                    <input name="house_number" id="house_number" class="form-control" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Road/Street Name</p>
+                                    <input name="street_name" id="street_name" class="form-control" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Area</p>
+                                    <input name="area" id="area" class="form-control" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Town</p>
+                                    <input class="form-control" name="town" id="town" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Accomodation Status</p>
+                                    <input class="form-control" name="accomodation_status" id="accomodation_status" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Years At Current Address</p>
+                                    <input class="form-control" name="year_at_current_address" id="year_at_current_address" type="number" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg-4">
+                                    <p class="mg-b-10"> Province </p>
+                                    <input name="province" id="province" class="form-control" type="text" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                            <div class="modal-footer">
+                            <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!------------------------------------ End -------------------------------------->
+
+<!-------------------------------- Buld Upload -------------------------------->
+
+<div class="modal fade" id="">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Upload Staffs</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+          <form action=" <%= Routes.employer_path(@conn, :handle_staff_bulk_upload) %>"  enctype="multipart/form-data" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row">
+                           <div class="col-md-12">
+                                <div class="col-sm">
+                                  <label class="form-label">Attach file<span style="color: red;">*</span></label>
+                                    <input type="file"  name="uploafile_name" class="form-control" required >
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Upload</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="bulkuploademployer">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+            <h6 class="modal-title">Upload Staffs</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                    <form action=" <%= Routes.employer_path(@conn, :handle_staff_bulk_upload) %>"  enctype="multipart/form-data" method="post">
+
+                        <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <div class="row row-lg">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="row">
+                                    <div class="col-md-12">
+                                            <div class="col-sm">
+                                            <label class="form-label">Attach file<span style="color: red;">*</span></label>
+                                                <input type="file"  name="uploafile_name" class="form-control" required >
+                                            </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-success" type="submit">Upload</button>
+                            <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------------------------------ End -------------------------------------->
+
+
+<script>
+
+    $('#create_employee').on('click', function (event){
+        var modal= $("#create_employee_modal");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    console.log(acc)
+                    console.log(modal.find('#password-generate').val(acc));
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+
+</script>
+
+
+<script>
+$(document).ready(function(){
+
+    $('#edit_employee_modal').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #bio_title').val(button.data('bio_title'));
+            modal.find('.modal-body #nationality').val(button.data('nationality'));
+            modal.find('.modal-body #gender').val(button.data('gender'));
+            modal.find('.modal-body #firstname').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #emailaddress').val(button.data('emailaddress'));
+            modal.find('.modal-body #dateofbirth').val(button.data('dateofbirth'));
+            modal.find('.modal-body #mobilenumber').val(button.data('mobilenumber'));
+            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+            modal.find('.modal-body #marital_status').val(button.data('marital_status'));
+            modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
+            modal.find('.modal-body #accomodation_status').val(button.data('accomodation_status'));
+
+            modal.find('.modal-body #area').val(button.data('area'));
+            modal.find('.modal-body #house_number').val(button.data('house_number'));
+            modal.find('.modal-body #street_name').val(button.data('street_name'));
+            modal.find('.modal-body #town').val(button.data('town'));
+            modal.find('.modal-body #year_at_current_address').val(button.data('year_at_current_address'));
+            modal.find('.modal-body #province').val(button.data('province'));
+            modal.find('.modal-body #mobile_network_operator').val(button.data('mobile_network_operator'));
+            modal.find('.modal-body #registered_name_mobile_number').val(button.data('registered_name_mobile_number'));
+
+
+
+    });
+
+    $('#view_employee_modal').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #bio_title').val(button.data('bio_title'));
+            modal.find('.modal-body #nationality').val(button.data('nationality'));
+            modal.find('.modal-body #gender').val(button.data('gender'));
+            modal.find('.modal-body #firstname').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #emailaddress').val(button.data('emailaddress'));
+            modal.find('.modal-body #dateofbirth').val(button.data('dateofbirth'));
+            modal.find('.modal-body #mobilenumber').val(button.data('mobilenumber'));
+            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+            modal.find('.modal-body #marital_status').val(button.data('marital_status'));
+            modal.find('.modal-body #number_of_dependants').val(button.data('number_of_dependants'));
+            modal.find('.modal-body #accomodation_status').val(button.data('accomodation_status'));
+
+            modal.find('.modal-body #area').val(button.data('area'));
+            modal.find('.modal-body #house_number').val(button.data('house_number'));
+            modal.find('.modal-body #street_name').val(button.data('street_name'));
+            modal.find('.modal-body #town').val(button.data('town'));
+            modal.find('.modal-body #year_at_current_address').val(button.data('year_at_current_address'));
+            modal.find('.modal-body #province').val(button.data('province'));
+            modal.find('.modal-body #mobile_network_operator').val(button.data('mobile_network_operator'));
+            modal.find('.modal-body #registered_name_mobile_number').val(button.data('registered_name_mobile_number'));
+
+    });
+
+});
+</script>

@@ -3,7 +3,7 @@ defmodule LoanmanagementsystemWeb.EmployerController do
   import Ecto.Query, warn: false
 
   alias Loanmanagementsystem.Logs.UserLogs
-  # alias Loanmanagementsystem.Emails.Email
+  alias Loanmanagementsystem.Emails.Email
   alias Loanmanagementsystem.Accounts.{User, UserBioData, UserRole}
   alias Loanmanagementsystem.Repo
   alias Loanmanagementsystem.Accounts
@@ -12,66 +12,6 @@ defmodule LoanmanagementsystemWeb.EmployerController do
   alias Loanmanagementsystem.Accounts.Address_Details
   alias Loanmanagementsystem.Accounts.Customer_account
   alias Loanmanagementsystem.Employment.{Employee_Maintenance}
-  alias Loanmanagementsystem.Loan.Loans
-
-
-  plug LoanmanagementsystemWeb.Plugs.Authenticate,
-      [module_callback: &LoanmanagementsystemWeb.EmployerController.authorize_role/1]
-      when action not in [
-          :all_staffs,
-          :calculate_page_num,
-          :calculate_page_size,
-          :caplock,
-          :company_all_loans,
-          :csv,
-          :default_dir,
-          :employer_activate_employee,
-          :employer_all_loans,
-          :employer_create_admin_employee,
-          :employer_create_employee,
-          :employer_deactivate_employee,
-          :employer_disbursed_loans,
-          :employer_employee_all_loans,
-          :employer_employee_all_loans_list_item_lookup,
-          :employer_employee_disbursed_loans,
-          :employer_employee_disbursed_loans_list_item_lookup,
-          :employer_employee_loan_products,
-          :employer_employee_pending_loans,
-          :employer_employee_pending_loans_list_item_lookup,
-          :employer_employee_rejected_loans,
-          :employer_employee_rejected_loans_list_item_lookup,
-          :employer_pending_loans,
-          :employer_rejected_loans,
-          :employer_transaction_reports,
-          :employer_update_employee,
-          :employer_user_logs,
-          :entries,
-          :extract_xlsx,
-          :generate_random_password,
-          :handle_staff_bulk_upload,
-          :is_valide_file,
-          :number,
-          :number2,
-          :parse_image,
-          :password_render,
-          :persist,
-          :process_bulk_upload,
-          :process_csv,
-          :random_string,
-          :search_options,
-          :small_latter,
-          :small_latter2,
-          :special,
-          :staff_all_loans,
-          :total_entries,
-          :traverse_errors,
-          :user_mgt,
-          :client_approval_details,
-          :approve_client_invoice_discounting_application
-       ]
-
-use PipeTo.Override
-
 
   def employer_employee_all_loans(conn, _params) do
     current_user = get_session(conn, :current_user)
@@ -640,7 +580,7 @@ use PipeTo.Override
   end
 
   defp prepare_employee_maintenance_bulk_params(emplo_resp, _user) when not is_nil(emplo_resp), do: emplo_resp
-  defp prepare_employee_maintenance_bulk_params(_emplo_resp, user, _filename, items) do
+  defp prepare_employee_maintenance_bulk_params(_emplo_resp, user, filename, items) do
 
     items
     |> Stream.with_index(1)
@@ -657,7 +597,7 @@ use PipeTo.Override
 
 
   defp prepare_logs_bulk_params(logs_resp, _user) when not is_nil(logs_resp), do: logs_resp
-  defp prepare_logs_bulk_params(_logs_resp, user, _filename, items) do
+  defp prepare_logs_bulk_params(_logs_resp, user, filename, items) do
 
     items
     |> Stream.with_index(1)
@@ -671,7 +611,7 @@ use PipeTo.Override
 
   end
 
-  defp prepare_userbio_data_params(item, _user) do
+  defp prepare_userbio_data_params(item, user) do
     %{
       dateOfBirth: item.dateOfBirth,
       emailAddress: item.emailAddress,
@@ -693,7 +633,7 @@ use PipeTo.Override
     }
   end
 
-  defp prepare_address_details_params(item, _) do
+  defp prepare_address_details_params(item, user) do
     %{
       accomodation_status: item.accomodation_status,
       year_at_current_address: item.year_at_current_address,
@@ -706,7 +646,7 @@ use PipeTo.Override
     }
   end
 
-  defp prepare_userrole_params(item, _user, otp) do
+  defp prepare_userrole_params(item, user, otp) do
     %{
       roleType: "EMPLOYEE",
       status: "INACTIVE",
@@ -726,7 +666,7 @@ use PipeTo.Override
     }
   end
 
-  defp prepare_customer_account_params(item, _user) do
+  defp prepare_customer_account_params(item, user) do
     %{
       # account_number: employee_account_number,
       user_id: User.find_by(username: item.mobileNumber).id,
@@ -746,7 +686,7 @@ use PipeTo.Override
     }
   end
 
-  defp prepare_maintenance_params(item,_user) do
+  defp prepare_maintenance_params(item, user) do
 
     %{
       registered_name_mobile_number: item.registered_name_mobile_number,
@@ -1057,6 +997,7 @@ use PipeTo.Override
         password: params["password"],
         status: "INACTIVE",
         username: params["mobileNumber"],
+        status: "Employee",
         pin: otp,
         company_id: company_id
       })
@@ -1146,7 +1087,7 @@ use PipeTo.Override
         registered_name_mobile_number: params["registered_name_mobile_number"],
         userId: add_user.id,
         roleTypeId: add_user_role.id,
-        nrc_image: add_emplee_values.nrc_image
+        nrc_image: add_emplee_values.encode_img
       })
       |> Repo.insert()
     end)
@@ -1222,7 +1163,7 @@ use PipeTo.Override
       |> Repo.update()
     end)
 
-    |> Ecto.Multi.run(:update_employoiment_details, fn _repo, %{update_userbiodate: _update_userbiodate, update_address_details: _update_address_details} ->
+    |> Ecto.Multi.run(:update_employoiment_details, fn _repo, %{update_userbiodate: update_userbiodate, update_address_details: _update_address_details} ->
       Employee_Maintenance.changeset(employment_maintenance, %{
 
         mobile_network_operator: params["mobile_network_operator"],
@@ -1587,7 +1528,7 @@ use PipeTo.Override
 
   def employer_employee_pending_loans_list_item_lookup(conn, params) do
     companyId = conn.assigns.user.company_id
-    loan_status = "PENDING_CLIENT_CONFIRMATION"
+    loan_status = "PENDING_APPROVAL"
 
     {draw, start, length, search_params} = search_options(params)
 
@@ -1700,69 +1641,4 @@ use PipeTo.Override
   def traverse_errors(errors) do
     for {key, {msg, _opts}} <- errors, do: "#{String.upcase(to_string(key))} #{msg}"
   end
-
-  def authorize_role(conn) do
-    case Phoenix.Controller.action_name(conn) do
-      act when act in ~w(new create)a -> {:employer_client, :create}
-      act when act in ~w(index view)a -> {:employer_client, :view}
-      act when act in ~w(update edit)a -> {:employer_client, :edit}
-      act when act in ~w(change_status)a -> {:employer_client, :change_status}
-      _ -> {:employer_client, :unknown}
-    end
-  end
-
-  def client_approval_details(conn, %{"loan_id" => loan_id}) do
-
-    loanDocs = Loanmanagementsystem.Loan.get_invoice_docs(loan_id)
-
-    loan_details = Loanmanagementsystem.Loan.invoice_details_list(loan_id)
-
-    credit_loan_details = Loanmanagementsystem.Loan.invoice_credit_details_list(loan_id)
-
-    render(conn, "client_approval_details.html", loan_details: loan_details, loanDocs: loanDocs, credit_loan_details: credit_loan_details)
-  end
-
-
-  def approve_client_invoice_discounting_application(conn, params) do
-
-    loans = Loanmanagementsystem.Loan.get_loan_by_id!(params["id"])
-
-      Ecto.Multi.new()
-      |> Ecto.Multi.update(
-        :add_loan,
-        Loans.changeset(loans, %{
-
-          loan_status: "PENDING_CREDIT_ANALYST",
-          status: "PENDING_CREDIT_ANALYST"
-
-        })
-      )
-
-      |> Ecto.Multi.run(:user_logs, fn _repo, %{add_loan: _add_loan} ->
-        UserLogs.changeset(%UserLogs{}, %{
-          activity: "Loan Application Successfully Approved By Client",
-          user_id: conn.assigns.user.id
-        })
-        |> Repo.insert()
-      end)
-
-      |> Ecto.Multi.run(:document, fn _repo, %{add_loan: add_loan, user_logs: _user_logs} ->
-        Loanmanagementsystem.Services.InvoiceDiscountingLoanUploads.invoice_loan_upload(%{"conn" => conn, "customer_id" => params["customer_id"], "loan_id" => add_loan.id}, params)
-      end)
-      |> Repo.transaction()
-      |> case do
-        {:ok, %{add_loan: _add_loan, user_logs: _user_logs, document: _document}} ->
-          conn
-          |> put_flash(:info, "Loan Application Approved Successfully By Client")
-          |> redirect(to: Routes.employer_path(conn, :employer_employee_pending_loans))
-
-        {:error, _failed_operation, failed_value, _changes_so_far} ->
-          reason = traverse_errors(failed_value.errors) |> List.first()
-
-          conn
-          |> put_flash(:error, reason)
-          |> redirect(to: Routes.employer_path(conn, :employer_employee_pending_loans))
-      end
-  end
-
 end

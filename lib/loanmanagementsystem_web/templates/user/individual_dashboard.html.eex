@@ -1,311 +1,555 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<style>
+#container {
+    height: 400px;
+}
 
-<div id="kt_header" class="header header-fixed">
-	<!--begin::Container-->
-	<div class="container-fluid d-flex align-items-stretch justify-content-between">
-		<!--begin::Header Menu Wrapper-->
-			<%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
-		<!--end::Header Menu Wrapper-->
-	</div>
-	<!--end::Container-->
-</div>
-<!--end::Header-->
-<!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-	<!--begin::Subheader-->
-	<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-		<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-			<!--begin::Info-->
-			<div class="d-flex align-items-center flex-wrap mr-2">
-				<!--begin::Page Title-->
-				<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Dashboard</h5>
-				<!--end::Page Title-->
-				<!--begin::Actions-->
-				<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
-				<span class="text-muted font-weight-bold mr-4">Hi <%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
-				<!--end::Actions-->
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 310px;
+    max-width: 500px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+
+#loading{
+   display: none;
+}
+#amortresults{
+   float: right;
+    clear: left;
+    margin-right: 0!important;
+    position: relative;
+    top: -302px;
+}
+table{
+   table-layout: auto;
+   width: 100%;
+}
+</style>
+<div class="container">
+	<div class="col-md-12">
+
+		<!-- Page Header -->
+		<div class="page-header">
+			<div>
+				<h2 class="main-content-title tx-24 mg-b-5">Dashboard</h2>
+				<ol class="breadcrumb">
+					<li  aria-current="page" id="greetings"></li> &nbsp<li   ><%= @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %></li>
+				</ol>
 			</div>
-			<!--end::Info-->
-			<!--begin::Toolbar-->
-			<div class="d-flex align-items-center">
-				<!--begin::Actions-->
-				<div id="datetime"></div>
+			<div class="d-flex">
+				<div class="justify-content-center">
+					<button type="button" class="btn btn-primary my-2 btn-icon-text"  data-bs-target="#modaldemo9" data-bs-toggle="modal"> <i class="fa fa-calculator me-2"></i> Loan Calculator </button>
+				</div>
 			</div>
-			<!--end::Toolbar-->
 		</div>
-	</div>
-	<!--end::Subheader-->
-	<!--begin::Entry-->
-	<div class="d-flex flex-column-fluid">
-		<!--begin::Container-->
-		<div class="container-fluid">
-			<!--begin::Dashboard-->
-			<!--begin::Row-->
+		<!-- End Page Header -->
 
+			<div class="row row-sm">
 
-
-
-					<!--begin::Dashboard-->
-					<!--begin::Row-->
-					<div class="card-toolbar">
-
-						<a type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" data-target="#modaldemo9" style="background-color: #011941; margin-left: 1430px;"><i class="fa fa-calculator me-2"></i> Loan Calculator </a>
-					</div><br>
-					<div class="row">
-						<div class="col-lg-6 col-xl-6">
-							<!--begin::Mixed Widget 1-->
-							<div class="card card-custom bg-gray-100 card-stretch gutter-b">
-								<!--begin::Header-->
-								<div class="card-header border-0 bg-info py-5">
-									<h3 class="card-title font-weight-bolder text-white">Loan Transactions</h3>
-									<div class="card-toolbar">
-									</div>
-								</div>
-								<!--end::Header-->
-								<!--begin::Body-->
-								<div class="card-body p-0 position-relative overflow-hidden">
-									<!--begin::Chart-->
-									<div id="kt_mixed_widget_1_chart" class="card-rounded-bottom bg-info" style="height: 200px"></div>
-									<!--end::Chart-->
-									<!--begin::Stats-->
-									<div class="card-spacer mt-n25">
-										<!--begin::Row-->
-										<div class="row m-0">
-											<div class="col bg-light-warning px-6 py-8 rounded-xl mr-7 mb-7">
-												<span class="svg-icon svg-icon-3x svg-icon-warning d-block my-2">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<rect x="0" y="0" width="24" height="24" />
-															<rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5" />
-															<rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
-															<rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
-															<rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
-														</g>
-													</svg>
-													<!--end::Svg Icon-->
-												</span>
-												<a href="#" class="text-warning font-weight-bold font-size-h6">Pending Loans</a>
-											</div>
-											<div class="col bg-light-primary px-6 py-8 rounded-xl mb-7">
-												<span class="svg-icon svg-icon-3x svg-icon-primary d-block my-2">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Add-user.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<polygon points="0 0 24 0 24 24 0 24" />
-															<path d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-															<path d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
-														</g>
-													</svg>
-													<!--end::Svg Icon-->
-												</span>
-												<a href="#" class="text-primary font-weight-bold font-size-h6 mt-2">Profile</a>
-											</div>
-										</div>
-										<!--end::Row-->
-										<!--begin::Row-->
-										<div class="row m-0">
-											<div class="col bg-light-danger px-6 py-8 rounded-xl mr-7">
-												<span class="svg-icon svg-icon-3x svg-icon-danger d-block my-2">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<polygon points="0 0 24 0 24 24 0 24" />
-															<path d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z" fill="#000000" fill-rule="nonzero" />
-															<path d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z" fill="#000000" opacity="0.3" />
-														</g>
-													</svg>
-													<!--end::Svg Icon-->
-												</span>
-												<a href="#" class="text-danger font-weight-bold font-size-h6 mt-2">Disbursed Loans</a>
-											</div>
-											<div class="col bg-light-success px-6 py-8 rounded-xl">
-												<span class="svg-icon svg-icon-3x svg-icon-success d-block my-2">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Urgent-mail.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<rect x="0" y="0" width="24" height="24" />
-															<path d="M12.7037037,14 L15.6666667,10 L13.4444444,10 L13.4444444,6 L9,12 L11.2222222,12 L11.2222222,14 L6,14 C5.44771525,14 5,13.5522847 5,13 L5,3 C5,2.44771525 5.44771525,2 6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,13 C19,13.5522847 18.5522847,14 18,14 L12.7037037,14 Z" fill="#000000" opacity="0.3" />
-															<path d="M9.80428954,10.9142091 L9,12 L11.2222222,12 L11.2222222,16 L15.6666667,10 L15.4615385,10 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 L9.80428954,10.9142091 Z" fill="#000000" />
-														</g>
-													</svg>
-													<!--end::Svg Icon-->
-												</span>
-												<a href="#" class="text-success font-weight-bold font-size-h6 mt-2">Active Loans</a>
-											</div>
-										</div>
-										<!--end::Row-->
-									</div>
-									<!--end::Stats-->
-								</div>
-								<!--end::Body-->
-							</div>
-							<!--end::Mixed Widget 1-->
-						</div>
-
-						<div class="col-lg-6 col-xl-6">
-							<!--begin::Stats Widget 11-->
-							<div class="card card-custom card-stretch card-stretch-half gutter-b">
-								<!--begin::Body-->
-								<div class="card-body p-0">
-									<div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
-										<span class="symbol symbol-50 symbol-light-success mr-2">
-											<span class="symbol-label">
-												<span class="svg-icon svg-icon-xl svg-icon-success">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<rect x="0" y="0" width="24" height="24" />
-															<rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
-															<path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
-														</g>
-													</svg>
-													<!--end::Svg Icon-->
-												</span>
-											</span>
-										</span>
-										<div class="d-flex flex-column text-right">
-											<span class="text-dark-75 font-weight-bolder font-size-h3">ZMW 1750</span>
-											<span class="text-muted font-weight-bold mt-2">Total Balance</span>
-										</div>
-									</div>
-									<div id="kt_stats_widget_11_chart" class="card-rounded-bottom" data-color="success" style="height: 150px"></div>
-								</div>
-								<!--end::Body-->
-							</div>
-							<!--end::Stats Widget 11-->
-							<!--begin::Stats Widget 12-->
-							<div class="card card-custom card-stretch card-stretch-half gutter-b">
-								<!--begin::Body-->
-								<div class="card-body p-0">
-									<div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
-										<span class="symbol symbol-50 symbol-light-primary mr-2">
-											<span class="symbol-label">
-												<span class="svg-icon svg-icon-xl svg-icon-primary">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<polygon points="0 0 24 0 24 24 0 24" />
-															<path d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-															<path d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
-														</g>
-													</svg>
-													<!--end::Svg Icon-->
-												</span>
-											</span>
-										</span>
-										<div class="d-flex flex-column text-right">
-											<span class="text-dark-75 font-weight-bolder font-size-h3">2</span>
-											<span class="text-muted font-weight-bold mt-2">Total Loans</span>
-										</div>
-									</div>
-									<div id="kt_stats_widget_12_chart" class="card-rounded-bottom" data-color="primary" style="height: 150px"></div>
-								</div>
-								<!--end::Body-->
-							</div>
-							<!--end::Stats Widget 12-->
-						</div>
-
-						<div class="col-lg-6 col-xl-12">
-							<div class="card custom-card overflow-hidden">
-								<div class="card custom-card mg-b-20">
-									<div class="card-body">
-										<div class="card-header pt-0 ps-0 pe-0 d-flex">
-											<div>
-												<label class="main-content-label mb-2">Last Transactions</label> <span class="d-block tx-12 mb-2 text-muted">A task is accomplished by a set deadline, and must contribute toward work-related objectives.</span>
-											</div>
-										</div>
-										<div class="table-responsive tasks">
-											<table class="table card-table table-vcenter text-nowrap mb-0 border-top-0 border">
-												<thead>
-													<tr>
-														<th class="wd-lg-10p">Amount</th>
-														<th class="wd-lg-20p">Date</th>
-														<th class="wd-lg-20p text-center">Tnx No.</th>
-														<th class="wd-lg-20p">Prority</th>
-														<th class="wd-lg-20p">Status</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td class="">ZMW 1500</td>
-														<td class="text-nowrap">10 Mar 2022</td>
-														<td class="text-center">1099288383<i class=""></i></td>
-														<td class="text-primary">High</td>
-														<td><span class="badge bg-pill bg-primary-light">Completed</span></td>
-													</tr>
-													<tr>
-														<td class="">ZMW 2000</td>
-														<td class="text-nowrap">07 Feb 2022</td>
-														<td class="text-center">3772887788<i class=""></i></td>
-														<td class="text-secondary">Normal</td>
-														<td><span class="badge bg-pill bg-warning-light">Pending</span></td>
-													</tr>
-													<tr>
-														<td class="">ZMW 100</td>
-														<td class="text-nowrap">22 Feb 2022</td>
-														<td class="text-center">1002909388<i class=""></i></td>
-														<td class="text-warning">Low</td>
-														<td><span class="badge bg-pill bg-primary-light">Completed</span></td>
-													</tr>
-													<tr>
-														<td class="">ZMW 550</td>
-														<td class="text-nowrap">10 Jan 2022</td>
-														<td class="text-center">3889782887<i class=""></i></td>
-														<td class="text-primary">High</td>
-														<td><span class="badge bg-pill bg-danger-light">Rejected</span></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
+				<!-- Trans Start -->
+				<div class="col-sm-12 col-md-7 col-lg-7 col-xl-7">
+					<div class="card custom-card overflow-hidden">
+					<div class="card custom-card mg-b-20">
+						<div class="card-body">
+							<div class="card-header pt-0 ps-0 pe-0 d-flex">
+								<div>
+									<label class="main-content-label mb-2">Last Transactions</label> <span class="d-block tx-12 mb-2 text-muted">A task is accomplished by a set deadline, and must contribute toward work-related objectives.</span>
 								</div>
 							</div>
-
-							<div class="">
-								<div class="card custom-card">
-									<div class="row row-sm">
-										<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
-											<div class="card-body text-center">
-												<h6 class="mb-0">Gross profit Margin</h6>
-												<h2 class="mb-1 mt-2 number-font"><span class="counter">77</span>%</h2>
-												<p class="mb-0 text-muted"><span class="mb-0 text-danger fs-13 ms-1"><i class="fe fe-arrow-down"></i> 1.68%</span> for Last month</p>
-											</div>
-										</div>
-										<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
-											<div class="card-body text-center">
-												<h6 class="mb-0">Opex Ratio</h6>
-												<h2 class="mb-1 mt-2 number-font"><span class="counter">60</span>%</h2>
-												<p class="mb-0 text-muted"><span class="mb-0 text-success fs-13 ms-1"><i class="fe fe-arrow-up"></i> 0.27%</span> for Last month</p>
-											</div>
-										</div>
-										<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
-											<div class="card-body text-center">
-												<h6 class="mb-0">Operating Profit Margin</h6>
-												<h2 class="mb-1 mt-2 number-font"><span class="counter">57</span>%</h2>
-												<p class="mb-0 text-muted"><span class="mb-0 text-danger fs-13 ms-1"><i class="fe fe-arrow-down"></i> 0.87%</span> for Last month</p>
-											</div>
-										</div>
-									</div>
-								</div>
+							<div class="table-responsive tasks">
+								<table class="table card-table table-vcenter text-nowrap mb-0 border-top-0 border">
+									<thead>
+										<tr>
+											<th class="wd-lg-10p">Amount</th>
+											<th class="wd-lg-20p">Date</th>
+											<th class="wd-lg-20p text-center">Tnx No.</th>
+											<th class="wd-lg-20p">Prority</th>
+											<th class="wd-lg-20p">Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="">ZMW 1500</td>
+											<td class="text-nowrap">10 Mar 2022</td>
+											<td class="text-center">1099288383<i class=""></i></td>
+											<td class="text-primary">High</td>
+											<td><span class="badge bg-pill bg-primary-light">Completed</span></td>
+										</tr>
+										<tr>
+											<td class="">ZMW 2000</td>
+											<td class="text-nowrap">07 Feb 2022</td>
+											<td class="text-center">3772887788<i class=""></i></td>
+											<td class="text-secondary">Normal</td>
+											<td><span class="badge bg-pill bg-warning-light">Pending</span></td>
+										</tr>
+										<tr>
+											<td class="">ZMW 100</td>
+											<td class="text-nowrap">22 Feb 2022</td>
+											<td class="text-center">1002909388<i class=""></i></td>
+											<td class="text-warning">Low</td>
+											<td><span class="badge bg-pill bg-primary-light">Completed</span></td>
+										</tr>
+										<tr>
+											<td class="">ZMW 550</td>
+											<td class="text-nowrap">10 Jan 2022</td>
+											<td class="text-center">3889782887<i class=""></i></td>
+											<td class="text-primary">High</td>
+											<td><span class="badge bg-pill bg-danger-light">Rejected</span></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-
-
 						</div>
 					</div>
-			<!--end::Page-->
-		</div>
-		<!--end::Container-->
+					</div>
+
+					<div class="">
+						<div class="card custom-card">
+							<div class="row row-sm">
+								<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
+									<div class="card-body text-center">
+										<h6 class="mb-0">Gross profit Margin</h6>
+										<h2 class="mb-1 mt-2 number-font"><span class="counter">77</span>%</h2>
+										<p class="mb-0 text-muted"><span class="mb-0 text-danger fs-13 ms-1"><i class="fe fe-arrow-down"></i> 1.68%</span> for Last month</p>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
+									<div class="card-body text-center">
+										<h6 class="mb-0">Opex Ratio</h6>
+										<h2 class="mb-1 mt-2 number-font"><span class="counter">60</span>%</h2>
+										<p class="mb-0 text-muted"><span class="mb-0 text-success fs-13 ms-1"><i class="fe fe-arrow-up"></i> 0.27%</span> for Last month</p>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-6 col-sm-6 pe-0 ps-0 border-end">
+									<div class="card-body text-center">
+										<h6 class="mb-0">Operating Profit Margin</h6>
+										<h2 class="mb-1 mt-2 number-font"><span class="counter">57</span>%</h2>
+										<p class="mb-0 text-muted"><span class="mb-0 text-danger fs-13 ms-1"><i class="fe fe-arrow-down"></i> 0.87%</span> for Last month</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+				<!-- Trans End -->
+
+				<!-- Credit Score Start -->
+				<div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">
+					<div class="card custom-card overflow-hidden">
+						<div class="card-header  border-bottom-0 pb-0">
+							<div>
+								<div class="d-md-flex">
+								<label class="main-content-label my-auto pt-2">Credit Score</label>
+									<div class="ms-auto mt-3 d-flex">
+										<div class="me-3 d-flex text-muted tx-13"><span class="legend bg-danger rounded-circle"></span>Bad</div>
+										<div class="me-3 d-flex text-muted tx-13"><span class="legend bg-warning rounded-circle"></span>Fair</div>
+										<div class="me-3 d-flex text-muted tx-13"><span class="legend bg-info rounded-circle"></span>Good</div>
+										<div class="me-3 d-flex text-muted tx-13"><span class="legend bg-success rounded-circle"></span>Excellent</div>
+									</div>
+								</div>
+								<span class="d-block tx-12 mt-2 mb-0 text-muted"> UX UI &amp; Backend Developement. </span>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-sm-6 my-auto">
+								<h6 class="mb-3 font-weight-normal">Score Factors</h6>
+									<div class="text-start">
+
+										<table class="table table-hover m-b-0 transcations mt-2">
+											<tbody>
+												<tr>
+													<td class="wd-5p">
+														<div class="main-img-user avatar-md">
+															<i class="fa fa-sign-language text-success" aria-hidden="true"></i>
+														</div>
+													</td>
+													<td>
+														<div class="d-flex align-middle ms-3">
+															<div class="d-inline-block">
+																<h6 class="mb-1">Excellent</h6>
+															</div>
+														</div>
+													</td>
+													<td class="text-end">
+														<div class="d-inline-block">
+															<h6 class="mb-2 tx-15 font-weight-semibold">720 - 850<i class="fas fa-level-up-alt ms-2 text-success m-l-10"></i></h6>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td class="wd-5p">
+														<div class="main-img-user avatar-md">
+															<i class="fa fa-thumbs-up text-info" aria-hidden="true"></i>
+														</div>
+													</td>
+													<td>
+														<div class="d-flex align-middle ms-3">
+															<div class="d-inline-block">
+																<h6 class="mb-1">Good</h6>
+															</div>
+														</div>
+													</td>
+													<td class="text-end">
+														<div class="d-inline-block">
+															<h6 class="mb-2 tx-15 font-weight-semibold">690 - 719<i class="fas fa-level-up-alt ms-2 text-info m-l-10"></i></h6>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td class="wd-5p">
+														<div class="main-img-user avatar-md">
+															<i class="fa fa-hand-rock-o text-warning" aria-hidden="true"></i>
+														</div>
+													</td>
+													<td>
+														<div class="d-flex align-middle ms-3">
+															<div class="d-inline-block">
+																<h6 class="mb-1">Fair</h6>
+															</div>
+														</div>
+													</td>
+													<td class="text-end">
+														<div class="d-inline-block">
+															<h6 class="mb-2 tx-15 font-weight-semibold">630 - 689<i class="fas fa-level-down-alt ms-2 text-warning m-l-10"></i></h6>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td class="wd-5p">
+														<div class="main-img-user avatar-md">
+															<i class="fa fa-thumbs-down text-danger" aria-hidden="true"></i>
+														</div>
+													</td>
+													<td>
+														<div class="d-flex align-middle ms-3">
+															<div class="d-inline-block">
+																<h6 class="mb-1">Bad</h6>
+															</div>
+														</div>
+													</td>
+													<td class="text-end">
+														<div class="d-inline-block">
+															<h6 class="mb-2 tx-15 font-weight-semibold">300 - 629<i class="fas fa-level-down-alt ms-2 text-danger m-l-10"></i></h6>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+
+
+
+									</div>
+								</div>
+								<div class="col-md-6 my-auto">
+									<div id="container"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- Credit Score End -->
+
+
+
+
+			</div>
+
+
+
+
 	</div>
-	<!--end::Entry-->
 </div>
-<!--end::Content-->
+
+
+
+
+<script>
+
+function getValues()
+{
+	//button click gets values from inputs
+	var balance = parseFloat(document.getElementById("principal").value);
+	var interestRate =
+		parseFloat(document.getElementById("interest").value/100.0);
+	var terms = parseInt(document.getElementById("terms").value);
+
+	//set the div string
+	var div = document.getElementById("Result");
+
+	//in case of a re-calc, clear out the div!
+	div.innerHTML = "";
+
+	//validate inputs - display error if invalid, otherwise, display table
+	var balVal = validateInputs(balance);
+	var intrVal = validateInputs(interestRate);
+
+	if (balVal && intrVal)
+	{
+		//Returns div string if inputs are valid
+		div.innerHTML += amort(balance, interestRate, terms);
+	}
+	else
+	{
+		//returns error if inputs are invalid
+		div.innerHTML += "Please Check your inputs and retry - invalid values.";
+	}
+}
+
+/**
+ * Amort function:
+ * Calculates the necessary elements of the loan using the supplied user input
+ * and then displays each months updated amortization schedule on the page
+*/
+function amort(balance, interestRate, terms)
+{
+    //Calculate the per month interest rate
+	var monthlyRate = interestRate/12;
+
+	//Calculate the payment
+    var payment = balance * (monthlyRate/(1-Math.pow(
+        1+monthlyRate, -terms)));
+
+	//begin building the return string for the display of the amort table
+    var result = "<div class='row'><div class='form-group col-md-4'><p class='mg-b-10'>Loan Amount:</p> <input class='form-control' value="+'ZMW' + balance.toFixed(2) +"  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Interest Rate:</p> <input class='form-control' value="+ (interestRate*100).toFixed(2) + '%'+ "  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Number of Months:</p> <input class='form-control' value=" + terms + "  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Monthly Payment:</p> <input class='form-control' value="+ payment.toFixed(2) +"  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Total Repayment:</p> <input class='form-control' value="+'ZMW' + (payment * terms).toFixed(2) +"  type='text'></div></div>";
+
+    //add header row for table to return string
+	result += "<table align=center class='table  text-nowrap text-md-nowrap table-striped mg-b-0'><tr><th>Month #</th><th>Balance</th>" +
+        "<th>Interest</th><th>Principal</th>";
+
+    /**
+     * Loop that calculates the monthly Loan amortization amounts then adds
+     * them to the return string
+     */
+	for (var count = 0; count < terms; ++count)
+	{
+		//in-loop interest amount holder
+		var interest = 0;
+
+		//in-loop monthly principal amount holder
+		var monthlyPrincipal = 0;
+
+		//start a new table row on each loop iteration
+		result += "<tr>";
+
+		//display the month number in col 1 using the loop count variable
+		result += "<td>" + (count + 1) + "</td>";
+
+
+		//code for displaying in loop balance
+		result += "<td> K" + balance.toFixed(2) + "</td>";
+
+		//calc the in-loop interest amount and display
+		interest = balance * monthlyRate;
+		result += "<td> K" + interest.toFixed(2) + "</td>";
+
+		//calc the in-loop monthly principal and display
+		monthlyPrincipal = payment - interest;
+		result += "<td> K" + monthlyPrincipal.toFixed(2) + "</td>";
+
+		//end the table row on each iteration of the loop
+		result += "</tr>";
+
+		//update the balance for each loop iteration
+		balance = balance - monthlyPrincipal;
+	}
+
+	//Final piece added to return string before returning it - closes the table
+    result += "</table>";
+
+	//returns the concatenated string to the page
+    return result;
+}
+
+function validateInputs(value)
+{
+	//some code here to validate inputs
+	if ((value == null) || (value == ""))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+</script>
+
+
+
+
+<script>
+Highcharts.chart('container', {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+
+    title: {
+        text: ''
+    },
+
+    pane: {
+        startAngle: -150,
+        endAngle: 150,
+        background: [{
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#FFF'],
+                    [1, '#333']
+                ]
+            },
+            borderWidth: 0,
+            outerRadius: '109%'
+        }, {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#333'],
+                    [1, '#FFF']
+                ]
+            },
+            borderWidth: 1,
+            outerRadius: '107%'
+        }, {
+            // default background
+        }, {
+            backgroundColor: '#DDD',
+            borderWidth: 0,
+            outerRadius: '105%',
+            innerRadius: '103%'
+        }]
+    },
+
+    // the value axis
+    yAxis: {
+        min: 550,
+        max: 850,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto'
+        },
+        title: {
+            text: 'Good'
+        },
+        plotBands: [{
+            from: 550,
+            to: 629,
+            color: '#DF5353' // red
+        }, {
+            from: 630,
+            to: 689,
+            color: '#ff8000' // orange
+        }, {
+            from: 690,
+            to: 719,
+            color: '#1ac6ff' // light green
+        }, {
+            from: 720,
+            to: 850,
+            color: '#55BF3B' // green
+        }]
+    },
+
+    series: [{
+        name: 'Speed',
+        data: [705],
+        tooltip: {
+            valueSuffix: 'Good'
+        }
+    }]
+
+});
+
+</script>
+<script>
+var myDate = new Date();
+var hrs = myDate.getHours();
+//var usern = '<%= @conn.private.plug_session["current_user_bio_data"].firstName %>';
+var greet;
+
+if (hrs < 12)
+  greet = 'Good Morning';
+else if (hrs >= 12 && hrs <= 17)
+  greet = 'Good Afternoon';
+else if (hrs >= 17 && hrs <= 24)
+  greet = 'Good Evening';
+
+document.getElementById('greetings').innerHTML = greet + ' ' ;
+</script>
+
 
 <div class="modal fade" id="modaldemo9" style="display: none;" aria-hidden="true">
 	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content modal-content-demo">
 			<div class="modal-header">
 				<h6 class="modal-title">Loan Calculator</h6>
-				<button aria-label="Close" class="btn-close" data-dismiss="modal" type="button"></button>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -359,123 +603,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+				<button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
 			</div>
 		</div>
 	</div>
 </div>
-
-<script>
-
-	function getValues()
-	{
-		//button click gets values from inputs
-		var balance = parseFloat(document.getElementById("principal").value);
-		var interestRate =
-			parseFloat(document.getElementById("interest").value/100.0);
-		var terms = parseInt(document.getElementById("terms").value);
-
-		//set the div string
-		var div = document.getElementById("Result");
-
-		//in case of a re-calc, clear out the div!
-		div.innerHTML = "";
-
-		//validate inputs - display error if invalid, otherwise, display table
-		var balVal = validateInputs(balance);
-		var intrVal = validateInputs(interestRate);
-
-		if (balVal && intrVal)
-		{
-			//Returns div string if inputs are valid
-			div.innerHTML += amort(balance, interestRate, terms);
-		}
-		else
-		{
-			//returns error if inputs are invalid
-			div.innerHTML += "Please Check your inputs and retry - invalid values.";
-		}
-	}
-
-	/**
-	* Amort function:
-	* Calculates the necessary elements of the loan using the supplied user input
-	* and then displays each months updated amortization schedule on the page
-	*/
-	function amort(balance, interestRate, terms)
-	{
-		//Calculate the per month interest rate
-		var monthlyRate = interestRate/12;
-
-		//Calculate the payment
-		var payment = balance * (monthlyRate/(1-Math.pow(
-			1+monthlyRate, -terms)));
-
-		//begin building the return string for the display of the amort table
-		var result = "<div class='row'><div class='form-group col-md-4'><p class='mg-b-10'>Loan Amount:</p> <input class='form-control' value="+'ZMW' + balance.toFixed(2) +"  type='text'></div>" +
-			"<div class='form-group col-md-4'><p class='mg-b-10'>Interest Rate:</p> <input class='form-control' value="+ (interestRate*100).toFixed(2) + '%'+ "  type='text'></div>" +
-			"<div class='form-group col-md-4'><p class='mg-b-10'>Number of Months:</p> <input class='form-control' value=" + terms + "  type='text'></div>" +
-			"<div class='form-group col-md-4'><p class='mg-b-10'>Monthly Payment:</p> <input class='form-control' value="+ payment.toFixed(2) +"  type='text'></div>" +
-			"<div class='form-group col-md-4'><p class='mg-b-10'>Total Repayment:</p> <input class='form-control' value="+'ZMW' + (payment * terms).toFixed(2) +"  type='text'></div></div>";
-
-		//add header row for table to return string
-		result += "<table align=center class='table  text-nowrap text-md-nowrap table-striped mg-b-0'><tr><th>Month #</th><th>Balance</th>" +
-			"<th>Interest</th><th>Principal</th>";
-
-		/**
-		* Loop that calculates the monthly Loan amortization amounts then adds
-		* them to the return string
-		*/
-		for (var count = 0; count < terms; ++count)
-		{
-			//in-loop interest amount holder
-			var interest = 0;
-
-			//in-loop monthly principal amount holder
-			var monthlyPrincipal = 0;
-
-			//start a new table row on each loop iteration
-			result += "<tr>";
-
-			//display the month number in col 1 using the loop count variable
-			result += "<td>" + (count + 1) + "</td>";
-
-
-			//code for displaying in loop balance
-			result += "<td> K" + balance.toFixed(2) + "</td>";
-
-			//calc the in-loop interest amount and display
-			interest = balance * monthlyRate;
-			result += "<td> K" + interest.toFixed(2) + "</td>";
-
-			//calc the in-loop monthly principal and display
-			monthlyPrincipal = payment - interest;
-			result += "<td> K" + monthlyPrincipal.toFixed(2) + "</td>";
-
-			//end the table row on each iteration of the loop
-			result += "</tr>";
-
-			//update the balance for each loop iteration
-			balance = balance - monthlyPrincipal;
-		}
-
-		//Final piece added to return string before returning it - closes the table
-		result += "</table>";
-
-		//returns the concatenated string to the page
-		return result;
-	}
-
-	function validateInputs(value)
-	{
-		//some code here to validate inputs
-		if ((value == null) || (value == ""))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-</script>

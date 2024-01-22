@@ -1,0 +1,363 @@
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Loan Application</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+        <body  onload="hide_receiver_number()">
+            <div class="row row-sm">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div>
+                                <h6 class="main-content-label mb-1">Loan Application</h6>
+                                <p class="text-muted card-sub-title"></p>
+                            </div>
+                            <form action=" # " id="tst" method="post">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <div id="russ-wizard"> <%= for personal_details <- @get_bio_datas do %>
+                                    <h3>Personal Details</h3>
+                                    <section>
+                                        <div class="row row-sm mg-b-20">
+
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">First Name</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.firstname %>" id="first_name_id" name="" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Other Name</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.othername %>" id="other_name_id" name="" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Last Name</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.lastname %>" id="last_name_id" name="" type="text" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Means of Identification</p>
+                                                <input class="form-control clear-wizard" name="id_means" value="<%= personal_details.meansOfIdentificationType %>" id="id_means" name="" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Identification Number</p>
+                                                <input value="<%= personal_details.meansOfIdentificationNumber %>" id="identification_id" class="form-control otc-user-lookup" name="" type="text" readonly>
+                                                <input type="hidden" name="user_id" id="user_id" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Gender</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.gender %>" id="id_gender" name="" type="text" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10"> Mobile</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.mobileNumber %>" id="mobile_id" name="" type="text" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Email</p>
+                                                <input class="form-control clear-wizard" value="<%= personal_details.emailAddress %>" id="email_id" name="" type="email" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Date of Birth</p>
+                                                <input type="date" value="<%= personal_details.dateOfBirth %>" class="form-control clear-wizard" id="dob_id" name="" readonly >
+                                            </div>
+
+                                        </div>
+                                    </section>
+
+                                <%= for product_detail <- @product_details do %>
+                                    <h3>Loan Details</h3>
+                                    <section>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                                <p class="mg-b-10">Product</p>
+                                                <input class="form-control" value="<%= product_detail.product_name %>" name="pro_name" placeholder="" type="text" id="product_code" readonly>
+                                                <input type="hidden" value="<%= product_detail.product_id %>" name="product_id" type="text">
+                                                <input type="hidden" value="<%= product_detail.product_type %>" name="product_type" type="text">
+                                                <input type="hidden" value="<%= product_detail.currency_name %>" name="currency_code" type="text">
+                                            </div>
+                                            <!-- col-4 -->
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Product Code</p>
+                                                <input class="form-control" value="<%= product_detail.product_code %>" name="pro_name" name="" type="text" id="product_code" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Product Type</p>
+                                                <input class="form-control" value="<%= product_detail.product_type %>" name="" type="text" id="product_type" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Currency</p>
+                                                <input class="form-control" value="<%= product_detail.currency_name %>" name="" type="text" id="currency_name" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Min Amount</p>
+                                                <input class="form-control" value="<%= Decimal.round(Decimal.from_float(product_detail.min_amount)) %>" name="" type="number" id="min_amount" readonly>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Max Amount</p>
+                                                <input class="form-control" value="<%= Decimal.round(Decimal.from_float(product_detail.max_amount)) %>" name="" type="number" id="max_amount" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Amount</p>
+                                                <input class="form-control" name="amount" id="amount_id" name="" type="number" required>
+                                                <input type="hidden" name="loan_user_id" id="user-id-data" type="text">
+                                            </div>
+                                            <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                                <p class="mg-b-10">Repayment Type</p>
+                                                <select class="form-control select2-with-search" name="repayment_type" id="repayment_type">
+                                                    <option label="Choose Product"></option>
+                                                    <option value="Bullet">Bullet </option>
+                                                    <option value="Amortize">Amortize </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </section>
+
+                                    <h3> Payment Details </h3>
+                                    <section>
+                                        <div class="card-pay">
+                                            <ul class="tabs-menu nav">
+                                                <li class=""><a href="#tab20" class="active" data-bs-toggle="tab"><i class="fa fa-bank"></i> Credit Card </a></li>
+                                                <li><a href="#tab21" data-bs-toggle="tab" class=""><i class="pe-7s-phone"></i>  Mobile Money</a></li>
+                                                <li><a href="#tab22" data-bs-toggle="tab" id="disbursement_type" class=""><i class="fa fa-credit-card"></i>  Bevula </a></li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active show px-4 py-2 br-3 mb-4" id="tab20">
+                                                    <div class="col-lg">
+                                                        <p class="mg-b-10">Bank Type</p>
+                                                            <select class="form-control select2-with-search" id="hide_disbursement_method" name="disbursement_method">
+                                                                <option label="Choose Method"></option>
+                                                                <option data-disbursement_method="Bank" value="Bank">Bank </option>
+                                                                <option data-disbursement_method="Bevura" value="Bevura">Bevura </option>
+
+                                                            </select>
+                                                    </div>
+
+                                                        <!-- ################################## Bank Details ################################### -->
+
+                                                    <div class="row row-sm mg-b-20" id="bank_details">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Bank Name</p>
+                                                            <input class="form-control clear-wizard" placeholder="Enter Bank Name" name="bank_name" id="bank_name" placeholder="Enter Bank Name" type="text" >
+                                                        </div>
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Account Name</p>
+                                                            <input class="form-control clear-wizard" placeholder="Enter Account Name" name="account_name" id="bank_account_name" type="text" >
+                                                        </div>
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Account number</p>
+                                                            <div class="input-group">
+                                                                <input class="form-control clear-wizard" placeholder="Enter Account Number" name="bank_account_no" id="bank_account_no" type="text" >
+                                                                <span class="">
+                                                                    <span class="btn btn-secondary box-shadow-0" type="button"><i class="fab fa-cc-visa"></i> &nbsp;
+                                                                    <i class="fab fa-cc-mastercard"></i></span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row row-sm mg-b-20" id="wallet_number">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Wallet Number</p>
+                                                            <input class="form-control clear-wizard" placeholder="Enter Wallet Number" id="bevura_wallet_no" name="bevura_wallet_no" type="text" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- ################################## Bank Details ################################### -->
+
+
+                                                <div class="tab-pane px-4 py-2 br-3 mb-4" id="tab21">
+                                                    <div class="col-lg">
+                                                        <p class="mg-b-10">Mobile Type</p>
+                                                            <select class="form-control select2-with-search" id="mobile_disbursement_method" class="form-control select2-with-search" name="disbursement_method">
+                                                                <option label="Choose Mobile"></option>
+                                                                <option data-disbursement_method="Airtel" value="Airtel">Airtel </option>
+                                                                <option data-disbursement_method="MTN"value="MTN">MTN </option>
+                                                                <option data-disbursement_method="Zamtel" value="Zamtel">Zamtel </option>
+                                                                <option data-disbursement_method="543" value="543">543 </option>
+                                                            </select>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20" id="receiver_number">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Receipient Number</p>
+                                                            <input type="tel"  class="form-control clear-wizard" placeholder="Enter Number"  id="receipient_number" name="receipient_number" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab22">
+                                                    <div class="col-lg">
+                                                        <p class="mg-b-10">Wallet Number</p>
+                                                        <input class="form-control clear-wizard" placeholder="Enter Wallet Number" id="bevura_wallet_no" name="bevura_wallet_no" type="text" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <h3>Loan Summary</h3>
+
+                                    <section>
+                                            <h6 class="main-content-label mb-1">Personal Info</h6>
+                                            <br>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">First Name</p>
+                                                    <input class="form-control" id="first-name-summary" name="" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Other Name</p>
+                                                    <input class="form-control" id="other-name-summary" name="" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Last Name</p>
+                                                    <input class="form-control" id="last-name-summary" name="" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Identification Number</p>
+                                                    <input value="<%= personal_details.meansOfIdentificationNumber %>" name="meansOfIdentificationNumber" id="identification-data-id" class="form-control" name="" type="text" readonly>
+                                                    <input type="hidden" name="meansOfIdentificationType" id="id-means-data" type="text">
+                                                    <input type="hidden" name="firstName" id="first-name-data" type="text">
+                                                    <input type="hidden" name="otherName" id="other-name-data" type="text">
+                                                    <input type="hidden" name="lastName" id="last-name-data" type="text">
+                                                    <input type="hidden" name="mobileNumber" id="mobile-data" type="text">
+                                                    <input type="hidden" name="emailAddress" id="email-data" type="text">
+                                                    <input type="hidden" value="<%= personal_details.dateOfBirth %>"  name="dateOfBirth" id="dob-data" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Means of Identification</p>
+                                                    <input class="form-control" id="id-means-summary" name="" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Gender</p>
+                                                    <input class="form-control" name="" id="gender-summary" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Date of Birth</p>
+                                                    <input class="form-control" name="" id="dob-summary" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10"> Mobile</p>
+                                                    <input class="form-control" name="" id="mobile-summary" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Email</p>
+                                                    <input class="form-control" name="" id="email-summary" type="text">
+                                                </div>
+                                            </div>
+                                            <h6 class="main-content-label mb-1">Loan Details</h6>
+                                            <br>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Product</p>
+                                                    <input name="product_name" value="<%= product_detail.product_name %>" class="form-control" name="" id="product_name" type="text" readonly>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Product Code</p>
+                                                    <input class="form-control" name="" id="product-code-summary" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Product Type</p>
+                                                    <input class="form-control" name="" id="product-type-summary" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Currency</p>
+                                                    <input class="form-control" name="" id="currency-summary" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Min Amount</p>
+                                                    <input class="form-control" name="" id="min-amount-summary" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Max Amount</p>
+                                                    <input class="form-control" name="" id="max-amount-summary" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Amount</p>
+                                                    <input name="loan_amount" class="form-control" id="amount-summary" name="" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Repayment Type</p>
+                                                    <input class="form-control" name="" id="repayment-type-summary" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Disburse via</p>
+                                                    <input class="form-control" name="" id="disbursement-summary" type="text">
+                                                </div>
+                                            </div>
+
+                                                <!-- ################################## Bank Details ################################### -->
+
+                                            <div class="row row-sm mg-b-20" id="bank_details_summary">
+                                                <div class="col-lg" >
+                                                    <p class="mg-b-10">Bank Name</p>
+                                                    <input class="form-control clear-wizard" id="summary-bank-name" placeholder="" type="text" >
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Account Name</p>
+                                                    <input class="form-control clear-wizard" id="summary-bank-account-no" type="text" >
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Account Number</p>
+                                                    <input class="form-control clear-wizard" id="summary-account-name" type="text" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row row-sm mg-b-20" id="receiver_number">
+                                                <div class="col-lg mg-b-10">
+                                                    <p class="mg-b-10">Receipient Number</p>
+                                                    <input class="form-control clear-wizard" id="summary-receipient-number" type="text" >
+                                                </div>
+                                            </div>
+                                                <!-- ################################ Bank Details ################################### -->
+
+                                            </div>
+                                    </section>
+                                <% end %>
+                                <% end %>
+
+                            </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+</div>

@@ -1,0 +1,512 @@
+<%= render "submenu.html", assigns %>
+
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Working Days Maintainence</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Organization Mgt</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> Working Days Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                  <button class="btn ripple btn-primary mb-0" data-bs-target="#addworkingdaysmodal" data-bs-toggle="modal" > Add Working Days</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                    <tr>
+                                        <th>Monday</th>
+                                        <th>Tuesday</th>
+                                        <th>Wednesday</th>
+                                        <th>Thursday</th>
+                                        <th>Friday</th>
+                                        <th>Saturday</th>
+                                        <th>Sunday</th>
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+
+                                    <tr>
+                                        <td><%= @workingdays && @workingdays.monday %> </td>
+                                        <td><%=  @workingdays && @workingdays.tuesday %> </td>
+                                        <td> <%=  @workingdays && @workingdays.wednesday  %> </td>
+                                        <td> <%=  @workingdays && @workingdays.thursday  %> </td>
+                                        <td> <%=  @workingdays && @workingdays.friday  %> </td>
+                                        <td> <%=  @workingdays && @workingdays.saturday  %> </td>
+                                        <td> <%=  @workingdays && @workingdays.sunday  %> </td>
+
+                                        <td>
+
+                                        <span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fe fe-chevron-down"></i> </span>
+                                         <div class="dropdown-menu">
+                                             <a href="#"
+                                                data-bs-target="#updateworkingdaysmodal"
+                                                data-bs-toggle="modal"
+                                                data-id ="<%=  @workingdays && @workingdays.id %>"
+                                                data-monday ="<%=   @workingdays && @workingdays.monday %>"
+                                                data-tuesday ="<%=   @workingdays && @workingdays.tuesday %>"
+                                                data-wednesday ="<%=   @workingdays && @workingdays.wednesday %>"
+                                                data-thursday ="<%=   @workingdays && @workingdays.thursday %>"
+                                                data-friday ="<%=   @workingdays && @workingdays.friday %>"
+                                                data-saturday ="<%=   @workingdays && @workingdays.saturday %>"
+                                                data-sunday ="<%=   @workingdays && @workingdays.sunday %>"
+                                                class=" dropdown-item btn ripple text-info"><i class= "fe fe-edit"></i>Update Working days </a>
+
+                                            <a href="#"
+                                                data-bs-target="#viewholidaymodal"
+                                                data-bs-toggle="modal"
+                                                data-id ="<%=  @workingdays && @workingdays.id %>"
+                                                data-monday ="<%=   @workingdays && @workingdays.monday %>"
+                                                data-tuesday ="<%=   @workingdays && @workingdays.tuesday %>"
+                                                data-wednesday ="<%=   @workingdays && @workingdays.wednesday %>"
+                                                data-thursday ="<%=   @workingdays && @workingdays.thursday %>"
+                                                data-friday ="<%=   @workingdays && @workingdays.friday %>"
+                                                data-saturday ="<%=   @workingdays && @workingdays.saturday %>"
+                                                data-sunday ="<%=   @workingdays && @workingdays.sunday %>"
+                                                class=" dropdown-item btn ripple text-warning"><i class= "fe fe-eye"></i>View </a>
+
+                                         </div>
+
+                                        </td>
+
+                                    </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+
+<div class="modal fade" id="addworkingdaysmodal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Working Days</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+         <form action="<%= Routes.change_management_path(@conn, :create_working_days)%>" method="POST">
+            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+             <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Monday </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                        <input type="radio" class="custom-control-input" name="monday" value="Yes" >
+                        <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                    </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                    <input type="radio" class="custom-control-input" name="monday" value="No">
+                    <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                    </label>
+
+                    <label class="form-label">Tuesday </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                        <input type="radio" class="custom-control-input" name="tuesday" value="Yes" >
+                        <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                    </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                    <input type="radio" class="custom-control-input" name="tuesday" value="No">
+                    <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                    </label>
+
+                    <label class="form-label">Wednesday </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                        <input type="radio" class="custom-control-input" name="wednesday" value="Yes">
+                        <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                    </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                    <input type="radio" class="custom-control-input" name="wednesday" value="No">
+                    <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                    </label>
+
+                    <label class="form-label">Thursday </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                        <input type="radio" class="custom-control-input" name="thursday" value="Yes" >
+                        <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                    </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                    <input type="radio" class="custom-control-input" name="thursday" value="No">
+                    <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                    </label>
+
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Friday </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                        <input type="radio" class="custom-control-input" name="friday" value="Yes" >
+                        <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                    </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                    <input type="radio" class="custom-control-input" name="friday" value="No">
+                    <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                    </label>
+
+                    <label class="form-label">Saturday </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                        <input type="radio" class="custom-control-input" name="saturday" value="Yes" >
+                        <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                    </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                    <input type="radio" class="custom-control-input" name="saturday" value="No">
+                    <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                    </label>
+
+                    <label class="form-label">Sunday </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                        <input type="radio" class="custom-control-input" name="sunday" value="Yes">
+                        <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                    </label>
+                    <label class="custom-control custom-radio custom-control-md">
+                    <input type="radio" class="custom-control-input" name="sunday" value="No">
+                    <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                    </label>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Submit</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Back</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateworkingdaysmodal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Update Working Days</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <form action="<%= Routes.change_management_path(@conn, :update_working_days)%>" method="POST">
+               <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id" >
+                   <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Monday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="monday" id="monday1" value="Yes"  >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="monday" id="monday2" value="No" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Tuesday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="tuesday" id="tuesday1" value="Yes" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="tuesday" id="tuesday2" value="No" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Wednesday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="wednesday" id="wednesday1" value="Yes" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="wednesday" id="wednesday2" value="No" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Thursday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="thursday" id="thursday1" value="Yes" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="thursday" id="thursday2" value="No" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+                       </div>
+                       <div class="col-md-6">
+
+                            <label class="form-label">Friday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="friday" id="friday1" value="Yes" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="friday" id="friday2" value="No" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Saturday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="saturday" id="saturday1" value="Yes" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="saturday" id="saturday2" value="No">
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Sunday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="sunday" id="sunday1" value="Yes" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="sunday" id="sunday2" value="No" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+                        </div>
+                   </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success" type="submit">Update</button>
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewholidaymodal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Working Days</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <form>
+               <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id" >
+                   <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Monday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="monday" id="vmonday1" value="Yes"  disabled=""  >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="monday" id="vmonday2" value="No"  disabled="" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Tuesday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="tuesday" id="vtuesday1" value="Yes"  disabled=""  >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="tuesday" id="vtuesday2" value="No"  disabled="" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Wednesday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="wednesday" id="vwednesday1" value="Yes"  disabled="" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="wednesday" id="vwednesday2" value="No"  disabled="" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Thursday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="thursday" id="vthursday1" value="Yes"  disabled="" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="thursday" id="vthursday2" value="No"  disabled=""  >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+                       </div>
+                       <div class="col-md-6">
+
+                            <label class="form-label">Friday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="friday" id="vfriday1" value="Yes"  disabled="" >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="friday" id="vfriday2" value="No"  disabled=""  >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Saturday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="saturday" id="vsaturday1" value="Yes"  disabled=""  >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="saturday" id="vsaturday2" value="No"  disabled="" >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+
+                            <label class="form-label">Sunday </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                                <input type="radio" class="custom-control-input" name="sunday" id="vsunday1" value="Yes"  disabled=""  >
+                                <span class="custom-control-label custom-control-label-md  tx-16">Yes</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-md">
+                            <input type="radio" class="custom-control-input" name="sunday" id="vsunday2" value="No"  disabled=""  >
+                            <span class="custom-control-label custom-control-label-md  tx-16">No</span>
+                            </label>
+                        </div>
+                   </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('#updateworkingdaysmodal').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var monday = button.data('monday')
+        var tuesday = button.data('tuesday')
+        var wednesday = button.data('wednesday')
+        var thursday = button.data('thursday')
+        var friday = button.data('friday')
+        var saturday = button.data('saturday')
+        var sunday = button.data('sunday')
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+
+
+  if (monday=="Yes") {
+    document.getElementById("monday1").checked = true;
+  }
+  if (monday=="No") {
+    document.getElementById("monday2").checked = true;
+  }
+  if (tuesday=="Yes") {
+    document.getElementById("tuesday1").checked = true;
+  }
+   if (tuesday=="No") {
+    document.getElementById("tuesday2").checked = true;
+  }
+  if (wednesday=="Yes") {
+    document.getElementById("wednesday1").checked = true;
+  }
+  if (wednesday=="No") {
+    document.getElementById("wednesday2").checked = true;
+  }
+  if (thursday=="Yes") {
+    document.getElementById("thursday1").checked = true;
+  }
+  if (thursday=="No") {
+    document.getElementById("thursday2").checked = true;
+  }
+  if (friday=="Yes") {
+    document.getElementById("friday1").checked = true;
+  }
+  if (friday=="No") {
+    document.getElementById("friday2").checked = true;
+  }
+  if (saturday=="Yes") {
+    document.getElementById("saturday1").checked = true;
+   }
+  if (saturday=="No") {
+     document.getElementById("saturday2").checked = true;
+   }
+  if (sunday=="Yes") {
+    document.getElementById("sunday1").checked = true;
+   }
+   if (sunday=="No") {
+    document.getElementById("sunday2").checked = true;
+    }
+    });
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $('#viewholidaymodal').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var monday = button.data('monday')
+        var tuesday = button.data('tuesday')
+        var wednesday = button.data('wednesday')
+        var thursday = button.data('thursday')
+        var friday = button.data('friday')
+        var saturday = button.data('saturday')
+        var sunday = button.data('sunday')
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+
+
+  if (monday=="Yes") {
+    document.getElementById("vmonday1").checked = true;
+  }
+  if (monday=="No") {
+    document.getElementById("vmonday2").checked = true;
+  }
+  if (tuesday=="Yes") {
+    document.getElementById("vtuesday1").checked = true;
+  }
+   if (tuesday=="No") {
+    document.getElementById("vtuesday2").checked = true;
+  }
+  if (wednesday=="Yes") {
+    document.getElementById("vwednesday1").checked = true;
+  }
+  if (wednesday=="No") {
+    document.getElementById("vwednesday2").checked = true;
+  }
+  if (thursday=="Yes") {
+    document.getElementById("vthursday1").checked = true;
+  }
+  if (thursday=="No") {
+    document.getElementById("vthursday2").checked = true;
+  }
+  if (friday=="Yes") {
+    document.getElementById("vfriday1").checked = true;
+  }
+  if (friday=="No") {
+    document.getElementById("vfriday2").checked = true;
+  }
+  if (saturday=="Yes") {
+    document.getElementById("vsaturday1").checked = true;
+   }
+  if (saturday=="No") {
+     document.getElementById("vsaturday2").checked = true;
+   }
+  if (sunday=="Yes") {
+    document.getElementById("vsunday1").checked = true;
+   }
+   if (sunday=="No") {
+    document.getElementById("vsunday2").checked = true;
+    }
+    });
+});
+</script>

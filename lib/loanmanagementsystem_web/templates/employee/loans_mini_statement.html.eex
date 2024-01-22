@@ -1,0 +1,133 @@
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Mini Statement</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Employee</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mini Statement Table</li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- End Page Header -->
+
+<!-- Row -->
+<%= for current_user_details <- @current_user_details do %>
+<div class="row row-sm">
+	<div class="col-lg-12 col-md-12">
+		<div class="card custom-card">
+			<div class="card-body">
+				<div class="d-lg-flex">
+					<%= if String.slice(@loans && @loans.account_number,0..1) == "01" do %>
+						<h2 class="main-content-label mb-1"><u>Loan Mini Statement</u></h2>
+					<% end %>
+					<%= if String.slice(@loans && @loans.account_number,0..1) == "02" do %>
+						<h2 class="main-content-label mb-1"><u>Savings Mini Statement</u></h2>
+					<% end %>
+					<%= if String.slice(@loans && @loans.account_number,0..1) == "03" do %>
+						<h2 class="main-content-label mb-1"><u>Investment Mini Statement</u></h2>
+					<% end %>
+				</div>
+				<hr class="mg-b-40">
+				<div class="row row-sm">
+					<div class="col-lg-6">
+						<p class="h3"><u>Account Holder Details</u></p>
+						<address>
+							<%= current_user_details.firstname %> <%= current_user_details.lastname %><br>
+							<%= current_user_details.emailAddress %><br>
+							<%= current_user_details.mobileNumber %>
+						</address>
+					</div>
+					<div class="col-lg-6 text-end">
+						<p class="mb-1"><span class="font-weight-bold">Statement As Of: </span> <%= Timex.today %></p>
+						<p class="mb-1"><span class="font-weight-bold">Account Number: </span> <%= @loans && @loans.account_number %></p>
+						<%= if String.slice(@loans && @loans.account_number,0..1) == "01" do %>
+						<p class="mb-1"><span class="font-weight-bold">Account Type: </span>Loan Account </p>
+						<% end %>
+						<%= if String.slice(@loans && @loans.account_number,0..1) == "02" do %>
+						<p class="mb-1"><span class="font-weight-bold">Account Type: </span>Savings Account </p>
+						<% end %>
+						<%= if String.slice(@loans && @loans.account_number,0..1) == "03" do %>
+						<p class="mb-1"><span class="font-weight-bold">Account Type: </span>Investment Account </p>
+						<% end %>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive border">
+                        <table class="table  text-nowrap text-md-nowrap table-striped mg-b-0" id="example1">
+							<thead>
+								<tr>
+									<th class="wd-20p">Product Name</th>
+									<th class="wd-20p">Reference No</th>
+									<th class="wd-20p">Applied date</th>
+									<th class="wd-25p">Status</th>
+									<th class="wd-25p">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%= for loan_details <- @loan_details do %>
+								<tr>
+									<td><%= loan_details.product_name %></td>
+									<td><%= loan_details.reference_no %></td>
+									<td><%= loan_details.inserted_at %></td>
+									<td><%= String.replace(loan_details.loan_status, "_", " ") %> </td>
+									<td><a href="<%= Routes.employee_path(@conn, :employee_full_statement) %>" class="btn ripple btn-info mb-1"><i class="fe fe-eye"> View Full Statement</i></a> </td>
+								</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer text-end">
+				<button type="button" class="btn ripple btn-info mb-1" onclick="javascript:window.print();"><i class="fe fe-printer me-1"></i> Print Statement</button>
+			</div>
+		</div>
+	</div>
+</div>
+<% end %>
+<!-- End Row -->
+
+    </div>
+
+
+</div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Loans Details</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                            <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                             <div class="col-sm">
+                                <input class="form-control" placeholder="Input box" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

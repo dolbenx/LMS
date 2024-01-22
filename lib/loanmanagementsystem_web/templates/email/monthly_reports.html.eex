@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+        </style>
+    </head>
+    <body>
+
+         <p>Dear All,</p>
+               <p> the following loans report is for the period between <b><%= Timex.beginning_of_month(Timex.shift(Timex.today, days: -1)) %><b> and <b><%= Timex.end_of_month(Timex.shift(Timex.today, days: -1)) %><b>.</p><br>
+        <table>
+            <tr style="background-color: #b3d1ff; ">
+                <th>Company Name</th>
+                <th>Total Amount</th>
+                <th>Total Interest</th>
+                <th>Outstanding Bal</th>
+            </tr>
+            <body>
+                <%= for company <- @monthly_loans do %>
+                    <tr>
+                        <td><%= company["company_name"] %></td>
+                        <td><%= company["principal_amount"] %></td>
+                        <td><%= company["interest_outstanding_derived"] %></td>
+                        <td><%= company["total_outstanding_derived"] %></td>
+                   </tr>
+                <% end %>
+            </body>
+
+            <tbody>
+                    <tr>
+                        <td style="font-size: 11px; font-weight: bold;">TOTALS</td>
+                        <td style="font-size: 10px; font-weight: bold;"><%= LoanSystem.Companies.monthly_total_disbursed_loans() %></td>
+                        <td style="font-size: 10px; font-weight: bold;"><%= LoanSystem.Companies.monthly_total_interest_loans() %></td>
+                        <td style="font-size: 10px; font-weight: bold;"><%= LoanSystem.Companies.monthly_total_outstanding_loans() %></td>
+                    </tr>
+            </tbody>
+        </table>
+        <br><br>
+            <p>Regards, </p>
+            <p>Laxmi Capital Solutions.
+            </p><br><br>
+
+    </body>
+</html>

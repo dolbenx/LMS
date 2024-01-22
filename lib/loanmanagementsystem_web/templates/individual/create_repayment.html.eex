@@ -1,0 +1,257 @@
+<script>
+	function hide_receiver_number() {
+		$( "#receiver_number" ).hide();
+        $( "#bank_details" ).hide();
+        $("#wallet_number").hide();
+        $("#bank_details_summary" ).hide();
+
+	}
+</script>
+
+
+
+
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Repayment</h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- End Page Header -->
+<body  onload="hide_receiver_number()">
+<div class="row row-sm">
+    <div class="col-lg-12 col-md-12">
+        <div class="card custom-card">
+            <div class="card-body">
+                <div>
+                    <h6 class="main-content-label mb-1">Loan Repayment</h6>
+                    <p class="text-muted card-sub-title"></p>
+                </div>
+                <form action=" <%= Routes.individual_path(@conn, :create_loan_repayment) %>" id="tst" method="post">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div id="russ-wizard">
+                    <%= for product_detail <- @product_details do %>
+                        <h3>Product Details</h3>
+                        <section>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                    <p class="mg-b-10">Product</p>
+                                    <input class="form-control" value="<%= product_detail.product_name %>" name="" placeholder="" type="text" id="product_code" readonly>
+                                     <input  type="hidden" name="product_id" class="form-control" value="<%= product_detail.id %>" name="" placeholder=""  readonly>
+                                     <input  type="hidden" name="loan_primary_id" class="form-control" value="<%= @loan_details.id %>" name="" placeholder=""  readonly>
+
+                                </div>
+                                <!-- col-4 -->
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Code</p>
+                                    <input class="form-control" value="<%= product_detail.product_code %>" name="" name="" type="text" id="product_code" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Type</p>
+                                    <input class="form-control" value="<%= product_detail.product_type %>" name="" type="text" id="product_type" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">interestType</p>
+                                    <input class="form-control" value="<%= product_detail.interestType %>" name="" type="text" id="currency_name" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">InterestMode</p>
+                                    <input class="form-control" value="<%= product_detail.interestMode %>" name="" type="number" id="min_amount" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Interest</p>
+                                    <input class="form-control" value="<%= product_detail.interest %>" name="" type="number" id="max_amount" readonly>
+                                </div>
+                            </div>
+
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Currency</p>
+                                    <input class="form-control" value="<%= product_detail.currency_name %>" name="" type="text" id="currency_name" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Min Amount</p>
+                                    <input class="form-control" value="<%= Decimal.round(Decimal.from_float(product_detail.min_amount)) %>" name="" type="number" id="min_amount" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Max Amount</p>
+                                    <input class="form-control" value="<%= Decimal.round(Decimal.from_float(product_detail.max_amount)) %>" name="" type="number" id="max_amount" readonly>
+                                </div>
+                            </div>
+
+                        </section>
+
+                        <h3>Loan Details</h3>
+                        <section>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                    <p class="mg-b-10">Disbursed Date</p>
+                                    <input class="form-control" value="<%= @loan_details.disbursedon_date %>" name="pro_name" placeholder="" type="text" id="product_code" readonly>
+                                </div>
+                                <!-- col-4 -->
+                                <div class="col-lg">
+                                    <p class="mg-b-10">loan Type</p>
+                                    <input class="form-control" value="<%= @loan_details.loan_type %>" name="loan_type" name="" type="text" id="product_code" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Approved Principal</p>
+                                    <input class="form-control" value="<%= @loan_details.approved_principal |> Number.Delimit.number_to_delimited %>" name="" type="text" id="product_type" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Interest Method</p>
+                                    <input class="form-control" value="<%= @loan_details.interest_method %>" name="" type="text" id="currency_name" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Interes Charged </p>
+                                    <input class="form-control" value="<%= @loan_details.interest_charged_derived |> Number.Delimit.number_to_delimited  %>" name="" type="number" id="min_amount" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10"> Interest Rate</p>
+                                    <input class="form-control" value="<%=  @loan_details.annual_nominal_interest_rate %>" name="" type="number" id="max_amount" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Amount</p>
+                                    <input class="form-control" name="amountRepaid" id="amount_id" name="" type="number" required>
+                                    <input type="hidden" name="loan_user_id" id="user-id-data" type="text">
+                                </div>
+                                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                    <p class="mg-b-10">Repayment Type</p>
+                                    <input class="form-control" value="<%= @loan_details.repayment_type %>" name="repayment_type" type="text" readonly>
+
+                                </div>
+
+                                <div class="col-md">
+                                    <p class="mg-b-10">Repayment via</p>
+                                    <select id="emp_disbursement_method" class="form-control select2-with-search disbursement_type_type" name="repayment_method">
+                                        <option label="Choose Method"></option>
+                                        <option data-disbursement_method="Bevura" value="Bevura">Bevura </option>
+                                        <option data-disbursement_method="Airtel" value="Airtel">Airtel </option>
+                                        <option data-disbursement_method="MTN" value="MTN">MTN </option>
+                                        <option data-disbursement_method="Zamtel" value="Zamtel">Zamtel </option>
+                                        <option data-disbursement_method="543" value="543">543 </option>
+                                        <option data-disbursement_method="Bank" value="Bank">Bank </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md" id="receiver_number">
+                                        <p class="mg-b-10">Repayment Mobile Number</p>
+                                        <input type="tel"  class="form-control clear-wizard"  id="mobile-number" name="mno_mobile_no" >
+                                </div>
+
+
+                                <div class="col-lg" id="wallet_number">
+                                    <p class="mg-b-10">Wallet Number</p>
+                                    <input class="form-control clear-wizard" name="bevura_wallet_no" type="text" >
+                                </div>
+                            </div>
+
+                        <!-- ################################## Bank Details ################################### -->
+
+                            <div class="row row-sm mg-b-20" id="bank_details">
+                                <div class="col-lg" >
+                                    <p class="mg-b-10">Bank Name</p>
+                                    <input class="form-control clear-wizard" name="bank_name" id="bank_name" placeholder="" type="text" >
+                                </div>
+                                 <div class="col-lg">
+                                    <p class="mg-b-10">Account Name</p>
+                                    <input class="form-control clear-wizard" name="account_name" id="bank_account_name" type="text" >
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Account Number</p>
+                                    <input class="form-control clear-wizard" name="bank_account_no" id="bank_account_no" type="text" >
+                                </div>
+                            </div>
+                        <!-- ################################ Bank Details ################################### -->
+
+                        </section>
+
+                        <h3>Loan Summary</h3>
+
+                        <section>
+                            <h6 class="main-content-label mb-1">Loan Details</h6>
+                            <br>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product</p>
+                                    <input name="product_name" value="<%= product_detail.product_name %>" class="form-control" name="" id="product_name" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Code</p>
+                                    <input class="form-control" name="" id="product-code-summary" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Type</p>
+                                    <input class="form-control" name="" id="product-type-summary" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Currency</p>
+                                    <input class="form-control" name="" id="currency-summary" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Min Amount</p>
+                                    <input class="form-control" name="" id="min-amount-summary" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Max Amount</p>
+                                    <input class="form-control" name="" id="max-amount-summary" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Amount</p>
+                                    <input name="loan_amount" class="form-control" id="amount-summary" name="" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Repayment Type</p>
+                                    <input class="form-control" name="" id="repayment-type-summary" type="text" readonly>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Repayment via</p>
+                                    <input class="form-control" name="" id="disbursement-summary" type="text" readonly>
+                                </div>
+
+                                <!-- ################################## Bank Details ################################### -->
+
+                            <div class="row row-sm mg-b-20" id="bank_details_summary">
+                                <div class="col-lg" >
+                                    <p class="mg-b-10">Bank Name</p>
+                                    <input class="form-control clear-wizard" id="summary-bank-name" placeholder="" type="text"  readonly>
+                                </div>
+                                 <div class="col-lg">
+                                    <p class="mg-b-10">Account Name</p>
+                                    <input class="form-control clear-wizard" id="summary-bank-account-no" type="text" readonly >
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Account Number</p>
+                                    <input class="form-control clear-wizard" id="summary-account-name" type="text"  readonly>
+                                </div>
+                            </div>
+                                <!-- ################################ Bank Details ################################### -->
+
+                            </div>
+                    </div>
+                    </section>
+                 <% end %>
+
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>

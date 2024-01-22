@@ -1,0 +1,276 @@
+<script>
+	function hide_user_role() {
+		$( "#user_role" ).hide();
+	}
+</script>
+
+
+
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Management</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Management</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Individuals Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                    <button type="button" class="btn btn-white btn-icon-text my-2 me-2">
+                        <i class="fe fe-download me-2"></i> Import
+                    </button>
+                    <button type="button" class="btn btn-white btn-icon-text my-2 me-2">
+                        <i class="fe fe-filter me-2"></i> Filter
+                    </button>
+                    <button type="button" class="btn btn-primary my-2 btn-icon-text">
+                        <i class="fe fe-download-cloud me-2"></i> Download Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+<body  onload="hide_user_role()">
+<div class="row row-sm">
+    <div class="col-lg-12 col-md-12">
+        <div class="card custom-card">
+            <div class="card-body">
+                <div>
+                    <h6 class="main-content-label mb-1">Loan Application</h6>
+                    <p class="text-muted card-sub-title"></p>
+                </div>
+                <form action=" <%= Routes.customers_path(@conn, :oct_loan_application) %> " id="tst" method="post">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div id="wizard1">
+                        <h3>Personal Details</h3>
+                        <section>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Identification Number</p>
+                                    <input id="identification_id" class="form-control otc-user-lookup" placeholder="Enter Identification Number" type="text">
+                                    <input type="hidden" name="user_id" id="user_id" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Means of Identification</p>
+                                    <input class="form-control" name="id_means" id="id_means" placeholder="Enter Means of Identification" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Gender</p>
+                                    <input class="form-control" id="id_gender" placeholder="Enter Gender" type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">First Name</p>
+                                    <input class="form-control" id="first_name_id" placeholder="Enter First Name " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Other Name</p>
+                                    <input class="form-control" id="other_name_id" placeholder="Enter Other Name " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Last Name</p>
+                                    <input class="form-control" id="last_name_id" placeholder="Enter Last Name " type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10"> Mobile</p>
+                                    <input class="form-control" id="mobile_id" placeholder="Enter Mobile Number " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Email</p>
+                                    <input class="form-control" id="email_id" placeholder="Enter Email address " type="email">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Date of Birth</p>
+                                    <input type="date" class="form-control" id="dob_id" placeholder=""  >
+                                </div>
+
+                                <div class="col-lg" id="user_role">
+                                    <p class="mg-b-10">User Role</p>
+                                    <select class="form-control select2-with-search" name="roleType" >
+                                        <option label="Choose Product"></option>
+                                        <option value="SME">SME </option>
+                                        <option value="INDIVIDUALS">INDIVIDUAL </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </section>
+                        <h3>Loan Details</h3>
+                        <section>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                    <p class="mg-b-10">Product</p>
+                                    <select class="form-control select2-with-search otc-product-lookup" id="product_id">
+                                        <option label="Choose Product"></option><%= for product <- @product_details do %> <option value="<%= product.id %>"><%= product.name %> </option><% end %>
+
+                                    </select>
+                                </div>
+                                <!-- col-4 -->
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Code</p>
+                                    <input class="form-control" name="pro_name" placeholder="Product Code" type="text" id="product_code">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Type</p>
+                                    <input class="form-control" placeholder=" Product Type" type="text" id="product_type">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Currency</p>
+                                    <input class="form-control" placeholder="Currency" type="text" id="currency_name">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Min Amount</p>
+                                    <input class="form-control" placeholder="Min Amount" type="number" id="min_amount">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Max Amount</p>
+                                    <input class="form-control" placeholder="Max Amount" type="number" id="max_amount">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Amount</p>
+                                    <input class="form-control" name="amount" id="amount_id" placeholder="Enter Amount" type="text">
+                                    <input type="hidden" name="loan_user_id" id="user-id-data" type="text">
+                                </div>
+                                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                    <p class="mg-b-10">Repayment Type</p>
+                                    <select class="form-control select2-with-search" name="repayment_type" id="repayment_type">
+                                        <option label="Choose Product"></option>
+                                        <option value="Bullet">Bullet </option>
+                                        <option value="Amortize">Amortize </option>
+                                    </select>
+                                </div>
+                                <div class="col-md">
+                                    <p class="mg-b-10">Disburse via</p>
+                                    <select id="disbursement" class="form-control select2-with-search" name="disbursement_method">
+                                        <option label="Choose Method"></option>
+                                        <option value="Bevura">Bevura </option>
+                                        <option value="Airtel">Airtel </option>
+                                        <option value="MTN">MTN </option>
+                                        <option value="Zamtel">Zamtel </option>
+                                        <option value="543">543 </option>
+                                        <option value="Bank">Bank </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </section>
+                        <h3>Loan Summary</h3>
+                        <section>
+                            <h6 class="main-content-label mb-1">Personal Info</h6>
+                            <br>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Identification Number</p>
+                                    <input name="meansOfIdentificationNumber" id="identification-data-id" class="form-control" placeholder="Identification Number" type="text">
+                                    <input type="hidden" name="meansOfIdentificationType" id="id-means-data" type="text">
+                                    <input type="hidden" name="user_id_data" id="user-id-data" type="text">
+                                    <input type="hidden" name="currency_code" id="currency-data" type="text">
+                                    <input type="hidden" name="product_type" id="product-type-data" type="text">
+                                    <input type="hidden" name="firstName" id="first-name-data" type="text">
+                                    <input type="hidden" name="otherName" id="other-name-data" type="text">
+                                    <input type="hidden" name="lastName" id="last-name-data" type="text">
+                                    <input type="hidden" name="mobileNumber" id="mobile-data" type="text">
+                                    <input type="hidden" name="emailAddress" id="email-data" type="text">
+                                    <input type="hidden" name="dateOfBirth" id="dob-data" type="text">
+                                    <input type="hidden" name="product_id" id="product-id-data" type="text">
+
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Means of Identification</p>
+                                    <input class="form-control" id="id-means-summary" placeholder="Means of Identification" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Gender</p>
+                                    <input class="form-control" placeholder="Gender" id="gender-summary" type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">First Name</p>
+                                    <input class="form-control" id="first-name-summary" placeholder="First Name " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Other Name</p>
+                                    <input class="form-control" id="other-name-summary" placeholder="Other Name " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Last Name</p>
+                                    <input class="form-control" id="last-name-summary" placeholder="Last Name " type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10"> Mobile</p>
+                                    <input class="form-control" placeholder="Mobile" id="mobile-summary" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Email</p>
+                                    <input class="form-control" placeholder="Email Address" id="email-summary" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Date of Birth</p>
+                                    <input class="form-control" placeholder="Date of Birth" id="dob-summary" type="text">
+                                </div>
+                            </div>
+                            <h6 class="main-content-label mb-1">Loan Details</h6>
+                            <br>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product</p>
+                                    <input name="product_name" class="form-control" placeholder="" id="product_name" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Code</p>
+                                    <input class="form-control" placeholder="Product Code" id="product-code-summary" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Product Type</p>
+                                    <input class="form-control" placeholder=" Product Type" id="product-type-summary" type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Currency</p>
+                                    <input class="form-control" placeholder="Currency" id="currency-summary" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Min Amount</p>
+                                    <input class="form-control" placeholder="Min Amount" id="min-amount-summary" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Max Amount</p>
+                                    <input class="form-control" placeholder="Max Amount" id="max-amount-summary" type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Amount</p>
+                                    <input name="loan_amount" class="form-control" id="amount-summary" placeholder="Enter Means of Identification" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Repayment Type</p>
+                                    <input class="form-control" placeholder="Repayment Type" id="repayment-type-summary" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Disburse via</p>
+                                    <input class="form-control" placeholder="Disbursement Method" id="disbursement-summary" type="text">
+                                </div>
+                            </div>
+                    </div>
+                    </section>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>

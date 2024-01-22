@@ -8,13 +8,22 @@ defmodule Loanmanagementsystem.Employment.Personal_Bank_Details do
     field :bankName, :string
     field :branchName, :string
     field :upload_bank_statement, :string
+    field :mobile_number, :string
+    field :mobile_network_operator, :string
     field :userId, :integer
     field :bank_id, :integer
-    field :mobile_number, :string
 
     timestamps()
   end
 
+  @spec changeset(
+          {map, map}
+          | %{
+              :__struct__ => atom | %{:__changeset__ => map, optional(any) => any},
+              optional(atom) => any
+            },
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
   @doc false
   def changeset(personal__bank__details, attrs) do
     personal__bank__details
@@ -24,9 +33,10 @@ defmodule Loanmanagementsystem.Employment.Personal_Bank_Details do
       :accountNumber,
       :accountName,
       :upload_bank_statement,
+      :mobile_number,
+      :mobile_network_operator,
       :userId,
-      :bank_id,
-      :mobile_number
+      :bank_id
     ])
     # |> validate_required([:bankName, :branchName, :accountNumber, :accountName, :userId, :bank_id, :mobile_number])
   end

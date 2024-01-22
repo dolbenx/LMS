@@ -13,7 +13,8 @@ defmodule LoanmanagementsystemWeb.ClientManagementView do
   def client_document_upload do
     [
       %{name: "NRC", is_required: true},
-      %{name: "TPIN Certificate", is_required: true}
+      %{name: "Latest Payslip", is_required: true},
+      %{name: "Latest Bank Statement", is_required: true}
     ]
   end
 

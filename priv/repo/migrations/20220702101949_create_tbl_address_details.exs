@@ -7,10 +7,10 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblAddressDetails do
       add :area, :string
       add :house_number, :string
       add :street_name, :string
-      add :town, :string
+      add :town_address, :string
       add :userId, :integer
       add :year_at_current_address, :integer
-      add :province, :string
+      add :province_address, :string
 
       timestamps()
     end

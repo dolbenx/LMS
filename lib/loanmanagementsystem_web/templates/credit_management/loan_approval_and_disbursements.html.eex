@@ -1,0 +1,100 @@
+<%= render "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Loan Approval and Disbursments</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Loan Underwriting</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Approval and Disbursments</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="dt-loan-application-approval-disbursement">
+                              <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">S/N</th>
+                                        <th class="wd-25p">Due Date</th>
+                                        <th class="wd-20p">Repayment Amount</th>
+                                        <th class="wd-25p">Principal Amount</th>
+                                        <th class="wd-20p">Interest Amount</th>
+                                        <th class="wd-20p">Balance</th>
+                                        <th class="wd-15p">Status</th>
+                                        <th class="wd-15p">Action</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+</div>
+
+    <!-- Tooltips and Popovers -->
+<div class="modal fade" id="rejectmodal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Reject Loan</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+             <form >
+                <div class="modal-body">
+                 <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                 <input type="hidden" name="id" id="id" >
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+
+                            <div class="col-sm-12">
+                                <p class="mg-b-10">Enter Reject reason</p>
+                                <textarea name="reason" id="reason" class="form-control" placeholder="Enter reject reason" required> </textarea>
+                            </div>
+
+                        </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success"id="reject-loan" type="button">Reject</button>
+                    <button class="btn ripple btn-danger" data-bs-dismiss="modal"  type="button">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#rejectmodal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+
+    });
+});
+</script>

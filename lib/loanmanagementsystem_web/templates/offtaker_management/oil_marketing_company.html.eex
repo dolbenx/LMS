@@ -1,0 +1,537 @@
+<%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Corporate Buyer</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href=" <%= Routes.user_path(@conn, :admin_dashboard) %> ">Loan Operations</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Corporate Buyer</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+
+                    <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #004d99; color: white;" type="button" id="create_user"> Add Corporate Buyer </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Name</th>
+                                        <th class="wd-25p">Date of Birth</th>
+                                        <th class="wd-20p">ID Number</th>
+                                        <th class="wd-20p">Contact Number</th>
+                                        <th class="wd-20p">Email Address</th>
+                                        <th class="wd-15p">Status</th>
+                                        <th class="wd-15p">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+									<%= for buyer <- @buyer do %>
+										<tr>
+											<td><%= buyer.firstName %> <%= buyer.lastName %> <%= buyer.otherName %></td>
+                                            <td><%= buyer.dateOfBirth %></td>
+                                            <td><%= buyer.meansOfIdentificationNumber %></td>
+                                            <td><%= buyer.mobileNumber %></td>
+                                            <td><%= buyer.emailAddress %></td>
+											<%= if buyer.status == "ACTIVE" do %>
+
+												<td><span class= "badge bg-pill bg-success" ><%= buyer.status %></span> </td>
+
+											<% else %>
+
+												<%= if buyer.status == "INACTIVE" do %>
+
+													<td><span class="badge bg-pill bg-danger"><%= buyer.status %></span> </td>
+
+												<% end %>
+
+											<% end %>
+                                            <td>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fe fe-chevron-down"></i> </span>
+                                                        <div class="dropdown-menu">
+
+                                                            <a class="dropdown-item btn ripple activate-corporate-buyer" data-activate-id="<%= buyer.id %>" style="color: #008000" ><i class="fe fe-check-circle"></i> Enable </a>
+
+                                                            <a class="dropdown-item btn ripple deactivate-corporate-buyer" data-deactivate-id="<%= buyer.id %>" style="color: #ff0000" ><i class="fe fe-x-circle"></i> Disable </a>
+
+                                                            <a class="dropdown-item btn ripple" style="color: blue" title= "edit"
+                                                                data-bs-target="#edit-buyer-user"
+                                                                data-bs-toggle="modal"
+                                                                data-id ="<%= buyer.id %>"
+                                                                data-firstname= "<%= buyer.firstName %>"
+                                                                data-lastname="<%= buyer.lastName %>"
+                                                                data-title="<%= buyer.title %>"
+                                                                data-othername ="<%= buyer.otherName %> "
+                                                                data-identificationtype = "<%=buyer.meansOfIdentificationType %>"
+                                                                data-meansofidentificationnumber = "<%=buyer.meansOfIdentificationNumber %>"
+                                                                data-gender = "<%=buyer.gender %>"
+                                                                data-role = "<%=buyer.roleType %>"
+                                                                data-dateofbirth = "<%=buyer.dateOfBirth %>"
+                                                                data-email = "<%=buyer.emailAddress %>"
+                                                                data-permissions = "<%=buyer.permissions %>"
+                                                                data-phone = "<%=buyer.mobileNumber %>">
+                                                            <i class="fe fe-edit"></i> Edit </a>
+
+                                                            <a class="dropdown-item btn ripple" style="color: orange" title="view"
+                                                                data-bs-target="#view-buyer-user"
+                                                                data-bs-toggle="modal"
+                                                                data-id ="<%= buyer.id %>"
+                                                                data-firstname= "<%= buyer.firstName %>"
+                                                                data-lastname="<%= buyer.lastName %>"
+                                                                data-title="<%= buyer.title %>"
+                                                                data-othername ="<%= buyer.otherName %> "
+                                                                data-identificationtype = "<%=buyer.meansOfIdentificationType %>"
+                                                                data-meansofidentificationnumber = "<%=buyer.meansOfIdentificationNumber %>"
+                                                                data-gender = "<%=buyer.gender %>"
+                                                                data-role = "<%=buyer.roleType %>"
+                                                                data-dateofbirth = "<%=buyer.dateOfBirth %>"
+                                                                data-email = "<%=buyer.emailAddress %>"
+                                                                data-permissions = "<%=buyer.permissions %>"
+                                                                data-phone = "<%=buyer.mobileNumber %>">
+                                                            <i class="fe fe-eye"></i> View </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        	</td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+<%#  Add User %>
+
+<div class="modal" id="modaldemo12">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Add Corporate Buyer User</h6>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<form action=" <%= Routes.offtaker_management_path(@conn, :create_user_buyer) %> " id="tst" method="post">
+				<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+				<input type="hidden" name="password" id="password-gen" >
+				<div id="wizard1">
+
+				<h4> User Details </h4>
+				<section>
+				<div class="modal-body">
+					<div class="row row-lg">
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Title</p>
+									<select name="title" class="form-control select2">
+										<option label="Choose Title"></option>
+										<option value="Mr">Mr</option>
+										<option value="Mrs">Mrs</option>
+										<option value="Ms">Ms</option>
+										<option value="Dr">Dr</option>
+									</select>
+								</div>
+								<div class="col-lg">
+									<p class="mg-b-10">First Name</p>
+									<input type="text" class="form-control" name="firstName" required> </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Last Name</p>
+									<input type="text" class="form-control" name="lastName" required> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Other Name</p>
+									<input type="text" class="form-control" name="otherName" > </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Phone</p>
+									<input type="text" class="form-control" name="mobileNumber" required> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Email</p>
+									<input type="text" class="form-control" name="emailAddress" required> </div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Physical Address</p>
+									<input type="text" class="form-control" name="companyName" required> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">ID Type</p>
+									<select name="meansOfIdentificationType" class="form-control select2" required>
+										<option label="Choose Currency"></option>
+										<option value="Drivers License">Drivers License </option>
+										<option value="National Registration Card">National Registration Card </option>
+										<option value="Passport">Passport </option>
+									</select>
+								</div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">ID No</p>
+									<input type="text" class="form-control" name="meansOfIdentificationNumber" required> </div>
+								<div class="col-lg">
+									<p class="mg-b-10">Gender</p>
+									<select name="gender" class="form-control select2">
+										<option label="Choose Title"></option>
+										<option value="Male">Male</option>
+										<option value="Female">Female</option>
+									</select>
+								</div>
+							</div>
+							<div class="row row-sm mg-b-20">
+								<div class="col-lg">
+									<p class="mg-b-10">Date Of Birth</p>
+									<input type="date" class="form-control" name="dateOfBirth" required> </div>
+							</div>
+							<br>
+							</section>
+
+							<h4> User Permissions </h4>
+                      		<section>
+							<div class="col-sm-12 form-group">
+								<div class="col-sm-12 form-group">
+									<div class="row">
+										<div class="col-md-3">
+											<input type="checkbox" name="permissions" value="Approver"> Approver </div>
+										<div class="col-md-3">
+											<input type="checkbox" name="permissions" value="Deactivator"> Deactivator </div>
+										<div class="col-md-3">
+											<input type="checkbox" name="permissions" value="Super Admin"> Super Admin </div>
+									</div>
+									<br>
+									<div class="col-sm-12 form-group">
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small">Auth Level</label>
+												<input type="number" class="form-control form-control-sm" id="auth_level" name="auth_level" required> </div>
+										</div>
+									</div>
+								</div>
+							</div>
+                            <div class="modal-footer">
+                                <button class="btn ripple " style="background-color: #004d99; color: white;" type="submit">Add User</button>
+                                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<%#  the edit a user %>
+
+<div class="modal" id="edit-buyer-user">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">Edit Corporate Buyer Details</h6>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+
+			<form action=" <%= Routes.offtaker_management_path(@conn, :edit_buyer_user) %> " method="post">
+				<div class="modal-body">
+					<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<input type="hidden" name="id" id="id">
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Title</p>
+							<select id="title" name="title" class="form-control">
+								<option value="Mr"> Mr </option>
+								<option value="Mrs"> Mrs </option>
+								<option value="Ms"> Ms </option>
+								<option value="Dr"> Dr </option>
+							</select>
+						</div>
+						<div class="col-lg">
+							<p class="mg-b-10">First Name</p>
+							<input name="firstName" id="firstname" class="form-control" type="text"> </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Last Name</p>
+							<input name="lastName" id="lastname" class="form-control" type="text"> </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Other Name</p>
+							<input class="form-control" id="othername" name="otherName" type="text"> </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Date Of Birth</p>
+							<input class="form-control" id="dateofbirth" name="dateOfBirth" type="date"> </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Personal Email</p>
+							<input class="form-control" id="email" name="emailAddress" type="email"> </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Identification Type</p>
+							<select name="meansOfIdentificationType" id="identificationtype" class="form-control">
+								<option label="Choose Currency"></option>
+								<option value="Drivers License">Drivers License </option>
+								<option value="National Registration Card">National Registration Card </option>
+								<option value="Passport">Passport </option>
+							</select>
+						</div>
+						<div class="col-lg">
+							<p class="mg-b-10">Identification Number</p>
+							<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text"> </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Mobile Number</p>
+							<input class="form-control" id="phone" name="mobileNumber" type="text"> </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Gender</p>
+							<select name="gender" id="gender" class="form-control ">
+								<option value="Male">Male </option>
+								<option value="Female">Female </option>
+							</select>
+						</div>
+                        <div class="col-lg">
+							<p class="mg-b-10">Permission</p>
+							<select name="permissions" id="permissions" class=" form-control ">
+								<option value="Aprover"> Aprover </option>
+                                <option value="Deactivator"> Deactivator </option>
+								<option value="Super Admin"> Super Admin </option>
+							</select>
+						</div>
+						<div class="col-lg">
+							<p class="mg-b-10">Choose Role Type</p>
+							<select name="roleType" id="role" class="form-control ">
+								<option value="E-MONEY-ISSUER">E-MONEY-ISSUER </option>
+								<option value="ADMIN">ADMIN INITIATOR </option>
+								<option value="ADMIN_APPROVER">ADMIN APPROVER </option>
+								<option value="EMPLOYER">EMPLOYER </option>
+								<option value="OFFTAKER">OFFTAKER </option>
+								<option value="SME">SME </option>
+								<option value="INDIVIDUALS">INDIVIDUAL </option>
+                                <option value="CORPORATE-BUYER">CORPORATE-BUYER </option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn ripple" style="background-color: #004d99; color: white;" type="submit">Update User info!</button>
+					<button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				</div>
+		</div>
+		</form>
+	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+
+<%#  the View a user %>
+
+<div class="modal" id="view-buyer-user">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title">View Corporate Buyer Details</h6>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+
+			<form action="#" method="post">
+				<div class="modal-body">
+					<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<input type="hidden" name="id" id="id">
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Title</p>
+							<input name="title" id="title" class="form-control" type="text" readonly>
+                        </div>
+						<div class="col-lg">
+							<p class="mg-b-10">First Name</p>
+							<input name="firstName" id="firstname" class="form-control" type="text" readonly>
+                        </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Last Name</p>
+							<input name="lastName" id="lastname" class="form-control" type="text" readonly>
+                        </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Other Name</p>
+							<input class="form-control" id="othername" name="otherName" type="text" readonly>
+                        </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Date Of Birth</p>
+							<input class="form-control" id="dateofbirth" name="dateOfBirth" type="date" readonly>
+                        </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Personal Email</p>
+							<input class="form-control" id="email" name="emailAddress" type="email" readonly>
+                        </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Identification Type</p>
+							<input class="form-control" id="identificationtype" name="meansOfIdentificationType" type="text" readonly>
+                        </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Gender</p>
+							<input class="form-control" id="gender" name="gender" type="text" readonly>
+                        </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Role Type</p>
+							<input class="form-control" id="role" name="roleType" type="email" readonly>
+                        </div>
+					</div>
+
+					<div class="row row-sm mg-b-20">
+						<div class="col-lg">
+							<p class="mg-b-10">Identification Number</p>
+							<input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text" readonly>
+                        </div>
+						<div class="col-lg">
+							<p class="mg-b-10">Mobile Number</p>
+							<input class="form-control" id="phone" name="mobileNumber" type="text" readonly>
+                        </div>
+                            <div class="col-lg">
+							<p class="mg-b-10">Permisions</p>
+							<input class="form-control" id="permissions" name="permissions" type="text" readonly>
+                        </div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				</div>
+		</div>
+		</form>
+	</div>
+</div>
+
+<%# -----------------------------------------end-------------------------------------------------------- %>
+
+<script>
+
+$(document).ready(function(){
+
+    $('#edit-buyer-user').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var firstname = button.data('firstname')
+            var lastname = button.data('lastname')
+            var title = button.data('title')
+            var othername = button.data('othername')
+            var identificationtype = button.data('identificationtype')
+            var meansofidentificationnumber = button.data('meansofidentificationnumber')
+            var gender = button.data('gender')
+			var role = button.data('role')
+			var dateofbirth = button.data('dateofbirth')
+			var email = button.data('email')
+			var phone = button.data('phone')
+            var permissions = button.data('permissions')
+
+
+            console.log(permissions);
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #firstname').val(firstname);
+            modal.find('.modal-body #lastname').val(lastname);
+            modal.find('.modal-body #title').val(title);
+            modal.find('.modal-body #othername').val(othername);
+            modal.find('.modal-body #identificationtype').val(identificationtype);
+            modal.find('.modal-body #meansofidentificationnumber').val(meansofidentificationnumber);
+            modal.find('.modal-body #gender').val(gender);
+			modal.find('.modal-body #role').val(role);
+			modal.find('.modal-body #dateofbirth').val(dateofbirth);
+			modal.find('.modal-body #phone').val(phone);
+			modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #permissions').val(permissions);
+
+    });
+
+    $('#view-buyer-user').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(button.data('id'));
+            modal.find('.modal-body #firstname').val(button.data('firstname'));
+            modal.find('.modal-body #lastname').val(button.data('lastname'));
+            modal.find('.modal-body #othername').val(button.data('othername'));
+            modal.find('.modal-body #email').val(button.data('email'));
+            modal.find('.modal-body #dateofbirth').val(button.data('dateofbirth'));
+            modal.find('.modal-body #phone').val(button.data('phone'));
+			modal.find('.modal-body #email').val(button.data('email'));
+            modal.find('.modal-body #permissions').val(button.data('permissions'));
+
+            modal.find('.modal-body #meansofidentificationnumber').val(button.data('meansofidentificationnumber'));
+
+
+            modal.find('.modal-body #title').val(button.data('title'));
+            modal.find('.modal-body #identificationtype').val(button.data('identificationtype'));
+            modal.find('.modal-body #gender').val(button.data('gender'));
+            modal.find('.modal-body #role').val(button.data('role'));
+
+    });
+
+});
+
+</script>
+
+
+<script>
+    $('#create_user').on('click', function (event){
+        var modal= $("#modaldemo12");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+</script>

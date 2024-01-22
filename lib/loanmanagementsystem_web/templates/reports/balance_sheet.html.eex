@@ -1,0 +1,107 @@
+<%= render "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Balance Sheet</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Accounting Report</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Balance Sheet Table</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="card-body">
+                            <button class="btn ripple btn-primary btn-rounded mb-0" style="float: right;" data-bs-target="#modaldemo12" data-bs-toggle="modal" href="">Filter</button>
+                        </div>
+                            <h6 class="main-content-label mb-1">Balance Sheet </h6><br>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="balancesheet_dt">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p">Account No #</th>
+                                        <th class="wd-25p">Category</th>
+                                        <th class="wd-20p">ledger Name</th>
+                                        <th class="wd-20p">Date</th>
+                                        <th class="wd-20p">Dr Balance </th>
+                                        <th class="wd-20p">Cr Balance</th>
+
+                                    </tr>
+                                </thead>
+
+                                 <tfoot>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td><b>Principle Amount </b></td>
+                                        <td><input type="text" id="" style="border-style: none; background-color: white; color: black;" disabled></td>
+                                        <%= for total_balance <- @total_balances do %>
+                                        <td><input type="text" id="local-debits" style="border-style: none; background-color: white; color: black; font-weight: bold; " value="<%= total_balance.total_dr |> Number.Delimit.number_to_delimited %>" disabled></td>
+                                        <td><input type="text" id="local-credits" style="border-style: none; background-color: white; color: black; font-weight: bold;" value="<%= total_balance.total_cr |> Number.Delimit.number_to_delimited %>" disabled></td>
+                                        <% end %>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Filter Details</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                           <div class="col-sm">
+                                <label class="form-label"> General Ledger No <span style="color: red;"></span></label>
+                                 <select  name="account_no" id="account_no" class="form-control select2-with-search" required>
+                                        <option></option>
+                                        <%= for general_ledger_account <- @general_ledger_accounts do %>
+                                            <option value="<%= general_ledger_account.ac_gl_no %>"><%= general_ledger_account.ac_gl_descption %></option>
+                                        <% end %>
+                                </select>
+
+                            </div>
+                            <div class="col-sm">
+                                <label class="form-label"> Start Date<span style="color: red;">*</span></label>
+                                <input class="form-control" name="start_date" id="start_date"  type="date" >
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label"> End Date <span style="color: red;">*</span></label>
+                                <input class="form-control" name="end_date" id="end_date"  type="date" >
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">Filter</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

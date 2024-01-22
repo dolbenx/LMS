@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+        </style>
+    </head>
+    <body>
+
+         <p>Dear All,</p>
+               <p> No transactions recorded for <b><%= Timex.today %></b>.</p><br>
+        <table>
+            <tr style="background-color: #b3d1ff; ">
+                <th>Company Name</th>
+                <th>Total Amount</th>
+                <th>Total Interest</th>
+                <th>Outstanding Bal</th>
+            </tr>
+            <body>
+
+                    <tr>
+                    <td colspan="4" style="text-align: center; vertical-align: middle;"><p>No transactions for <b><%= Timex.today %></b>. </p>
+                    </td>
+
+                   </tr>
+
+            </body>
+
+            <tbody>
+                    <tr>
+                    </tr>
+            </tbody>
+        </table>
+        <br><br>
+            <p>Regards, </p>
+            <p>Laxmi Capital Solutions.
+            </p><br><br>
+
+    </body>
+</html>

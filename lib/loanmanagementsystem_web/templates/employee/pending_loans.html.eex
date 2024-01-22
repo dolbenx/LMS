@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Pending Loans</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Pending Loans Table</li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+                    <div class="card-body">
+                        <div class="table-responsive border">
+                            <table class="table  text-nowrap text-md-nowrap table-striped mg-b-0" id="example1">
+                                    <thead>
+                                    <tr>
+                                        <th class="wd-20p">Name</th>
+                                        <th class="wd-25p">Email</th>
+                                        <th class="wd-20p">Product Code</th>
+                                        <th class="wd-15p">Loan Amount</th>
+                                        <th class="wd-20p">Total Interest</th>
+                                        <th class="wd-20p">Paid Amount</th>
+                                        <th class="wd-20p">Outstanding Bal</th>
+                                        <th class="wd-25p">Status</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <%= for loan_details <- @loan_details do %>
+                                    <tr>
+                                        <td><%= loan_details.first_name %> <%= loan_details.last_name %></td>
+                                        <td><%= loan_details.email_address %></td>
+                                        <td><%= loan_details.product_name %></td>
+                                        <td>
+                                            <%= if loan_details.principal_amount != nil do %>
+                                                <%= Decimal.round(Decimal.from_float(loan_details.principal_amount)) %>
+                                            <% else %>
+                                                0
+                                            <% end %>
+                                        </td>
+                                        <td>
+                                            <%= if loan_details.interest_amount != nil do %>
+                                                <%= Decimal.round(Decimal.from_float(loan_details.interest_amount)) %>
+                                            <% else %>
+                                                0
+                                            <% end %>
+                                        </td>
+                                        <td>
+                                            <%= if loan_details.total_principal_repaid != nil do %>
+                                                <%= Decimal.round(Decimal.from_float(loan_details.total_principal_repaid)) %>
+                                            <% else %>
+                                                0
+                                            <% end %>
+                                        </td>
+                                        <td>
+                                            <%= if loan_details.principal_outstanding_derived != nil do %>
+                                                <%= Decimal.round(Decimal.from_float(loan_details.principal_outstanding_derived)) %>
+                                            <% else %>
+                                                0
+                                            <% end %>
+                                        </td>
+                                        <td><%= String.replace(loan_details.loan_status, "_", " ") %> </td>
+                                    </tr>
+                                <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>

@@ -3,8 +3,6 @@ defmodule Loanmanagementsystem.Companies.Company do
   import Ecto.Changeset
   use Endon
 
-  #
-
   schema "tbl_company" do
     field :approval_trail, :string
     field :auth_level, :integer
@@ -22,7 +20,6 @@ defmodule Loanmanagementsystem.Companies.Company do
     field :companyRegistrationDate, :date
     field :companyAccountNumber, :string
     field :bank_id, :integer
-    field :user_bio_id, :integer
 
     timestamps()
   end
@@ -32,7 +29,6 @@ defmodule Loanmanagementsystem.Companies.Company do
     company
     |> cast(attrs, [
       :bank_id,
-      :user_bio_id,
       :companyName,
       :companyPhone,
       :registrationNumber,

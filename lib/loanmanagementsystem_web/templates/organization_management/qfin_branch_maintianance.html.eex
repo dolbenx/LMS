@@ -1,0 +1,338 @@
+<%= render "submenu.html", assigns %>
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Qfin Branch Maintenance</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Branch Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Branch</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                    <tr>
+                                        <th>Branch Name</th>
+                                        <th>Branch Code</th>
+                                        <th>Branch Address</th>
+                                        <th>Province</th>
+                                        <th>City</th>
+                                        <th>Branch Status</th>
+
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <%=for branch <- @branches do %>
+                                    <tr>
+                                        <td><%= branch.name %></td>
+                                        <td><%= branch.branchCode %></td>
+                                        <td><%= branch.branchAddress %></td>
+
+                                        <td><%= branch.province %></td>
+                                        <td><%= branch.city %></td>
+                                        <td><%= branch.status %></td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-info"
+                                                    data-bs-target="#edit_branch"
+                                                    data-bs-toggle="modal"
+                                                    data-id="<%= branch.id %>"
+                                                    data-branchname="<%= branch.name %>"
+                                                    data-branchcode="<%= branch.branchCode %>"
+
+                                                    data-branchaddress="<%= branch.branchAddress %>"
+                                                    data-province="<%= branch.province %>"
+                                                    data-city="<%= branch.city %>"
+
+                                            >
+                                                <i class="fe fe-edit-2"> Update</i>
+                                            </a>
+                                            <%= if branch.status =="ACTIVE" do %>
+
+                                            <a href="#" data-activate-id="<%= branch.id %>" class="deactivaqfintebranch btn btn-sm btn-danger">
+                                                <i class="fe fe-trash"> Disable</i>
+                                            </a>
+                                            <% else %>
+                                            <a href="#" data-activate-id="<%= branch.id %>"  class="activateqfinbranch btn btn-sm btn-success">
+                                                <i class="fe fe-check-circle"> Approve</i>
+                                            </a>
+                                            <% end %>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+
+
+
+
+
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="modaldemo12" >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Branch</h6>
+
+            </div>
+            <form action=" <%= Routes.organization_management_path(@conn, :admin_qfin_add_branch) %> " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="clientId" value="1">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Branch Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="name"name="name"  type="text">
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Branch Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchCode"name="branchCode"  type="text">
+                            </div>
+                            <div class="col-sm">
+                            <label class="form-label">Branch Address<span style="color: red;">*</span></label>
+                                <input class="form-control" name="branchAddress"  type="text">
+                            </div>
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm-4">
+                                <label class="form-label">Select City<span style="color: red;">*</span></label>
+                                <select required id="isdefaultussdbranch" name="city" class="form-control">
+                                     <option label="Select Your City"></option>
+                                    <%= for district <- @districts do %>
+                                     <option value="<%= district.name %>"><%= district.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label">Select Province<span style="color: red;">*</span></label>
+                                <select required id="isdefaultussdbranch" name="province" class="form-control">
+                                     <option label="Select Your Province"></option>
+                                    <%= for province <- @provinces do %>
+                                     <option value="<%= province.name %>"><%= province.name %></option>
+                                    <% end %>
+
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Add Branch</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="view_branch" >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Branch</h6>
+
+            </div>
+            <form method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="clientId" value="1">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Branch Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchname"name="name"  type="text">
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Branch Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchcode"name="branchCode"  type="text">
+                            </div>
+                            <div class="col-sm">
+                                <label class="form-label">Is this branch Default for USSD<span style="color: red;">*</span></label>
+                                <select required id="" name="isDefaultUSSDBranch" class="form-control">
+                                     <option label="Select Your Answer"></option>
+                                     <option value="0">No</option>
+                                     <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="edit_branch" >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Branch</h6>
+
+            </div>
+            <form action=" <%= Routes.organization_management_path(@conn, :admin_qfin_update_branch) %> " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Branch Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchname"name="branchName"  type="text">
+                            </div>
+
+                             <div class="col-sm">
+                            <label class="form-label">Branch Code<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchcode"name="branchCode"  type="text">
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label">Is this branch Default for USSD<span style="color: red;">*</span></label>
+                                <select required id="isdefaultussdbranch" name="isDefaultUSSDBranch" class="form-control">
+                                     <option label="Select Your Answer"></option>
+                                     <option value="0">No</option>
+                                     <option value="1">Yes</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Branch Address<span style="color: red;">*</span></label>
+                                <input class="form-control" id="branchaddress" name="branchAddress"  type="text">
+                            </div>
+
+
+                            <div class="col-sm-4">
+                                <label class="form-label">Select City<span style="color: red;">*</span></label>
+                                <select required id="city" name="city" class="form-control">
+                                     <option label="Select Your City"></option>
+                                    <%= for district <- @districts do %>
+                                     <option value="<%= district.name %>"><%= district.name %></option>
+                                    <% end %>
+
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label">Select Province<span style="color: red;">*</span></label>
+                                <select required id="province" name="province" class="form-control">
+                                     <option label="Select Your Province"></option>
+                                    <%= for province <- @provinces do %>
+                                     <option value="<%= province.name %>"><%= province.name %></option>
+                                    <% end %>
+
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Update Branch</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+//view Charge details
+    $('#view_branch').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var branchname = button.data('branchname')
+            var branchcode = button.data('branchcode')
+            var isdefaultussdbranch = button.data('isdefaultussdbranch')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #branchname').val(branchname);
+            modal.find('.modal-body #branchcode').val(branchcode);
+            modal.find('.modal-body #isdefaultussdbranch').val(isdefaultussdbranch);
+    });
+    $('#edit_branch').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var branchname = button.data('branchname')
+            var branchcode = button.data('branchcode')
+
+            var city = button.data('city')
+            var province = button.data('province')
+            var branchaddress = button.data('branchaddress')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #branchname').val(branchname);
+            modal.find('.modal-body #branchcode').val(branchcode);
+
+            modal.find('.modal-body #city').val(city);
+            modal.find('.modal-body #province').val(province);
+            modal.find('.modal-body #branchaddress').val(branchaddress);
+
+         $('#isdefaultussdbranch').val(button.data('isdefaultussdbranch')).trigger("change")
+
+
+    });
+});
+</script>

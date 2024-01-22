@@ -1,0 +1,22 @@
+<!-- Horizonatal menu-->
+			<div class="main-navbar hor-menu" style="border-radius: 23px;">
+				<div class="container">
+					<ul class="nav">
+                        <li class="nav-item">
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.tickets_path(@conn, :complaints) %>">Complaints</a>
+                            </li>
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.tickets_path(@conn, :incidents) %>">Incidents</a>
+                            </li>
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.tickets_path(@conn, :service_request) %>">Service Request</a>
+                            </li>
+                            <li class="nav-sub-item">
+                                <a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.tickets_path(@conn, :change_request) %>">Change Request</a>
+                            </li>
+                        </li>
+					</ul>
+				</div>
+			</div>
+			<!--End  Horizonatal menu-->

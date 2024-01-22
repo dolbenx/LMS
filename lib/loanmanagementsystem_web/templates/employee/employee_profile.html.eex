@@ -1,0 +1,326 @@
+	<!-- Row -->
+
+    	<!-- Main Content-->
+			<div class="main-content pt-0">
+
+				<div class="container">
+					<div class="col-md-12">
+
+                     <%= for current_user_detail <- @current_user_details do%>
+						<div class="row row-sm">
+							<div class="col-xl-3 col-lg-12 col-md-12">
+								<div class="card custom-card">
+									<div class="card-header">
+										<h3 class="main-content-label">My Account</h3>
+									</div>
+									<div class="card-body text-center item-user">
+										<div class="profile-pic">
+											<div class="profile-pic-img">
+												<span class="bg-success dots" data-bs-toggle="tooltip" data-bs-placement="top" title="online"></span>
+												<img src="<%= Routes.static_path(@conn, "/images/img/users/download.jpg") %>" class="rounded-circle" alt="user">
+											</div>
+											<a href="#" class="text-dark"><h5 class="mt-3 mb-0 font-weight-semibold"> <%= current_user_detail.firstname %> <%= current_user_detail.lastname %> </h5></a>
+										</div>
+									</div>
+									<ul class="item1-links nav nav-tabs  mb-0">
+										<li class="nav-item">
+											<a data-bs-target="#profile"  class="nav-link active" data-bs-toggle="tab" role="tablist"><i class="ti-user icon1"></i> My Profile</a>
+										</li>
+										<li class="nav-item">
+											<a data-bs-target="#orders" class="nav-link" data-bs-toggle="tab" role="tablist"><i class="ti-credit-card icon1"></i> My Account</a>
+										</li>
+										<li class="nav-item">
+											<a data-bs-target="#myaddres" class="nav-link" data-bs-toggle="tab" role="tablist"><i class="ti-save-alt icon1"></i>Company Details</a>
+										</li>
+										<li class="nav-item">
+											<a data-bs-target="#trackorder" class="nav-link" data-bs-toggle="tab" role="tablist"><i class="ti-truck icon1"></i>My Portfolio</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-xl-9 col-lg-12 col-md-12">
+								<div class="card custom-card">
+									<div class="card-body">
+										<div class="tab-content" id="myTabContent">
+											<div class="tab-pane fade show active" id="profile" role="tabpanel">
+												<div class="d-flex align-items-start pb-3 border-bottom"> <img src="<%= Routes.static_path(@conn, "/images/img/users/download.jpg") %>" class="img rounded-circle avatar-xl" alt="">
+													<div class="ps-sm-4 ps-2" id="img-section"> <b>Profile Photo</b>
+														<p class="mb-1">Accepted file type .png. Less than 1MB</p> <button class="btn button border btn-sm"><b>Upload</b></button>
+													</div>
+												</div>
+												<div class="py-2">
+                                                  <form Action=" <%= Routes.employee_path(@conn, :employee_edit_my_profile_details) %> " method="post">
+                                                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <input type="hidden" class="form-control" value="<%= current_user_detail.id %>" name="id">
+                                                    <div class="row py-2">
+                                                        <div class="col-md-6">
+															<label for="title">Title</label>
+															<select  name="title"  class="select2">
+																<option value="<%= current_user_detail.title %>" selected ><%= current_user_detail.title %></option>
+																<option value="Dr">Dr</option>
+																<option value="Mrs">Mrs</option>
+															</select>
+                                                         </div>
+														<div class="col-md-6"> <label id="firstname">First Name</label> <input type="text" class="form-control" name="firstName" value="<%= current_user_detail.firstname %>" readonly>
+														</div>
+													</div>
+													<div class="row py-2">
+                                                        <div class="col-md-6"> <label id="othername">Other Name</label> <input type="text" class="form-control" name="otherName" value="<%= current_user_detail.othername %>" readonly> </div>
+														<div class="col-md-6 pt-md-0 pt-3"> <label id="last-name">Last Name</label> <input type="text" class="form-control" name="lastName" value="<%= current_user_detail.lastname%>" readonly></div>
+                                                    </div>
+                                                    <div class="row py-2">
+														<div class="col-md-6 pt-md-0 pt-3"> <label id="last-name">Date Of Birth</label> <input type="text" class="form-control" name="dateOfBirth" value="<%= current_user_detail.dateOfBirth%>" readonly></div>
+                                                        <div class="col-md-6"> <label id="emailid">Email Address</label> <input type="email" class="form-control" name="emailAddress" value="<%= current_user_detail.emailAddress %>" > </div>
+                                                    </div>
+													<div class="row py-2">
+														<div class="col-md-6 pt-md-0 pt-3"> <label id="phoneno">Phone Number</label> <input type="text" name="mobileNumber" class="form-control" value="<%= current_user_detail.mobileNumber %>"> </div>
+                                                        <div class="col-md-6 pt-md-0 pt-3"> <label id="phoneno">Identification Type</label> <input type="text" name="meansOfIdentificationType" class="form-control" value="<%= current_user_detail.meansOfIdentificationType %>" readonly> </div>
+                                                    </div>
+													<div class="row py-2">
+														<div class="col-md-6 pt-md-0 pt-3"> <label id="phoneno">Identification Number</label> <input type="tel" name="meansOfIdentificationNumber" class="form-control" value="<%= current_user_detail.meansOfIdentificationNumber %>" readonly> </div>
+                                                         <div class="col-md-6"> <label id="firstname">Gender</label> <input type="text" class="form-control" name="gender" value="<%= current_user_detail.gender %>" readonly> </div>
+													</div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn ripple btn-success" type="submit">Update</button>
+                                                        <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+                                                    </div>
+                                                  </form>
+												</div>
+											</div>
+											<div class="tab-pane fade " id="orders" role="tabpanel">
+												<div class="d-flex mb-4">
+													<label class="main-content-label my-auto">Account Type</label>
+												</div>
+												<div class="table-responsive">
+													<table class="table border text-md-nowrap text-nowrap">
+														<thead>
+															<tr>
+																<th>#</th>
+																<th>Account Type</th>
+																<th>Account Number</th>
+																<th>Status</th>
+																<th >Assignment Date</th>
+															</tr>
+														</thead>
+														<tbody>
+
+															<tr class="border-bottom">
+																<th scope="row">#<%=String.slice(@loans && @loans.account_number,8..12)%></th>
+																<%= if String.slice(@loans && @loans.account_number,0..1) == "01" do %>
+																<td>Loan Account</td>
+																<%end %>
+																<%= if String.slice(@loans && @loans.account_number,0..1) == "02" do %>
+																<td>Savings Account</td>
+																<%end %>
+																<%= if String.slice(@loans && @loans.account_number,0..1) == "03" do %>
+																<td>Investment Account</td>
+																<%end %>
+
+																<td><%= @loans && @loans.account_number%></td>
+																<td><%= @loans && @loans.status%></td>
+																<td><%= @loans && @loans.assignment_date %></td>
+
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="tab-pane fade" id="myaddres" role="tabpanel">
+												<div class="row">
+													<div class="col-lg-12 col-xl-6">
+														<div class="card custom-card border mb-lg-0">
+															<div class="card-header pb-3">
+																<h6 class="mb-0"><i class="ti-home me-2"></i>Company Details</h6>
+															</div>
+															<div class="card-body">
+																<p>Name: <%= @companys && @companys.companyName %> </p>
+																<p>Email: <%= @companys && @companys.contactEmail %> </p>
+																<p class="mb-0">Phone Number: <%= @companys && @companys.companyPhone %></p>
+															</div>
+
+														</div>
+													</div>
+
+												</div>
+											</div>
+											<div class="tab-pane fade" id="trackorder" role="tabpanel">
+												<h6 class="mb-4">My Portfolio</h6>
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table table-bordered border-bottom" id="example1">
+															<thead>
+																<tr>
+																	<th class="wd-20p">Product Code</th>
+																	<th class="wd-15p">Loan Amount</th>
+																	<th class="wd-20p">Total Interest</th>
+																	<th class="wd-20p">Paid Amount</th>
+																	<th class="wd-20p">Outstanding Bal</th>
+																	<th class="wd-25p">Status</th>
+
+																</tr>
+															</thead>
+															<tbody>
+																<%= for loan_details <- @loan_details do %>
+																<tr>
+																	<td><%= loan_details.product_name %></td>
+																	<td>
+																		<%= if loan_details.principal_amount != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.principal_amount)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td>
+																		<%= if loan_details.interest_outstanding_derived != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.interest_outstanding_derived)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td>
+																		<%= if loan_details.total_principal_repaid != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.total_principal_repaid)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td>
+																		<%= if loan_details.principal_outstanding_derived != nil do %>
+																			<%= Decimal.round(Decimal.from_float(loan_details.principal_outstanding_derived)) %>
+																		<% else %>
+																			0
+																		<% end %>
+																	</td>
+																	<td><%= String.replace(loan_details.loan_status, "_", " ") %> </td>
+																</tr>
+																<% end %>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="tab-pane fade" id="whishlist" role="tabpanel">
+												<div class="d-flex mb-4">
+													<label class="main-content-label my-auto">Wishlist</label>
+												</div>
+												<div class="table-responsive">
+													<table class="table border text-nowrap">
+														<thead>
+															<tr>
+																<th>#</th>
+																<th>Photo</th>
+																<th>Product</th>
+																<th>Qty</th>
+																<th>Price</th>
+																<th>Total</th>
+																<th class="text-center">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<th scope="row">1</th>
+																<td><img src="<%= Routes.static_path(@conn, "/images/img/users/download.jpg") %>" class="img-sm product-image border" alt="product-img"></td>
+																<td>Regular waterproof (24 L) Backpack</td>
+																<td>
+																	<div class="form-group mb-0">
+																		<input type="number" class="form-control cart-qty" name="cartQty1" id="cartQty1" value="1">
+																	</div>
+																</td>
+																<td>$10</td>
+																<td>$500</td>
+																<td>
+																	<button type="button" class="btn btn-primary mb-1 me-1"><i class="ti-shopping-cart me-2"></i>Move to cart</button>
+																	<button type="button" class="btn btn-danger mb-1"><i class="ti-trash me-2"></i>Remove</button>
+																</td>
+															</tr>
+															<tr>
+																<th scope="row">2</th>
+																<td><img src="<%= Routes.static_path(@conn, "/images/img/users/download.jpg") %>" class="img-sm product-image border" alt="product-img"></td>
+																<td>Designer Hand Decorative flower Pot</td>
+																<td>
+																	<div class="form-group mb-0">
+																		<input type="number" class="form-control cart-qty" name="cartQty2" id="cartQty2" value="1">
+																	</div>
+																</td>
+																<td>$20</td>
+																<td>$200</td>
+																<td>
+																	<button type="button" class="btn btn-primary mb-1 me-1"><i class="ti-shopping-cart me-2"></i>Move to cart</button>
+																	<button type="button" class="btn btn-danger mb-1"><i class="ti-trash me-2"></i>Remove</button>
+																</td>
+															</tr>
+															<tr>
+																<th scope="row">3</th>
+																<td><img src="<%= Routes.static_path(@conn, "/images/img/users/download.jpg") %>"class="img-sm product-image border" alt="product-img"></td>
+																<td>Apple iPhone(Black, 128 GB)  8GB RAM</td>
+																<td>
+																	<div class="form-group mb-0">
+																		<input type="number" class="form-control cart-qty" name="cartQty3" id="cartQty3" value="1">
+																	</div>
+																</td>
+																<td>$30</td>
+																<td>$300</td>
+																<td>
+																	<button type="button" class="btn btn-primary mb-1 me-1"><i class="ti-shopping-cart me-2"></i>Move to cart</button>
+																	<button type="button" class="btn btn-danger mb-1"><i class="ti-trash me-2"></i>Remove</button>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="tab-pane fade" id="wallet" role="tabpanel">
+												<div class="border p-4 text-center">
+													<span class="text-uppercase tx-14 mt-4 text-muted">Available</span>
+													<h1 class="my-3">$245465</h1>
+													<a href="#" class="btn btn-primary"><i class="fe fe-plus me-2"></i>Add Money</a>
+												</div>
+												<ul class="list-group tx-13">
+													<li class="list-group-item border-top-0 pd-x-0 d-flex justify-content-between">
+														<div class="d-flex">
+															<span class="crypto-icon bg-primary-transparent me-3"><i class="fe fe-arrow-down-left text-primary"></i></span>
+															<span class="my-auto font-weight-semibold tx-15">Received</span>
+														</div>
+														<span class="font-weight-semibold my-auto text-success tx-15">+0.00004564</span>
+													</li>
+													<li class="list-group-item pd-x-0 d-flex justify-content-between">
+														<div class="d-flex">
+															<span class="crypto-icon bg-primary-transparent me-3"><i class="fe fe-arrow-up-right text-primary"></i></span>
+															<span class="my-auto font-weight-semibold tx-15">Sent</span>
+														</div>
+														<span class="font-weight-semibold my-auto text-danger tx-15">-0.03445436</span>
+													</li>
+													<li class="list-group-item pd-x-0 d-flex justify-content-between">
+														<div class="d-flex">
+															<span class="crypto-icon bg-primary-transparent me-3"><i class="fe fe-arrow-down-left text-primary"></i></span>
+															<span class="my-auto font-weight-semibold tx-15">Received</span>
+														</div>
+														<span class="font-weight-semibold my-auto text-success tx-15">+4.2543</span>
+													</li>
+													<li class="list-group-item pd-x-0 d-flex justify-content-between">
+														<div class="d-flex">
+															<span class="crypto-icon bg-primary-transparent me-3"><i class="fe fe-arrow-up-right text-primary"></i></span>
+															<span class="my-auto font-weight-semibold tx-15">Sent</span>
+														</div>
+														<span class="font-weight-semibold my-auto text-danger tx-15">+0.00255423</span>
+													</li>
+													<li class="list-group-item pd-x-0 d-flex justify-content-between">
+														<div class="d-flex">
+															<span class="crypto-icon bg-primary-transparent me-3"><i class="fe fe-arrow-down-left text-primary"></i></span>
+															<span class="my-auto font-weight-semibold tx-15">Received</span>
+														</div>
+														<span class="font-weight-semibold my-auto text-success tx-15">-0.02434525</span>
+													</li>
+												</ul>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                      <% end %>
+                    </div>
+                </div>
+            </div>

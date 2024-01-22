@@ -8,9 +8,10 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblPersonalBankDetails do
       add :accountNumber, :string
       add :accountName, :string
       add :upload_bank_statement, :string
+      add :mobile_number, :string
+      add :mobile_network_operator, :string
       add :userId, :integer
       add :bank_id, :integer
-      add :mobile_number, :string
 
       timestamps()
     end

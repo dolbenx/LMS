@@ -8,8 +8,7 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblLoanApplicationDocuments
       add :status, :string
       add :path, :string
       add :customer_id, :integer
-      add :loan_id, :integer
-      add :fileName, :string
+      add :user_id, :integer
 
       timestamps()
     end

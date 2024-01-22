@@ -12,8 +12,7 @@ defmodule Loanmanagementsystem.Accounts.User do
     field :auto_password, :string
     field :company_id, :integer
     field :classification_id, :integer
-    field :login_attempt, :integer, default: 0
-    field(:role_id, :integer)
+    field :isRm, :boolean, default: false
 
     timestamps()
   end
@@ -30,8 +29,7 @@ defmodule Loanmanagementsystem.Accounts.User do
       :password_fail_count,
       :auto_password,
       :company_id,
-      :login_attempt,
-      :role_id
+      :isRm
     ])
 
     # |> validate_length(:password, min: 8, max: 40, message: " should be atleast 8 to 40 characters")
@@ -57,8 +55,7 @@ defmodule Loanmanagementsystem.Accounts.User do
       :password_fail_count,
       :securityQuestionId,
       :securityQuestionAnswer,
-      :login_attempt,
-      :role_id
+      :isRm
     ])
   end
 
@@ -88,35 +85,7 @@ defmodule Loanmanagementsystem.Accounts.User do
             )
         ) :: binary
   def encrypt_password(password), do: Base.encode16(:crypto.hash(:sha512, password))
-
-  def has_role?(%{role: roles}, module, action) when is_atom(action) and is_atom(module),
-  do: get_in(roles, [module, action]) == "Y"
-
-def has_role?(%{role: roles}, modules, actions) when is_list(modules) and is_list(actions) do
-  result =
-    Enum.reduce(modules, [], fn module, acc ->
-      case get_in(roles, [module]) do
-        nil ->
-          [false | acc]
-
-        module ->
-          result = Map.take(module, actions) |> Map.values() |> Enum.any?(&(&1 == "Y"))
-          [result | acc]
-      end
-    end)
-
-  Enum.any?(result, & &1)
 end
-
-def has_role?(_user, _module, _action), do: false
-
-
-end
-
-
-
-
-
 
 # Loanmanagementsystem.Accounts.create_user(%{username: "admininitiator@probasegroup.com", password: "Password@06", status: "ACTIVE", createdByUserId: "1", auto_password: "Y", clientId: "1",  inserted_at: NaiveDateTime.utc_now, updated_at: NaiveDateTime.utc_now})
 

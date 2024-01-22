@@ -24,6 +24,7 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateEmploymentType do
       add :registered_name_mobile_number, :string
       add :contract_start_date, :date
       add :contract_end_date, :date
+      add :company_id, :integer
 
       timestamps()
     end

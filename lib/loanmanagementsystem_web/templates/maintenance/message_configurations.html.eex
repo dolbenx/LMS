@@ -1,0 +1,196 @@
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Message Configurations</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Message Configurations Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Message Configurations</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+                        <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                    <tr>
+                                        <th class="wd-20p">No#</th>
+                                        <th class="wd-25p">Message Type</th>
+                                        <th class="wd-20p">Message</th>
+                                        <th class="wd-15p">Status</th>
+                                        <th class="wd-20p">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <%= for msg_config <-@msg_configs do %>
+
+                                    <tr>
+                                        <td> <%= msg_config.id  %> </td>
+                                        <td> <%= msg_config.msg_type  %> </td>
+                                        <td> <%= msg_config.msg  %> </td>
+                                        <td> <%= msg_config.status  %> </td>
+                                        <td>
+                                            <div class="input-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fe fe-chevron-down"></i> </span>
+                                                            <div class="dropdown-menu">
+
+                                                                    <a class="dropdown-item" data-bs-target="#msg-config" data-bs-toggle="modal"
+                                                                    data-id="<%= msg_config.id %>"
+                                                                    data-msg_type="<%= msg_config.msg_type %>"
+                                                                    data-msg="<%= msg_config.msg %>"
+
+
+                                                                    ><i class="fe fe-edit"></i> Edit </a>
+                                                                <%= if msg_config.status == "INACTIVE"   do %>
+                                                                   <a class="dropdown-item activate-msg-config" data-activate-id="<%= msg_config.id %>" ><i class="fe fe-eye"></i> Enable </a>
+                                                                <% else %>
+                                                                    <a class="dropdown-item deactivate-msg-config" data-activate-id="<%= msg_config.id %>" ><i class="fe fe-eye"></i> Disable </a>
+                                                                <% end %>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% end %>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Message Configurations Details</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+        <form action="<%= Routes.maintenance_path(@conn, :admin_add_msg_configuration) %>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Message Type<span style="color: red;">*</span></label>
+                                <input class="form-control" name="msg_type" required type="text">
+                            </div>
+                              <div class="col-sm">
+                            <label class="form-label">Message<span style="color: red;">*</span></label>
+                                <textarea class="form-control" name="msg" required type="text"></textarea>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="msg-config">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Update Message Configurations Details</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+        <form action="<%= Routes.maintenance_path(@conn, :admin_update_msg_configuration) %>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+            <input type="hidden" id="id" name="id">
+
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Message Type<span style="color: red;">*</span></label>
+                                <input class="form-control" id="msg_type" name="msg_type" required type="text">
+                            </div>
+                              <div class="col-sm">
+                            <label class="form-label">Message<span style="color: red;">*</span></label>
+                                <textarea class="form-control" id="msg" name="msg" required type="text"></textarea>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#msg-config').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var msg_type = button.data('msg_type')
+            var msg = button.data('msg')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #msg_type').val(msg_type);
+            modal.find('.modal-body #msg').val(msg);
+
+
+
+    });
+});
+</script>

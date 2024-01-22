@@ -1,0 +1,60 @@
+<!-- Horizonatal menu-->
+			<div class="main-navbar hor-menu" style="border-radius: 23px;">
+				<div class="container">
+					<ul class="nav">
+
+						<li class="nav-header"><span class="nav-label" style="color: white;">Accounting</span></li>
+						<li class="nav-item">
+							<a class="nav-link with-sub" href="#"><span class="shape1"></span><span class="shape2"></span><i class="ti-palette sidemenu-icon"></i><span class="sidemenu-label ">Transaction Maintenance</span></a>
+							<ul class="nav-sub">
+
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.core_transaction_path(@conn, :create_journal_entries_batch_no_screen) %>">Journal Entry</a>
+								</li>
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.core_transaction_path(@conn, :recall_batch_entries) %>">Recall Batch</a>
+								</li>
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.core_transaction_path(@conn, :reassign_batch) %>">Re-Assign Batch</a>
+								</li>
+								<li class="nav-sub-item">
+									<a class="nav-sub-link" href="<%= Routes.core_transaction_path(@conn, :select_journal_entry_batch_to_authorise) %>">Approve Batch</a>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :acruals) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-menu sidemenu-icon"></i><span class="sidemenu-label">Accruals</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :provisioning_entries) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-lock sidemenu-icon"></i><span class="sidemenu-label">Provisioning Entries</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :closing_entries) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-menu sidemenu-icon"></i><span class="sidemenu-label">Closing Entries</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :closing_entries) %>"><span class="shape1"></span>Budget Maintenance</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#"><span class="shape1"></span><span class="shape2"></span><i class="ti-shield sidemenu-icon"></i><span class="sidemenu-label">Payroll Maintenance</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :fund_association) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-shield sidemenu-icon"></i><span class="sidemenu-label">Fund Association</span></a>
+						</li>
+						<!--<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :search_transaction) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-shield sidemenu-icon"></i><span class="sidemenu-label">Search Transactions</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :freqeunt_posting) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-lock sidemenu-icon"></i><span class="sidemenu-label">Frequent Postings</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :financial_activity_mapping) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-menu sidemenu-icon"></i><span class="sidemenu-label">Financial Activity Mapping</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<%= Routes.financial_management_path(@conn, :migrate_opening_balances) %>"><span class="shape1"></span><span class="shape2"></span><i class="ti-lock sidemenu-icon"></i><span class="sidemenu-label">Migrate Opening Balances</span></a>
+						</li>-->
+
+
+					</ul>
+				</div>
+			</div>
+			<!--End  Horizonatal menu-->

@@ -1,7 +1,6 @@
 defmodule Loanmanagementsystem.Maintenance.Currency do
   use Ecto.Schema
   import Ecto.Changeset
-  use Endon
 
   schema "tbl_currency" do
     field :countryId, :integer

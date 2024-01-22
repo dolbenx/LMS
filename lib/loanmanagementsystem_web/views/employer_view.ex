@@ -7,13 +7,6 @@ defmodule LoanmanagementsystemWeb.EmployerView do
     ]
   end
 
-  def client_upload_loan_document do
-    [
-      %{name: "Facility Agreement Form(signed by client)", is_required: true},
-      %{name: "Guarantee form(signed by client)", is_required: true},
-    ]
-  end
-
   def is_required?(state) do
     if state == true do
       "required"

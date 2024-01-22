@@ -1,0 +1,117 @@
+<div class="container">
+<div class="col-md-12">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mg-b-5">Loan OTC Customers</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">OTC Customers Table</li>
+            </ol>
+        </div>
+
+        <div class="d-flex"><button class="btn ripple btn-primary btn-with-icon mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""><i class="fe fe-filter"></i> Filter</button>&nbsp;<a class="btn ripple btn-primary btn-with-icon mb-0" href="<%= Routes.customers_path(@conn, :otc) %>">Apply For Loan</a>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Header -->
+    <!-- Row -->
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card custom-card overflow-hidden">
+                <div class="card-body">
+                    <div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="dt-customer-loans-list">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <input type="hidden" name="id" id="data-product-id" >
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-auto">Customer Name</th>
+                                            <th class="wd-25p">Email</th>
+                                            <th class="wd-20p">Product Code</th>
+                                            <th class="wd-15p">Loan Amount</th>
+                                            <th class="wd-20p">Total Interest</th>
+                                            <th class="wd-20p">Paid Amount</th>
+                                            <th class="wd-20p">Outstanding Bal</th>
+                                            <th class="wd-auto">Status</th>
+                                        </tr>
+                                    </thead>
+                                <body>
+                                </body>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Filter Details</h6>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-lg">
+                    <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Identification Number</p>
+                                    <input id="identification_id" class="form-control otc-user-lookup" placeholder="Enter Identification Number" type="text">
+                                    <input type="hidden" name="user_id" id="user_id" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Means of Identification</p>
+                                    <input class="form-control" name="id_means" id="id_means" placeholder="Enter Means of Identification" type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Gender</p>
+                                    <input class="form-control" id="id_gender" placeholder="Enter Gender" type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10">First Name</p>
+                                    <input class="form-control" id="first_name_id" placeholder="Enter First Name " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Other Name</p>
+                                    <input class="form-control" id="other_name_id" placeholder="Enter Other Name " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Last Name</p>
+                                    <input class="form-control" id="last_name_id" placeholder="Enter Last Name " type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                    <p class="mg-b-10"> Mobile</p>
+                                    <input class="form-control" id="mobile_id" placeholder="Enter Mobile Number " type="text">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Email</p>
+                                    <input class="form-control" id="email_id" placeholder="Enter Email address " type="email">
+                                </div>
+                                <div class="col-lg">
+                                    <p class="mg-b-10">Date of Birth</p>
+                                    <input class="form-control" id="dob_id" placeholder="Enter Date of Birth" type="text">
+                                </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="button">Filter</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->

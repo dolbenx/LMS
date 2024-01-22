@@ -1,0 +1,108 @@
+<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+<div class="container-fluid">
+    <%= if Loanmanagementsystem.Products.Product.exists?(productType: "Quick Advance") == false do %>
+        <!-- Row -->
+        <div class="row signpages ext-center">
+            <div class="col-md-7 mx-auto">
+                <div class="card alert-message">
+                    <div class="card-body">
+                        <div class="text-center text-white">
+
+                            <h3 class="mt-4 mb-3">No Quick Advance Loan Product Maintained</h3>
+                            <p class="tx-18 text-white-50">Apologiese for the Invoncenience</p>
+                            <a href="<%= Routes.user_path(@conn, :admin_dashboard) %>" class="btn btn-success">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+        <% else %>
+        <div class="inner-body">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h2 class="main-content-title tx-24 mg-b-5">Quick Advance Application</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Quick Advance Application</li>
+                    </ol>
+                </div>
+                <div class="d-flex">
+                    <div class="d-flex">
+                        <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-sm justify-content-center">
+                <%= for products <- @product_details do %>
+                    <div class="col-md-4 col-sm-6" style="border-radius: 10px;">
+                        <div class="card-container manual-flip">
+                            <div class="card">
+                                <div class="front" style="border-radius: 10px;">
+                                    <div class="card custom-card pricingTable2" style="border-radius: 25px;">
+                                        <div class="pricingTable2-header">
+                                            <h2><%= products.name %></h2>
+                                        </div>
+                                        <div class="pricing-plans" style="border-radius: 10px; background: #325c86;">
+                                            <p class="h5 ms-2" style="color: white;">&nbsp;Between</p>
+                                            <span class="pricingContent2" style="color: white;"><%= products.currencyName %></span>&nbsp;
+                                            <span class="price-value1"><%= Decimal.round(Decimal.from_float(products.minimumPrincipal)) %> - <%= Decimal.round(Decimal.from_float(products.maximumPrincipal)) %></span></span>
+                                        </div>
+                                        <div class="pricingContent2">
+                                            <ul>
+
+                                                <li><b>Period Type</b> - <%= products.periodType %></li>
+                                                <li><b>Interest Type </b> - <%= products.interestMode %></li>
+
+                                            </ul>
+                                        </div><!-- CONTENT BOX-->
+                                        <button class="btn btn-simple" onclick="rotateCard(this)" style="color: #325c86;">
+                                            <i class="fa fa-mail-forward"></i> Read Description...
+                                        </button>
+                                        <div class="pricingTable2-sign-up">
+                                            <a href="<%= Routes.loan_path(@conn, :get_otp, product_id: products.id ) %>" class="btn btn-block" style="background: #325c86;">Apply</a>
+                                        </div><!-- BUTTON BOX-->
+                                    </div>
+                                </div>
+                                <div class="back" style="border-radius: 10px;">
+                                    <div class="content">
+                                        <div class="main">
+                                            <h4 class="text-center">Product Type</h4>
+                                            <p class="text-center"><%= products.productType %></p>
+
+                                            <h4 class="text-center">Product Description</h4>
+                                            <p class="text-center"><%= products.details %></p>
+                                        </div>
+                                    </div>
+                                    <div class="footer">
+                                        <button class="btn btn-simple" rel="tooltip" title="Flip Card" onclick="rotateCard(this)">
+                                            <i class="fa fa-reply"></i> Back
+                                        </button>
+                                    </div>
+                                </div> <!-- end back panel -->
+                            </div>
+                        </div><br><br>
+                    </div>
+                <% end %>
+            </div>
+
+        </div>
+    <% end %>
+</div>
+
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/victor/rotating-card.css") %>">
+
+<script type="text/javascript">
+    function rotateCard(btn){
+        var $card = $(btn).closest('.card-container');
+        console.log($card);
+        if($card.hasClass('hover')){
+            $card.removeClass('hover');
+        } else {
+            $card.addClass('hover');
+        }
+    }
+</script>

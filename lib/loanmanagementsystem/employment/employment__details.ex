@@ -25,6 +25,7 @@ defmodule Loanmanagementsystem.Employment.Employment_Details do
     field :contract_start_date, :date
     field :contract_end_date, :date
     field :company_id, :integer
+
     timestamps()
   end
 
@@ -55,6 +56,11 @@ defmodule Loanmanagementsystem.Employment.Employment_Details do
       :contract_end_date,
       :company_id
     ])
+
+    |> unique_constraint(:employee_number,
+      name: :unique_employee_number,
+      message: " Employee Number already exists"
+    )
 
     # |> validate_required([
     #   :employer,

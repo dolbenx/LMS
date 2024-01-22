@@ -1,0 +1,604 @@
+<%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+
+<script>
+	function hide_receiver_number() {
+		$( "#select_company" ).hide();
+        $( "#select1_company" ).hide();
+        $( "#select2_company" ).hide();
+        $( "#select3_company" ).hide();
+        $( "#client_employment_Status" ).hide();
+        $( "#employment_status" ).hide();
+        $( "#mobile" ).hide();
+        $( "#bank" ).hide();
+        $( "#limit" ).hide();
+        $( "#loan_amount" ).hide();
+
+	}
+</script>
+
+<head>
+    <style>
+    #background {
+    background-color: #004d99;
+    padding: 5px;
+    background-size: 25px;
+    color: white;
+    }
+    </style>
+</head>
+
+<div class="col-md-12 col-md-12">
+
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mg-b-5">Employee Application</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<%= Routes.user_path(@conn, :admin_dashboard) %>">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Employee Application</li>
+            </ol>
+        </div>
+        <div class="d-flex">
+            <div class="justify-content-center">
+                <a onclick="history.back(-1)" class="btn ripple btn-danger" style="background-color: #fd6074; color: white;" type="button"> Back</a>
+            </div>
+        </div>
+    </div>
+    <body  onload="hide_receiver_number()">
+        <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div>
+                            <h6 class="main-content-label mb-1">Create Employee</h6>
+                            <p class="text-muted card-sub-title"></p>
+                        </div>
+                        <form action="<%= Routes.client_management_path(@conn, :create_client_user)%>" enctype="multipart/form-data" id="tst" method="post">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div id="wizard1">
+                            <h3>Employee Details</h3>
+                            <section>
+                                <input type="hidden" name="password" id="password-generate">
+                                <input type="hidden" name="percentage"  id="percentage" value="40">
+
+
+
+                                <div class="row row-sm">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <div id="background">
+                                            <h2>ABOUT YOU - THE APPLICANT</h2>
+                                        </div><br>
+                                        <div class="row row-sm mg-b-20">
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Title</p>
+                                                    <select name="title" class="form-control select2">
+                                                        <option label="Choose Currency"></option>
+                                                        <option value="Mr">Mr </option>
+                                                        <option value="Mrs">Mrs </option>
+                                                        <option value="Ms">Ms </option>
+                                                        <option value="Dr">Dr </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">First Name</p>
+                                                    <input name="firstName" class="form-control" type="text">
+                                                </div>
+                                                <div class="col-lg">
+                                                    <p class="mg-b-10">Last Name</p>
+                                                    <input name="lastName" class="form-control" type="text">
+                                                </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Other Name</p>
+                                                <input class="form-control" name="otherName" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Date Of Birth</p>
+                                                <input class="form-control" name="dateOfBirth" type="date">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Choose Marital</p>
+                                                <select name="marital_status" class="form-control select2">
+                                                    <option label="Choose One"></option>
+                                                    <option value="Single">Single </option>
+                                                    <option value="Married">Married </option>
+                                                    <option value="Widow">Widow </option>
+                                                    <option value="Widower">Widower </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Disability Status</p>
+                                                <select name="disability_status" id="select_disability" class="form-control select2 admin-disability-change">
+                                                    <option label="Choose Disability"></option>
+                                                    <option value="N/A">N/A </option>
+                                                    <option value="Differently Enabled">Differently Abled </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Disability Details</p>
+                                                <input class="form-control" name="disability_detail" id="disability_disable" type="text">
+                                            </div>
+                                            <div class="col-lg" id="email">
+                                                <p class="mg-b-10">Personal Email</p>
+                                                <input class="form-control"  name="emailAddress" type="email">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                        <input type="hidden" name="meansOfIdentificationType" value="National Registration Card">
+
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Identification Number</p>
+                                                <input class="form-control" name="meansOfIdentificationNumber" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Mobile Number</p>
+                                                <input class="form-control" name="mobileNumber" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Choose Gender</p>
+                                                <select name="gender" class="form-control select2">
+                                                    <option label="Choose Gender"></option>
+                                                    <option value="Male">Male </option>
+                                                    <option value="Female">Female </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Nationality</p>
+                                                <input class="form-control" name="nationality" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Client Type</p>
+                                                <select class="form-control select2 admin-employee-individual" name="client_type" id="client_type">
+                                                    <option label="Choose Type"></option>
+                                                    <option data-client_type_opt="Employee" value="Employee">Employee</option>
+                                                    <option data-client_type_opt="Individual" value="Individual">Individual</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Number Of Dependents</p>
+                                                <input class="form-control" name="number_of_dependants" min="0" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg-4">
+                                                <p class="mg-b-10">Employemnt Type</p>
+                                                <select class="form-control select2"  name="employment_type" id="employment_type">
+                                                    <option label="Choose Type"></option>
+                                                    <option data-employment_type="Permanent" value="Permanent">Permanent</option>
+                                                    <option data-employment_type="Contract" value="Contract">Contract</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg" id="employment_status">
+                                                <p class="mg-b-10">Contract Period</p>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text ">
+                                                        From
+                                                    </span>
+                                                    <input class="form-control clear_form" required="" type="date" name="contract_start_date">
+                                                    <span class="input-group-text ">
+                                                        To
+                                                    </span>
+                                                    <input class="form-control clear_form" required="" type="date" name="contract_end_date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row row-sm">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <div id="background">
+                                            <h2>ABOUT YOUR HOME ADDRESS</h2>
+                                        </div><br>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">House/Plot Number</p>
+                                                <input name="house_number" class="form-control" type="text" required>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Road/Street Name</p>
+                                                <input name="street_name" class="form-control" type="text" required>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Area</p>
+                                                <input name="area" class="form-control" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Town</p>
+                                                <select name="town" class="form-control select2">
+                                                    <option label="Choose One"></option>
+                                                    <%= for town <- @town do %>
+                                                        <option value="<%= town.name %>"><%= town.name %> </option>
+                                                    <% end %>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Accomodation Status</p>
+                                                <input class="form-control" name="accomodation_status" type="text" required>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Years At Current Address</p>
+                                                <input class="form-control" name="year_at_current_address" type="number" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>Corporate Details</h3>
+                            <section>
+                                <!------------------------------------------- Individual Company Details ---------------------------------------------->
+
+                                <div class="row row-sm" id="select_company">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <h5 class="modal-title"> Company Details </h5><br>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg" id="">
+                                                <p class="mg-b-10">Company Name</p>
+                                                <input type="text" class="form-control" name="company_name" >
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Mobile Number</p>
+                                                <input type="text" class="form-control" name="company_phone"  >
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10"> Pacra-Registration Number</p>
+                                                <input type="text" class="form-control" name="registration_number"  >
+                                            </div>
+
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Registration Date</p>
+                                                <input type="date" class="form-control" name="company_registration_date" id=""  >
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">TPIN</p>
+                                                <input type="text" class="form-control" name="taxno"  >
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Contact Email</p>
+                                                <input type="text" class="form-control "name="contact_email"  >
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Bank Name</p>
+                                                <input class="form-control" name="company_bank_name" type="text" >
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Bank Account Name</p>
+                                                <input class="form-control" name="company_account_name" type="text" >
+                                            </div>
+                                            <div class="col-lg" id="">
+                                                <p class="mg-b-10">Account Number</p>
+                                                <input class="form-control"  name="company_account_number" type="text" >
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-------------------------------------------------------- End -------------------------------------------------------->
+
+                                <div class="row row-sm" id="select1_company">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <h5 class="modal-title"> Company Details </h5><br>
+                                        <div class="row row-sm mg-b-20">
+                                        <input name="employer" class="form-control" id="company_name" type="hidden">
+                                            <div class="col-lg" id="">
+                                            <p class="mg-b-10">Select Company</p>
+                                                <select name="company_id" id="company_id" class="form-control select2 admin-company-lookup">
+                                                <option label="Choose Company">
+                                                </option>
+                                                <%= for company <- @companies do %>
+                                                    <option value="<%= company.id %>"><%= company.companyName %></option>
+                                                <% end %>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg" id="">
+                                                <p class="mg-b-10">Company Mobile Number</p>
+                                                <input type="text" class="form-control" name="companyPhone" id="company_phone" required>
+                                            </div>
+                                            <div class="col-lg" id="">
+                                                <p class="mg-b-10"> Pacra-Registration Number</p>
+                                                <input type="text" class="form-control" name="registrationNumber" id="registration_number" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg" id="">
+                                                <p class="mg-b-10"> Company Email</p>
+                                                <input type="text" class="form-control" name="contactEmail" id="contact_email" required>
+                                            </div>
+                                            <div class="col-lg" id="">
+                                                <p class="mg-b-10"> Tax Number</p>
+                                                <input type="text" class="form-control" name="taxno" id="taxno" required>
+                                            </div>
+                                            <div class="col-lg" id="">
+                                                <p class="mg-b-10"> Account Number </p>
+                                                <input type="text" class="form-control" name="companyAccountNumber" id="company_accountNumber" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row row-sm">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <div id="background">
+                                            <h2>ABOUT YOUR EMPLOYMENT</h2>
+                                        </div><br>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg-6" id="client_employment_Status">
+                                                <p class="mg-b-10">Employment Status</p>
+                                                <select name="employment_type" class="form-control select2 admin-employee-number" id="select_number">
+                                                    <option label="Choose One"></option>
+                                                    <option value="Employed">Employed</option>
+                                                    <option value="Self-Employed">Self-Employed</option>
+                                                    <option value="Un-Employed">Un-Employed</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Employer Industry Type</p>
+                                                <input name="employer_industry_type" class="form-control clear_form" type="text" id="number_disable">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Occupation</p>
+                                                <input name="occupation" class="form-control clear_form" type="text" id="number1_disable">
+                                            </div>
+                                            <div class="col-lg" id="select2_company">
+                                            <p class="mg-b-10">Select Department</p>
+                                            <select name="departmentId" class="form-control select2">
+                                                <option label="Choose One"></option>
+                                                <%= for department <- @departments do %>
+                                                    <option value="<%= department.id %>"><%= department.name %> </option>
+                                                <% end %>
+                                            </select>
+                                            </div>
+
+                                            <!---------------------------------------- Department ------------------------------------------------->
+
+                                            <div class="col-lg" id="select3_company">
+                                                <p class="mg-b-10">Department</p>
+                                                <input name="company_department" class="form-control clear_form" type="text" id="number2_disable">
+                                            </div>
+
+                                            <!---------------------------------------- Department ------------------------------------------------->
+
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Date Of Joining</p>
+                                                <input class="form-control clear_form" name="date_of_joining" type="date" id="number4_disable">
+                                            </div>
+
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Employee Number</p>
+                                                <input class="form-control clear_form" name="employee_number" type="text" id="number5_disable">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Job Title</p>
+                                                <input class="form-control clear_form" name="job_title" type="text" id="number6_disable">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">HR/Supervisor Name</p>
+                                                <input class="form-control clear_form" name="hr_supervisor_name" type="text" id="number7_disable">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">HR/Supervisor's Number</p>
+                                                <input class="form-control clear_form" name="hr_supervisor_mobile_number" type="text" id="number8_disable">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">HR/Supervisor's Email ID</p>
+                                                <input class="form-control clear_form" name="hr_supervisor_email" type="text" id="number9_disable">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Employer Office Build Name</p>
+                                                <input class="form-control clear_form" name="employer_office_building_name" type="text" id="number10_disable">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Employer Road/Street Name</p>
+                                                <input class="form-control clear_form" name="employer_officer_street_name" type="text" id="number11_disable">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Area</p>
+                                                <input class="form-control clear_form" name="area" type="text" id="number12_disable">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Town</p>
+                                                <select name="town" class="form-control select2 clear_form" id="number13_disable">
+                                                    <option label="Choose One"></option>
+                                                    <%= for town <- @town do %>
+                                                        <option value="<%= town.name %>"><%= town.name %> </option>
+                                                    <% end %>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-5">Province</p>
+                                                <select name="province" class="form-control select2 clear_form" id="number14_disable">
+                                                    <option label="Choose One"></option>
+                                                    <%= for province <- @province    do %>
+                                                        <option value="<%= province.name %>"><%= province.name %> </option>
+                                                    <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3> Account Details</h3>
+                            <section>
+                                <div id="background">
+                                    <h2>ABOUT YOUR INCOME</h2>
+                                </div><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Gross Salary (ZMW)</p>
+                                        <input class="form-control" name="" type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Total Deductions (ZMW)</p>
+                                        <input class="form-control" name="" type="text">
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Net Pay (ZMW)</p>
+                                        <input class="form-control" id="net_pay" name="" type="text">
+                                    </div>
+                                    <div class="col-lg-4" id="limit">
+                                        <p class="mg-b-10">Loan Limit</p>
+                                        <input class="form-control" id="loan_limit" name="" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg" id="loan_amount">
+                                        <p class="mg-b-10">Loan Amount Requested</p>
+                                        <input class="form-control" name="" type="text">
+                                    </div>
+                                </div>
+                                <div id="background">
+                                    <h2>ABOUT YOUR ACCOUNT DETAILS</h2>
+                                </div><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg-7">
+                                        <p class="mg-b-10">Account To Credit</p>
+                                        <select name="payment_type" class="form-control select2" id="payment_type">
+                                            <option label="Choose One"></option>
+                                            <option data-payment-type="Mobile" value="Mobile">Mobile</option>
+                                            <option data-payment-type="Bank" value="Bank">Bank</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20" id="mobile">
+                                    <div class="col-lg-7">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input class="form-control clear_form" name="town" type="text" id="number13_disable">
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20" id="bank">
+                                    <div class="col-lg">
+                                    <p class="mg-b-10">Select Bank</p>
+                                        <select name="bank_id" class="form-control select2">
+                                        <%= for bank <- @banks do %>
+                                            <option value="<%= bank.id %>"><%= bank.bankName %> (<%= bank.process_branch %>)
+                                            </option>
+                                        <% end %>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Account Number</p>
+                                        <input class="form-control"  name="bank_account_number" type="text">
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Account Name</p>
+                                        <input class="form-control"  name="accountName" type="text">
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>Document Upload</h3>
+                            <section>
+                                <div class="row row-sm mg-b-20">
+                                    <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                <label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+                                            <%# <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th> %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%= for item <- client_document_upload() do %>
+                                            <tr class="tr_clone">
+                                                <td>
+                                                    <div class="col-md-12 form-group">
+                                                        <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="file[]" type="file" multiple <%= is_required?(item.is_required) %> >
+                                                </td>
+                                            </tr>
+                                        <% end %>
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </section>
+
+                            <h3> Confimation Details</h3>
+                            <section>
+                                <div id="background">
+                                    <h2>EMPLOYER CONFIRMATION</h2>
+                                </div><br>
+                                <div class="row row-sm">
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="card custom-card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <label class="custom-switch">
+                                                                <span class="custom-switch-description  tx-20 me-2">Employee Confirmed</span>
+                                                                <input type="radio" name="employee_confirmation" class="custom-switch-input">
+                                                                <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="background">
+                                    <h2>APPPLICANT DECLARATION</h2>
+                                </div><br>
+                                <div class="row row-sm">
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="card custom-card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <label class="custom-switch">
+                                                                <span class="custom-switch-description tx-20 me-2">Applicant Declared</span>
+                                                                <input type="radio" name="applicant_declaration" class="custom-switch-input">
+                                                                <span class="custom-switch-indicator custom-switch-indicator-lg custom-square"></span>
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</div>
+</div>

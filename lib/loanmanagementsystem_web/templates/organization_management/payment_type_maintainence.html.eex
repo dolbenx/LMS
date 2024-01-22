@@ -1,0 +1,180 @@
+<%= render "submenu.html", assigns %>
+<div class="container">
+    <div class="col-md-12">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2 class="main-content-title tx-24 mg-b-5">Payment Type Maintainence</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Payment Type Maintainence Table</li>
+                </ol>
+            </div>
+            <div class="d-flex">
+                <div class="justify-content-center">
+                 <button class="btn ripple btn-primary mb-0" data-bs-target="#modaldemo12" data-bs-toggle="modal" href=""> Add Payment Type </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- Row -->
+        <div class="row row-sm">
+            <div class="col-lg-12">
+                <div class="card custom-card overflow-hidden">
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-bottom" id="example1">
+                             <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                 <thead>
+                                    <tr>
+                                        <th>Collection Type Description</th>
+                                        <th>Payment Type System ID</th>
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <%= for payment <- @payments do %>
+                                 <tr>
+                                    <td><%= payment.payment_type_description  %> </td>
+                                    <td><%= payment.system_id  %></td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info" data-bs-target="#edit_district"
+                                        data-bs-toggle="modal"
+                                        data-id = "<%=payment.id %>"
+                                        data-payment_type_description = "<%=payment.payment_type_description %>"
+                                        data-system_id = "<%=payment.system_id %>"
+                                        >
+                                            <i class="fe fe-edit-2"> Edit</i>
+                                        </a>
+                                    </td>
+                                 </tr>
+                                <% end %>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Payment Type</h6>
+
+            </div>
+        <form action="<%= Routes.organization_management_path(@conn, :add_payment_type_maintianance)%>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+
+                            <div class="col-sm">
+                             <label class="form-label">Payment Type Description<span style="color: red;">*</span></label>
+                                <input class="form-control" name="payment_type_description" required type="text">
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row row-sm">
+                             <div class="col-sm">
+                              <label class="form-label">Payment System ID<span style="color: red;">*</span></label>
+                                <input class="form-control" name="system_id" required type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="edit_district">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Payment Type</h6>
+
+            </div>
+        <form action="<%= Routes.organization_management_path(@conn, :update_payment_type_maintianance)%>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+            <input type="hidden" id="id" name="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+
+                            <div class="col-sm">
+                             <label class="form-label">Payment Type Description<span style="color: red;">*</span></label>
+                                <input class="form-control" id="payment_type_description" name="payment_type_description" required type="text">
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row row-sm">
+                             <div class="col-sm">
+                              <label class="form-label">Payment System ID<span style="color: red;">*</span></label>
+                                <input class="form-control" id="system_id"  name="system_id" required type="text">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-success" type="submit">Save</button>
+                <button class="btn ripple btn-danger" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#edit_district').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var payment_type_description = button.data('payment_type_description')
+            var system_id = button.data('system_id')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id)
+            modal.find('.modal-body #payment_type_description').val(payment_type_description)
+            modal.find('.modal-body #system_id').val(system_id)
+
+
+    });
+});
+</script>

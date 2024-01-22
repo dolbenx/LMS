@@ -1,0 +1,211 @@
+<!-- Horizonatal menu-->
+			<div class="main-navbar hor-menu" style="border-radius: 23px;">
+				<div class="container">
+					<ul class="nav">
+						<li class="nav-item">
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.reports_path(@conn, :transaction_reports) %>">Business Reports</a>
+							</li>
+
+							&nbsp;
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.reports_path(@conn, :customer_reports) %>">Credit Reports</a>
+							</li>
+							&nbsp;&nbsp;
+
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><span class="shape1"></span><span class="shape2"></span><i class="ti-palette sidemenu-icon"></i><span class="sidemenu-label ">Financial Reports</span></a>
+								<ul class="nav-sub">
+
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :balance_sheet) %>">Balance Sheet</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :income_statement) %>">Income Statement</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :trial_balance) %>">Trial Balance</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :general_ledger) %>">General Ledger</a>
+									</li>
+								</ul>
+							</li>
+
+							&nbsp;
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><span class="shape1"></span><span class="shape2"></span><i class="ti-palette sidemenu-icon"></i><span class="sidemenu-label ">Investments Report</span></a>
+								<ul class="nav-sub">
+
+									<li class="nav-sub-item">
+										<a class="nav-sub-link with-sub" href="#"><span class="sidemenu-label">Active Loans</span></a>
+										<ul class="nav-sub">
+											<li class="nav-sub-item">
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :active_loans_summary) %>">Active Loans Summary per Service-Out-Let (SOL)/Branch</a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :active_loans_employer) %>">Active Loans by Employer</a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :active_loans_emoney) %>">Active Loans by E-Money Issuer</a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :active_loans_corporate) %>">Active Loans by Corporate Buyer </a>
+												</li>
+
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :active_loans_product) %>">Active Loans by Loan Product </a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :active_loans_relationship) %>">Active Loans by Relationship Manager</a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :active_loans_installment) %>">Active Loans in their Last Installment </a>
+												</li>
+											</li>
+										</ul>
+									</li>
+									<!--<li class="nav-sub-item">
+										<a class="nav-sub-link with-sub" href="#"><span class="sidemenu-label">Collection Schedule</span></a>
+										<ul class="nav-sub">
+											<li class="nav-sub-item">
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :client_summary) %>">Clients Summary  </a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :employer_collection_schedule) %>">Employer Collection Schedule </a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :market_collection_schedule) %>">Market Collection Schedule</a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :corporate_collection_schedule) %>">Corporate Buyer Collection Schedule  </a>
+												</li>
+											</li>
+										</ul>
+									</li>
+
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :offtaker_information) %>">Off-Taker Information </a>
+									</li>
+
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :written_off_loans) %>">Written Off Loans  </a>
+									</li> -->
+
+									<li class="nav-sub-item">
+										<a class="nav-sub-link with-sub" href="#"><span class="sidemenu-label">Investments Reports</span></a>
+										<ul class="nav-sub">
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :balance_outstanding) %>">Balance Outstanding </a>
+											</li>
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :source_of_funds) %>">Balance Outstanding By Source Of Funds</a>
+											</li>
+										</ul>
+									</li>
+									<!--<li class="nav-sub-item">
+										<a class="nav-sub-link with-sub" href="#"><span class="sidemenu-label">Due Vs Collected</span></a>
+										<ul class="nav-sub">
+											<li class="nav-sub-item">
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :service_out_let) %>">Due Vs Collected – Service Out Let (SOL) </a>
+												</li>
+
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :dv_employer) %>">Due Vs Collected – Employer</a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :dv_emoney) %>">Due Vs Collected – Electronic Money Issuer </a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :dv_corporate_buyer) %>">Due Vs Collected – Corporate Buyer </a>
+												</li>
+												<li class="nav-sub-item">
+													<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :dv_relationship_manager) %>">Due Vs Collected – Relationship Manager</a>
+												</li>
+											</li>
+										</ul>
+									</li> -->
+									<li class="nav-sub-item">
+										<a class="nav-sub-link with-sub" href="#"><span class="sidemenu-label">Financial Reports</span></a>
+										<ul class="nav-sub">
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :loan_aiging_report) %>">Loan Aging Report  </a>
+											</li>
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :pending_approval) %>">Loans Pending Approval </a>
+											</li>
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :awaiting_disbursement) %>">Loans Awaiting Disbursement </a>
+											</li>
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :loans_past_due) %>">Loans Past Due   </a>
+											</li>
+											<li class="nav-sub-item">
+												<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :loan_classification) %>">Loan Classification by Product</a>
+											</li>
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :consultant_transaction_detailed) %>">Loans Consultant Transactions – Detailed </a>
+											</li>
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :consultant_transaction_summary) %>">Loans Consultant Transactions – Summary   </a>
+											</li>
+											<li class="nav-sub-item">
+												<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :performance_summary) %>">Loan Consultant Performance Summary Period</a>
+											</li>
+										</ul>
+									</li>
+								</li>
+								</ul>
+							</li>
+
+							&nbsp;
+						<!--<li class="nav-item">
+								<a class="nav-link with-sub" href="#"><span class="shape1"></span><span class="shape2"></span><i class="ti-palette sidemenu-icon"></i><span class="sidemenu-label ">Management</span></a>
+								<ul class="nav-sub">
+
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :aiging_summary) %>">Aging Summary </a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :clossed_loans) %>">Closed Loans </a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :clossed_loan_summary_sol) %>">Closed Loans Summary per Service-Out-Let (SOL)</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :clossed_loan_summary_rm) %>">Closed Loans Summary per Relationship Manager</a>
+									</li>
+
+
+
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :inactive_clients) %>">Inactive Clients Summary  </a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :funds_movement) %>">Funds Movement  </a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :mfi_progress) %>"> MFI Progress</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="<%= Routes.reports_path(@conn, :collection_summary) %>">Collection Summary</a>
+									</li>
+								</ul>
+							</li> -->
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.reports_path(@conn, :divestment_reports) %>">Change Reports</a>
+							</li>
+
+							&nbsp;
+							<li class="nav-sub-item">
+								<a class="nav-sub-link" style="color:#FFFFFF" href="<%= Routes.reports_path(@conn, :divestment_reports) %>">Ticket Reports</a>
+							</li>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--End  Horizonatal menu-->

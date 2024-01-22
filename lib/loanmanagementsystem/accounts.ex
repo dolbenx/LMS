@@ -1,9 +1,6 @@
 defmodule Loanmanagementsystem.Accounts do
   @moduledoc """
   The Accounts context.
-
-
-  # Loanmanagementsystem.Accounts.get_current_user_by_bio_data(41) get_current_user_by_bio_data
   """
 
   #
@@ -15,63 +12,13 @@ defmodule Loanmanagementsystem.Accounts do
   alias Loanmanagementsystem.Accounts.User
   alias Loanmanagementsystem.Accounts.UserBioData
   alias Loanmanagementsystem.Accounts.UserRole
-  alias Loanmanagementsystem.Accounts.Role
+
   # Loanmanagementsystem.Accounts.get_user_email("admin@probasegroup.com")
   def get_user_email(username) do
     User
     |> where([u], u.username == ^username)
     |> select([u], %{
       username: u.username
-    })
-    |> Repo.all()
-  end
-
-  # Loanmanagementsystem.Accounts.get_user_for_otp("admin@probasegroup.com")
-  def get_user_for_otp(username) do
-    User
-    |> join(:left, [u], uB in "tbl_user_bio_data", on: u.id == uB.userId)
-    |> where([u, uB], u.username == ^username)
-    |> select([u, uB], %{
-      username: u.username,
-      mobile: uB.mobileNumber,
-      name: uB.firstName,
-      last_name: uB.lastName,
-      email: uB.emailAddress,
-    })
-    |> Repo.one()
-  end
-
-
-   def get_role!(id), do: Repo.get!(Role, id)
-
-  # Loanmanagementsystem.Accounts.get_logged_user_details()
-  def get_logged_admin_user_details do
-    employer = "EMPLOYER"
-    employee = "EMPLOYEE"
-    sme = "SME"
-    offtaker = "OFFTAKER"
-
-    User
-    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
-    |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
-    |> where([uA, uB, uR], uR.roleType != ^employer and uR.roleType != ^employee and uR.roleType != ^sme and uR.roleType != ^offtaker)
-    |> select([uA, uB, uR], %{
-      id: uA.id,
-      status: uA.status,
-      username: uA.username,
-      firstname: uB.firstName,
-      lastname: uB.lastName,
-      othername: uB.otherName,
-      dateofbirth: uB.dateOfBirth,
-      meansofidentificationtype: uB.meansOfIdentificationType,
-      meansofidentificationnumber: uB.meansOfIdentificationNumber,
-      title: uB.title,
-      gender: uB.gender,
-      mobilenumber: uB.mobileNumber,
-      emailaddress: uB.emailAddress,
-      roletype: uR.roleType,
-      company_id: uA.company_id,
-      classification_id: uA.classification_id
     })
     |> Repo.all()
   end
@@ -182,44 +129,26 @@ defmodule Loanmanagementsystem.Accounts do
   def get_admin_logged_user_details(id) do
     User
     |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
-    |> join(:left, [uA], uX in "tbl_address_details", on: uA.id == uX.userId)
-    |> join(:left, [uA], uT in "tbl_employee_maintenance", on: uA.id == uT.userId)
     |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
     |> where(
-      [uA, uB, uX,  uT, uR],
+      [uA, uB, uR],
       (uA.company_id == ^id and uR.roleType == ^"ADMIN_EMPLOYER_INITATOR") or
         uR.roleType == ^"ADMIN_EMPLOYER_APPROVER"
     )
-    |> select([uA, uB, uX, uT, uR], %{
+    |> select([uA, uB, uR], %{
       id: uA.id,
       status: uA.status,
       username: uA.username,
-
       firstname: uB.firstName,
       lastname: uB.lastName,
       othername: uB.otherName,
       dateofbirth: uB.dateOfBirth,
       meansofidentificationtype: uB.meansOfIdentificationType,
       meansofidentificationnumber: uB.meansOfIdentificationNumber,
-      bio_title: uB.title,
-      nationality: uB.nationality,
+      title: uB.title,
       gender: uB.gender,
-      marital_status: uB.marital_status,
-      number_of_dependants: uB.number_of_dependants,
       mobilenumber: uB.mobileNumber,
       emailaddress: uB.emailAddress,
-
-      accomodation_status: uX.accomodation_status,
-      area: uX.area,
-      house_number: uX.house_number,
-      street_name: uX.street_name,
-      town: uX.town,
-      year_at_current_address: uX.year_at_current_address,
-      province: uX.province,
-
-      mobile_network_operator: uT.mobile_network_operator,
-      registered_name_mobile_number: uT.registered_name_mobile_number,
-
       roletype: uR.roleType
     })
     |> Repo.all()
@@ -238,52 +167,6 @@ defmodule Loanmanagementsystem.Accounts do
   def list_tbl_users do
     Repo.all(User)
   end
-
-
-  def list_tbl_funder_users do
-    User
-    |> join(:left, [uA], uB in "tbl_user_bio_data", on: uA.id == uB.userId)
-    |> join(:left, [uA], uX in "tbl_address_details", on: uA.id == uX.userId)
-    |> join(:left, [uA], uR in "tbl_user_roles", on: uA.id == uR.userId)
-    |> where([uA, uB, uX, uR], uR.roleType == ^"FUNDER")
-    |> select([uA, uB, uX, uR], %{
-      id: uA.id,
-      company_id: uA.company_id,
-      status: uA.status,
-      username: uA.username,
-
-      roletype: uR.roleType,
-      bio_id: uB.userId,
-      role_id: uR.userId,
-
-      bio_data_id: uB.id,
-      firstname: uB.firstName,
-      lastname: uB.lastName,
-      othername: uB.otherName,
-      dateofbirth: uB.dateOfBirth,
-      meansofidentificationtype: uB.meansOfIdentificationType,
-      meansofidentificationnumber: uB.meansOfIdentificationNumber,
-      title: uB.title,
-      nationality: uB.nationality,
-      gender: uB.gender,
-      marital_status: uB.marital_status,
-      number_of_dependants: uB.number_of_dependants,
-      mobilenumber: uB.mobileNumber,
-      emailaddress: uB.emailAddress,
-
-      accomodation_status: uX.accomodation_status,
-      area: uX.area,
-      house_number: uX.house_number,
-      street_name: uX.street_name,
-      town: uX.town,
-      year_at_current_address: uX.year_at_current_address,
-      province: uX.province
-
-    })
-    |> Repo.all()
-  end
-
-
 
   # def batch_users do
   #   Repo.all(from n in UserRole, [where: n.roleType == "ADMIN"])
@@ -1768,7 +1651,7 @@ defmodule Loanmanagementsystem.Accounts do
   # Loanmanagementsystem.Accounts.client_relationship_managers()
   def client_relationship_managers() do
     User
-    |> where([u], u.status == "ACTIVE")
+    |> where([u], u.isRm == true and u.status == "ACTIVE")
     |> join(:left, [u], user_r in "tbl_user_roles", on: u.id == user_r.userId)
     |> join(:left, [u], user_bio in "tbl_user_bio_data", on: u.id == user_bio.userId)
     |> select([u, user_r, user_bio], %{
@@ -1803,7 +1686,7 @@ defmodule Loanmanagementsystem.Accounts do
     |> join(:left, [uB, uR], uRo in "tbl_user_roles", on: uR.id == uRo.userId)
     |> where(
       [uB, uR, uRo],
-      uB.userId == ^userId
+      uB.userId == ^userId and uR.isRm == true
     )
     |> select([uB, uR, uRo], %{
       id: uB.id,
@@ -1837,7 +1720,7 @@ defmodule Loanmanagementsystem.Accounts do
     |> join(:left, [uB, uR, uRo, eM] , qF in Qfin_Brance_maintenance, on: eM.branchId == qF.id)
     |> where(
       [uB, uR, uRo, eM, qF],
-      uB.userId == ^userId
+      uB.userId == ^userId and uR.isRm == true
     )
     |> select([uB, uR, uRo, eM, qF], %{
       id: uB.id,
@@ -1959,7 +1842,6 @@ defmodule Loanmanagementsystem.Accounts do
     Address_Details.changeset(address__details, attrs)
   end
 
-# Loanmanagementsystem.Accounts.count_users()
 
   def count_users() do
     Loanmanagementsystem.Accounts.User
@@ -1971,23 +1853,13 @@ defmodule Loanmanagementsystem.Accounts do
   end
 
 
-  # client_role = Loanmanagementsystem.Accounts.get_client_by_nrc("100101/101/1")
+  # client_role = Loanmanagementsystem.Accounts.get_client_by_line("0977656589")
 
   # my_client_role = Loanmanagementsystem.Accounts.get_user_role!(client_role.role_id)
 
   # Loanmanagementsystem.Accounts.update_user_role(my_client_role, %{otp: "1234"})
 
-  def get_client_by_line(nrc) do
-    UserBioData
-    |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserRole, on: c.userId == u.userId)
-    |> where([c, u], c.meansOfIdentificationNumber == ^nrc)
-    |> select([c, u], %{
-      role_id: c.id
-    })
-    |> Repo.one()
-  end
-
-  def get_client_by_line!(client_line) do
+  def get_client_by_line(client_line) do
     UserRole
     |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserBioData, on: c.userId == u.userId)
     |> where([c, u], u.mobileNumber == ^client_line)
@@ -1997,569 +1869,5 @@ defmodule Loanmanagementsystem.Accounts do
     |> Repo.one()
   end
 
-  def get_client_loan_by_line(client_line) do
-    UserRole
-    |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserBioData, on: c.userId == u.userId)
-    |> where([c, u], u.mobileNumber == ^client_line)
-    |> select([c, u], %{
-      role_id: c.id
-    })
-    |> Repo.one()
-  end
-
-  def get_client_by_nrc(nrc) do
-    UserBioData
-    |> join(:left, [c], u in Loanmanagementsystem.Accounts.UserRole, on: c.userId == u.userId)
-    |> join(:left, [c], emp in Loanmanagementsystem.Employment.Employment_Details, on: c.userId == emp.userId)
-    |> join(:left, [c], inv in Loanmanagementsystem.Employment.Income_Details, on: c.userId == inv.userId)
-    |> where([c, u], c.meansOfIdentificationNumber == ^nrc)
-    |> select([c, u, emp, inv], %{
-      firstName: c.firstName,
-      lastName: c.lastName,
-      userId: c.userId,
-      otherName: c.otherName,
-      dateOfBirth: c.dateOfBirth,
-      meansOfIdentificationType: c.meansOfIdentificationType,
-      meansOfIdentificationNumber: c.meansOfIdentificationNumber,
-      title: c.title,
-      gender: c.gender,
-      mobileNumber: c.mobileNumber,
-      emailAddress: c.emailAddress,
-      role_id: u.id,
-      marital_status: c.marital_status,
-      nationality: c.nationality,
-      employer: emp.employer,
-      employee_number: emp.employee_number,
-      net_pay: inv.net_pay,
-      pay_day: inv.pay_day,
-      company_id: emp.company_id
-    })
-    |> Repo.one()
-  end
-
-  alias Loanmanagementsystem.Accounts.Address_Details
-
-  def get_client_address_details(customer_id) do
-    UserBioData
-    |> join(:left, [c], u in Address_Details, on: c.userId == u.userId)
-    |> where([c, u], u.userId == ^customer_id)
-    |> select([c, u], %{
-      accomodation_status: u.accomodation_status,
-      area: u.area,
-      userId: c.userId,
-      house_number: u.house_number,
-      street_name: u.street_name,
-      town: u.town,
-      year_at_current_address: u.year_at_current_address,
-      province: u.province,
-    })
-    |> limit(1)
-    |> Repo.one()
-  end
-
-  alias Loanmanagementsystem.Accounts.Role
-
-  @doc """
-  Returns the list of tbl_roles.
-
-
-  ## Examples
-
-      iex> list_tbl_roles()
-      [%Role{}, ...]
-
-  =======
-
-  ## Examples
-
-      iex> list_tbl_roles()
-      [%Role{}, ...]
-
-
-  """
-  def list_tbl_roles do
-    Repo.all(Role)
-  end
-
-  @doc """
-  Gets a single role.
-
-
-  Raises `Ecto.NoResultsError` if the Role does not exist.
-
-  ## Examples
-
-      iex> get_role!(123)
-      %Role{}
-
-      iex> get_role!(456)
-      ** (Ecto.NoResultsError)
-
-  =======
-
-  Raises `Ecto.NoResultsError` if the Role does not exist.
-
-  ## Examples
-
-      iex> get_role!(123)
-      %Role{}
-
-      iex> get_role!(456)
-      ** (Ecto.NoResultsError)
-
-
-  """
-  def get_role!(id), do: Repo.get!(Role, id)
-
-  @doc """
-  Creates a role.
-
-
-  ## Examples
-
-      iex> create_role(%{field: value})
-      {:ok, %Role{}}
-
-      iex> create_role(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  =======
-
-  ## Examples
-
-      iex> create_role(%{field: value})
-      {:ok, %Role{}}
-
-      iex> create_role(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-
-  """
-  def create_role(attrs \\ %{}) do
-    %Role{}
-    |> Role.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a role.
-
-
-  ## Examples
-
-      iex> update_role(role, %{field: new_value})
-      {:ok, %Role{}}
-
-      iex> update_role(role, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  =======
-
-  ## Examples
-
-      iex> update_role(role, %{field: new_value})
-      {:ok, %Role{}}
-
-      iex> update_role(role, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-
-  """
-  def update_role(%Role{} = role, attrs) do
-    role
-    |> Role.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a role.
-
-
-  ## Examples
-
-      iex> delete_role(role)
-      {:ok, %Role{}}
-
-      iex> delete_role(role)
-      {:error, %Ecto.Changeset{}}
-
-  =======
-
-  ## Examples
-
-      iex> delete_role(role)
-      {:ok, %Role{}}
-
-      iex> delete_role(role)
-      {:error, %Ecto.Changeset{}}
-
-
-  """
-  def delete_role(%Role{} = role) do
-    Repo.delete(role)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking role changes.
-
-
-  ## Examples
-
-      iex> change_role(role)
-      %Ecto.Changeset{data: %Role{}}
-  Ussdsystem.Accounts.customer_report_view(nil, 1, 10)
-
-  =======
-
-  ## Examples
-
-      iex> change_role(role)
-      %Ecto.Changeset{data: %Role{}}
-  Ussdsystem.Accounts.customer_report_view(nil, 1, 10)
-
-
-  """
-  def change_role(%Role{} = role, attrs \\ %{}) do
-    Role.changeset(role, attrs)
-  end
-
-
-
-  alias Loanmanagementsystem.Accounts.Nextofkin
-
-  @doc """
-  Returns the list of tbl_next_of_kin.
-
-  ## Examples
-
-      iex> list_tbl_next_of_kin()
-      [%Nextofkin{}, ...]
-
-  """
-  def list_tbl_next_of_kin do
-    Repo.all(Nextofkin)
-  end
-
-  @doc """
-  Gets a single nextofkin.
-
-  Raises `Ecto.NoResultsError` if the Nextofkin does not exist.
-
-  ## Examples
-
-      iex> get_nextofkin!(123)
-      %Nextofkin{}
-
-      iex> get_nextofkin!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_nextofkin!(id), do: Repo.get!(Nextofkin, id)
-
-  @doc """
-  Creates a nextofkin.
-
-  ## Examples
-
-      iex> create_nextofkin(%{field: value})
-      {:ok, %Nextofkin{}}
-
-      iex> create_nextofkin(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_nextofkin(attrs \\ %{}) do
-    %Nextofkin{}
-    |> Nextofkin.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a nextofkin.
-
-  ## Examples
-
-      iex> update_nextofkin(nextofkin, %{field: new_value})
-      {:ok, %Nextofkin{}}
-
-      iex> update_nextofkin(nextofkin, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_nextofkin(%Nextofkin{} = nextofkin, attrs) do
-    nextofkin
-    |> Nextofkin.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a nextofkin.
-
-  ## Examples
-
-      iex> delete_nextofkin(nextofkin)
-      {:ok, %Nextofkin{}}
-
-      iex> delete_nextofkin(nextofkin)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_nextofkin(%Nextofkin{} = nextofkin) do
-    Repo.delete(nextofkin)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking nextofkin changes.
-
-  ## Examples
-
-      iex> change_nextofkin(nextofkin)
-      %Ecto.Changeset{data: %Nextofkin{}}
-
-  """
-  def change_nextofkin(%Nextofkin{} = nextofkin, attrs \\ %{}) do
-    Nextofkin.changeset(nextofkin, attrs)
-  end
-
-
-
-
-  alias Loanmanagementsystem.Accounts.Client_Documents
-  @doc """
-  Returns the list of list_tbl_client_details.
-
-  ## Examples
-
-      iex> list_tbl_client_details()
-      [%Client_Details{}, ...]
-
-  """
-  def list_tbl_client_details do
-    Repo.all(Client_Documents)
-  end
-
-  @doc """
-  Gets a single client_details.
-
-  Raises `Ecto.NoResultsError` if the client_details does not exist.
-
-  ## Examples
-
-      iex> get_client_details!(123)
-      %Client_Details{}
-
-      iex> get_client_details!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_client_details!(id), do: Repo.get!(Client_Documents, id)
-
-  @doc """
-  Creates a client_documents.
-
-  ## Examples
-
-      iex> create_client_details(%{field: value})
-      {:ok, %Client_Details{}}
-
-      iex> create_client_details(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_client_documents(attrs \\ %{}) do
-    %Client_Documents{}
-    |> Client_Documents.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a client_documents.
-
-  ## Examples
-
-      iex> update_client_documents(client_documents, %{field: new_value})
-      {:ok, %Client_Documents{}}
-
-      iex> update_client_documents(client_documents, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_client_documents(%Client_Documents{} = client_documents, attrs) do
-    client_documents
-    |> Client_Documents.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a client_documents.
-
-  ## Examples
-
-      iex> delete_client_documents(client_documents)
-      {:ok, %Client_Documents{}}
-
-      iex> delete_client_documents(client_documents)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_client_documents(%Client_Documents{} = client_documents) do
-    Repo.delete(client_documents)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking client_documents changes.
-
-  ## Examples
-
-      iex> change_client_documents(client_documents)
-      %Ecto.Changeset{data: %client_documents{}}
-
-  """
-  def change_client_documents(%Client_Documents{} = client_documents, attrs \\ %{}) do
-    Client_Details.changeset(client_documents, attrs)
-  end
-
-
-  alias Loanmanagementsystem.Accounts.Client_reference
-
-  @doc """
-  Returns the list of tbl_client_reference.
-
-  ## Examples
-
-      iex> list_tbl_client_reference()
-      [%Client_reference{}, ...]
-
-  """
-  def list_tbl_client_reference do
-    Repo.all(Client_reference)
-  end
-
-  @doc """
-  Gets a single client_reference.
-
-  Raises `Ecto.NoResultsError` if the Client reference does not exist.
-
-  ## Examples
-
-      iex> get_client_reference!(123)
-      %Client_reference{}
-
-      iex> get_client_reference!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_client_reference!(id), do: Repo.get!(Client_reference, id)
-
-  @doc """
-  Creates a client_reference.
-
-  ## Examples
-
-      iex> create_client_reference(%{field: value})
-      {:ok, %Client_reference{}}
-
-      iex> create_client_reference(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_client_reference(attrs \\ %{}) do
-    %Client_reference{}
-    |> Client_reference.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a client_reference.
-
-  ## Examples
-
-      iex> update_client_reference(client_reference, %{field: new_value})
-      {:ok, %Client_reference{}}
-
-      iex> update_client_reference(client_reference, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_client_reference(%Client_reference{} = client_reference, attrs) do
-    client_reference
-    |> Client_reference.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a client_reference.
-
-  ## Examples
-
-      iex> delete_client_reference(client_reference)
-      {:ok, %Client_reference{}}
-
-      iex> delete_client_reference(client_reference)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_client_reference(%Client_reference{} = client_reference) do
-    Repo.delete(client_reference)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking client_reference changes.
-
-  ## Examples
-
-      iex> change_client_reference(client_reference)
-      %Ecto.Changeset{data: %Client_reference{}}
-
-  """
-  def change_client_reference(%Client_reference{} = client_reference, attrs \\ %{}) do
-    Client_reference.changeset(client_reference, attrs)
-  end
-
-  def get_current_user_by_bio_data(user_id) do
-    UserBioData
-    |>join(:left, [uB], uS in User, on: uB.userId == uS.id)
-    |>join(:left, [uB, uS], r in Role, on: uS.role_id == r.id)
-    |> where([uB, uS, r], uB.userId == ^user_id)
-    |> select([uB, uS, r], %{
-      id: uB.id,
-      userId: uB.userId,
-      firstName: uB.firstName,
-      lastName: uB.lastName,
-      otherName: uB.otherName,
-      dateOfBirth: uB.dateOfBirth,
-      meansOfIdentificationType: uB.meansOfIdentificationType,
-      meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-      title: uB.title,
-      gender: uB.gender,
-      mobileNumber: uB.mobileNumber,
-      emailAddress: uB.emailAddress,
-
-      role_desc: r.role_desc,
-      role_group: r.role_group,
-    })
-    |> Repo.one()
-  end
-
-
-  # def get_current_user_by_bio_data(user_id) do
-  #   UserBioData
-  #   |> where([uB], uB.userId == ^user_id)
-  #   |> select([uB], %{
-  #     id: uB.id,
-  #     userId: uB.userId,
-  #     firstName: uB.firstName,
-  #     lastName: uB.lastName,
-  #     otherName: uB.otherName,
-  #     dateOfBirth: uB.dateOfBirth,
-  #     meansOfIdentificationType: uB.meansOfIdentificationType,
-  #     meansOfIdentificationNumber: uB.meansOfIdentificationNumber,
-  #     title: uB.title,
-  #     gender: uB.gender,
-  #     mobileNumber: uB.mobileNumber,
-  #     emailAddress: uB.emailAddress
-  #   })
-  #   |> Repo.one()
-  # end
 
 end

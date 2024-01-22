@@ -10,6 +10,7 @@ defmodule Loanmanagementsystem.Charges.Charge do
     field :currency, :string
     field :currencyId, :integer
     field :isPenalty, :boolean, default: false
+
     field :code, :string
     field :accountToCredit, :string
     field :effectiveDate, :date
@@ -28,6 +29,7 @@ defmodule Loanmanagementsystem.Charges.Charge do
       :currency,
       :currencyId,
       :isPenalty,
+
       :code,
       :accountToCredit,
       :effectiveDate
@@ -40,6 +42,7 @@ defmodule Loanmanagementsystem.Charges.Charge do
       :currency,
       :currencyId,
       :isPenalty,
+
       :code,
       :accountToCredit,
       :effectiveDate
