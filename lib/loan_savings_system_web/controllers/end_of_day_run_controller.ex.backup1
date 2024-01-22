@@ -1,0 +1,872 @@
+defmodule LoanSavingsSystemWeb.EndOfDayRunController do
+  use LoanSavingsSystemWeb, :controller
+
+  alias LoanSavingsSystem.EndOfDay
+  alias LoanSavingsSystem.EndOfDay.EndOfDayRun
+
+    alias LoanSavingsSystem.Repo
+    alias LoanSavingsSystem.EndOfDay.EndOfDayEntry
+    alias LoanSavingsSystem.FixedDeposit.FixedDeposits
+		alias LoanSavingsSystem.EndOfDay.FlexCubeConfig
+    require Record
+    require Logger
+    import Ecto.Query, warn: false
+
+	plug(
+    LoanSavingsSystemWeb.Plugs.EnforcePasswordPolicy
+      when action not in [:new_password, :change_password]
+    )
+
+  def index(conn, _params) do
+    tbl_end_of_day = EndOfDay.list_tbl_end_of_day()
+	host = conn.host
+
+    query = from cl in LoanSavingsSystem.SystemSetting.ClientTelco, where: cl.domain == ^host, select: cl
+	clientTelco = Repo.one(query);
+
+	query = from cl in LoanSavingsSystem.Client.Clients, where: cl.id == ^clientTelco.clientId, select: cl
+	client = Repo.one(query);
+
+	IO.inspect client
+
+    render(conn, "index.html", tbl_end_of_day: tbl_end_of_day, client: client)
+  end
+
+  def new(conn, _params) do
+    IO.inspect "Create End Of Day"
+    isDivested = false
+    isMatured = false
+    query = from au in FixedDeposits,
+            where: au.isMatured == type(^isMatured, :boolean),
+            where: au.isDivested == type(^isDivested, :boolean),
+            order_by: [desc: :inserted_at],
+            select: au
+    fixedDepositsList = Repo.all(query);
+
+
+
+
+
+    if Enum.count(fixedDepositsList)==0 do
+        conn
+            |> put_flash(:error, "You can not run an end-of-day at the moment. There are no fixed deposits to run end-of-day for")
+            |> redirect(to: Routes.loan_path(conn, :fixed_deps))
+    else
+        type_str = "FIXED DEPOSIT"
+        query = from au in LoanSavingsSystem.EndOfDay.EndOfDayRun,
+            where: (au.end_of_day_type == "FIXED DEPOSIT"),
+            order_by: [desc: :inserted_at],
+            select: au
+
+        lastEndOfDays = Repo.all(query);
+        startDate = nil;
+
+        startDate = if Enum.count(lastEndOfDays)>0 do
+			lastEndOfDay = Enum.at(lastEndOfDays, 0)
+            startDate = lastEndOfDay.end_date
+			startDate = DateTime.to_date(startDate)
+            startDate = Date.add(startDate, 1)
+			startDate
+        else
+            startDate = DateTime.utc_now
+			startDate = DateTime.to_date(startDate)
+			startDate
+        end
+
+        endDate = nil;
+		endDate = case Date.compare(startDate, Date.utc_today) do
+			:lt ->
+				IO.inspect "lt"
+				endDate = nil
+			:gt ->
+				conn
+				|> put_flash(:error, "You can not run an end-of-day at the moment. There are no fixed deposits to run end-of-day for")
+				|> redirect(to: Routes.loan_path(conn, :fixed_deps))
+			:eq ->
+				IO.inspect "eq"
+				endDate = nil;
+		end
+
+		startDateStr = Date.to_string(startDate);
+		startDateStr
+
+        IO.inspect startDateStr
+        render(conn, "new.html", startDateStr: startDateStr)
+    end
+  end
+
+  def create(conn, params) do
+    #handleEndOfDayForFixedDepositsAccruedInterest(conn, params);
+		handleEndOfDayForFixedDepositsAccruedInterestV2(conn, params);
+  end
+
+
+
+
+	def handleEndOfDayForFixedDepositsAccruedInterest(conn, params) do
+		IO.inspect "Create End Of Day"
+		startdate = params["startdate"] <> "T00:00:00Z"
+		startdate1 = params["startdate"] <> "T23:59:59Z"
+
+		startdate = case DateTime.from_iso8601(startdate) do
+		   {:ok, startdate, 0} ->
+			startdate
+		  {:error, :invalid_format} ->
+			  nil
+		end
+		IO.inspect startdate
+
+		startdate1 = case DateTime.from_iso8601(startdate1) do
+		   {:ok, startdate1, 0} ->
+			startdate1
+		  {:error, :invalid_format} ->
+			  nil
+		end
+
+		type_str = "FIXED DEPOSIT"
+
+		isMatured = false
+		isDivested = false
+
+		query = from au in FixedDeposits,
+			where: au.isMatured == type(^isMatured, :boolean),
+			where: au.isDivested == type(^isDivested, :boolean),
+			order_by: [desc: :inserted_at],
+			select: au
+		fixedDepositsList = Repo.all(query);
+
+		if Enum.count(fixedDepositsList)==0 do
+			conn
+				|> put_flash(:info, "You can not run an end-of-day at the moment. There are no fixed deposits to run end-of-day for")
+				|> redirect(to: Routes.loan_path(conn, :fixed_deps))
+		else
+
+			query = from au in LoanSavingsSystem.EndOfDay.EndOfDayRun,
+				where: (au.end_of_day_type == "FIXED DEPOSIT"),
+				where: (au.start_date >= type(^startdate, :utc_datetime)),
+				where: (au.end_date <= type(^startdate, :utc_datetime)),
+				order_by: [desc: :inserted_at],
+				select: au
+
+			endOfDayExists = Repo.all(query);
+
+			host = conn.host
+
+			query = from cl in LoanSavingsSystem.SystemSetting.ClientTelco, where: cl.domain == ^host, select: cl
+			clientTelco = Repo.one(query);
+
+			query = from cl in LoanSavingsSystem.Client.Clients, where: cl.id == ^clientTelco.clientId, select: cl
+			client = Repo.one(query);
+
+			currencyId = client.defaultCurrencyId
+			currencyName = client.defaultCurrencyName
+			endofDay = %LoanSavingsSystem.EndOfDay.EndOfDayRun{
+				date_ran: DateTime.truncate(DateTime.utc_now, :second),
+				end_date: startdate1,
+				end_of_day_type: "FIXED DEPOSIT",
+				penalties_incurred: 0.00,
+				start_date: startdate,
+				total_interest_accrued: 0.00,
+				status: "RUNNING",
+				currencyId: currencyId,
+				currencyName: currencyName,
+			}
+			endofDay = Repo.insert!(endofDay);
+
+			totals = if Enum.count(endOfDayExists) > 0 do
+				#you already have ran end of day for the selected date
+				totals = 0.00
+				Repo.delete!(endofDay);
+				conn
+					|> put_flash(:error, "End of Day has already been ran for the selected date")
+					|> redirect(to: Routes.loan_path(conn, :fixed_deps))
+			else
+
+
+				totals = for x <- 0..(Enum.count(fixedDepositsList)-1) do
+					fixedDeposit = Enum.at(fixedDepositsList, x);
+					IO.inspect "fixedDeposit"
+					IO.inspect fixedDeposit
+
+					query = from au in LoanSavingsSystem.EndOfDay.EndOfDayEntry,
+						where: (au.fixed_deposit_id == ^fixedDeposit.id),
+						order_by: [desc: :end_of_day_date],
+						select: au
+					endOfDayEntries = Repo.all(query);
+
+					lastEndOfDayEntry = if(Enum.count(endOfDayEntries)==0) do
+						lastEndOfDayEntry = fixedDeposit.startDate
+						lastEndOfDayEntry = Date.add(lastEndOfDayEntry, 1)
+						lastEndOfDayEntry = Date.to_string(lastEndOfDayEntry);
+						lastEndOfDayEntry
+					else
+						endOfDayEntry = Enum.at(endOfDayEntries, 0);
+						lastEndOfDayEntry = endOfDayEntry.end_of_day_date
+						lastEndOfDayEntry = Date.add(lastEndOfDayEntry, 1)
+						lastEndOfDayEntry = Date.to_string(lastEndOfDayEntry);
+						lastEndOfDayEntry
+					end
+
+
+
+					IO.inspect "lastEndOfDayEntry..."
+					IO.inspect lastEndOfDayEntry;
+
+
+					lastEndOfDayEntry = case Date.from_iso8601(lastEndOfDayEntry) do
+						{:ok, lastEndOfDayEntry} ->
+							lastEndOfDayEntry
+						{:error, :invalid_format} ->
+							nil
+					end
+
+
+					endDate = nil;
+					endDate = case Date.compare(fixedDeposit.endDate, startdate) do
+						:lt ->
+							IO.inspect "lt"
+							endDate = nil
+						:gt ->
+							IO.inspect "gt"
+							endDate = startdate
+						:eq ->
+							IO.inspect "eq"
+							endDate = nil;
+					end
+
+					totals = if is_nil(endDate) do
+						returnTotal = 0.00;
+						returnTotal
+					else
+
+						IO.inspect "#{fixedDeposit.endDate} - #{lastEndOfDayEntry}";
+						days = Date.diff(endDate, lastEndOfDayEntry)
+
+
+						IO.inspect "days....#{days}"
+						amt = fixedDeposit.principalAmount
+						default_period = 1
+						default_rate = fixedDeposit.interestRate
+						annual_period = fixedDeposit.yearLengthInDays
+						interestType = fixedDeposit.interestRateType
+						interestMode = fixedDeposit.productInterestMode
+						periodType = fixedDeposit.fixedPeriodType
+						currencyId = fixedDeposit.currencyId
+						currencyName = fixedDeposit.currency
+
+						penalties_incurred = 0.00;      #Adjust appropriately where necessary
+						totalRepaymentInOneDay = LoanSavingsSystemWeb.UssdController.calculate_maturity_repayments(amt, default_period, default_rate, annual_period, interestMode, interestType, periodType)
+						interestInOneDay = totalRepaymentInOneDay - amt;
+
+
+						totals = for x <- 0..days do
+							endofDayEntry = %LoanSavingsSystem.EndOfDay.EndOfDayEntry{
+								end_of_day_date: Date.add(lastEndOfDayEntry, (x)),
+								end_of_day_id: endofDay.id,
+								#end_of_day_id: 1,
+								interest_accrued: interestInOneDay,
+								penalties_incurred: penalties_incurred,
+								fixed_deposit_id: fixedDeposit.id,
+								status: "VALID",
+								currencyId: currencyId,
+								currencyName: currencyName,
+							}
+							endofDayEntry = Repo.insert!(endofDayEntry);
+
+							IO.inspect "Day....#{x}"
+							IO.inspect endofDayEntry
+							interestInOneDay
+
+						end
+
+
+
+						totals
+					end
+					totals
+
+				end
+
+				IO.inspect totals
+				#endOfDayTotal =  Enum.sum(totals);
+				#IO.inspect endOfDayTotal
+
+				totals
+
+			end
+
+
+			endOfDayTotal = Enum.sum(Enum.at(totals, 0));
+			IO.inspect "..............totals";
+			IO.inspect totals
+			IO.inspect endOfDayTotal
+			if(endOfDayTotal==0) do
+				conn
+				|> put_flash(:error, "End of Day has already been ran for the selected date")
+				|> redirect(to: Routes.loan_path(conn, :fixed_deps))
+			else
+
+				endofDay = LoanSavingsSystem.EndOfDay.EndOfDayRun.changesetForUpdate(endofDay,
+				%{
+					currencyId: endofDay.currencyId,
+					currencyName: endofDay.currencyName,
+					date_ran: endofDay.date_ran,
+					end_date: endofDay.end_date,
+					end_of_day_type: endofDay.end_of_day_type,
+					penalties_incurred: endofDay.penalties_incurred,
+					start_date: endofDay.start_date,
+					status: "COMPLETED",
+					total_interest_accrued: endOfDayTotal
+				})
+
+				Repo.update!(endofDay)
+
+
+
+
+				conn
+					|> put_flash(:info, "End of Day ran successfully")
+					|> redirect(to: Routes.loan_path(conn, :fixed_deps))
+			end
+
+
+
+
+		end
+	end
+
+
+
+
+	def handlePostToFCube(amount, type) do
+		IO.inspect "handlePostToFCube"
+		IO.inspect amount
+		IO.inspect type
+	end
+
+
+
+
+
+  def show(conn, %{"id" => id}) do
+    end_of_day_run = EndOfDay.get_end_of_day_run!(id)
+    render(conn, "show.html", end_of_day_run: end_of_day_run)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    end_of_day_run = EndOfDay.get_end_of_day_run!(id)
+    changeset = EndOfDay.change_end_of_day_run(end_of_day_run)
+    render(conn, "edit.html", end_of_day_run: end_of_day_run, changeset: changeset)
+  end
+
+  def update(conn, %{"id" => id, "end_of_day_run" => end_of_day_run_params}) do
+    end_of_day_run = EndOfDay.get_end_of_day_run!(id)
+
+    case EndOfDay.update_end_of_day_run(end_of_day_run, end_of_day_run_params) do
+      {:ok, end_of_day_run} ->
+        conn
+        |> put_flash(:info, "End of day run updated successfully.")
+        |> redirect(to: Routes.end_of_day_run_path(conn, :show, end_of_day_run))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", end_of_day_run: end_of_day_run, changeset: changeset)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    end_of_day_run = EndOfDay.get_end_of_day_run!(id)
+    {:ok, _end_of_day_run} = EndOfDay.delete_end_of_day_run(end_of_day_run)
+
+    conn
+    |> put_flash(:info, "End of day run deleted successfully.")
+    |> redirect(to: Routes.end_of_day_run_path(conn, :index))
+  end
+
+
+
+	def end_of_day_entries(conn, %{"endofdayid" => endofdayid}) do
+		host = conn.host
+
+		query = from cl in LoanSavingsSystem.SystemSetting.ClientTelco, where: cl.domain == ^host, select: cl
+		clientTelco = Repo.one(query);
+
+		query = from cl in LoanSavingsSystem.Client.Clients, where: cl.id == ^clientTelco.clientId, select: cl
+		client = Repo.one(query);
+
+		query = from cl in LoanSavingsSystem.EndOfDay.EndOfDayEntry,
+			join: fd in LoanSavingsSystem.FixedDeposit.FixedDeposits,
+			join: edr in LoanSavingsSystem.EndOfDay.EndOfDayRun,
+			on:
+			cl.fixed_deposit_id == fd.id and
+			cl.end_of_day_id == edr.id,
+		where: (edr.id == ^endofdayid),
+		select: %{cl: cl, fd: fd, edr: edr}
+		endOfDayEntries = Repo.all(query);
+
+		IO.inspect endOfDayEntries
+		render(conn, "index_entries.html", endOfDayEntries: endOfDayEntries, client: client)
+	end
+
+
+
+
+
+	def create_end_of_day_configurations(conn, params) do
+		host = conn.host
+
+		query = from cl in LoanSavingsSystem.SystemSetting.ClientTelco, where: cl.domain == ^host, select: cl
+		clientTelco = Repo.one(query);
+
+		query = from cl in LoanSavingsSystem.Client.Clients, where: cl.id == ^clientTelco.clientId, select: cl
+		client = Repo.one(query);
+
+		query = from cl in LoanSavingsSystem.EndOfDay.FcubeGeneralLedger, select: cl
+		glAccounts = Repo.all(query);
+
+		render(conn, "create_end_of_day_configurations.html", client: client, glAccounts: glAccounts)
+	end
+
+	def post_create_end_of_day_configurations(conn, params) do
+
+		IO.inspect params
+		user = conn.assigns.user
+
+		deposit_principal_dr = params["deposit_principal_dr"];
+		deposit_principal_cr = params["deposit_principal_cr"];
+		deposit_interest_dr = params["deposit_interest_dr"];
+		deposit_interest_cr = params["deposit_interest_cr"];
+		divestment_principal_dr = params["divestment_principal_dr"];
+		divestment_principal_cr = params["divestment_principal_cr"];
+		divestment_interest_dr = params["divestment_interest_dr"];
+		divestment_interest_cr = params["divestment_interest_cr"];
+
+		IO.inspect deposit_principal_dr
+		#PRINCIPAL_DEPOSIT + DR
+		if deposit_principal_dr!= -1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "PRINCIPAL_DEPOSIT" and cl.dr_cr == "DR", select: cl
+			flexCubeConfig1 = Repo.one(query);
+
+				deposit_principal_dr = String.split(deposit_principal_dr, "|||");
+				flex_cube_gl_id = Enum.at(deposit_principal_dr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(deposit_principal_dr, 1);
+				flex_cube_gl_name = Enum.at(deposit_principal_dr, 2);
+
+			if !is_nil(flexCubeConfig1) do
+				IO.inspect flexCubeConfig1
+				attrs = %{
+					action_type: flexCubeConfig1.action_type,
+					dr_cr: flexCubeConfig1.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig1
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				IO.inspect "Create New"
+				flexCubeConfig1 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "PRINCIPAL_DEPOSIT",
+					dr_cr: "DR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig1);
+			end
+		end
+
+
+
+		#PRINCIPAL_DEPOSIT + CR
+		if deposit_principal_cr!=-1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "PRINCIPAL_DEPOSIT" and cl.dr_cr == "CR", select: cl
+			flexCubeConfig2 = Repo.one(query);
+
+				deposit_principal_cr = String.split(deposit_principal_cr, "|||");
+				flex_cube_gl_id = Enum.at(deposit_principal_cr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(deposit_principal_cr, 1);
+				flex_cube_gl_name = Enum.at(deposit_principal_cr, 2);
+			if !is_nil(flexCubeConfig2) do
+				attrs = %{
+					action_type: flexCubeConfig2.action_type,
+					dr_cr: flexCubeConfig2.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig2
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				flexCubeConfig2 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "PRINCIPAL_DEPOSIT",
+					dr_cr: "CR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig2);
+			end
+		end
+
+
+
+		#INTEREST_DEPOSIT + DR
+		if deposit_interest_dr!=-1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "INTEREST_DEPOSIT" and cl.dr_cr == "DR", select: cl
+			flexCubeConfig3 = Repo.one(query);
+
+				deposit_interest_dr = String.split(deposit_interest_dr, "|||");
+				flex_cube_gl_id = Enum.at(deposit_interest_dr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(deposit_interest_dr, 1);
+				flex_cube_gl_name = Enum.at(deposit_interest_dr, 2);
+			if !is_nil(flexCubeConfig3) do
+				attrs = %{
+					action_type: flexCubeConfig3.action_type,
+					dr_cr: flexCubeConfig3.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig3
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				flexCubeConfig3 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "INTEREST_DEPOSIT",
+					dr_cr: "DR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig3);
+			end
+		end
+
+
+
+		#INTEREST_DEPOSIT + CR
+		if deposit_interest_cr!=-1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "INTEREST_DEPOSIT" and cl.dr_cr == "CR", select: cl
+			flexCubeConfig4 = Repo.one(query);
+			deposit_interest_cr = String.split(deposit_interest_cr, "|||");
+				flex_cube_gl_id = Enum.at(deposit_interest_cr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(deposit_interest_cr, 1);
+				flex_cube_gl_name = Enum.at(deposit_interest_cr, 2);
+
+			if !is_nil(flexCubeConfig4) do
+				attrs = %{
+					action_type: flexCubeConfig4.action_type,
+					dr_cr: flexCubeConfig4.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig4
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				flexCubeConfig4 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "INTEREST_DEPOSIT",
+					dr_cr: "CR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig4);
+			end
+		end
+
+
+
+		#PRINCIPAL_DIVESTMENT + DR
+		if divestment_principal_dr!=-1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "PRINCIPAL_DIVESTMENT" and cl.dr_cr == "DR", select: cl
+			flexCubeConfig5 = Repo.one(query);
+				divestment_principal_dr = String.split(divestment_principal_dr, "|||");
+				flex_cube_gl_id = Enum.at(divestment_principal_dr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(divestment_principal_dr, 1);
+				flex_cube_gl_name = Enum.at(divestment_principal_dr, 2);
+
+			if !is_nil(flexCubeConfig5) do
+				attrs = %{
+					action_type: flexCubeConfig5.action_type,
+					dr_cr: flexCubeConfig5.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig5
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				flexCubeConfig5 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "PRINCIPAL_DIVESTMENT",
+					dr_cr: "DR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig5);
+			end
+		end
+
+
+		#PRINCIPAL_DIVESTMENT + CR
+		if divestment_principal_cr!=-1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "PRINCIPAL_DIVESTMENT" and cl.dr_cr == "CR", select: cl
+			flexCubeConfig6 = Repo.one(query);
+				divestment_principal_cr = String.split(divestment_principal_cr, "|||");
+				flex_cube_gl_id = Enum.at(divestment_principal_cr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(divestment_principal_cr, 1);
+				flex_cube_gl_name = Enum.at(divestment_principal_cr, 2);
+
+			if !is_nil(flexCubeConfig6) do
+				attrs = %{
+					action_type: flexCubeConfig6.action_type,
+					dr_cr: flexCubeConfig6.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig6
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				flexCubeConfig6 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "PRINCIPAL_DIVESTMENT",
+					dr_cr: "CR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig6);
+			end
+		end
+
+
+		#INTEREST_DIVESTMENT + DR
+		if divestment_interest_dr!=-1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "INTEREST_DIVESTMENT" and cl.dr_cr == "DR", select: cl
+			flexCubeConfig7 = Repo.one(query);
+				divestment_interest_dr = String.split(divestment_interest_dr, "|||");
+				flex_cube_gl_id = Enum.at(divestment_interest_dr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(divestment_interest_dr, 1);
+				flex_cube_gl_name = Enum.at(divestment_interest_dr, 2);
+
+			if !is_nil(flexCubeConfig7) do
+				attrs = %{
+					action_type: flexCubeConfig7.action_type,
+					dr_cr: flexCubeConfig7.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig7
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				flexCubeConfig7 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "INTEREST_DIVESTMENT",
+					dr_cr: "DR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig7);
+			end
+		end
+
+
+
+		#INTEREST_DIVESTMENT + CR
+		if divestment_interest_cr!=-1 do
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "INTEREST_DIVESTMENT" and cl.dr_cr == "CR", select: cl
+			flexCubeConfig8 = Repo.one(query);
+				divestment_interest_cr = String.split(divestment_interest_cr, "|||");
+				flex_cube_gl_id = Enum.at(divestment_interest_cr, 0);
+				flex_cube_gl_id = elem Integer.parse(flex_cube_gl_id), 0;
+				flex_cube_gl_code = Enum.at(divestment_interest_cr, 1);
+				flex_cube_gl_name = Enum.at(divestment_interest_cr, 2);
+
+			if !is_nil(flexCubeConfig8) do
+				attrs = %{
+					action_type: flexCubeConfig8.action_type,
+					dr_cr: flexCubeConfig8.dr_cr,
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				flexCubeConfig8
+				|> FlexCubeConfig.changeset(attrs)
+				|> Repo.update()
+			else
+				flexCubeConfig8 = %LoanSavingsSystem.EndOfDay.FlexCubeConfig{
+					action_type: "INTEREST_DIVESTMENT",
+					dr_cr: "CR",
+					flex_cube_gl_code: flex_cube_gl_code,
+					flex_cube_gl_id: flex_cube_gl_id,
+					flex_cube_gl_name: flex_cube_gl_name
+				}
+				Repo.insert!(flexCubeConfig8);
+			end
+		end
+
+        current_user_role = get_session(conn, :current_user_role);
+        current_user = get_session(conn, :current_user);
+        Logger.info "Test....."
+
+
+
+        conn
+		|> put_flash(:info, "Configuration updated successfully")
+		|> redirect(to: Routes.end_of_day_run_path(conn, :index))
+	end
+
+
+
+
+
+
+
+
+
+	def handleEndOfDayForFixedDepositsAccruedInterestV2(conn, params) do
+		IO.inspect "Create End Of Day"
+		eodDateStr = params["startdate"];
+		eodDateStr = String.split(eodDateStr, "-");
+		eodDateStrYr = Enum.at(eodDateStr, 2);
+		eodDateStrMn = Enum.at(eodDateStr, 0);
+		eodDateStrDd = Enum.at(eodDateStr, 1);
+		eodDateStr = eodDateStrYr <> eodDateStrMn <> eodDateStrDd
+		startdate = params["startdate"] <> "T00:00:00Z"
+		startdate1 = params["startdate"] <> "T23:59:59Z"
+
+		startdate = case DateTime.from_iso8601(startdate) do
+		   {:ok, startdate, 0} ->
+			startdate
+		  {:error, :invalid_format} ->
+			  nil
+		end
+		IO.inspect startdate
+
+		startdate1 = case DateTime.from_iso8601(startdate1) do
+		   {:ok, startdate1, 0} ->
+			startdate1
+		  {:error, :invalid_format} ->
+			  nil
+		end
+
+		type_str = "FIXED DEPOSIT"
+
+		isMatured = false
+		isDivested = false
+
+		query = from au in FixedDeposits,
+			where: au.isMatured == type(^isMatured, :boolean),
+			where: au.isDivested == type(^isDivested, :boolean),
+			where: au.startDate == type(^startdate, :date),
+			order_by: [desc: :inserted_at],
+			select: au
+		fixedDepositsList = Repo.all(query);
+
+		IO.inspect "fixedDepositsList";
+		IO.inspect Enum.count(fixedDepositsList);
+
+		if Enum.count(fixedDepositsList)==0 do
+			conn
+				|> put_flash(:info, "You can not run an end-of-day at the moment. There are no fixed deposits to run end-of-day for")
+				|> redirect(to: Routes.loan_path(conn, :fixed_deps))
+		else
+			fdPrincipalTotal = for x <- 0..(Enum.count(fixedDepositsList)-1) do
+				fixedDeposit = Enum.at(fixedDepositsList, x);
+				fdPrincipal = fixedDeposit.principalAmount;
+				fdPrincipal
+			end
+
+			fdPrincipalTotal = Enum.sum(fdPrincipalTotal);
+
+
+			fdInterestTotal = for x <- 0..(Enum.count(fixedDepositsList)-1) do
+				fixedDeposit = Enum.at(fixedDepositsList, x);
+				default_period = 1
+				fdPrincipal = fixedDeposit.principalAmount;
+				default_rate = fixedDeposit.interestRate
+				annual_period = fixedDeposit.yearLengthInDays
+				interestType = fixedDeposit.interestRateType
+				interestMode = fixedDeposit.productInterestMode
+				periodType = fixedDeposit.fixedPeriodType
+				currencyId = fixedDeposit.currencyId
+				currencyName = fixedDeposit.currency
+				totalRepaymentInOneDay = LoanSavingsSystemWeb.UssdController.calculate_maturity_repayments(fdPrincipal, default_period, default_rate, annual_period, interestMode, interestType, periodType)
+				interestInOneDay = totalRepaymentInOneDay - fdPrincipal;
+				interestInOneDay
+			end
+
+			fdInterestTotal = Enum.sum(fdInterestTotal);
+
+
+
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "PRINCIPAL_DEPOSIT" and cl.dr_cr == "DR", select: cl
+			flexCubeConfigPrincipalDR = Repo.one(query);
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "PRINCIPAL_DEPOSIT" and cl.dr_cr == "CR", select: cl
+			flexCubeConfigPrincipalCR = Repo.one(query);
+
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "INTEREST_DEPOSIT" and cl.dr_cr == "DR", select: cl
+			flexCubeConfigInterestDR = Repo.one(query);
+			query = from cl in LoanSavingsSystem.EndOfDay.FlexCubeConfig, where: cl.action_type == "INTEREST_DEPOSIT" and cl.dr_cr == "CR", select: cl
+			flexCubeConfigInterestCR = Repo.one(query);
+
+
+			if(!is_nil(flexCubeConfigPrincipalDR) && !is_nil(flexCubeConfigPrincipalCR)) do
+
+				#xml = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:fcub=\"http://fcubs.ofss.com/service/FCUBSDEService\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <fcub:CREATEDEMULTIOFFSET_FSFS_REQ>\n         <fcub:FCUBS_HEADER>\n            <fcub:SOURCE>PROBASE</fcub:SOURCE>\n            <fcub:UBSCOMP>FCUBS</fcub:UBSCOMP>\n            <fcub:MSGID>66E02747D9DA4B9698493C8A7</fcub:MSGID>\n            <fcub:USERID>MAKUMBI</fcub:USERID>\n            <fcub:BRANCH>700</fcub:BRANCH>\n            <fcub:MODULEID>DE</fcub:MODULEID>\n            <fcub:SERVICE>FCUBSDEService</fcub:SERVICE>\n            <fcub:OPERATION>CreateDEMultiOffset</fcub:OPERATION>\n         </fcub:FCUBS_HEADER>\n         <fcub:FCUBS_BODY>\n            <fcub:Multioffsetmaster-Full>\n               <fcub:DE_BATCH_NUMBER>abcd</fcub:DE_BATCH_NUMBER>\n               <fcub:DE_ACCNO>" <> flexCubeConfigPrincipalDR.flex_cube_gl_code <> "</fcub:DE_ACCNO>\n               <fcub:DE_CCY_CD>ZMW</fcub:DE_CCY_CD>\n               <fcub:DE_MAIN>AAT</fcub:DE_MAIN>\n               <fcub:DE_OFFSET>MSC</fcub:DE_OFFSET>\n               <fcub:DE_VALUE_DATE>" <> eodDateStr <> "</fcub:DE_VALUE_DATE>\n               <fcub:DE_AMOUNT>" <> fdPrincipalTotal <> "</fcub:DE_AMOUNT>\n               <fcub:DE_DR_CR>D</fcub:DE_DR_CR>\n               <fcub:DE_ADDL_TEXT>TEST UPLOAD PROBASE</fcub:DE_ADDL_TEXT>\n               <fcub:Mltoffsetdetail>\n                  <fcub:DE_ACCNO>" <> flexCubeConfigPrincipalDR.flex_cube_gl_code <> "</fcub:DE_ACCNO>\n                  <fcub:DE_AMOUNT>" <> fdPrincipalTotal <> "</fcub:DE_AMOUNT>\n                  <fcub:DE_BRANCH_CODE>700</fcub:DE_BRANCH_CODE>\n                  <fcub:DE_SERIAL_NUMBER>1</fcub:DE_SERIAL_NUMBER>\n               </fcub:Mltoffsetdetail>\n               <fcub:Devws-Batch-Master-1>\n                  <fcub:BRANCH_CODE>700</fcub:BRANCH_CODE>\n                  <fcub:BATCH_NUMBER>abcd</fcub:BATCH_NUMBER>\n                  <fcub:DESCRIPTION>TEST UPLOAD PROBASE</fcub:DESCRIPTION>\n                  <fcub:BALANCING>Y</fcub:BALANCING>\n               </fcub:Devws-Batch-Master-1>\n               <fcub:Misdetails>\n                  <fcub:TXNMIS4>CC5103</fcub:TXNMIS4>\n               </fcub:Misdetails>\n            </fcub:Multioffsetmaster-Full>\n         </fcub:FCUBS_BODY>\n      </fcub:CREATEDEMULTIOFFSET_FSFS_REQ>\n   </soapenv:Body>\n</soapenv:Envelope>";
+				xml = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:fcub=\"http://fcubs.ofss.com/service/FCUBSDEService\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <fcub:CREATEDEMULTIOFFSET_FSFS_REQ>\n         <fcub:FCUBS_HEADER>\n            <fcub:SOURCE>PROBASE</fcub:SOURCE>\n            <fcub:UBSCOMP>FCUBS</fcub:UBSCOMP>\n            <fcub:MSGID>66E02747D9DA4B9698493C8A7</fcub:MSGID>\n            <fcub:USERID>MAKUMBI</fcub:USERID>\n            <fcub:BRANCH>700</fcub:BRANCH>\n            <fcub:MODULEID>DE</fcub:MODULEID>\n            <fcub:SERVICE>FCUBSDEService</fcub:SERVICE>\n            <fcub:OPERATION>CreateDEMultiOffset</fcub:OPERATION>\n         </fcub:FCUBS_HEADER>\n         <fcub:FCUBS_BODY>\n            <fcub:Multioffsetmaster-Full>\n               <fcub:DE_BATCH_NUMBER>abcd</fcub:DE_BATCH_NUMBER>\n               <fcub:DE_ACCNO>103035108</fcub:DE_ACCNO>\n               <fcub:DE_CCY_CD>ZMW</fcub:DE_CCY_CD>\n               <fcub:DE_MAIN>AAT</fcub:DE_MAIN>\n               <fcub:DE_OFFSET>MSC</fcub:DE_OFFSET>\n               <fcub:DE_VALUE_DATE>2021-01-06</fcub:DE_VALUE_DATE>\n               <fcub:DE_AMOUNT>100</fcub:DE_AMOUNT>\n               <fcub:DE_DR_CR>D</fcub:DE_DR_CR>\n               <fcub:DE_ADDL_TEXT>TEST UPLOAD PROBASE</fcub:DE_ADDL_TEXT>\n               <fcub:Mltoffsetdetail>\n                  <fcub:DE_ACCNO>111405057</fcub:DE_ACCNO>\n                  <fcub:DE_AMOUNT>100</fcub:DE_AMOUNT>\n                  <fcub:DE_BRANCH_CODE>700</fcub:DE_BRANCH_CODE>\n                  <fcub:DE_SERIAL_NUMBER>1</fcub:DE_SERIAL_NUMBER>\n               </fcub:Mltoffsetdetail>\n               <fcub:Devws-Batch-Master-1>\n                  <fcub:BRANCH_CODE>700</fcub:BRANCH_CODE>\n                  <fcub:BATCH_NUMBER>abcd</fcub:BATCH_NUMBER>\n                  <fcub:DESCRIPTION>TEST UPLOAD PROBASE</fcub:DESCRIPTION>\n                  <fcub:BALANCING>Y</fcub:BALANCING>\n               </fcub:Devws-Batch-Master-1>\n               <fcub:Misdetails>\n                  <fcub:TXNMIS4>CC5103</fcub:TXNMIS4>\n               </fcub:Misdetails>\n            </fcub:Multioffsetmaster-Full>\n         </fcub:FCUBS_BODY>\n      </fcub:CREATEDEMULTIOFFSET_FSFS_REQ>\n   </soapenv:Body>\n</soapenv:Envelope>";
+				url = "http://192.168.17.35:7003/FCUBSDEService/FCUBSDEService";
+				IO.inspect "xml"
+				IO.inspect xml
+				#options = [ssl: [{:versions, [:'tlsv1']}], recv_timeout: 5000];
+				header = [{"Content-Type", "text/xml"}];
+
+				case HTTPoison.post(url, xml, header) do
+					{:error, %HTTPoison.Error{id: nil, reason: reason}} ->
+						IO.inspect ">>>>>>>>>>>>>>>>>"
+						IO.inspect reason
+
+					{:ok, struct} ->
+						IO.inspect "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+						IO.inspect  (struct)
+						t = struct
+						|> Map.get(:body)
+
+						IO.inspect t
+						#j = t
+						#	|> xpath(~x"//MESSAGE/text()")
+						#IO.inspect j
+						#send_resp(conn, :ok, t)
+				end
+
+			else
+
+
+			end
+
+
+
+
+			conn
+				|> put_flash(:info, "You can not run an end-of-day at the moment. There are no fixed deposits to run end-of-day for")
+				|> redirect(to: Routes.loan_path(conn, :fixed_deps))
+
+
+		end
+	end
+end

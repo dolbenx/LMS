@@ -1,0 +1,696 @@
+
+    <section id="pricing" class="pricing">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Loans We Offer</h2>
+          <p>Click on a loan type to apply for that loan</p>
+        </div>
+
+        <div class="row">
+        <%= for {product, index} <- Enum.with_index(@products) do %>
+          <div class="col-lg-4 col-md-6" style="margin-top: 15px !important" data-aos="zoom-im" data-aos-delay="100">
+
+                <div class="box featured">
+                  <h3><%= product.name %></h3>
+
+                <!--<div class="box">
+                  <h3><%= product.name %></h3>-->
+
+              <h4><sup>%</sup><%= product.interest %><span> / <%=product.interestMode %></span></h4>
+              <div style="color:#fff"><small><%= (product.currencyName) %></small><%= (product.minimumPrincipal) %> - <small><%= (product.currencyName) %></small><%= (product.maximumPrincipal) %></div>
+              <div style="color:#fff">Between <%= (product.minimumPeriod) %> and <%= (product.maximumPeriod) %> <%= (product.periodType) %></div>
+              <%= raw(product.details) %>
+              <div class="btn-wrap">
+                <%# <a href="#" class="btn-buy">Apply Now</a> %>
+                 <button type="button" class="btn btn-default" data-toggle="modal" onclick="handleGetLoanProductDetails(<%=product.id%>)" data-interest="<%=product.interest%>" data-target="#default-example-modal-lg-center">Apply Now</button>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        </div>
+        <input type="hidden" name="maxPeriodField" id="maxPeriodField" value="">
+        <input type="hidden" name="minPeriodField" id="minPeriodField" value="">
+        <input type="hidden" name="maxPrincipalField" id="maxPrincipalField" value="">
+        <input type="hidden" name="minPrincipalField" id="minPrincipalField" value="">
+
+      </div>
+    </section><!-- End Pricing Section -->
+
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <div class="modal fade" id="default-example-modal-lg-center" style="background: #fff;
+                                                                            box-shadow: 0 3px 6px rgba(0,0,0,.05), 0 8px 15px rgba(0,0,0,.1);
+                                                                            border-radius: 8px;" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="bg-info" style="padding: 15px; border-bottom: 1px solid #e5e5e5;display: flex;
+                                         flex-shrink: 0;
+                                         align-items: center;
+                                         justify-content: space-between;
+                                         padding: 1rem 1rem;
+                                         border-bottom: 1px solid #dee2e6;
+                                         border-top-left-radius: calc(.3rem - 1px);
+                                         border-top-right-radius: calc(.3rem - 1px);">
+                    <strong>Loan Calculator</strong>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div _ngcontent-hog-c85="" class="applydetails">
+                        <div _ngcontent-hog-c85="" class="">
+                            <div _ngcontent-hog-c85="" class="">
+                                <form _ngcontent-hog-c85="" novalidate="" class="form ng-untouched ng-pristine ng-invalid">
+                                    <%= if(@conn.private.plug_session["current_user_role"].roleType=="INDIVIDUAL") do %>
+                                    <div _ngcontent-hog-c85="" class="mb-3 mt-3">
+                                        <label _ngcontent-hog-c85="" for="employment-status"><span _ngcontent-hog-c85="" class="font-14 text-dark-grey">What's your employment status?</span></label>
+                                        <select _ngcontent-hog-c85="" required="" id="employementStatusType" name="employementStatusType" class="form-control mx-1 ng-untouched ng-pristine ng-invalid">
+                                            <option _ngcontent-hog-c85="" value="-1">Select...</option>
+                                            <option _ngcontent-hog-c85="" value="Employed">Employed</option>
+                                            <option _ngcontent-hog-c85="" value="Self-Employed">Self-Employed</option>
+                                            <option _ngcontent-hog-c85="" value="Unemployed">Unemployed</option>
+                                        </select>
+                                    </div>
+                                    <div _ngcontent-hog-c85="" class="form-group flex-column text-left">
+                                        <label _ngcontent-hog-c85="" for="salary">
+                                            <span _ngcontent-hog-c85="" class="font-14 text-dark-grey">How much do you earn monthly after tax & pension deductions?</span>
+                                        </label>
+                                        <input _ngcontent-hog-c85="" id="salary" required="" type="number" id="salary" name="salary" class="form-control w-100 ng-untouched ng-pristine ng-invalid">
+                                    </div>
+                                    <% else %>
+                                        <%= if(@conn.private.plug_session["current_user_role"].roleType=="EMPLOYEE") do %>
+                                    <input type="hidden" name="salary" id="salary" value="<%= @conn.private.plug_session["current_user_role"].netPay %>">
+                                    <input type="hidden" name="employementStatusType" id="employementStatusType" value="Employed">
+                                         <% end %>
+                                    <% end %>
+                                    <div _ngcontent-hog-c85="" class="form-group flex-column text-left">
+                                        <label _ngcontent-hog-c85="" for="salary">
+                                            <span _ngcontent-hog-c85="" class="font-14 text-dark-grey">Which of our branches do you want to collect this loan?</span>
+                                        </label>
+                                        <select _ngcontent-hog-c85="" id="bch" required="" type="number" id="bch" name="bch" class="form-control w-100 ng-untouched ng-pristine ng-invalid">
+                                            <option value="">Select One...</option>
+                                            <%= Enum.map @branches, fn(item) -> %>
+                                                <option value="<%= item.id %>|||<%= item.branchName %>"><%= item.branchName %></option>
+                                            <%= end %>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div _ngcontent-hog-c85="" class="loandetails" >
+                        <div _ngcontent-hog-c85="" class="">
+                            <div _ngcontent-hog-c85="" class="">
+                                <form _ngcontent-hog-c85="" novalidate="" class="form ng-untouched ng-pristine ng-invalid">
+                                    <input type="hidden" id="selectedProductId" name="selectedProductId" value="">
+                                    <div _ngcontent-hog-c85="" class="mb-3 mt-3">
+                                        <label _ngcontent-hog-c85="" for="employment-status"><span _ngcontent-hog-c85="" class="font-14 text-dark-grey">How much do you want to borrow?</span></label>
+                                        <div class="col col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                            <input _ngcontent-hog-c85="" placeholder="Enter amount" required="" type="number" id="howmuch" name="howmuch" class="form-control w-100 ng-untouched ng-pristine ng-invalid col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                        </div>
+                                        <div style="float: left !important"><small id="minAmountSpan" class="text-muted">Min: 50,0000</small></div>
+                                        <div style="float: right !important"><small id="maxAmountSpan" class="text-muted">Max: 50,0000</small></div>
+                                    </div>
+                                    <div _ngcontent-hog-c85="" class="form-group flex-column text-left" style="clear: both !important; padding-top: 15px !important">
+                                        <label _ngcontent-hog-c85="" for="salary">
+                                            <span _ngcontent-hog-c85="" class="font-14 text-dark-grey">How long is this loan for?</span>
+                                        </label>
+                                        <div class="col col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                            <input _ngcontent-hog-c85="" placeholder="Enter period" required="" type="number" id="loan_period" name="loan_period" class="form-control w-100 ng-untouched ng-pristine ng-invalid">
+                                        </div>
+                                        <div style="float: left !important"><small id="minPeriodSpan" class="text-muted">Min: 1 Month</small></div>
+                                        <div style="float: right !important"><small id="maxPeriodSpan" class="text-muted">Max: 2 Months</small></div>
+
+                                    </div>
+
+                                    <div _ngcontent-hog-c85="" class="form-group flex-column text-left" style="clear: both !important; padding-top: 15px !important">
+                                        <div class="col col-md-12 col-sm-12 col-xs-12 col-lg-12" style="padding: 0px !important; padding-bottom: 10px !Important">
+                                            <h4><strong><u>Your Loan Details</u></strong></h4>
+                                        </div>
+                                    </div>
+
+                                    <div _ngcontent-hog-c85="" class="form-group flex-column text-left" style="clear: both !important; padding-top: 15px !important">
+                                        <div class="col col-md-4 col-sm-12 col-xs-12 col-lg-4" style="float: left !important; padding: 0px !important; padding-bottom: 10px !Important">
+                                            <label _ngcontent-hog-c85="" for="salary">
+                                                <div _ngcontent-hog-c85="" class="font-14 text-dark-grey" style="font-weight: bold !important">Loan Type</div>
+                                                <div _ngcontent-hog-c85="" class="font-14 text-muted" id="loanType">-</div>
+                                            </label>
+                                        </div>
+
+
+                                        <div class="col col-md-4 col-sm-12 col-xs-12 col-lg-4" style="float: left !important; padding: 0px !important; padding-bottom: 10px !Important">
+                                            <label _ngcontent-hog-c85="" for="salary">
+                                                <div _ngcontent-hog-c85="" class="font-14 text-dark-grey" style="font-weight: bold !important">Loan Amount</div>
+                                                <div _ngcontent-hog-c85="" class="font-14 text-muted" id="loanAmt">0.00</div>
+                                            </label>
+                                        </div>
+
+                                        <div class="col col-md-4 col-sm-12 col-xs-12 col-lg-4" style="float: left !important; padding: 0px !important; padding-bottom: 10px !Important">
+                                            <label _ngcontent-hog-c85="" for="salary">
+                                                <div _ngcontent-hog-c85="" class="font-14 text-dark-grey" style="font-weight: bold !important">Interest</div>
+                                                <div _ngcontent-hog-c85="" class="font-14 text-muted" id="loanInterest">0.00</div>
+                                            </label>
+                                        </div>
+
+                                        <div class="col col-md-4 col-sm-12 col-xs-12 col-lg-42" style="float: left !important; padding: 0px !important; padding-bottom: 10px !Important">
+                                            <label _ngcontent-hog-c85="" for="salary">
+                                                <div _ngcontent-hog-c85="" class="font-14 text-dark-grey" style="font-weight: bold !important">Loan Period:</div>
+                                                <div _ngcontent-hog-c85="" class="font-14 text-muted" id="loanPeriod">-</div>
+                                            </label>
+                                        </div>
+
+                                        <div class="col col-md-4 col-sm-12 col-xs-12 col-lg-42" style="float: left !important; padding: 0px !important; padding-bottom: 10px !Important">
+                                            <label _ngcontent-hog-c85="" for="salary">
+                                                <div _ngcontent-hog-c85="" class="font-14 text-dark-grey" style="font-weight: bold !important">Receive Your Loan When:</div>
+                                                <div _ngcontent-hog-c85="" class="font-14 text-muted" id="disbursementDate">Today</div>
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                    <div _ngcontent-hog-c85="" class="col col-md-12 col-sm-12 col-xs-12 col-lg-12 form-group flex-column text-left" style="clear: both !important; padding-top: 15px !important">
+                                        <div class="col col-md-12 col-sm-12 col-xs-12 col-lg-12" style="padding: 0px !important; padding-bottom: 10px !Important">
+                                            <h4><strong><u>Repayment Schedule</u></strong></h4>
+                                        </div>
+
+
+
+                                        <div class="col col-md-12 col-sm-12 col-xs-12 col-lg-12" style="padding: 0px !important; padding-bottom: 10px !Important">
+                                            <div _ngcontent-hog-c85="" class="font-14 text-muted" id="repaymentSchedule">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="modal-footer" id="footerButtons">
+                    <button type="button" class="btn btn-secondary" onclick="cancelLoanApply()" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="nextButton" onclick="handleLoanApplicantDetailsReceived()">Next >></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/styles.ecdba228b472a0ec2ebb.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/bootstrap/css/bootstrap.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/bootstrap-icons/bootstrap-icons.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/boxicons/css/boxicons.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/glightbox/css/glightbox.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/remixicon/remixicon.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/swiper/swiper-bundle.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/css/style.css") %>">
+<link href="/css/slider/bootstrap-slider.css" rel="stylesheet"><!---->
+
+
+<!-- Google Fonts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- Vendor CSS Files -->
+<!-- Template Main CSS File -->
+
+<!----><script src="<%= Routes.static_path(@conn, "/js/assets/js/main.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/aos/aos.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/glightbox/js/glightbox.min.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/isotope-layout/isotope.pkgd.min.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/php-email-form/validate.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/purecounter/purecounter.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/swiper/swiper-bundle.min.js") %>"></script>
+<script src="/js/slider/bootstrap-slider.js"></script>
+
+
+    <script>
+
+    function cancelLoanApply()
+    {
+        $('.loandetails').hide();
+        $('.applydetails').show();
+        $('#nextButton').html('Next >>');
+    }
+
+    function handleGetLoanProductDetails(id)
+    {
+        //alert(44);
+        //$("#loan_period").slider("destroy");
+        //$("#howmuch").slider("destroy");
+        var url = '/api/get-loan-product-by-id?productId=' + id;
+        $.ajax({
+            type: "GET",
+            url: (url),
+            data: ([]),
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function handleSuccess(data1){
+                console.log(data1);
+                data1 = JSON.parse(data1);
+                if(data1.status!=undefined && data1.status==0)
+                {
+                    console.log(data1.product)
+                    $('#minAmountSpan').html(data1.product.currency + " " + data1.product.minimumPrincipal)
+                    $('#maxAmountSpan').html(data1.product.currency + " " + data1.product.maximumPrincipal)
+                    $('#minPeriodSpan').html(data1.product.minimumPeriod + " " + data1.product.periodType)
+                    $('#maxPeriodSpan').html(data1.product.maximumPeriod + " " + data1.product.periodType)
+                    $('#selectedProductId').val(data1.product.id)
+                    $('#loanType').html(data1.product.name)
+                    $('#loanAmt').html(parseFloat(data1.product.maximumPrincipal).toFixed(2))
+                    $('#loanPeriod').html(parseFloat(data1.product.maximumPeriod) + " " + data1.product.periodType)
+
+                    loan_period = data1.product.maximumPeriod;
+                    howmuch = data1.product.maximumPrincipal;
+                    selectedProductId = data1.product.id;
+                    $('#maxPeriodField').val(data1.product.maximumPeriod);
+                    $('#minPeriodField').val(data1.product.minimumPeriod);
+                    $('#maxPrincipalField').val(data1.product.maximumPrincipal);
+                    $('#minPrincipalField').val(data1.product.minimumPrincipal);
+                    $('#howmuch').val(data1.product.maximumPrincipal);
+                    $('#loan_period').val(data1.product.maximumPeriod);
+                    loadLoanSchedule(selectedProductId, howmuch, loan_period, data1.product.maximumPeriod, data1.product.minimumPeriod, data1.product.maximumPrincipal, data1.product.minimumPrincipal);
+
+
+                    //$("#loan_period").slider("destroy");
+                    //$("#howmuch").slider("destroy");
+                    /*$("#howmuch").slider(
+                    {
+
+                       // the id of the slider element
+                       id: "",
+
+                       // minimum value
+                       min: data1.product.minimumPrincipal,
+
+                       // maximum value
+                       max: data1.product.maximumPrincipal,
+
+                       // increment step
+                       step: 100,
+
+                       // the number of digits shown after the decimal.
+                       precision: 2,
+
+                       // 'horizontal' or 'vertical'
+                       orientation: 'horizontal',
+
+                       // initial value
+                       value: data1.product.maximumPrincipal,
+
+                       // enable range slider
+                       range: false,
+
+                       // selection placement.
+                       // 'before', 'after' or 'none'.
+                       // in case of a range slider, the selection will be placed between the handles
+                       selection: 'before',
+
+                       // 'show', 'hide', or 'always'
+                       tooltip: 'show',
+
+                       // show two tooltips one for each handler
+                       tooltip_split: false,
+
+                       // lock to ticks
+                       lock_to_ticks: false,
+
+                       // 'round', 'square', 'triangle' or 'custom'
+                       handle: 'round',
+
+                       // whether or not the slider should be reversed
+                       reversed: false,
+
+                       // RTL mode
+                       rtl: 'auto',
+
+                       // whether or not the slider is initially enabled
+                       enabled: true,
+
+                       // callback
+                       formatter: function formatter(val) {
+                         if (Array.isArray(val)) {
+                           return val[0] + " : " + val[1];
+                         } else {
+                           return val;
+                         }
+                       },
+
+                       // The natural order is used for the arrow keys.
+                       // Arrow up select the upper slider value for vertical sliders, arrow right the righter slider value for a horizontal slider - no matter if the slider was reversed or not.
+                       // By default the arrow keys are oriented by arrow up/right to the higher slider value, arrow down/left to the lower slider value.
+                       natural_arrow_keys: false,
+
+                       // Used to define the values of ticks.
+                       // Tick marks are indicators to denote special values in the range.
+                       // This option overwrites min and max options.
+                       ticks: [],
+
+                       // Defines the positions of the tick values in percentages.
+                       // The first value should always be 0, the last value should always be 100 percent.
+                       ticks_positions: [],
+
+                       // Defines the labels below the tick marks. Accepts HTML input.
+                       ticks_labels: [],
+
+                       // Used to define the snap bounds of a tick.
+                       // Snaps to the tick if value is within these bounds.
+                       ticks_snap_bounds: 0,
+
+                       // Used to allow for a user to hover over a given tick to see it's value.
+                       ticks_tooltip: false,
+
+                       // Position of tooltip, relative to slider.
+                       // Accepts 'top'/'bottom' for horizontal sliders and 'left'/'right' for vertically orientated sliders.
+                       // Default positions are 'top' for horizontal and 'right' for vertical slider.
+                       tooltip_position: null,
+
+                       // Set to 'logarithmic' to use a logarithmic scale.
+                       scale: 'linear',
+
+                       // Focus the appropriate slider handle after a value change.
+                       focus: false,
+
+                       // ARIA labels for the slider handle's, Use array for multiple values in a range slider.
+                       labelledby: null,
+
+                       // Defines a range array that you want to highlight
+                       rangeHighlights: []
+
+                    }).on("change", function(){
+                        handleLoanDetailsChanger();
+                    });*/
+
+
+                    /*loanPeriodSlider = $("#loan_period").slider({
+
+                       // the id of the slider element
+                       id: "",
+
+                       // minimum value
+                       min: data1.product.minimumPeriod,
+
+                       // maximum value
+                       max: data1.product.maximumPeriod,
+
+                       // increment step
+                       step: 1,
+
+                       // the number of digits shown after the decimal.
+                       precision: 0,
+
+                       // 'horizontal' or 'vertical'
+                       orientation: 'horizontal',
+
+                       // initial value
+                       value: data1.product.maximumPeriod,
+
+                       // enable range slider
+                       range: false,
+
+                       // selection placement.
+                       // 'before', 'after' or 'none'.
+                       // in case of a range slider, the selection will be placed between the handles
+                       selection: 'before',
+
+                       // 'show', 'hide', or 'always'
+                       tooltip: 'show',
+
+                       // show two tooltips one for each handler
+                       tooltip_split: false,
+
+                       // lock to ticks
+                       lock_to_ticks: false,
+
+                       // 'round', 'square', 'triangle' or 'custom'
+                       handle: 'round',
+
+                       // whether or not the slider should be reversed
+                       reversed: false,
+
+                       // RTL mode
+                       rtl: 'auto',
+
+                       // whether or not the slider is initially enabled
+                       enabled: true,
+
+                       // callback
+                       formatter: function formatter(val) {
+                         if (Array.isArray(val)) {
+                           return val[0] + " : " + val[1];
+                         } else {
+                           return val;
+                         }
+                       },
+
+                       // The natural order is used for the arrow keys.
+                       // Arrow up select the upper slider value for vertical sliders, arrow right the righter slider value for a horizontal slider - no matter if the slider was reversed or not.
+                       // By default the arrow keys are oriented by arrow up/right to the higher slider value, arrow down/left to the lower slider value.
+                       natural_arrow_keys: false,
+
+                       // Used to define the values of ticks.
+                       // Tick marks are indicators to denote special values in the range.
+                       // This option overwrites min and max options.
+                       ticks: [],
+
+                       // Defines the positions of the tick values in percentages.
+                       // The first value should always be 0, the last value should always be 100 percent.
+                       ticks_positions: [],
+
+                       // Defines the labels below the tick marks. Accepts HTML input.
+                       ticks_labels: [],
+
+                       // Used to define the snap bounds of a tick.
+                       // Snaps to the tick if value is within these bounds.
+                       ticks_snap_bounds: 0,
+
+                       // Used to allow for a user to hover over a given tick to see it's value.
+                       ticks_tooltip: false,
+
+                       // Position of tooltip, relative to slider.
+                       // Accepts 'top'/'bottom' for horizontal sliders and 'left'/'right' for vertically orientated sliders.
+                       // Default positions are 'top' for horizontal and 'right' for vertical slider.
+                       tooltip_position: null,
+
+                       // Set to 'logarithmic' to use a logarithmic scale.
+                       scale: 'linear',
+
+                       // Focus the appropriate slider handle after a value change.
+                       focus: false,
+
+                       // ARIA labels for the slider handle's, Use array for multiple values in a range slider.
+                       labelledby: null,
+
+                       // Defines a range array that you want to highlight
+                       rangeHighlights: []
+
+                     }).on("change", function(){
+                        handleLoanDetailsChanger();
+                    })*/
+
+                }
+                else
+                {
+
+                }
+            },
+            error: function (e) {
+                alert('We experienced an error processing your loan application');
+            }
+        });
+    }
+
+
+
+
+    function handleLoanDetailsChanger()
+    {
+        loan_period = $("#loan_period").val()
+        howmuch = $("#howmuch").val()
+        selectedProductId = $("#selectedProductId").val();
+
+
+        maximumPeriod = $('#maxPeriodField').val();
+        maximumPrincipal = $('#maxPrincipalField').val();
+        minimumPeriod = $('#minPeriodField').val();
+        minimumPrincipal = $('#minPrincipalField').val();
+        loadLoanSchedule(selectedProductId, howmuch, loan_period, maximumPeriod, minimumPeriod, maximumPrincipal, minimumPrincipal);
+    }
+
+    function loadLoanSchedule(selectedProductId, howmuch, loan_period, maximumPeriod, minimumPeriod, maximumPrincipal, minimumPrincipal)
+    {
+        console.log([selectedProductId, howmuch, loan_period, maximumPeriod, minimumPeriod, maximumPrincipal, minimumPrincipal]);
+        howmuch = parseFloat(howmuch);
+        loan_period = parseInt(loan_period);
+        maximumPeriod = parseInt(maximumPeriod);
+        minimumPeriod = parseInt(minimumPeriod);
+        maximumPrincipal = parseFloat(maximumPrincipal);
+        minimumPrincipal = parseFloat(minimumPrincipal);
+        if(howmuch!=undefined && howmuch!=null && loan_period!=undefined && loan_period!=null && (howmuch>0) && loan_period>0 && howmuch>=minimumPrincipal
+            && howmuch<=maximumPrincipal && loan_period>=minimumPeriod && loan_period<=maximumPeriod)
+        {
+            url = '/api/calculate-loan-details?productId=' + selectedProductId + '&amount=' + howmuch + '&period=' + loan_period
+            $.ajax({
+                type: "GET",
+                url: (url),
+                data: ([]),
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function handleSuccess(data1){
+                    console.log(data1);
+                    data1 = JSON.parse(data1);
+                    if(data1.status!=undefined && data1.status==0)
+                    {
+                        html = '';
+                        html = html + '<table class="table col col-md-12 col-sm-12 col-lg-12 col-xs-12">';
+                            html = html + '<thead>';
+                                html = html + '<tr>';
+                                    html = html + '<th>Repayment Date</th>';
+                                    html = html + '<th style="text-align: right">Principal (' + data1.currency + ')</th>';
+                                    html = html + '<th style="text-align: right">Interest (' + data1.currency + ')</th>';
+                                    html = html + '<th style="text-align: right">Total Paid (' + data1.currency + ')</th>';
+                                    html = html + '<th style="text-align: right">Balance (' + data1.currency + ')</th>';
+                                html = html + '</tr>';
+                            html = html + '</thead>';
+                            html = html + '<tbody>';
+                            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            var totalInterest = 0.00;
+                            var totalPrincipalPaid = 0.00;
+                            var grandTotal = 0.00;
+                            for(j=1; j<(data1.repayments.repaymentSchedule.length); j++)
+                            {
+                                var k = data1.repayments.repaymentSchedule[j];
+                                totalInterest = totalInterest + k.interestPaidInfo;
+                                totalPrincipalPaid = totalPrincipalPaid + k.principalPaidInfo;
+                                grandTotal = grandTotal + k.totalPaidInfo;
+                                var d = new Date();
+                                d.setMonth(d.getMonth() + j);
+
+                                //console.log(k)
+                                html = html + '<tr>';
+                                    html = html + '<td>' + d.toLocaleDateString("en-US", options) + '</td>';
+                                    html = html + '<td style="text-align: right">' + k.principalPaidInfo.toFixed(2) + '</td>';
+                                    html = html + '<td style="text-align: right">' + k.interestPaidInfo.toFixed(2) + '</td>';
+                                    html = html + '<td style="text-align: right">' + k.totalPaidInfo.toFixed(2) + '</td>';
+                                    html = html + '<td style="text-align: right">' + k.principalInfo.toFixed(2) + '</td>';
+                                html = html + '</tr>';
+                            }
+                            html = html + '<tr>';
+                                html = html + '<td>Total</td>';
+                                html = html + '<td style="text-align: right">' + parseFloat(howmuch).toFixed(2) + '</td>';
+                                html = html + '<td style="text-align: right">' + totalInterest.toFixed(2) + '</td>';
+                                html = html + '<td style="text-align: right">' + grandTotal.toFixed(2) + '</td>';
+                                html = html + '<td style="text-align: right">&nbsp;</td>';
+                            html = html + '</tr>';
+                            html = html + '</tbody>';
+                        html = html + '</table>';
+                        $('#loanInterest').html(data1.currency + ' ' + totalInterest.toFixed(2));
+                        $('#repaymentSchedule').html(html);
+
+
+                    }
+                    else
+                    {
+
+                    }
+                },
+                error: function (e) {
+                    alert('We experienced an error processing your loan application');
+                }
+            });
+        }
+        else
+        {
+            alert('Provide both the loan amount and period you want to borrow the loan for. Amount and period provided must fall between the minimum and maximum loan amounts and periods');
+        }
+    }
+
+
+
+    function handleLoanApplicantDetailsReceived()
+    {
+        employementStatusType = $('#employementStatusType').val();
+        salary = $('#salary').val();
+        bch = $('#bch').val();
+
+        if(employementStatusType=='-1')
+        {
+            alert('Select your employment status')
+        }
+        else if(employementStatusType=='Unemployed')
+        {
+            alert('You cannot apply for a loan due to your employment status')
+        }
+        else
+        {
+            if(salary.trim().length>0 && salary>0)
+            {
+                //$('#default-example-modal-lg-center').modal('toggle');
+                $('.applydetails').hide();
+                $('.loandetails').show();
+                $('#nextButton').html('Next >>');
+
+                html = '';
+                html = html + '<button type="button" class="btn btn-secondary" onclick="cancelLoanApply()" data-dismiss="modal">Cancel</button>';
+                html = html + '<button type="button" class="btn btn-primary" id="nextButton" onclick="proceedToTermsConditions()">Next >></button>';
+                $('#footerButtons').html(html);
+
+            }
+            else
+            {
+                <%= if(@conn.private.plug_session["current_user_role"].roleType=="INDIVIDUAL") do %>
+                    alert('You need to provide your salary to apply');
+                <% else %>
+                    alert("Request your company's administrator to update your profile specifying your current salary");
+                <% end %>
+            }
+        }
+    }
+
+
+    function proceedToTermsConditions()
+    {
+        loan_period = $("#loan_period").val()
+        howmuch = $("#howmuch").val()
+        selectedProductId = $("#selectedProductId").val();
+        bch = $('#bch').val();
+        <%= if(@conn.private.plug_session["current_user_role"].roleType=="EMPLOYEE") do %>
+            window.location = '/Employee/loan/view-terms-conditions?productId=' + selectedProductId + '&amount=' + howmuch + '&period=' + loan_period + '&bch=' + bch;
+        <% else %>
+            window.location = '/view/terms/conditions?productId=' + selectedProductId + '&amount=' + howmuch + '&period=' + loan_period + '&bch=' + bch;
+        <% end %>
+    }
+
+
+
+    $(function(){
+        $('.loandetails').hide();
+
+        $('#howmuch').on('change', function(){
+            handleLoanDetailsChanger();
+        });
+
+        $('#loan_period').on('change', function(){
+            handleLoanDetailsChanger();
+        });
+
+
+
+    });
+    </script>
+

@@ -1,0 +1,38 @@
+<h1>Show Work flow</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @work_flow.name %>
+  </li>
+
+  <li>
+    <strong>Createdbyuserid:</strong>
+    <%= @work_flow.createdByUserId %>
+  </li>
+
+  <li>
+    <strong>Createdbyuserroleid:</strong>
+    <%= @work_flow.createdByUserRoleId %>
+  </li>
+
+  <li>
+    <strong>Branchid:</strong>
+    <%= @work_flow.branchId %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @work_flow.status %>
+  </li>
+
+  <li>
+    <strong>Deletedat:</strong>
+    <%= @work_flow.deletedAt %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.work_flow_path(@conn, :edit, @work_flow) %></span>
+<span><%= link "Back", to: Routes.work_flow_path(@conn, :index) %></span>

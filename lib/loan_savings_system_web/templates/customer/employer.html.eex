@@ -1,0 +1,367 @@
+
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Employer
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_employer" data-toggle="modal"> Add Employer</button>
+    \
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Company Name</th>
+                      <th>Company Phone</th>
+                      <th>Company Email</th>
+                      <th>PACRA Registration Number</th>
+                      <th>TPIN</th>
+                      <th>Is Employer</th>
+                      <th>Is SME</th>
+                      <th>Is Off-Taker</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <%= for employer <- @employers do %>
+                        <tr>
+                        <td><%= employer.companyName %></td>
+                        <td><%= employer.contactPhone %></td>
+                        <td><%= employer.contactEmail %></td>
+                        <td><%= employer.registrationNumber %></td>
+                        <td><%= employer.taxNo %></td>
+                        <%= if(employer.isEmployer==true) do %>
+                            <td>Yes</td>
+                        <% else %>
+                            <td>No</td>
+                        <% end %>
+
+                        <%= if(employer.isSme==true) do %>
+                            <td>Yes</td>
+                        <% else %>
+                            <td>No</td>
+                        <% end %>
+
+                        <%= if(employer.isOffTaker==true) do %>
+                            <td>Yes</td>
+                        <% else %>
+                            <td>No</td>
+                        <% end %>
+                        <td>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                      <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#"  data-id="<%= employer.registrationNumber %>" data-company_name="<%= employer.companyName %>" data-phone="<%= employer.contactPhone %>" data-email="<%= employer.contactEmail %>" data-company_reg_no="<%= employer.registrationNumber %>" data-isEmployer ="<%= employer.isEmployer %>" data-isSme="<%= employer.isSme %>" data-isOffTaker="<%= employer.isOffTaker %>" data-toggle="modal" data-target="#view_employer"><i class="fal fa-eye"></i> View Employer</a>
+                                        <a class="dropdown-item" href="#"  data-id="<%= employer.registrationNumber %>" data-company_name="<%= employer.companyName %>" data-phone="<%= employer.contactPhone %>" data-email="<%= employer.contactEmail %>" data-company_reg_no="<%= employer.registrationNumber %>" data-isEmployer ="<%= employer.isEmployer %>" data-isSme="<%= employer.isSme %>" data-isOffTaker="<%= employer.isOffTaker %>" data-toggle="modal" data-target="#edit_employer"><i class="fal fa-edit"></i> Edit Employer</a>
+                                
+                                        <a class="dropdown-item" href="<%= Routes.customer_path(@conn, :employer_staff, company_id: employer.registrationNumber)%>"><i class="fal fa-users"></i> View Employees</a>
+                                        <a class="dropdown-item" href="<%= Routes.customer_path(@conn, :employer_admin, company_id: employer.registrationNumber)%>"><i class="fal fa-user"></i> View Company Administrators</a>
+
+                                      </div>
+                                  </div>
+                              </div>
+                        </td>
+                        </tr>
+                      <%end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<%# --------------- Create Loan Product %>
+<div class="modal fade" id="add_employer" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Employer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <form action="<%= Routes.customer_path(@conn, :add_employer)%>" method="post">
+            <div class="modal-body">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <!--<input type="hidden" name="is_employee" value="Yes">
+                <input type="hidden" name="status" value="PENDING_ACTIVATION">
+                <input type="hidden" name="product_id" value="1">-->
+                  <div class="row">
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Company Name<span style="color: red;">*</span></label>
+                            <input type="text" id="example-input-small" name="company_name" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Company Phone<span style="color: red;">*</span></label>
+                            <input type="text" id="example-input-small" name="phone" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">PACRA Registration Number</label>
+                            <input type="text" id="example-input-small" name="company_reg_no" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">TPIN</label>
+                            <input type="text" id="example-input-small" name="tpin_no" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Company Email</label>
+                            <input type="text" id="example-input-small" name="email" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Create</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<!--       ########################### VIEW EMPLOYER DETAILS################################## -->
+<div class="modal fade" id="view_employer" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View Employer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="#" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Company Name</label>
+                                <input type="text" id="company_name" name="company_name" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Company Phone</label>
+                                <input type="text" id="phone" name="phone" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Pacra Number</label>
+                                <input type="text" id="company_reg_no" name="company_reg_no" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">T PIN</label>
+                                <input type="text" id="tpin_no" name="tpin_no" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Company Email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">City</label>
+                                <input type="text" id="city" name="city" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Country</label>
+                                <input type="text" id="country" name="country" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                      </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<!--       ############################## EDIT EMPLOYER DETAILS ################################## -->
+<div class="modal fade" id="edit_employer" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">
+                  Edit Company details
+            </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.customer_path(@conn, :update_employer)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="is_employee" value="Yes">
+                    <input type="hidden" name="status" value="PENDING_APPROVAL">
+                    <input type="hidden" name="id" id="id">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Company Name</label>
+                                <input type="text" id="company_name" name="company_name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Company Phone</label>
+                                <input type="text" id="phone" name="phone" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Pacra Number</label>
+                                <input type="text" id="company_reg_no" name="company_reg_no" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">T PIN</label>
+                                <input type="text" id="tpin_no" name="tpin_no" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Company Email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">City</label>
+                                <input type="text" id="city" name="city" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Country</label>
+                                <input type="text" id="country" name="country" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Date Of Incorporation</label>
+                                <input type="date" id="date_of_incorporation" name="date_of_incorporation" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary disabled">Save</button>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view company details
+    $('#view_employer').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var company_name = button.data('company_name')
+            var phone = button.data('phone')
+            var email = button.data('email')
+            var company_reg_no = button.data('company_reg_no')
+            var address = button.data('address')
+            var tpin_no = button.data('tpin_no')
+            var date_of_incorporation = button.data('date_of_incorporation')
+            var country = button.data('country')
+            var city = button.data('city')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #company_name').val(company_name);
+            modal.find('.modal-body #phone').val(phone);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #company_reg_no').val(company_reg_no);
+            modal.find('.modal-body #address').val(address);
+            modal.find('.modal-body #tpin_no').val(tpin_no);
+            modal.find('.modal-body #date_of_incorporation').val(date_of_incorporation);
+            modal.find('.modal-body #country').val(country);
+            modal.find('.modal-body #city').val(city);
+           
+    });
+    $('#edit_employer').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var company_name = button.data('company_name')
+            var phone = button.data('phone')
+            var email = button.data('email')
+            var company_reg_no = button.data('company_reg_no')
+            var address = button.data('address')
+            var tpin_no = button.data('tpin_no')
+            var date_of_incorporation = button.data('date_of_incorporation')
+            var country = button.data('country')
+            var city = button.data('city')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #company_name').val(company_name);
+            modal.find('.modal-body #phone').val(phone);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #company_reg_no').val(company_reg_no);
+            modal.find('.modal-body #address').val(address);
+            modal.find('.modal-body #tpin_no').val(tpin_no);
+            modal.find('.modal-body #date_of_incorporation').val(date_of_incorporation);
+            modal.find('.modal-body #country').val(country);
+            modal.find('.modal-body #city').val(city);
+           
+    });
+});
+</script>

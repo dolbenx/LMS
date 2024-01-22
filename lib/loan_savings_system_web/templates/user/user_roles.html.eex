@@ -1,0 +1,85 @@
+<ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Servings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Bank User Roles
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <button class="btn btn-sm waves-effect waves-themed" type="button" data-target="#create_user_roles" data-toggle="modal" style="background-color: #011941; color: red;" > Create user Roles</button>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Role Name</th>
+                      <th>Permissions</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                  <%= for bank_role <- @bank_roles do %>
+                    <tr>
+                        <td><%= String.replace(bank_role.roleName, "_", " ") %></td>
+                        <td> <%= bank_role.permissions %></td>
+                        <td></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%# --------------- Create Admin Roles %>
+<div class="modal fade" id="create_user_roles" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create User Roles</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="<%= Routes.user_path(@conn, :add_user_roles)%>" method="post">
+                     <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Role Name</label>
+                                <input type="text" id="first_name" name="roleName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Permissions</label>
+                                <input type="text" id="last_name" name="permissions" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit"> Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

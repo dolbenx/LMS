@@ -1,13 +1,13 @@
-defmodule Loanmanagementsystem.MixProject do
+defmodule LoanSavingsSystem.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :loanmanagementsystem,
+      app: :loan_savings_system,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -19,8 +19,8 @@ defmodule Loanmanagementsystem.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Loanmanagementsystem.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      mod: {LoanSavingsSystem.Application, []},
+      extra_applications: [:logger, :runtime_tools, :bamboo, :email_checker,]
     ]
   end
 
@@ -33,58 +33,54 @@ defmodule Loanmanagementsystem.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.15"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
+      {:phoenix, "~> 1.5.9"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:phoenix_ecto, "~> 4.0"},
+      {:phoenix_html, "~> 2.11"},
+      {:ecto_sql, "~> 3.1"},
+      {:timex, "~> 3.6"},
+      # ------- postgres
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.17.5"},
-      {:floki, ">= 0.30.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.6"},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:swoosh, "~> 1.3"},
-      {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.18"},
-      {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
-      {:timex, "~> 3.7.9"},
-      {:soap, "~> 1.0"},
+      {:tds, ">= 0.0.0"},
+      {:endon, "~> 1.0"},
+      {:csv, "~> 2.3"},
       {:bamboo, "~> 1.3"},
       {:bamboo_smtp, "~> 2.1.0"},
-      {:httpoison, "~> 1.6", override: true},
-      {:poison, "~> 3.1.0", override: true},
-      {:endon, "~> 1.0"},
-      {:number, "~> 0.5.6"},
-      {:decimal, "~> 1.9.0"},
+      {:poison, "~> 3.1"},
+      {:httpoison, "~> 0.13.0"},
       {:xlsxir, "~> 1.6.2"},
-      {:csv, "~> 2.3"},
-      {:pdf_generator, ">=0.6.2"},
-      {:scrivener, "~> 2.0"},
-      {:scrivener_ecto, "~> 2.0"},
-      {:bbmustache, github: "soranoba/bbmustache"},
       {:quantum, "~> 3.0"},
-      {:calendar, "~> 1.0.0"},
-      {:uuid, "~> 1.1" },
+      {:elixlsx, "~>  0.1.1"},
+      {:arc_ecto, "~> 0.11.3"},
+      {:calendar, "~> 0.17.0"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:gettext, "~> 0.11"},
+      {:jason, "~> 1.0"},
+      {:plug_cowboy, "~> 2.0"},
+      {:cachex, "~> 3.2"},
+      {:timer, "~> 0.1.0"},
+      {:sweet_xml, "~> 0.6.6"},
+      {:email_checker, "~> 0.1.2"},
+      {:pdf_generator, ">=0.6.0" },
+      {:scrivener, "~> 2.0"},
+      {:scrivener_ecto, "~> 2.7", override: true},
       {:atomic_map, "~> 0.8"},
-      {:pipe_to, "~> 0.2"}
+      {:uuid, "~> 1.1"},
+
     ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
-  # For example, to install project dependencies and perform other setup tasks, run:
+  # For example, to create, migrate and run the seeds file at once:
   #
-  #     $ mix setup
+  #     $ mix ecto.setup
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

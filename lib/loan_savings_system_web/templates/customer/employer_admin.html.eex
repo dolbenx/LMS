@@ -1,0 +1,664 @@
+    <ol class="breadcrumb page-breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+        </li>
+        <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+    </ol>
+
+    <div class="subheader">
+        <h1 class="subheader-title">
+            <i class="subheader-icon fal fa-window"></i> <%= @company.companyName %> -  Company Admin Staff
+        </h1>
+
+        <div class="element-box-content">
+        <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+        <%= if @current_user_role.roleType == "BANKOFFICE_ADMIN" do %>
+            <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" id="add_employer_admin" data-toggle="modal"> Add Admin</button>
+        <% end %>
+        </div>
+    </div>    
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div id="panel-1" class="panel">
+                <div class="panel-container show">
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                                <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                                    <tr>
+                                        <th>Full Names</th>
+                                        <th>Email</th>
+                                        <th>User Role</th>
+                                        <th>Means of Identification</th>
+                                        <th>Means of Identification Number</th>
+                                        <th>Phone Number</th>
+                                        <%= if is_nil(@company) do %>
+                                        <th>Company</th>
+                                        <% end %>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%= for user <- @client_users do %>  
+                                        <tr>
+                                            <td><%= user.userBioData.lastName %>, <%= user.userBioData.firstName %> <%= user.userBioData.otherName %></td>
+                                            <td><%= user.userBioData.emailAddress %></td>
+                                            <td><%= user.cl.roleType %></td>
+                                            <td><%= user.userBioData.meansOfIdentificationType %></td>
+                                            <td><%= user.userBioData.meansOfIdentificationNumber %></td>
+                                            <td><%= user.user.username %></td>
+                                            <%= if is_nil(@company) do %>
+                                            <td><%= user.company.companyName %></td>
+                                            <% end %>
+                                            <td>
+                                                <%= if @current_user_role.roleType == "BANKOFFICE_ADMIN" do %>
+                                                <div class="input-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                                            <div class="dropdown-menu">
+                                                                <a type="button" class="dropdown-item" href="#"  data-id="<%= user.user.id %>" data-first_name="<%=  user.userBioData.firstName %>" data-last_name="<%= user.userBioData.lastName %>" data-email="<%= user.userBioData.emailAddress %>" data-user_role="<%= user.cl.roleType %>" data-sex ="<%= user.userBioData.gender %>" data-age ="<%= user.userBioData.dateOfBirth %>" data-id_no ="<%= user.userBioData.meansOfIdentificationNumber %>" data-phone="<%= user.user.username %>"  data-toggle="modal" data-target="#view_employer_admin"><i class="fal fa-eye"></i> View</a>
+                                                                <a type="button" class="dropdown-item" href="#"  data-id="<%= user.user.id %>" data-first_name="<%=  user.userBioData.firstName %>" data-last_name="<%= user.userBioData.lastName %>" data-email="<%= user.userBioData.emailAddress %>" data-user_role="<%= user.cl.roleType %>" data-sex ="<%= user.userBioData.gender %>" data-age ="<%= user.userBioData.dateOfBirth %>" data-id_no ="<%= user.userBioData.meansOfIdentificationNumber %>" data-phone="<%= user.user.username %>"  data-toggle="modal" data-target="#edit_employer_admin"><i class="fal fa-edit"></i> Edit</a>
+                                                                <%= if user.cl.status == "ACTIVE" do %>
+                                                                    <a class="dropdown-item js-sweetalert2-disable_user" href="#" style="color: #ff0000" data-id="<%= user.user.id %>"><i class="fal fa-times"></i> Disable</a>
+                                                                <% else %>
+                                                                <a class="dropdown-item js-sweetalert2-enable_user" href="#" style="color: #008000" data-id="<%= user.user.id %>" ><i class="fal fa-check"></i> Enable</a>
+                                                                <% end %>
+                                                                <a type="button" class="dropdown-item" href="#"  data-id="<%= user.user.id %>" data-first_name="<%=  user.userBioData.firstName %>" data-last_name="<%= user.userBioData.lastName %>" data-email="<%= user.userBioData.emailAddress %>" data-user_role="<%= user.cl.roleType %>" data-sex ="<%= user.userBioData.gender %>" data-age ="<%= user.userBioData.dateOfBirth %>" data-id_no ="<%= user.userBioData.meansOfIdentificationNumber %>" data-phone="<%= user.user.username %>"  data-toggle="modal" data-target="#view_modal"><i class="fal fa-eye"></i> View</a>
+                                                                <a class="dropdown-item js-sweetalert2-activate_sys_user" href="#" style="color: #008000" data-id="<%= user.user.id %>"><i class="fal fa-check"></i> Activate</a>
+                                                                <a class="dropdown-item js-sweetalert2-reject_sys_user" href="#" style="color: #ff0000" data-id="<%= user.user.id %>"><i class="fal fa-times"></i> Reject</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% end %>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="modal fade" id="employer_exists_admin_step_two" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add <%= @company.companyName %> Admin Staff</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="<%= Routes.user_path(@conn, :add_employer_admin_role)%>" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <input type="hidden" class="mobileNumber" id="mobileNumber" name="mobileNumber" value="">
+                            <input type="hidden" class="companyId" id="companyId" name="companyId" value="">
+                            <div class="row">
+
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small">Title</label>
+                                        <div id="employer_exists_title"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">First Name</label>
+                                        <div id="employer_exists_first_name"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Last Name</label>
+                                        <div id="employer_exists_last_name"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Mobile Number</label>
+                                        <div id="employer_exists_mobile_number"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Email Address</label>
+                                        <div id="employer_exists_email_address"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label for="example-input-small" class="form-label">Means of Identification</label>
+                                    <div id="employer_exists_means_of_identification"></div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Means of Identification Number</label>
+                                        <div id="employer_exists_means_of_identification_number"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Gender</label>
+                                        <div id="employer_exists_gender"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group ">
+                                        <label for="example-input-small" class="form-label"> Date of birth</label>
+                                        <div id="employer_exists_dob"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group" style="padding-left: 0px !important">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">User Roles</label>
+                                        <div id="employer_exists_user_role"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" type="submit"> Add Company Admin Role</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="new_employer_admin_step_two" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add <%= @company.companyName %> Admin Staff</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="<%= Routes.user_path(@conn, :create_employer_admin)%>" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <input type="hidden" class="mobileNumber" name="mobileNumber" value="">
+                            <input type="hidden" class="companyId" id="companyId" name="companyId" value="">
+                            <input type="hidden" name="userId" value="">
+                            <!--<input type="hidden" name="user_id" value="1">
+                            <input type="hidden" name="status" value="0">
+                            <input type="hidden" name="user_type" value="2">
+                            <input type="hidden" name="auto_password" value="N">
+                            <input type="hidden" name="approval_status" value="PENDING_ACTIVATION">
+                            <input type="hidden" name="password" id="password-gen" >
+                            <input type="hidden" name="company_id" value="<%= @company.registrationNumber %>">-->
+                            <div class="row">
+
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small">Title</label>
+                                        <select class="form-control form-control-sm" id="title" name="title" required="required">
+                                            <option value="Mr"> Mr</option>
+                                            <option value="Mrs"> Mrs</option>
+                                            <option value="Ms"> Ms</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">First Name</label>
+                                        <input type="text" id="first_name" name="first_name" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Last Name</label>
+                                        <input type="text" id="last_name" name="last_name" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Mobile Number</label><br>
+                                        <div id="new_mobile_number_display"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small" class="form-label">Email Address</label>
+                                        <input type="text" id="email" name="email" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small">Means of Identification</label>
+                                        <select class="form-control form-control-sm" id="id_type" name="id_type" required="required">
+                                            <option value="NRC">NRC</option>
+                                            <option value="DRIVERS LICENSE">Drivers License</option>
+                                            <option value="INTERNATIONAL PASSPORT">International Passport</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small">Means of Identification Number</label>
+                                        <input class="form-control form-control-sm" id="id_no" name="id_no" required="required" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small">Gender</label>
+                                        <select class="form-control form-control-sm" id="sex" name="sex" required="required">
+                                            <option value="MALE"> Male</option>
+                                            <option value="FEMALE"> Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group">
+                                        <label for="example-input-small">User Role</label>
+                                        <select class="form-control form-control-sm" id="user_role" name="user_role" required="required">
+                                            <option value="EMPLOYER_INITIATOR">EMPLOYER INITIATOR</option>
+                                            <option value="EMPLOYER_APPROVER">EMPLOYER APPROVER</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <div class="form-group ">
+                                        <label for="example-input-small"> Date of birth</label>
+                                        <input class="form-control form-control-sm" id="age" name="age" type="date">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" type="submit"> Submit</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%# --------------- Create Employer Admin %>
+<div class="modal fade" id="employer_admin" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add <%= @company.companyName %> Admin Staff</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <!--<input type="hidden" name="user_id" value="1">
+                            <input type="hidden" name="status" value="0">
+                            <input type="hidden" name="user_type" value="2">
+                            <input type="hidden" name="auto_password" value="N">
+                            <input type="hidden" name="approval_status" value="PENDING_ACTIVATION">
+                            <input type="hidden" name="password" id="password-gen" >
+                            <input type="hidden" name="company_id" value="<%= @company.registrationNumber %>">-->
+                            <div class="row">
+
+
+                            <div class="col-sm-4 form-group">
+                                <div class="form-group">
+                                    <label for="example-input-small" class="form-label">Primary Mobile Number</label>
+                                    <input type="text" id="verify_phone" name="verify_phone" class="form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left !important">Close</button>
+                            <button class="btn btn-success" type="submit" style="float: right !important" onclick="verifyAddOrMoveToStepTwoNewUser()"> Verify My Number</button>
+                        </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<%# --------------- View Employer Admin %>
+<div class="modal fade" id="view_employer_admin" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title"><%= @company.registrationNumber %> Admin Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="#" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control form-control-sm" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control form-control-sm" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone</label>
+                                <input type="text" class="form-control form-control-sm" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">ID Type</label>
+                                <input class="form-control" id="id_type" name="id_type" placeholder="ID No." required="required" type="text" disabled>
+                                <div class="help-block form-text with-errors form-control-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">ID No.</label>
+                                <input class="form-control" id="id_no" name="id_no" placeholder="ID No." required="required" type="text" disabled>
+                                <div class="help-block form-text with-errors form-control-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control form-control-sm" disabled>
+                            </div>
+                        </div> 
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label for="example-input-small">Gender</label>
+                                <input class="form-control" id="sex" name="sex" required="required" type="text" disabled>
+                                <div class="help-block form-text text-muted form-control-feedback">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label for="example-input-small">User Role</label>
+                                <input class="form-control" id="user_role" name="user_role" required="required" type="text" disabled>
+                                <div class="help-block form-text text-muted form-control-feedback">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label for="example-input-small"> Date Of Birth</label>
+                                <input class="form-control" id="age" name="age" required="required" type="date" disabled>
+                                <div class="help-block form-text text-muted form-control-feedback">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%# --------------- Update Employer Admin %>
+<div class="modal fade" id="edit_employer_admin" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Edit <%= @company.registrationNumber %> Admin</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="<%= Routes.user_path(@conn, :update_employer_admin)%>" method="post">
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="company_id" value="<%= @company.registrationNumber %>">
+                <input type="hidden" name="id" id="id">
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone</label>
+                                <input type="text" id="phone" name="phone" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="example-input-small">ID Type</label>
+                                <select class="form-control form-control-sm" id="id_type" name="id_type" placeholder="ID Type" required="required">
+                                    <option value="NRC">NRC </option>
+                                    <option value="DriversLicense">Drivers License</option>
+                                    <option value="Passport">Passport</option>
+                                </select>
+                            <div class="help-block form-text text-muted form-control-feedback"></div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="">ID No.</label>
+                                <input class="form-control form-control-sm" id="id_no" name="id_no" placeholder="ID No." required="required" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control form-control-sm">
+                            </div>
+                        </div>    
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group ">
+                                <label for="example-input-small"> Date of Birth</label>
+                                <input class="form-control form-control-sm" id="age" name="age" required="required" type="date">
+                            </div>
+                        </div>                                                        
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">Gender</label>
+                                <select class="form-control form-control-sm" name="sex" id="gender" required="required">
+                                    <option value="MALE"> Male</option>
+                                    <option value="FEMALE"> Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">User Role</label>
+                                <select class="form-control form-control-sm" id="user_role" name="user_role" placeholder="Gender" required="required">
+                                    <option value="EMPLOYER_INITIATOR">EMPLOYER INITIATOR</option>
+                                    <option value="EMPLOYER_APPROVER">EMPLOYER APPROVER</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit"> Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function(){
+//view company details
+    $('#view_employer_admin').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var first_name = button.data('first_name')
+            var last_name = button.data('last_name')
+            var phone = button.data('phone')
+            var email = button.data('email')
+            var address = button.data('address')
+            var id_no = button.data('id_no')
+            var age = button.data('age')
+            var user_role = button.data('user_role')
+            var sex = button.data('sex')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #first_name').val(first_name);
+            modal.find('.modal-body #last_name').val(last_name);
+            modal.find('.modal-body #phone').val(phone);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #address').val(address);
+            modal.find('.modal-body #id_no').val(id_no);
+            modal.find('.modal-body #age').val(age);
+            modal.find('.modal-body #user_role').val(user_role);
+            modal.find('.modal-body #sex').val(sex);
+           
+    });
+    $('#edit_employer_admin').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var first_name = button.data('first_name')
+            var last_name = button.data('last_name')
+            var phone = button.data('phone')
+            var email = button.data('email')
+            var address = button.data('address')
+            var id_no = button.data('id_no')
+            var age = button.data('age')
+            var user_role = button.data('user_role')
+            var sex = button.data('sex')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #first_name').val(first_name);
+            modal.find('.modal-body #last_name').val(last_name);
+            modal.find('.modal-body #phone').val(phone);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #address').val(address);
+            modal.find('.modal-body #id_no').val(id_no);
+            modal.find('.modal-body #age').val(age);
+            modal.find('.modal-body #user_role').val(user_role);
+            modal.find('.modal-body #sex').val(sex);
+           
+    });
+});
+</script>
+
+<script>
+    $('#add_employer_admin').on('click', function (event){
+        var modal= $("#employer_admin");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+
+
+    function verifyAddOrMoveToStepTwoNewUser()
+    {
+        mobileNumber = $('#verify_phone').val();
+        $.ajax({
+            url: "/api/user/get-employer-user-by-mobile-number-and-role-type-ajax/" + <%= @company.id %> + "/" + mobileNumber + "/COMPANY ADMIN",
+            type: 'GET',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                result = JSON.parse(result);
+                console.log(result);
+                console.log(result.status);
+                console.log(result['status']);
+                if (result.status===0){
+                    $('#new_mobile_number_display').html(mobileNumber);
+                    $('.companyId').val(<%= @company.id %>);
+                    $('.mobileNumber').val(mobileNumber);
+                    var modal = $("#new_employer_admin_step_two");
+                    modal.modal("show")
+                    $("#employer_admin").modal("toggle")
+                } else if (result.status===1){
+                    var modal = $("#employer_exists_admin_step_two");
+
+                    //modal.modal("show");
+                    $("#employer_admin").modal("toggle")
+
+                    modal.modal("show")
+
+                    $('#employer_exists_dob').html(result.userBioData.dateOfBirth);
+                    $('#employer_exists_gender').html(result.userBioData.gender);
+                    $('#employer_exists_means_of_identification').html(result.userBioData.meansOfIdentificationType);
+                    $('#employer_exists_means_of_identification_number').html(result.userBioData.meansOfIdentificationNumber);
+                    $('#employer_exists_email_address').html(result.userBioData.emailAddress);
+                    $('#employer_exists_mobile_number').html(result.userBioData.mobileNumber);
+                    $('#employer_exists_last_name').html(result.userBioData.lastName);
+                    $('#employer_exists_first_name').html(result.userBioData.firstName);
+                    $('#employer_exists_title').html(result.userBioData.title);
+                    $('#employer_exists_user_role').html(result.userRoles.length==0 ? "None" : result.userRoles);
+                    $('.mobileNumber').val(mobileNumber);
+                    $('.companyId').val(<%= @company.id %>);
+
+                } else if (result.status===-1){
+                    modal.modal("hide")
+                }
+            },
+            error: function(request, msg, error) {
+                alert("We experienced an issue verifying this mobile number. Please try again");
+            }
+        })
+    }
+</script>

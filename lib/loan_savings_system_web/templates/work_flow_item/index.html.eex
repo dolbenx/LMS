@@ -1,0 +1,75 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> WorkFlow Tray
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card mb-g">
+          <div class="card-body">
+              <div class="frame-wrap p-0 border-0 m-0">
+                  <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Sent By</th>
+                          <th>Request</th>
+                          <th>Loan Request No</th>
+                          <th>Receipient Name</th>
+                          <th>Notes</th>
+                          <th>Action Taken</th>
+
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                    <%= for work_flow_item <- @tbl_workflow_items do %>
+                        <tr>
+                          <td><%= work_flow_item.cl.inserted_at %></td>
+                          <td><%= work_flow_item.userBioData.firstName %> <%= work_flow_item.userBioData.lastName %></td>
+                          <td><%= work_flow_item.cl.status %></td>
+                          <td>#<%= String.pad_leading("#{work_flow_item.loan.id}", 8, "0") %></td>
+                          <td><%= work_flow_item.userBioDataRec.firstName %> <%= work_flow_item.userBioDataRec.lastName %></td>
+                          <td><%= work_flow_item.cl.notes %></td>
+                          <td><%= work_flow_item.cl.actionTaken %></td>
+
+                          <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class='subheader-icon fal fa-chevron-down'></i>
+                                    </span>
+                                    <div class="dropdown-menu" style="left: auto !important">
+                                        <a class="dropdown-item" href="/Loans/Accounts/<%= work_flow_item.loan.id %>">
+                                            <i class="fal fa-edit"></i>
+                                              View WorkFlow Item
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                          </td>
+                        </tr>
+                    <% end %>
+                      </tbody>
+                    </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+
+

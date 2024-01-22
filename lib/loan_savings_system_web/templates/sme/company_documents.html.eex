@@ -1,0 +1,150 @@
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans 
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>
+          - SME Documents
+    </h1>
+
+    <div class="element-box-content">
+      <a href="#" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>  
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_documents" data-toggle="modal"> Add Document</button>
+    </div>
+  </div>
+
+
+
+<div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                        <th>Document Name </th>
+                        <th>Status </th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for doc <- @doc do %>
+                        <tr>
+                            <td><%= doc.name %></td>
+                            <td><%= doc.status %></td> 
+                            <td>
+                            <div class="input-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                      <div class="dropdown-menu">
+                                        <a type="button" class="dropdown-item" href="<%= Routes.sme_path(@conn, :view_documents, doc.path) %>" ><i class="fal fa-eye"></i> view document</a>
+                                        <%= if doc.status == "ACTIVE" do%>  
+                                            <a class="dropdown-item js-sweetalert2-disable_user" href="<%= Routes.sme_path(@conn, :disable_document, doc.id) %>" style="color: #ff0000" ><i class="fal fa-times"></i> Disable</a>
+                                        <% else %>  
+                                            <a class="dropdown-item js-sweetalert2-activate_sys_user" href="<%= Routes.sme_path(@conn, :activate_documents, doc.id) %>" style="color: #008000" data-id="<%= %>"><i class="fal fa-check"></i> Activate</a>              
+                                        <% end %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>                                 
+                            </td>
+                        </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="modal fade" id="add_documents" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Documents</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"><i class="fal fa-times"></i></span>
+          </button>
+          </div>
+          <form id="msform" action="<%= Routes.sme_path(@conn, :add_documents) %>" enctype="multipart/form-data" method="POST">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+            <!------------------------------->
+            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">                                                                                                
+              <thead>
+                <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label></th>
+                  <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                  <!--<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Charge When</th>-->
+                  <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr class="tr_clone">
+                    <td>
+                      <div class="col-md-12 form-group">
+                        <div class="form-group">
+                          <select required name="docname[]" onchange="getSelectedValue();" id="charge" class="form-control chrg">
+                            <%=  for x <- [%{name: "ZRA Tpin"}, %{name: "Incorporation Certificate"}, %{name: "Other"}] do %>
+                              <option value="<%= x.name %>"><%= x.name %></option>
+                            <% end %>
+                          </select>
+                        </div>
+                      </div>
+                    </td>
+                    <td><input type="file" name="document[]" class="form-control form-control-sm"></td>
+                    <!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+                    <td>
+                      <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                      <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- TABLE -->
+              <!------------------------------->
+              <div class="modal-footer">
+                <button name="submit" class="next action-button" value="submit">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+ <script>
+  function addrow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $clone = $tr.clone();
+      $clone.find(':text').val('');
+      $tr.after($clone);
+  }
+
+  function removerow(e)
+  {
+      var $tr    = $(e).closest('.tr_clone');
+      var $remove = $tr.remove();
+      $remove.find(':text').val('');
+      $tr.after($remove);
+  }
+</script>

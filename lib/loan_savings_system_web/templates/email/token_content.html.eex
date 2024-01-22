@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="panel registration-form">
+            <div class="panel-body">
+            	<br>
+                <div class="row" style="padding: 25px 30px 25px 20px">
+                    <p>Dear User,</p>
+                    <p>We have received a password reset request for your account. If you recognise this activity follow the instructions below.</p>
+                    <p>Click <a href="http://127.0.0.1:4000/reset/password?token=<%= @token %>" target="_blank">Here</a> to reset your password.</p>
+                    <p></p>
+                    <p>Thank you.</p>
+                    <br>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

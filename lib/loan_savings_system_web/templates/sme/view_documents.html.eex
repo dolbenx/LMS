@@ -1,0 +1,12 @@
+    <div class="panel-body" style="height:900px; width:700; ">
+        <a href="<%= Routes.sme_path(@conn, :company_documents) %>" class="btn btn-info">Back</a>
+        <br>
+        <br>
+        <form class="form-horizontal" action="#">
+            <div class="form-group">
+            
+                <embed src="<%= Routes.sme_path(@conn, :display_pdf, @path) %>" width="100%" height="870px" /> 
+            
+            </div>
+        </form>
+    </div>

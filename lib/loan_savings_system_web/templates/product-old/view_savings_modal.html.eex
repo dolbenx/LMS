@@ -1,0 +1,483 @@
+
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/form.css") %>">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+
+.stepwizard-step p {
+    margin-top: 10px;
+}
+
+.stepwizard-row {
+    display: table-row;
+}
+
+.stepwizard {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+
+.stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+}
+
+.stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+
+}
+
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+</style>
+<%# --------------- View Savings Product %>
+<div class="modal fade" id="view_savings_product" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">View Savings Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="stepwizard">
+                        <div class="stepwizard-row setup-panel2">
+                            <div class="stepwizard-step">
+                                <a href="#step1-1" type="button" class="btn btn-primary btn-circle">1</a>
+                                <h5>Step 1</h5><strong><small>Product Details</small></strong></li>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step1-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                <h5>Step 2</h5><strong><small>Product Charges</small></strong>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step1-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                <h5>Step 3</h5><strong><small>Product Divestment</small></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <form role="form" action="#" method="post">
+                    <input name="id" type="hidden" value="id">
+                        <div class="row setup-content2" id="step1-1">
+                            <div class="col-xs-12">
+                                <div class="col-md-12">
+                                    <h3 style="text-align:center"> Product Details</h3>
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Name</label>
+                                                    <input type="text" id="productname" name="productname" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Product Code</label>
+                                                    <input type="text" id="code" name="code" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Description</label>
+                                                    <input type="text" id="details" name="details" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                             <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Currency</label>
+                                                    <input type="text" id="name" name="name" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Currency Decimals</label>
+                                                    <input type="text" id="currencydecimals" name="currencydecimals" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>  
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Minimum Principal Amount</label>
+                                                    <input type="text" id="minimumprincipal" name="minimumprincipal" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Maximum Principal Amount</label>
+                                                    <input  type="text" id="maximumprincipal" name="maximumprincipal" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Interest(%)</label>
+                                                    <input type="text" id="interest" name="interest" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Type Of Intrest</label>
+                                                    <input type="text" id="interesttype" name="interestType" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Mode of Intrest(%)</label>
+                                                    <input type="text" id="interestmode" name="interestmode" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Year length (Days)</label>
+                                                    <input type="text" id="yearlengthindays" name="yearlengthindays" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Fixed Period</label>
+                                                    <input type="text" id="defaultperiod" name="defaultperiod" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Tenure Type</label>
+                                                    <input type="text" id="periodtype" name="periodtype" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Status</label>
+                                                    <input type="text" id="status" name="status" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <button class="btn btn-primary nextBtn btn-sm pull-right" type="button" >Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row setup-content2" id="step1-2">
+                                <div class="col-xs-12">
+                                    <div class="col-md-12">
+                                        <h3 style="text-align:center"> Product Charges</h3>
+                                        <div class="row">
+                                            <div class="col-sm-12 form-group">
+                                                <div class="form-group" id="productChargeList">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary nextBtn btn-sm pull-right" type="button" >Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row setup-content2" id="step1-3">
+                                <div class="col-xs-12">
+                                    <div class="col-md-12">
+                                        <h3 style="text-align:center"> Divestment</h3>
+                                            <div class="row">
+                                                <div id="dt-basic-example_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                        <div class="col-xl-12">
+                                                            
+                                                            <div class="form-group" id="divestmentpackagesList">
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div><br>
+                                        <button class="btn btn-default btn-sm pull-right" data-dismiss="modal" type="submit">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(  ).ready(function () {
+    $('#view_savings_product').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            console.log(button);
+            var id = button.data('id')
+            var details = button.data('details')
+            var code = button.data('code')
+            var name = button.data('name')
+            var productname = button.data('productname')
+            var currencyName = button.data('currencyName')
+            var interest = button.data('interest')
+            var currencydecimals = button.data('currencydecimals')
+            var interesttype = button.data('interesttype')
+            var interestmode = button.data('interestmode')
+            var defaultperiod = button.data('defaultperiod')
+            var periodtype = button.data('periodtype')
+            var minimumprincipal = button.data('minimumprincipal')
+            var maximumprincipal = button.data('maximumprincipal')
+            var yearlengthindays = button.data('yearlengthindays')
+            var status = button.data('status')
+            var startperioddays = button.data('startperioddays')
+            var endperioddays = button.data('endperioddays')
+            var divestmentValuation = button.data('divestmentvaluation')
+            var divestmentid = button.data('divestmentid')
+
+
+            var productcharges = button.data('productcharges');
+            var divestmentpackages = button.data('divestmentpackages');
+            console.log(divestmentpackages)
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #productname').val(productname);
+            modal.find('.modal-body #code').val(code);
+            modal.find('.modal-body #details').val(details);
+            modal.find('.modal-body #currencyName').val(currencyName);
+            modal.find('.modal-body #interest').val(interest);
+            modal.find('.modal-body #currencydecimals').val(currencydecimals);
+            modal.find('.modal-body #interesttype').val(interesttype);
+            modal.find('.modal-body #interestmode').val(interestmode);
+            modal.find('.modal-body #defaultperiod').val(defaultperiod);
+            modal.find('.modal-body #periodtype').val(periodtype);
+            modal.find('.modal-body #minimumprincipal').val(minimumprincipal);
+            modal.find('.modal-body #maximumprincipal').val(maximumprincipal);
+            modal.find('.modal-body #yearlengthindays').val(yearlengthindays);
+            modal.find('.modal-body #status').val(status);
+            modal.find('.modal-body #startperioddays').val(startperioddays);
+            modal.find('.modal-body #endperioddays').val(endperioddays);
+            modal.find('.modal-body #divestmentvaluation').val(divestmentValuation);
+            modal.find('.modal-body #divestmentid').val(divestmentid);
+
+            html = '<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;"><thead>';
+            
+            html = html + '<tr>';
+                html = html + '<th style="background-color: #000 !important; color: #fff !important;">';
+                    html = html + "Charge Name";
+                html = html + '</th>';
+                html = html + '<th style="background-color: #000 !important; color: #fff !important;">';
+                    html = html + "Charge When";
+                html = html + '</th>';
+                html = html + '<th style="background-color: #000 !important; color: #fff !important;">';
+                    html = html + "Charge Amount";
+                html = html + '</th>';
+            html = html + '</tr>';
+            x = 0;
+            if(productcharges.length>0)
+            {
+                for(i=0; i<productcharges.length; i++)
+                {
+                    var productCharge = productcharges[i];
+                    //console.log(productCharge);
+                    if(id==productCharge['productId'])
+                    {
+                        x++;
+                        html = html + '<tr>';
+                            html = html + '<td>';
+                                html = html + productCharge['chargeName'];
+                            html = html + '</td>';
+                            html = html + '<td>';
+                                html = html + productCharge['chargeWhen'];
+                            html = html + '</td>';
+                            html = html + '<td>';
+                                html = html + productCharge['currency'] + productCharge['chargeAmount'];
+                            html = html + '</td>';
+                        html = html + '</tr>';
+                    }
+                }
+            }
+            if(x==0)
+            {
+                html = html + '<tr>';
+                    html = html + '<td colspan="3">';
+                        html = html + "There are no charges";
+                    html = html + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</thead></table>';
+
+
+            console.log(html);
+            document.getElementById('productChargeList').innerHTML  = html;
+            
+            
+            html = '<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;"><thead>';
+            
+            html = html + '<tr>';
+                html = html + '<th style="background-color: #000 !important; color: #fff !important;">';
+                    html = html + "Period";
+                html = html + '</th>';
+                html = html + '<th style="background-color: #000 !important; color: #fff !important;">';
+                    html = html + "Valuation on Divestment(%)";
+                html = html + '</th>';
+            html = html + '</tr>';
+            x = 0;
+            if(divestmentpackages.length>0)
+            {
+                for(i=0; i<divestmentpackages.length; i++)
+                {
+                    var divestmentpackage = divestmentpackages[i];
+                    console.log(divestmentpackage);
+                    if(id==divestmentpackage['productId'])
+                    {
+                        x++;
+                        html = html + '<tr>';
+                            html = html + '<td>';
+                                html = html + 'Between ' + divestmentpackage['startPeriodDays'] + ' - ' + divestmentpackage['endPeriodDays'] + ' days';
+                            html = html + '</td>';
+                            html = html + '<td>';
+                                html = html + divestmentpackage['divestmentValuation'];
+                            html = html + '</td>';
+                        html = html + '</tr>';
+                    }
+                }
+            }
+            if(x==0)
+            {
+                html = html + '<tr>';
+                    html = html + '<td colspan="3">';
+                        html = html + "There are no Divestment Options";
+                    html = html + '</td>';
+                html = html + '</tr>';
+            }
+            html = html + '</thead></table>';
+            document.getElementById('divestmentpackagesList').innerHTML  = html;
+
+
+
+    });
+
+
+    var navListItems = $('div.setup-panel2 div a'),
+            allWells = $('.setup-content2'),
+            allNextBtn = $('.nextBtn');
+
+    allWells.hide();
+
+    navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+                $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+            navListItems.removeClass('btn-primary').addClass('btn-default');
+            $item.addClass('btn-primary');
+            allWells.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+        }
+    });
+
+    allNextBtn.click(function(){
+        var curStep = $(this).closest(".setup-content2"),
+            curStepBtn = curStep.attr("id"),
+            nextStepWizard = $('div.setup-panel2 div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            curInputs = curStep.find("input[type='text'],input[type='url']"),
+            isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for(var i=0; i<curInputs.length; i++){
+            if (!curInputs[i].validity.valid){
+                isValid = false;
+                $(curInputs[i]).closest(".form-group").addClass("has-error");
+            }
+        }
+
+        if (isValid)
+            nextStepWizard.removeAttr('disabled').trigger('click');
+    });
+
+    $('div.setup-panel2 div a.btn-primary').trigger('click');
+});
+</script>
+
+<script>
+  var selectedValues = [];
+      function getSelectedValue() {
+        var selectedValue = document.getElementById("charge").value;
+        if( !selectedValues.includes(selectedValue) ){
+          selectedValues.push(selectedValue);
+          
+          document.getElementById("myValues").innerHTML += 
+          '<input type="text" name="value[]" class="form-control form-control-sm" id="myValue" value="' + selectedValue + '"></br>';
+        }
+      }
+</script>
+
+<script>
+var $select = $(".asset-class");
+$select.on("change", function() {
+    var selected = [];  
+    $.each($select, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+   
+});
+
+</script>
+<script>
+var $select2 = $(".chrg");
+$select2.on("change", function() {
+    var selected = [];  
+    $.each($select2, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+
+
+
+});
+</script>
+<script>
+var $select3 = $(".charge_codes12");
+$select3.on("change", function() {
+    var selected = [];  
+    $.each($select3, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+
+});
+</script>
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>

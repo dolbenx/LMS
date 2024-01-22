@@ -1,0 +1,406 @@
+
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/form.css") %>">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+
+.stepwizard-step p {
+    margin-top: 10px;
+}
+
+.stepwizard-row {
+    display: table-row;
+}
+
+.stepwizard {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+
+.stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+}
+
+.stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+
+}
+
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+</style>
+<%# --------------- Create Savings Product %>
+<div class="modal fade" id="add_walkin_client" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="stepwizard">
+                        <div class="stepwizard-row setup-panel">
+                            <div class="stepwizard-step">
+                                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                                <p>Step 1</p><strong><small>Customer Details</small></strong></li>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                <p>Step 3</p><strong><small>Customer Address</small></strong>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                <p>Step 3</p><strong><small>Next Of Keen</small></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <form role="form" action="<%= Routes.customer_path(@conn, :create_walkin_customer)%>" method="post">
+                        <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="clientId" value='<%= @conn.private.plug_session["client_id"] %>'>
+                        <div class="row setup-content" id="step-1" style="width: 100% !important">
+                            <div class="col-xs-12" style="width: 100% !important">
+                                <div class="col-md-12" style="width: 100% !important">
+                                    <h4 style="text-align:center"> Customer Details</h4>
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">First Name</label>
+                                                    <input type="text" id="firstName" name="firstName" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Last Name</label>
+                                                    <input type="text" id="lastName" name="lastName" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Other Name</label>
+                                                    <input type="text" id="otherName" name="otherName" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Phone</label>
+                                                    <input type="text" id="username" name="username" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Email</label>
+                                                    <input type="text" id="emailAddress" name="emailAddress" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small">Gender</label>
+                                                    <select class="form-control form-control-sm" id="gender" name="gender" required="required">
+                                                        <option value="MALE"> Male</option>
+                                                        <option value="FEMALE"> Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label for="example-input-small">ID Type</label>
+                                                    <select class="form-control form-control-sm" id="meansOfIdentificationType" name="meansOfIdentificationType" required="required">
+                                                        <option value="NRC">NRC</option>
+                                                        <option value="DriversLicense">Drivers License</option>
+                                                        <option value="Passport"> Passport</option>
+                                                    </select>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small">ID No.</label>
+                                                    <input class="form-control form-control-sm" id="meansOfIdentificationNumber" name="meansOfIdentificationNumber" required="required" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group ">
+                                                    <label for="example-input-small"> Date of birth</label>
+                                                    <input class="form-control form-control-sm" id="dateOfBirth" name="dateOfBirth" type="date">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    <button class="btn btn-primary nextBtn btn-sm pull-right" type="button" >Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row setup-content" id="step-2">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <h3 style="text-align:center"> Customer Address</h3>
+                                        <div class="row">
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Address Line 1</label>
+                                                        <input type="text" id="firstName" name="addressLine1" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Address Line 2</label>
+                                                        <input type="text" id="otherName" name="addressLine2" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Country Name</label>
+                                                        <select required name="countryName" id="example-input-small" class="form-control">
+                                                            <%= for country <- @countries do %>
+                                                                <option value="<%= country.id %>|||<%= country.name %>"><%= country.name %></option>
+                                                            <% end %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Province Name</label>
+                                                        <select required name="provinceName" id="example-input-small" class="form-control">
+                                                            <%= for province <- @provinces do %>
+                                                                <option value="<%= province.id %>|||<%= province.name %>"><%= province.name %></option>
+                                                            <% end %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">District Name</label>
+                                                        <select required name="districtName" id="example-input-small" class="form-control">
+                                                            <%= for district <- @districts do %>
+                                                                <option value="<%= district.id %>|||<%= district.name %>"><%= district.name %></option>
+                                                            <% end %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">City</label>
+                                                        <input type="text" id="lastName" name="city" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                        <button class="btn btn-primary nextBtn btn-sm pull-right" type="button" >Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row setup-content" id="step-3">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <h3 style="text-align:center"> Next Of Keen</h3>
+                                        <div class="row">
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">First Name</label>
+                                                        <input type="text" id="firstName" name="next_of_keen[firstName]" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Last Name</label>
+                                                        <input type="text" id="lastName" name="next_of_keen[lastName]" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Other Name</label>
+                                                        <input type="text" id="otherName" name="next_of_keen[otherName]" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Address Line 1</label>
+                                                        <input type="text" id="addressLine1" name="next_of_keen[addressLine1]" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Address Line 2</label>
+                                                        <input type="text" id="emailAddress" name="next_of_keen[addressLine2]" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">Province Name</label>
+                                                        <select required name="next_of_keen[provinceName]" id="example-input-small" class="form-control">
+                                                            <%= for province <- @provinces do %>
+                                                                <option value="<%= province.id %>|||<%= province.name %>"><%= province.name %></option>
+                                                            <% end %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">District Name</label>
+                                                        <select required name="next_of_keen[districtName]" id="example-input-small" class="form-control">
+                                                            <%= for district <- @districts do %>
+                                                                <option value="<%= district.id %>|||<%= district.name %>"><%= district.name %></option>
+                                                            <% end %>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 form-group">
+                                                    <div class="form-group">
+                                                        <label for="example-input-small" class="form-label">City</label>
+                                                        <input type="text" id="lastName" name="next_of_keen[city]" class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                            <button class="btn btn-success btn-sm pull-right" type="submit">Submit</button>
+                                        <button class="btn btn-primary nextBtn btn-sm pull-right" type="button" >Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(  ).ready(function () {
+
+    var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn');
+
+    allWells.hide();
+
+    navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+                $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+            navListItems.removeClass('btn-primary').addClass('btn-default');
+            $item.addClass('btn-primary');
+            allWells.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+        }
+    });
+
+    allNextBtn.click(function(){
+        var curStep = $(this).closest(".setup-content"),
+            curStepBtn = curStep.attr("id"),
+            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            curInputs = curStep.find("input[type='text'],input[type='url']"),
+            isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for(var i=0; i<curInputs.length; i++){
+            if (!curInputs[i].validity.valid){
+                isValid = false;
+                $(curInputs[i]).closest(".form-group").addClass("has-error");
+            }
+        }
+
+        if (isValid)
+            nextStepWizard.removeAttr('disabled').trigger('click');
+    });
+
+    $('div.setup-panel div a.btn-primary').trigger('click');
+});
+</script>
+
+<script>
+  var selectedValues = [];
+      function getSelectedValue() {
+        var selectedValue = document.getElementById("charge").value;
+        if( !selectedValues.includes(selectedValue) ){
+          selectedValues.push(selectedValue);
+          
+          document.getElementById("myValues").innerHTML += 
+          '<input type="text" name="value[]" class="form-control form-control-sm" id="myValue" value="' + selectedValue + '"></br>';
+        }
+      }
+</script>
+
+<script>
+var $select = $(".asset-class");
+$select.on("change", function() {
+    var selected = [];  
+    $.each($select, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+   
+});
+
+</script>
+<script>
+var $select2 = $(".chrg");
+$select2.on("change", function() {
+    var selected = [];  
+    $.each($select2, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+
+
+
+});
+</script>
+<script>
+var $select3 = $(".charge_codes12");
+$select3.on("change", function() {
+    var selected = [];  
+    $.each($select3, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+
+});
+</script>
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>

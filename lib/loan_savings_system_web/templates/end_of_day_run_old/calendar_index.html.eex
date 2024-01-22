@@ -1,0 +1,166 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <!--<li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>-->
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Calendars
+    </h1>
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <button class="btn btn-sm waves-effect waves-themed" type="button" id="create_calendar" style="background-color: #011941; color: red;" > Create Calendar</button>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th class="border-top-0 table-scale-border-bottom fw-700">Title</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">Start Date</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">End Date</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <%= for calendar <- @calendars do %>
+                        <tr>
+                            <td><%= calendar.name %></td>
+                            <td><%= (calendar.start_date) %></td>
+                            <td><%= (calendar.end_date) %></td>
+							<td>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class='subheader-icon fal fa-chevron-down'></i>
+									</span>
+									<div class="dropdown-menu">
+											<a class="dropdown-item" href="/view/holidays/<%= calendar.id %>">View Holidays</a>
+											<a class="dropdown-item" href="/View/create">Edit Calendar</a>
+										
+									</div>
+								</div>
+							</div>
+							</td>
+                        </tr>
+					  
+                      <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+<script>
+
+    $("#datepicker").datepicker({
+        dateFormat: 'dd.mm.yy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '-99:-18'
+    });
+</script>
+<style>
+.modal-header h3{
+    text-align: left;
+    color: red;
+}
+</style>
+<div class="modal fade" id="create_users" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title">Create Calendar</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"><i class="fal fa-times"></i></span>
+				</button>
+			</div>
+			<form action="/Add/calendar" method="post">
+				<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Title/Name of Calendar</label>
+								<input type="text" id="name" name="name" class="form-control form-control-sm">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 form-group">
+							<div class="form-group ">
+								<label for="example-input-small">Calendary Year Starts On</label>
+								<input class="form-control form-control-sm" id="start_date" name="start_date" type="date">
+							</div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group ">
+								<label for="example-input-small">Calendary Year Ends On</label>
+								<input class="form-control form-control-sm" id="end_date" name="end_date" type="date">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-success" type="submit">Save</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+    $('#create_calendar').on('click', function (event){
+        var modal= $("#create_users");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    modal.find('#password-gen').val(acc);
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+</script>

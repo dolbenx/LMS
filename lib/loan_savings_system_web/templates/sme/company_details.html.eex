@@ -1,0 +1,63 @@
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>
+        SME Details    
+    </h1>
+
+    <!-- <div class="element-box-content">
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#employer_employee" data-toggle="modal"> Add User</button>
+    </div> -->
+
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Company Name</th>
+                      <th>Registration Number</th>
+                      <th>Tax Number</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Probase Limited</td>
+                      <td>10029389033</td>
+                      <td>30000211</td> 
+                      <td>Active</td> 
+                      <td>
+                      <div class="input-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                <div class="dropdown-menu">
+                                  <a type="button" class="dropdown-item" href="#" ><i class="fal fa-eye"></i> Edit</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>                                 
+                      </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

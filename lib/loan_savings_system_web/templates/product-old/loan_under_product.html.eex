@@ -1,0 +1,56 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Loans Under <%= @loan_product.name %>
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_loan_product" data-toggle="modal"> Add Loan Product</button>
+    </div>
+  </div>    
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card mb-g">
+          <div class="card-body">
+              <div class="frame-wrap p-0 border-0 m-0">
+                  <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                      <thead>
+                          <tr>
+                              <th>Loan Type</th>
+                              <th>Currency</th>
+                              <th>Principal Amount</th>
+                              <th>Term Frequency</th>
+                              <th>Repay Every</th>
+                              <th>Disbursed</th>
+                              <th>Disbursed Date</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <%= for loan_tran <- @loan_transaction do %>  
+                          <tr>
+                              <td><%= loan_tran.loan_type %></td>
+                              <td><%= loan_tran.currency_code %></td>
+                              <td><%= loan_tran.principal_amount %></td>
+                              <td><%= loan_tran.term_frequency %></td>
+                              <td><%= loan_tran.repay_every_type %></td>
+                              <td><%= loan_tran.expected_disbursedon_date %></td>
+                              <td><%= loan_tran.disbursedon_date %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>

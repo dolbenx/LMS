@@ -1,0 +1,68 @@
+<h1>Show Work flow item</h1>
+
+<ul>
+
+  <li>
+    <strong>Workflowid:</strong>
+    <%= @work_flow_item.workFlowId %>
+  </li>
+
+  <li>
+    <strong>Createdbyuserid:</strong>
+    <%= @work_flow_item.createdByUserId %>
+  </li>
+
+  <li>
+    <strong>Workflowitemrecipientuserid:</strong>
+    <%= @work_flow_item.workflowItemRecipientUserId %>
+  </li>
+
+  <li>
+    <strong>Createdbyuserroleid:</strong>
+    <%= @work_flow_item.createdByUserRoleId %>
+  </li>
+
+  <li>
+    <strong>Workflowitemrecipientuserroleid:</strong>
+    <%= @work_flow_item.workflowItemRecipientUserRoleId %>
+  </li>
+
+  <li>
+    <strong>Branchid:</strong>
+    <%= @work_flow_item.branchId %>
+  </li>
+
+  <li>
+    <strong>Entityid:</strong>
+    <%= @work_flow_item.entityId %>
+  </li>
+
+  <li>
+    <strong>Entitytype:</strong>
+    <%= @work_flow_item.entityType %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @work_flow_item.status %>
+  </li>
+
+  <li>
+    <strong>Actiontaken:</strong>
+    <%= @work_flow_item.actionTaken %>
+  </li>
+
+  <li>
+    <strong>Notes:</strong>
+    <%= @work_flow_item.notes %>
+  </li>
+
+  <li>
+    <strong>Offtakerid:</strong>
+    <%= @work_flow_item.offTakerId %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.work_flow_item_path(@conn, :edit, @work_flow_item) %></span>
+<span><%= link "Back", to: Routes.work_flow_item_path(@conn, :index) %></span>

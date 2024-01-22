@@ -1,0 +1,74 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <!--<li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>-->
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+		<%= if (is_nil(@endOfDay)) do %>
+			<i class="subheader-icon fal fa-window"></i> End of Day History Entries
+		<% else %>
+			<i class="subheader-icon fal fa-window"></i> End of Day History Entries - <%= String.slice("#{@endOfDay.date_ran}", 0, 16) %>HRS
+		<% end %>
+    </h1>
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th class="border-top-0 table-scale-border-bottom fw-700">End of Day Date</th>
+                      <th class="border-top-0 table-scale-border-bottom fw-700">Fixed Deposit</th>
+                      <th class="text-left border-top-0 table-scale-border-bottom fw-700">Date Ran</th>
+                      <th class="text-left border-top-0 table-scale-border-bottom fw-700">Date Accrued</th>
+                      <th class="text-left border-top-0 table-scale-border-bottom fw-700">Accrued Period</th>
+                      <th class="text-left border-top-0 table-scale-border-bottom fw-700">Status</th>
+                      <th class="text-right border-top-0 table-scale-border-bottom fw-700">Total Interest Accrued</th>
+                      <th class="text-right border-top-0 table-scale-border-bottom fw-700">Penalties Incurred</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <%= for endOfDayEntry <- @endOfDayEntries do %>
+                        <tr>
+							<%= if(is_nil(endOfDayEntry.edr.start_date)) do %>
+								<td>N/A</td>
+							<% else %>
+								<td><%= DateTime.to_date(endOfDayEntry.edr.start_date) %></td>
+							<% end %>
+
+							<td>
+								<strong><%= (endOfDayEntry.fdp.name) %></strong><br>
+								<small><%= endOfDayEntry.u.firstName %> <%= endOfDayEntry.u.lastName %> - <%= endOfDayEntry.u.mobileNumber %> | <sup><%= endOfDayEntry.fd.currency %></sup><%= Decimal.round(Decimal.from_float(endOfDayEntry.fd.principalAmount), endOfDayEntry.fd.currencyDecimals) %></small>
+							</td>
+							<td><%= DateTime.to_date(endOfDayEntry.edr.date_ran) %></td>
+							<td>
+								Started: <%= DateTime.to_date(endOfDayEntry.fd.startDate) %><br>
+								Ended: <%= DateTime.to_date(endOfDayEntry.fd.endDate) %>
+							</td>
+							<td><%= (endOfDayEntry.cl.accrual_period) %> days</td>
+							<td><%= (endOfDayEntry.edr.status) %></td>
+							<td class="text-right"><sup><%= endOfDayEntry.fd.currency %></sup><%= Decimal.round(Decimal.from_float(endOfDayEntry.edr.total_interest_accrued), endOfDayEntry.fd.currencyDecimals)  %></td>
+							<td class="text-right"><sup><%= endOfDayEntry.fd.currency %></sup><%= Decimal.round(Decimal.from_float(endOfDayEntry.edr.penalties_incurred), endOfDayEntry.fd.currencyDecimals) %></td>
+                        </tr>
+					  
+                      <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>

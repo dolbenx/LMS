@@ -1,0 +1,456 @@
+
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/spectre.min.css") %>">
+
+<style>
+  #pricing{
+    text-align:center;
+  }
+  #innerdata{
+    padding: 50px;
+    border-radius: 14px;
+  }
+
+  .container, .columns {
+                height: 100%;
+                }
+
+                .zandgar__wizard {
+                display: block;
+                height: 100%;
+                position: relative;
+                }
+
+                .zandgar__wizard .zandgar__step {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: auto;
+                left: 0;
+                opacity: 0;
+                z-index: -1;
+                overflow: hidden;
+                transform: translateY(20px);
+                }
+                .zandgar__wizard .zandgar__step.zandgar__step__active {
+                opacity: 1;
+                z-index: 1;
+                transform: translateY(0);
+                transition: 
+                    opacity .5s ease-out, 
+                    transform .5s ease-out;
+                }
+
+                .form-input-hint {
+                display: none;
+                }
+
+                .form-input-hint.is-visible {
+                display: block;
+                }
+
+</style>
+
+
+
+
+<ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>        
+        - SME Loan Products      
+    </h1>
+
+    <div class="element-box-content">
+      <a href="/SME/dashboard" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>      
+    </div>
+  </div>   
+
+    <div class="row">
+      <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+          <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <section id="pricing" class="pricing">
+                <h2><u>Invoice Discounting Products</u></h2><br>
+                  <div class="container-fluid"  data-aos="fade-up">
+                    <div class="row" >
+                      <%= for {invoice, index} <- Enum.with_index(@invoice) do %>
+                        <div class="col-lg-3 col-md-6" style="margin-top: 15px !important" data-aos="zoom-im" data-aos-delay="100">
+                            <div class="box featured" style="background-color: #011941; color:#fff" id="innerdata">
+                                <h1 style="color:#fff"><%= invoice["productname"] %></h1>
+                                <h4><sup>%</sup><%= invoice["interestrate"] %></h4>
+                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <!--<div style="color:#fff"><small>ZMW</small>100 - <small>ZMW</small>10000</div>-->
+                                <div>Tenure <%= invoice["basetenure"] %></div>
+                                <div style="color:#fff"><%= invoice["basecategory"] %></div>
+                                <%= invoice["productdescription"] %><br><br>
+                                <div class="btn-wrap">
+                                    <button type="button" class="btn btn-default waves-effect waves-themed" data-toggle="modal" style="color: red;" data-target="#default-example-modal-lg-center">Apply Now</button>
+                                </div>
+                            </div>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </section><br><br>
+<button type="button" class="btn btn-default waves-effect waves-themed" data-toggle="modal" style="color: red;" data-target="#default-example-modal-lg-center">Apply Now</button>
+
+
+                <section id="pricing" class="pricing">
+                <h2><u>Order Finance Products</u></h2><br>
+                  <div class="container-fluid"  data-aos="fade-up">
+                    <div class="row" >
+                      <%= for {orderfinance, index} <- Enum.with_index(@orderfinance) do %>
+                            <div class="col-lg-3 col-md-6" style="margin-top: 15px !important" data-aos="zoom-im" data-aos-delay="100">
+                                <div class="box featured" style="background-color: #011941; color:#fff" id="innerdata">
+                                    <h1 style="color:#fff"><%= orderfinance["productname"] %></h1>
+                                    <h4><sup>%</sup><%= orderfinance["interestrate"] %></h4>
+                                    <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                   <!-- <div style="color:#fff"><small>ZMW</small>100 - <small>ZMW</small>10000</div> -->
+                                    <div>Tenure <%= orderfinance["basetenure"] %></div>
+                                    <div style="color:#fff"> <%= orderfinance["basecategory"] %> </div>
+                                    <%= orderfinance["productdescription"] %><br><br>
+                                    <div class="btn-wrap">
+                                        <button type="button" class="btn btn-default waves-effect waves-themed" data-toggle="modal" style="color: red;" data-target="#default-example-modal-lg-center">Apply Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                          <% end %>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+                                        
+
+
+
+
+
+                          
+
+
+
+
+
+ <div class="modal fade" id="default-example-modal-lg-center" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Loan Application</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" style="height: 600px;">
+                  <div class="">
+                    <div class="columns">
+                      <div class="col col-mx-auto">
+                        <p id="steps-native" style="color: blue;" class="step"></p>
+                        <form id="wizard-native" class="my-2 py-2" action="<%= Routes.sme_path(@conn, :sme_apply_loan) %>" enctype="multipart/form-data" method="POST">
+                          <input type="hidden" name="financetype" value="1">
+                          <input class="form-input form-control" type="hidden" value="Applicant ID" name="loandoc">
+                          <input class="form-input form-control" type="hidden" value="House Title Deeds" name="coldoc">
+                          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <section data-step="Personal">
+                                <h4 class="text-center"><u>SME Details</u></h4><br>
+                                  <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="name">Customer Name</label>
+                                        <input class="form-input form-control" type="text" value="Probase" name="customername">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                      <label class="form-label" for="email">Offtaker</label>
+                                        <select class="form-control form-control-sm" id="offtakerid" name="offtakerid">
+                                            <option value="1">Zambeef</option>
+                                            <option value="2">Nkana Water And Sewarage</option>
+                                            <option value="3">National Road Fund Agency</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="email">Registration No</label>
+                                        <input class="form-input form-control form-control-sm" type="text" value="10029192" name="registrationno">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="email">Branch</label>
+                                        <select class="form-control form-control-sm" id="branch" name="branch">
+                                            <option value="700">HEAD OFFICE</option>
+                                            <option value="701">WOODGATE BRANCH</option>
+                                            <option value="702">KITWE BRANCH</option>
+                                            <option value="703">KASAMA BRANCH</option>
+                                            <option value="704">KABWE BRANCH</option>
+                                            <option value="705">SOLWEZI BRANCH</option>
+                                            <option value="706">CHOMA BRANCH</option>
+                                            <option value="707">NDOLA BRANCH</option>
+                                            <option value="708">CHIPATA BRANCH</option>
+                                            <option value="709">MUMBWA BRANCH</option>
+                                            <option value="710">MANSA BRANCH</option>
+                                            <option value="711">MONGU BRANCH</option>
+                                            <option value="712">CHINSALI BRANCH</option>
+                                            <option value="713">MULUNGUSHI BRANCH</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr> <hr>
+                                <h4 class="text-center"><u>Invoice Details</u></h4><br>
+                                  <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="name">Invoice No.</label>
+                                        <input class="form-input form-control" type="text" value="1" name="invoiceno">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="name">Invoice Date</label>
+                                        <input class="form-input form-control" type="date" value="2022-05-05" name="invoicedate">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="name">Invoice Expiry Date</label>
+                                        <input class="form-input form-control" type="date" value="2022-08-10" name="invoiceexpirydate">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="name">Invoice Value</label>
+                                        <input class="form-input form-control" type="text" value="100.0" name="invoicevalue">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label" for="name">Invoice Details</label>
+                                        <input class="form-input form-control" type="text" value="Loan Managemt System" name="invoicedetails">
+                                    </div>
+                                      <div class="form-group col-md-4">
+                                        <label class="form-label" for="name">Invoice Document</label>
+                                        <input class="form-input form-control" type="file" value="RDpTUUwgMTAwMCBSb2xlcy50eHQ=" name="invoicedoc">
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn float-right" style="background-color: #011941; color: white;" data-next>Next</button>
+                                </div>
+                            </section>
+
+                            <section data-step="security">
+                            <h4 class="text-center"><u>Loan Details</u></h4><br>
+                              <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="name">Product Name</label>
+                                      <select class="form-control form-control-sm" id="productcode" name="productcode">
+                                        <%= for {invoice, index} <- Enum.with_index(@invoice) do %>
+                                          <option value="<%= invoice["productcode"] %>"><%= invoice["productdescription"] %></option>
+                                        <% end %>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Loan Amount</label>
+                                    <input class="form-input form-control" type="text" value="100.1" name="loanamount">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Loan Date</label>
+                                    <input class="form-input form-control" type="date" value="2022-06-08" name="Loandate" readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Loan Purpose</label>
+                                    <input class="form-input form-control" type="text" value="Business" name="Loanpurpose">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="name">Guarantor</label>
+                                    <input class="form-input form-control" type="text" value="Probase" name="Guarantor">
+                                </div>
+                              </div>
+                                <hr> <hr>
+                              <h4 class="text-center"><u>Loan Proof Documents</u></h4><br>
+                              <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="name">Document Type</label>
+                                      <select class="form-control form-control-sm" id="documenttype" name="documenttype">
+                                          <option value="1">Applicant ID </option>
+                                          <option value="2">Articles of Association</option>
+                                          <option value="3">Directors IDs</option>
+                                          <option value="4">Certificate of Incorporation</option>
+                                          <option value="5">Business Reg-(Form 2)</option>
+                                          <option value="6">Tax clearance certificate</option>
+                                          <option value="7">VAT Certificates </option>
+                                          <option value="8">TPIN - not limited</option>
+                                          <option value="9">Summary profile of business</option>
+                                          <option value="10">Contract or Purchase order</option>
+                                          <option value="11">Board resolution to assign Invoice</option>
+                                          <option value="12">Proof of residence</option>
+                                          <option value="13">Photo</option>
+                                          <option value="14">Application Form</option>
+                                          <option value="15">Management Accts</option>
+                                          <option value="16">Bank Statements 6 months</option>
+                                          <option value="17">Audited F/S</option>
+                                          <option value="18">Sketch map of business location</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Document Detail</label>
+                                    <input class="form-input form-control" type="text" value="Applicant ID" name="documentdetail">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Select Document</label>
+                                    <input class="form-input form-control" type="file" value="RDpTUUwgMTAwMCBSb2xlcy50eHQ=" name="loandoc_doccontent">
+                                </div>
+                              </div>
+                              <div>
+                                  <button class="btn btn-default btn-link text-gray" data-prev>Previous</button>
+                                  <button class="btn float-right"  style="background-color: #011941; color: white;" data-next>Next</button>
+                              </div>
+                            </section>
+
+                            <section data-step="data">
+                               <h4 class="text-center"><u>Collateral Documents</u></h4><br>
+                              <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="name">Collateral Document Name</label>
+                                      <select class="form-control form-control-sm" id="coldocumentname" name="coldocumentname">
+                                          <option value="House Title Deeds">House Title Deeds</option>
+                                          <option value="Vehicle White Book">Vehicle White Book</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Coldetail Detail</label>
+                                    <input class="form-input form-control" type="text" name="coldetail">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">collateral Value</label>
+                                    <input class="form-input form-control" type="text" value="100.0" name="collateralvalue">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Appraised Value</label>
+                                    <input class="form-input form-control" type="text" value="100.0" name="appraisedvalue">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Select Document</label>
+                                    <input class="form-input form-control" type="text" value="RDpTUUwgMTAwMCBSb2xlcy50eHQ=" name="coldoc_doccontent">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="name">Guarantor</label>
+                                    <input class="form-input form-control" type="text" value="NRFA" name="Guarantor">
+                                </div>
+                              </div>
+                              <hr> <hr>
+                               <h4 class="text-center"><u>Other Finance Details</u></h4><br>
+                              <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Finance Institution Name</label>
+                                    <input class="form-input form-control" type="text" value="Probase" name="fininstitutionname">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Facility</label>
+                                    <input class="form-input form-control" type="text" value="100.0" name="facility">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Exposure</label>
+                                    <input class="form-input form-control" type="text" value="YES" name="exposure">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Maturity Date</label>
+                                    <input class="form-input form-control" type="date" value="2022-06-10" name="maturitydate">
+                                </div>
+                              </div>
+                              <div>
+                                  <button class="btn btn-default btn-link text-gray" data-prev>Previous</button>
+                                  <button class="btn btn-info  float-right" type="submit">Submit</button>
+                              </div>
+                            </section>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+       <script src="https://cdn.jsdelivr.net/npm/zangdar@1.0.25/dist/zangdar.min.js"></script>             
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.4/SmoothScroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+    function buildStepsBreadcrumb (wizard, element, steps) {
+      const $steps = document.getElementById(element)
+      $steps.innerHTML = ''
+      for (let label in steps) {
+        if (steps.hasOwnProperty(label)) {
+          const $li = document.createElement('li')
+          const $a = document.createElement('a')
+          $li.classList.add('step-item')
+          if (steps[label].active) {
+            $li.classList.add('active')
+          }
+          $a.setAttribute('href', '#')
+          $a.classList.add('tooltip')
+          $a.dataset.tooltip = label
+          $a.innerText = label
+          $a.addEventListener('click', e => {
+            e.preventDefault()
+            wizard.revealStep(label)
+          })
+          $li.appendChild($a)
+          $steps.appendChild($li)
+        }
+      }
+    }
+
+    function onStepChange(wizard, selector) {
+        const steps = wizard.getBreadcrumb()
+        buildStepsBreadcrumb(wizard, selector, steps)
+    }
+
+    function customValidation (step, fields, form) {
+        Array.from(document.querySelectorAll('.has-error')).forEach(el => {
+          el.classList.remove('has-error')
+          let message = el.querySelector('.form-input-hint')
+          message.classList.remove('is-visible')
+          message.innerText = ''
+        })
+        debugger
+        if (step.labeled('security')) {
+          if (!form.password.value.length || !form.password_confirm.value.length || form.password.value !== form.password_confirm.value) {
+            form.password.parentNode.classList.add('has-error')
+            form.password_confirm.parentNode.classList.add('has-error')
+            let message = form.password_confirm.parentNode.querySelector('.form-input-hint')
+            message.innerText = "Passwords must be the very same !"
+            message.classList.add('is-visible')
+            return false
+          }
+        } else if (step.labeled('personal')) {
+          debugger
+        }
+        return true
+      }
+
+    const native_wizard = new window.Zangdar('#wizard-native', {
+      onStepChange: () => {
+        onStepChange(native_wizard, 'steps-native')
+      },
+      onSubmit(e) {
+      // e.preventDefault()
+        console.log(e.target.elements)
+        return false
+      }
+    })
+
+    onStepChange(native_wizard, 'steps-native')
+
+    const custom_wizard = new window.Zangdar('#wizard-custom', {
+      onStepChange: () => {
+        onStepChange(custom_wizard, 'steps-custom')
+      },
+      customValidation,
+      onSubmit(e) {
+      //  e.preventDefault()
+      console.log(e.target.elements)
+      return false
+      }
+    })
+
+    onStepChange(custom_wizard, 'steps-custom')
+</script>

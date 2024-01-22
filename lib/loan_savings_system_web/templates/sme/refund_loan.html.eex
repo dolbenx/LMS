@@ -1,0 +1,90 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> - Refund Loans
+    </h1>
+
+    <div class="element-box-content">
+        <a href="/Employee/dashboard" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+        <button type="button" style="background-color: #011941; color: red;" class="btn btn-sm waves-effect waves-themed" data-toggle="modal" data-target="#refund">Ask For Refund</button>
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card mb-g">
+                <div class="card-body">
+                    <div class="frame-wrap p-0 border-0 m-0">
+                        <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                            <thead>
+                                <tr>
+                                    <th>Loan ID</th>
+                                    <th>Principal</th>
+                                    <th>Interest</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center">Ask For A Refund</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert border-faded bg-transparent text-secondary fade show" role="alert">
+                    <div class="d-flex align-items-center">
+                        <div class="alert-icon">
+                            <span class="icon-stack icon-stack-md">
+                                <i class="base-7 icon-stack-3x color-info-600"></i>
+                                <i class="fal fa-address-card icon-stack-1x text-white"></i>
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            Please enter your National Registration Card Number(NRC) and click on submit!
+                            <br>
+                            E.g. 111111/10/1
+                        </div>
+                    </div>
+                </div><hr><hr>
+                <form id="msform" action="<%= Routes.sme_path(@conn, :sme_refund_request) %>" method="POST">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <div class="form-group form-inline">
+                                <label for="example-input-small" class="form-label col-md-2">NRC Number</label>
+                                <input type="text" id="nrcnumber" name="nrcnumber" class="form-control form-control-sm col-md-10">
+                            </div>
+                        </div>
+                    </div>
+                    <!------------------------------->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" style="background-color: #011941; color: white;" class="btn btn-sm waves-effect waves-themed" value="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

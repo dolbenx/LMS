@@ -1,0 +1,184 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Country Maintenance
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+     
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#country_upload" data-toggle="modal"> Upload Countries</button>
+      
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Country Name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <%= for country <- @countries do %>
+                      <tr>
+                      <td><%= country.name %></td>
+                      <td>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                                  <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class='subheader-icon fal fa-chevron-down'></i>
+                                  </span>
+                                  <div class="dropdown-menu">
+                                      <a type="button" class="dropdown-item" href="#"  data-id="<%= country.id %>" data-name="<%=  country.name %>" data-toggle="modal" data-target="#view_country"><i class="fal fa-eye"></i> View</a>
+                                      <a type="button" class="dropdown-item" href="#"  data-id="<%= country.id %>" data-name="<%=  country.name %>" data-toggle="modal" data-target="#edit_country"><i class="fal fa-eye"></i> Edit</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </td>
+                      </tr>
+                    <%end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="country_upload" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <form enctype="multipart/form-data" action="<% Routes.maintenance_path(@conn, :handle_bulk_upload)%>" method="POST">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="modal-body">
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                        <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="">Select File</label><input class="form-control" name="country_file_name" required="required" type="file">
+                                        <div class="help-block form-text with-errors form-control-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect waves-themed" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-themed">Upload</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        <div class="modal fade" id="view_country" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">View</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                  </button>
+              </div>
+              <form enctype="multipart/form-data" action="#" method="POST">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="id" id="id">
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Country Name</label>
+                            <input type="text" id="name" name="name" class="form-control form-control-sm" readonly>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect waves-themed" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-themed">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="edit_country" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Edit</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                  </button>
+              </div>
+              <form action="<% Routes.maintenance_path(@conn, :handle_bulk_upload)%>" method="POST">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="id" id="id">
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Country Name</label>
+                            <input type="text" id="name" name="name" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect waves-themed" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-themed">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view company details
+    $('#view_country').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+           
+    });
+    $('#edit_country').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+           
+    });
+});
+</script>

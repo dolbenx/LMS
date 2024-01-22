@@ -1,0 +1,55 @@
+
+  <ol class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="subheader-icon fal fa-chart-area"></i> Loans 
+    </li>
+    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-users"></i> USSD Logs
+    </h1>
+
+    <div class="element-box-content">
+      <a href="#" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Date</th>
+                      <th>Performed By</th>
+                      <th>Activity</th>
+                      <th>Details</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+						<%= for ussdLog <- @ussdLogs do %>
+							<tr>
+								<td><%= String.slice("#{ussdLog.au.inserted_at}", 0, 16) %></td>
+								
+								<td><%= ussdLog.userBioData.firstName %> <%= ussdLog.userBioData.lastName %></td>
+								<td><%= ussdLog.au.action %></td>
+								<td><%= ussdLog.au.details %></td>
+								<td class="text-center"><%= ussdLog.au.status %></td>
+							</tr>
+					  
+						<% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,163 @@
+<main id="js-page-content" role="main" class="page-content">
+    <ol class="breadcrumb page-breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="subheader-icon fal fa-chart-area"></i> SmartLINK
+        </li>
+        <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+    </ol>
+
+    <div class="subheader">
+        <h1 class="subheader-title">
+            <i class="subheader-icon fal fa-users"></i> Profile
+        </h1>
+
+        <div class="element-box-content">
+            <a href="<%= Routes.user_path(@conn, :user_mgt)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+        </div>
+    </div>
+
+    <!--------------------------------------------------------------------------------Flash -->
+    <div class="row">
+      <div class="col-md-12 col-lg-offset-2">
+        <div class="form-group">
+          <%= if get_flash(@conn, :info) do %>
+            <div class="alert alert-info alert-styled-left">
+            <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+            <%= get_flash(@conn, :info) %>
+            </div>
+          <% end %>
+          <%= if get_flash(@conn, :error) do %>
+            <div class="alert alert-danger alert-styled-left">
+            <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+            Opps! <%= get_flash(@conn, :error) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div id="panel-1" class="panel">
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <div class="panel-container show">
+                            <div class="panel-content">
+                                <div class="card-body pb-0 px-4">
+                                    <div class="d-flex flex-row pb-3 pt-2  border-top-0 border-left-0 border-right-0">
+
+                                        <%= if @user_info.status == "1" do %>
+                                            <div class="d-inline-block align-middle status status-success mr-3">
+                                                <span class="profile-image rounded-circle d-block" style="background-image:url('/images/avatar/1.png'); background-size: cover;"></span>
+                                            </div>
+                                        <% else %>
+                                            <div class="d-inline-block align-middle status status-danger mr-3">
+                                                <span class="profile-image rounded-circle d-block" style="background-image:url('/images/avatar/1.png'); background-size: cover;"></span>
+                                            </div>
+                                        <% end %>    
+
+                                        <h5 class="mb-0 flex-1 text-dark fw-500">
+                                            <%= @user_info.first_name %> <%= @user_info.last_name %>
+                                            <small class="m-0 l-h-n">
+                                                <%= @user_info.user_role %>
+                                            </small>
+
+                                            <small class="m-0 l-h-n">
+                                                Status:
+                                                <%= if @user_info.status == "1" do %>
+                                                    ACTIVE
+                                                <% else %>
+                                                    INACTIVE
+                                                <% end %>    
+                                            </small>
+                                        </h5>
+                                    </div>
+                                    <div class="pb-3 pt-2 border-top-0 border-left-0 border-right-0 text-muted">
+                                        <form action="<%= Routes.user_path(@conn, :update_user)%>" method="POST">
+                                            <div class="element-info">
+                                                <div class="element-info-with-icon">
+                                                    <div class="element-info-icon" style="color: #009999;">
+                                                        <div class="os-icon os-icon-edit"></div>
+                                                    </div>
+
+                                                    <div class="element-info-text">
+                                                        <h5 class="element-inner-header">
+                                                        Edit Profile
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <fieldset class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <input class="form-control form-control-lg rounded-0 border-top-0 border-left-0 border-right-0 px-0" name="first_name" value="<%= @user_info.first_name %>" type="text">
+                                                            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                            <input type="hidden" name="id" value="<%= @user_info.id %>">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <input class="form-control form-control-lg rounded-0 border-top-0 border-left-0 border-right-0 px-0" name="last_name" value="<%= @user_info.last_name %>" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                        <input class="form-control form-control-lg rounded-0 border-top-0 border-left-0 border-right-0 px-0" name="email" value="<%= @user_info.email %>" type="email">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <select name="user_type" class="form-control form-control-lg rounded-0 border-top-0 border-left-0 border-right-0 px-0">
+                                                                <option value selected disabled>Select user role</option>
+                                                                <option value="1">
+                                                                Administrator
+                                                                </option>
+                                                                <option value="2">
+                                                                Back office
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <select name="status" class="form-control form-control-lg rounded-0 border-top-0 border-left-0 border-right-0 px-0">
+                                                                <option value selected disabled>Select account state</option>
+                                                                <%= if @user_info.status == "1" do %>
+                                                                    <option value="2">
+                                                                        Deactivate Account
+                                                                    </option>
+                                                                <% else %>
+                                                                    <option value="1">
+                                                                        Activate Account
+                                                                    </option>
+                                                                <% end %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <div class="form-buttons-w">
+                                                <button type="submit" class="btn btn-success waves-effect waves-themed"> Update</button>
+                                            </div><br /><br />
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

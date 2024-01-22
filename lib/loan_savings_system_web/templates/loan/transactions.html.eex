@@ -1,0 +1,92 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> All Transactions
+    </h1>
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                    
+                      <th class="text-center border-top-0 table-scale-border-bottom">S/No</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom">Customer Details</th>
+                      <th class=" border-top-0 table-scale-border-bottom">Product</th>
+                      <th class=" border-top-0 table-scale-border-bottom">Transaction Date</th>
+                      <th class="border-top-0 table-scale-border-bottom">Transaction Type</th>
+                      <th class="border-top-0 table-scale-border-bottom">CR/DR</th>
+                      <th class="border-top-0 table-scale-border-bottom">Reference No</th>
+                      <th class="border-top-0 table-scale-border-bottom">Order Reference</th>
+                      <th class=" text-right border-top-0 table-scale-border-bottom">Total Amount</th>
+                      <th class=" text-right border-top-0 table-scale-border-bottom">New Balance</th>
+                      <th class="border-top-0 table-scale-border-bottom text-center">Status</th>
+                      <th class="border-top-0 table-scale-border-bottom text-center">Reason</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+					<%= for {transaction, index} <- Enum.with_index(@transactions) do %>
+                      <tr>
+                            <td><%= (index+1) %>.</td> 
+                          <td><strong><%= transaction.firstName %> <%= transaction.lastName %></strong><br>
+                            <small><%= transaction.accountNo %></small></td>
+						  <td><span><%= transaction.productName %></span></td>
+                          <td><%= String.slice("#{transaction.inserted_at}", 0, 16) %>HRS</td>
+                          <td><%= transaction.transactionTypeEnum %><br>
+							            <small><%= transaction.transactionDetail %></small></td>
+                          <td><%= transaction.transactionType %></td>
+                          <td><%= transaction.referenceNo %></td>
+                          <td><%= transaction.orderRef %></td>
+                          <td class="text-right"><sup><%= transaction.currency %></sup> <%= :erlang.float_to_binary((Float.ceil(transaction.totalAmount, 2)), [{:decimals, 2}]) %></td>
+                          <td class="text-right"><sup><%= transaction.currency %></sup> <%= :erlang.float_to_binary((Float.ceil(transaction.newTotalBalance, 2)), [{:decimals, 2}]) %></td>
+                              <%= if(transaction.status=="Success") do %>
+                              <td class=" text-center"><span class="bg-success text-center" style="color: #fff !important; padding: 5px !important; border-radius: 5px !important;"><%= transaction.status %></span></td>
+                              <% else %>
+                              <%= if(transaction.status=="Pending") do %>
+                                <td class=" text-center"><span class="bg-warning text-center" style="color: #fff !important; padding: 5px !important; border-radius: 5px !important;"><%= transaction.status %></span></td>
+                              <% else %>
+                                <%= if(transaction.status=="Failed") do %>
+                                  <td class=" text-center"><span class="bg-warning text-center" style="color: #fff !important; padding: 5px !important; border-radius: 5px !important;"><%= transaction.status %></span></td>
+                                <% else %>
+                                  <td class=" text-center"><span class="bg-danger text-center" style="color: #fff !important; padding: 5px !important; border-radius: 5px !important;"><%= transaction.status %></span></td>
+                                <% end %>
+                              <% end %>
+                              <% end %>
+                            <td>
+                            <%= if(transaction.status=="Success") do %>
+                              Successful
+                            <% end %>
+                            <%= if(transaction.status=="Pending") do %>
+                              Pending Airtel Settlement
+                            <% end %>
+                             <%= if(transaction.status=="Failed") do %>
+                              Transaction Failed
+                            <% end %>
+                            </td>
+                      </tr>
+					  
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>

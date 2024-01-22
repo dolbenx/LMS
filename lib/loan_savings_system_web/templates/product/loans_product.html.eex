@@ -1,0 +1,116 @@
+ <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css">
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+
+<style>
+		[x-cloak] {
+			display: none;
+		}
+
+		[type="checkbox"] {
+			box-sizing: border-box;
+			padding: 0;
+		}
+
+		.form-checkbox,
+		.form-radio {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			-webkit-print-color-adjust: exact;
+			color-adjust: exact;
+			display: inline-block;
+			vertical-align: middle;
+			background-origin: border-box;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			flex-shrink: 0;
+			color: currentColor;
+			background-color: #fff;
+			border-color: #e2e8f0;
+			border-width: 1px;
+			height: 1.4em;
+			width: 1.4em;
+		}
+
+		.form-checkbox {
+			border-radius: 0.25rem;
+		}
+
+		.form-radio {
+			border-radius: 50%;
+		}
+
+		.form-checkbox:checked {
+			background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+			border-color: transparent;
+			background-color: currentColor;
+			background-size: 100% 100%;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+		
+		.form-radio:checked {
+			background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+			border-color: transparent;
+			background-color: currentColor;
+			background-size: 100% 100%;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+	</style>
+
+
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Loan Products
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :loans_admin_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    <!--  <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_loan_product" data-toggle="modal"> Add Loan Product</button> -->
+    </div>
+  </div>    
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+    <div class="row">
+      <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-sm">
+                  <thead>
+                      <tr>
+                          <th>Product Name</th>
+                          <th>Interest</th>
+                          <th>Tenure</th>
+                          <th>Product ID</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <%= for loans <- @loans do %>  
+                      <tr>
+                          <td><%= loans["productcategory"] %></td>
+                          <td><%= loans["interestrate"] %> %</td>
+                          <td><%= loans["tenure"] %></td>
+                          <td><%= loans["productmapid"] %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

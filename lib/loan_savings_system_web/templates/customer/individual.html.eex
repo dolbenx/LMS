@@ -1,0 +1,270 @@
+
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Individual Loan Customers
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+       <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_walkin_client" data-toggle="modal"> Add Walkin</button>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Customer Name</th>
+                      <th>Mobile Phone</th>
+                      <th> Email</th>
+                      <th>ID Number</th>
+                      <th>Gender</th>
+                      <th>Date of Birth</th>
+                      <th>Account Type</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <%= for customer <- @loan_customers do %>
+                        <tr>
+                        <td><%= customer.firstname %> <%= customer.otherName %> <%= customer.lastname %></td>
+                        <td><%= customer.mobileNumber %></td>
+                        <td><%= customer.emailAddress %></td>
+                        <td><%= customer.meansOfIdentificationNumber %></td>
+                        <td><%= customer.gender %></td>
+                        <td><%= customer.dateOfBirth %></td>
+                        <td></td>
+                        <td>
+                             <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                      <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#"  data-id="<%= customer.id %>" data-firstname="<%= customer.firstname %>" data-lastname="<%= customer.lastname %>" data-toggle="modal" data-target="#view_walkin"><i class="fal fa-eye"></i> View</a>
+                                        <a class="dropdown-item" href="<%= Routes.customer_path(@conn, :update_individual, userId: customer.userId)%>"><i class="fal fa-eye"></i> Update Bio</a>
+                                      </div>
+                                  </div>
+                              </div>
+                        </td>
+                        </tr>
+                      <%end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <%# <form name="form1" id="form1" action="/action_page.php">
+            Subjects: <select name="subject" id="subject">
+                <option value="" selected="selected">Select subject</option>
+            </select>
+            <br><br>
+            Topics: <select name="topic" id="topic">
+                <option value="" selected="selected">Please select subject first</option>
+            </select>
+            <br><br>
+            Chapters: <select name="chapter" id="chapter">
+                <option value="" selected="selected">Please select topic first</option>
+            </select>
+            <br><br>
+            <input type="submit" value="Submit">  
+            </form> %>
+
+
+
+            <script>
+            var subjectObject = {
+            "Front-end": {
+                "HTML": ["Links", "Images", "Tables", "Lists"],
+                "CSS": ["Borders", "Margins", "Backgrounds", "Float"],
+                "JavaScript": ["Variables", "Operators", "Functions", "Conditions"]    
+            },
+            "Back-end": {
+                "PHP": ["Variables", "Strings", "Arrays"],
+                "SQL": ["SELECT", "UPDATE", "DELETE"]
+            }
+            }
+            window.onload = function() {
+            var subjectSel = document.getElementById("subject");
+            var topicSel = document.getElementById("topic");
+            var chapterSel = document.getElementById("chapter");
+            for (var x in subjectObject) {
+                subjectSel.options[subjectSel.options.length] = new Option(x, x);
+            }
+            subjectSel.onchange = function() {
+                //empty Chapters- and Topics- dropdowns
+                chapterSel.length = 1;
+                topicSel.length = 1;
+                //display correct values
+                for (var y in subjectObject[this.value]) {
+                topicSel.options[topicSel.options.length] = new Option(y, y);
+                }
+            }
+            topicSel.onchange = function() {
+                //empty Chapters dropdown
+                chapterSel.length = 1;
+                //display correct values
+                var z = subjectObject[subjectSel.value][this.value];
+                for (var i = 0; i < z.length; i++) {
+                chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+                }
+            }
+            }
+            </script>
+
+            <%# <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>
+                  <%# <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Detail</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody> %>
+                  <%# <%= for bio <- @bio_data do %>
+                        <%# <tr>
+                        <td></td>
+                        <td><%= bio.status %>
+                        <%# <td>
+                             <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                      <div class="dropdown-menu">
+                                       
+                                      <a class="dropdown-item approve_bio" href="#" style="color: #008000" data-id="<%= bio.id %>
+                                      <%# </div>
+                                  </div>
+                              </div>
+                        </td>
+                        </tr>  %>
+                      <%# <%end %> 
+                  <%# </tbody>
+                </table>  %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<%= render "add_walkin_modal.html", assigns %>
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view company details
+    $('#view_employer').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var firstname = button.data('firstname')
+            var lastname = button.data('lastname')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #firstname').val(firstname);
+            modal.find('.modal-body #lastname').val(lastname);
+           
+    });
+    $('#edit_employer').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var company_name = button.data('company_name')
+            var phone = button.data('phone')
+            var email = button.data('email')
+            var company_id = button.data('company_id')
+            var address = button.data('address')
+            var tpin_no = button.data('tpin_no')
+            var date_of_incorporation = button.data('date_of_incorporation')
+            var country = button.data('country')
+            var city = button.data('city')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #company_name').val(company_name);
+            modal.find('.modal-body #phone').val(phone);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #company_id').val(company_id);
+            modal.find('.modal-body #address').val(address);
+            modal.find('.modal-body #tpin_no').val(tpin_no);
+            modal.find('.modal-body #date_of_incorporation').val(date_of_incorporation);
+            modal.find('.modal-body #country').val(country);
+            modal.find('.modal-body #city').val(city);
+           
+    });
+});
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+    $('#dt-basic-example').on('click', '.approve_bio', function(e){
+        e.preventDefault();
+        var button = $(this);
+        // prompt("Are you sure")
+        Swal.fire({
+            title: 'Are sure you?',
+            text: "You want to approve!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#23b05d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            showLoaderOnConfirm: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/Bio/Approve',
+                    type: 'POST',
+                    data: { id: button.attr("data-id"), _csrf_token: $("#csrf").val() },
+                    success: function(result) {
+                        console.log(result);
+                        if (result.status === 0) {
+                            Swal.fire(
+                                'Success',
+                                result.message,
+                                'success'
+                            ).then(() => {
+                                location.reload(true);
+                                spinner.hide();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            )
+                        }
+                    },
+                    error: function(request, msg, error) {
+                        Swal.fire(
+                            'Oops..',
+                            error,
+                            'error'
+                        )
+                    },
+                });
+            } else {
+                Swal.fire(
+                    'error',
+                    'Operation not performed :)',
+                    'error'
+                )
+            }
+        });
+    });
+});
+</script>

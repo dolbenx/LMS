@@ -1,0 +1,53 @@
+<h1>Show End of day run</h1>
+
+<ul>
+
+  <li>
+    <strong>Date ran:</strong>
+    <%= @end_of_day_run.date_ran %>
+  </li>
+
+  <li>
+    <strong>Total interest accrued:</strong>
+    <%= @end_of_day_run.total_interest_accrued %>
+  </li>
+
+  <li>
+    <strong>Penalties incurred:</strong>
+    <%= @end_of_day_run.penalties_incurred %>
+  </li>
+
+  <li>
+    <strong>End of day type:</strong>
+    <%= @end_of_day_run.end_of_day_type %>
+  </li>
+
+  <li>
+    <strong>Start date:</strong>
+    <%= @end_of_day_run.start_date %>
+  </li>
+
+  <li>
+    <strong>End date:</strong>
+    <%= @end_of_day_run.end_date %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @end_of_day_run.status %>
+  </li>
+
+  <li>
+    <strong>Currencyid:</strong>
+    <%= @end_of_day_run.currencyId %>
+  </li>
+
+  <li>
+    <strong>Currencyname:</strong>
+    <%= @end_of_day_run.currencyName %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.end_of_day_run_path(@conn, :edit, @end_of_day_run) %></span>
+<span><%= link "Back", to: Routes.end_of_day_run_path(@conn, :index) %></span>

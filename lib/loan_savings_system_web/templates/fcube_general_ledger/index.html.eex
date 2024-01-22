@@ -1,0 +1,200 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> End of Day History
+    </h1>
+    </h1>
+
+    <div class="element-box-content">
+   <button class="btn btn-sm waves-effect waves-themed"  style="background-color: #011941; color: red;" type="button"  data-toggle="modal" data-target="#create_setting" style="background-color: ; color: ;" >Add GL Account</button>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th class="border-top-0 table-scale-border-bottom fw-700">GL Account Name</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">GL Account Number</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for fcube_general_ledger <- @fcube_general_ledger do %>
+                      <tr>
+                        <td class="text-left"><%= fcube_general_ledger.accountname %></td>
+                        <td class="text-center"><%= fcube_general_ledger.glaccountno %></td>
+
+                        <td class="text-center">
+                          <a 
+                            data-id="<%= fcube_general_ledger.id %>"  
+                            data-accountname="<%= fcube_general_ledger.accountname %>"  
+                            data-glaccountno="<%= fcube_general_ledger.glaccountno %>" 
+                            data-toggle="modal" data-target="#edit_setting" type="button" class="btn btn-xs btn-outline-info waves-effect waves-themed">
+                            Edit GL Account
+                          </a>
+                        </td>
+                      </tr>
+                    <% end %>
+				  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="create_setting" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add New GL Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="/Savings/New-Flexcube-Account/Create" method="post">
+                     <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="modal-body">
+                        <div class="row">
+                           	<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+								<thead>
+								<tr role="row">
+									<th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Account Name<span style="color: red;">*</span></label></th>
+									<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-label="Office: activate to sort column ascending">Account Number</th>
+									<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr class="tr_clone">
+										<td>
+											<input required type="text" id="example-input-small" name="account_name[]" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+										</td>
+										<td>
+											<input required type="text" id="example-input-small" name="gl_account_no[]" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+										</td>
+										<td>
+											<i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+											<i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+										</td>
+									</tr>
+									
+								</tbody>
+							</table>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-success" type="submit"> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit_setting" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit GL Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="/Savings/Update/Flexcube/Account" method="post">
+                   <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="modal-body">
+                        <div class="row">
+                           	<table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                              <thead>
+                              <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Account Name<span style="color: red;">*</span></label></th>
+                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-label="Office: activate to sort column ascending">Account Number</th>
+                            
+                              </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="tr_clone">
+                                  <td>
+                                    <input required type="hidden" name="id" id="id" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+                                    <input required type="text" name="account_name" id="accountname" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+                                  </td>
+                                  <td>
+                                    <input required type="text" name="gl_account_no" id="glaccountno" class="form-control form-control-sm col-md-6 col-sm-12 col-lg-6">
+                                  </td>
+                                </tr>
+                                
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-success" type="submit"> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>
+
+<script>
+$(document).ready(function(){
+    $('#edit_setting').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var accountname = button.data('accountname')
+        var glaccountno = button.data('glaccountno')
+            
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #accountname').val(accountname);
+        modal.find('.modal-body #glaccountno').val(glaccountno);
+
+        console.log("+++++++++++++++++++++++=");
+        console.log(id);
+           
+    });
+});
+
+</script>

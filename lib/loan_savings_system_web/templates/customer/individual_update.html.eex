@@ -1,0 +1,324 @@
+
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Individual Loan Customers
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_walkin" data-toggle="modal"> Add Walkin</button>
+    </div>
+  </div>    
+
+            <form action="<%= Routes.customer_path(@conn, :update_walkin_customer)%>" method="post">
+                        <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div class="row">
+                        
+                          <div id="" class="panel">
+                                            <div class="panel-hdr">
+                                            
+                                            </div>
+                                            <div class="panel-container show">
+                                                <div class="panel-content">
+                                                    <div class="border px-3 pt-3 pb-0 rounded">
+                                                        <ul class="nav nav-pills" role="tablist">
+                                                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#js_pill_border_icon-1"><i class="fal fa-user mr-1"></i>Bio Data</a></li>
+                                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#js_pill_border_icon-2"><i class="fal fa-address-card mr-1"></i>Address</a></li>
+                                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#js_pill_border_icon-3"><i class="fal fa-users mr-1"></i>Next of Keen</a></li>
+                                                        
+                                                        </ul>
+                                                        <div class="tab-content py-3">
+                                                            <div class="tab-pane fade show active" id="js_pill_border_icon-1" role="tabpanel">
+                                                                    <div class="modal-body">
+                                                                    <h1 style="text-align:center"><b>Personal Details</b> </h2> <br>
+                                                                        <div class="row">
+                                                                        <%= for get_details <- @get_details do %> 
+                                                                        <input type="text" name="userId" hidden="hidden" value="<%= get_details.userId %>">
+                                                                        <input type="text" name="clientId" hidden="hidden" value="<%= get_details.clientid %>">
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">Title</label>
+                                                                                    <input type="text" id="example-input-small" name="title"  id="title" value="<%= get_details.title %>" class="form-control form-control-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">First Name</label>
+                                                                                    <input type="text" id="example-input-small" name="firstName" id="firstName" value="<%= get_details.firstname %>" class="form-control form-control-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">Last Name</label>
+                                                                                    <input type="text" id="example-input-small" name="lastName" id="lastName" value="<%= get_details.lastname %>" class="form-control form-control-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">Other Name</label>
+                                                                                    <input type="text" id="example-input-small" name="otherName" id="otherName" value="<%= get_details.othername %>" class="form-control form-control-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">Date of Birth</label>
+                                                                                    <input type="date" id="example-input-small" name="dateOfBirth" id="dateOfBirth" value="" class="form-control form-control-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">ID Type</label>
+                                                                                    <select class="form-control form-control-sm" id="meansOfIdentificationType"  name="meansOfIdentificationType" value="">
+                                                                                        <option value="NRC">NRC</option>
+                                                                                        <option value="DriversLicense">Drivers License</option>
+                                                                                        <option value="Passport"> Passport</option>
+                                                                                    </select> 
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">ID Number</label>
+                                                                                    <input type="text" id="example-input-small" name="meansOfIdentificationNumber" id="meansOfIdentificationNumber" value="<%= get_details.meansOfIdentificationNumber %>" class="form-control form-control-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <label for="example-input-small" class="form-label">Gender</label>
+                                                            
+                                                                                <select class="form-control form-control-sm" id="gender" name="gender" value="">
+                                                                                        <option value="NRC">Male</option>
+                                                                                        <option value="DriversLicense">Female</option>
+                                                                                    
+                                                                                    </select> 
+                                                                            </div>
+                                                                            <div class="col-sm-6 form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="example-input-small" class="form-label">Email Address</label>
+                                                                                    <input type="text" id="example-input-small" name="emailAddress" id="emailAddress" value="<%= get_details.emailAddress %>" class="form-control form-control-sm">
+                                                                                </div>
+                                                                            </div>
+                                                                    <% end %>
+                                                                        </div>
+                                                                        </div>
+                                                                        
+                                        
+                                                            </div>
+
+                                        <!----------------------------------------------Address details------------------------------------------------------------------------> 
+                                                            <div class="tab-pane fade container-fluid" id="js_pill_border_icon-2" role="tabpanel">
+                                                                <input type="text" name="_csrf_token" hidden="hidden" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                                    <h1 style="text-align:center"><b>Address Details</b> </h2> <br>
+                                                                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" aria-describedby="dt-basic-example_info">
+                                                                                    <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                                                <thead>
+                                                                                <tr role="row">
+                                                                                    <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Address Line 1<span style="color: red;">*</span></label></th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Address Line 2</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Country Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Province Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">District Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">City</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Primary Address</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Action</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr class="tr_clone">
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text" id="addressLine1" name="addressLine1[]" class="form-control form-control-sm">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text" id="addressLine2" name="addressLine2[]" class="form-control form-control-sm">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <select required name="countryName[]" id="countryName" class="form-control chrg">
+                                                                                                        <option>Zambia</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <select required name="provinceName[]" id="provinceName" class="form-control chrg">
+                                                                                                        <option>Lusaka Province</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <select required name="districtName[]" id="districtName" class="form-control chrg">
+                                                                                                        <option>Lusaka District</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <select required name="city[]" id="city" class="form-control chrg">
+                                                                                                        <option>Lusaka City</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="custom-control custom-checkbox">
+                                                                                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                                                                                    <label class="custom-control-label" for="defaultUnchecked"></label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                        <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                                                                                        <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    
+                                                                                </tbody>
+                                                                            </table>
+                                                                    
+                                                            </div>
+
+                                        <!----------------------------------------------Next of kin------------------------------------------------------------------------------->              
+                                                            <div class="tab-pane fade" id="js_pill_border_icon-3" role="tabpanel">
+                                                                <input type="text" name="_csrf_token" hidden="hidden" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                                    <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" aria-describedby="dt-basic-example_info">
+                                                                                    <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                                                <thead>
+                                                                                <tr role="row">
+                                                                                    <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">First Name<span style="color: red;">*</span></label></th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Last Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Other Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Address Line 1</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Address Line 2</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Province Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">District Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">City</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Action</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr class="tr_clone">
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text" id="firstName" name="firstName[]" class="form-control form-control-sm">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text" id="lastName" name="lastName[]" class="form-control form-control-sm">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text" id="otherName" name="otherName[]" class="form-control form-control-sm">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text" id="addressLine1" name="addressLine1[]" class="form-control form-control-sm">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <input type="text" id="addressLine2" name="addressLine2[]" class="form-control form-control-sm">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <select required name="provinceName[]" onchange="getSelectedValue();" id="provinceName" class="form-control chrg">
+                                                                                                        <option>Lusaka Province</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <select required name="districtName[]" onchange="getSelectedValue();" id="charge" class="form-control chrg">
+                                                                                                        <option>Lusaka District</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <div class="col-md-12 form-group">
+                                                                                                <div class="form-group">
+                                                                                                    <select required name="city[]" onchange="getSelectedValue();" id="charge" class="form-control chrg">
+                                                                                                        <option>Lusaka City</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                        <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                                                                                        <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+
+                                                    
+                                                                <button class="btn btn-success" type="submit"> Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>

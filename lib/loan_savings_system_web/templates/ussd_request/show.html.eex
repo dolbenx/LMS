@@ -1,0 +1,33 @@
+<h1>Show Ussd request</h1>
+
+<ul>
+
+  <li>
+    <strong>Mobile number:</strong>
+    <%= @ussd_request.mobile_number %>
+  </li>
+
+  <li>
+    <strong>Request data:</strong>
+    <%= @ussd_request.request_data %>
+  </li>
+
+  <li>
+    <strong>Session ended:</strong>
+    <%= @ussd_request.session_ended %>
+  </li>
+
+  <li>
+    <strong>Session:</strong>
+    <%= @ussd_request.session_id %>
+  </li>
+
+  <li>
+    <strong>Is logged in:</strong>
+    <%= @ussd_request.is_logged_in %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.ussd_request_path(@conn, :edit, @ussd_request) %></span>
+<span><%= link "Back", to: Routes.ussd_request_path(@conn, :index) %></span>

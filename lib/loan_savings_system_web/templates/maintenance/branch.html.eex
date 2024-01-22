@@ -1,0 +1,255 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Brances Maintenance
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_branch" data-toggle="modal"> Add Branch</button>
+  
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Branch Name</th>
+                      <th>Branch Code</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for branch <- @branches do %>
+                        <tr>
+                        <td><%= branch.branchName %></td>
+                        <td><%= branch.branchCode %></td>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class='subheader-icon fal fa-chevron-down'></i>
+                                    </span>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                          data-id="<%= branch.id %>" 
+                                          data-branchname="<%= branch.branchName %>" 
+                                          data-branchcode="<%= branch.branchCode %>" 
+                                          data-isdefaultussdbranch="<%= branch.isDefaultUSSDBranch %>" 
+                                          data-toggle="modal" data-target="#view_branch">
+                                            <i class="fal fa-eye"></i>
+                                            View
+                                        </a>
+                                        <a class="dropdown-item" href="#"  
+                                          data-id="<%= branch.id %>" 
+                                          data-branchname="<%= branch.branchName %>" 
+                                          data-branchcode="<%= branch.branchCode %>" 
+                                          data-isdefaultussdbranch="<%= branch.isDefaultUSSDBranch %>"
+                                          data-toggle="modal" data-target="#edit_branch">
+                                            <i class="fal fa-edit"></i>
+                                            Edit
+                                        </a>
+
+                                        <a class="dropdown-item" data-toggle="modal" data-target="#delete-alert">
+                                            <i class="fal fa-times"></i>
+                                            Disable
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                      <%end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <%# --------------- Create Branch %>
+<div class="modal fade" id="add_branch" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_branch)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="clientId" value="1">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Name</label>
+                                <input type="text" id="example-input-small" name="branchName" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Code</label>
+                                <input type="text" id="example-input-small" name="branchCode" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Is this branch Default for USSD</label>
+                                <select id="example-input-small" name="isDefaultUSSDBranch" class="form-control form-control-sm">
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</options>
+                                </select>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Save</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<%# --------------- View Branch %>
+<div class="modal fade" id="view_branch" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="clientId" value="1">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Name</label>
+                                <input type="text" id="branchname" name="branchName" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Code</label>
+                                <input type="text" id="branchcode" name="branchCode" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Is this branch Default for USSD</label>
+                                <input type="text" id="isdefaultussdbranch" name="branchCode" class="form-control form-control-sm" readonly>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+<%# --------------- Edit Branch %>
+<div class="modal fade" id="edit_branch" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Edit Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_branch)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="clientId" value="1">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Name</label>
+                                <input type="text" id="branchname" name="branchName" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Code</label>
+                                <input type="text" id="branchcode" name="branchCode" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Is this branch Default for USSD</label>
+                                <select id="isdefaultussdbranch" name="isDefaultUSSDBranch" class="form-control form-control-sm">
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</options>
+                                </select>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Save</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view Charge details
+    $('#view_branch').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var branchname = button.data('branchname')
+            var branchcode = button.data('branchcode')
+            var isdefaultussdbranch = button.data('isdefaultussdbranch')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #branchname').val(branchname);
+            modal.find('.modal-body #branchcode').val(branchcode);
+            modal.find('.modal-body #isdefaultussdbranch').val(isdefaultussdbranch);
+    });
+    $('#edit_branch').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var branchname = button.data('branchname')
+            var branchcode = button.data('branchcode')
+            var isdefaultussdbranch = button.data('isdefaultussdbranch')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #branchname').val(branchname);
+            modal.find('.modal-body #branchcode').val(branchcode);
+            modal.find('.modal-body #isdefaultussdbranch').val(isdefaultussdbranch);
+           
+    });
+});
+</script>

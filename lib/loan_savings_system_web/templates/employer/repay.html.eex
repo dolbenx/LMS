@@ -1,0 +1,126 @@
+<ol class="breadcrumb page-breadcrumb">
+   <li class="breadcrumb-item">
+      <i class="subheader-icon fal fa-chart-area"></i> Loans 
+   </li>
+   <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+   <h1 class="subheader-title">
+      <i class="subheader-icon fal fa-window"></i> - Loans Repayments
+   </h1>
+   <div class="element-box-content">
+      <a href="" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+            <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#loan_repayment" data-toggle="modal"><i class="fal fa-money-bill"></i> </i> Make Repayment</button>
+   </div>
+</div>
+<!--------------------------------------------------------------------------------Flash -->
+<div class="row">
+   <div class="col-sm-12">
+      <div class="card mb-g">
+         <div class="card-body">
+            <div class="frame-wrap p-0 border-0 m-0">
+               <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100" id="table-example">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                     <tr>
+                        <th>Loan ID</th>
+                        <th>NRC Number</th>
+                        <th>Amount</th>
+                        <th>Mode Of Repayment</th>
+                        <th>Instrument Number</th>
+                        <th>Date Of Repayment</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<div class="modal fade" id="loan_repayment" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center">Ask For A Refund</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="msform" action="<%= Routes.employee_path(@conn, :employee_loan_repayment) %>" method="POST">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">NRC Number</label>
+                                <input type="text" id="nrcnumber" name="nrcnumber" value="303794/67/1" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Payment amount</label>
+                                <input type="text" id="paymentamount" name="paymentamount" value="100.0" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Loan ID</label>
+                                <input type="text" id="loanid" name="loanid" value="1" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Mode Of payment</label>
+                                <select class="form-control form-control-sm" id="modeofpaymentid" name="modeofpaymentid">
+                                    <option value="1">Cash</option>
+                                    <option value="2">Cheque</option>
+                                    <option value="3">Draft</option>
+                                    <option value="4">EFTA</option>
+                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Payment Date</label>
+                                <input type="text" id="paymentdate" name="paymentdate" value="2022-06-09" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Instrument Number</label>
+                                <input type="text" id="instrumentnumber" name="instrumentnumber" value="1" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                              <label class="form-label" for="email">Branch</label>
+                              <select class="form-control form-control-sm" id="branch" name="branchcode">
+                                 <option value="700">HEAD OFFICE</option>
+                                 <option value="701">WOODGATE BRANCH</option>
+                                 <option value="702">KITWE BRANCH</option>
+                                 <option value="703">KASAMA BRANCH</option>
+                                 <option value="704">KABWE BRANCH</option>
+                                 <option value="705">SOLWEZI BRANCH</option>
+                                 <option value="706">CHOMA BRANCH</option>
+                                 <option value="707">NDOLA BRANCH</option>
+                                 <option value="708">CHIPATA BRANCH</option>
+                                 <option value="709">MUMBWA BRANCH</option>
+                                 <option value="710">MANSA BRANCH</option>
+                                 <option value="711">MONGU BRANCH</option>
+                                 <option value="712">CHINSALI BRANCH</option>
+                                 <option value="713">MULUNGUSHI BRANCH</option>
+                              </select>
+                        </div>
+                    </div>
+                    <!------------------------------->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" style="background-color: #011941; color: white;" class="btn btn-sm waves-effect waves-themed" value="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

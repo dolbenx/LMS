@@ -1,0 +1,34 @@
+<h1>Listing Flexcubeconfigs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flex cube gl</th>
+      <th>Flex cube gl code</th>
+      <th>Flex cube gl name</th>
+      <th>Action type</th>
+      <th>Dr cr</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for flex_cube_config <- @flexcubeconfigs do %>
+    <tr>
+      <td><%= flex_cube_config.flex_cube_gl_id %></td>
+      <td><%= flex_cube_config.flex_cube_gl_code %></td>
+      <td><%= flex_cube_config.flex_cube_gl_name %></td>
+      <td><%= flex_cube_config.action_type %></td>
+      <td><%= flex_cube_config.dr_cr %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.flex_cube_config_path(@conn, :show, flex_cube_config) %></span>
+        <span><%= link "Edit", to: Routes.flex_cube_config_path(@conn, :edit, flex_cube_config) %></span>
+        <span><%= link "Delete", to: Routes.flex_cube_config_path(@conn, :delete, flex_cube_config), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Flex cube config", to: Routes.flex_cube_config_path(@conn, :new) %></span>

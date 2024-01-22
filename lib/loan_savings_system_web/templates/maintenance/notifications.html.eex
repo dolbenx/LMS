@@ -1,0 +1,514 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> SMS Notifications
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_notification" data-toggle="modal"> Add Notification</button>
+  
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                  <form action="#" method="post" class="">
+                  <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                      <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                      <tr>
+                        <th class="border-top-0 table-scale-border-bottom">Action</th>
+                        <th class="text-center border-top-0 table-scale-border-bottom">Days</th>
+                        <th class="text-center border-top-0 table-scale-border-bottom">Number of SMS(s)</th>
+                        <th class="text-center border-top-0 table-scale-border-bottom">SMS Interval</th>
+                        <th class="border-top-0 table-scale-border-bottom">Message</th>
+                        <th class="border-top-0 table-scale-border-bottom">Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <%= for notifications <- @notifications do %>
+                          <tr>
+                            <td><%= notifications.actionType %></td>
+                            <td class="text-center"><%= notifications.days %></td>
+                            <td class="text-center"><%= notifications.numberOfSms %></td>
+                            <td class="text-center"><%= notifications.interval %> <%= notifications.intervaltype %></td>
+                            <td>
+                            <textarea class="form-control" id="example-textarea" rows="2" disabled>
+                            <%= notifications.message %>
+                            </textarea>
+                            </td>
+							<td>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class='subheader-icon fal fa-chevron-down'></i>
+                                        </span>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#"  
+                                              data-id="<%= notifications.id %>" 
+                                              data-actionType="<%= notifications.actionType %>" 
+                                              data-days="<%= notifications.days %>" 
+                                              data-numberOfSms="<%= notifications.numberOfSms %>" 
+                                              data-intervaltype="<%= notifications.intervaltype %>" 
+                                              data-message="<%= notifications.message %>" 
+                                              data-toggle="modal" data-target="#edit_notification">
+                                                <i class="fal fa-edit"></i>
+                                                Edit
+                                            </a>
+                                            <%= if notifications.status == "Active" do %>
+                                            <a class="dropdown-item js-sweetalert2-disable_question" data-id="<%= notifications.id %>" data-toggle="modal" data-target="#disable-alert">
+                                                <i class="fal fa-times"></i>
+                                                Disable
+                                            </a>
+                                            <% else %>
+                                            <a class="dropdown-item js-sweetalert2-activate_question" data-id="<%= notifications.id %>" data-toggle="modal" data-target="#activate-alert">
+                                                <i class="fal fa-times"></i>
+                                                Activate
+                                            </a>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                             </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </form>
+
+                  <!-- <%= for notifications <- @notifications do %>
+                    <%= if(Enum.member?(@existingConfig, ("PRINCIPAL_DEPOSIT_DR#{notifications.id}#{notifications.actionType}"))) do %>
+                      <option selected value="1"><%= notifications.actionType %> - <%= notifications.intervaltype %></option>
+                    <% else %>
+                      <option value=""><%= notifications.actionType %> - <%= notifications.intervaltype %></option>
+                    <% end %>
+                  <% end %> -->
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <%# --------------- Create Branch %>
+<div class="modal fade" id="add_notification" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 100% !important;width: 90% !important; margin: 0 auto !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Notification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+          <div id="panel-1" class="panel">
+            <div class="panel-content">
+              <div class="panel-container show">
+                <div class="panel-content">
+                  <form action="<%= Routes.maintenance_path(@conn, :add_notification_config)%>" method="post" class="">
+                    <table id="" class="table table-bordered table-hover table-striped w-100">
+                      <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                      <tr>
+                        <th width="10%" class="border-top-0 table-scale-border-bottom">Action</th>
+                        <th width="10%" class="text-center border-top-0 table-scale-border-bottom">Days</th>
+                        <th width="10%" class="text-center border-top-0 table-scale-border-bottom">Number of SMS(s)</th>
+                        <th width="10%" class="text-center border-top-0 table-scale-border-bottom">Interval</th>
+                        <th width="10%" class="text-center border-top-0 table-scale-border-bottom">Interval Type</th>
+                        <th class="text-center border-top-0 table-scale-border-bottom">Message</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <input type="text" id="example-input-small" name="actionType[]" class="form-control form-control-sm" value="Before Maturity">
+                          </td>
+                          <td class="text-center">
+                            <select name="days[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                              <option value="12">12</option>
+                              <option value="13">13</option>
+                              <option value="14">14</option>
+                              <option value="15">15</option>
+                              <option value="16">16</option>
+                              <option value="17">17</option>
+                              <option value="18">18</option>
+                              <option value="19">19</option>
+                              <option value="20">20</option>
+                              <option value="21">21</option>
+                              <option value="22">22</option>
+                              <option value="23">23</option>
+                              <option value="24">24</option>
+                              <option value="25">25</option>
+                              <option value="26">26</option>
+                              <option value="27">27</option>
+                              <option value="28">28</option>
+                              <option value="29">29</option>
+                              <option value="30">30</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="numberOfSms[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="interval[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="intervaltype[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="Days">Days</option>
+                              <option value="Months">Months</option>
+                              <option value="Years">Years</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                          <textarea class="form-control" id="example-textarea" name="message[]" rows="2"></textarea>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="text" id="example-input-small" name="actionType[]" class="form-control form-control-sm" value="On Maturity">
+                          </td>
+                          <td class="text-center">
+                            <select name="days[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                              <option value="12">12</option>
+                              <option value="13">13</option>
+                              <option value="14">14</option>
+                              <option value="15">15</option>
+                              <option value="16">16</option>
+                              <option value="17">17</option>
+                              <option value="18">18</option>
+                              <option value="19">19</option>
+                              <option value="20">20</option>
+                              <option value="21">21</option>
+                              <option value="22">22</option>
+                              <option value="23">23</option>
+                              <option value="24">24</option>
+                              <option value="25">25</option>
+                              <option value="26">26</option>
+                              <option value="27">27</option>
+                              <option value="28">28</option>
+                              <option value="29">29</option>
+                              <option value="30">30</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="numberOfSms[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="interval[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="intervaltype[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="Days">Days</option>
+                              <option value="Months">Months</option>
+                              <option value="Years">Years</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                          <textarea class="form-control" id="example-textarea" name="message[]" rows="2"></textarea>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="text" id="example-input-small" name="actionType[]" class="form-control form-control-sm" value="After Maturity">
+                          </td>
+                          <td class="text-center">
+                            <select name="days[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                              <option value="12">12</option>
+                              <option value="13">13</option>
+                              <option value="14">14</option>
+                              <option value="15">15</option>
+                              <option value="16">16</option>
+                              <option value="17">17</option>
+                              <option value="18">18</option>
+                              <option value="19">19</option>
+                              <option value="20">20</option>
+                              <option value="21">21</option>
+                              <option value="22">22</option>
+                              <option value="23">23</option>
+                              <option value="24">24</option>
+                              <option value="25">25</option>
+                              <option value="26">26</option>
+                              <option value="27">27</option>
+                              <option value="28">28</option>
+                              <option value="29">29</option>
+                              <option value="30">30</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="numberOfSms[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="interval[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <select name="intervaltype[]" class="custom-select form-control">
+                              <option value="-1">Select One</option>
+                              <option value="Days">Days</option>
+                              <option value="Months">Months</option>
+                              <option value="Years">Years</option>
+                            </select>
+                          </td>
+                          <td class="text-center">
+                            <textarea class="form-control" id="example-textarea" name="message[]" rows="2"></textarea>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div style="clear: both !important" class="form-group col-md-12">
+                      <button class="btn btn-primary pull-right" type="submit">Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<%# --------------- View Branch %>
+<div class="modal fade" id="edit_notification" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width: 100% !important;width: 90% !important; margin: 0 auto !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="clientId" value="1">
+                      <div class="row">
+                          <table id="" class="table table-bordered table-hover table-striped w-100">
+							  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+							  <tr>
+								<th width="10%" class="border-top-0 table-scale-border-bottom">When To Send Message</th>
+								<th width="10%" class="text-center border-top-0 table-scale-border-bottom">When Exactly</th>
+								<th width="10%" class="text-center border-top-0 table-scale-border-bottom">Number of SMS(s) to Send</th>
+								<th width="10%" class="text-center border-top-0 table-scale-border-bottom">Send In Intervals Of</th>
+								<th class="text-center border-top-0 table-scale-border-bottom">Message</th>
+							  </tr>
+							  </thead>
+							  <tbody>
+								<tr>
+								  <td>
+									<select name="days[]" class="custom-select form-control">
+									  <option value="-1">Select One</option>
+									  <option value="BEFORE MATURITY">Before Maturity</option>
+									  <option value="ON MATURITY">On Maturity</option>
+									  <option value="AFTER MATURITY">After Maturity</option>
+									</select>
+								  </td>
+								  <td class="text-center">
+									<select name="days[]" class="custom-select form-control">
+									  <option value="-1">Select One</option>
+									  <%= for x <- 1..30 do %>
+											<option value="<%= x %>"><%= x %></option>
+										<% end %>
+									</select>
+								  </td>
+								  <td class="text-center">
+									<select name="numberOfSms[]" class="custom-select form-control">
+									  <option value="-1">Select One</option>
+									  <option value="1">1</option>
+									  <option value="2">2</option>
+									  <option value="3">3</option>
+									</select>
+								  </td>
+								  <td class="text-center">
+									<select name="interval[]" class="custom-select form-control">
+									  <option value="-1">Select One</option>
+									  <option value="1">1</option>
+									  <option value="2">2</option>
+									  <option value="3">3</option>
+									</select>
+								  </td>
+								  <td class="text-center">
+									<select name="intervaltype[]" class="custom-select form-control">
+									  <option value="-1">Select One</option>
+									  <option value="Days">Days</option>
+									  <option value="Months">Months</option>
+									  <option value="Years">Years</option>
+									</select>
+								  </td>
+								  <td class="text-center">
+								  <textarea class="form-control" id="example-textarea" name="message[]" rows="2"></textarea>
+								  </td>
+								</tr>
+							  </tbody>
+							</table>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+<%# --------------- Edit Branch %>
+<div class="modal fade" id="edit_branch" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Edit Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_branch)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="clientId" value="1">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Name</label>
+                                <input type="text" id="branchname" name="branchName" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Branch Code</label>
+                                <input type="text" id="branchcode" name="branchCode" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Is this branch Default for USSD</label>
+                                <select id="isdefaultussdbranch" name="isDefaultUSSDBranch" class="form-control form-control-sm">
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</options>
+                                </select>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Save</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+
+<style>
+</style>
+$(document).ready(function(){
+//view Charge details
+    $('#add_notification').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var branchname = button.data('branchname')
+            var branchcode = button.data('branchcode')
+            var isdefaultussdbranch = button.data('isdefaultussdbranch')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #branchname').val(branchname);
+            modal.find('.modal-body #branchcode').val(branchcode);
+            modal.find('.modal-body #isdefaultussdbranch').val(isdefaultussdbranch);
+    });
+    $('#edit_notification').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var branchname = button.data('branchname')
+            var branchcode = button.data('branchcode')
+            var isdefaultussdbranch = button.data('isdefaultussdbranch')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #branchname').val(branchname);
+            modal.find('.modal-body #branchcode').val(branchcode);
+            modal.find('.modal-body #isdefaultussdbranch').val(isdefaultussdbranch);
+           
+    });
+});
+</script>

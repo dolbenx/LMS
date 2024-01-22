@@ -1,0 +1,153 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Transaction Reports
+    </h1>
+
+    <div class="element-box-content">
+      <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" id="admin-all-customer-txn-filter"><i class="fal fa-filter"></i> Filter</button>&nbsp;
+      <button  onclick="history.back(-1)"class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</button>
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+
+<div class="row">
+	<div class="col-xl-12">
+		<div id="panel-1" class="panel">
+			<div class="panel-content">
+				<div class="panel-container show">
+					<div class="panel-content">
+						<table id="dt-all-customer-txn-entries" class="table table-bordered table-hover table-striped w-100">
+							<input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+							<input type="hidden" id="id" name="id">
+							<thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+								<tr>
+                           <th>Customer Name</th>
+                           <th>Reference</th>
+                           <th>Product</th>
+                           <th>Is Reversed</th>
+                           <th>Transaction Status</th>
+                           <th>Transaction Type</th>
+                           <th class="text-center">DR/CR</th>
+                           <th>Transaction Date / Time</th>
+                           <th class="text-right">Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="customer_txn_filter_model" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+           	<h5 class="modal-title">Filter Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true"><i class="fal fa-times"></i></span> </button>
+         </div>
+         <form action="" method="post">
+            <div class="modal-body">
+               <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+               <div class="row">
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">First Name</label>
+                        <input type="text" id="txn_customer_first_name" name="firstName" class="form-control form-control-sm">
+                     </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Last Name</label>
+                        <input type="text" id="txn_customer_last_name" name="lastName" class="form-control form-control-sm"> </div>
+                  </div>
+
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Phone Number</label>
+                        <input type="text" id="txn_customer_phone_number" name="firstName" class="form-control form-control-sm">
+                     </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Status</label>
+								<select id="customer_txn_status" name="fixedDepositStatus" class="form-control form-control-sm">
+                           <option value=""></option>
+                           <option value="Pending">Pending</option>
+                           <option value="Success">Success</option>
+                           <option value="Failed">Failed</option>
+								</select>
+							</div>
+						</div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Product Name</label>
+                        <select id="txn_product_name" name="name" class="form-control form-control-sm select2">
+                           <option value=""></option>
+                              <%= for product <- @products do %>
+                                 <option value="<%= product.id %>"><%= product.name %></option>
+                              <% end %>
+
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Transaction Type</label>
+                        <select id="transaction_type" name="divestmentType" class="form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="Charge">Charges</option>
+                            <option value="Deposit">Deposits</option>
+                            <option value="Reversal">Reversal</option>
+                            <option value="Withdraw">Withdraw</option>
+                            <option value="Divestment">Divestment</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Min Principal</label>
+                        <input type="text" id="txn_product_minimum_amount" name="product_minimumPeriod" class="form-control form-control-sm"> </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Max Principal</label>
+                        <input type="text" id="txn_product_maximum_amount" name="product_maximumPeriod" class="form-control form-control-sm"> </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Transaction Date From</label>
+                        <input type="date" id="txn_date_from" name="deposit_date_from" class="form-control form-control-sm"> </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Transaction Date To</label>
+                        <input type="date" id="txn_date_to" name="deposit_date_to" class="form-control form-control-sm"> </div>
+                  </div>
+
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               	<button type="button" class="btn btn-success" id="admin_all_customer_txn_report_filter" style="margin:2px;">filter</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>

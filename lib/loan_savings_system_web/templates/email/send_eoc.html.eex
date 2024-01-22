@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="panel registration-form">
+            <div class="panel-body">
+            	<br>
+                <div class="row" style="padding: 25px 30px 25px 20px">
+                        <p>Dear All,</p>
+                       <p>The following Transactions Where Recorded </p>
+                     <div class="panel-container show">
+                        <div class="panel-content">
+                            <!-- datatable start -->
+                            <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                                <thead class="p-3 bg-info-500 rounded overflow-hidden position-relative text-white mb-g" style="background-color:#01aaad;color:#fff">
+                                    <tr>
+                                        <th>Client Category</th>
+                                        <th>Client Type</th>
+                                        <th>CIF Number</th>
+                                        <th>ID Number</th>
+                                        <th>ID Type</th>
+                                        <th>Email</th>
+                                        <th>Physical Address</th>
+                                        <th>Account Number</th>
+           
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%= for item <- @items do %>
+                                            <tr>
+                                                <td class="text-center"><%= item.client_category%></td>
+                                                <td class="text-center"><%= item.client_type%></td>
+                                                <td class="text-center"><%= item.cif_number%></td>
+                                                <td class="text-center"><%= item.id_number%></td>
+                                                <td class="text-center"><%= item.id_type%></td>
+                                                <td class="text-center"><%= item.email%></td>
+                                                <td class="text-center"><%= item.physical_address%></td>  
+                                                <td class="text-center"><%= item.account_number%></td>
+                                                                                                                        
+                                            </tr>                              
+                                    <% end %>   
+                                </tbody>        
+                            </table>
+                            <!-- datatable end -->
+                        </div>
+                     </div>
+                   
+                   
+                </div>
+                <div class="row" style="padding: 30px 30px 10px 20px;">
+                    <p>Regards, </p>
+                    <p>Probase - Online Help</p>
+                    <p>+260 976360360 || <a href="mailto:info@probasegroup.com" target="_blank">info@probasegroup.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

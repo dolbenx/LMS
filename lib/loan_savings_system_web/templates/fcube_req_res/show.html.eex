@@ -1,0 +1,18 @@
+<h1>Show Fcube req res</h1>
+
+<ul>
+
+  <li>
+    <strong>Request data:</strong>
+    <%= @fcube_req_res.request_data %>
+  </li>
+
+  <li>
+    <strong>Response data:</strong>
+    <%= @fcube_req_res.response_data %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.fcube_req_res_path(@conn, :edit, @fcube_req_res) %></span>
+<span><%= link "Back", to: Routes.fcube_req_res_path(@conn, :index) %></span>

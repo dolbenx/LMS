@@ -1,0 +1,149 @@
+mix phx.gen.context Accounts User tbl_users username:string password:string clientId:integer createdByUserId:integer status:string 
+	
+	
+mix phx.gen.context Accounts UserRole tbl_user_roles userId:integer roleType:string clientId:integer status:string
+	
+	
+mix phx.gen.context SystemSetting SystemSettings tbl_system_settings name:string value:string
+	
+	
+	
+mix phx.gen.context Client Clients tbl_clients ussdCode:string bankId:integer isBank:boolean isDomicileAccountAtBank:boolean countryId:integer accountCreationEndpoint:string balanceEnquiryEndpoint:string fundsTransferEndpoint:string defaultCurrencyId:integer defaultCurrencyName:string status:string
+	
+mix phx.gen.context Client ClientSetting tbl_client_setting smsEndPoint:string loginWith:string smsSenderName:string emailSenderName:string emailSenderUsername:string emailSenderPassword:string status:string clientId:integer
+	
+mix phx.gen.context Accounts JournalEntry tbl_journal_entry accountId:integer userRoleId:integer userId:integer productType:string isReversed:boolean transactionId:integer reversedTransactionId:integer isSystemEntry:boolean currency:string currencyId:integer amount:float entryDate:datetime clientId:integer crGLAccountId:integer drGLAccountId:integer
+	
+	
+	
+mix phx.gen.context Accounts GLAccount tbl_gl_account accountType:string accountName:string accountNumber:string accountSubType:string clientId:integer createdByUserId:integer
+	
+	
+mix phx.gen.context FixedDeposit FixedDeposits tbl_fixed_deposit accountId:integer productId:integer principalAmount:float fixedPeriod:integer fixedPeriodType:string interestRate:float interestRateType:string expectedInterest:float accruedInterest:float isMatured:boolean isDivested:boolean divestmentPackageId:integer currencyId:integer currency:string currencyDecimals:integer yearLengthInDays:integer totalDepositCharge:float totalWithdrawalCharge:float totalPenalties:float userRoleId:integer userId:integer totalAmountPaidOut:float startDate:date endDate:date clientId:integer
+	
+	
+mix phx.gen.context Divestments DivestmentPackage tbl_divestment_package startPeriodDays:integer endPeriodDays:integer divestmentValuation:float productId:integer status:string clientId:integer
+	
+	
+	
+mix phx.gen.context Divestments Divestment tbl_divestments fixedDepositId:integer principalAmount:float fixedPeriod:integer interestRate:float interestRateType:string divestmentDate:date divestmentDayCount:integer divestmentValuation:float divestAmount:float clientId:integer
+	
+	
+
+mix phx.gen.context Client UserBioData tbl_user_bio_data firstName:string lastName:string userId:integer therName:string dateOfBirth:date meansOfIdentificationType:string meansOfIdentificationNumber:string title:string gender:string mobileNumber:string emailAddress:string clientId:integer
+	
+mix phx.gen.context Client Address tbl_addresses addressLine1:string addressLine2:string city:string districtId:integer districtName:string provinceId:integer provinceName:string countryId:integer countryName:string isCurrent:boolean userId:integer clientId:integer
+	
+	
+mix phx.gen.context Client NextOfKin tbl_next_of_kin firstName:string lastName:string otherName:string addressLine1:string addressLine2:string city:string districtId:integer districtName:string provinceId:integer provinceName:string accountId:integer userId:integer clientId:integer
+	
+mix phx.gen.context SystemSetting Currency tbl_currency name:string isoCode:string countryId:integer
+	
+	
+mix phx.gen.context SystemSetting Country tbl_country name:string
+	
+	
+mix phx.gen.context SystemSetting District tbl_district name:string countryId:integer countryName:string provinceId:integer provinceName:string
+	
+	
+mix phx.gen.context SystemSetting Province tbl_province name:string countryId:integer countryName:string
+
+mix phx.gen.context Companies Company tbl_company companyName:string addressLine1:string addressLine2:string city:string districtId:integer provinceId:integer districtName:string provinceName:string countryId:integer countryName:string
+	
+	
+mix phx.gen.context Companies Employer tbl _employer companyId:integer status:string
+	
+	
+mix phx.gen.context Companies Employee tbl_employee companyId:integer employerId:integer userRoleId:integer userId:integer status:string
+
+
+
+
+mix phx.gen.context SystemSetting Telco tbl_telco name:string telcoIP:string
+	
+	
+mix phx.gen.context SystemSetting ClientTelco tbl_client_telco telcoId:integer clientId:integer
+	
+mix phx.gen.context Charges Charge tbl_charge chargeName:string currency:string currencyId:integer isPenalty:boolean clientId:integer chargeType:string chargeAmount:float
+	
+	
+	
+mix phx.gen.context Companies Branch tbl_branch branchName:string branchCode:string isDefaultUSSDBranch:boolean clientId:integer
+	
+	
+	
+	
+mix phx.gen.context Accounts Account tbl_account loanOfficerId:integer deactivatedReason:string blockedReason:string clientId:integer accountNo:string externalId:string productId:integer accountType:string DateClosed:date currencyId:integer currencyDecimals:integer currencyName:string totalDeposits:float totalWithdrawals:float totalCharges:float totalPenalties:float totalInterestEarned:float totalInterestPosted:float totalTax:float accountVersion:float derivedAccountBalance:float userId:integer blockedByUserId:integer status:string
+	
+	
+mix phx.gen.context Charges AccountCharge tbl_account_charge accountId:integer chargeId:integer amountCharged:integer isPaid:boolean dateCharged:date datePaid:date balance:float userId:integer
+	
+	
+mix phx.gen.context Products Product tbl_products name:string code:string details:string currencyId:integer currencyName:string currencyDecimals:integer interest:float interestType:string interestMode:string defaultPeriod:integer periodType:string productType:string minimumPrincipal:float maximumPrincipal:float clientId:integer yearLengthInDays:integer status:string
+	
+	
+mix phx.gen.context Products ProductCharge tbl_product_charge productId:integer chargeId:integer valuation:float 
+	
+mix phx.gen.context Transactions Transaction tbl_transactions accountId:integer totalAmount:float productId:integer productType:string userId :integer userRoleId:integer referenceNo:string orderRef:string transactionType:string status:string isReversed:boolean requestData:string responseData:string carriedOutByUserId:integer carriedOutByUserRoleId:integer
+
+mix phx.gen.context SystemDirectories Directory tbl_system_directories bulk_trns:string esb_complete:string esb_downloa:string failed:string processed:string
+
+mix phx.gen.context Client Banks tbl_banks name:string eod_url:string 
+
+
+
+
+
+
+mix phx.gen.context Loan LoanCharge tbl_loan_charge loan_id:integer charge_id:integer is_penalty:boolean charge_time_enum:string due_for_collection_as_of_date charge_calculation_enum:string charge_payment_mode_enum:string calculation_percentage:float calculation_on_amount:float charge_amount_or_percentage:float amount:float amount_paid_derived:float amount_waived_derived:float amount_writtenoff_derived:float amount_outstanding_derived:float is_paid_derived:boolean is_waived:boolean is_active:boolean
+
+mix phx.gen.context Loan LoanChargePayment tbl_loan_charge_payment loan_transaction_id:integer loan_id:integer loan_charge_id:integer amount:float installment_number:integer
+
+mix phx.gen.context Loan LoanCollateral tbl_loan_collateral loan_id:integer collateral_type:string valuation:float description:string
+
+mix phx.gen.context Loan LoanInstallmentCharge tbl_loan_installment_charge loan_charge_id:integer loan_schedule_id:integer due_date:date amount:float amount_paid_derived:float amount_waived_derived:float amount_writtenoff_derived:float amount_outstanding_derived:float is_paid_derived:boolean is_waived:boolean
+
+mix phx.gen.context Loan LoanOfficerAssignment tbl_loan_officer_assignment loan_id:integer loan_officer_id:integer start_date:date end_date:date createdby_id:integer created_date:date updated_date:date lastmodifiedby_id:integer
+
+mix phx.gen.context Loan LoanOverdueInstallmentCharge tbl_loan_overdue_installment_charge loan_charge_id:integer loan_schedule_id:integer overdue_amount:float
+
+mix phx.gen.context Loan LoanPaidInAdvance tbl_loan_paid_in_advance loan_id:integer principal_in_advance_derived:float interest_in_advance_derived:float fee_charges_in_advance_derived:float penalty_charges_in_advance_derived:float total_in_advance_derived:float
+
+mix phx.gen.context Loan LoanRepaymentSchedule tbl_loan_repayment_schedule loan_id:integer fromdate:date duedate:date installment:float principal_amount:float principal_completed_derived:float principal_writtenoff_derived:float interest_amount:float interest_completed_derived:float interest_writtenoff_derived:float interest_waived_derived:float accrual_interest_derived:float fee_charges_amount:float fee_charges_completed_derived:float fee_charges_writtenoff_derived:float fee_charges_waived_derived:float accrual_fee_charges_derived:float penalty_charges_amount:float penalty_charges_completed_derived:float penalty_charges_writtenoff_derived:float penalty_charges_waived_derived:float accrual_penalty_charges_derived:float total_paid_in_advance_derived:float total_paid_late_derived:float completed_derived:float createdby_id:integer lastmodifiedby_id:integer obligations_met_on_date:date
+
+mix phx.gen.context Loan Loans tbl_loans account_no:string external_id:string customer_id:integer product_id :integer loan_status:string loan_type:string currency_code:string principal_amount_proposed:float principal_amount:float approved_principal:float annual_nominal_interest_rate:float interest_method :string term_frequency:integer term_frequency_type repay_every:integer repay_every_type:date number_of_repayments:integer approvedon_date:date approvedon_userid:integer expected_disbursedon_date:date disbursedon_date:date disbursedon_userid:integer expected_maturity_date:date interest_calculated_from_date:date closedon_date:date closedon_userid:integer total_charges_due_at_disbursement_derived:float principal_disbursed_derived:float principal_repaid_derived:float principal_writtenoff_derived:float principal_outstanding_derived:float interest_charged_derived:float interest_repaid_derived:float interest_waived_derived:float interest_writtenoff_derived:float interest_outstanding_derived:float fee_charges_charged_derived:float fee_charges_repaid_derived:float fee_charges_waived_derived:float fee_charges_writtenoff_derived:float fee_charges_outstanding_derived:float penalty_charges_charged_derived:float penalty_charges_repaid_derived:float penalty_charges_waived_derived:float penalty_charges_writtenoff_derived:float penalty_charges_outstanding_derived:float total_expected_repayment_derived:float total_repayment_derived:float total_expected_costofloan_derived:float total_costofloan_derived:float total_waived_derived:float total_writtenoff_derived:float total_outstanding_derived:float total_overpaid_derived:float rejectedon_date:date rejectedon_userid:integer withdrawnon_date:date withdrawnon_userid:integer writtenoffon_date:date loan_counter:integer is_npa:boolean is_legacyloan:boolean
+
+mix phx.gen.context Loan LoanTransaction tbl_loan_transaction loan_id:integer branch_id:integer payment_detail_id:integer is_reversed:boolean external_id:string transaction_type_enum transaction_date:date amount:float principal_portion_derived:float interest_portion_derived:float fee_charges_portion_derived:float penalty_charges_portion_derived:float overpayment_portion_derived:float unrecognized_income_portion:float outstanding_loan_balance_derived:float submitted_on_date:date manually_adjusted_or_reversed:boolean manually_created_by_userid:integer
+
+mix phx.gen.context Loan LoanTransactionRepaymentScheduleMapping tbl_loan_transaction_repayment_schedule_mapping loan_transaction_id:integer loan_repayment_schedule_id:integer amount:float principal_portion_derived:float interest_portion_derived:float fee_charges_portion_derived:float penalty_charges_portion_derived:float
+
+mix phx.gen.context Loan LoanCollateral tbl_loan_collateral loan_id:integer collateral_type:string valuation:float description:string
+
+mix phx.gen.context Loan LoanProductCharges tbl_loan_product_charges loan_product_id:integer charge_id:integer
+
+mix phx.gen.context Loan LoanProductDocumentType tbl_loan_product_document_type productId:integer documentTypeId:integer isRequired:boolean
+
+mix phx.gen.context Loan LoanRepayment tbl_loan_repayment repayment:string dateOfRepayment:string modeOfRepayment:string amountRepaid:float chequeNo:string receiptNo:string registeredByUserId:integer recipientUserRoleId:integer
+
+
+mix phx.gen.context UserBioDataUpdate UserBioDataUpdates tbl_user_bio_data_update userBioData:string status:string approvedByUserId:integer
+
+
+mix phx.gen.context Accounts BankStaffRole tbl_bank_staff_role roleName:string permissions:string
+
+mix phx.gen.context ConfirmationNotification ConfirmationLoanNotification tbl_confirmation_notification message:string read:boolean recipientUserID:integer recipientUserRoleId:integer sentByUserId:integer sentByUserRoleId:integer
+
+mix phx.gen.context Accounts SecurityQuestions tbl_security_questions question:string status:string
+
+mix phx.gen.context Notification SmsNotificationConfiguration tbl_sms_notification_configuration days:integer actionType:string numberOfSms:integer interval:integer intervaltype:string message:string
+
+
+
+
+
+
+
+
+mix phx.gen.context LoanApplications LoanApplicationsSme tbl_sme_loan_application mix phx.gen.context Loan Loan tbl_sme_loan_application orgcode:string vendorcode:string tag:string conversationid:string offtakerid:string financetype:integer registrationno:string customername:string branch:string invoiceno:string invoicedate:date invoiceexpirydate:date invoicevalue:decimal invoicedetails:string invoicedoc:string productcode:string loanamount:decimal Loandate:date Loanpurpose:string Guarantor:string coldocumentname:string coldoc:string coldetail:string collateralvalue:decimal appraisedvalue:decimal documenttype:integer documentdetail:string loandoc:string fininstitutionname:string facility:decimal exposure:string maturitydate:date
+
+mix phx.gen.context LoanApplications LoanApplicationsEmployee tbl_employee_loan_application orgcode:string vendorcode:string tag:string conversationid:string custtype:string customerid:string branchcode:string nrc:string titleid:integer firstname:string middlename:string lastname:string dob:date genderid:integer maritalstatusid:integer address1:string districtid1:integer provinceid1:integer countryid1:integer postalcode1:string address2:string districtid2:integer provinceid2:integer countryid2:integer postalcode2:string homephone:string workphone:string mobileno:string emailid:string division:string nationalityid:integer passportno:string drivinglicenseno:string bankaccountno:string bankname:string bankbranch:string bankaccounttype:string bankaccountname:string employercode:string employeeid:string employmenttypeid:integer employementstartdate:date contractenddate:date employerproductmapid:string loanamount:decimal loandate:date isforceclosur:string forceclosureloanid:string forceclosuredate:date loantypeid:integer loanpurposeid:integer occupation:string ispayoff:string payoffaccountnumber:string payoffmode:string payoffbranch:string payoffamount:decimal payoffinstitution:string kinnrcid:string kintitleid:integer kinfirstname:string kinmiddlename:string kinlastname:string kindob:date kinmaritalstatusid:integer kingenderid:integer kinrelationshipid:integer kinplaceofwork:string kinoccupation:string kintelephonenumber:string kinmobilenumber:string salarycomponent:string amount:decimal salarycomponenttypeid:integer doctypeid:integer document:string document_doccontent:string

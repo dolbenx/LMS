@@ -1,0 +1,552 @@
+
+                        <ol class="breadcrumb page-breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Loans & Savings</a></li>
+                            <li class="breadcrumb-item">360 View</li>
+                            <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date">Friday, November 12, 2021</span></li>
+                        </ol>
+                        <div class="subheader">
+                            <h1 class="subheader-title">
+                                <i class="subheader-icon fal fa-plus-circle"></i> 360 View
+                                <small>
+                                    my Profile 360 View
+                                </small>
+                            </h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-xl-3 order-lg-1 order-xl-1">
+                                <!-- profile summary -->
+                                <div class="card mb-g rounded-top">
+                                    <div class="row no-gutters row-grid">
+                                        <div class="col-12">
+                                            <div class="d-flex flex-column align-items-center justify-content-center p-4">
+                                                <img src="<%= Routes.static_path(@conn, "/images/avatar/1.png") %>" width=130px" class="rounded-circle shadow-2 img-thumbnail" alt="">
+                                                <h5 class="mb-0 fw-700 text-center mt-3">
+                                                    Davies Phiri
+                                                    <small class="text-muted mb-0">Lusaka</small>
+                                                </h5>
+                                                <div class="mt-4 text-center demo">
+                                                    <a href="javascript:void(0);" class="fs-xl" style="color:#3b5998">
+                                                        <i class="fab fa-facebook"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="fs-xl" style="color:#38A1F3">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="fs-xl" style="color:#db3236">
+                                                        <i class="fab fa-google-plus"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="fs-xl" style="color:#0077B5">
+                                                        <i class="fab fa-linkedin-in"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="fs-xl" style="color:#000000">
+                                                        <i class="fab fa-reddit-alien"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="fs-xl" style="color:#00AFF0">
+                                                        <i class="fab fa-skype"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="fs-xl" style="color:#0063DC">
+                                                        <i class="fab fa-flickr"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center py-3">
+                                                <h5 class="mb-0 fw-700">
+                                                    K 11,764
+                                                    <small class="text-muted mb-0">Savings</small>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center py-3">
+                                                <h5 class="mb-0 fw-700">
+                                                    K 1,673
+                                                    <small class="text-muted mb-0">Loans</small>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="p-3 text-center">
+                                                <h5 class="mb-0 fw-700">
+                                                    K 10,091
+                                                    <small class="text-muted mb-0">Position</small>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- post comment -->
+                            <!-- post comment -->
+                            <div class="col-lg-12 col-xl-6 order-lg-3 order-xl-2">
+                                <div class="card border mb-g">
+                                    <div class="card-body pl-4 pt-4 pr-4 pb-0">
+                                        <div class="d-flex flex-column">
+                                            <div class="border-0 flex-1 position-relative shadow-top">
+                                            <h5> Profile Details </h5>
+                                                <div class="pt-2 pb-1 pr-0 pl-0 rounded-0 position-relative" tabindex="-1">
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">First Name</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="DAVIES" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">Last Name</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="PHIRI" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">Middle Name</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="DOLBEN" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">ID Type</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="NRC" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">ID No.</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="365624/10/1" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">Gender</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="MALE" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">Email</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="davies@probasegroup.com" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="example-input-small" class="form-label">Phone</label>
+                                                            <input type="text" id="example-input-small" name="example-input-small" class="form-control form-control-sm" placeholder="+260978242442" disabled>
+                                                        </div>
+                                                        <br><br><br><br><br><br><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- post picture -->
+                                <!-- post picture - end -->
+                            </div>
+                            <div class="col-lg-6 col-xl-3 order-lg-2 order-xl-3">
+                                <!-- add : -->
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <a href="javascript:void(0);" class="d-flex flex-row align-items-center">
+                                            <div class="icon-stack display-3 flex-shrink-0">
+                                                <i class="fal fa-circle icon-stack-3x opacity-100 color-primary-400"></i>
+                                                <i class="fas fa-graduation-cap icon-stack-1x opacity-100 color-primary-500"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <strong>
+                                                    All Documents
+                                                </strong>
+                                                <br>
+                                                Click Here to view documents
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card mb-g">
+                                    <div class="card-body">
+                                        <a href="javascript:void(0);" class="d-flex flex-row align-items-center">
+                                            <div class="icon-stack display-3 flex-shrink-0">
+                                                <i class="fal fa-circle icon-stack-3x opacity-100 color-warning-400"></i>
+                                                <i class="fas fa-handshake icon-stack-1x opacity-100 color-warning-500"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <strong>
+                                                    Report Problem
+                                                </strong>
+                                                <br>
+                                                Having any issues? Click here!
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card mb-g">
+                                    <div class="card-body">
+                                        <a href="javascript:void(0);" class="d-flex flex-row align-items-center">
+                                            <div class="icon-stack display-3 flex-shrink-0">
+                                                <i class="fal fa-circle icon-stack-3x opacity-100 color-warning-400"></i>
+                                                <i class="fas fa-handshake icon-stack-1x opacity-100 color-warning-500"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <strong>
+                                                    FAQ
+                                                </strong>
+                                                <br>
+                                                Click here to view frequently asked questions!
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <a href="javascript:void(0);" class="d-flex flex-row align-items-center">
+                                            <div class="icon-stack display-3 flex-shrink-0">
+                                                <i class="fal fa-circle icon-stack-3x opacity-100 color-primary-400"></i>
+                                                <i class="fas fa-graduation-cap icon-stack-1x opacity-100 color-primary-500"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <strong>
+                                                    Queries
+                                                </strong>
+                                                <br>
+                                                Click Here to submit queries.
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- rating -->
+                                <!-- skills -->
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div id="panel-1" class="panel">
+                                    <div class="panel-container show">
+                                        <div class="panel-content">
+                                            <!-- tabs -->
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active p-3" data-toggle="tab" href="#tab_default-1" role="tab">
+                                                        <i class="fal fa-table text-success"></i>
+                                                        <span class="hidden-sm-down ml-1">loan Transactions</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link p-3" data-toggle="tab" href="#tab_default-2" role="tab">
+                                                        <i class="fal fa-money-bill"></i>
+                                                        <span class="hidden-sm-down ml-1">Savings Transactions</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <!-- end tabs -->
+                                            <!-- tab content -->
+                                            <div class="tab-content pt-4">
+                                                <div class="tab-pane fade show active" id="tab_default-1" role="tabpanel">
+                                                    <!-- row -->
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+                                                            <!-- datatable start -->
+                                                                <div id="dt-basic-example_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-start">
+                                                                            <div id="dt-basic-example_filter" class="dataTables_filter">
+                                                                                <label>
+                                                                                <div class="input-group-text d-inline-flex width-3 align-items-center justify-content-center border-bottom-right-radius-0 border-top-right-radius-0 border-right-0"><i class="fal fa-search"></i></div>
+                                                                                <input type="search" class="form-control border-top-left-radius-0 border-bottom-left-radius-0 ml-0 width-lg shadow-inset-1" placeholder="Search" aria-controls="dt-basic-example">
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-end">
+                                                                            <div class="dt-buttons">      
+                                                                                <button class="btn btn-primary btn-sm" tabindex="0" aria-controls="dt-basic-example" type="button">
+                                                                                    <span><i class="fal fa-sync mr-1"></i> Refresh</span>
+                                                                                </button> 
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 dataTable no-footer dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1546px;">
+                                                                                <thead>
+                                                                                <tr role="row">
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 166px;" aria-label="IP Address: activate to sort column ascending">Txn. Date</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 156px;" aria-label="Port Number: activate to sort column ascending">Product Name</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 366px;" aria-label="User Email: activate to sort column ascending">Principal Amount</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 181px;" aria-label="Activation Date: activate to sort column ascending">Interest Type</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 125px;" aria-label="Package: activate to sort column ascending">Interest</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 158px;" aria-label="Acc. Balance: activate to sort column ascending">Total Amount</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 93px;" aria-label="Status: activate to sort column ascending">Status</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                <tr id="18" role="row" class="even">
+                                                                                    <td>2021-01-21</td>
+                                                                                    <td>Salary Advance</td>
+                                                                                    <td>K 2000</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                       K 200
+                                                                                    </td>
+                                                                                    <td><span class="text-danger fw-500">K 2200</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-danger badge-pill">Active</span></td>
+                                                                                </tr>
+                                                                                <tr id="1" role="row" class="odd">
+                                                                                    <td>2020-01-07</td>
+                                                                                    <td>Quick Cash</td>
+                                                                                    <td>K 300</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                        K 30
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 330</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="10" role="row" class="even">
+                                                                                    <td>2021-09-12</td>
+                                                                                    <td>Salary Advance </td>
+                                                                                    <td>K 650</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                       K 65
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 765</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="11" role="row" class="odd">
+                                                                                    <td>2020-12-12</td>
+                                                                                    <td>Quick Cash</td>
+                                                                                    <td>K 300 </td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                        K 30
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 300</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="12" role="row" class="even">
+                                                                                    <td>2021-01-01</td>
+                                                                                    <td>Salary Advance</td>
+                                                                                    <td>K 700</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                        K 70
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 700</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="13" role="row" class="odd">
+                                                                                    <td>2021-10-01</td>
+                                                                                    <td>Quick Cash</td>
+                                                                                    <td>K 500</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                        K 50
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 500</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="14" role="row" class="even">
+                                                                                    <td>2021-03-03</td>
+                                                                                    <td>Salary Advance</td>
+                                                                                    <td>K 1500</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                        K 150
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 1500</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="15" role="row" class="odd">
+                                                                                    <td>2020-01-15</td>
+                                                                                    <td>Salary Advance</td>
+                                                                                    <td>K 1000</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                       K 100
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 1000</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="16" role="row" class="even">
+                                                                                    <td>2020-12-12</td>
+                                                                                    <td>Quick Cash</td>
+                                                                                    <td>K 250</td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                       K 25
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 350</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                <tr id="17" role="row" class="odd">
+                                                                                    <td>2021-02-19</td>
+                                                                                    <td>Salary Advance</td>
+                                                                                    <td>K 1000 </td>
+                                                                                    <td>Flat 10% </td>
+                                                                                    <td>
+                                                                                        K 100
+                                                                                    </td>
+                                                                                    <td><span class="text-success fw-500">K 1000</span></td>
+                                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                                </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12 col-md-5">
+                                                                            <div class="dataTables_info" id="dt-basic-example_info" role="status" aria-live="polite">Showing 1 to 10 of 20 entries</div>
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-md-7">
+                                                                            <div class="dataTables_paginate paging_simple_numbers" id="dt-basic-example_paginate">
+                                                                                <ul class="pagination">
+                                                                                <li class="paginate_button page-item previous disabled" id="dt-basic-example_previous"><a href="#" aria-controls="dt-basic-example" data-dt-idx="0" tabindex="0" class="page-link"><i class="fal fa-chevron-left"></i></a></li>
+                                                                                <li class="paginate_button page-item active"><a href="#" aria-controls="dt-basic-example" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+                                                                                <li class="paginate_button page-item "><a href="#" aria-controls="dt-basic-example" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+                                                                                <li class="paginate_button page-item next" id="dt-basic-example_next"><a href="#" aria-controls="dt-basic-example" data-dt-idx="3" tabindex="0" class="page-link"><i class="fal fa-chevron-right"></i></a></li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            <!-- datatable end -->
+                                                        </div>
+                                                    </div>
+                                                    <!-- end row -->
+                                                </div>
+                                                <div class="tab-pane fade" id="tab_default-2" role="tabpanel">
+                                                    <!-- row -->
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 dataTable no-footer dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1546px;">
+                                                                <thead>
+                                                                <tr role="row">
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 166px;" aria-label="IP Address: activate to sort column ascending">Txn. Date</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 156px;" aria-label="Port Number: activate to sort column ascending">Product Name</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 366px;" aria-label="User Email: activate to sort column ascending">Principal Amount</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 181px;" aria-label="Activation Date: activate to sort column ascending">Interest Type</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 125px;" aria-label="Package: activate to sort column ascending">Interest</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 158px;" aria-label="Acc. Balance: activate to sort column ascending">Total Amount</th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 93px;" aria-label="Status: activate to sort column ascending">Status</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr id="18" role="row" class="even">
+                                                                    <td>2021-01-21</td>
+                                                                    <td>Salary Advance</td>
+                                                                    <td>K 2000</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 200
+                                                                    </td>
+                                                                    <td><span class="text-danger fw-500">K 2200</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-danger badge-pill">Active</span></td>
+                                                                </tr>
+                                                                <tr id="1" role="row" class="odd">
+                                                                    <td>2020-01-07</td>
+                                                                    <td>Quick Cash</td>
+                                                                    <td>K 300</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 30
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 330</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="10" role="row" class="even">
+                                                                    <td>2021-09-12</td>
+                                                                    <td>Salary Advance </td>
+                                                                    <td>K 650</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 65
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 765</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="11" role="row" class="odd">
+                                                                    <td>2020-12-12</td>
+                                                                    <td>Quick Cash</td>
+                                                                    <td>K 300 </td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 30
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 300</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="12" role="row" class="even">
+                                                                    <td>2021-01-01</td>
+                                                                    <td>Salary Advance</td>
+                                                                    <td>K 700</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 70
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 700</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="13" role="row" class="odd">
+                                                                    <td>2021-10-01</td>
+                                                                    <td>Quick Cash</td>
+                                                                    <td>K 500</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 50
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 500</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="14" role="row" class="even">
+                                                                    <td>2021-03-03</td>
+                                                                    <td>Salary Advance</td>
+                                                                    <td>K 1500</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 150
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 1500</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="15" role="row" class="odd">
+                                                                    <td>2020-01-15</td>
+                                                                    <td>Salary Advance</td>
+                                                                    <td>K 1000</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 100
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 1000</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="16" role="row" class="even">
+                                                                    <td>2020-12-12</td>
+                                                                    <td>Quick Cash</td>
+                                                                    <td>K 250</td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 25
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 350</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                <tr id="17" role="row" class="odd">
+                                                                    <td>2021-02-19</td>
+                                                                    <td>Salary Advance</td>
+                                                                    <td>K 1000 </td>
+                                                                    <td>Flat 10% </td>
+                                                                    <td>
+                                                                        K 100
+                                                                    </td>
+                                                                    <td><span class="text-success fw-500">K 1000</span></td>
+                                                                    <td class="dtr-control"><span class="badge badge-success badge-pill">Paid</span></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end row -->
+                                                </div>
+                                            </div>
+                                            <!-- end tab content -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>

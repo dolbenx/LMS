@@ -1,0 +1,804 @@
+<ol class="breadcrumb page-breadcrumb">
+	<li class="breadcrumb-item">
+		<i class="subheader-icon fal fa-chart-area"></i> Loans
+	</li>
+	<li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+	<h1 class="subheader-title">
+		<i class="subheader-icon fal fa-window"></i>Loan Request - #<%= String.pad_leading(@loanId, 8, "0") %>
+	</h1>
+	<div class="element-box-content">
+		<a href="" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+		<%# <button href =" " class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="" data-toggle="modal"> Add Staff</button> %>
+	</div>
+</div>
+<%# ---------------view previous loans %>
+
+
+            <div class="row">
+				<div class="col-xl-12">
+					<div id="panel-1" class="panel">
+						<div class="panel-container show">
+							<div class="panel-content">
+								<div class="modal-body">
+								    <h3><u>Loan Details</u></h3>
+									<div class="row">
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Account No</label>
+												<br>
+                                                <%= if(is_nil(@loan.cl.account_no)) do %>
+												N/A
+												<% else %>
+												<%= @loan.cl.account_no %>
+												<% end %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Branch</label>
+												<br>
+                                                <%= if(is_nil(@loan.cl.branch_name)) do %>
+												N/A
+												<% else %>
+												<%= @loan.cl.branch_name %>
+												<% end %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Customer Loan Count</label>
+												<br><%= @loan.cl.loan_counter %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Principal Requested</label>
+												<br><%= :erlang.float_to_binary(@loan.cl.principal_amount_proposed, [{:decimals, @loan.loanProduct.currencyDecimals}]) %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Principal Approved</label>
+												<br>
+												<%= if(is_nil(@loan.cl.approved_principal)) do %>
+                                                N/A
+                                                <% else %>
+                                                <%= @loan.cl.approved_principal %>
+                                                <% end %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Amount Disbursed</label>
+												<br>
+												<%= if(is_nil(@loan.cl.principal_disbursed_derived)) do %>
+                                                N/A
+                                                <% else %>
+                                                <%= @loan.cl.principal_disbursed_derived %>
+                                                <% end %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Interest Method</label>
+												<br><%= @loan.cl.interest_method %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Interest Rate</label>
+												<br><%= @loan.cl.actual_nominal_interest_rate %>% per <%= @loan.cl.actual_nominal_interest_rate_type %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Expected Interest</label>
+												<br><%= @loan.cl.currency_code %><%= @loan.cl.interest_charged_derived %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Tenure</label>
+												<br><%= @loan.cl.term_frequency %> <%= @loan.cl.term_frequency_type %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Repay Every</label>
+												<br><%= @loan.cl.repay_every %> <%= @loan.cl.repay_every_type %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">No. of Repayments</label>
+												<br><%= @loan.cl.number_of_repayments %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Maturity Date</label>
+												<br><%= @loan.cl.expected_maturity_date %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Total Charges Expected</label>
+												<br><%= @loan.cl.currency_code %><%= @loan.cl.fee_charges_charged_derived %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Disbursement Date </label>
+												<br>
+												<%= if(is_nil(@loan.cl.disbursedon_date)) do %>
+                                                N/A
+                                                <% else %>
+                                                <%= @loan.cl.disbursedon_date %>
+                                                <% end %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Is Legacy Loan?</label>
+												<br>
+												<%= if(@loan.cl.is_npa == true) do %>
+												Yes
+												<% else %>
+												No
+												<% end %>
+											</div>
+										</div>
+										<div class="col-sm-3 form-group">
+											<div class="form-group">
+												<label for="example-input-small" class="form-label">Loan Status</label>
+												<br><%= Interpreter.interpreteLoanStatus(@loan.cl.loan_status, @conn.private.plug_session["current_user_role"].roleType) %>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+			<div class="row">
+				<div class="col-xl-12">
+					<div id="panel-1" class="panel">
+						<div class="panel-container show">
+                            <div class="tab">
+                                <button class="tablinks" onclick="openCity(event, 'Bio')" id="bioLink">Customer Bio-Data</button>
+                                <button class="tablinks" onclick="openCity(event, 'Address')">Customer Address</button>
+                                <button class="tablinks" onclick="openCity(event, 'NextOfKin')">Customer Next of Kin</button>
+                                <button class="tablinks" onclick="openCity(event, 'RepaymentSchedule')">Repayment Schedule</button>
+                                <button class="tablinks" onclick="openCity(event, 'LoanDocs')">Loan Documents</button>
+                                <button class="tablinks" onclick="openCity(event, 'Repayments')">Repayments</button>
+                                <button class="tablinks" onclick="openCity(event, 'Transactions')">Transactions</button>
+                                <%= if(@conn.private.plug_session["current_user_role"].roleType=="BANKOFFICE_ADMIN") do %>
+                                <button class="tablinks" onclick="openCity(event, 'Actions')">Actions</button>
+                                <% end %>
+                                <%= if(@conn.private.plug_session["current_user_role"].roleType=="COMPANY ADMIN" && @loan.cl.loan_status=="PENDING COMPANY ADMIN APPROVAL") do %>
+                                <button class="tablinks" onclick="openCity(event, 'Actions')">Actions</button>
+                                <% end %>
+                            </div>
+							<div class="panel-content tabcontent" id="Bio">
+								<div class="modal-body">
+									<h4><strong><u>Bio Data</u></strong></h4>
+									<div class="row" id="bioDataHTML">
+										<div class="col-sm-12 form-group">
+											Loading Bio-Data...
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="panel-content tabcontent" id="Address">
+								<div class="modal-body">
+									<div class="row" id="currentAddressHTMLDiv">
+										Loading Addresses...
+									</div>
+									<div class="row" id="previousAddressHTMLDiv">
+									    &nbsp;
+									</div>
+								</div>
+							</div>
+
+
+							<div class="panel-content tabcontent" id="NextOfKin">
+								<div class="modal-body">
+									<div class="row" id="currentNextOfKinHtmlDiv">
+										Loading Next of Kin...
+									</div>
+								</div>
+							</div>
+
+
+							<div class="panel-content tabcontent" id="RepaymentSchedule">
+								<div class="modal-body">
+									<div class="row" id="repaymentScheduleHTML">
+										Loading Repayment Schedule...
+									</div>
+								</div>
+							</div>
+
+
+							<div class="panel-content tabcontent" id="LoanDocs">
+								<div class="modal-body">
+									<div class="row" id="repaymentScheduleHTML">
+										Loading Loan Documents...
+									</div>
+								</div>
+							</div>
+
+
+							<div class="panel-content tabcontent" id="Repayments">
+								<div class="modal-body">
+									<div class="row">
+										Repayments will appear here
+									</div>
+								</div>
+							</div>
+
+
+							<div class="panel-content tabcontent" id="Transactions">
+								<div class="modal-body">
+									<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+									<div class="row">
+										Transactions will appear here
+									</div>
+								</div>
+							</div>
+
+
+                            <%= if(@conn.private.plug_session["current_user_role"].roleType=="BANKOFFICE_ADMIN") do %>
+							<div class="panel-content tabcontent" id="Actions">
+								<div class="modal-body">
+									<div class="row" id="repaymentScheduleHTML">
+									    <div class="col-md-6" style="float: left !Important; padding: 10px !important; padding-left: 0px !important; clear: both !important">
+                                            <form action="/Loans/Accounts/<%= @loanId %>" method="post" class="col col-md-12">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <div class="col-md-12" style="padding: 0px !Important; float: left !Important">
+                                                    <div class="col-md-5" style="float: left !Important">
+                                                        <label>Approve or Disapprove Loan
+                                                        <select name="approve_or_disapprove" id="approve_or_disapprove" class="form-control">
+                                                            <option value="-1">Select Action...</option>
+                                                            <option value="APPROVE">Approve Loan for Customer</option>
+                                                            <option value="DISAPPROVE">Disapprove Loan</option>
+                                                            <option value="FORWARD LOAN DOCUMENTS">Forward Loan Documents To Offtaker</option>
+                                                        </select></label>
+                                                    </div>
+                                                    <div class="col-md-5 appAct appDisappAct" style="display: none !important; float: right !Important; text-align: right !important;">
+                                                        <label>Approved Loan Amount
+                                                            <input type="number" step="0.001" name="approvedAmount" class="form-control" value="<%= :erlang.float_to_binary(@loan.cl.principal_amount_proposed, [{:decimals, @loan.loanProduct.currencyDecimals}]) %>">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 appDisappAct" style="display: none !important; clear: both !important;">
+
+                                                    <textarea name="comment" rows="5" class="form-control" cols="40" name="" id="" placeholder="Provide any notes for Approval/Disapproval of this loan....." style="padding:5px !important; width:100%; "></textarea>
+                                                    <br>
+                                                    <button class="btn btn-success pull-right" type="submit" style="float: right !important; background-color: blue; color: white;"><i class="fal fa-check"></i> Proceed</button>
+                                                </div>
+                                                <div class="col-md-12 loanDocumentsForward" style="display: none !important; clear: both !important;">
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="col-md-4" style="background-color: #f1f1f1; padding: 10px !important; border-radius: 10px !important; float: right !Important; padding: 10px !important; clear: both !important">
+                                            Before approving a loan request, ensure the loan applicant meets the requirements for the loan. You may take the following steps before approving:
+                                            <ul>
+                                                <li>Review previous loans to confirm their current balance</li>
+                                                <li>Review applicants details ensuring they provide correct bio-data, next of kin, and a valid current address</li>
+                                            </ul>
+
+
+                                        </div>
+									</div>
+								</div>
+							</div>
+                            <%end%>
+
+
+                            <%= if(@conn.private.plug_session["current_user_role"].roleType=="COMPANY ADMIN" && @loan.cl.loan_status=="PENDING COMPANY ADMIN APPROVAL") do %>
+							<div class="panel-content tabcontent" id="Actions">
+								<div class="modal-body">
+									<div class="row" id="repaymentScheduleHTML">
+									    <div class="col-md-6" style="float: left !Important; padding: 10px !important; padding-left: 0px !important; clear: both !important">
+                                            <form action="/Employer/company-admin/loans/accounts/<%= @loanId %>" method="post" class="col col-md-12">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <div class="col-md-12" style="padding: 0px !Important; float: left !Important">
+                                                    <div class="col-md-5" style="float: left !Important">
+                                                        <label>Approve or Disapprove Loan Request
+                                                        <select name="approve_or_disapprove" id="approve_or_disapprove" class="form-control">
+                                                            <option value="-1">Select Action...</option>
+                                                            <option value="APPROVE">Approve Loan Request</option>
+                                                            <option value="DISAPPROVE">Disapprove Loan Request</option>
+                                                        </select></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 appDisappAct" style="display: none !important; clear: both !important;">
+                                                    <button class="btn btn-success pull-right" type="submit" style="float: left !important; background-color: blue; color: white;"><i class="fal fa-check"></i> Proceed</button>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="col-md-4" style="background-color: #f1f1f1; padding: 10px !important; border-radius: 10px !important; float: right !Important; padding: 10px !important; clear: both !important">
+                                            Before approving a loan request, ensure the loan applicant meets the requirements for the loan. You may take the following steps before approving:
+                                            <ul>
+                                                <li>Review previous loans to confirm their current balance</li>
+                                                <li>Review applicants details ensuring they provide correct bio-data, next of kin, and a valid current address</li>
+                                            </ul>
+
+
+                                        </div>
+									</div>
+								</div>
+							</div>
+                            <%end%>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script>
+
+
+<%= if(@conn.private.plug_session["current_user_role"].roleType=="BANKOFFICE_ADMIN") do %>
+$(function(){
+    $('#approve_or_disapprove').on('change', function(){
+        $('.appDisappAct').hide();
+        $('.appAct').hide();
+        approve_or_disapprove = $('#approve_or_disapprove').val();
+        if(approve_or_disapprove=="APPROVE")
+        {
+            $('.appDisappAct').show();
+        }
+        else if(approve_or_disapprove=="DISAPPROVE")
+        {
+            $('.appDisappAct').show();
+            $('.appAct').hide();
+        }
+        else if(fdsfd=="FORWARD LOAN DOCUMENTS")
+        {
+            $('.loanDocumentsForward').show();
+            $('.appDisappAct').hide();
+            $('.appAct').hide();
+        }
+    });
+});
+<%end%>
+
+
+<%= if(@conn.private.plug_session["current_user_role"].roleType=="COMPANY ADMIN") do %>
+$(function(){
+    $('#approve_or_disapprove').on('change', function(){
+        $('.appDisappAct').hide();
+        $('.appAct').hide();
+        approve_or_disapprove = $('#approve_or_disapprove').val();
+        if(approve_or_disapprove=="APPROVE")
+        {
+            $('.appDisappAct').show();
+        }
+        else if(approve_or_disapprove=="DISAPPROVE")
+        {
+            $('.appDisappAct').show();
+            $('.appAct').hide();
+        }
+    });
+});
+<%end%>
+
+
+function openCity(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+  handleTabPullData(tabName, <%= @loan.user.id %>, <%= @loan.userBioData.id %>, <%= @loan.cl.id %>);
+}
+
+$(function(){
+    document.getElementById("bioLink").click();
+});
+
+
+
+
+function handleTabPullData(tabName, userId, userBioDataId, loanId)
+{
+    switch(tabName) {
+      case "Bio":
+        handlePullBioData(userBioDataId);
+        break;
+      case "Address":
+        handlePullAddress(userId);
+        break;
+      case "NextOfKin":
+        handlePullNextOfKin(userId);
+        break;
+      case "RepaymentSchedule":
+        loadLoanSchedule(<%= @loan.loanProduct.id %>, <%= @loan.cl.principal_amount_proposed %>, <%= @loan.cl.term_frequency %>, <%= @loan.loanProduct.maximumPeriod %>, <%= @loan.loanProduct.minimumPeriod %>,
+            <%= @loan.loanProduct.maximumPrincipal %>, <%= @loan.loanProduct.minimumPrincipal %>)
+        break;
+      case "Repayments":
+        handlePullRepayments(loanId);
+        break;
+      case "Transactions":
+        handlePullLoanTransactions(loanId);
+        break;
+      default:
+        text = "I have never heard of that fruit...";
+    }
+}
+
+
+function handlePullBioData(userBioDataId)
+{
+    $.ajax({
+        type: "GET",
+        url: "/api/user/get-user-bio-data-by-id-ajax/" + userBioDataId,
+        data: [],
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            console.log(data);
+            data = JSON.parse(data);
+            if(data.status==1)
+            {
+                html = '';
+                var bioData = data.bioData;
+                for(var k in bioData)
+                {
+                    if(bioData.hasOwnProperty(k))
+                    {
+                        html = html + '<div class="col-sm-3 form-group">';
+                            html = html + '<div class="form-group">';
+                                html = html + '<label for="example-input-small" class="form-label">' + k + '</label>';
+                                html = html + '<br>' + bioData[k];
+                            html = html + '</div>';
+                        html = html + '</div>';
+                    }
+                }
+                console.log(html);
+                $('#bioDataHTML').html(html);
+
+            }
+            else
+            {
+                if(data.status==-1)
+                {
+                    toastr.error(data.message);
+                    window.location = '/logout';
+                }
+                else {
+                    toastr.error(data.message);
+                }
+            }
+        },
+        error: function (e) {
+            console.log(e);
+            toastr.error('We encountered an error. Please try again');
+        }
+    });
+}
+
+
+
+function handlePullAddress(userId)
+{
+    $.ajax({
+        type: "GET",
+        url: "/api/user/get-user-addresses-by-user-id-ajax/" + userId,
+        data: [],
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            console.log(data);
+            data = JSON.parse(data);
+            if(data.status==1)
+            {
+                var addresses = data.addresses;
+                html = '';
+                currentAddressHtml = '';
+
+                for(var k in addresses)
+                {
+                    if(addresses[k].isCurrent==1)
+                    {
+                        currentAddressHtml = currentAddressHtml + '<div class="col-md-12 form-group" style="padding-bottom: 20px !important">';
+                            currentAddressHtml = currentAddressHtml + '<div class="form-group">';
+                                currentAddressHtml = currentAddressHtml + addresses[k].addressLine1 + '<br>';
+                                currentAddressHtml = currentAddressHtml + addresses[k].addressLine2 + '<br>';
+                                currentAddressHtml = currentAddressHtml + addresses[k].city + '<br>';
+                                currentAddressHtml = currentAddressHtml + addresses[k].districtName + '<br>';
+                                currentAddressHtml = currentAddressHtml + addresses[k].provinceName + '<br>';
+                                currentAddressHtml = currentAddressHtml + addresses[k].countryName + '<br>';
+                            currentAddressHtml = currentAddressHtml + '</div>';
+                        currentAddressHtml = currentAddressHtml + '</div>';
+                    }
+                    else
+                    {
+
+                        html = html + '<div class="col-md-4 form-group" style="padding-left: 0px !important; float: left !important; padding-top: 10px !important">';
+                            html = html + '<div class="form-group">';
+                                html = html + addresses[k].addressLine1 + '<br>';
+                                html = html + addresses[k].addressLine2 + '<br>';
+                                html = html + addresses[k].city + '<br>';
+                                html = html + addresses[k].districtName + '<br>';
+                                html = html + addresses[k].provinceName + '<br>';
+                                html = html + addresses[k].countryName + '<br>';
+                            html = html + '</div>';
+                        html = html + '</div>';
+                    }
+                }
+                console.log(html);
+
+                if(addresses.length > 0)
+                {
+                    currentAddressHtml = '<h4><strong><u>Current Address</u></strong></h4>' + currentAddressHtml;
+                    $('#currentAddressHTMLDiv').html(currentAddressHtml);
+                    if(html.length > 0)
+                    {
+                        html = '<h4><strong><u>Previous Addresses</u></strong></h4><div class="col-md-12">' + html + '</div>';
+                        $('#previousAddressHTMLDiv').html(html);
+                    }
+                }
+                else
+                {
+                    $('#currentAddressHTMLDiv').html("No Addresses Currently Provided");
+                }
+
+            }
+            else
+            {
+                if(data.status==-1)
+                {
+                    toastr.error(data.message);
+                    window.location = '/logout';
+                }
+                else {
+                    toastr.error(data.message);
+                }
+            }
+        },
+        error: function (e) {
+            console.log(e);
+            toastr.error('We encountered an error. Please try again');
+        }
+    });
+}
+
+
+
+
+
+function handlePullNextOfKin(userId)
+{
+    $.ajax({
+        type: "GET",
+        url: "/api/user/get-user-next-of-kin-by-user-id-ajax/" + userId,
+        data: [],
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            console.log(data);
+            data = JSON.parse(data);
+            if(data.status==1)
+            {
+                var nextOfKins = data.nextOfKins;
+                currentNextOfKinHtml = '';
+
+                for(var k in nextOfKins)
+                {
+
+                        currentNextOfKinHtml = currentNextOfKinHtml + '<div class="col-md-12 form-group" style="padding-bottom: 20px !important">';
+                            currentNextOfKinHtml = currentNextOfKinHtml + '<div class="form-group">';
+                                currentNextOfKinHtml = currentNextOfKinHtml + nextOfKins[k].firstName + ' ' + nextOfKins[k].lastName + '<br>';
+                                currentNextOfKinHtml = currentNextOfKinHtml + nextOfKins[k].addressLine1 + '<br>';
+                                currentNextOfKinHtml = currentNextOfKinHtml + nextOfKins[k].addressLine2 + '<br>';
+                                currentNextOfKinHtml = currentNextOfKinHtml + nextOfKins[k].city + '<br>';
+                                currentNextOfKinHtml = currentNextOfKinHtml + nextOfKins[k].districtName + '<br>';
+                                currentNextOfKinHtml = currentNextOfKinHtml + nextOfKins[k].provinceName + '<br>';
+                                currentNextOfKinHtml = currentNextOfKinHtml + nextOfKins[k].countryName + '<br>';
+                            currentNextOfKinHtml = currentNextOfKinHtml + '</div>';
+                        currentNextOfKinHtml = currentNextOfKinHtml + '</div>';
+
+                }
+                console.log(currentNextOfKinHtml);
+
+                if(nextOfKins.length > 0)
+                {
+                    currentNextOfKinHtml = '<h4><strong><u>List of Next of Kin</u></strong></h4>' + currentNextOfKinHtml;
+                    $('#currentNextOfKinHtmlDiv').html(currentNextOfKinHtml);
+                }
+                else
+                {
+                    $('#currentNextOfKinHtmlDiv').html("No Next Of Kins Currently Provided");
+                }
+
+            }
+            else
+            {
+                if(data.status==-1)
+                {
+                    toastr.error(data.message);
+                    window.location = '/logout';
+                }
+                else {
+                    toastr.error(data.message);
+                }
+            }
+        },
+        error: function (e) {
+            console.log(e);
+            toastr.error('We encountered an error. Please try again');
+        }
+    });
+}
+
+
+
+
+function loadLoanSchedule(selectedProductId, howmuch, loan_period, maximumPeriod, minimumPeriod, maximumPrincipal, minimumPrincipal)
+{
+    console.log([selectedProductId, howmuch, loan_period, maximumPeriod, minimumPeriod, maximumPrincipal, minimumPrincipal]);
+
+    if(howmuch!=undefined && howmuch!=null && loan_period!=undefined && loan_period!=null && (howmuch>0) && loan_period>0 && howmuch>=minimumPrincipal
+        && howmuch<=maximumPrincipal && loan_period>=minimumPeriod && loan_period<=maximumPeriod)
+    {
+        url = '/api/calculate-loan-details?productId=' + selectedProductId + '&amount=' + howmuch + '&period=' + loan_period
+        $.ajax({
+            type: "GET",
+            url: (url),
+            data: ([]),
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function handleSuccess(data1){
+                console.log(data1);
+                data1 = JSON.parse(data1);
+                if(data1.status!=undefined && data1.status==0)
+                {
+                    html = '';
+                    html = html + '<table class="table col col-md-12 col-sm-12 col-lg-12 col-xs-12">';
+                        html = html + '<thead>';
+                            html = html + '<tr>';
+                                html = html + '<th>Repayment Date</th>';
+                                html = html + '<th style="text-align: right">Principal (' + data1.currency + ')</th>';
+                                html = html + '<th style="text-align: right">Interest (' + data1.currency + ')</th>';
+                                html = html + '<th style="text-align: right">Total Paid (' + data1.currency + ')</th>';
+                                html = html + '<th style="text-align: right">Balance (' + data1.currency + ')</th>';
+                            html = html + '</tr>';
+                        html = html + '</thead>';
+                        html = html + '<tbody>';
+                        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                        var totalInterest = 0.00;
+                        var totalPrincipalPaid = 0.00;
+                        var grandTotal = 0.00;
+                        for(j=1; j<(data1.repayments.repaymentSchedule.length); j++)
+                        {
+                            var k = data1.repayments.repaymentSchedule[j];
+                            totalInterest = totalInterest + k.interestPaidInfo;
+                            totalPrincipalPaid = totalPrincipalPaid + k.principalPaidInfo;
+                            grandTotal = grandTotal + k.totalPaidInfo;
+                            var d = new Date();
+                            d.setMonth(d.getMonth() + j);
+
+                            //console.log(k)
+                            html = html + '<tr>';
+                                html = html + '<td>' + d.toLocaleDateString("en-US", options) + '</td>';
+                                html = html + '<td style="text-align: right">' + k.principalPaidInfo.toFixed(2) + '</td>';
+                                html = html + '<td style="text-align: right">' + k.interestPaidInfo.toFixed(2) + '</td>';
+                                html = html + '<td style="text-align: right">' + k.totalPaidInfo.toFixed(2) + '</td>';
+                                html = html + '<td style="text-align: right">' + k.principalInfo.toFixed(2) + '</td>';
+                            html = html + '</tr>';
+                        }
+                        html = html + '<tr>';
+                            html = html + '<td>Total</td>';
+                            html = html + '<td style="text-align: right">' + parseFloat(howmuch).toFixed(2) + '</td>';
+                            html = html + '<td style="text-align: right">' + totalInterest.toFixed(2) + '</td>';
+                            html = html + '<td style="text-align: right">' + grandTotal.toFixed(2) + '</td>';
+                            html = html + '<td style="text-align: right">&nbsp;</td>';
+                        html = html + '</tr>';
+                        html = html + '</tbody>';
+                    html = html + '</table>';
+                    $('#repaymentScheduleHTML').html(html);
+
+
+                }
+                else
+                {
+
+                }
+            },
+            error: function (e) {
+                alert('We experienced an error processing your loan application');
+            }
+        });
+    }
+    else
+    {
+        alert('Provide both the loan amount and period you want to borrow the loan for. Amount and period provided must fall between the minimum and maximum loan amounts and periods');
+    }
+}
+</script>
+<style>
+/* Style the tab */
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>

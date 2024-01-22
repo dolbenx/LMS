@@ -1,0 +1,68 @@
+
+    <section id="pricing" class="pricing">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Loans We Offer</h2>
+          <p>Click on a loan type to apply for that loan</p>
+        </div>
+
+        <div class="row">
+        <%= for {product, index} <- Enum.with_index(@products) do %>
+          <div class="col-lg-4 col-md-6" style="margin-top: 15px !important" data-aos="zoom-im" data-aos-delay="100">
+
+                <div class="box featured">
+                  <h3><%= product.name %></h3>
+
+
+                <h4><sup>%</sup><%= product.interest %><span> / <%=product.interestMode %></span></h4>
+                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div style="color:#fff"><small><%= (product.currencyName) %></small><%= (product.minimumPrincipal) %> - <small><%= (product.currencyName) %></small><%= (product.maximumPrincipal) %></div>
+                <div style="color:#fff">Between <%= (product.minimumPeriod) %> and <%= (product.maximumPeriod) %> <%= (product.periodType) %></div>
+                <%= raw(product.details) %>
+              <div class="btn-wrap">
+                 <a class="btn btn-primary" href="<%= Routes.sme_loans_path(@conn, :loan_calculation, product.id)%>">Apply Now</a>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        </div>
+        <input type="hidden" name="maxPeriodField" id="maxPeriodField" value="">
+        <input type="hidden" name="minPeriodField" id="minPeriodField" value="">
+        <input type="hidden" name="maxPrincipalField" id="maxPrincipalField" value="">
+        <input type="hidden" name="minPrincipalField" id="minPrincipalField" value="">
+
+      </div>
+    </section><!-- End Pricing Section -->
+
+
+  
+  
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/styles.ecdba228b472a0ec2ebb.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/bootstrap/css/bootstrap.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/bootstrap-icons/bootstrap-icons.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/boxicons/css/boxicons.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/glightbox/css/glightbox.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/remixicon/remixicon.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/vendor/swiper/swiper-bundle.min.css") %>">
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/assets/css/style.css") %>">
+<link href="/css/slider/bootstrap-slider.css" rel="stylesheet"><!---->
+
+
+<!-- Google Fonts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- Vendor CSS Files -->
+<!-- Template Main CSS File -->
+
+<!----><script src="<%= Routes.static_path(@conn, "/js/assets/js/main.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/aos/aos.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/bootstrap/js/bootstrap.bundle.min.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/glightbox/js/glightbox.min.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/isotope-layout/isotope.pkgd.min.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/php-email-form/validate.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/purecounter/purecounter.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/assets/vendor/swiper/swiper-bundle.min.js") %>"></script>
+<script src="/js/slider/bootstrap-slider.js"></script>
+
+

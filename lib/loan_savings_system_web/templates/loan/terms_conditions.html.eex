@@ -1,0 +1,199 @@
+<div class="col-md-9 col-sm-12 col-xs-12 col-lg-9" style="border: 1px solid #000; padding: 20px !important; color: #000 !Important">
+	<div class="row" id="agreementFormDiv">
+		<div class="col-md-12" style="text-align:center; border-bottom: 1px solid #000; font-size: 9px !important; padding: 10px !important"> <img src="/images/logo/imgingest.png" width="40" height="43"><br>
+			Head Office: Suit 2 Stand No. 19028/B, Mulungushi Building, Great East Road, Lusaka | Telephone Numbers: +260 211 236 936 | Email: customerservice@Micro-Finance Zambia.co.zm<br>
+			<span style="font-weight: bold !important; font-size: 12px !important;">Loan Agreement between Microfinance Zambia Limited (Lender) and (the Borrower) </span>
+		</div>
+		<div class="col col-md-12 col-xs-12 col-sm-12 col-lg-12 col-xl-12" style="border-bottom: 1px solid #000; font-weight: bold !important; padding-bottom: 5px !important;">
+			<div class="col-md-12" style="padding-left:0px !important; padding-right: 0px important">
+				<div class="col-md-12" style="clear:both !important; padding: 0px !important; border-bottom: 0px !important; padding-left:0px !important; padding-right: 0px important">
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">First Names:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important"><%= @conn.private.plug_session["current_user_bio_data"].firstName %></div>
+					</div>
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: 			left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; float: left !important; float: left 	!important; padding-left:0px !important; padding-right: 0px important; padding-top: 	5px; font-weight: bold !important; font-size: 12px !important">Surname:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; float: left !important; 				border-bottom: 1px dashed #000; font-weight: 100 !important; float: left 	!important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important"><%= @conn.private.plug_session["current_user_bio_data"].lastName %></div>
+					</div>
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; float: left !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important"><%= @conn.private.plug_session["current_user_bio_data"].meansOfIdentificationType %> Number:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; float: left !important; border-bottom: 1px dashed #000; font-weight: 100 !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important"><%= @conn.private.plug_session["current_user_bio_data"].meansOfIdentificationNumber %></div>
+					</div>
+				</div>
+				<%= if (@conn.private.plug_session["current_user_role"].roleType=="EMPLOYEE") do %>
+				<div class="col-md-12" style="clear:both !important; padding: 0px !important; border-bottom: 0px !important; padding-left:0px !important; padding-right: 0px important">
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">Employer:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important">AB BANK</div>
+					</div>
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">Employee No:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important">1010000000304</div>
+					</div>
+				</div>
+				<% end %>
+				<div class="col-md-12" style="clear:both !important; padding: 0px !important; border-bottom: 0px !important; padding-left:0px !important; padding-right: 0px important">
+
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">Net Pay:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; float: left !important; padding-left:0px !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important"><%= @product.currencyName %><%= @loanAmount %></div>
+					</div>
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; float: left !important; padding-left:0px !important; float: left !important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">Loan Operator:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; float: left !important; padding-left:0px !important; float: left !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important">Micro-Finance Zambia</div>
+					</div>
+					<div class="col-md-4" style="width: 67% !important; border: 0px !important; padding-left:0px !important; padding-right: 0px important; float: left !important;">
+						<div class="col-md-5" style="width: 35% !important; padding-left:0px !important; float: left !important; float: left !important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">Branch:</div>
+						<div class="col-md-7 ng-binding" style="width: 65% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; float: left !important; padding-left:0px !important; float: left !important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important"><%= @branchName %></div>
+					</div>
+				</div>
+				<div class="col-md-12" style="clear:both !important; padding: 0px !important; border-bottom: 0px !important; padding-left:0px !important; padding-right: 0px important">
+					<div class="col-md-4" style="width: 33% !important; border-bottom: 0px !important; float: left !important; padding-left:0px !important; padding-right: 0px important">
+						<div class="col-md-5" style="width: 50% !important; padding-left:0px !important; float: left !important; padding-right: 0px important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">Phone #:</div>
+						<div class="col-md-7 ng-binding" style="width: 50% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; padding-left:0px !important; float: left !important; padding-right: 0px important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important"><%= @conn.private.plug_session["current_user_bio_data"].mobileNumber %></div>
+					</div>
+					<div class="col-md-8" style="width: 67% !important; border: 0px !important; padding-left:0px !important; padding-right: 0px important; float: left !important;">
+						<div class="col-md-2" style="width: 35% !important; padding-left:0px !important; float: left !important; padding-right: 0px important; padding-right: 0px important; padding-top: 5px; font-weight: bold !important; font-size: 12px !important">Address:</div>
+						<div class="col-md-10 ng-binding" style="width: 65% !important; border-bottom: 1px dashed #000; font-weight: 100 !important; padding-left:0px !important; float: left !important; padding-right: 0px important; padding-right: 0px important; padding-top: 5px; font-size: 11px !important">Suit 2 Stand No. 19028/B, Mulungushi Building, Great East Road, Lusaka</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12" style="border-bottom: 1px solid #000; font-size: 10px !important;">
+			<div class="col-md-12" style="font-weight: bold; font-size: 14px !important; text-align:center; ">LOAN AGREEMENT</div>
+			<span style="font-weight: bold; font-size: 11px !important;">1. The Loan</span><br>
+			<span style="font-size:9px !important"> 1.1 Microfinance Zambia Limited agrees to make available to the Borrower the loan amount shown in the schedule on the terms and conditions set out in this agreement.<br>
+			1.2 The details of the loan are as shown on the schedule below.<br>
+			1.3 The loan amount shall be paid directly into the client's bank account, cash or other method as may be available from time to time.<br>
+			1.4 The Borrower will acknowledge receipt of the loan by signing this document or by imprinting his or her Left thumbprint on this document.<br>
+			</span> <span style="font-weight: bold; font-size: 12px !important;">2. Interest</span><br>
+			<span style="font-size:9px !important"> Micro-Finance Zambia will charge interest on the loan amount as shown in the schedule below, and the interest rate will be fixed for the period of the loan. If the Borrower fails to pay any amount which the Borrower
+			owes Micro-Finance Zambia in terms of this agreement on the due date of such amount, Micro-Finance Zambia shall be entitled to charge interest on the amount the Borrower has not paid at the same rate at which the loan
+			was contracted.<br>
+			</span> <span style="font-weight: bold; font-size: 11px !important;">3. Payment</span><br>
+			<span style="font-size:9px !important"> 3.1 The Borrower must repay the loan as shown in the schedule below.<br>
+			3.2 The Borrower hereby agrees that Micro-Finance Zambia shall have the right to deduct the monthly installments in full as set out in the schedule below directly from the Borrower's salary as a deduction from his or
+			her employer's payroll, this is an irrevocable instruction and cannot be changed whatsoever during the duration of this contract.<br>
+			3.3 The Borrower hereby gives Micro-Finance Zambia the right to deduct monies owing to it from any unpaid wages or any other remuneration credits payable to the Borrower if the Borrower leaves the service of
+			his/her employer for any reason before the total amount repayable under this agreement has been paid.<br>
+			3.4 In the event of the borrower's death, Micro-Finance Zambia shall recover the outstanding amount from any unpaid wages or any other remuneration credits payable to the Borrower by the employer unless it is
+			proved beyong doubt that nothing is due to him/her.<br>
+			3.5 Micro-Finance Zambia can use the money paid by the Borrower to pay first legal and other costs, then interest and then the actual loan amount.<br>
+			3.6 The Borrower hereby gives the Lender consent to deduct monthly installments in full directly from the Borrowers bank account held by any banking institution.<br>
+			3.7 If the Borrower makes additional payments, or settles the outstanding amount in 1 (One) payment, then in either such event, the annual rate of interest shall be re-calculated up to the date of loan
+			settlement.<br>
+			</span> <span style="font-weight: bold; font-size: 11px !important;">4. Cost and Charges</span><br>
+			<span style="font-size:9px !important"> The Borrower agrees that, if Micro-Finance Zambia has to use lawyers because the Borrower has not carried out any part of this agreement, the Borrower will have to pay to Micro-Finance Zambia all the costs due to Micro-Finance Zambia's lawyers.<br>
+			</span> <span style="font-weight: bold; font-size: 11px !important;">5. Breach</span><br>
+			<span style="font-size:9px !important"> 5.1 In the event of any failure by the Borrower to pay any amount which is owing of this agreement in full and on the date he or she has to, or in the event of any other breach by the Borrower of the terms of
+			this agreement, then at the sole choice of Micro-Finance Zambia, the full balance owing under this agreement, together with penalty interest and all other charges will immediately become due and Micro-Finance Zambia can,
+			without giving any notice to the Borrower and without affecting any of its other rights,<br>
+			- Claim that the Borrower carry out his or her duties under the agreement or<br>
+			- Cancel this agreement and claim and recover from the Borrower any damages that Micro-Finance Zambia may have suffered.<br>
+			5.2 Should the installment fail to be deducted from the employer/bank for whatever reason, it is the Borrower's obligation to make alternative payments arrangements, failure to which interest on over due
+			amount will be charged. The Borrower hereby agrees that Micro-Finance Zambia may visit his/her house or place of abode or place of employment for the collection of moneys due to them in the event of failure by the
+			Borrower to pay any amount due.<br>
+			</span> <span style="font-weight: bold; font-size: 11px !important;">6. General</span><br>
+			<span style="font-size:9px !important"> 6.1 The Lender shall be entitled to cede and delegate respectively any rights and obligations under this agreement to any third party whatsoever.<br>
+			6.2 This agreement is the whole agreement between Micro-Finance Zambia and the Borrower. It cannot be changed unless the change is put into writing and signed by both Micro-Finance Zambia and the Borrower.<br>
+			6.3 Governing Law: Zambian Law.
+			6.4 A penalty fee of K50.00 will be charged on the borrower if he/she cancels the loan two or more days after applying.
+			6.5 Micro-Finance Zambia will give the Borrower, at the Borrower's request, a statement setting out all deductions from his/her salary, the outstanding balance and any amounts payable in arrears.<br>
+			6.6 The Borrower authorises Micro-Finance Zambia to access any information available to asses his or her application, and also gives Micro-Finance Zambia permission to register details of the conduct of the Borrower's account
+			with any credit bureau, and the Borrower waives any claims he or she may have against Micro-Finance Zambia in respect of such disclosure.<br>
+			<br>
+			</span>
+		</div>
+		<div class="col-md-12" style="text-align:center; border-bottom: 1px solid #000">
+			<table class="col-md-12">
+				<tbody>
+					<tr style="border-bottom: 0px !important">
+						<td width="30%" style="border-bottom: 0px !important">
+							<div class="col-md-12" style="font-weight: bold !important; text-align: right; padding-top:10px !important; font-size: 11px !important">THUS DONE AND SIGNED AT</div>
+						</td>
+						<td width="20%" style="border-bottom: 1px dashed #000;">
+							<div class="col-md-12 ng-binding" style="border-bottom: 0px dashed #000; padding-top:10px !important; font-size: 11px !important; text-align: left !important"><%= @branchName %></div>
+						</td>
+						<td width="20%" style="border-bottom: 0px !important; text-align: right !important">
+							<div class="col-md-12" style="font-weight: bold !important; text-align: left !important; padding-top:10px !important; font-size: 11px !important">BRANCH ON</div>
+						</td>
+						<td width="40%" style="border-bottom: 1px dashed #000;">
+							<div class="col-md-12 ng-binding" style="border-bottom: 0px dashed #000; padding-top:10px !important; font-size: 11px !important"><%=Timex.today%></div>
+						</td>
+					</tr>
+					<tr style="border-bottom: 0px !important">
+						<td style="border-bottom: 0px !important">
+							<div class="col-md-12" style="font-weight: bold !important; text-align: right !important; padding-top:10px !important; font-size: 11px !important">Loan Amount:</div>
+						</td>
+						<td style="border-bottom: 1px dashed #000 !important">
+							<div class="col-md-12 ng-binding" style="border-bottom: 0px dashed #000; text-align: left !important; padding-top:10px !important; font-size: 11px !important"><%= @product.currencyName %><%= @loanAmount %></div>
+						</td>
+						<td style="border-bottom: 0px !important" rowspan="4" colspan="2">
+							<div class="col-md-12" style="text-align: right !important; padding-top:5px !important; font-size: 11px !important">
+								<div style="border: 1px solid #000; float: right !important; padding:20px !important; padding-top: 5px !important; font-size: 11px !important"> <span>BORROWER'S LEFT THUMP PRINT</span> <br>
+									<br>
+									<br>
+									<br>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr style="border-bottom: 0px !important">
+						<td style="border-bottom: 0px !important">
+							<div class="col-md-12" style="font-weight: bold !important; text-align: right !important; padding-top:10px !important; font-size: 11px !important">Charge Fee:</div>
+						</td>
+						<td style="border-bottom: 1px dashed #000 !important">
+							<div class="col-md-12 ng-binding" style="border-bottom: 0px dashed #000; text-align: left !important; padding-top:10px !important; font-size: 11px !important"><%= @product.currencyName %><%= @totalCharge %></div>
+						</td>
+					</tr>
+					<tr style="border-bottom: 0px !important">
+						<td style="border-bottom: 0px !important">
+							<div class="col-md-12" style="font-weight: bold !important; text-align: right !important; padding-top:10px !important; font-size: 11px !important">Loan Period:</div>
+						</td>
+						<td style="border-bottom: 1px dashed #000 !important">
+							<div class="col-md-12 ng-binding" style="border-bottom: 0px dashed #000; text-align: left !important; padding-top:10px !important; font-size: 11px !important"><%= @period %> <%= @product.periodType %>(S)</div>
+						</td>
+					</tr>
+					<tr style="border-bottom: 0px !important">
+						<td style="border-bottom: 0px !important">
+							<div class="col-md-12" style="font-weight: bold !important; text-align: right !important; padding-top:10px !important; font-size: 11px !important">Installment Amount:</div>
+						</td>
+						<td style="border-bottom: 1px dashed #000 !important; font-size: 12px !important">
+							<div class="col-md-12 ng-binding" style="border-bottom: 0px dashed #000; text-align: left !important; padding-top:10px !important; font-size: 11px !important"><%= @product.currencyName %><%= @monthlyRepayment %></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="col-md-12" style="text-align: center !important; font-weight: bold !important; padding-left:0px !important; padding-right: 0px !important;"> <br>
+				<span class="" style="font-weight: 100 !important;">______________________________</span><br>
+				<span class="" style="font-size: 11px !important">Signed for/and on behalf of</span><br>
+				<span class="" style="font-size: 11px !important">Microfinance Zambia Limited</span>
+			</div>
+			<div class="col-md-4" style="padding-left:0px !important; padding-right: 0px !important; text-align: left !important; float: left; padding-top: 0px !important; border-top: 1px dashed #000; ">
+				<div class="col-md-12" style="padding-top:10px !important; text-align: left !important; border-bottom: 1px dashed #000; font-weight: bold !important; font-size: 11px !important">&nbsp;</div>
+				<div class="col-md-12" style="padding-top:5px !important; padding-bottom:10px !important; font-weight: bold !important; text-align: left !important; font-size: 11px !important">Witness (Loan Officer)</div>
+			</div>
+			<div class="col-md-4 pull-right" style="padding-right: 0px !important; text-align: center !important; float: right !important">
+				<div class="col-md-12" style="padding-top:10px !important; border-bottom: 1px dashed #000; font-weight: bold !important; font-size: 11px !important"></div>
+				<div class="col-md-12" style="padding-top:5px !important; padding-bottom:10px !important; font-weight: bold !important; font-size: 11px !important">Borrower's Signature</div>
+			</div>
+		</div>
+		<div class="col-md-12" style="text-align:left; border-bottom: 1px solid #000; font-weight: bold !important; color: #fff !important; background-color: #000 !important; clear:both !important"> FOR OFFICIAL USE ONLY </div>
+		<div class="col-md-12" style="text-align:left; border-bottom: 1px solid #000; font-weight: bold !important; padding-top:10px !important; padding-bottom:20px !important;"> LOAN ACCOUNT ID <span style="font-weight:100 !important">____________________</span> </div>
+
+
+		<div class="col-md-12" style="text-align:left; border-bottom: 1px solid #000; font-weight: bold !important; padding-top:10px !important; padding-bottom:20px !important;">
+		    <div class="col-md-6" style="float: left">
+		        <a class="btn btn-danger pull-left" href="">Cancel</a>
+            </div>
+		    <div class="col-md-6" style="float: right">
+				<%= if(@conn.private.plug_session["current_user_role"].roleType=="EMPLOYEE") do %>
+		        	<a class="btn btn-success pull-right" style="float: right" href="/Employee/loan/create-new-loan?productId=<%= @product.id %>&amount=<%= @loanAmount %>&period=<%= @period %>&bch=<%= @branchId %>|||<%= @branchName %>">I Agree To The Loan Terms, Please Proceed To Issue Me The Loan</a><br>
+				<% end %>
+				<%= if(@conn.private.plug_session["current_user_role"].roleType=="INDIVIDUAL") do %>
+		        	<a class="btn btn-success pull-right" style="float: right" href="/loans/individual/create-new-loan?productId=<%= @product.id %>&amount=<%= @loanAmount %>&period=<%= @period %>&bch=<%= @branchId %>|||<%= @branchName %>">I Agree To The Loan Terms, Please Proceed To Issue Me The Loan</a><br>
+				<% end %>
+            </div>
+		</div>
+	</div>
+</div>

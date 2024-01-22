@@ -1,4 +1,4 @@
-defmodule LoanmanagementsystemWeb.ConnCase do
+defmodule LoanSavingsSystemWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -8,11 +8,9 @@ defmodule LoanmanagementsystemWeb.ConnCase do
   to build common data structures and query the data layer.
 
   Finally, if the test case interacts with the database,
-  we enable the SQL sandbox, so changes done to the database
-  are reverted at the end of every test. If you are using
-  PostgreSQL, you can even run database tests asynchronously
-  by setting `use LoanmanagementsystemWeb.ConnCase, async: true`, although
-  this option is not recommended for other databases.
+  it cannot be async. For this reason, every test runs
+  inside a transaction which is reset at the beginning
+  of the test unless the test case is marked as async.
   """
 
   use ExUnit.CaseTemplate
@@ -20,19 +18,21 @@ defmodule LoanmanagementsystemWeb.ConnCase do
   using do
     quote do
       # Import conveniences for testing with connections
-      import Plug.Conn
-      import Phoenix.ConnTest
-      import LoanmanagementsystemWeb.ConnCase
-
-      alias LoanmanagementsystemWeb.Router.Helpers, as: Routes
+      use Phoenix.ConnTest
+      alias LoanSavingsSystemWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint LoanmanagementsystemWeb.Endpoint
+      @endpoint LoanSavingsSystemWeb.Endpoint
     end
   end
 
   setup tags do
-    Loanmanagementsystem.DataCase.setup_sandbox(tags)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(LoanSavingsSystem.Repo)
+
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(LoanSavingsSystem.Repo, {:shared, self()})
+    end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

@@ -1,0 +1,181 @@
+<ol class="breadcrumb page-breadcrumb">
+   <li class="breadcrumb-item">
+      <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+   </li>
+   <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+   <h1 class="subheader-title">
+      <i class="subheader-icon fal fa-window"></i> Loans Repayments
+   </h1>
+   <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#loan_repayment" data-toggle="modal"> Make Repayment</button>
+   </div>
+</div>
+<!--------------------------------------------------------------------------------Flash -->
+<div class="row">
+   <div class="col-sm-12">
+      <div class="card mb-g">
+         <div class="card-body">
+            <div class="frame-wrap p-0 border-0 m-0">
+               <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                  <thead>
+                     <tr>
+                        <th>Repayment No.</th>
+                        <th>Date Of Repayment</th>
+                        <th>Mode Of Repayment</th>
+                        <th>Amount</th>
+                        <th>Cheque No.</th>
+                        <th>Recept No.</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <%= for loan_repayment <- @loan_repayments_scheduled do %>
+                     <tr>
+                        <td><%= loan_repayment.id %></td>
+                        <td><%= loan_repayment.dateOfRepayment %></td>
+                        <td><%= loan_repayment.modeOfRepayment %></td>
+                        <td><%= Formatter.format_number(round(loan_repayment.amountRepaid)) %></td>
+                        <td><%= loan_repayment.chequeNo %></td>
+                        <td><%= loan_repayment.receiptNo %></td>
+                     </tr>
+                     <% end %>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="loan_repayment" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Make Loan Repayment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form role="form" action="<%= Routes.loan_path(@conn, :employer_scheduled_loan_repayment)%>" method="POST">
+               <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+               <div class="row">
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Mode Of Repayment</label>
+                        <select class="form-control form-control-sm" id="modeOfRepayment" name="modeOfRepayment" required="required">
+                           <option value="CASH">Cash</option>
+                           <option value="CHEQUE">Cheque</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Cheque No.</label>
+                        <input type="text" id="chequeNo" name="chequeNo" class="form-control form-control-sm" required="required">
+                     </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Recept No.</label>
+                        <input type="text" id="receiptNo" name="receiptNo" class="form-control form-control-sm">
+                     </div>
+                  </div>
+                  <div class="col-sm-6 form-group">
+                     <div class="form-group">
+                        <label for="example-input-small" class="form-label">Date Of Repayment</label>
+                        <input type="hidden" class="form-control form-control-sm" name="dateOfRepayment" id="dateOfRepayment" value="<%= Timex.today %>" required="required">
+                        <span class="form-control form-control-sm" id="p1"><%= Timex.today %></span>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="card mb-g">
+                        <div class="card-body">
+                           <div class="frame-wrap p-0 border-0 m-0">
+                              <table id="tblFruits" class="table m-0 table-sm" id="table-example">
+                                 <thead>
+                                    <tr>
+                                       <th>&nbsp;</th>
+                                       <th>Customer Name.</th>
+                                       <th>Mobile Number</th>
+                                       <th>Date Of Repayment</th>
+                                       <th>Amount</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <%= for loan_repayment <- @loan_repayments do %>
+                                    <tr>
+                                       <td>
+                                          <div class="custom-control custom-checkbox">
+                                             <input type="checkbox" onClick="test(this);" onclick="myFunction()" value="<%= loan_repayment.principal_amount %>" name="amountRepaid[]">
+                                             <label class="" for="defaultUnchecked"></label>
+                                          </div>
+                                       </td>
+                                       <td><%= loan_repayment.firstName %> <%= loan_repayment.lastName %> <%= loan_repayment.otherName %></td>
+                                       <td><%= loan_repayment.mobileNumber %></td>
+                                       <td><%= Timex.today %></td>
+                                       <td><%= Formatter.format_number(round(loan_repayment.principal_amount)) %></td>
+                                    </tr>
+                                    <% end %>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="font-family:serif;font-size:20px;float: left !important">
+                        Total Amount : <span name="amountRepaid" id="Totalcost"></span>
+                     </div>
+                  </div>
+               </div>
+               <div id="panel">
+                  <div class="modal-footer" style="">
+                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left !important">Close</button>
+                     <button class="btn btn-success" type="submit" style="float: right !important"> Repay</button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+   function myFunction() {
+   document.getElementById("panel").style.display = "block";
+   }
+</script>
+<script type="text/javascript">
+   var total = 0;
+   
+   function test(item){
+   if(item.checked){
+   total+= parseInt(item.value);
+   }else{
+   total-= parseInt(item.value);
+   }
+   //alert(total);
+   document.getElementById('Totalcost').innerHTML = total;
+   }
+   
+</script>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script>
+   $(document).ready(function(){
+   
+   $('#view_offtaker').on('show.bs.modal', function (event){
+   var button = $(event.relatedTarget)
+   var id = button.data('id')
+   
+   var modal = $(this)
+   modal.find('.modal-body #id').val(id);
+   
+   });
+   
+   });
+</script>
+<script>
+var today = new Date()
+var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+document.getElementById("p1").innerHTML = date;

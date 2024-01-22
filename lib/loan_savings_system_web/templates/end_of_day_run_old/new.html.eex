@@ -1,0 +1,99 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> End Of Day
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+                    
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                    <h5 class="form-header">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                              <label class="form-label" for="button-addon4"></label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <button class="btn btn-info waves-effect waves-themed" type="button"><i class="fal">Select End Of Day Type</i></button>
+                                  </div>
+                                  <Select class="custom-select" id="colorselector">   
+                                    <option value="fixeddeposits">Fixed Deposits</option>
+                                    <!--<option value="transaction">Loans</option>-->
+                                  </Select>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </h5><br>
+                    <!--- ############# FIXED DEPOSITS  #######################-->
+                    <div class="form-desc colors" id="fixeddeposits">
+
+                        <form action="/Savings/Run-End-Of-Day" method="post" class="">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <div class="row">
+                              <div class="form-group col-md-4">
+                                <label class="form-label" for="input-group-sm-size-2">Run from last End-of-Day date to...</label>
+                                <div class="input-group input-group-sm">
+                                    <!--<div class="input-group-prepend">
+                                        <span class="input-group-text ">
+                                            From
+                                        </span>
+                                    </div>-->
+                                    <input type="date" name="startdate"  aria-label="First name" class="form-control" placeholder="User" id="startDate">
+                                    <!--<div class="input-group-append input-group-prepend"><!--min="<%= @startDateStr %>" max="<%= @startDateStr %>">
+                                        <span class="input-group-text">
+                                            To
+                                        </span>
+                                    </div>
+                                    <input type="date" name="enddate" min="<%= @startDateStr %>" max="<%= @startDateStr %>" aria-label="First name" class="form-control" placeholder="User" id="user">-->
+                                </div>
+                              </div>
+
+                              <div style="clear: both !important" class="form-group col-md-12">
+                                    <button class="btn btn-primary pull-right" type="submit"> Run End Of Day</button>
+                              </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <!--- ############# END  #######################-->
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+  <script>
+  $(document).ready(function(){
+      $('#colorselector').change(function() {
+          $('.colors').hide();
+          $('#' + $(this).val()).show();
+    });
+  });
+</script>
+
+
+
+  
+               
+
+         

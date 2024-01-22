@@ -1,0 +1,66 @@
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>        
+        - Announcements      
+    </h1>
+
+    <div class="element-box-content">
+      <a href="/SME/dashboard" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>      
+    </div>
+  </div>   
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                        <th>Recipient </th>
+                        <th>Title</th>
+                        <th>Message</th>                        
+                        <th>Status</th>                        
+                      <!-- <th>Action</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%=  for a <- @announcements do %>
+                        <tr>                            
+                            <td><%= a.recipient %></td>
+                            <td><textarea><%= a.title %></textarea></td> 
+                            <td><textarea><%= a.message %></textarea></td> 
+                            <td><%= a.status %></td> 
+                          <!--  <td>
+                                <div class="input-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                        <div class="dropdown-menu">
+                                          <a type="button" class="dropdown-item" href="#" ><i class="fal fa-edit"></i> Edit User</a>
+                                          <a class="dropdown-item js-sweetalert2-disable_user" href="#" style="color: #ff0000" data-id="#"><i class="fal fa-times"></i> Company Details</a>   
+                                        </div>    
+                                    </div>
+                                  </div>
+                                </div>                                
+                            </td> -->
+                        </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

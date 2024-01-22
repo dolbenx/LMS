@@ -1,0 +1,636 @@
+<ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> WorkFlow
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Work Flow Listing
+    </h1>
+
+    <div class="element-box-content">
+      <a href="" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button" style="margin:5px;"> Back</a>
+         <button class="mr-2 mb-2 btn btn-primary btn-rounded"  style="float: right;" data-target="#create" data-toggle="modal" type="button"><i class="os-icon os-icon-ui-22"></i> New Workflow</button>
+
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                          <th>Name</th>
+                          <th>Created By</th>
+                          <th>Workflow Is For Branch</th>
+                          <th>Status</th>
+                          <th>Action</th>
+
+                    </tr>
+                  </thead>
+
+                        <%= for work_flow <- @tbl_workflows do %>
+                            <tr>
+                              <td><%= work_flow.cl.name %></td>
+                              <td><%= work_flow.userBioData.firstName %> <%= work_flow.userBioData.lastName %></td>
+                              <td><%= work_flow.branch.branchName %></td>
+                              <td><%= work_flow.cl.status %></td>
+                              <td
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class='subheader-icon fal fa-chevron-down'></i>
+                                            </span>
+                                            <div class="dropdown-menu" style="left: auto !important">
+                                                <a class="dropdown-item" id="viewWorkflowMembersButton" onclick="handleViewWorkFlowMembers(<%= work_flow.cl.id %>)" data-target="#view-workflow-members" data-toggle="modal" type="button">
+                                                      View Workflow Members
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </td>
+
+                            </tr>
+                        <% end %>
+
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<%# ---------------View Assigned Staff %>
+<div class="modal fade" id="view_staff" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View Assigned Staff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <div class="row">
+                <div class="col-xl-12">
+                <div id="panel-1" class="panel">
+                        <div class="panel-container show">
+                        <div class="panel-content">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                          <div class="row">
+
+
+                          <div class="row">
+
+                              <div class="col-sm-6 form-group">
+                                <div class="form-group">
+                                    <label for="example-input-small" class="form-label">UserRoleId</label>
+                                    <input type="text" id="" name="" class="form-control form-control-sm" disabled>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 form-group">
+                                <div class="form-group">
+                                    <label for="example-input-small" class="form-label">BranchID</label>
+                                    <input type="text" id="branchId" name="branchId" class="form-control form-control-sm" disabled>
+                                </div>
+                              </div>
+                               <div class="col-sm-6 form-group">
+                                <div class="form-group">
+                                    <label for="example-input-small" class="form-label">Approval Level</label>
+                                    <input type="text" id="orderPosition" name="orderPosition" class="form-control form-control-sm" disabled>
+                                </div>
+                              </div>
+
+
+                          </div>
+
+
+                          </div>
+                        </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<div class="modal fade" id="view-workflow-members" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View Workflow Members </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <div class="row">
+                <div class="col-xl-12">
+                <div id="panel-1" class="panel">
+                        <div class="panel-container show">
+                        <div class="panel-content">
+                    <div class="modal-body">
+
+                          <div class="row">
+
+
+                              <div class="col-sm-6 form-group" >
+
+                                <div class="row setup-content" id="step-2" >
+                                <div class="col-xs-12">
+                                    <div class="col-md-12">
+
+                                        <div class="row">
+                                                <div id="dt-basic-example_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                    <div class="col-xl-12" style="display:flex;">
+                                                        <table id="" class="table table-bordered" style="width: 100%;">
+                                                            <thead>
+                                                                <tr role="row">
+                                                                    <th tabindex="0" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending"><label for="example-input-small" class="form-label">Work-Flow Member<span style="color: red;">*</span></label></th>
+                                                                    <th tabindex="0" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending"><label for="example-input-small" class="form-label">Branch<span style="color: red;">*</span></label></th>
+                                                                    <th tabindex="0" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending"><label for="example-input-small" class="form-label">Workflow Position<span style="color: red;">*</span></label></th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="worklowmembersbody">
+                                                                <tr class="">
+                                                                    <td>
+                                                                    </td>
+
+                                                                    <td>
+                                                                    </td>
+
+                                                                    <td>
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div><br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                          </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" style="background-color: blue; color: white;" href="#" style="color: #008000 ><i class="fal fa-check"></i> Create</button>
+
+                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!----------------------------------------------create workfow--------------------------->
+<div class="modal fade" id="create" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Workflow</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <form enctype="multipart/form-data" action="/bank-admin/workflow/create-new-workflow" method="POST">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="status" value="">
+                <div class="modal-body">
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                        <div class="row">
+                               <div class="col-sm-6 form-group">
+                                <div class="form-group">
+                                    <label for="example-input-small" class="form-label">WorkFlow Name</label>
+                                    <input type="text" id="" name="name" class="form-control form-control-sm">
+                                </div>
+                              </div>
+                              <div class="col-sm-6 form-group">
+                                <div class="form-group">
+                                    <label for="example-input-small" class="form-label">Branch Office</label>
+                                         <select class="form-control form-control-sm" id="branchOffice" name="branch" onChange="handleBranchChange()" required="required" required="">
+                                                 <option value=>Select One..</option>
+                                             <%= Enum.map @branches, fn(item) -> %>
+                                                 <option value="<%= item.id %>"><%= item.branchName %></option>
+                                             <%= end %>
+                                        </select>
+                                </div>
+                              </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Bank Staff</th>
+                                            <th style="text-align: center">Workflow Position</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="tr_clone">
+                                            <td class="">
+                                                <select class="bankStaffTd form-control form-control-sm" id="" name="bankStaff[]" required="required" required="">
+                                                         <option value=>Select One..</option>
+                                                </select>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <span class="positionClass">1</span>
+                                            </td>
+                                            <td>
+                                                <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                                                <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect waves-themed" data-dismiss="modal">Close</button>
+                <button class="btn btn-success" style="background-color: blue; color: white;" href="#" style="color: #008000 ><i class="fal fa-check"></i>Create</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<%# ---------------Create staff for flow control %>
+<div class="modal fade" id="assign_staff" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Staff </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <div class="row">
+                <div class="col-xl-12">
+                <div id="panel-1" class="panel">
+                        <div class="panel-container show">
+                        <div class="panel-content">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                          <div class="row">
+
+
+                              <div class="col-sm-6 form-group" >
+
+                                <div class="row setup-content" id="step-2" >
+                                <div class="col-xs-12">
+                                    <div class="col-md-12">
+                                        <h3 style="text-align:center"> Asign Staff Approval Level</h3>
+                                        <div class="row">
+                                                <div id="dt-basic-example_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                    <div class="col-xl-12" style="display:flex;">
+                                                        <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;" style="display: flex; justify-content: center;">
+                                                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                            <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">WorkFlowMember<span style="color: red;">*</span></label></th>
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">WorkFlowID<span style="color: red;">*</span></label></th>
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">UserRoleID<span style="color: red;">*</span></label></th>
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">BranchID<span style="color: red;">*</span></label></th>
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">OrderPosition<span style="color: red;">*</span></label></th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="tr_clone">
+                                                                    <td>
+                                                                        <div class="col-md-12 form-group">
+                                                                            <div class="form-group">
+                                                                                    <div class="form-group">
+
+                                                                                        <input type="text" id="" name="" class="form-control form-control-sm" >
+                                                                                    </div>
+                                                                            </div>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <div class="col-md-12 form-group">
+                                                                            <div class="form-group">
+
+                                                                                 <input type="text" id="" name="" class="form-control form-control-sm" >
+                                                                    </td>
+
+                                                                      <td>
+                                                                        <div class="col-md-12 form-group">
+                                                                            <div class="form-group">
+
+                                                                                 <input type="text" id="" name="" class="form-control form-control-sm" >
+                                                                    </td>
+
+                                                                    <td>
+                                                                             <div class="form-group">
+                                                                                    <div class="form-group">
+
+                                                                                        <select class="form-control form-control-sm" id="" name="" required="required" required="">
+                                                                                            <option value="">1</option>
+                                                                                            <option value="">2</option>
+                                                                                            <option value="">3 </option>
+
+                                                                                        </select>
+                                                                                    </div>
+                                                                            </div>
+                                                                       </td>
+
+                                                                      <td>
+                                                                            <div class="col-md-12 form-group">
+                                                                            <div class="form-group">
+                                                                                    <div class="form-group">
+                                                                                         <select class="form-control form-control-sm" id="" name="" required="required" required="">
+                                                                                            <option value="">1</option>
+                                                                                            <option value="">2</option>
+                                                                                            <option value="">3 </option>
+                                                                                            <option value="">4 </option>
+                                                                                        </select>
+                                                                            </div>
+                                                                        </td>
+
+                                                                         <td>
+                                                                            <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                                                                            <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                                                                         </td>
+                                                                    </td>
+
+
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div><br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                          </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" style="background-color: blue; color: white;" href="#" style="color: #008000 ><i class="fal fa-check"></i> Create</button>
+
+                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view company details
+    $('#view_offtaker').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var offtaker_name = button.data('offtaker_name')
+            var physical_address = button.data('physical_address')
+            var phone_number = button.data('phone_number')
+            var email = button.data('email')
+            var status = button.data('status')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #offtaker_name').val(offtaker_name);
+            modal.find('.modal-body #physical_address').val(physical_address);
+            modal.find('.modal-body #phone_number').val(phone_number);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #status').val(status);
+
+    });
+    $('#edit_offtaker').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var offtaker_name = button.data('offtaker_name')
+            var physical_address = button.data('physical_address')
+            var phone_number = button.data('phone_number')
+            var email = button.data('email')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #offtaker_name').val(offtaker_name);
+            modal.find('.modal-body #physical_address').val(physical_address);
+            modal.find('.modal-body #phone_number').val(phone_number);
+            modal.find('.modal-body #email').val(email);
+
+    });
+});
+
+
+
+view-workflow-members
+viewWorkflowMembersButton
+
+function handleViewWorkFlowMembers(id)
+{
+    url = '/api/workflows/get-workflow-members/' + id
+    $.ajax({
+        type: "GET",
+        url: (url),
+        data: ([]),
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function handleSuccess(data1){
+            console.log(data1);
+            data1 = JSON.parse(data1);
+            if(data1.status!=undefined && data1.status==0)
+            {
+                worklowmembersbody = $('#worklowmembersbody');
+                workflowMemberList = data1.workflowMemberList
+                console.log(workflowMemberList);
+
+                html = '';
+                $.each(workflowMemberList, function (k, v) {
+                    html = html + '<tr class="">';
+                    html = html + '<td>';
+                    html = html + v.userBioData.firstName + " " + v.userBioData.lastName;
+                    html = html + '</td>';
+                    html = html + '<td>';
+                    html = html + v.branch.branchName;
+                    html = html + '</td>';
+                    html = html + '<td>';
+                    html = html + v.cl.orderPosition
+                    html = html + '</td>';
+                    html = html + '</tr>';
+                });
+                worklowmembersbody.html(html);
+
+            }
+            else
+            {
+
+            }
+        },
+        error: function (e) {
+            alert('We experienced an error processing your loan application');
+        }
+    });
+}
+</script>
+
+<script>
+function handleBranchChange()
+{
+    url = '/api/user/get-bank-staff-by-branch-id/' + $('#branchOffice').val()
+    $.ajax({
+        type: "GET",
+        url: (url),
+        data: ([]),
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function handleSuccess(data1){
+            console.log(data1);
+            data1 = JSON.parse(data1);
+            if(data1.status!=undefined && data1.status==0)
+            {
+                $('.bankStaffTd').empty();
+				$.each(data1.bankStaffList, function (k, v) {
+				    console.log(v);
+					$('.bankStaffTd').append($('<option>', {
+						value: v.user.id + '|||' + v.cl.id,
+						text: v.userBioData.firstName + " " + v.userBioData.lastName
+					}));
+				});
+				$('.bankStaffTd').prepend($('<option>', {
+					text: 'Select Bank Staff...',
+					value: null
+				}));
+
+				x = 1;
+				$('.positionClass').each(function(i, obj) {
+                    $(obj).html(x++)
+                });
+
+            }
+            else
+            {
+
+            }
+        },
+        error: function (e) {
+            alert('We experienced an error processing your loan application');
+        }
+    });
+}
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+    x = 1;
+    console.log($('.positionClass'));
+    $('.positionClass').each(function(i, obj) {
+        $(obj).html(x++)
+    });
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+    x = 1;
+    $('.positionClass').each(function(i, obj) {
+        $(obj).html(x++)
+    });
+}
+</script>
+
+<script>
+    $(document).ready(function(){
+        var count = 1;
+        $("button").click(function(){
+        $("#inputtext").append("<input type='text' value='orderlevel:" + count + "' name='orderlevel" + (count++) +"'/><br />");
+        });
+    })
+</script>
+
+<script>
+    $('#adds').click(function add() {
+    var $rooms = $("#noOfRoom");
+    var a = $rooms.val();
+
+    a++;
+    $("#subs").prop("disabled", !a);
+    $rooms.val(a);
+});
+$("#subs").prop("disabled", !$("#noOfRoom").val());
+
+$('#subs').click(function subst() {
+    var $rooms = $("#noOfRoom");
+    var b = $rooms.val();
+    if (b >= 1) {
+        b--;
+        $rooms.val(b);
+    }
+    else {
+        $("#subs").prop("disabled", true);
+    }
+});
+
+</script>

@@ -1,0 +1,34 @@
+<h1>Listing Ussd requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mobile number</th>
+      <th>Request data</th>
+      <th>Session ended</th>
+      <th>Session</th>
+      <th>Is logged in</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for ussd_request <- @ussd_requests do %>
+    <tr>
+      <td><%= ussd_request.mobile_number %></td>
+      <td><%= ussd_request.request_data %></td>
+      <td><%= ussd_request.session_ended %></td>
+      <td><%= ussd_request.session_id %></td>
+      <td><%= ussd_request.is_logged_in %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.ussd_request_path(@conn, :show, ussd_request) %></span>
+        <span><%= link "Edit", to: Routes.ussd_request_path(@conn, :edit, ussd_request) %></span>
+        <span><%= link "Delete", to: Routes.ussd_request_path(@conn, :delete, ussd_request), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Ussd request", to: Routes.ussd_request_path(@conn, :new) %></span>

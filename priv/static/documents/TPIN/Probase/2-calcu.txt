@@ -1,0 +1,97 @@
+<style>
+
+.slider {
+  background: red;
+  color: red;
+}
+
+</style>
+
+
+                        <div class="d-flex flex-grow-1 p-0 border-faded shadow-4 calculator-loan">
+                            <!-- inbox container -->
+                            <div class="d-flex flex-column flex-grow-1 bg-white">
+
+                              <div class="container"><br> <h3>Loan Calculator</h3></div>
+                              <div class="thirty form container">
+                                    <div class="form-group">
+                                       <label class="form-label" for="input-group-sm-size-2">Loan Amount: </label>
+                                       <div class="input-group input-group-sm accrue-field-amount">
+                                          <div class="input-group-prepend">
+                                             <span class="input-group-text">
+                                                K
+                                             </span>
+                                          </div>
+                                          <input id="input-group-sm-size-2" type="text" class="form-control amount" value="1000" placeholder="Small size" aria-describedby="input-group-sm-size-2">
+                                       </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="form-label" for="input-group-sm-size-2">Payment Term(months): 
+                                                <i class="fal fa-calendar-alt"></i>
+                                       </label>
+                                       <div class="input-group input-group-sm accrue-field-term">
+                                             <div class="input-group-prepend">
+                                             <span class="input-group-text">
+                                                <span id="rangevalue"></span> 
+                                             </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                          </div>
+                                          <input id="example-range" type="range" min="3" max="36" class="form-control term slider" placeholder="Small size" aria-describedby="input-group-sm-size-2">
+                                       </div>
+                                        <span class="help-block">
+                                           Minimum = 3 AND Maximum = 36
+                                          </span>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="form-label" for="input-group-sm-size-2">Intrest Rate(%): </label>
+                                       <div class="input-group input-group-sm accrue-field-rate">
+                                          <div class="input-group-prepend">
+                                             <span class="input-group-text">
+                                                %
+                                             </span>
+                                          </div>
+                                          <input id="input-group-sm-size-2" type="text" class="form-control rate" value="10%" placeholder="Small size" aria-describedby="input-group-sm-size-2">
+                                       </div>
+                                    </div>
+                                 </div>
+
+
+
+                            </div>
+
+
+
+
+
+
+
+
+
+                            <div id="js-chat-contact" class="flex-wrap position-relative slide-on-mobile slide-on-mobile-left border-faded col-md-6 border-left-0 border-top-0 border-bottom-0">
+                               
+
+
+                              <div class="thirty">
+                                 <div class="container"><br> <h3>Your estimated monthly repayment:</h3></div>
+                                 <div class="results">
+                                    <p><strong>Monthly Payment:</strong><br></p>
+                                    <p><strong>Number of Payments:</strong><br></p>
+                                    <p><strong>Total Payments:</strong><br></p>
+                                    <p><strong>Total Interest:</strong><br> </p>
+                                 </div>
+                              </div>
+
+
+                            </div>
+                            
+                        </div>
+
+
+<script>
+var slider = document.getElementById("example-range");
+var output = document.getElementById("rangevalue");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+</script>

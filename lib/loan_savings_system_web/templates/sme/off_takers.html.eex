@@ -1,0 +1,684 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0
+}
+
+p {
+    color: grey
+}
+
+#heading {
+    text-transform: uppercase;
+    color: #673AB7;
+    font-weight: normal
+}
+
+#msform {
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+}
+
+#msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative
+}
+
+.form-card {
+    text-align: left
+}
+
+#msform fieldset:not(:first-of-type) {
+    display: none
+}
+
+#msform input,
+#msform textarea {
+    padding: 8px 15px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 25px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    background-color: #ECEFF1;
+    font-size: 16px;
+    letter-spacing: 1px
+}
+
+#msform input:focus,
+#msform textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #673AB7;
+    outline-width: 0
+}
+
+#msform .action-button {
+    width: 100px;
+    background: #673AB7;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0px 10px 5px;
+    float: right
+}
+
+#msform .action-button:hover,
+#msform .action-button:focus {
+    background-color: #311B92
+}
+
+#msform .action-button-previous {
+    width: 100px;
+    background: #616161;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px 10px 0px;
+    float: right
+}
+
+#msform .action-button-previous:hover,
+#msform .action-button-previous:focus {
+    background-color: #000000
+}
+
+.card {
+    z-index: 0;
+    border: none;
+    position: relative
+}
+
+.fs-title {
+    font-size: 25px;
+    color: #673AB7;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: left
+}
+
+.purple-text {
+    color: #673AB7;
+    font-weight: normal
+}
+
+.steps {
+    font-size: 25px;
+    color: gray;
+    margin-bottom: 10px;
+    font-weight: normal;
+    text-align: right
+}
+
+.fieldlabels {
+    color: gray;
+    text-align: left
+}
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+#progressbar .active {
+    color: #673AB7
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar #account:before {
+    font-family: FontAwesome;
+    content: "\f13e"
+}
+
+#progressbar #personal:before {
+    font-family: FontAwesome;
+    content: "\f007"
+}
+
+#progressbar #payment:before {
+    font-family: FontAwesome;
+    content: "\f030"
+}
+
+#progressbar #confirm:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #673AB7
+}
+
+.progress {
+    height: 20px
+}
+
+.progress-bar {
+    background-color: #673AB7
+}
+
+.fit-image {
+    width: 100%;
+    object-fit: cover
+}
+</style>
+
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans 
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>
+        <%=  %>
+         <%=  %> - Offtakers
+        <%  %>
+    </h1>
+
+    <div class="element-box-content">
+        <a href="#" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>  
+            <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#employer_employee" data-toggle="modal"> Add Offtaker</button>   
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                        <th>Company Name </th>
+                        <th>Reg Number</th>
+                        <th>Tax Number</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for resp <- @offtaker do %>
+                        <tr>
+                            <td><%= resp.companyName %></td>
+                            <td><%= resp.registrationNumber %></td>
+                            <td><%= resp.taxNo %></td>
+                            <%= case resp.status do %>
+                                <%= "ACTIVE" -> %>
+                                <td><span class="badge badge-success badge-pill"><%= resp.status %></span> </td>
+                                <%= "DISABLED" -> %>
+                                <td><span class="badge badge-danger badge-pill"><%= resp.status %></span> </td>
+                                <%= "PENDING" -> %>
+                                    <td><span class="badge badge-warning badge-pill"><%= resp.status %></span> </td>
+                            <% end %>
+                            <td>
+                                <div class="input-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                            <div class="dropdown-menu">
+                                            <a type="button" class="dropdown-item" href="#" data-status="<%= resp.status %>" data-taxno="<%= resp.taxNo %>" data-regnum="<%= resp.registrationNumber %>" data-company_name="<%= resp.companyName %>" data-toggle="modal" id="get_offtaker_details" data-target="#show_off_taker"><i class="fal fa-eye"></i> View</a>   
+                                                <a type="button" class="dropdown-item" href="<%= Routes.sme_path(@conn, :offtaker_document, resp.id) %>" ><i class="fal fa-eye"></i> View Documents</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%  %>
+                            </td>
+                        </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!----------------------------------------------------------->
+ 
+
+<div class="modal fade" id="employer_employee" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add OffTaker</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <div class="row">
+                    <div class="col-md-1"></div>    
+                    <div class="col-md-10">
+                    <form id="msform" action="<%= Routes.sme_path(@conn, :register_offtaker) %>" enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <!-- progressbar -->
+                        <ul id="progressbar">
+                            <li class="active" id="account"><strong>Company Details</strong></li>
+                            <li id="personal"><strong>Personal Info</strong></li>
+                            <li id="payment"><strong>OffTaker Documents</strong></li>
+                            <li id="confirm"><strong>Finish</strong></li>
+                        </ul>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div> <br> <!-- fieldsets -->
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Company Information:</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 1 - 4</h2>
+                                    </div>
+                                </div> 
+                                    <label class="fieldlabels">Reg Number: </label> 
+                                    <input type="text" id="regnum" name="registrationNumber" placeholder="Registration Number" /> 
+                                    <span id="exist" style="color: red"></span><br>
+                                    <label class="fieldlabels">Company Name </label> 
+                                    <input type="text" name="companyName" placeholder="OffTaker Name" /> 
+                                    <label class="fieldlabels">Contact Number: </label> 
+                                    <input type="text" name="contactPhone" placeholder="Contact Number" />                                 
+                                    <label class="fieldlabels">Tax Number </label> 
+                                    <input type="text" name="taxNo" placeholder="Tax Number" />
+                                    <label class="fieldlabels">Email </label> 
+                                    <input type="email" name="contactEmail" placeholder="Email" />
+                                    <input type="hidden" namae="typ" value="OFFTAKER">                                                                                 
+                            </div> 
+                            <input type="button" name="next" class="next action-button" value="Next" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Personal Information:</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 2 - 4</h2>
+                                    </div>
+                                </div> <label class="fieldlabels">First Name: </label> 
+                                <input type="text" name="firstName" placeholder="First Name" /> 
+                                <label class="fieldlabels">Other Name: </label> 
+                                <input type="text" name="otherName" placeholder="Other Name" /> 
+                                <label class="fieldlabels">Last Name: </label> 
+                                <input type="text" name="lastName" placeholder="Last Name" />
+                                <label class="fieldlabels">Contact Number.: </label> 
+                                <input type="text" name="mobileNumber" placeholder="Contact Number" />
+                                <label class="fieldlabels">Email.: </label> 
+                                <input type="email" name="emailAddress" placeholder="Email" />
+                                <label class="fieldlabels">Date Of Birth.: </label> 
+                                <input type="date" name="dateOfBirth" placeholder="DOB" />
+                                <label for="example-input-small">ID Type</label>
+                                <select class="form-control form-control-sm" name="meansOfIdentificationType" required="required">
+                                    <option value="NRC">NRC</option>
+                                    <option value="DriversLicense">Drivers License</option>
+                                    <option value="Passport"> Passport</option>
+                                </select>
+                                <label class="fieldlabels">ID Number </label> 
+                                <input type="text" name="meansOfIdentificationNumber" placeholder="ID Number" />    
+                            </div> <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">OffTaker Documents:</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 3 - 4</h2>
+                                    </div>
+                                </div> 
+                                
+
+
+
+
+
+                            <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">                                                                                                
+                                <thead>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label></th>
+                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+                                    <!--<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Charge When</th>-->
+                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="tr_clone">
+                                        <td>
+                                            <div class="col-md-12 form-group">
+                                                <div class="form-group">
+                                                    <select name="docname[]" onchange="getSelectedValue();" id="charge" class="form-control chrg">
+                                                        <%= for doc <- @doc_type do %>
+                                                            <option value="<%= doc.document_type %>"><%= doc.document_type %></option>
+                                                        <% end %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><input type="file" name="document[]" class="form-control form-control-sm"></td>
+                                            <!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+                                        <td>
+                                        <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                                        <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                            <!-- TABLE -->
+
+
+
+
+
+
+                        </div> <button class="nxt action-button" type="submit"> Submit now</button> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Finish:</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 4 - 4</h2>
+                                    </div>
+                                </div> <br><br>
+                                <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
+                                <div class="row justify-content-center">
+                                    <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> </div>
+                                </div> <br><br>
+                                <div class="row justify-content-center">
+                                    <div class="col-7 text-center">
+                                        <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="col-md-1"></div>    
+            </div>    
+                <!--------------------------------------->
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="show_off_taker" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <span id="company_name"><span> 
+                    </div>
+                    <div class="col-md-6">
+                        <span id="regnum"><span>
+                    </div>
+                    <div class="col-md-6">
+                        <span id="taxno"><span> 
+                    </div>
+                    <div class="col-md-6">
+                        <span id="status"><span>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Export</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <span id="company_name"><span> 
+                    </div>
+                    <div class="col-md-6">
+                        <span id="regnum"><span>
+                    </div>
+                    <div class="col-md-6">
+                        <span id="taxno"><span> 
+                    </div>
+                    <div class="col-md-6">
+                        <span id="status"><span>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    $(document).ready(function(){        
+        $('#get_offtaker_details').on('click', function(){
+            document.getElementById("company_name").innerHTML = $(this).data("company_name");
+            document.getElementById("regnum").innerHTML = $(this).data("regnum");  
+            document.getElementById("taxno").innerHTML = $(this).data("taxno");
+            document.getElementById("status").innerHTML = $(this).data("status");
+        });
+    });
+</script>
+
+<script>
+$(document).ready(function(){
+
+  $("input").keydown(function(){
+    $.ajax({
+        url: "/check/company/reg/number",
+        headers: {'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')},
+        type: "POST",
+        data: {regnum: $('#regnum').val()},
+        success: function (response) {
+           if (response.status == "EXIST") {
+               document.getElementById("exist").innerHTML = response.msg;
+           }
+        }
+    });
+  });
+
+  $("input").keyup(function(){
+    $.ajax({
+        url: "/check/company/reg/number",
+        headers: {'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')},
+        type: "POST",
+        data: {regnum: $('#regnum').val()},
+        success: function (response) {
+           if (response.status == "EXIST") {
+               document.getElementById("exist").innerHTML = response.msg;
+           }
+        }
+    });
+  });
+
+});
+
+</script>
+
+
+<script src="<%= Routes.static_path(@conn, "/js/vendors.bundle.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/app.bundle.js") %>"></script>
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+
+
+
+    $(document).ready(function(){
+
+    var current_fs, next_fs, previous_fs; //fieldsets
+    var opacity;
+    var current = 1;
+    var steps = $("fieldset").length;
+
+    setProgressBar(current);
+
+    $(".next").click(function(){
+
+    current_fs = $(this).parent();
+    next_fs = $(this).parent().next();
+
+    //Add Class Active
+    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+    //show the next fieldset
+    next_fs.show();
+    //hide the current fieldset with style
+    current_fs.animate({opacity: 0}, {
+    step: function(now) {
+    // for making fielset appear animation
+    opacity = 1 - now;
+
+    current_fs.css({
+    'display': 'none',
+    'position': 'relative'
+    });
+    next_fs.css({'opacity': opacity});
+    },
+    duration: 500
+    });
+    setProgressBar(++current);
+    });
+
+    $(".previous").click(function(){
+
+    current_fs = $(this).parent();
+    previous_fs = $(this).parent().prev();
+
+    //Remove class active
+    $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+    //show the previous fieldset
+    previous_fs.show();
+
+    //hide the current fieldset with style
+    current_fs.animate({opacity: 0}, {
+    step: function(now) {
+    // for making fielset appear animation
+    opacity = 1 - now;
+
+    current_fs.css({
+    'display': 'none',
+    'position': 'relative'
+    });
+    previous_fs.css({'opacity': opacity});
+    },
+    duration: 500
+    });
+    setProgressBar(--current);
+    });
+
+    function setProgressBar(curStep){
+    var percent = parseFloat(100 / steps) * curStep;
+    percent = percent.toFixed();
+    $(".progress-bar")
+    .css("width",percent+"%")
+    }
+
+    $(".submit").click(function(){
+    return false;
+    })
+
+    });
+</script>

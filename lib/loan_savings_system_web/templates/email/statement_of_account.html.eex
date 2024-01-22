@@ -1,0 +1,9 @@
+<html><body><div>
+<p>Dear <%= @userBioData.firstName %> <%= @userBioData.lastName %>,</p>
+<p>Your requested ZIPAKE statement of account is now available (see attached).</p><br>
+<p>For any feedback or enquiries, please call our Contact Center on 260-960-000-000  or send an email to <a href="<%= @client.contact_email %>" target="_blank"><%= @client.contact_email %></a></p>
+<p>Thank you for choosing Microfinance Zambia</p>
+<br>
+<p><font color="green">You can still register for a bank account at any of our branches in Lusaka, Ndola and other Microfinance Zambia Branches across the country.<br>
+Please visit our website <a href="<%= @client.contact_url %>" target="_blank"><%= @client.contact_url %></a> for a full list of our branches</font></p>
+</div></body></html>

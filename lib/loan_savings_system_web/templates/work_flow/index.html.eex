@@ -1,0 +1,36 @@
+<h1>Listing Tbl workflows</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Createdbyuserid</th>
+      <th>Createdbyuserroleid</th>
+      <th>Branchid</th>
+      <th>Status</th>
+      <th>Deletedat</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for work_flow <- @tbl_workflows do %>
+    <tr>
+      <td><%= work_flow.name %></td>
+      <td><%= work_flow.createdByUserId %></td>
+      <td><%= work_flow.createdByUserRoleId %></td>
+      <td><%= work_flow.branchId %></td>
+      <td><%= work_flow.status %></td>
+      <td><%= work_flow.deletedAt %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.work_flow_path(@conn, :show, work_flow) %></span>
+        <span><%= link "Edit", to: Routes.work_flow_path(@conn, :edit, work_flow) %></span>
+        <span><%= link "Delete", to: Routes.work_flow_path(@conn, :delete, work_flow), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Work flow", to: Routes.work_flow_path(@conn, :new) %></span>

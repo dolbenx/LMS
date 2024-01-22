@@ -1,0 +1,351 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Charge Maintenance
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+  
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_charge" data-toggle="modal"> Add Charge</button>
+ 
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Charge Name</th>
+                      <th>Charge Currency</th>
+                      <th>Charge Type</th>
+                      <th>Charge Amount</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for charge <- @charges do %>
+                        <tr>
+                        <td><%= charge.chargeName %></td>
+                        <td><%= charge.currency %></td>
+                        <td><%= charge.chargeType %></td>
+                        <td><%= charge.chargeAmount %></td>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class='subheader-icon fal fa-chevron-down'></i>
+                                    </span>
+                                    <div class="dropdown-menu">
+                                      <a class="dropdown-item" href="#"  
+                                        data-id="<%= charge.id %>" 
+                                        data-chargename="<%= charge.chargeName %>" 
+                                        data-ispenalty="<%= charge.isPenalty %>" 
+                                        data-chargetype="<%= charge.chargeType %>" 
+                                        data-chargeamount="<%= charge.chargeAmount %>" 
+                                        data-currency="<%= charge.currency %>" 
+                                        data-chargewhen="<%= charge.chargeWhen %>" 
+                                        data-toggle="modal" data-target="#view_charges">
+                                        <i class="fal fa-eye"></i> View</a>
+                                      <a class="dropdown-item" href="#"  
+                                        data-id="<%= charge.id %>" 
+                                        data-chargename="<%= charge.chargeName %>" 
+                                        data-ispenalty="<%= charge.isPenalty %>" 
+                                        data-chargetype="<%= charge.chargeType %>" 
+                                        data-chargeamount="<%= charge.chargeAmount %>" 
+                                        data-currency="<%= charge.currency %>" 
+                                        data-chargewhen="<%= charge.chargeWhen %>" 
+                                        data-toggle="modal" data-target="#edit_charges">
+                                            <i class="fal fa-edit"></i>
+                                            Edit
+                                        </a>
+
+                                        <a class="dropdown-item" 
+                                        data-toggle="modal" data-target="#delete-alert">
+                                            <i class="fal fa-times"></i>
+                                            Disable
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                      <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <%# --------------- Create Charges %>
+<div class="modal fade" id="add_charge" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Charge</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_charge)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Charge Name</label>
+                                <input type="text" id="example-input-small" name="chargeName" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Is Penalty</label>
+                                <select id="example-input-small" name="isPenalty" class="form-control form-control-sm">
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</options>
+                                </select>
+                            </div>
+                          </div>
+                          
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Charge Type</label>
+                                <select id="chargeType" name="chargeType" class="form-control form-control-sm">
+                                  <option value="FLAT"> Flat</option>
+                                  <option value="PERCENTAGE">Percentage</options>
+                                </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Charge Amount</label>
+                                <input type="number" id="example-input-small" name="chargeAmount" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency<span style="color: red;">*</span></label>
+                                <select required name="currency" class="form-control">
+                                    <%= for currency <- @currencies do %>
+                                        <option value="<%= currency.id %>|||<%= currency.isoCode %>"><%= currency.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                          </div>
+                           <div class="col-sm-6 form-group">
+                                  <div class="form-group">
+                                      <label for="example-input-small" class="form-label">Charge When<span style="color: red;">*</span></label>
+                                      <select required name="chargeWhen" id="chargeWhen" class="form-control">
+                                          <option value="AT DEPOSIT">AT DEPOSIT</option>
+                                          <option value="AT MATURITY">AT MATURITY</option>
+                                      </select>
+                                  </div>
+                              </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button class="btn btn-success" type="submit"> Save</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%# --------------- View Charges %>
+<div class="modal fade" id="view_charges" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View Charge</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <div class="row">
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Charge Name</label>
+                            <input type="text" id="chargename" class="form-control form-control-sm" readonly>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Is Penalty</label>
+                            <input type="text" id="ispenalty" class="form-control form-control-sm" readonly>
+                        </div>
+                      </div>
+                      
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Charge Type</label>
+                            <input type="text" id="chargetype" class="form-control form-control-sm" readonly>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Charge Amount</label>
+                            <input type="number" id="chargeamount" class="form-control form-control-sm" readonly>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 form-group">
+                        <div class="form-group">
+                            <label for="example-input-small" class="form-label">Currency</label>
+                            <input type="number" id="currency" class="form-control form-control-sm" readonly>
+                        </div>
+                      </div>
+                        <div class="col-sm-6 form-group">
+                              <div class="form-group">
+                                  <label for="example-input-small" class="form-label">Charge When</label>
+                                    <input type="number" id="chargewhen" class="form-control form-control-sm" readonly>
+                              </div>
+                          </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<%# --------------- Edit Charges %>
+<div class="modal fade" id="edit_charges" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Edit Charge</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_charge)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Charge Name</label>
+                                <input type="text" id="chargename" name="chargeName" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Is Penalty</label>
+                                <select id="ispenalty" name="isPenalty" class="form-control form-control-sm">
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</options>
+                                </select>
+                            </div>
+                          </div>
+                          
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Charge Type</label>
+                                <select id="chargetype" name="chargeType" class="form-control form-control-sm">
+                                  <option value="FLAT"> Flat</option>
+                                  <option value="PERCENTAGE">Percentage</options>
+                                </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Charge Amount</label>
+                                <input type="number" id="chargeamount" name="chargeAmount" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency<span style="color: red;">*</span></label>
+                                <select required id="currency" name="currency" class="form-control">
+                                    <%= for currency <- @currencies do %>
+                                        <option value="<%= currency.id %>|||<%= currency.isoCode %>"><%= currency.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                          </div>
+                           <div class="col-sm-6 form-group">
+                                  <div class="form-group">
+                                      <label for="example-input-small" class="form-label">Charge When<span style="color: red;">*</span></label>
+                                      <select required name="chargeWhen" id="chargeWhen" class="form-control">
+                                          <option value="AT DEPOSIT">AT DEPOSIT</option>
+                                          <option value="AT MATURITY">AT MATURITY</option>
+                                      </select>
+                                  </div>
+                              </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button class="btn btn-success" type="submit"> Save</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view Charge details
+    $('#view_charges').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var chargename = button.data('chargename')
+            var ispenalty = button.data('ispenalty')
+            var chargetype = button.data('chargetype')
+            var chargeamount = button.data('chargeamount')
+            var currency = button.data('currency')
+            var chargewhen = button.data('chargewhen')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #chargename').val(chargename);
+            modal.find('.modal-body #ispenalty').val(ispenalty);
+            modal.find('.modal-body #chargetype').val(chargetype);
+            modal.find('.modal-body #chargeamount').val(chargeamount);
+            modal.find('.modal-body #currency').val(currency);
+            modal.find('.modal-body #chargewhen').val(chargewhen);
+    });
+    $('#edit_charges').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var chargename = button.data('chargename')
+            var ispenalty = button.data('ispenalty')
+            var chargetype = button.data('chargetype')
+            var chargeamount = button.data('chargeamount')
+            var currency = button.data('currency')
+            var chargewhen = button.data('chargewhen')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #chargename').val(chargename);
+            modal.find('.modal-body #ispenalty').val(ispenalty);
+            modal.find('.modal-body #chargetype').val(chargetype);
+            modal.find('.modal-body #chargeamount').val(chargeamount);
+            modal.find('.modal-body #currency').val(currency);
+            modal.find('.modal-body #chargewhen').val(chargewhen);
+           
+    });
+});
+</script>

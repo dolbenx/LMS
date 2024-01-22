@@ -1,0 +1,159 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> File Maintenance
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :loans_admin_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                    <h5 class="form-header">
+                    <u>Add Document Type</u>
+                    </h5>
+                    <!--- ############# FIXED DEPOSITS  #######################-->
+                    <div class="form-desc colors" id="fixeddeposits">
+                    <!--<h5 class="form-header text-center">FIXED DEPOSITS</h5>-->
+                        <form action="<%= Routes.maintenance_path(@conn, :maintain_file_paths) %>" method="POST" class="">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="status" id="status" value="PENDING">
+                        <input type="hidden" name="created_by" id="created_by" value="<%= @conn.assigns.user.id %>">
+                            <div class="row">
+                              <div class="form-group col-md-4">
+                                  <label class="form-label" for="input-group-sm-size-2">Belongs To</label>
+                                  <div class="input-group input-group-sm">
+                                    <select class="custom-select" name="belongs_to" id="belongs_to" required aria-label="Example select with button addon">
+                                            <option selected="">Select One...</option>
+                                            <option value="Individual">Individual</option>
+                                            <option value="Company">Company</option>
+                                    </select>
+                                  </div>
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label class="form-label" for="input-group-sm-size-2">Applicable on</label>
+                                  <div class="input-group input-group-sm">
+                                    <select class="custom-select" name="applicable_on" id="applicable_on" required aria-label="Example select with button addon">
+                                            <option selected="">Select One...</option>
+                                            <option value="Registration">Registration</option>
+                                            <option value="Loan_application">Loan Application</option>
+                                    </select>
+                                  </div>
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label class="form-label" for="input-group-sm-size-2">Document Name</label>
+                                  <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" id="path_name" name="path_name">
+                                  </div>
+                              </div>
+                            <button class="btn btn-primary pull-right" type="submit"> Submit</button>
+                        </form>
+                    </div>
+                    <!--- ############# END  #######################-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                        <th>Path</th>
+                        <th>Belongs To</th>
+                        <th>Applicable on</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for path <- @path do %>
+                        <tr>
+                            <td><%= path.path_name %></td>
+                            <td><%= path.belongs_to %></td>
+                            <td><%= path.applicable_on %></td>
+                            <%= if path.status == "ACTIVE" do %>
+                              <td><span class="badge badge-success badge-pill"><%= path.status %></span> </td>
+                            <% else %>
+                              <td><span class="badge badge-danger badge-pill"><%= path.status %></span> </td>
+                            <% end %>
+                            <td>
+                                <div class="input-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                            <div class="dropdown-menu">
+                                            <%= if path.status == "DISABLED" || path.status == "PENDING" do %>
+                                                <a class="dropdown-item js-sweetalert2-activate_sys_user" href="<%= Routes.maintenance_path(@conn, :activate_file_path, path) %>" style="color: #008000" ><i class="fal fa-check"></i> Activate</a>
+                                            <% end %>
+                                             <%= if path.status == "ACTIVE" do %>
+                                               <a class="dropdown-item js-sweetalert2-disable_user" href="<%= Routes.maintenance_path(@conn, :disable_file_path, path) %>" style="color: #ff0000" data-id="#"><i class="fal fa-times"></i> Disable</a>
+                                              <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%  %>
+                            </td>
+                        </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+	  <script>
+      $(document).ready(function(){
+          $('#colorselector').change(function() {
+              $('.colors').hide();
+              $('#' + $(this).val()).show();
+        });
+      });
+    </script>
+
+
+<script>
+  $(document).ready(function(){
+    var path = "C:\Users\musen\OneDrive\Documents\company";
+    mytxt = path.replace(/\\134/g,"/");
+    console.log(">>>>>>>>>>>>>>>>", mytxt)
+    var mytxt = path.replace(/\\134/g,"/");
+    console.log(">>>>>>>>>>>>>>>>", mytxt)
+
+
+
+  });
+</script>

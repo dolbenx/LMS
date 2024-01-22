@@ -14,28 +14,14 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserBioData do
       add :gender, :string
       add :mobileNumber, :string
       add :emailAddress, :string
-      add :idNo, :string
-      add :bank_id, :integer
-      add :bank_account_number, :string
-      add :marital_status, :string
-      add :nationality, :string
-      add :number_of_dependants, :integer
-      add :employee_confirmation, :boolean, default: false, null: false
-      add :applicant_declaration, :boolean, default: false, null: false
-      add :applicant_signature_image, :string
+      add :clientId, :integer
 
       timestamps()
     end
 
     create unique_index(:tbl_user_bio_data, [:emailAddress], name: :unique_emailAddress)
     create unique_index(:tbl_user_bio_data, [:mobileNumber], name: :unique_mobileNumber)
+    create unique_index(:tbl_user_bio_data, [:meansOfIdentificationNumber], name: :unique_meansOfIdentificationNumber)
 
-    create unique_index(:tbl_user_bio_data, [:meansOfIdentificationNumber],
-             name: :unique_meansOfIdentificationNumber
-           )
-
-    create unique_index(:tbl_user_bio_data, [:bank_account_number],
-             name: :unique_bank_account_number
-           )
   end
 end

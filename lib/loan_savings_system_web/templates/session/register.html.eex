@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+
+    <title>Login</title>
+    <meta name="description" content="Login">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- base css -->
+    <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/vendors.bundle.css") %>" />
+    <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/app.bundle.css") %>" />
+    <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/page-login.css") %>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= Routes.static_path(@conn, "/img/favicon/apple-touch-icon.png") %>" />
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= Routes.static_path(@conn, "/img/favicon/favicon-32x32.png") %>" />
+    <link rel="mask-icon" color="#5bbad5" href="<%= Routes.static_path(@conn, "/img/favicon/safari-pinned-tab.svg") %>" color="#5bbad5"/>
+    <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/w3.css") %>">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+    <style>
+        @import "https://fonts.googleapis.com/css?family=Roboto";
+        .step-wrapper {
+        padding: 20px 0;
+        display: none;
+        }
+        .step-wrapper.active {
+        display: block;
+        }
+
+        .step-indicator {
+        border-collapse: separate;
+        display: table;
+        margin-left: 0px;
+        position: relative;
+        table-layout: fixed;
+        text-align: center;
+        vertical-align: middle;
+        padding-left: 0;
+        padding-top: 20px;
+        }
+        .step-indicator li {
+        display: table-cell;
+        position: relative;
+        float: none;
+        padding: 0;
+        width: 1%;
+        }
+        .step-indicator li:after {
+        background-color: #ccc;
+        content: "";
+        display: block;
+        height: 1px;
+        position: absolute;
+        width: 100%;
+        top: 32px;
+        }
+        .step-indicator li:after {
+        left: 50%;
+        }
+        .step-indicator li:last-child:after {
+        display: none;
+        }
+        .step-indicator li.active .step {
+        border-color: #4183D7;
+        color: #4183D7;
+        }
+        .step-indicator li.active .caption {
+        color: #4183D7;
+        }
+        .step-indicator li.complete:after {
+        background-color: #87D37C;
+        }
+        .step-indicator li.complete .step {
+        border-color: #87D37C;
+        color: #87D37C;
+        }
+        .step-indicator li.complete .caption {
+        color: #87D37C;
+        }
+        .step-indicator .step {
+        background-color: #fff;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        color: #ccc;
+        font-size: 24px;
+        height: 64px;
+        line-height: 64px;
+        margin: 0 auto;
+        position: relative;
+        width: 64px;
+        z-index: 1;
+        }
+        .step-indicator .step:hover {
+        cursor: pointer;
+        }
+        .step-indicator .caption {
+        color: #ccc;
+        padding: 11px 16px;
+        }
+</style>
+  </head>
+  
+  <body style="background: url(/images/backgrounds/test.jpg) no-repeat center bottom fixed; background-size: cover;">
+    <div class="page-wrapper">
+            <div class="page-inner">
+                <div class="page-content-wrapper bg-transparent m-0">
+                    <div class="height-10 w-100 shadow-lg px-4">
+                        <div class="d-flex align-items-center container p-0">
+                            <div class="page-logo width-mobile-auto m-0 align-items-center justify-content-center p-0 bg-transparent bg-img-none shadow-0 height-9">
+                                <a href="javascript:void(0)" class="page-logo-link press-scale-down d-flex align-items-center">
+                                    <img src="<%= Routes.static_path(@conn, "/images/logo/imgingest.png") %>" alt="Smartlink logo" aria-roledescription="logo" style="width: 80px; height: 80px; border-radius: 8%;">
+                                </a>
+                            </div>
+                            <a href="/" class="btn btn-info text-white ml-auto">
+                               Login
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flex-1" style="background: url(img/svg/pattern-1.svg) no-repeat center bottom fixed; background-size: cover;">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-offset-2">
+                                <div class="form-group">
+                                    <%= if get_flash(@conn, :info) do %>
+                                        <div class="alert alert-success alert-styled-left">
+                                        <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                                        <%= get_flash(@conn, :info) %>
+                                        </div>
+                                    <% end %>
+                                    <%= if get_flash(@conn, :error) do %>
+                                        <div class="alert alert-warning alert-styled-left">
+                                        <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                                        Sorry! <%= get_flash(@conn, :error) %>
+                                        </div>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                
+
+
+
+
+
+
+
+
+                                <div id="panel-5" class="panel">
+                                    <div class="panel-hdr">
+                                        <h2>
+                                            Customer Registration
+                                        </h2>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item col-md-4 text-center">
+                                                    <a class="nav-link active" data-toggle="tab" href="#tab_borders_icons-1" role="tab" aria-selected="true"><i class="fal fa-user mr-1"></i> INDIVIDUAL</a>
+                                                </li>
+                                                <li class="nav-item col-md-4 text-center">
+                                                    <a class="nav-link" data-toggle="tab" href="#tab_borders_icons-2" role="tab" aria-selected="false"><i class="fal fa-user mr-1"></i> SME</a>
+                                                </li>
+                                                <li class="nav-item col-md-4 text-center">
+                                                    <a class="nav-link" data-toggle="tab" href="#tab_borders_icons-3" role="tab" aria-selected="false"><i class="fal fa-users mr-1"></i> EMPLOYER</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content border border-top-0 p-3">
+                                                <div class="tab-pane fade active show" id="tab_borders_icons-1" role="tabpanel">
+
+
+                                                    <!--      Wizard container        -->
+                                                        <form method="POST" action="">
+                                                            <div class="container">
+                                                                <div id="app">
+                                                                    <step-navigation :steps="steps" :currentstep="currentstep">
+                                                                    </step-navigation>
+                                                                    
+                                                                    <div v-show="currentstep == 1">
+                                                                        <h5 class="text-center"><u>Personal Information</u></h5><br>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Title <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="titleid" name="titleid">
+                                                                                        <option value=1>Mr</option>
+                                                                                        <option value=2>Mrs</option>
+                                                                                        <option value=3>Ms</option>
+                                                                                        <option value=4>Miss</option>
+                                                                                        <option value=5>Dr</option>
+                                                                                        <option value=6>Er</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">First Name <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="firstname">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Last Name <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="lastname">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Other Name</label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="middlename">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Nationality <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="nationalityid" name="nationalityid">
+                                                                                        <option value="1">Zambian</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">NRC No. <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="nrc">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Passport No.</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="passportno">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Drivers License No.</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="drivinglicenseno">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Mobile No. <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="mobileno">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Email <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="emailid">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Home Phone No. <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="homephone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Work Phone No <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Marital Status <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                                                                        <option value="1">Married</option>
+                                                                                        <option value="2">Divorced</option>
+                                                                                        <option value="3">Widow</option>
+                                                                                        <option value="4">Widower</option>
+                                                                                        <option value="5">Cohabiting</option>
+                                                                                        <option value="6">Civil Union</option>
+                                                                                        <option value="7">Single</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Gender <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="genderid" name="genderid">
+                                                                                        <option value="1">Male</option>
+                                                                                        <option value="2">Female</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Date Of Birth <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control form-control-sm" type="date" name="dob">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Postal Code <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="postalcode1">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <h5 class="text-center"><u>Address Details</u></h5><br>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Country 1 <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="countryid1" name="countryid1">
+                                                                                        <option value="1">Zambia</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Province 1 <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="provinceid1" name="provinceid1">
+                                                                                        <option value="1">Central</option>
+                                                                                        <option value="2">Copperbelt</option>
+                                                                                        <option value="3">Eastern</option>
+                                                                                        <option value="4">Luapula</option>
+                                                                                        <option value="5">Lusaka</option>
+                                                                                        <option value="6">North-Western</option>
+                                                                                        <option value="7">Northern</option>
+                                                                                        <option value="8">Southern</option>
+                                                                                        <option value="9">Western</option>
+                                                                                        <option value="10">Muchinga</option>
+                                                                                        <option value="11">Others</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">District 1 <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="districtid1" name="districtid1">
+                                                                                        <option value="1">Chibombo</option>
+                                                                                        <option value="2">Kabwe</option>
+                                                                                        <option value="3">Kapiri Mposhi</option>
+                                                                                        <option value="4">Mkushi</option>
+                                                                                        <option value="5">Mumbwa</option>
+                                                                                        <option value="6">Serenje</option>
+                                                                                        <option value="7">Chililabombwe</option>
+                                                                                        <option value="8">Chingola</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Address 1 <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="address1">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Country 2 <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="countryid2" name="countryid2">
+                                                                                        <option value="1">Zambia</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Province 2 <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="provinceid2" name="provinceid2">
+                                                                                        <option value="1">Central</option>
+                                                                                        <option value="2">Copperbelt</option>
+                                                                                        <option value="3">Eastern</option>
+                                                                                        <option value="4">Luapula</option>
+                                                                                        <option value="5">Lusaka</option>
+                                                                                        <option value="6">North-Western</option>
+                                                                                        <option value="7">Northern</option>
+                                                                                        <option value="8">Southern</option>
+                                                                                        <option value="9">Western</option>
+                                                                                        <option value="10">Muchinga</option>
+                                                                                        <option value="11">Others</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">District 2 <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="districtid2" name="districtid2">
+                                                                                        <option value="1">Chibombo</option>
+                                                                                        <option value="2">Kabwe</option>
+                                                                                        <option value="3">Kapiri Mposhi</option>
+                                                                                        <option value="4">Mkushi</option>
+                                                                                        <option value="5">Mumbwa</option>
+                                                                                        <option value="6">Serenje</option>
+                                                                                        <option value="7">Chililabombwe</option>
+                                                                                        <option value="8">Chingola</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Address 2 <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="address2">
+                                                                                </div>
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div v-show="currentstep == 2">
+                                                                        <h5 class="text-center"><u>Next Of Kin Details</u></h5><br>
+                                                                       <div class="row">
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Title <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="kintitleid" name="kintitleid">
+                                                                                    <option value="1">Mr</option>
+                                                                                    <option value="2">Mrs</option>
+                                                                                    <option value="3">Ms</option>
+                                                                                    <option value="4">Miss</option>
+                                                                                    <option value="5">Dr</option>
+                                                                                    <option value="6">Er</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">First Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinfirstname">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Last Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinlastname">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Other Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinmiddlename">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">NRC No. <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinnrcid">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Marital Status <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="kinmaritalstatusid" name="kinmaritalstatusid">
+                                                                                    <option value="1">Married</option>
+                                                                                    <option value="2">Divorced</option>
+                                                                                    <option value="3">Widow</option>
+                                                                                    <option value="4">Widower</option>
+                                                                                    <option value="5">Cohabiting</option>
+                                                                                    <option value="6">Civil Union</option>
+                                                                                    <option value="7">Single</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Gender <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="kingenderid" name="kingenderid">
+                                                                                    <option value="1">Male</option>
+                                                                                    <option value="2">Female</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Date Of Birth <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="date" value="1990-01-02" name="kindob">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Relationship Type <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="kinrelationshipid" name="kinrelationshipid">
+                                                                                    <option value="1">Father</option>
+                                                                                    <option value="2">Mother</option>
+                                                                                    <option value="3">Brother</option>
+                                                                                    <option value="4">Sister</option>
+                                                                                    <option value="5">Wife</option>
+                                                                                    <option value="6">Son</option>
+                                                                                    <option value="7">Daughter</option>
+                                                                                    <option value="8">Grand Father</option>
+                                                                                    <option value="9">Grand Mother</option>
+                                                                                    <option value="10">Niece</option>
+                                                                                    <option value="11">Nephew</option>
+                                                                                    <option value="12">Uncle</option>
+                                                                                    <option value="13">Cousin</option>
+                                                                                    <option value="14">Aunty</option>
+                                                                                    <option value="15">BrotherInLaw</option>
+                                                                                    <option value="16">SisterInLaw</option>
+                                                                                    <option value="17">MotherInLaw</option>
+                                                                                    <option value="18">FatherInLaw</option>
+                                                                                    <option value="19">Husband</option>
+                                                                                    <option value="20">Others</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Place Of Work</label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinplaceofwork">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Occupation</label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinoccupation">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Mobile Number <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kintelephonenumber">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div v-show="currentstep == 3">
+                                                                    <h5 class="text-center"><u>Documents</u></h5><br>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Doctype Type</label>
+                                                                                <select class="form-control form-control-sm" id="doctypeid" name="doctypeid">
+                                                                                    <option value="1">Employee NRC ID</option>
+                                                                                    <option value="2">Employee Payslip</option>
+                                                                                    <option value="3">Employee Photo</option>
+                                                                                    <option value="4">Employee ID</option>
+                                                                                    <option value="5">Contract</option>
+                                                                                    <option value="6">Authorized Signature</option>
+                                                                                    <option value="7">Authorized Signature 1</option>
+                                                                                    <option value="8">Authorized Signature 2</option>
+                                                                                    <option value="9">Authorized Signature 3</option>
+                                                                                    <option value="10">Authorized Signature 4</option>
+                                                                                    <option value="11">Employee Signature</option>
+                                                                                    <option value="12">CRB Document</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Document Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" value="Employee NRC ID" name="document">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Select Document <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="file" value="RDpTUUwgMTAwMCBSb2xlcy50eHQ=" name="document_doccontent">
+                                                                            </div>
+                                                                        </div>
+                                                                        <h5 class="text-center"><u>Bank Details</u></h5><br>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Bank Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" value="Stanbic" name="bankname">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Bank Branch <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" value="Main" name="bankbranch">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Bank Account Type <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" value="Current" name="bankaccounttype">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Bank Acount No. <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" value="3847588239492" name="bankaccountno">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Bank Acount Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" value="Current" name="bankaccountname">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <step v-for="step in steps" :currentstep="currentstep" :key="step.id" :step="step" :stepcount="steps.length" @step-change="stepChanged">
+                                                                    </step>
+
+                                                                    <script type="x-template" id="step-navigation-template">
+                                                                        <ol class="step-indicator">
+                                                                            <li v-for="step in steps" is="step-navigation-step" :key="step.id" :step="step" :currentstep="currentstep">
+                                                                            </li>
+                                                                        </ol>
+                                                                    </script>
+
+                                                                    <script type="x-template" id="step-navigation-step-template">
+                                                                        <li :class="indicatorclass">
+                                                                            <div class="step"><i :class="step.icon_class"></i></div>
+                                                                            <div class="caption hidden-xs hidden-sm">Step <span v-text="step.id"></span>: <span v-text="step.title"></span></div>
+                                                                        </li>
+                                                                    </script>
+
+                                                                    <script type="x-template" id="step-template">
+                                                                        <div class="step-wrapper text-right" :class="stepWrapperClass">
+                                                                            <button type="button" class="btn btn-primary" @click="lastStep" :disabled="firststep">
+                                                                                Back
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-primary" @click="nextStep" :disabled="laststep">
+                                                                                Next
+                                                                            </button>
+                                                                            <button type="submit" class="btn btn-primary" v-if="laststep">
+                                                                                Submit
+                                                                            </button>
+                                                                        </div>
+                                                                    </script>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <!-- wizard container -->
+
+                                                   
+                                                </div>
+
+
+                                                <div class="tab-pane fade" id="tab_borders_icons-2" role="tabpanel">
+                                                    <!--      Wizard container        -->
+                                                    <form method="POST" action="">
+                                                            <div class="container">
+                                                                <div id="app1">
+                                                                    <step-navigation :steps="steps" :currentstep="currentstep">
+                                                                    </step-navigation>
+                                                                    
+                                                                    <div v-show="currentstep == 1">
+                                                                        <h5 class="text-center"><u>Business Details</u></h5><br>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Business Name <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="firstname">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Registration No <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="lastname">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Registration Date</label>
+                                                                                    <input class="form-input form-control-sm form-control" type="date" name="middlename">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Sector <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="nationalityid" name="nationalityid">
+                                                                                        <option value="1">Zambian</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Pin no.</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="nrc">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">VAT No.</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="passportno">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Entity type <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                                                                        <option value="1">Limited Co</option>
+                                                                                        <option value="2">Sole Proprietor</option>
+                                                                                        <option value="3">Partnership</option>
+                                                                                        <option value="4">Club</option>
+                                                                                        <option value="5">Others</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Business Premises Type. <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                                                                        <option value="1">Rented</option>
+                                                                                        <option value="2">Owned</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Lease Period </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="emailid">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Balance Period </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="homephone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Monthly Rental </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">No of Permanent Employees</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">No of Casual Employees</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Estimated Value Of Business </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Monthly Gross Margin </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Gross Monthly Sales</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <h5 class="text-center"><u>Bank Details</u></h5><br>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Bank Name </label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="address1">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Bank Branch </label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="address1">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Bank Account No. </label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="address1">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Bank Account Name</label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="address2">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">ifsccode</label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="address2">
+                                                                                </div>
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div v-show="currentstep == 2">
+                                                                        <h5 class="text-center"><u>Contact Details</u></h5><br>
+                                                                       <div class="row">
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Contact Person <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinfirstname">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Contact Person Designation <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinlastname">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Contact Person Phone<span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinmiddlename">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Contact Person Extension </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinnrcid">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Contact Person Email <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kindob">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Physical Address</label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinplaceofwork">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Postal Address</label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinoccupation">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">District <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="districtid2" name="districtid2">
+                                                                                    <option value="1">Chibombo</option>
+                                                                                    <option value="2">Kabwe</option>
+                                                                                    <option value="3">Kapiri Mposhi</option>
+                                                                                    <option value="4">Mkushi</option>
+                                                                                    <option value="5">Mumbwa</option>
+                                                                                    <option value="6">Serenje</option>
+                                                                                    <option value="7">Chililabombwe</option>
+                                                                                    <option value="8">Chingola</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Province <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="provinceid2" name="provinceid2">
+                                                                                    <option value="1">Central</option>
+                                                                                    <option value="2">Copperbelt</option>
+                                                                                    <option value="3">Eastern</option>
+                                                                                    <option value="4">Luapula</option>
+                                                                                    <option value="5">Lusaka</option>
+                                                                                    <option value="6">North-Western</option>
+                                                                                    <option value="7">Northern</option>
+                                                                                    <option value="8">Southern</option>
+                                                                                    <option value="9">Western</option>
+                                                                                    <option value="10">Muchinga</option>
+                                                                                    <option value="11">Others</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Email <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kintelephonenumber">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Telephone No <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kintelephonenumber">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div v-show="currentstep == 3">
+                                                                    <h5 class="text-center"><u>Proprietor Detail</u></h5><br>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Title <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="kintitleid" name="kintitleid">
+                                                                                    <option value="1">Mr</option>
+                                                                                    <option value="2">Mrs</option>
+                                                                                    <option value="3">Ms</option>
+                                                                                    <option value="4">Miss</option>
+                                                                                    <option value="5">Dr</option>
+                                                                                    <option value="6">Er</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Id No.<span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Address </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Share Percentage <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Gender <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                                                                    <option value="1">Male</option>
+                                                                                    <option value="2">Female</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">D.O.B <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="date" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Contactno </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Email </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Passport No </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Driving License No</label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <step1 v-for="step in steps" :currentstep="currentstep" :key="step.id" :step="step" :stepcount="steps.length" @step-change1="stepChanged">
+                                                                    </step>
+
+                                                                    <script type="x-template" id="step-navigation-template1">
+                                                                        <ol class="step-indicator">
+                                                                            <li v-for="step in steps" is="step-navigation-step1" :key="step.id" :step="step" :currentstep="currentstep">
+                                                                            </li>
+                                                                        </ol>
+                                                                    </script>
+
+                                                                    <script type="x-template" id="step-navigation-step-template1">
+                                                                        <li :class="indicatorclass">
+                                                                            <div class="step"><i :class="step.icon_class"></i></div>
+                                                                            <div class="caption hidden-xs hidden-sm">Step <span v-text="step.id"></span>: <span v-text="step.title"></span></div>
+                                                                        </li>
+                                                                    </script>
+
+                                                                    <script type="x-template" id="step-template1">
+                                                                        <div class="step-wrapper text-right" :class="stepWrapperClass">
+                                                                            <button type="button" class="btn btn-primary" @click="lastStep" :disabled="firststep">
+                                                                                Back
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-primary" @click="nextStep" :disabled="laststep">
+                                                                                Next
+                                                                            </button>
+                                                                            <button type="submit" class="btn btn-primary" v-if="laststep">
+                                                                                Submit
+                                                                            </button>
+                                                                        </div>
+                                                                    </script>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    <!-- wizard container -->
+                                                </div>
+                                                <div class="tab-pane fade" id="tab_borders_icons-3" role="tabpanel">
+                                                <!--      Wizard container        -->
+                                                    <form method="POST" action="">
+                                                            <div class="container">
+                                                                <div id="app2">
+                                                                    <step-navigation :steps="steps" :currentstep="currentstep">
+                                                                    </step-navigation>
+                                                                    
+                                                                    <div v-show="currentstep == 1">
+                                                                        <h5 class="text-center"><u>Company Details</u></h5><br>
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Business Name <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="firstname">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Registration No <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="text" name="lastname">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="name">Registration Date <span style="color: red;">*</span></label>
+                                                                                    <input class="form-input form-control-sm form-control" type="date" name="middlename">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Sector <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="nationalityid" name="nationalityid">
+                                                                                        <option value="1">Manufacturing</option>
+                                                                                        <option value="2">Agriculture</option>
+                                                                                        <option value="3">Mining</option>
+                                                                                        <option value="4">Tourism</option>
+                                                                                        <option value="5">Energy</option>
+                                                                                        <option value="6">Construction</option>
+                                                                                        <option value="7">Transportation</option>
+                                                                                        <option value="8">Telecommunication</option>
+                                                                                        <option value="9">IT Services</option>
+                                                                                        <option value="10">Education</option>
+                                                                                        <option value="11">HealthCare</option>
+                                                                                        <option value="12">Others</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Pin no.</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="nrc">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">VAT No.</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="passportno">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Entity type <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                                                                        <option value="1">Limited Co</option>
+                                                                                        <option value="2">Sole Proprietor</option>
+                                                                                        <option value="3">Partnership</option>
+                                                                                        <option value="4">Club</option>
+                                                                                        <option value="5">Others</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Business Premises Type. <span style="color: red;">*</span></label>
+                                                                                    <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                                                                        <option value="1">Rented</option>
+                                                                                        <option value="2">Owned</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Lease Period </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="emailid">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Balance Period </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="homephone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Monthly Rental </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">No of Permanent Employees </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">No of Casual Employees</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Estimated Value Of Business </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Monthly Gross Margin </label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                                <div class="form-group col-md-3">
+                                                                                    <label class="form-label" for="email">Gross Monthly Sales</label>
+                                                                                    <input class="form-input form-control form-control-sm" type="text" name="workphone">
+                                                                                </div>
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div v-show="currentstep == 2">
+                                                                        <h5 class="text-center"><u>Contact Details</u></h5><br>
+                                                                       <div class="row">
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Contact Person <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinfirstname">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Contact Person Designation <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinlastname">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="name">Contact Person Phone<span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinmiddlename">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Contact Person Extension </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinnrcid">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Contact Person Email <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kindob">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Physical Address</label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinplaceofwork">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Postal Address</label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kinoccupation">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">District <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="districtid2" name="districtid2">
+                                                                                    <option value="1">Chibombo</option>
+                                                                                    <option value="2">Kabwe</option>
+                                                                                    <option value="3">Kapiri Mposhi</option>
+                                                                                    <option value="4">Mkushi</option>
+                                                                                    <option value="5">Mumbwa</option>
+                                                                                    <option value="6">Serenje</option>
+                                                                                    <option value="7">Chililabombwe</option>
+                                                                                    <option value="8">Chingola</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Province <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="provinceid2" name="provinceid2">
+                                                                                    <option value="1">Central</option>
+                                                                                    <option value="2">Copperbelt</option>
+                                                                                    <option value="3">Eastern</option>
+                                                                                    <option value="4">Luapula</option>
+                                                                                    <option value="5">Lusaka</option>
+                                                                                    <option value="6">North-Western</option>
+                                                                                    <option value="7">Northern</option>
+                                                                                    <option value="8">Southern</option>
+                                                                                    <option value="9">Western</option>
+                                                                                    <option value="10">Muchinga</option>
+                                                                                    <option value="11">Others</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Email <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kintelephonenumber">
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label class="form-label" for="email">Telephone No <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="kintelephonenumber">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div v-show="currentstep == 3">
+                                                                    <h5 class="text-center"><u>Proprietor Detail</u></h5><br>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Title <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="kintitleid" name="kintitleid">
+                                                                                    <option value="1">Mr</option>
+                                                                                    <option value="2">Mrs</option>
+                                                                                    <option value="3">Ms</option>
+                                                                                    <option value="4">Miss</option>
+                                                                                    <option value="5">Dr</option>
+                                                                                    <option value="6">Er</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Name <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Id No.<span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Address </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Share Percentage <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Gender <span style="color: red;">*</span></label>
+                                                                                <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                                                                    <option value="1">Male</option>
+                                                                                    <option value="2">Female</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">D.O.B <span style="color: red;">*</span></label>
+                                                                                <input class="form-input form-control form-control-sm" type="date" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Contact No </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Email </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Passport No </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label class="form-label" for="email">Driving License No </label>
+                                                                                <input class="form-input form-control form-control-sm" type="text" name="document_doccontent">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <step2 v-for="step in steps" :currentstep="currentstep" :key="step.id" :step="step" :stepcount="steps.length" @step-change2="stepChanged">
+                                                                    </step>
+
+                                                                    <script type="x-template" id="step-navigation-template2">
+                                                                        <ol class="step-indicator">
+                                                                            <li v-for="step in steps" is="step-navigation-step1" :key="step.id" :step="step" :currentstep="currentstep">
+                                                                            </li>
+                                                                        </ol>
+                                                                    </script>
+
+                                                                    <script type="x-template" id="step-navigation-step-template2">
+                                                                        <li :class="indicatorclass">
+                                                                            <div class="step"><i :class="step.icon_class"></i></div>
+                                                                            <div class="caption hidden-xs hidden-sm">Step <span v-text="step.id"></span>: <span v-text="step.title"></span></div>
+                                                                        </li>
+                                                                    </script>
+
+                                                                    <script type="x-template" id="step-template2">
+                                                                        <div class="step-wrapper text-right" :class="stepWrapperClass">
+                                                                            <button type="button" class="btn btn-primary" @click="lastStep" :disabled="firststep">
+                                                                                Back
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-primary" @click="nextStep" :disabled="laststep">
+                                                                                Next
+                                                                            </button>
+                                                                            <button type="submit" class="btn btn-primary" v-if="laststep">
+                                                                                Submit
+                                                                            </button>
+                                                                        </div>
+                                                                    </script>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    <!-- wizard container --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+                            </div>
+
+                            <div class="position-absolute pos-bottom pos-left pos-right p-3 text-center">
+                                 ©  <%= Timex.today.year %> Loans & Savings powered by&nbsp;
+                                    <a href='http://www.probasegroup.com/' class='text-black' title='ProBASE' target='_blank'>
+                                        <img src="<%= Routes.static_path(@conn, "/images/logo/2.png") %>" width="100">
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    
+    <script src="<%= Routes.static_path(@conn, "/js/vendors.bundle.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/js/app.bundle.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/js/jquery.validate.min.js") %>"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js'></script>
+
+<script>
+Vue.component("step-navigation-step", {
+  template: "#step-navigation-step-template",
+
+  props: ["step", "currentstep"],
+
+  computed: {
+    indicatorclass() {
+      return {
+        active: this.step.id == this.currentstep,
+        complete: this.currentstep > this.step.id };
+
+    } } });
+
+
+
+Vue.component("step-navigation", {
+  template: "#step-navigation-template",
+
+  props: ["steps", "currentstep"] });
+
+
+Vue.component("step", {
+  template: "#step-template",
+
+  props: ["step", "stepcount", "currentstep"],
+
+  computed: {
+    active() {
+      return this.step.id == this.currentstep;
+    },
+
+    firststep() {
+      return this.currentstep == 1;
+    },
+
+    laststep() {
+      return this.currentstep == this.stepcount;
+    },
+
+    stepWrapperClass() {
+      return {
+        active: this.active };
+
+    } },
+
+
+  methods: {
+    nextStep() {
+      this.$emit("step-change", this.currentstep + 1);
+    },
+
+    lastStep() {
+      this.$emit("step-change", this.currentstep - 1);
+    } } });
+
+
+
+new Vue({
+  el: "#app",
+
+  data: {
+    currentstep: 1,
+
+    steps: [
+    {
+      id: 1,
+      title: "Personal Information",
+      icon_class: "fa fa-user" },
+
+    {
+      id: 2,
+      title: "Next Of Kin",
+      icon_class: "fa fa-users" },
+
+    {
+      id: 3,
+      title: "Documents",
+      icon_class: "fa fa-folder-open" }] },
+
+
+
+
+  methods: {
+    stepChanged(step) {
+      this.currentstep = step;
+    } } });
+</script>
+
+
+
+
+<script>
+Vue.component("step-navigation-step1", {
+  template: "#step-navigation-step-template1",
+
+  props: ["step", "currentstep"],
+
+  computed: {
+    indicatorclass() {
+      return {
+        active: this.step.id == this.currentstep,
+        complete: this.currentstep > this.step.id };
+
+    } } });
+
+
+
+Vue.component("step-navigation1", {
+  template: "#step-navigation-template1",
+
+  props: ["steps", "currentstep"] });
+
+
+Vue.component("step1", {
+  template: "#step-template1",
+
+  props: ["step", "stepcount", "currentstep"],
+
+  computed: {
+    active() {
+      return this.step.id == this.currentstep;
+    },
+
+    firststep() {
+      return this.currentstep == 1;
+    },
+
+    laststep() {
+      return this.currentstep == this.stepcount;
+    },
+
+    stepWrapperClass() {
+      return {
+        active: this.active };
+
+    } },
+
+
+  methods: {
+    nextStep() {
+      this.$emit("step-change1", this.currentstep + 1);
+    },
+
+    lastStep() {
+      this.$emit("step-change1", this.currentstep - 1);
+    } } });
+
+
+
+new Vue({
+  el: "#app1",
+
+  data: {
+    currentstep: 1,
+
+    steps: [
+    {
+      id: 1,
+      title: "Business Details",
+      icon_class: "fa fa-briefcase" },
+
+    {
+      id: 2,
+      title: "Contact Details",
+      icon_class: "fa fa-user" },
+
+    {
+      id: 3,
+      title: "Proprietor Details",
+      icon_class: "fa fa-folder-open" }] },
+
+
+
+
+  methods: {
+    stepChanged(step) {
+      this.currentstep = step;
+    } } });
+</script>
+
+
+<script>
+Vue.component("step-navigation-step2", {
+  template: "#step-navigation-step-template2",
+
+  props: ["step", "currentstep"],
+
+  computed: {
+    indicatorclass() {
+      return {
+        active: this.step.id == this.currentstep,
+        complete: this.currentstep > this.step.id };
+
+    } } });
+
+
+
+Vue.component("step-navigation2", {
+  template: "#step-navigation-template2",
+
+  props: ["steps", "currentstep"] });
+
+
+Vue.component("step2", {
+  template: "#step-template2",
+
+  props: ["step", "stepcount", "currentstep"],
+
+  computed: {
+    active() {
+      return this.step.id == this.currentstep;
+    },
+
+    firststep() {
+      return this.currentstep == 1;
+    },
+
+    laststep() {
+      return this.currentstep == this.stepcount;
+    },
+
+    stepWrapperClass() {
+      return {
+        active: this.active };
+
+    } },
+
+
+  methods: {
+    nextStep() {
+      this.$emit("step-change2", this.currentstep + 1);
+    },
+
+    lastStep() {
+      this.$emit("step-change2", this.currentstep - 1);
+    } } });
+
+
+
+new Vue({
+  el: "#app2",
+
+  data: {
+    currentstep: 1,
+
+    steps: [
+    {
+      id: 1,
+      title: "Business Details",
+      icon_class: "fa fa-briefcase" },
+
+    {
+      id: 2,
+      title: "Contact Details",
+      icon_class: "fa fa-user" },
+
+    {
+      id: 3,
+      title: "Proprietor Details",
+      icon_class: "fa fa-folder-open" }] },
+
+
+
+
+  methods: {
+    stepChanged(step) {
+      this.currentstep = step;
+    } } });
+</script>
+  </body>
+</html>

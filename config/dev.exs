@@ -1,12 +1,11 @@
-import Config
+use Mix.Config
 
 # Configure your database
-config :loanmanagementsystem, Loanmanagementsystem.Repo,
+config :loan_savings_system, LoanSavingsSystem.Repo,
   username: "postgres",
   password: "Password123$$",
+  database: "mfz_loans",
   hostname: "localhost",
-  database: "tisunge_loans",
-  stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -15,19 +14,46 @@ config :loanmanagementsystem, Loanmanagementsystem.Repo,
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with esbuild to bundle .js and .css sources.
-config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
-  # Binding to loopback ipv4 address prevents access from other machines.
-  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
-  check_origin: false,
-  code_reloader: true,
+# with webpack to recompile .js and .css sources.
+# config :loan_savings_system, LoanSavingsSystemWeb.Endpoint,
+#   http: [port: 6000],
+#   debug_errors: true,
+#   code_reloader: true,
+#   check_origin: false,
+#   watchers: [
+#     node: [
+#       "node_modules/webpack/bin/webpack.js",
+#       "--mode",
+#       "development",
+#       "--watch",
+#       cd: Path.expand("../assets", __DIR__)
+#     ]
+#   ]
+
+
+config :loan_savings_system, LoanSavingsSystemWeb.Endpoint,
+  # force_ssl: [hsts: true],
+  http: [port: 5050],
+  https: [
+    port: 6001,
+     cipher_suite: :compatible,
+     keyfile: "priv/cert/selfsigned_key.pem",
+     certfile: "priv/cert/selfsigned.pem"
+  ],
+  # tls: :always,
   debug_errors: true,
-  secret_key_base: "zvklr7MYoJn8EExOR7bCLY6pJfGPuOADhN3cW52uaTFkd7J4+n1mktCe1bDKrfRu",
+  code_reloader: true,
+  check_origin: false,
   watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    node: [
+      "node_modules/webpack/bin/webpack.js",
+      "--mode",
+      "development",
+      "--watch-stdin",
+      cd: Path.expand("../assets", __DIR__)
+    ]
   ]
+
 
 # ## SSL Support
 #
@@ -54,13 +80,13 @@ config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :loanmanagementsystem, LoanmanagementsystemWeb.Endpoint,
+config :loan_savings_system, LoanSavingsSystemWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/loanmanagementsystem_web/(live|views)/.*(ex)$",
-      ~r"lib/loanmanagementsystem_web/templates/.*(eex)$"
+      ~r"lib/loan_savings_system_web/{live,views}/.*(ex)$",
+      ~r"lib/loan_savings_system_web/templates/.*(eex)$"
     ]
   ]
 

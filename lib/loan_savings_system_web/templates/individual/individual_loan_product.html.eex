@@ -1,0 +1,744 @@
+
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/spectre.min.css") %>">
+
+<style>
+  #pricing{
+    text-align:center;
+  }
+  #innerdata{
+    padding: 50px;
+    border-radius: 14px;
+  }
+
+  .container, .columns {
+    height: 100%;
+    }
+
+    .zandgar__wizard {
+    display: block;
+    height: 100%;
+    position: relative;
+    }
+
+    .zandgar__wizard .zandgar__step {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    opacity: 0;
+    z-index: -1;
+    overflow: hidden;
+    transform: translateY(20px);
+    }
+    .zandgar__wizard .zandgar__step.zandgar__step__active {
+    opacity: 1;
+    z-index: 1;
+    transform: translateY(0);
+    transition: 
+        opacity .5s ease-out, 
+        transform .5s ease-out;
+    }
+
+    .form-input-hint {
+    display: none;
+    }
+
+    .form-input-hint.is-visible {
+    display: block;
+    }
+
+</style>
+
+
+
+
+<ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>        
+        - Loan Products      
+    </h1>
+
+    <div class="element-box-content">
+      <a href="/SME/dashboard" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>      
+    </div>
+  </div>   
+
+    <div class="row">
+      <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+          <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <section id="pricing" class="pricing">
+                  <div class="container-fluid"  data-aos="fade-up">
+                    <div class="row" >
+                        <%= for {loans, index} <- Enum.with_index(@loans) do %>
+                          <div class="col-lg-3 col-md-6" style="margin-top: 15px !important" data-aos="zoom-im" data-aos-delay="100">
+                              <div class="box featured" style="background-color: #011941; color: white;" id="innerdata">
+                                  <h1 style="color:#fff"><%= loans["productcategory"] %></h1>
+                                  <h4><sup>%</sup><%= loans["interestrate"] %><span> / Percentage</span></h4>
+                                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                  <!-- <div style="color:#fff"><small>ZMW</small>100 - <small>ZMW</small>10000</div> -->
+                                  <div>For <%= loans["tenure"] %> Month(s)</div>
+                                  <%= loans["productmapid"] %><br><br>
+                                  <div class="btn-wrap">
+                                      <button type="button" class="btn btn-default waves-effect waves-themed" style="color: red;" data-toggle="modal" data-target="#default-example-modal-lg-center">Apply Now</button>
+                                  </div>
+                              </div>
+                          </div>
+                        <% end %>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+                                        
+
+
+
+
+
+
+
+
+
+
+ <div class="modal fade" id="default-example-modal-lg-center" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">PBL Loan Application</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" style="height: 700px;">
+                  <div class="">
+                    <div class="columns">
+                      <div class="col col-mx-auto">
+                        <p id="steps-native" style="color: blue;" class="step"></p>
+                        <form id="wizard-native" class="my-2 py-2" action="<%= Routes.individual_path(@conn, :individual_loan_application) %>" enctype="multipart/form-data" method="POST">
+                          <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <section data-step="Personal">
+                                <h4 class="text-center"><u>Personal Details</u></h4><hr>
+                                  <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Title <span style="color: red;">*</span></label>
+                                        <select class="form-control form-control-sm" id="titleid" name="titleid">
+                                            <option value=1>Mr</option>
+                                            <option value=2>Mrs</option>
+                                            <option value=3>Ms</option>
+                                            <option value=4>Miss</option>
+                                            <option value=5>Dr</option>
+                                            <option value=6>Er</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="name">First Name <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control" type="text" value="<%= @conn.private.plug_session["current_user_bio_data"].firstName %>" name="firstname">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="name">Last Name <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control" type="text" value="<%= @conn.private.plug_session["current_user_bio_data"].lastName %>" name="lastname">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="name">Other Name</label>
+                                        <input class="form-input form-control" type="text" value="<%= @conn.private.plug_session["current_user_bio_data"].otherName %>" name="middlename">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Nationality <span style="color: red;">*</span></label>
+                                        <select class="form-control form-control-sm" id="nationalityid" name="nationalityid">
+                                            <option value="1">Zambian</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">NRC No. <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" value="365924/10/1" type="text" name="nrc">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Passport No.</label>
+                                        <input class="form-input form-control form-control-sm" value="8388293892" type="text" name="passportno">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Drivers License No.</label>
+                                        <input class="form-input form-control form-control-sm" value="99900099" type="text" name="drivinglicenseno">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Mobile No. <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" value="260978242442" type="text" name="mobileno">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Email <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" type="text" value="dolben800@gmail.com" name="emailid">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Home Phone No. <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" type="text" value="260978242442" name="homephone">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Work Phone No <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" type="text" value="260978242442" name="workphone">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Marital Status <span style="color: red;">*</span></label>
+                                        <select class="form-control form-control-sm" id="maritalstatusid" name="maritalstatusid">
+                                            <option value="1">Married</option>
+                                            <option value="2">Divorced</option>
+                                            <option value="3">Widow</option>
+                                            <option value="4">Widower</option>
+                                            <option value="5">Cohabiting</option>
+                                            <option value="6">Civil Union</option>
+                                            <option value="7">Single</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Gender <span style="color: red;">*</span></label>
+                                        <select class="form-control form-control-sm" id="genderid" name="genderid">
+                                            <option value="1">Male</option>
+                                            <option value="2">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Date Of Birth <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" value="1996-09-09" type="date" name="dob">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Postal Code <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" value="000000" type="text" name="postalcode1">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Customer Type <span style="color: red;">*</span></label>
+                                        <select class="form-control form-control-sm" id="custtype" name="custtype">
+                                            <option value="Individual">Individual</option>
+                                            <option value="NEW">NEW</option>
+                                            <option value="Existing">Existing</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Customer ID <span style="color: red;">*</span></label>
+                                        <input class="form-input form-control form-control-sm" type="text" value="1" name="customerid">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Branch Code <span style="color: red;">*</span></label>
+                                        <select class="form-control form-control-sm" id="branchcode" name="branchcode">
+                                            <option value="700">HEAD OFFICE</option>
+                                            <option value="701">WOODGATE BRANCH</option>
+                                            <option value="702">KITWE BRANCH</option>
+                                            <option value="703">KASAMA BRANCH</option>
+                                            <option value="704">KABWE BRANCH</option>
+                                            <option value="705">SOLWEZI BRANCH</option>
+                                            <option value="706">CHOMA BRANCH</option>
+                                            <option value="707">NDOLA BRANCH</option>
+                                            <option value="708">CHIPATA BRANCH</option>
+                                            <option value="709">MUMBWA BRANCH</option>
+                                            <option value="710">MANSA BRANCH</option>
+                                            <option value="711">MONGU BRANCH</option>
+                                            <option value="712">CHINSALI BRANCH</option>
+                                            <option value="713">MULUNGUSHI BRANCH</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label" for="email">Division</label>
+                                        <input class="form-input form-control form-control-sm" type="text" value="tech" name="division">
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn float-right" style="background-color: #011941; color: white;" data-next>Next</button>
+                                </div>
+                            </section>
+
+                            <section data-step="security">
+                            <h4 class="text-center">Customer Address Details</h4><hr>
+                              <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Country 1 <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="countryid1" name="countryid1">
+                                          <option value="1">Zambia</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Province 1 <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="provinceid1" name="provinceid1">
+                                          <option value="1">Central</option>
+                                          <option value="2">Copperbelt</option>
+                                          <option value="3">Eastern</option>
+                                          <option value="4">Luapula</option>
+                                          <option value="5">Lusaka</option>
+                                          <option value="6">North-Western</option>
+                                          <option value="7">Northern</option>
+                                          <option value="8">Southern</option>
+                                          <option value="9">Western</option>
+                                          <option value="10">Muchinga</option>
+                                          <option value="11">Others</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">District 1 <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="districtid1" name="districtid1">
+                                          <option value="1">Chibombo</option>
+                                          <option value="2">Kabwe</option>
+                                          <option value="3">Kapiri Mposhi</option>
+                                          <option value="4">Mkushi</option>
+                                          <option value="5">Mumbwa</option>
+                                          <option value="6">Serenje</option>
+                                          <option value="7">Chililabombwe</option>
+                                          <option value="8">Chingola</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Address 1 <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="Lusaka" name="address1">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Country 2 <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="countryid2" name="countryid2">
+                                          <option value="1">Zambia</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Province 2 <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="provinceid2" name="provinceid2">
+                                          <option value="1">Central</option>
+                                          <option value="2">Copperbelt</option>
+                                          <option value="3">Eastern</option>
+                                          <option value="4">Luapula</option>
+                                          <option value="5">Lusaka</option>
+                                          <option value="6">North-Western</option>
+                                          <option value="7">Northern</option>
+                                          <option value="8">Southern</option>
+                                          <option value="9">Western</option>
+                                          <option value="10">Muchinga</option>
+                                          <option value="11">Others</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">District 2 <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="districtid2" name="districtid2">
+                                           <option value="1">Chibombo</option>
+                                          <option value="2">Kabwe</option>
+                                          <option value="3">Kapiri Mposhi</option>
+                                          <option value="4">Mkushi</option>
+                                          <option value="5">Mumbwa</option>
+                                          <option value="6">Serenje</option>
+                                          <option value="7">Chililabombwe</option>
+                                          <option value="8">Chingola</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Address 2 <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="kitwe" name="address2">
+                                </div>
+                              </div>
+                                <hr>
+                              <h4 class="text-center">Next Of Kin Details</h4><hr>
+                              <div class="row">
+                                 <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Title <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="kintitleid" name="kintitleid">
+                                          <option value="1">Mr</option>
+                                          <option value="2">Mrs</option>
+                                          <option value="3">Ms</option>
+                                          <option value="4">Miss</option>
+                                          <option value="5">Dr</option>
+                                          <option value="6">Er</option>
+                                      </select>
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="name">First Name <span style="color: red;">*</span></label>
+                                      <input class="form-input form-control" type="text" value="Adriel" name="kinfirstname">
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="name">Last Name <span style="color: red;">*</span></label>
+                                      <input class="form-input form-control" type="text" value="Phiri" name="kinlastname">
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="name">Other Name <span style="color: red;">*</span></label>
+                                      <input class="form-input form-control" type="text" value="Adriel" name="kinmiddlename">
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">NRC No. <span style="color: red;">*</span></label>
+                                      <input class="form-input form-control form-control-sm" value="265922/10/1" type="text" name="kinnrcid">
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Marital Status <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="kinmaritalstatusid" name="kinmaritalstatusid">
+                                          <option value="1">Married</option>
+                                          <option value="2">Divorced</option>
+                                          <option value="3">Widow</option>
+                                          <option value="4">Widower</option>
+                                          <option value="5">Cohabiting</option>
+                                          <option value="6">Civil Union</option>
+                                          <option value="7">Single</option>
+                                      </select>
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Gender <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="kingenderid" name="kingenderid">
+                                          <option value="1">Male</option>
+                                          <option value="2">Female</option>
+                                      </select>
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Date Of Birth <span style="color: red;">*</span></label>
+                                      <input class="form-input form-control form-control-sm" type="date" value="1990-01-02" name="kindob">
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Relationship Type <span style="color: red;">*</span></label>
+                                      <select class="form-control form-control-sm" id="kinrelationshipid" name="kinrelationshipid">
+                                          <option value="1">Father</option>
+                                          <option value="2">Mother</option>
+                                          <option value="3">Brother</option>
+                                          <option value="4">Sister</option>
+                                          <option value="5">Wife</option>
+                                          <option value="6">Son</option>
+                                          <option value="7">Daughter</option>
+                                          <option value="8">Grand Father</option>
+                                          <option value="9">Grand Mother</option>
+                                          <option value="10">Niece</option>
+                                          <option value="11">Nephew</option>
+                                          <option value="12">Uncle</option>
+                                          <option value="13">Cousin</option>
+                                          <option value="14">Aunty</option>
+                                          <option value="15">BrotherInLaw</option>
+                                          <option value="16">SisterInLaw</option>
+                                          <option value="17">MotherInLaw</option>
+                                          <option value="18">FatherInLaw</option>
+                                          <option value="19">Husband</option>
+                                          <option value="20">Others</option>
+                                      </select>
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Place Of Work</label>
+                                      <input class="form-input form-control form-control-sm" type="text" value="PBS" name="kinplaceofwork">
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Occupation</label>
+                                      <input class="form-input form-control form-control-sm" type="text" value="TECH" name="kinoccupation">
+                                  </div>
+                                  <div class="form-group col-md-3">
+                                      <label class="form-label" for="email">Mobile Number <span style="color: red;">*</span></label>
+                                      <input class="form-input form-control form-control-sm" value="260978242444" type="text" name="kintelephonenumber">
+                                  </div>
+                              </div>
+                              <div>
+                                  <button class="btn btn-default btn-link text-gray" data-prev>Previous</button>
+                                  <button class="btn float-right"  style="background-color: #011941; color: white;" data-next>Next</button>
+                              </div>
+                            </section>
+
+                            <section data-step="employerdetails">
+                              <h4 class="text-center">Employer Details</h4><hr>
+                              <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Employer Code <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="00000073" name="employercode">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Employer ID <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="246" name="employeeid">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Employment Type <span style="color: red;">*</span></label>
+                                     <select class="form-control form-control-sm" id="financetype" name="employmenttypeid">
+                                          <option value="1">Permanent</option>
+                                          <option value="2">Contract</option>
+                                          <option value="3">Daily Wages</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Employer Product Map <span style="color: red;">*</span></label>
+                                     <select class="form-control form-control-sm" id="employerproductmapid" name="employerproductmapid">
+                                        <%= for {loans, index} <- Enum.with_index(@loans) do %>
+                                          <option value="<%= loans["productmapid"] %>"><%= loans["productcategory"] %></option>
+                                        <% end %>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Occupation </label>
+                                    <input class="form-input form-control" type="text" value="DEVELOPER" name="occupation">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Salary Component Type <span style="color: red;">*</span></label>
+                                    <select class="form-control form-control-sm" id="salarycomponenttypeid" name="salarycomponenttypeid">
+                                          <option value="1">Income</option>
+                                          <option value="2">Expense</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Salary Component <span style="color: red;">*</span></label>
+                                    <select class="form-control form-control-sm" id="salarycomponent" name="salarycomponent">
+                                          <option value="Basic">Basic</option>
+                                          <option value="RegularAllowance">RegularAllowance</option>
+                                          <option value="OtherAllowance">OtherAllowance</option>
+                                          <option value="NAPSA">NAPSA</option>
+                                          <option value="PAYE">PAYE</option>
+                                          <option value="OtherCreditExposure">OtherCreditExposure</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Amount <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="100.0" name="amount">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Employement Start Date <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="date" value="2011-09-09" name="employementstartdate">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Contract end Date</label>
+                                    <input class="form-input form-control" type="date" value="2029-09-09" name="contractenddate">
+                                </div>
+                              </div>
+                              <hr> 
+                              <h4 class="text-center">Bank Details</h4><hr>
+                              <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Bank Name <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="Stanbic" name="bankname">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Bank Branch <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="Main" name="bankbranch">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Bank Account Type <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="Current" name="bankaccounttype">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Bank Acount No. <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="3847588239492" name="bankaccountno">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Bank Acount Name <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="Current" name="bankaccountname">
+                                </div>
+                              </div>
+                              <div>
+                                  <button class="btn btn-default btn-link text-gray" data-prev>Previous</button>
+                                   <button class="btn float-right"  style="background-color: #011941; color: white;" data-next>Next</button>
+                              </div>
+                            </section>
+                            <section data-step="loandetails">
+                              <h4 class="text-center">Loan Details</h4><hr>
+                              <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Loan Amount <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="500.0" name="loanamount">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Loan Date <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="2022-06-08" name="loandate">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Is Force Closure <span style="color: red;">*</span></label>
+                                    <select class="form-control form-control-sm" id="isforceclosur" name="isforceclosur">
+                                          <option value="YES">YES</option>
+                                          <option value="NO">NO</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Force Closure Loan Id</label>
+                                    <input class="form-input form-control" type="text"  value="1" name="forceclosureloanid">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">force Closure Date</label>
+                                    <input class="form-input form-control" type="date" value="2022-06-08" name="forceclosuredate">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Loan Type <span style="color: red;">*</span></label>
+                                    <select class="form-control form-control-sm" id="loantypeid" name="loantypeid">
+                                          <option value="1">Others</option>
+                                          <option value="2">Car</option>
+                                          <option value="3">PayRoll Back Loan</option>
+                                          <option value="4">Individual Personal Loans</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Loan Purpose <span style="color: red;">*</span></label>
+                                     <select class="form-control form-control-sm" id="loanpurposeid" name="loanpurposeid">
+                                          <option value="1">Car Purchase</option>
+                                          <option value="2">Farming Inputs</option>
+                                          <option value="3">Farming Equipments</option>
+                                          <option value="4">Renovation</option>
+                                          <option value="5">Others</option>
+                                          <option value="6">Education</option>
+                                          <option value="7">Vehicle Purchase</option>
+                                          <option value="8">Land Purchase</option>
+                                          <option value="9">Farming Inputs</option>
+                                          <option value="10">Medical Emergencies</option>
+                                          <option value="11">Funeral Expenses</option>
+                                          <option value="12">Home Improvement/Repairs</option>
+                                          <option value="13">Business</option>
+                                          <option value="14">Appliances/Electronic Gadget</option>
+                                          <option value="15">Travel/vacation</option>
+                                          <option value="16">Paying off third party loans</option>
+                                          <option value="17">Wedding/kitchen parties</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Is Pay Off <span style="color: red;">*</span></label>
+                                       <select class="form-control form-control-sm" id="ispayoff" value="CASH" name="ispayoff">
+                                          <option value="YES">YES</option>
+                                          <option value="NO">NO</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Pay Off Account Number</label>
+                                    <input class="form-input form-control" type="text" value="309309349934" name="payoffaccountnumber">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Pay Off Mode</label>
+                                    <input class="form-input form-control" type="text" value="CASH" name="payoffmode">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Pay Off Branch</label>
+                                    <input class="form-input form-control" type="text" value="HEAD OFFICE" name="payoffbranch">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="name">Pay Off Amount</label>
+                                    <input class="form-input form-control" type="text" value="100.0" name="payoffamount">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="form-label" for="email">Pay Off Institution</label>
+                                    <input class="form-input form-control" type="text" value="MFZ" name="payoffinstitution">
+                                </div>
+                              </div>
+                              <hr> 
+                              <h4 class="text-center">Documents <span style="color: red;">*</span></h4><hr>
+                              <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Doctype Type</label>
+                                     <select class="form-control form-control-sm" id="doctypeid" name="doctypeid">
+                                          <option value="1">Employee NRC ID</option>
+                                          <option value="2">Employee Payslip</option>
+                                          <option value="3">Employee Photo</option>
+                                          <option value="4">Employee ID</option>
+                                          <option value="5">Contract</option>
+                                          <option value="6">Authorized Signature</option>
+                                          <option value="7">Authorized Signature 1</option>
+                                          <option value="8">Authorized Signature 2</option>
+                                          <option value="9">Authorized Signature 3</option>
+                                          <option value="10">Authorized Signature 4</option>
+                                          <option value="11">Employee Signature</option>
+                                          <option value="12">CRB Document</option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Document Name <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="text" value="Employee NRC ID" name="document">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="email">Select Document <span style="color: red;">*</span></label>
+                                    <input class="form-input form-control" type="file" value="RDpTUUwgMTAwMCBSb2xlcy50eHQ=" name="document_doccontent">
+                                </div>
+                              </div>
+                              <div>
+                                  <button class="btn btn-default btn-link text-gray" data-prev>Previous</button>
+                                  <button class="btn btn-info  float-right" type="submit">Submit</button>
+                              </div>
+                            </section>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/zangdar@1.0.25/dist/zangdar.min.js"></script>             
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.4/SmoothScroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script>
+      function buildStepsBreadcrumb (wizard, element, steps) {
+        const $steps = document.getElementById(element)
+        $steps.innerHTML = ''
+        for (let label in steps) {
+          if (steps.hasOwnProperty(label)) {
+            const $li = document.createElement('li')
+            const $a = document.createElement('a')
+            $li.classList.add('step-item')
+            if (steps[label].active) {
+              $li.classList.add('active')
+            }
+            $a.setAttribute('href', '#')
+            $a.classList.add('tooltip')
+            $a.dataset.tooltip = label
+            $a.innerText = label
+            $a.addEventListener('click', e => {
+              e.preventDefault()
+              wizard.revealStep(label)
+            })
+            $li.appendChild($a)
+            $steps.appendChild($li)
+          }
+        }
+      }
+
+      function onStepChange(wizard, selector) {
+          const steps = wizard.getBreadcrumb()
+          buildStepsBreadcrumb(wizard, selector, steps)
+      }
+
+      function customValidation (step, fields, form) {
+          Array.from(document.querySelectorAll('.has-error')).forEach(el => {
+            el.classList.remove('has-error')
+            let message = el.querySelector('.form-input-hint')
+            message.classList.remove('is-visible')
+            message.innerText = ''
+          })
+          debugger
+          if (step.labeled('security')) {
+            if (!form.password.value.length || !form.password_confirm.value.length || form.password.value !== form.password_confirm.value) {
+              form.password.parentNode.classList.add('has-error')
+              form.password_confirm.parentNode.classList.add('has-error')
+              let message = form.password_confirm.parentNode.querySelector('.form-input-hint')
+              message.innerText = "Passwords must be the very same !"
+              message.classList.add('is-visible')
+              return false
+            }
+          } else if (step.labeled('personal')) {
+            debugger
+          }
+          return true
+        }
+
+      const native_wizard = new window.Zangdar('#wizard-native', {
+        onStepChange: () => {
+          onStepChange(native_wizard, 'steps-native')
+        },
+        onSubmit(e) {
+        // e.preventDefault()
+          console.log(e.target.elements)
+          return false
+        }
+      })
+
+      onStepChange(native_wizard, 'steps-native')
+
+      const custom_wizard = new window.Zangdar('#wizard-custom', {
+        onStepChange: () => {
+          onStepChange(custom_wizard, 'steps-custom')
+        },
+        customValidation,
+        onSubmit(e) {
+        //  e.preventDefault()
+        console.log(e.target.elements)
+        return false
+        }
+      })
+
+      onStepChange(custom_wizard, 'steps-custom')
+  </script>

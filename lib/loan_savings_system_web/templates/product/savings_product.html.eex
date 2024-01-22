@@ -1,0 +1,288 @@
+
+
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Savings Products
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+       <a class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_savings" data-toggle="modal"> Add Savings Product</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Name</th>
+                      <th>Code</th>
+                      <th class="text-right">Principal Amount</th>
+                      <th class="text-right">Annual Interest(%)</th>
+                      <th class="text-right">Fixed Period (days)</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <%= for savings <- @savings_products do %>
+                        <tr>
+                        <td><%= savings.productname %></td>
+                        <td><%= savings.code %></td>
+                        <td class="text-right"><%= savings.isoCode %><%= Formatter.format_number(savings.minimumprincipal) %> - <%= savings.isoCode %><%= Formatter.format_number(round(savings.maximumprincipal)) %></td>
+                        <td class="text-right"><%= savings.interest %></td>
+                        <td class="text-right"><%= savings.defaultperiod %></td>
+                        <td><%= savings.status %></td>
+                        <td>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class='subheader-icon fal fa-chevron-down'></i>
+                                    </span>
+                                    <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#"  
+                                    data-id="<%= savings.id %>" 
+                                    data-name="<%= savings.name %>" 
+                                    data-productname="<%= savings.productname %>" 
+                                    data-code="<%= savings.code %>" 
+                                    data-details="<%= savings.details %>" 
+                                    data-currencyname="<%= savings.currencyname %>" 
+                                    data-currencydecimals="<%= savings.currencydecimals %>" 
+                                    data-interest="<%= savings.interest %>" 
+                                    data-interesttype="<%= savings.interesttype %>" 
+                                    data-interestmode="<%= savings.interestmode %>" 
+                                    data-defaultperiod="<%= savings.defaultperiod %>" 
+                                    data-periodtype="<%= savings.periodtype %>"
+                                    data-minimumprincipal="<%= Formatter.format_number(round(savings.minimumprincipal)) %>"
+                                    data-maximumprincipal="<%= Formatter.format_number(round(savings.maximumprincipal)) %>" 
+                                    data-yearlengthindays="<%= savings.yearlengthindays %>" 
+                                    data-status="<%= savings.status %>"  
+                                    data-productcharges="<%= @savings_product_charges %>"
+                                    data-divestmentpackages="<%= @list_divestment_packages %>"
+                                    data-toggle="modal" data-target="#view_savings_product"><i class="fal fa-eye"></i> View</a>
+                                    
+                                    <a class="dropdown-item" href="#"  
+                                    data-id="<%= savings.id %>" 
+                                    data-name="<%= savings.name %>" 
+                                    data-productname="<%= savings.productname %>" 
+                                    data-code="<%= savings.code %>" 
+                                    data-details="<%= savings.details %>" 
+                                    data-currencyname="<%= savings.currencyname %>" 
+                                    data-currencydecimals="<%= savings.currencydecimals %>" 
+                                    data-interest="<%= savings.interest %>" 
+                                    data-interesttype="<%= savings.interesttype %>" 
+                                    data-interestmode="<%= savings.interestmode %>" 
+                                    data-defaultperiod="<%= savings.defaultperiod %>" 
+                                    data-periodtype="<%= savings.periodtype %>"
+                                    data-minimumprincipal="<%= (round(savings.minimumprincipal)) %>"
+                                    data-maximumprincipal="<%= (round(savings.maximumprincipal)) %>" 
+                                    data-yearlengthindays="<%= savings.yearlengthindays %>" 
+                                    data-status="<%= savings.status %>" 
+                                    data-productcharges="<%= @savings_product_charges %>"
+                                    data-divestmentpackages="<%= @list_divestment_packages %>"
+                                    data-toggle="modal" data-target="#edit_savings_product"><i class="fal fa-edit"></i> Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                          
+                        </td>
+                        </tr>
+                      <%end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<%= render "add_savings_modal.html", assigns %>
+<%= render "view_savings_modal.html", assigns %>
+<%= render "edit_savings_modal.html", assigns %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%# --------------- Edit Savings Product %>
+
+
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view company details
+    /*$('#view_savings_product').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var details = button.data('details')
+            var code = button.data('code')
+            var name = button.data('name')
+            var productname = button.data('productname')
+            var currencyName = button.data('currencyName')
+            var interest = button.data('interest')
+            var currencydecimals = button.data('currencydecimals')
+            var interesttype = button.data('interesttype')
+            var interestmode = button.data('interestmode')
+            var defaultperiod = button.data('defaultperiod')
+            var periodtype = button.data('periodtype')
+            var minimumprincipal = button.data('minimumprincipal')
+            var maximumprincipal = button.data('maximumprincipal')
+            var yearlengthindays = button.data('yearlengthindays')
+            var status = button.data('status')
+            var startperioddays = button.data('startperioddays')
+            var endperioddays = button.data('endperioddays')
+            var divestmentValuation = button.data('divestmentvaluation')
+            var divestmentid = button.data('divestmentid')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #productname').val(productname);
+            modal.find('.modal-body #code').val(code);
+            modal.find('.modal-body #details').val(details);
+            modal.find('.modal-body #currencyName').val(currencyName);
+            modal.find('.modal-body #interest').val(interest);
+            modal.find('.modal-body #currencydecimals').val(currencydecimals);
+            modal.find('.modal-body #interesttype').val(interesttype);
+            modal.find('.modal-body #interestmode').val(interestmode);
+            modal.find('.modal-body #defaultperiod').val(defaultperiod);
+            modal.find('.modal-body #periodtype').val(periodtype);
+            modal.find('.modal-body #minimumprincipal').val(minimumprincipal);
+            modal.find('.modal-body #maximumprincipal').val(maximumprincipal);
+            modal.find('.modal-body #yearlengthindays').val(yearlengthindays);
+            modal.find('.modal-body #status').val(status);
+            modal.find('.modal-body #startperioddays').val(startperioddays);
+            modal.find('.modal-body #endperioddays').val(endperioddays);
+            modal.find('.modal-body #divestmentvaluation').val(divestmentValuation);
+            modal.find('.modal-body #divestmentid').val(divestmentid);
+           
+    });
+    $('#edit_savings_product').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var details = button.data('details')
+            var code = button.data('code')
+            var name = button.data('name')
+            var productname = button.data('productname')
+            var currencyName = button.data('currencyName')
+            var interest = button.data('interest')
+            var currencydecimals = button.data('currencydecimals')
+            var interesttype = button.data('interesttype')
+            var interestmode = button.data('interestmode')
+            var defaultperiod = button.data('defaultperiod')
+            var periodtype = button.data('periodtype')
+            var minimumprincipal = button.data('minimumprincipal')
+            var maximumprincipal = button.data('maximumprincipal')
+            var yearlengthindays = button.data('yearlengthindays')
+            var status = button.data('status')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #productname').val(productname);
+            modal.find('.modal-body #code').val(code);
+            modal.find('.modal-body #details').val(details);
+            modal.find('.modal-body #currencyName').val(currencyName);
+            modal.find('.modal-body #interest').val(interest);
+            modal.find('.modal-body #currencydecimals').val(currencydecimals);
+            modal.find('.modal-body #interesttype').val(interesttype);
+            modal.find('.modal-body #interestmode').val(interestmode);
+            modal.find('.modal-body #defaultperiod').val(defaultperiod);
+            modal.find('.modal-body #periodtype').val(periodtype);
+            modal.find('.modal-body #minimumprincipal').val(minimumprincipal);
+            modal.find('.modal-body #maximumprincipal').val(maximumprincipal);
+            modal.find('.modal-body #yearlengthindays').val(yearlengthindays);
+            modal.find('.modal-body #status').val(status);
+           
+    });*/
+});
+</script>
+
+<script>
+            $(document).ready(function()
+            {
+                $('#dt-basic-example_divest').dataTable(
+                {
+                    responsive: true,
+                    dom:
+                        /*	--- Layout Structure 
+                        	--- Options
+                        	l	-	length changing input control
+                        	f	-	filtering input
+                        	t	-	The table!
+                        	i	-	Table information summary
+                        	p	-	pagination control
+                        	r	-	processing display element
+                        	B	-	buttons
+                        	R	-	ColReorder
+                        	S	-	Select
+
+                        	--- Markup
+                        	< and >				- div element
+                        	<"class" and >		- div with a class
+                        	<"#id" and >		- div with an ID
+                        	<"#id.class" and >	- div with an ID and a class
+
+                        	--- Further reading
+                        	https://datatables.net/reference/option/dom
+                        	--------------------------------------
+                         */
+                        "<'row mb-3'<'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'B>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    buttons: [
+                        {
+                            extend: 'selectAll',
+                            text: 'Select All',
+                            className: 'btn-outline-secondary btn-sm'
+                        },
+                        {
+                            extend: 'selectNone',
+                            text: 'Deselect',
+                            className: 'btn-outline-secondary btn-sm'
+                        },
+                        {
+                            extend: 'selectRows',
+                            text: 'Rows',
+                            className: 'btn-outline-secondary btn-sm'
+                        }
+
+                    ],
+                    select: true
+                });
+            });
+
+           
+        </script>
+
+

@@ -1,0 +1,174 @@
+<ol class="breadcrumb page-breadcrumb">
+	<li class="breadcrumb-item"> <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings </li>
+	<li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+	<h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Fixed Deposit Reports
+    </h1>
+	<div class="element-box-content">
+		<button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" id="admin-fixed-deposits-filter"><i class="fal fa-filter"></i> Filter</button>&nbsp; <button  onclick="history.back(-1)"class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</button>
+	</div>
+</div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+
+
+<div class="row">
+	<div class="col-xl-12">
+		<div id="panel-1" class="panel">
+			<div class="panel-content">
+				<div class="panel-container show">
+					<div class="panel-content">
+						<table id="dt-fixed-deposits-entries" class="table table-bordered table-hover table-striped w-100">
+							<input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+							<input type="hidden" id="id" name="id">
+							<thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+								<tr>
+									<th>Customer Name</th>
+									<th>Deposit Details</th>
+									<th>Product Name</th>
+									<th>Status</th>
+									<th>Divestment Type</th>
+									<th class="text-right">Principal Amount</th>
+									<th class="text-right">Expected Interest</th>
+									<th class="text-right">Total Charges</th>
+									<th class="text-right">Accrued Interest</th>
+									<th class="text-right">Divest Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="fixed_deposits_filter_model" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Filter Details</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true"><i class="fal fa-times"></i></span> </button>
+			</div>
+			<form action="" method="post">
+				<div class="modal-body">
+					<input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+					<div class="row">
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">First Name</label>
+								<input type="text" id="customer_first_name" name="firstName" class="form-control form-control-sm">
+							</div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Last Name</label>
+								<input type="text" id="customer_last_name" name="lastName" class="form-control form-control-sm"> </div>
+						</div>
+
+							<div class="col-sm-6 form-group">
+								<div class="form-group">
+									<label for="example-input-small" class="form-label">Product Name</label>
+									<select id="product_name" name="name" class="form-control form-control-sm select2">
+										<option value=""></option>
+										<%= for product <- @products do %>
+                                        <option value="<%= product.id %>"><%= product.name %></option>
+                                    <% end %>
+									</select>
+								</div>
+							</div>
+
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Divestment Type</label>
+								<select id="divestment_type" name="divestmentType" class="form-control form-control-sm">
+									<option value=""></option>
+									<option value="Full Divestment">Full Divestment</option>
+									<option value="Partial Divestment">Partial Divestment</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Status</label>
+								<select id="fixed_deposit_status" name="fixedDepositStatus" class="form-control form-control-sm">
+								<option value=""></option>
+									<option value="ACTIVE">Active</option>
+									<option value="PENDING">Pending</option>
+									<option value="FAILED">Failed</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Currency</label>
+								<select id="currency_id" name="currencyId" class="form-control form-control-sm select2">
+										<option value=""></option>
+										<%= for curency <- @curencies do %>
+                                        <option value="<%= curency.id %>"><%= curency.name %></option>
+                                    <% end %>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Min Principal</label>
+								<input type="text" id="product_minimum_amount" name="product_minimumPeriod" class="form-control form-control-sm"> </div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Max Principal</label>
+								<input type="text" id="product_maximum_amount" name="product_maximumPeriod" class="form-control form-control-sm"> </div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Deposit Date From</label>
+								<input type="date" id="deposit_date_from" name="deposit_date_from" class="form-control form-control-sm"> </div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Deposit Date To</label>
+								<input type="date" id="deposit_date_to" name="deposit_date_to" class="form-control form-control-sm"> </div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Maturity Date From</label>
+								<input type="date" id="maturity_date_from" name="maturity_date_from" class="form-control form-control-sm"> </div>
+						</div>
+						<div class="col-sm-6 form-group">
+							<div class="form-group">
+								<label for="example-input-small" class="form-label">Maturity Date To</label>
+								<input type="date" id="maturity_date_to" name="maturity_date_to" class="form-control form-control-sm"> </div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+					<button type="button" class="btn btn-success" id="admin_fixed_deposits_filter" style="margin:2px;">filter</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<script>
+	$(document).ready(function(){
+		$('#colorselector').change(function() {
+			$('.colors').hide();
+			$('#' + $(this).val()).show();
+		});
+	});
+</script>

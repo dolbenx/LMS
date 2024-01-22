@@ -1,0 +1,59 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <!--<li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>-->
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> End of Day History
+    </h1>
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th class="border-top-0 table-scale-border-bottom fw-700">End of Day Date</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">Total Interest Accrued</th>
+                      <th class="border-top-0 table-scale-border-bottom fw-700">Penalties Incurred</th>
+                      <th class="border-top-0 table-scale-border-bottom fw-700">End of Day Type</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">Date Ran</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">Status</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom fw-700">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <%= for end_of_day_run <- @tbl_end_of_day do %>
+                        <tr>
+                            <td><%= DateTime.to_date(end_of_day_run.start_date) %></td>
+                            <td><%= end_of_day_run.currencyName %><%= Float.ceil(end_of_day_run.total_interest_accrued, @client.defaultCurrencyDecimals) %></td>
+                            <td><%= end_of_day_run.currencyName %><%= Float.ceil(end_of_day_run.penalties_incurred, @client.defaultCurrencyDecimals) %></td>
+                            <td><%= end_of_day_run.end_of_day_type %></td>
+                            <td><%= end_of_day_run.date_ran %></td>
+                            <td class="text-right"><%= end_of_day_run.status %></td>
+							<td>
+								<span><a class="btn btn-primary" href="/Savings/End-Of-Day-History-Entries/<%= end_of_day_run.id %>">View Entries</a></span>
+							</td>
+                        </tr>
+					  
+                      <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>

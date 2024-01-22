@@ -1,0 +1,165 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Fixed Deposit Reports
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :loans_admin_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                    <h5 class="form-header">
+                    <u>Add Document Type</u>
+                    </h5>
+                    <!--- ############# FIXED DEPOSITS  #######################-->
+                    <div class="form-desc colors" id="fixeddeposits">
+                    <!--<h5 class="form-header text-center">FIXED DEPOSITS</h5>-->
+                        <form action="<%= Routes.maintenance_path(@conn, :add_document_type) %>" method="POST" class="">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <div class="row">
+                              <div class="form-group col-md-4">
+                                  <label class="form-label" for="input-group-sm-size-2">Belongs To</label>
+                                  <div class="input-group input-group-sm">
+                                    <select class="custom-select" name="belongs_to" id="belongs_to" required aria-label="Example select with button addon">
+                                            <option selected="">Select One...</option>
+                                            <option value="INDIVIDUAL">Individual</option>
+                                            <option value="COMPANY">Company</option>
+                                            <option value="SME">SME</option>
+                                    </select>
+                                  </div>
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label class="form-label" for="input-group-sm-size-2">Document Type</label>
+                                  <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" name="doc_type" id="doc_type">
+                                     <input type="hidden" class="form-control" name="status" required value="PENDING">
+                                  </div>
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                  <label class="form-label" for="input-group-sm-size-2">Required</label>
+                                  <div class="input-group input-group-sm">
+                                       <select class="custom-select" name="required" required id="required" aria-label="Example select with button addon">
+                                          <option selected="" >Select One...</option>
+                                          <option value="YES" >YES</option>
+                                          <option value="NO" >NO</option>
+                                      </select>
+                                  </div>
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label class="form-label" for="input-group-sm-size-2">Applicable To</label>
+                                  <div class="input-group input-group-sm">
+                                       <select class="custom-select" name="applicable_to" required id="required" aria-label="Example select with button addon">
+                                          <option selected="" >Select One...</option>
+                                          <option value="REGISTRATION">REGISTRATION</option>
+                                          <option value="LOAN_APPLICATION" >LOAN APPLICATION</option>
+                                      </select>
+                                  </div>
+                              </div> <br>
+                            <button class="btn btn-primary pull-right" type="submit"> Generate</button>
+                        </form>
+                    </div>
+                    <!--- ############# END  #######################-->
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                        <th>Document Type </th>
+                        <th>Belongs To</th>
+                        <th>Required</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for doc <- @dox do %>
+                        <tr>
+                            <td><%= doc.document_type %></td>
+                            <td><%= doc.belongs_to %></td>
+                            <td><%= doc.required %></td>
+                            <td><%= doc.status %></td>
+                            <%= if doc.status == "ACTIVE" do %>
+                            <td><span class="badge badge-success badge-pill"><%= doc.status %></span> </td>
+                            <% else %>
+                                <td><span class="badge badge-danger badge-pill"><%= doc.status %></span> </td>
+                            <% end %>
+                            <td>
+                                <div class="input-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                            <div class="dropdown-menu">
+                                            <%= if doc.status != "ACTIVE" do %>
+                                                <%= if Enum.member?(String.split(@conn.private.plug_session["current_user_role"].permissions, "~"), "super_admin") || Enum.member?(String.split(@conn.private.plug_session["current_user_role"].permissions, "~"), "approver") do %>
+                                                  <a class="dropdown-item js-sweetalert2-activate_sys_user" href="<%= Routes.maintenance_path(@conn, :activate_doc_type, doc.id ) %>" style="color: #008000" ><i class="fal fa-check"></i> Activate</a>
+                                                <% end %>
+                                            <% else %>
+                                              <%= if Enum.member?(String.split(@conn.private.plug_session["current_user_role"].permissions, "~"), "super_admin") || Enum.member?(String.split(@conn.private.plug_session["current_user_role"].permissions, "~"), "deactivator") do %>
+                                                <a class="dropdown-item js-sweetalert2-disable_user" href="<%= Routes.maintenance_path(@conn, :deactivate_doc_type, doc.id ) %>" style="color: #ff0000" data-id="#"><i class="fal fa-times"></i> Disable</a>
+                                              <% end %>
+                                            <% end %>
+                                            <a type="button" class="dropdown-item" href="<%= Routes.maintenance_path(@conn, :activate_doc_type, doc.id ) %>" ><i class="fal fa-eye"></i> View</a>
+                                             <a type="button" class="dropdown-item" href="<%= Routes.maintenance_path(@conn, :deactivate_doc_type, doc.id ) %>" ><i class="fal fa-eye"></i> View Documents</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<script>
+  $(document).ready(function(){
+      $('#colorselector').change(function() {
+          $('.colors').hide();
+          $('#' + $(this).val()).show();
+    });
+  });
+</script>

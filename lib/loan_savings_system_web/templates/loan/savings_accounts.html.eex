@@ -1,0 +1,81 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Savings Accounts
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Account No.</th>
+                      <th>Account Type</th>
+                      <th>Currency Name</th>
+                      <th>Total Deposits</th>
+                      <th>Total Withdrawals</th>
+                      <th>Total Charges</th>
+                      <th>Total Penalties</th>
+                      <th>Total Interest Earned</th>
+                      <th>Total Interest Posted</th>
+                      <th>Total Tax</th>
+                      <th>Derived Account Balance</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <%= for savings_account <- @savings_accounts do %>
+                      <tr>
+                          <td><%= savings_account.accountNo %></td>
+                          <td><%= savings_account.accountType %></td>
+                          <td><%= savings_account.currencyName %></td>
+                          <td><%= savings_account.totalDeposits %></td>
+                          <td><%= savings_account.totalWithdrawals %></td>
+                          <td><%= savings_account.totalCharges %></td>
+                          <td><%= savings_account.totalPenalties %></td>
+                          <td><%= savings_account.totalInterestEarned %></td>
+                          <td><%= savings_account.totalInterestPosted %></td>
+                          <td><%= savings_account.totalTax %></td>
+                          <td><%= savings_account.derivedAccountBalance %></td>
+                          <td><%= savings_account.status %></td>
+                          <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class='subheader-icon fal fa-chevron-down'></i>
+                                    </span>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item">
+                                            <i class="fal fa-edit"></i>
+                                              Disable
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>

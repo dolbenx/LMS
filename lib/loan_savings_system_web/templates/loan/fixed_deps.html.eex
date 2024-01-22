@@ -1,0 +1,98 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Fixed Deposits
+    </h1>
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th class="text-center border-top-0 table-scale-border-bottom">S/No</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom">Customer Details</th>
+                      <th class="border-top-0 table-scale-border-bottom">Product</th>
+                      <th class="border-top-0 table-scale-border-bottom">Period</th>
+                      <th class="text-right border-top-0 table-scale-border-bottom">Status</th>
+                      <th class="text-center border-top-0 table-scale-border-bottom">Principal Amount</th>
+                      <th class="text-right border-top-0 table-scale-border-bottom">Expected Interest</th>
+                      <th class="text-right border-top-0 table-scale-border-bottom">Accrued Interest</th>
+                      <th class="text-right border-top-0 table-scale-border-bottom">Total Amount Paid Out</th>
+                      <th class="text-right border-top-0 table-scale-border-bottom">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <%= for {fixed_dep, index} <- Enum.with_index(@fixed_deps) do %>
+						
+                        <tr>
+                            <td><%= (index+1) %>.</td> 
+                            <td><strong><%= fixed_dep.firstName %> <%= fixed_dep.lastName %></strong> 
+                            <br>
+                            <small><%= fixed_dep.accountNo %></small>
+                            </td>
+                            <td><strong><%= fixed_dep.productName %></strong><br><small><%= fixed_dep.fixedPeriod %> <%= fixed_dep.fixedPeriodType %> | <%= fixed_dep.interestRate %>%/<%= fixed_dep.interestRateType %> | <%= fixed_dep.yearLengthInDays %> days</small></td>
+                            <td><strong>Deposited On:</strong> <%= DateTime.to_date(fixed_dep.startDate) %> <br><strong>Matures On:</strong> <%= DateTime.to_date(fixed_dep.endDate) %></td>
+							<%= if(!is_nil(fixed_dep.isMatured) && fixed_dep.isMatured==true) do %>
+								<%= if(!is_nil(fixed_dep.isWithdrawn) && fixed_dep.isWithdrawn==true) do %>
+									<td>Matured And Withdrawn</td>
+								<% else %>
+									<td>Matured Pending Withdrawal</td>
+								<% end %>
+							<% else %>
+								<%= if(!is_nil(fixed_dep.isDivested) && fixed_dep.isDivested==true) do %>
+									<td>Divested</td>
+								<% else %>
+									<%= if(fixed_dep.fixedDepositStatus=="ACTIVE") do %>
+										<td>Active</td>
+									<% else %>
+										<td>Pending</td>
+									<% end %>
+								<% end %>
+							<% end %>
+                            <td class="text-right "><sup><%= fixed_dep.currency %></sup> <%= Decimal.round(Decimal.from_float(fixed_dep.principalAmount), fixed_dep.currencyDecimals) %></td>
+                            <td class="text-right "><sup><%= fixed_dep.currency %></sup> <%= Decimal.round(Decimal.from_float(fixed_dep.expectedInterest), fixed_dep.currencyDecimals) %></td>
+                            <td class="text-right"><sup><%= fixed_dep.currency %></sup> <%= Decimal.round(Decimal.from_float(fixed_dep.accruedInterest), fixed_dep.currencyDecimals) %></td>
+                            <td class="text-right"><sup><%= fixed_dep.currency %></sup> <%= Decimal.round(Decimal.from_float(fixed_dep.totalAmountPaidOut), fixed_dep.currencyDecimals) %></td>
+							<td>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class='subheader-icon fal fa-chevron-down'></i>
+                                        </span>
+                                        <div class="dropdown-menu">
+                                            <%= if fixed_dep.fixedDepositStatus == "PENDING" do %>
+                                            <a class="dropdown-item js-sweetalert2-disable_question" href="/Savings/confirm-fixed-deposit/<%= fixed_dep.id %>">
+                                                <i class="fal fa-mark"></i>
+                                                Confirm Payment
+                                            </a>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+							</td>
+                        </tr>
+                      <% end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>

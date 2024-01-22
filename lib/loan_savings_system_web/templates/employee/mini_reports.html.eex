@@ -1,0 +1,363 @@
+    <style>
+     
+    #nrctype{
+       display: none;
+    }
+    #loanaccnotype{
+       display: none;
+    }
+    #errordiv{
+       display: none;
+    }
+    .ajax-loader {
+    visibility: hidden;
+    background-color: rgba(255,255,255,0.7);
+    position: absolute;
+    z-index: +100 !important;
+    width: 96%;
+    height:80%;
+    }
+
+    .ajax-loader .spinner-border {
+    position: relative;
+    top:50%;
+    left:50%;
+    }
+    </style>
+    <ol class="breadcrumb page-breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="subheader-icon fal fa-chart-area"></i> Loans
+        </li>
+        <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+    </ol>
+
+    <div class="subheader">
+        <h1 class="subheader-title">
+            <i class="subheader-icon fal fa-window"></i>
+            Mini Statement Report
+        </h1>
+    </div>
+
+                                                        
+    <div class="ajax-loader">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div id="panel-1" class="panel">
+                <div class="panel-container show">
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <form id="idForm" method="POST">
+                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <div class="row">
+                                    <div class="col-sm-4 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">Reference Number Type</label>
+                                            <select class="form-control form-control-sm" id="refnotype" name="refnotype">
+                                                <option value="2">NRC</option>
+                                                <option value="1">Loan Account Number</option>
+                                            </select>
+                                        </div>
+                                    </div>                      
+                                    <div class="col-sm-4 form-group">
+                                        <div class="form-group">
+                                            <label for="example-input-small" class="form-label">Reference Number</label>
+                                            <input type="text" id="refnumber" name="refnumber" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <div class="form-group" style="padding-top: 23px;">
+                                            <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="submit"> Filter</button>        
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-xl-12" id="loanaccnotype">
+            <div id="panel-1" class="panel">
+             <div class="panel-hdr">
+                    <h2>
+                        Loan Mini Statement
+                    </h2>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <div id="loanreff">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xl-12" id="nrctype">
+            <div id="panel-1" class="panel">
+                <div class="panel-hdr">
+                    <h2>
+                        Loan Mini Statement
+                    </h2>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-container show">
+                        <div class="panel-content" id="nrclist">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12" id="errordiv">
+            <div id="panel-1" class="panel">
+                <div class="panel-container show">
+                    <div class="panel-container show">
+                        <div class="panel-content" id="errorss">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+
+    $("#idForm").submit(function(e) {
+		    e.preventDefault();
+		    var form = $(this);
+
+            if ($('#refnotype').val() == "2"){
+                $.ajax({
+                type: "POST",
+                beforeSend: function(){
+                    $('.ajax-loader').css("visibility", "visible");
+                },
+                url: '/Employee/Mini-Statement/Reports',
+                data: form.serialize(), // serializes the form's elements.
+                success: function(response)
+                {
+                    $('#nrctype').show();	
+                    $('#loanaccnotype').hide();
+                    $('#errordiv').hide();	
+
+                    var resp = JSON.parse(response)			
+                    var data = resp.resp
+                    console.log(data.length, ">>>>>>>>>>>>>>>>>>>>>>>++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                    console.log(data.loanref, "0000000000000000000000++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                    var rstmsg = data.rstmsg
+                    var loanref = data.loanref
+                    if(rstmsg == 'I-0 : Successfully completed'){
+                   
+                        html = '<table id="" class="table table-bordered table-hover table-striped w-100"><thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">';
+                
+                            html = html + '<tr>';
+                                html = html + '<th>';
+                                    html = html + "Loan Account Number";
+                                html = html + '</th>';
+                                html = html + '<th>';
+                                    html = html + "Status";
+                                html = html + '</th>';
+                            html = html + '</tr>';
+
+                        html = html + '</thead><tbody>';
+                        x = 0;
+                            if(loanref.length>0)
+                                {
+                                    for(i=0; i<loanref.length; i++)
+
+                                    var info = loanref[i];
+                                    $.each(loanref, function(index, value){
+                                    {
+                                        x++;
+                                        html = html + '<tr>';
+                                            html = html + '<td>';
+                                                html = html + value['loanaccno'];
+                                            html = html + '</td>';
+                                            html = html + '<td>';
+                                                html = html + value['status'];
+                                            html = html + '</td>';
+                                        html = html + '</tr>';
+                                    }
+                                });
+                            }else{
+                                html = html + '<tr>';
+                                    html = html + '<td colspan="2" class="text-center">';
+                                        html = html + "You currently do not have any loans";
+                                    html = html + '</td>';
+                                html = html + '</tr>';
+                            }
+
+
+                        html = html + '</tbody></table>';
+                        document.getElementById('nrclist').innerHTML  = html;
+                    
+                    }else{
+                        $('#loanaccnotype').hide();
+                        $('#nrctype').hide();
+                        $('#errordiv').show();	
+                        html = '<table id="" class="table table-bordered table-hover table-striped w-100"><thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">';
+                
+                        html = html + '</thead><tbody>';
+
+                            html = html + '<tr>';
+                                html = html + '<td colspan="2" class="alert alert-warning text-center alert-dismissible fade show" role="alert">';
+                                    html = html + data;
+                                html = html + '</td>';
+                            html = html + '</tr>';
+                        html = html + '</tbody></table>';
+
+
+                        document.getElementById('errorss').innerHTML  = html;
+                    }
+                    
+
+                //  alert(data.code); // show response from the php script.
+                //$('#messge').val(data.message);
+                //$('#code').val(data.code);	
+                },
+                error: function(request, msg, error) {
+                    Swal.fire(
+                        'Oops..',
+                        'There Was A Problem, Please Try Again',
+                        'error'
+                    )
+                },
+                complete: function(){
+                    $('.ajax-loader').css("visibility", "hidden");
+                }
+            })
+		}else{
+                $.ajax({
+                type: "POST",
+                beforeSend: function(){
+                    $('.ajax-loader').css("visibility", "visible");
+                },
+                url: '/Employee/Mini-Statement/Reports',
+                data: form.serialize(), // serializes the form's elements.
+                success: function(response)
+                {
+                    $('#loanaccnotype').show();
+                    $('#nrctype').hide();	
+                    $('#errordiv').hide();	
+
+                    var resp = JSON.parse(response)			
+                    var data = resp.resp
+                    var loandetail = data.loandetail
+                    var ministatement = data.ministatement
+                    var rstmsg = data.rstmsg
+                    console.log(data.loandetail, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                    console.log(data.ministatement, "==================================================");
+
+                    if(rstmsg == 'I-0 : Successfully completed'){
+                        html = '<table id="" class="table table-bordered table-hover table-striped w-100"><thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">';
+                
+                            html = html + '<tr>';
+                                html = html + '<th>';
+                                    html = html + "Description";
+                                html = html + '</th>';
+                                html = html + '<th>';
+                                    html = html + "Credit";
+                                html = html + '</th>';
+                                html = html + '<th>';
+                                    html = html + "Date";
+                                html = html + '</th>';
+                            html = html + '</tr>';
+
+                        html = html + '</thead><tbody>';
+                        x = 0;
+                        if(ministatement.length>0)
+                            {
+                                for(i=0; i<ministatement.length; i++)
+
+                                var info = ministatement[i];
+                                $.each(ministatement, function(index, value){
+                                {
+                                    x++;
+                                    html = html + '<tr>';
+                                        html = html + '<td>';
+                                            html = html + value['description'];
+                                        html = html + '</td>';
+                                        html = html + '<td>';
+                                            html = html + value['credit'];
+                                        html = html + '</td>';
+                                        html = html + '<td>';
+                                            html = html + value['date'];
+                                        html = html + '</td>';
+                                    html = html + '</tr>';
+                                }
+                                });
+                            }else{
+                                html = html + '<tr>';
+                                    html = html + '<td colspan="2" class="text-center">';
+                                        html = html + "You currently do not have any loans";
+                                    html = html + '</td>';
+                                html = html + '</tr>';
+                            }
+
+                        html = html + '</tbody></table>';
+
+                        document.getElementById('loanreff').innerHTML  = html;
+                    }else{
+                        $('#loanaccnotype').hide();
+                        $('#nrctype').hide();
+                        $('#errordiv').show();	
+                        html = '<table id="" class="table table-bordered table-hover table-striped w-100"><thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">';
+                
+                        html = html + '</thead><tbody>';
+
+                            html = html + '<tr>';
+                                html = html + '<td colspan="2" class="alert alert-warning text-center alert-dismissible fade show" role="alert">';
+                                    html = html + data;
+                                html = html + '</td>';
+                            html = html + '</tr>';
+                        html = html + '</tbody></table>';
+
+
+                        document.getElementById('errorss').innerHTML  = html;
+                    
+                    }
+                       
+                     // $.each(response, function(index, value){
+                    //    console.log('The value at arr[' + index + '] is: ' + value);
+                    //});
+                //  alert(data.code); // show response from the php script.
+                //$('#messge').val(data.message);
+               // $('#code').val(data.code);	
+                },
+                error: function(request, msg, error) {
+                    Swal.fire(
+                        'Oops..',
+                        'There Was A Problem, Please Try Again',
+                        'error'
+                    )
+                },
+                complete: function(){
+                    $('.ajax-loader').css("visibility", "hidden");
+                }
+            })
+		}
+	});
+</script>
+

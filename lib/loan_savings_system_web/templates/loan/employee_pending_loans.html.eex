@@ -1,0 +1,53 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Pending Loans
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card mb-g">
+          <div class="card-body">
+              <div class="frame-wrap p-0 border-0 m-0">
+                  <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                      <thead>
+                          <tr>
+                              <th>Customer Name</th>
+                              <th>Loan No</th>
+                              <th>Disbursed Date</th>
+                              <th>Loan Type</th>
+                              <th>Term</th>
+                              <th>Repay Every</th>
+                              <th>Status</th>
+                              <th>Currency</th>
+                              <th>Principal</th>
+                              <th>Interest</th>
+                              <th>Amount Disbursed</th>
+                              <th>Expected Total Repayment</th>
+                              <th>&nbsp;</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+

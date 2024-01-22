@@ -1,0 +1,112 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> All Loans
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card mb-g">
+          <div class="card-body">
+              <div class="frame-wrap p-0 border-0 m-0">
+                  <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                      <thead>
+                          <tr>
+                              <th>Customer Name</th>
+                              <th>Loan No</th>
+                              <th>Disbursed Date</th>
+                              <th>Loan Type</th>
+                              <th>Term</th>
+                              <th>Repay Every</th>
+                              <th>Status</th>
+                              <th>Currency</th>
+                              <th>Principal</th>
+                              <th>Interest</th>
+                              <th>Amount Disbursed</th>
+                              <th>Expected Total Repayment</th>
+                              <th>&nbsp;</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <%= for loan_tran <- @loan_transaction do %>
+                          <tr>
+                            <td><%= loan_tran.userBioData.firstName %> <%= loan_tran.userBioData.lastName %></td>
+                            <%= if (is_nil(loan_tran.cl.account_no)) do %>
+                              <td>N/A</td>
+                            <% else %>
+                              <td><%= loan_tran.cl.account_no %></td>
+                            <% end %>
+
+                            <%= if (is_nil(loan_tran.cl.disbursedon_date)) do %>
+                              <td>N/A</td>
+                            <% else %>
+                              <td><%= loan_tran.cl.disbursedon_date %></td>
+                            <% end %>
+                              <td><%= loan_tran.cl.loan_type %></td>
+                              <td><%= loan_tran.cl.term_frequency %></td>
+                              <td><%= loan_tran.cl.repay_every_type %></td>
+                              <td><%= Interpreter.interpreteLoanStatus(loan_tran.cl.loan_status, @conn.private.plug_session["current_user_role"].roleType) %></td>
+                              <td><%= loan_tran.cl.currency_code %></td>
+                              <td><%= :erlang.float_to_binary(loan_tran.cl.principal_amount, [{:decimals, loan_tran.loanProduct.currencyDecimals}]) %></td>
+                              <td><%= loan_tran.cl.interest_charged_derived %></td>
+                            <%= if (is_nil(loan_tran.cl.principal_disbursed_derived)) do %>
+                              <td>N/A</td>
+                            <% else %>
+                              <td><%= loan_tran.cl.principal_disbursed_derived %></td>
+                            <% end %>
+                              <td><%= loan_tran.cl.total_expected_repayment_derived %></td>
+                              <td>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class='subheader-icon fal fa-chevron-down'></i>
+                                        </span>
+                                        <div class="dropdown-menu" style="left: auto !important">
+                                          <%= if(@conn.private.plug_session["current_user_role"].roleType=="EMPLOYEE") do %>
+                                            <a class="dropdown-item" href="/Employee/Loans/Accounts/<%= loan_tran.cl.id %>">
+                                                <i class="fal fa-edit"></i>
+                                                  View Loan
+                                            </a>
+                                          <% end %>
+
+                                          <%= if(@conn.private.plug_session["current_user_role"].roleType=="COMPANY ADMIN") do %>
+                                            <a class="dropdown-item" href="/Employer/Loans/Accounts/<%= loan_tran.cl.id %>">
+                                                <i class="fal fa-edit"></i>
+                                                  View Loan
+                                            </a>
+                                          <% end %>
+
+                                          <%= if(@conn.private.plug_session["current_user_role"].roleType=="BANKOFFICE_ADMIN") do %>
+                                            <a class="dropdown-item" href="/Loans/Accounts/<%= loan_tran.cl.id %>">
+                                                <i class="fal fa-edit"></i>
+                                                  View Loan
+                                            </a>
+                                          <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                              </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+

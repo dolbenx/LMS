@@ -1,0 +1,172 @@
+
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Customer Details
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            
+              <div class="" style="background-color: white;">
+                <div data-size="A4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-flex align-items-center mb-5">
+                                <h2 class="keep-print-font fw-500 mb-0 text-primary flex-1 position-relative">
+                                    Personal Details
+                                    <small class="text-muted mb-0 fs-xs">
+                                        <strong>Description</strong>
+                                    </small>
+                                  </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-clean table-sm align-self-end">
+                                    <tbody>
+                                      
+                                        <tr>
+                                            <td><strong>First Name:</strong></td>
+                                            <td><%= @customer_d.firstName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mobile Number:</strong> </td>
+                                            <td><%= @customer_d.mobileNumber %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ID Type:</strong></td>
+                                            <td><%= @customer_d.meansOfIdentificationType %></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-clean table-sm align-self-end">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Last Name:</strong> </td>
+                                            <td><%= @customer_d.lastName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email:</strong></td>
+                                            <td> <%= @customer_d.emailAddress %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ID Number:</strong> </td>
+                                            <td><%= @customer_d.meansOfIdentificationNumber %></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-clean table-sm align-self-end">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Other Name:</strong> </td>
+                                            <td> <%= @customer_d.otherName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>D.O.B:</strong></td>
+                                            <td><%= @customer_d.dateOfBirth %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Gender:</strong></td>
+                                            <td><%= @customer_d.gender %> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                        <h2 class="keep-print-font fw-500 mb-0 text-primary flex-1 position-relative"> Fixed Deposits</h2>
+                            <div class="table-responsive">
+                                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Account Type</th>
+                                                        <th>Principal Amount</th>
+                                                        <th>Fixed Period</th>
+                                                        <th>Fixed Period Type</th>
+                                                        <th>Fnterest Rate</th>
+                                                        <th>Interest Rate Type</th>
+                                                        <th>Expected Interest</th>
+                                                        <th>Accrued Interest</th>
+                                                        <th>Currency</th>
+                                                        <th>Currency Decimals</th>
+                                                        <th>Year Length In Days</th>
+                                                        <th>Total DepositCharge</th>
+                                                        <th>Total Withdrawal Charge</th>
+                                                        <th>Total Penalties</th>
+                                                        <th>Total Amount PaidOut</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                        <th>Status</th>
+                                                        <th>Admin.Controls</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%= for fixed_deposit <- @fixed_deposits do %>
+                                                      <tr>
+                                                        <td><%= fixed_deposit.accountType %></td>
+                                                        <td><%= Formatter.format_number(round(fixed_deposit.principalAmount)) %></td>
+                                                        <td><%= fixed_deposit.fixedPeriod %></td>
+                                                        <td><%= fixed_deposit.fixedPeriodType %></td>
+                                                        <td><%= fixed_deposit.interestRate  %></td>
+                                                        <td><%= fixed_deposit.interestRateType %></td>  
+                                                        <td><%= fixed_deposit.expectedInterest %></td>
+                                                        <td><%= fixed_deposit.accruedInterest %></td>
+                                                        <td><%= fixed_deposit.currency %></td>   
+                                                        <td><%= fixed_deposit.currencyDecimals %></td>
+                                                        <td><%= fixed_deposit.yearLengthInDays %></td>
+                                                        <td><%= fixed_deposit.totalDepositCharge  %></td>
+                                                        <td><%= fixed_deposit.totalWithdrawalCharge %></td>  
+                                                        <td><%= fixed_deposit.totalPenalties %></td>
+                                                        <td><%= fixed_deposit.totalAmountPaidOut %></td>
+                                                        <td><%= fixed_deposit.startDate %></td> 
+                                                        <td><%= fixed_deposit.endDate %></td>
+                                                        <td><%= fixed_deposit.status %></td>         
+                                                        <td>
+                                                      </tr>
+                                                    <% end %>
+                                                </tbody>
+                                            </table>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  

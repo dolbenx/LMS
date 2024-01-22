@@ -1,0 +1,28 @@
+<h1>Listing Fcube request responses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Request data</th>
+      <th>Response data</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for fcube_req_res <- @fcube_request_responses do %>
+    <tr>
+      <td><%= fcube_req_res.request_data %></td>
+      <td><%= fcube_req_res.response_data %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.fcube_req_res_path(@conn, :show, fcube_req_res) %></span>
+        <span><%= link "Edit", to: Routes.fcube_req_res_path(@conn, :edit, fcube_req_res) %></span>
+        <span><%= link "Delete", to: Routes.fcube_req_res_path(@conn, :delete, fcube_req_res), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Fcube req res", to: Routes.fcube_req_res_path(@conn, :new) %></span>

@@ -1,0 +1,155 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> End Of Day Configuration
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+                    
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                    
+                    <!--- ############# FIXED DEPOSITS  #######################-->
+                    <div class="form-desc colors" id="fixeddeposits">
+
+                        <form action="/Savings/End-Of-Day-Configurations" method="post" class="">
+							<table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+							  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+								<tr>
+								  <th class="border-top-0 table-scale-border-bottom fw-700">S/N</th>
+								  <th class="border-top-0 table-scale-border-bottom fw-700">Action</th>
+								  <th class="text-center border-top-0 table-scale-border-bottom fw-700">DR</th>
+								  <th class="text-center border-top-0 table-scale-border-bottom fw-700">CR</th>
+								</tr>
+							  </thead>
+							  <tbody>
+									<tr>
+										<td>1</td>
+										<td>Principal On Deposits</td>
+										<td class="text-center">
+										
+											<select name="deposit_principal_dr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+										<td class="text-center">
+											<select name="deposit_principal_cr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>Interest On Deposits</td>
+										<td class="text-center">
+											<select name="deposit_interest_dr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+										<td class="text-center">
+											<select name="deposit_interest_cr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>Principal on Divestment</td>
+										<td class="text-center">
+											<select name="divestment_principal_dr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+										<td class="text-center">
+											<select name="divestment_principal_cr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>Interest on Divestment</td>
+										<td class="text-center">
+											<select name="divestment_interest_dr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+										<td class="text-center">
+											<select name="divestment_interest_cr">
+												<option value="-1">--Select One--</option>
+												<%= for gl <- @glAccounts do %>
+													<option value="<%= gl.id %>|||<%= gl.gl_account_no %>|||<%= gl.account_name %>"><%= gl.account_name %> - <%= gl.gl_account_no %></option>
+												<% end %>
+											</select>
+										</td>
+									</tr>
+							  </tbody>
+							</table>
+							
+							<input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+							<div style="clear: both !important" class="form-group col-md-12">
+                                <button class="btn btn-primary pull-right" type="submit">Save</button>
+							</div>
+                        </form>
+                    </div>
+                    <!--- ############# END  #######################-->
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+  <script>
+  $(document).ready(function(){
+      $('#colorselector').change(function() {
+          $('.colors').hide();
+          $('#' + $(this).val()).show();
+    });
+  });
+</script>
+
+
+
+  
+               
+
+         

@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<!-- 
+Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4
+Version: 4.0.0
+Author: Sunnyat Ahmmed
+Website: http://gootbootstrap.com
+Purchase: https://wrapbootstrap.com/theme/smartadmin-responsive-webapp-WB0573SK0
+License: You must have a valid license purchased only from wrapbootstrap.com (link above) in order to legally use this theme for your project.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>
+           Loan & Savings
+        </title>
+        <meta name="description" content="Marketing Dashboard">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
+        <!-- Call App Mode on ios devices -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!-- Remove Tap Highlight on Windows Phone IE -->
+        <meta name="msapplication-tap-highlight" content="no">
+        <!-- base css -->
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/vendors.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/app.bundle.css") %>">
+
+
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/notifications/sweetalert2/sweetalert2.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/datagrid/datatables/datatables.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/page-invoice.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/default.css") %>" />
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/formplugins/select2/select2.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/miscellaneous/fullcalendar/fullcalendar.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/miscellaneous/reactions/reactions.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/miscellaneous/jqvmap/jqvmap.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/formplugins/smartwizard/smartwizard.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/page-invoice.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/statistics/chartjs/chartjs.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/formplugins/select2/select2.bundle.css") %>">
+
+    </head>
+    <body class="mod-bg-1 ">
+        <!-- DOC: script to save and load page settings -->
+        <script>
+            /**
+             *	This script should be placed right after the body tag for fast execution 
+             *	Note: the script is written in pure javascript and does not depend on thirdparty library
+             **/
+            'use strict';
+
+            var classHolder = document.getElementsByTagName("BODY")[0],
+                /** 
+                 * Load from localstorage
+                 **/
+                themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+                {},
+                themeURL = themeSettings.themeURL || '',
+                themeOptions = themeSettings.themeOptions || '';
+            /** 
+             * Load theme options
+             **/
+            if (themeSettings.themeOptions)
+            {
+                classHolder.className = themeSettings.themeOptions;
+                console.log("%c✔ Theme settings loaded", "color: #148f32");
+            }
+            else
+            {
+                console.log("Heads up! Theme settings is empty or does not exist, loading default settings...");
+            }
+            if (themeSettings.themeURL && !document.getElementById('mytheme'))
+            {
+                var cssfile = document.createElement('link');
+                cssfile.id = 'mytheme';
+                cssfile.rel = 'stylesheet';
+                cssfile.href = themeURL;
+                document.getElementsByTagName('head')[0].appendChild(cssfile);
+            }
+            /** 
+             * Save to localstorage 
+             **/
+            var saveSettings = function()
+            {
+                themeSettings.themeOptions = String(classHolder.className).split(/[^\w-]+/).filter(function(item)
+                {
+                    return /^(nav|header|mod|display)-/i.test(item);
+                }).join(' ');
+                if (document.getElementById('mytheme'))
+                {
+                    themeSettings.themeURL = document.getElementById('mytheme').getAttribute("href");
+                };
+                localStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+            }
+            /** 
+             * Reset settings
+             **/
+            var resetSettings = function()
+            {
+                localStorage.setItem("themeSettings", "");
+            }
+
+        </script>
+        <!-- BEGIN Page Wrapper -->
+        <div class="page-wrapper">
+            <div class="page-inner">
+                <!-- BEGIN Left Aside -->
+                <aside class="page-sidebar">
+                    <div class="page-logo">
+                        <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+                            <img src="" alt="" aria-roledescription="logo">
+                            <span class="page-logo-text mr-1">Loans & Savings</span>
+                            <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+                            <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
+                        </a>
+                    </div>
+                    <!-- BEGIN PRIMARY NAVIGATION -->
+                    <nav id="js-primary-nav" class="primary-nav" role="navigation">
+                        <div class="nav-filter">
+                            <div class="position-relative">
+                                <input type="text" id="nav_filter_input" placeholder="Filter menu" class="form-control" tabindex="0">
+                                <a href="#" onclick="return false;" class="btn-primary btn-search-close js-waves-off" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar">
+                                    <i class="fal fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <img src="<%= Routes.static_path(@conn, "/images/avatar/1.png") %>" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+                            <div class="info-card-text">
+                                <a href="#" class="d-flex align-items-center text-white">
+                                    <span class="text-truncate text-truncate-sm d-inline-block">
+                                       
+                                    </span>
+                                </a>
+                                <span class="d-inline-block text-truncate text-truncate-sm"></span>
+                            </div>
+                            <img src="<%= Routes.static_path(@conn, "/images/logo/imgingest.png") %>" class="cover" alt="cover" style="width: 100%; height: 100%;">
+                            <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
+                                <i class="fal fa-angle-down"></i>
+                            </a>
+                        </div>
+                        <ul id="js-nav-menu" class="nav-menu">
+                            <li class="active open">
+                                <a href="<%= Routes.user_path(@conn, :dashboard)%>" title="Application Intel" data-filter-tags="application intel">
+                                    <i class="fal fa-home"></i>
+                                    <span class="nav-link-text" data-i18n="nav.application_intel">Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                                    <i class="fal fa-box"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Products</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.product_path(@conn, :loan_product)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Loan Products</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-users"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Customers</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.customer_path(@conn, :all_loan_customer)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">All Customers</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.customer_path(@conn, :employer)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Employer</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" title="Layout Options" data-filter-tags="theme settings layout options">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_layout_options">Employee</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.customer_path(@conn, :sme)%>" title="Skin Options" data-filter-tags="theme settings skin options">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_skin_options">SME's</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.customer_path(@conn, :individual)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Individual</span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="<%= Routes.customer_path(@conn, :offtaker)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Offtakers</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-shield-check"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Account Management</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.loan_path(@conn, :loans_accounts_for_bank_staff)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Loan Accounts</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-sticky-note"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Transactions</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.loan_path(@conn, :all_loan_transactions)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">All Transactions</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-cogs"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Maintenance</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :branch)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Branch</span>
+                                        </a>
+                                    </li> 
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :currency)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Currency</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :country)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Countries</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :document)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Document Types</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Pages" data-filter-tags="pages">
+                                    <i class="fal fa-file-pdf"></i>
+                                    <span class="nav-link-text" data-i18n="nav.pages">Reports</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.report_path(@conn, :loans_report)%>" title="Chat" data-filter-tags="pages chat">
+                                            <span class="nav-link-text" data-i18n="nav.pages_chat">Loans</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                                    <i class="fal fa-cog"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">System Configuration</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.system_path(@conn, :mno)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">MNO Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.system_path(@conn, :api)%>" title="Layout Options" data-filter-tags="theme settings layout options">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_layout_options">API Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.system_path(@conn, :bank)%>" title="Skin Options" data-filter-tags="theme settings skin options">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_skin_options">CBS Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.system_path(@conn, :system_configurations)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">  System Settings</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                             <li>
+                                <a href="#" title="Package Info" data-filter-tags="package info">
+                                    <i class="fal fa-user"></i>
+                                    <span class="nav-link-text" data-i18n="nav.package_info">User Management</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.user_path(@conn, :user_roles)%>" title="Product Licensing" data-filter-tags="package info product licensing">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_product_licensing">Bank Staff Roles</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.user_path(@conn, :user_mgt)%>" title="Documentation" data-filter-tags="package info documentation">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_documentation">System Users</span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="<%= Routes.user_path(@conn, :user_logs)%>" title="Product Licensing" data-filter-tags="package info product licensing">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_product_licensing">Audit Logs</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="filter-message js-filter-message bg-success-600"></div>
+                    </nav>
+                    <!-- END PRIMARY NAVIGATION -->
+                    <!-- NAV FOOTER -->
+                    <div class="nav-footer shadow-top">
+                        <a href="#" onclick="return false;" data-action="toggle" data-class="nav-function-minify" class="hidden-md-down">
+                            <i class="ni ni-chevron-right"></i>
+                            <i class="ni ni-chevron-right"></i>
+                        </a>
+                        <ul class="list-table m-auto nav-footer-buttons">
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Chat logs">
+                                    <i class="fal fa-comments"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Support Chat">
+                                    <i class="fal fa-life-ring"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Make a call">
+                                    <i class="fal fa-phone"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> <!-- END NAV FOOTER -->
+                </aside>
+                <!-- END Left Aside -->
+                <div class="page-content-wrapper">
+                    <!-- BEGIN Page Header -->
+                    <header class="page-header" role="banner">
+                        <!-- we need this logo when user switches to nav-function-top -->
+                        <div class="page-logo">
+                            <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+                                <img src="<%= Routes.static_path(@conn, "/images/logo/1.png") %>" alt="SmartAdmin WebApp" aria-roledescription="logo">
+                                <span class="page-logo-text mr-1">Loan & Savings</span>
+                                <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+                                <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
+                            </a>
+                        </div>
+                        <!-- DOC: nav menu layout change shortcut -->
+                        <div class="hidden-md-down dropdown-icon-menu position-relative">
+                            <a href="#" class="header-btn btn js-waves-off" data-action="toggle" data-class="nav-function-hidden" title="Hide Navigation">
+                                <i class="ni ni-menu"></i>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-minify" title="Minify Navigation">
+                                        <i class="ni ni-minify-nav"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-fixed" title="Lock Navigation">
+                                        <i class="ni ni-lock-nav"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                            
+                        <!-- DOC: mobile button appears during mobile width -->
+                        <div class="hidden-lg-up">
+                            <a href="#" class="header-btn btn press-scale-down" data-action="toggle" data-class="mobile-nav-on">
+                                <i class="ni ni-menu"></i>
+                            </a>
+                        </div>
+                        <div class="ml-auto d-flex">
+                            <!-- app notification -->
+                            <div>
+                            
+                                <a href="#" class="header-icon" data-toggle="dropdown" title="You got 11 notifications">
+                                    <i class="fal fa-bell"></i>
+                                    <span class="badge badge-icon">11</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-animated dropdown-xl">
+                                    <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center rounded-top mb-2">
+                                        <h4 class="m-0 text-center color-white">
+                                            11 New
+                                            <small class="mb-0 opacity-80">User Notifications</small>
+                                        </h4>
+                                    </div>
+                                <a class="nav-link px-4 fs-md js-waves-on fw-500" data-toggle="tab" href="#tab-feeds" data-i18n="drpdwn.feeds"></a>
+                                    <div class="tab-content tab-notification">
+                                        <div class="tab-pane" id="tab-feeds" role="tabpanel">
+                                            <div class="custom-scroll h-100">
+                                                <ul class="notification">
+                                                    <li class="unread">
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <span class="d-flex flex-column flex-1">
+                                                                <span class="name d-flex align-items-center">Administrator <span class="badge badge-success fw-n ml-1">UPDATE</span></span>
+                                                                <span class="msg-a fs-sm">
+                                                                    System updated to version <strong>4.0.1</strong> <a href="intel_build_notes.html">(patch notes)</a>
+                                                                </span>
+                                                                <span class="fs-nano text-muted mt-1">5 mins ago</span>
+                                                            </span>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">
+                                                                    Adison Lee <span class="fw-300 d-inline">replied to your video <a href="#" class="fw-400"> Cancer Drug</a> </span>
+                                                                </span>
+                                                                <span class="msg-a fs-sm mt-2">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day...</span>
+                                                                <span class="fs-nano text-muted mt-1">10 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <!--<img src="img/demo/avatars/avatar-m.png" data-src="img/demo/avatars/avatar-k.png" class="profile-image rounded-circle" alt="k" />-->
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">
+                                                                    Troy Norman'<span class="fw-300">s new connections</span>
+                                                                </span>
+                                                                <div class="fs-sm d-flex align-items-center mt-2">
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-a.png'); background-size: cover;"></span>
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-b.png'); background-size: cover;"></span>
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-c.png'); background-size: cover;"></span>
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-e.png'); background-size: cover;"></span>
+                                                                    <div data-hasmore="+3" class="rounded-circle profile-image-md mr-1">
+                                                                        <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-h.png'); background-size: cover;"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="fs-nano text-muted mt-1">55 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <!--<img src="img/demo/avatars/avatar-m.png" data-src="img/demo/avatars/avatar-e.png" class="profile-image-sm rounded-circle align-self-start mt-1" alt="k" />-->
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">Dr John Cook <span class="fw-300">sent a <span class="text-danger">new signal</span></span></span>
+                                                                <span class="msg-a fs-sm mt-2">Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</span>
+                                                                <span class="fs-nano text-muted mt-1">10 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">Lab Images <span class="fw-300">were updated!</span></span>
+                                                                <div class="fs-sm d-flex align-items-center mt-1">
+                                                                    <a href="#" class="mr-1 mt-1" title="Cell A-0012">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-7.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                    <a href="#" class="mr-1 mt-1" title="Patient A-473 saliva">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-8.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                    <a href="#" class="mr-1 mt-1" title="Patient A-473 blood cells">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-11.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                    <a href="#" class="mr-1 mt-1" title="Patient A-473 Membrane O.C">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-12.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                </div>
+                                                                <span class="fs-nano text-muted mt-1">55 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <!--<img src="img/demo/avatars/avatar-m.png" data-src="img/demo/avatars/avatar-h.png" class="profile-image rounded-circle align-self-start mt-1" alt="k" />-->
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <div class="name mb-2">
+                                                                    Lisa Lamar<span class="fw-300"> updated project</span>
+                                                                </div>
+                                                                <div class="row fs-b fw-300">
+                                                                    <div class="col text-left">
+                                                                        Progress
+                                                                    </div>
+                                                                    <div class="col text-right fw-500">
+                                                                        45%
+                                                                    </div>
+                                                                </div>
+                                                                <div class="progress progress-sm d-flex mt-1">
+                                                                    <span class="progress-bar bg-primary-500 progress-bar-striped" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></span>
+                                                                </div>
+                                                                <span class="fs-nano text-muted mt-1">2 hrs ago</span>
+                                                                <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                    <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="py-2 px-3 bg-faded d-block rounded-bottom text-right border-faded border-bottom-0 border-right-0 border-left-0">
+                                        <a href="#" class="fs-xs fw-500 ml-auto">view all notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- app user menu -->
+                            <div>
+                                <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2">
+                                    <img src="<%= Routes.static_path(@conn, "/images/logo/imgingest.png") %>" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+                                    <!-- you can also add username next to the avatar with the codes below:
+                                    <span class="ml-1 mr-1 text-truncate text-truncate-header hidden-xs-down">Me</span>
+                                    <i class="ni ni-chevron-down hidden-xs-down"></i> -->
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-animated dropdown-lg">
+                                    <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
+                                        <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
+                                            <span class="mr-2">
+                                                <img src="<%= Routes.static_path(@conn, "/images/logo/bb.jpg") %>" class="rounded-circle profile-image" alt="Dr. Codex Lantern">
+                                            </span>
+                                            <div class="info-card-text">
+                                                <div class="fs-lg text-truncate text-truncate-lg"></div>
+                                                <span class="text-truncate text-truncate-md opacity-80"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <div class="p-2">
+                                        <div class="d-flex align-items-center text-left mb-3">
+                                            <div class="flex-1">
+                                                <div class="mt-3" style="padding-left: 15px !important">
+                                                     Hello <%= @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-switch"  style="padding-top:25px; padding-left: 4.0rem !important">
+                                            <input type="checkbox" class="custom-control-input is-invalid" id="customControlValidation4" required="">
+                                            <label class="custom-control-label" for="customControlValidation4">Switch To Savings </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a href="#" class="dropdown-item" data-action="app-print">
+                                        <span data-i18n="drpdwn.print">Change Password</span>
+                                    </a>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a class="dropdown-item fw-500 pt-3 pb-3" href="<%= Routes.session_path(@conn, :signout)%>">
+                                        <span data-i18n="drpdwn.page-logout">Logout</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- END Page Header -->
+                    <!-- BEGIN Page Content -->
+                    <!-- the #js-page-content id is needed for some plugins to initialize -->
+                    <main id="js-page-content" role="main" class="page-content">
+
+                    <div class="row">
+                        <div class="col-md-12 col-lg-offset-2">
+                        <div class="form-group">
+                            <%= if get_flash(@conn, :info) do %>
+                            <div class="alert alert-info alert-styled-left">
+                            <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                            <%= get_flash(@conn, :info) %>
+                            </div>
+                            <% end %>
+                            <%= if get_flash(@conn, :error) do %>
+                            <div class="alert alert-danger alert-styled-left">
+                            <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                            Opps! <%= get_flash(@conn, :error) %>
+                            </div>
+                            <% end %>
+                        </div>
+                        </div>
+                    </div>
+                          <%= render @view_module, @view_template, assigns  %>
+                    </main>
+                    <!-- this overlay is activated only when mobile menu is triggered -->
+                    <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div> <!-- END Page Content -->
+                    <!-- BEGIN Page Footer -->
+                    <footer class="page-footer" role="contentinfo">
+                        <div class="d-flex align-items-center flex-1 text-muted">
+                              <%= Timex.today.year %> ©  Loans & Savings powered by&nbsp;
+                                            <a href='http://www.probasegroup.com/' class='text-black' title='ProBASE' target='_blank'>
+                                                <img src="<%= Routes.static_path(@conn, "/images/logo/2.png") %>" width="100">
+                                            </a>
+                        </div>
+                        <div>
+                            <ul class="list-table m-0">
+                                <li class="pl-3 fs-xl"><a href="https://wrapbootstrap.com/user/MyOrange" class="text-secondary" target="_blank"><i class="fal fa-question-circle" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </footer>
+                    <!-- END Page Footer -->
+                    <!-- BEGIN Shortcuts -->
+                    <!-- modal shortcut -->
+                    <div class="modal fade modal-backdrop-transparent" id="modal-shortcut" tabindex="-1" role="dialog" aria-labelledby="modal-shortcut" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-top modal-transparent" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <ul class="app-list w-auto h-auto p-0 text-left">
+                                        <li>
+                                            <a href="intel_introduction.html" class="app-list-item text-white border-0 m-0">
+                                                <div class="icon-stack">
+                                                    <i class="base base-7 icon-stack-3x opacity-100 color-primary-500 "></i>
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-primary-300 "></i>
+                                                    <i class="fal fa-home icon-stack-1x opacity-100 color-white"></i>
+                                                </div>
+                                                <span class="app-list-name">
+                                                    Home
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="page_inbox_general.html" class="app-list-item text-white border-0 m-0">
+                                                <div class="icon-stack">
+                                                    <i class="base base-7 icon-stack-3x opacity-100 color-success-500 "></i>
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-success-300 "></i>
+                                                    <i class="ni ni-envelope icon-stack-1x text-white"></i>
+                                                </div>
+                                                <span class="app-list-name">
+                                                    Inbox
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="intel_introduction.html" class="app-list-item text-white border-0 m-0">
+                                                <div class="icon-stack">
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-primary-300 "></i>
+                                                    <i class="fal fa-plus icon-stack-1x opacity-100 color-white"></i>
+                                                </div>
+                                                <span class="app-list-name">
+                                                    Add More
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- END Shortcuts -->
+                </div>
+            </div>
+        </div>
+        <!-- END Page Wrapper -->
+        <!-- base vendor bundle: 
+			 DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
+						+ pace.js (recommended)
+						+ jquery.js (core)
+						+ jquery-ui-cust.js (core)
+						+ popper.js (core)
+						+ bootstrap.js (core)
+						+ slimscroll.js (extension)
+						+ app.navigation.js (core)
+						+ ba-throttle-debounce.js (core)
+						+ waves.js (extension)
+						+ smartpanels.js (extension)
+						+ src/../jquery-snippets.js (core) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.3.3/umd/popper.min.js"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/vendors.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/app.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/miscellaneous/fullcalendar/fullcalendar.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/datagrid/datatables/datatables.export.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/datagrid/datatables/datatables.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/formplugins/select2/select2.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/default.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/dependency/moment/moment.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/formplugins/smartwizard/smartwizard.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/chartjs/chartjs.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/easypiechart/easypiechart.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/sparkline/sparkline.bundle.js") %>"></script>
+
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/peity/peity.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/flot/flot.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/easypiechart/easypiechart.bundle.js") %>"></script>
+
+        <script type="text/javascript">
+            /* Activate smart panels */
+            $('#js-page-content').smartPanel();
+
+        </script>
+        <script>
+            /* defined datas */
+            var dataTargetProfit = [
+                [1354586000000, 153],
+                [1364587000000, 658],
+                [1374588000000, 198],
+                [1384589000000, 663],
+                [1394590000000, 801],
+                [1404591000000, 1080],
+                [1414592000000, 353],
+                [1424593000000, 749],
+                [1434594000000, 523],
+                [1444595000000, 258],
+                [1454596000000, 688],
+                [1464597000000, 364]
+            ]
+            var dataProfit = [
+                [1354586000000, 53],
+                [1364587000000, 65],
+                [1374588000000, 98],
+                [1384589000000, 83],
+                [1394590000000, 980],
+                [1404591000000, 808],
+                [1414592000000, 720],
+                [1424593000000, 674],
+                [1434594000000, 23],
+                [1444595000000, 79],
+                [1454596000000, 88],
+                [1464597000000, 36]
+            ]
+            var dataSignups = [
+                [1354586000000, 647],
+                [1364587000000, 435],
+                [1374588000000, 784],
+                [1384589000000, 346],
+                [1394590000000, 487],
+                [1404591000000, 463],
+                [1414592000000, 479],
+                [1424593000000, 236],
+                [1434594000000, 843],
+                [1444595000000, 657],
+                [1454596000000, 241],
+                [1464597000000, 341]
+            ]
+            var dataSet1 = [
+                [0, 10],
+                [100, 8],
+                [200, 7],
+                [300, 5],
+                [400, 4],
+                [500, 6],
+                [600, 3],
+                [700, 2]
+            ];
+            var dataSet2 = [
+                [0, 9],
+                [100, 6],
+                [200, 5],
+                [300, 3],
+                [400, 3],
+                [500, 5],
+                [600, 2],
+                [700, 1]
+            ];
+
+            $(document).ready(function()
+            {
+
+                /* init datatables */
+                $('#dt-basic-example').dataTable(
+                {
+                    responsive: true,
+                    dom: "<'row mb-3'<'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'B>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    buttons: [
+                        {
+                            extend: 'colvis',
+                            text: 'Column Visibility',
+                            titleAttr: 'Col visibility',
+                            className: 'btn-outline-default'
+                        },{
+                            extend: 'csvHtml5',
+                            text: 'CSV',
+                            titleAttr: 'Generate CSV',
+                            className: 'btn-outline-primary btn-sm mr-1'
+                        },
+                        {
+                            extend: 'copyHtml5',
+                            text: 'Copy',
+                            titleAttr: 'Copy to clipboard',
+                            className: 'btn-outline-primary btn-sm mr-1'
+                        },
+                        {
+                            extend: 'print',
+                            text: 'Print',
+                            titleAttr: 'Print Table',
+                            className: 'btn-outline-primary btn-sm'
+                        }, 
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'PDF',
+                            titleAttr: 'Generate PDF',
+                            className: 'btn-outline-danger btn-sm mr-1'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Excel',
+                            titleAttr: 'Generate Excel',
+                            className: 'btn-outline-success btn-sm mr-1'
+                        },
+
+                    ]
+
+                });
+
+
+                /* flot toggle example */
+                var flot_toggle = function()
+                {
+
+                    var data = [
+                    {
+                        label: "Target Profit",
+                        data: dataTargetProfit,
+                        color: myapp_get_color.info_400,
+                        bars:
+                        {
+                            show: true,
+                            align: "center",
+                            barWidth: 30 * 30 * 60 * 1000 * 80,
+                            lineWidth: 0,
+                            /*fillColor: {
+                            	colors: [myapp_get_color.primary_500, myapp_get_color.primary_900]
+                            },*/
+                            fillColor:
+                            {
+                                colors: [
+                                {
+                                    opacity: 0.9
+                                },
+                                {
+                                    opacity: 0.1
+                                }]
+                            }
+                        },
+                        highlightColor: 'rgba(255,255,255,0.3)',
+                        shadowSize: 0
+                    },
+                    {
+                        label: "Actual Profit",
+                        data: dataProfit,
+                        color: myapp_get_color.warning_500,
+                        lines:
+                        {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0,
+                        points:
+                        {
+                            show: true
+                        }
+                    },
+                    {
+                        label: "User Signups",
+                        data: dataSignups,
+                        color: myapp_get_color.success_500,
+                        lines:
+                        {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0,
+                        points:
+                        {
+                            show: true
+                        }
+                    }]
+
+                    var options = {
+                        grid:
+                        {
+                            hoverable: true,
+                            clickable: true,
+                            tickColor: '#f2f2f2',
+                            borderWidth: 1,
+                            borderColor: '#f2f2f2'
+                        },
+                        tooltip: true,
+                        tooltipOpts:
+                        {
+                            cssClass: 'tooltip-inner',
+                            defaultTheme: false
+                        },
+                        xaxis:
+                        {
+                            mode: "time"
+                        },
+                        yaxes:
+                        {
+                            tickFormatter: function(val, axis)
+                            {
+                                return "$" + val;
+                            },
+                            max: 1200
+                        }
+
+                    };
+
+                    var plot2 = null;
+
+                    function plotNow()
+                    {
+                        var d = [];
+                        $("#js-checkbox-toggles").find(':checkbox').each(function()
+                        {
+                            if ($(this).is(':checked'))
+                            {
+                                d.push(data[$(this).attr("name").substr(4, 1)]);
+                            }
+                        });
+                        if (d.length > 0)
+                        {
+                            if (plot2)
+                            {
+                                plot2.setData(d);
+                                plot2.draw();
+                            }
+                            else
+                            {
+                                plot2 = $.plot($("#flot-toggles"), d, options);
+                            }
+                        }
+
+                    };
+
+                    $("#js-checkbox-toggles").find(':checkbox').on('change', function()
+                    {
+                        plotNow();
+                    });
+                    plotNow()
+                }
+                flot_toggle();
+                /* flot toggle example -- end*/
+
+                /* flot area */
+                var flotArea = $.plot($('#flot-area'), [
+                {
+                    data: dataSet1,
+                    label: 'New Customer',
+                    color: myapp_get_color.success_200
+                },
+                {
+                    data: dataSet2,
+                    label: 'Returning Customer',
+                    color: myapp_get_color.info_200
+                }],
+                {
+                    series:
+                    {
+                        lines:
+                        {
+                            show: true,
+                            lineWidth: 2,
+                            fill: true,
+                            fillColor:
+                            {
+                                colors: [
+                                {
+                                    opacity: 0
+                                },
+                                {
+                                    opacity: 0.5
+                                }]
+                            }
+                        },
+                        shadowSize: 0
+                    },
+                    points:
+                    {
+                        show: true,
+                    },
+                    legend:
+                    {
+                        noColumns: 1,
+                        position: 'nw'
+                    },
+                    grid:
+                    {
+                        hoverable: true,
+                        clickable: true,
+                        borderColor: '#ddd',
+                        tickColor: '#ddd',
+                        aboveData: true,
+                        borderWidth: 0,
+                        labelMargin: 5,
+                        backgroundColor: 'transparent'
+                    },
+                    yaxis:
+                    {
+                        tickLength: 1,
+                        min: 0,
+                        max: 15,
+                        color: '#eee',
+                        font:
+                        {
+                            size: 0,
+                            color: '#999'
+                        }
+                    },
+                    xaxis:
+                    {
+                        tickLength: 1,
+                        color: '#eee',
+                        font:
+                        {
+                            size: 10,
+                            color: '#999'
+                        }
+                    }
+
+                });
+                /* flot area -- end */
+
+                var flotVisit = $.plot('#flotVisit', [
+                {
+                    data: [
+                        [3, 0],
+                        [4, 1],
+                        [5, 3],
+                        [6, 3],
+                        [7, 10],
+                        [8, 11],
+                        [9, 12],
+                        [10, 9],
+                        [11, 12],
+                        [12, 8],
+                        [13, 5]
+                    ],
+                    color: myapp_get_color.success_200
+                },
+                {
+                    data: [
+                        [1, 0],
+                        [2, 0],
+                        [3, 1],
+                        [4, 2],
+                        [5, 2],
+                        [6, 5],
+                        [7, 8],
+                        [8, 12],
+                        [9, 9],
+                        [10, 11],
+                        [11, 5]
+                    ],
+                    color: myapp_get_color.info_200
+                }],
+                {
+                    series:
+                    {
+                        shadowSize: 0,
+                        lines:
+                        {
+                            show: true,
+                            lineWidth: 2,
+                            fill: true,
+                            fillColor:
+                            {
+                                colors: [
+                                {
+                                    opacity: 0
+                                },
+                                {
+                                    opacity: 0.12
+                                }]
+                            }
+                        }
+                    },
+                    grid:
+                    {
+                        borderWidth: 0
+                    },
+                    yaxis:
+                    {
+                        min: 0,
+                        max: 15,
+                        tickColor: '#ddd',
+                        ticks: [
+                            [0, ''],
+                            [5, '100K'],
+                            [10, '200K'],
+                            [15, '300K']
+                        ],
+                        font:
+                        {
+                            color: '#444',
+                            size: 10
+                        }
+                    },
+                    xaxis:
+                    {
+
+                        tickColor: '#eee',
+                        ticks: [
+                            [2, '2am'],
+                            [3, '3am'],
+                            [4, '4am'],
+                            [5, '5am'],
+                            [6, '6am'],
+                            [7, '7am'],
+                            [8, '8am'],
+                            [9, '9am'],
+                            [10, '1pm'],
+                            [11, '2pm'],
+                            [12, '3pm'],
+                            [13, '4pm']
+                        ],
+                        font:
+                        {
+                            color: '#999',
+                            size: 9
+                        }
+                    }
+                });
+
+
+            });
+
+        </script>
+        
+                            <script>
+                                document.getElementById('customControlValidation4').addEventListener("change", function(){
+                                if (this.checked) window.location.href = '<%= Routes.user_path(@conn, :savings_dashboard)%>';
+                                });
+                            </script>
+    </body>
+</html>

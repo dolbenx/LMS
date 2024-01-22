@@ -1,0 +1,144 @@
+
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Loan Customer Details
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            
+              <div class="" style="background-color: white;">
+                <div data-size="A4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-flex align-items-center mb-5">
+                                <h2 class="keep-print-font fw-500 mb-0 text-primary flex-1 position-relative">
+                                    Personal Details
+                                    <small class="text-muted mb-0 fs-xs">
+                                        <strong>Description</strong>
+                                    </small>
+                                  </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-clean table-sm align-self-end">
+                                    <tbody>
+                                      
+                                        <tr>
+                                            <td><strong>First Name:</strong></td>
+                                            <td><%= @customer_d.firstName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mobile Number:</strong> </td>
+                                            <td><%= @customer_d.mobileNumber %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ID Type:</strong></td>
+                                            <td><%= @customer_d.meansOfIdentificationType %></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-clean table-sm align-self-end">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Last Name:</strong> </td>
+                                            <td><%= @customer_d.lastName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email:</strong></td>
+                                            <td> <%= @customer_d.emailAddress %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ID Number:</strong> </td>
+                                            <td><%= @customer_d.meansOfIdentificationNumber %></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-clean table-sm align-self-end">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Other Name:</strong> </td>
+                                            <td> <%= @customer_d.otherName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>D.O.B:</strong></td>
+                                            <td><%= @customer_d.dateOfBirth %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Gender:</strong></td>
+                                            <td><%= @customer_d.gender %> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                        <h2 class="keep-print-font fw-500 mb-0 text-primary flex-1 position-relative">Loans</h2>
+                            <div class="table-responsive">
+                                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Account Type</th>
+                                                        <th>Principal Amount</th>
+                                                        <th>Fixed Period</th>
+                                                        <th>Fixed Period Type</th>
+                                                        <th>Interest Rate</th>
+                                                        <th>Interest Rate Type</th>
+                                                        <th>Currency</th>
+                                                        <th>Currency Decimals</th>
+                                                        <th>Year Length In Days</th>
+                                                        <th>Total Penalties</th>
+                                                        <th>Total Amount PaidOut</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  

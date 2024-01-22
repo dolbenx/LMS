@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<!-- 
+Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4
+Version: 4.0.0
+Author: Sunnyat Ahmmed
+Website: http://gootbootstrap.com
+Purchase: https://wrapbootstrap.com/theme/smartadmin-responsive-webapp-WB0573SK0
+License: You must have a valid license purchased only from wrapbootstrap.com (link above) in order to legally use this theme for your project.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>
+           Loan & Savings
+        </title>
+        <meta name="description" content="Marketing Dashboard">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
+        <!-- Call App Mode on ios devices -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!-- Remove Tap Highlight on Windows Phone IE -->
+        <meta name="msapplication-tap-highlight" content="no">
+        <!-- base css -->
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/vendors.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/app.bundle.css") %>">
+
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/notifications/sweetalert2/sweetalert2.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/datagrid/datatables/datatables.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/page-invoice.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/default.css") %>" />
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/formplugins/select2/select2.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/miscellaneous/fullcalendar/fullcalendar.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/miscellaneous/reactions/reactions.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/miscellaneous/jqvmap/jqvmap.bundle.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/formplugins/smartwizard/smartwizard.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/page-invoice.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/statistics/chartjs/chartjs.css") %>">
+        <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/formplugins/select2/select2.bundle.css") %>">
+       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+       <link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/loader.css") %>">
+        <style>
+#cover {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: #141526;
+        z-index: 9999;
+        font-size: 65px;
+        text-align: center;
+        padding-top: 200px;
+        color: #fff;
+        font-family:tahoma;
+}
+</style>
+
+    </head>
+    <body class="mod-bg-1 zoom">
+        <!-- DOC: script to save and load page settings -->
+        <script>
+            /**
+             *	This script should be placed right after the body tag for fast execution 
+             *	Note: the script is written in pure javascript and does not depend on thirdparty library
+             **/
+            'use strict';
+
+            var classHolder = document.getElementsByTagName("BODY")[0],
+                /** 
+                 * Load from localstorage
+                 **/
+                themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+                {},
+                themeURL = themeSettings.themeURL || '',
+                themeOptions = themeSettings.themeOptions || '';
+            /** 
+             * Load theme options
+             **/
+            if (themeSettings.themeOptions)
+            {
+                classHolder.className = themeSettings.themeOptions;
+                console.log("%c✔ Theme settings loaded", "color: #148f32");
+            }
+            else
+            {
+                console.log("Heads up! Theme settings is empty or does not exist, loading default settings...");
+            }
+            if (themeSettings.themeURL && !document.getElementById('mytheme'))
+            {
+                var cssfile = document.createElement('link');
+                cssfile.id = 'mytheme';
+                cssfile.rel = 'stylesheet';
+                cssfile.href = themeURL;
+                document.getElementsByTagName('head')[0].appendChild(cssfile);
+            }
+            /** 
+             * Save to localstorage 
+             **/
+            var saveSettings = function()
+            {
+                themeSettings.themeOptions = String(classHolder.className).split(/[^\w-]+/).filter(function(item)
+                {
+                    return /^(nav|header|mod|display)-/i.test(item);
+                }).join(' ');
+                if (document.getElementById('mytheme'))
+                {
+                    themeSettings.themeURL = document.getElementById('mytheme').getAttribute("href");
+                };
+                localStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+            }
+            /** 
+             * Reset settings
+             **/
+            var resetSettings = function()
+            {
+                localStorage.setItem("themeSettings", "");
+            }
+
+        </script>
+        
+
+        <!-- BEGIN Page Wrapper -->
+        <div class="page-wrapper">
+            <div class="page-inner">
+                <!-- BEGIN Left Aside -->
+                <aside class="page-sidebar">
+                    <div class="page-logo">
+                        <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+                            <img src="" alt="" aria-roledescription="logo">
+                            <span class="page-logo-text mr-1">Loans & Savings</span>
+                            <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+                            <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
+                        </a>
+                    </div>
+                    <!-- BEGIN PRIMARY NAVIGATION -->
+                    <nav id="js-primary-nav" class="primary-nav" role="navigation">
+                        <div class="nav-filter">
+                            <div class="position-relative">
+                                <input type="text" id="nav_filter_input" placeholder="Filter menu" class="form-control" tabindex="0">
+                                <a href="#" onclick="return false;" class="btn-primary btn-search-close js-waves-off" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar">
+                                    <i class="fal fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <img src="<%= Routes.static_path(@conn, "/images/avatar/1.png") %>" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+                            <div class="info-card-text">
+                                <a href="#" class="d-flex align-items-center text-white">
+                                    <span class="text-truncate text-truncate-sm d-inline-block">
+                                        <%= @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %><br>
+                                         <%= String.replace(@conn.private.plug_session["current_user_role"].roleType, "_", " ") %>
+                                    </span>
+                                </a>
+                                <span class="d-inline-block text-truncate text-truncate-sm"></span>
+                            </div>
+                            <img src="<%= Routes.static_path(@conn, "/images/logo/imgingest.png") %>" class="cover" alt="cover" style="width: 100%; height: 100%;">
+                            <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
+                                <i class="fal fa-angle-down"></i>
+                            </a>
+                        </div>
+                        <ul id="js-nav-menu" class="nav-menu">
+                            <li class="active open">
+                                <a href="<%= Routes.user_path(@conn, :savings_dashboard)%>" title="Application Intel" data-filter-tags="application intel">
+                                    <i class="fal fa-home"></i>
+                                    <span class="nav-link-text" data-i18n="nav.application_intel">Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                                    <i class="fal fa-box"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Products</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.product_path(@conn, :savings_product)%>" title="Layout Options" data-filter-tags="theme settings layout options">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_layout_options">Savings Products</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-users"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Customers</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.customer_path(@conn, :all_savings_customer)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Customers</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-sticky-note"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Transactions</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.loan_path(@conn, :fixed_deps)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Fixed Deposits</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.loan_path(@conn, :transactions)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">All Transactions</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-file-pdf"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Reports</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.report_path(@conn, :divestment_reports)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Divestments</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.report_path(@conn, :transaction_reports)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Transactions</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.report_path(@conn, :fixed_deposit_reports)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Fixed Deposits</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.report_path(@conn, :customer_reports)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Customer Reports</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            <%# <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-money-bill"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Divestments </span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.product_path(@conn, :divestment_package)%>
+                                        <%# " title="Saving to Database" data-filter-tags="theme settings saving to database"> %>
+                                            <%# <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Divestment Options</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li> %>
+                            <li>
+                                <a href="#" title="" data-filter-tags="">
+                                    <i class="fal fa-cogs"></i>
+                                    <span class="nav-link-text" data-i18n="nav.theme_settings">Maintenance</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :charge)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Charges</span>
+                                        </a>
+                                    </li> 
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :branch)%>" title="Saving to Database" data-filter-tags="theme settings saving to database">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_saving_to_database">Branch</span>
+                                        </a>
+                                    </li> 
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :country)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Countries</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.maintenance_path(@conn, :currency)%>" title="How it works" data-filter-tags="theme settings how it works">
+                                            <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Currency</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Package Info" data-filter-tags="package info">
+                                    <i class="fal fa-user"></i>
+                                    <span class="nav-link-text" data-i18n="nav.package_info">User Management</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="<%= Routes.user_path(@conn, :user_mgt)%>" title="Documentation" data-filter-tags="package info documentation">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_documentation">System Users</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Routes.user_path(@conn, :user_logs)%>" title="Product Licensing" data-filter-tags="package info product licensing">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_product_licensing">Audit Logs</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" title="Package Info" data-filter-tags="package info">
+                                    <i class="fal fa-user"></i>
+                                    <span class="nav-link-text" data-i18n="nav.package_info">End Of Day</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="/Savings/New-Flexcube-Account" title="Documentation" data-filter-tags="package info documentation">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_documentation">New FC GL Accounts</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Savings/View-Flexcube-Accounts" title="Documentation" data-filter-tags="package info documentation">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_documentation">View FC GL Accounts</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Savings/End-Of-Day-Configurations" title="Documentation" data-filter-tags="package info documentation">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_documentation">Configurations</span>
+                                        </a>
+                                    </li>
+                                    <!-- <li>
+                                        <a href="/Savings/View-Flexcube-Requests" title="Product Licensing" data-filter-tags="package info product licensing">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_product_licensing">View FlexCube Requests</span>
+                                        </a>
+                                    </li> -->
+                                    <li>
+                                        <a href="/Savings/Run-End-Of-Day" title="Documentation" data-filter-tags="package info documentation">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_documentation">Run End Of Day</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/Savings/End-Of-Day-History" title="Product Licensing" data-filter-tags="package info product licensing">
+                                            <span class="nav-link-text" data-i18n="nav.package_info_product_licensing">End Of Day History</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="filter-message js-filter-message bg-success-600"></div>
+                    </nav>
+                    <!-- END PRIMARY NAVIGATION -->
+                    <!-- NAV FOOTER -->
+                    <div class="nav-footer shadow-top">
+                        <a href="#" onclick="return false;" data-action="toggle" data-class="nav-function-minify" class="hidden-md-down">
+                            <i class="ni ni-chevron-right"></i>
+                            <i class="ni ni-chevron-right"></i>
+                        </a>
+                        <ul class="list-table m-auto nav-footer-buttons">
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Chat logs">
+                                    <i class="fal fa-comments"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Support Chat">
+                                    <i class="fal fa-life-ring"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Make a call">
+                                    <i class="fal fa-phone"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> <!-- END NAV FOOTER -->
+                </aside>
+                <!-- END Left Aside -->
+                <div class="page-content-wrapper">
+                    <!-- BEGIN Page Header -->
+                    <header class="page-header" role="banner">
+                        <!-- we need this logo when user switches to nav-function-top -->
+                        <div class="page-logo">
+                            <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+                                <img src="<%= Routes.static_path(@conn, "/images/logo/1.png") %>" alt="SmartAdmin WebApp" aria-roledescription="logo">
+                                <span class="page-logo-text mr-1">Loan & Savings</span>
+                                <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+                                <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
+                            </a>
+                        </div>
+                        <!-- DOC: nav menu layout change shortcut -->
+                        <div class="hidden-md-down dropdown-icon-menu position-relative">
+                            <a href="#" class="header-btn btn js-waves-off" data-action="toggle" data-class="nav-function-hidden" title="Hide Navigation">
+                                <i class="ni ni-menu"></i>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-minify" title="Minify Navigation">
+                                        <i class="ni ni-minify-nav"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-fixed" title="Lock Navigation">
+                                        <i class="ni ni-lock-nav"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- DOC: mobile button appears during mobile width -->
+                        <div class="hidden-lg-up">
+                            <a href="#" class="header-btn btn press-scale-down" data-action="toggle" data-class="mobile-nav-on">
+                                <i class="ni ni-menu"></i>
+                            </a>
+                        </div>
+                        <div class="ml-auto d-flex">
+                            <!-- app notification -->
+                            <div>
+                                <a href="#" class="header-icon" data-toggle="dropdown" title="You got 11 notifications">
+                                    <i class="fal fa-bell"></i>
+                                    <span class="badge badge-icon">11</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-animated dropdown-xl">
+                                    <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center rounded-top mb-2">
+                                        <h4 class="m-0 text-center color-white">
+                                            11 New
+                                            <small class="mb-0 opacity-80">User Notifications</small>
+                                        </h4>
+                                    </div>
+                                            <a class="nav-link px-4 fs-md js-waves-on fw-500" data-toggle="tab" href="#tab-feeds" data-i18n="drpdwn.feeds"></a>
+                                    <div class="tab-content tab-notification">
+                                        <div class="tab-pane" id="tab-feeds" role="tabpanel">
+                                            <div class="custom-scroll h-100">
+                                                <ul class="notification">
+                                                    <li class="unread">
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <span class="d-flex flex-column flex-1">
+                                                                <span class="name d-flex align-items-center">Administrator <span class="badge badge-success fw-n ml-1">UPDATE</span></span>
+                                                                <span class="msg-a fs-sm">
+                                                                    System updated to version <strong>4.0.1</strong> <a href="intel_build_notes.html">(patch notes)</a>
+                                                                </span>
+                                                                <span class="fs-nano text-muted mt-1">5 mins ago</span>
+                                                            </span>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">
+                                                                    Adison Lee <span class="fw-300 d-inline">replied to your video <a href="#" class="fw-400"> Cancer Drug</a> </span>
+                                                                </span>
+                                                                <span class="msg-a fs-sm mt-2">Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day...</span>
+                                                                <span class="fs-nano text-muted mt-1">10 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <!--<img src="img/demo/avatars/avatar-m.png" data-src="img/demo/avatars/avatar-k.png" class="profile-image rounded-circle" alt="k" />-->
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">
+                                                                    Troy Norman'<span class="fw-300">s new connections</span>
+                                                                </span>
+                                                                <div class="fs-sm d-flex align-items-center mt-2">
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-a.png'); background-size: cover;"></span>
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-b.png'); background-size: cover;"></span>
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-c.png'); background-size: cover;"></span>
+                                                                    <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-e.png'); background-size: cover;"></span>
+                                                                    <div data-hasmore="+3" class="rounded-circle profile-image-md mr-1">
+                                                                        <span class="profile-image-md mr-1 rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-h.png'); background-size: cover;"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="fs-nano text-muted mt-1">55 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <!--<img src="img/demo/avatars/avatar-m.png" data-src="img/demo/avatars/avatar-e.png" class="profile-image-sm rounded-circle align-self-start mt-1" alt="k" />-->
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">Dr John Cook <span class="fw-300">sent a <span class="text-danger">new signal</span></span></span>
+                                                                <span class="msg-a fs-sm mt-2">Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</span>
+                                                                <span class="fs-nano text-muted mt-1">10 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <span class="name">Lab Images <span class="fw-300">were updated!</span></span>
+                                                                <div class="fs-sm d-flex align-items-center mt-1">
+                                                                    <a href="#" class="mr-1 mt-1" title="Cell A-0012">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-7.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                    <a href="#" class="mr-1 mt-1" title="Patient A-473 saliva">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-8.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                    <a href="#" class="mr-1 mt-1" title="Patient A-473 blood cells">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-11.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                    <a href="#" class="mr-1 mt-1" title="Patient A-473 Membrane O.C">
+                                                                        <span class="d-block img-share" style="background-image:url('img/thumbs/pic-12.png'); background-size: cover;"></span>
+                                                                    </a>
+                                                                </div>
+                                                                <span class="fs-nano text-muted mt-1">55 minutes ago</span>
+                                                            </div>
+                                                            <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-flex align-items-center show-child-on-hover">
+                                                            <!--<img src="img/demo/avatars/avatar-m.png" data-src="img/demo/avatars/avatar-h.png" class="profile-image rounded-circle align-self-start mt-1" alt="k" />-->
+                                                            <div class="d-flex flex-column flex-1">
+                                                                <div class="name mb-2">
+                                                                    Lisa Lamar<span class="fw-300"> updated project</span>
+                                                                </div>
+                                                                <div class="row fs-b fw-300">
+                                                                    <div class="col text-left">
+                                                                        Progress
+                                                                    </div>
+                                                                    <div class="col text-right fw-500">
+                                                                        45%
+                                                                    </div>
+                                                                </div>
+                                                                <div class="progress progress-sm d-flex mt-1">
+                                                                    <span class="progress-bar bg-primary-500 progress-bar-striped" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></span>
+                                                                </div>
+                                                                <span class="fs-nano text-muted mt-1">2 hrs ago</span>
+                                                                <div class="show-on-hover-parent position-absolute pos-right pos-bottom p-3">
+                                                                    <a href="#" class="text-muted" title="delete"><i class="fal fa-trash-alt"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="py-2 px-3 bg-faded d-block rounded-bottom text-right border-faded border-bottom-0 border-right-0 border-left-0">
+                                        <a href="#" class="fs-xs fw-500 ml-auto">view all notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- app user menu -->
+                            <div>
+                                <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2">
+                                    <img src="<%= Routes.static_path(@conn, "/images/logo/imgingest.png") %>" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+                                    <!-- you can also add username next to the avatar with the codes below:
+                                    <span class="ml-1 mr-1 text-truncate text-truncate-header hidden-xs-down">Me</span>
+                                    <i class="ni ni-chevron-down hidden-xs-down"></i> -->
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-animated dropdown-lg">
+                                    <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
+                                        <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
+                                            <span class="mr-2">
+                                                <img src="<%= Routes.static_path(@conn, "/images/logo/bb.jpg") %>" class="rounded-circle profile-image" alt="Dr. Codex Lantern">
+                                            </span>
+                                            <div class="info-card-text">
+                                                <span class="text-truncate text-truncate-md opacity-80"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <div class="p-2">
+                                        <div class="d-flex align-items-center text-left mb-3">
+                                            <div class="flex-1">
+                                                <div class="mt-3" style="padding-left: 15px !important">
+                                                    Hello <%= @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <div class="form-group" >
+                                        <div class="custom-control custom-switch" style="padding-top:25px; padding-left: 4.0rem !important">
+                                            <input type="checkbox" class="custom-control-input is-invalid" id="customControlValidation4" required="">
+                                            <label class="custom-control-label" for="customControlValidation4">Switch To Loans </label>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a href="<%= Routes.user_path(@conn, :new_password)%>" class="dropdown-item" >
+                                        <span data-i18n="drpdwn.print">Change Password </span>
+                                    </a>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a class="dropdown-item fw-500 pt-3 pb-3" href="<%= Routes.session_path(@conn, :signout)%>">
+                                        <span data-i18n="drpdwn.page-logout">Logout</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- END Page Header -->
+                    <!-- BEGIN Page Content -->
+                    <!-- the #js-page-content id is needed for some plugins to initialize -->
+                    <main id="js-page-content" role="main" class="page-content">
+
+                    <div class="row">
+                        <div class="col-md-12 col-lg-offset-2">
+                        <div class="form-group">
+                            <%= if get_flash(@conn, :info) do %>
+                            <div class="alert alert-info alert-styled-left">
+                            <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                            <%= get_flash(@conn, :info) %>
+                            </div>
+                            <% end %>
+                            <%= if get_flash(@conn, :error) do %>
+                            <div class="alert alert-danger alert-styled-left">
+                            <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                            Opps! <%= get_flash(@conn, :error) %>
+                            </div>
+                            <% end %>
+                        </div>
+                        </div>
+                    </div>
+                          <%= render @view_module, @view_template, assigns  %>
+                    </main>
+                    <!-- this overlay is activated only when mobile menu is triggered -->
+                    <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div> <!-- END Page Content -->
+                    <!-- BEGIN Page Footer -->
+                    <footer class="page-footer" role="contentinfo">
+                        <div class="d-flex align-items-center flex-1 text-muted">
+                              <%= Timex.today.year %> ©  Loans & Savings powered by&nbsp;
+                                            <a href='http://www.probasegroup.com/' class='text-black' title='ProBASE' target='_blank'>
+                                                <img src="<%= Routes.static_path(@conn, "/images/logo/2.png") %>" width="100">
+                                            </a>
+                        </div>
+                        <div>
+                            <ul class="list-table m-0">
+                                <li class="pl-3 fs-xl"><a href="https://wrapbootstrap.com/user/MyOrange" class="text-secondary" target="_blank"><i class="fal fa-question-circle" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </footer>
+                    <!-- END Page Footer -->
+                    <!-- BEGIN Shortcuts -->
+                    <!-- modal shortcut -->
+                    <div class="modal fade modal-backdrop-transparent" id="modal-shortcut" tabindex="-1" role="dialog" aria-labelledby="modal-shortcut" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-top modal-transparent" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <ul class="app-list w-auto h-auto p-0 text-left">
+                                        <li>
+                                            <a href="intel_introduction.html" class="app-list-item text-white border-0 m-0">
+                                                <div class="icon-stack">
+                                                    <i class="base base-7 icon-stack-3x opacity-100 color-primary-500 "></i>
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-primary-300 "></i>
+                                                    <i class="fal fa-home icon-stack-1x opacity-100 color-white"></i>
+                                                </div>
+                                                <span class="app-list-name">
+                                                    Home
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="page_inbox_general.html" class="app-list-item text-white border-0 m-0">
+                                                <div class="icon-stack">
+                                                    <i class="base base-7 icon-stack-3x opacity-100 color-success-500 "></i>
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-success-300 "></i>
+                                                    <i class="ni ni-envelope icon-stack-1x text-white"></i>
+                                                </div>
+                                                <span class="app-list-name">
+                                                    Inbox
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="intel_introduction.html" class="app-list-item text-white border-0 m-0">
+                                                <div class="icon-stack">
+                                                    <i class="base base-7 icon-stack-2x opacity-100 color-primary-300 "></i>
+                                                    <i class="fal fa-plus icon-stack-1x opacity-100 color-white"></i>
+                                                </div>
+                                                <span class="app-list-name">
+                                                    Add More
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- END Shortcuts -->
+                </div>
+            </div>
+        </div>
+
+        <%# <div id="cover">
+<img class="image" src="<%= Routes.static_path(@conn, "/images/load.png")" alt="" style="height: 70px; width: 70px;" class="center"><br>
+        <%# <br>
+        <div class="wrapper" style="margin-top:-20px;">
+            <div>    
+                <p>Powered by Probese</p>
+            </div> %>
+<%# </div> %>
+        <!-- END Page Wrapper -->
+        <!-- base vendor bundle: 
+			 DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
+						+ pace.js (recommended)
+						+ jquery.js (core)
+						+ jquery-ui-cust.js (core)
+						+ popper.js (core)
+						+ bootstrap.js (core)
+						+ slimscroll.js (extension)
+						+ app.navigation.js (core)
+						+ ba-throttle-debounce.js (core)
+						+ waves.js (extension)
+						+ smartpanels.js (extension)
+						+ src/../jquery-snippets.js (core) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.3.3/umd/popper.min.js"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/vendors.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/app.bundle.js") %>"></script>
+        <script type="text/javascript">
+            /* Activate smart panels */
+            $('#js-page-content').smartPanel();
+
+        </script>
+  <script>
+    $(window).on('load', function () {
+        $("#cover").fadeOut(1750);
+    });
+  </script>
+        <script src="<%= Routes.static_path(@conn, "/js/miscellaneous/fullcalendar/fullcalendar.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/datagrid/datatables/datatables.export.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/datagrid/datatables/datatables.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/formplugins/select2/select2.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/notifications/sweetalert2/sweetalert2.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/default.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/dependency/moment/moment.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/formplugins/smartwizard/smartwizard.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/chartjs/chartjs.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/easypiechart/easypiechart.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/sparkline/sparkline.bundle.js") %>"></script>
+
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/peity/peity.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/flot/flot.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/statistics/easypiechart/easypiechart.bundle.js") %>"></script>
+        <script src="<%= Routes.static_path(@conn, "/js/miscellaneous/jqvmap/jqvmap.bundle.js") %>"></script>
+
+        <script>
+            $(document).ready(function()
+            {
+                /* init datatables */
+                $('#dt-basic-example').dataTable(
+                {
+                    responsive: true,
+                    dom: "<'row mb-3'<'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'B>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    buttons: [
+                        {
+                            extend: 'colvis',
+                            text: 'Column Visibility',
+                            titleAttr: 'Col visibility',
+                            className: 'btn-outline-default'
+                        },{
+                            extend: 'csvHtml5',
+                            text: 'CSV',
+                            titleAttr: 'Generate CSV',
+                            className: 'btn-outline-primary btn-sm mr-1'
+                        },
+                        {
+                            extend: 'copyHtml5',
+                            text: 'Copy',
+                            titleAttr: 'Copy to clipboard',
+                            className: 'btn-outline-primary btn-sm mr-1'
+                        },
+                        {
+                            extend: 'print',
+                            text: 'Print',
+                            titleAttr: 'Print Table',
+                            className: 'btn-outline-primary btn-sm'
+                        }, 
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'PDF',
+                            titleAttr: 'Generate PDF',
+                            className: 'btn-outline-danger btn-sm mr-1'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Excel',
+                            titleAttr: 'Generate Excel',
+                            className: 'btn-outline-success btn-sm mr-1'
+                        },
+
+                    ]
+
+                });
+                
+                //$('#js-page-content').smartPanel(); 
+                    
+                //
+                //
+                var dataSetPie = [
+                {
+                    label: "Asia",
+                    data: 4119630000,
+                    color: myapp_get_color.primary_500
+                },
+                {
+                    label: "Latin America",
+                    data: 590950000,
+                    color: myapp_get_color.info_500
+                },
+                {
+                    label: "Africa",
+                    data: 1012960000,
+                    color: myapp_get_color.warning_500
+                },
+                {
+                    label: "Oceania",
+                    data: 95100000,
+                    color: myapp_get_color.danger_500
+                },
+                {
+                    label: "Europe",
+                    data: 727080000,
+                    color: myapp_get_color.success_500
+                },
+                {
+                    label: "North America",
+                    data: 344120000,
+                    color: myapp_get_color.fusion_400
+                }];
+
+
+                $.plot($("#flotPie"), dataSetPie,
+                {
+                    series:
+                    {
+                        pie:
+                        {
+                            innerRadius: 0.5,
+                            show: true,
+                            radius: 1,
+                            label:
+                            {
+                                show: true,
+                                radius: 2 / 3,
+                                threshold: 0.1
+                            }
+                        }
+                    },
+                    legend:
+                    {
+                        show: false
+                    }
+                });
+
+
+                $.plot('#flotBar1', [
+                {
+                    data: [
+                        [1, 0],
+                        [2, 0],
+                        [3, 0],
+                        [4, 1],
+                        [5, 3],
+                        [6, 3],
+                        [7, 10],
+                        [8, 11],
+                        [9, 10],
+                        [10, 9],
+                        [11, 12],
+                        [12, 8],
+                        [13, 10],
+                        [14, 6],
+                        [15, 3]
+                    ],
+                    bars:
+                    {
+                        show: true,
+                        lineWidth: 0,
+                        fillColor: myapp_get_color.fusion_50,
+                        barWidth: .3,
+                        order: 'left'
+                    }
+                },
+                {
+                    data: [
+                        [1, 0],
+                        [2, 0],
+                        [3, 1],
+                        [4, 2],
+                        [5, 2],
+                        [6, 5],
+                        [7, 8],
+                        [8, 12],
+                        [9, 10],
+                        [10, 11],
+                        [11, 3]
+                    ],
+                    bars:
+                    {
+                        show: true,
+                        lineWidth: 0,
+                        fillColor: myapp_get_color.success_500,
+                        barWidth: .3,
+                        align: 'right'
+                    }
+                }],
+                {
+                    grid:
+                    {
+                        borderWidth: 0,
+                    },
+                    yaxis:
+                    {
+                        min: 0,
+                        max: 15,
+                        tickColor: '#F0F0F0',
+                        ticks: [
+                            [0, ''],
+                            [5, '$5000'],
+                            [10, '$25000'],
+                            [15, '$45000']
+                        ],
+                        font:
+                        {
+                            color: '#444',
+                            size: 10
+                        }
+                    },
+                    xaxis:
+                    {
+                        mode: 'categories',
+                        tickColor: '#F0F0F0',
+                        ticks: [
+                            [0, '3am'],
+                            [1, '4am'],
+                            [2, '5am'],
+                            [3, '6am'],
+                            [4, '7am'],
+                            [5, '8am'],
+                            [6, '9am'],
+                            [7, '10am'],
+                            [8, '11am'],
+                            [9, '12nn'],
+                            [10, '1pm'],
+                            [11, '2pm'],
+                            [12, '3pm'],
+                            [13, '4pm'],
+                            [14, '5pm']
+                        ],
+                        font:
+                        {
+                            color: '#999',
+                            size: 9
+                        }
+                    }
+                });
+
+
+                /*
+                 * VECTOR MAP
+                 */
+
+                var data_array = {
+                    "af": "16.63",
+                    "al": "0",
+                    "dz": "158.97",
+                    "ao": "85.81",
+                    "ag": "1.1",
+                    "ar": "351.02",
+                    "am": "8.83",
+                    "au": "1219.72",
+                    "at": "366.26",
+                    "az": "52.17",
+                    "bs": "7.54",
+                    "bh": "21.73",
+                    "bd": "105.4",
+                    "bb": "3.96",
+                    "by": "52.89",
+                    "be": "461.33",
+                    "bz": "1.43",
+                    "bj": "6.49",
+                    "bt": "1.4",
+                    "bo": "19.18",
+                    "ba": "16.2",
+                    "bw": "12.5",
+                    "br": "2023.53",
+                    "bn": "11.96",
+                    "bg": "44.84",
+                    "bf": "8.67",
+                    "bi": "1.47",
+                    "kh": "11.36",
+                    "cm": "21.88",
+                    "ca": "1563.66",
+                    "cv": "1.57",
+                    "cf": "2.11",
+                    "td": "7.59",
+                    "cl": "199.18",
+                    "cn": "5745.13",
+                    "co": "283.11",
+                    "km": "0.56",
+                    "cd": "12.6",
+                    "cg": "11.88",
+                    "cr": "35.02",
+                    "ci": "22.38",
+                    "hr": "59.92",
+                    "cy": "22.75",
+                    "cz": "195.23",
+                    "dk": "304.56",
+                    "dj": "1.14",
+                    "dm": "0.38",
+                    "do": "50.87",
+                    "ec": "61.49",
+                    "eg": "216.83",
+                    "sv": "21.8",
+                    "gq": "14.55",
+                    "er": "2.25",
+                    "ee": "19.22",
+                    "et": "30.94",
+                    "fj": "3.15",
+                    "fi": "231.98",
+                    "fr": "2555.44",
+                    "ga": "12.56",
+                    "gm": "1.04",
+                    "ge": "11.23",
+                    "de": "3305.9",
+                    "gh": "18.06",
+                    "gr": "305.01",
+                    "gd": "0.65",
+                    "gt": "40.77",
+                    "gn": "4.34",
+                    "gw": "0.83",
+                    "gy": "2.2",
+                    "ht": "6.5",
+                    "hn": "15.34",
+                    "hk": "226.49",
+                    "hu": "132.28",
+                    "is": "0",
+                    "in": "1430.02",
+                    "id": "695.06",
+                    "ir": "337.9",
+                    "iq": "84.14",
+                    "ie": "204.14",
+                    "il": "201.25",
+                    "it": "2036.69",
+                    "jm": "13.74",
+                    "jp": "5390.9",
+                    "jo": "27.13",
+                    "kz": "129.76",
+                    "ke": "32.42",
+                    "ki": "0.15",
+                    "kw": "117.32",
+                    "kg": "4.44",
+                    "la": "6.34",
+                    "lv": "23.39",
+                    "lb": "39.15",
+                    "ls": "1.8",
+                    "lr": "0.98",
+                    "lt": "35.73",
+                    "lu": "52.43",
+                    "mk": "9.58",
+                    "mg": "8.33",
+                    "mw": "5.04",
+                    "my": "218.95",
+                    "mv": "1.43",
+                    "ml": "9.08",
+                    "mt": "7.8",
+                    "mr": "3.49",
+                    "mu": "9.43",
+                    "mx": "1004.04",
+                    "md": "5.36",
+                    "rw": "5.69",
+                    "ws": "0.55",
+                    "st": "0.19",
+                    "sa": "434.44",
+                    "sn": "12.66",
+                    "rs": "38.92",
+                    "sc": "0.92",
+                    "sl": "1.9",
+                    "sg": "217.38",
+                    "sk": "86.26",
+                    "si": "46.44",
+                    "sb": "0.67",
+                    "za": "354.41",
+                    "es": "1374.78",
+                    "lk": "48.24",
+                    "kn": "0.56",
+                    "lc": "1",
+                    "vc": "0.58",
+                    "sd": "65.93",
+                    "sr": "3.3",
+                    "sz": "3.17",
+                    "se": "444.59",
+                    "ch": "522.44",
+                    "sy": "59.63",
+                    "tw": "426.98",
+                    "tj": "5.58",
+                    "tz": "22.43",
+                    "th": "312.61",
+                    "tl": "0.62",
+                    "tg": "3.07",
+                    "to": "0.3",
+                    "tt": "21.2",
+                    "tn": "43.86",
+                    "tr": "729.05",
+                    "tm": "0",
+                    "ug": "17.12",
+                    "ua": "136.56",
+                    "ae": "239.65",
+                    "gb": "2258.57",
+                    "us": "14624.18",
+                    "uy": "40.71",
+                    "uz": "37.72",
+                    "vu": "0.72",
+                    "ve": "285.21",
+                    "vn": "101.99",
+                    "ye": "30.02",
+                    "zm": "15.69",
+                    "zw": "0"
+                };
+
+                $('#vector-map').vectorMap(
+                {
+                    map: 'world_en',
+                    backgroundColor: 'transparent',
+                    color: myapp_get_color.warning_50,
+                    borderOpacity: 0.5,
+                    borderWidth: 1,
+                    hoverColor: myapp_get_color.success_300,
+                    hoverOpacity: null,
+                    selectedColor: myapp_get_color.success_500,
+                    selectedRegions: ['US'],
+                    enableZoom: true,
+                    showTooltip: true,
+                    scaleColors: [myapp_get_color.primary_400, myapp_get_color.primary_50],
+                    values: data_array,
+                    normalizeFunction: 'polynomial',
+                    onRegionClick: function(element, code, region)
+                    {
+                        /*var message = 'You clicked "'
+						+ region
+						+ '" which has the code: '
+						+ code.toLowerCase();
+			 
+					console.log(message);*/
+
+                        var randomNumber = Math.floor(Math.random() * 10000000);
+                        var arrow;
+
+                        if (Math.random() >= 0.5 == true)
+                        {
+                            arrow = '<div class="ml-2 d-inline-flex"><i class="fal fa-caret-up text-success fs-xs"></i></div>'
+                        }
+                        else
+                        {
+                            arrow = '<div class="ml-2 d-inline-flex"><i class="fal fa-caret-down text-danger fs-xs"></i></div>'
+                        }
+
+                        $('.js-jqvmap-flag').attr('src', 'https://lipis.github.io/flag-icon-css/flags/4x3/' + code.toLowerCase() + '.svg');
+                        $('.js-jqvmap-country').html(region + ' - ' + '$' + randomNumber.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + arrow);
+                    }
+                });
+
+
+                /* TAB 1: UPDATING CHART */
+                var data = [],
+                    totalPoints = 200;
+                var getRandomData = function()
+                {
+                    if (data.length > 0)
+                        data = data.slice(1);
+
+                    // do a random walk
+                    while (data.length < totalPoints)
+                    {
+                        var prev = data.length > 0 ? data[data.length - 1] : 50;
+                        var y = prev + Math.random() * 10 - 5;
+                        if (y < 0)
+                            y = 0;
+                        if (y > 100)
+                            y = 100;
+                        data.push(y);
+                    }
+
+                    // zip the generated y values with the x values
+                    var res = [];
+                    for (var i = 0; i < data.length; ++i)
+                        res.push([i, data[i]])
+                    return res;
+                }
+                // setup control widget
+                var updateInterval = 1500;
+                $("#updating-chart").val(updateInterval).change(function()
+                {
+
+                    var v = $(this).val();
+                    if (v && !isNaN(+v))
+                    {
+                        updateInterval = +v;
+                        $(this).val("" + updateInterval);
+                    }
+
+                });
+                // setup plot
+                var options = {
+                    colors: [myapp_get_color.primary_700],
+                    series:
+                    {
+                        lines:
+                        {
+                            show: true,
+                            lineWidth: 0.5,
+                            fill: 0.9,
+                            fillColor:
+                            {
+                                colors: [
+                                {
+                                    opacity: 0.6
+                                },
+                                {
+                                    opacity: 0
+                                }]
+                            },
+                        },
+
+                        shadowSize: 0 // Drawing is faster without shadows
+                    },
+                    grid:
+                    {
+                        borderColor: '#F0F0F0',
+                        borderWidth: 1,
+                        labelMargin: 5
+                    },
+                    xaxis:
+                    {
+                        color: '#F0F0F0',
+                        font:
+                        {
+                            size: 10,
+                            color: '#999'
+                        }
+                    },
+                    yaxis:
+                    {
+                        min: 0,
+                        max: 100,
+                        color: '#F0F0F0',
+                        font:
+                        {
+                            size: 10,
+                            color: '#999'
+                        }
+                    }
+                };
+                var plot = $.plot($("#updating-chart"), [getRandomData()], options);
+                /* live switch */
+                $('input[type="checkbox"]#start_interval').click(function()
+                {
+                    if ($(this).prop('checked'))
+                    {
+                        $on = true;
+                        updateInterval = 1500;
+                        update();
+                    }
+                    else
+                    {
+                        clearInterval(updateInterval);
+                        $on = false;
+                    }
+                });
+                var update = function()
+                {
+                    if ($on == true)
+                    {
+                        plot.setData([getRandomData()]);
+                        plot.draw();
+                        setTimeout(update, updateInterval);
+
+                    }
+                    else
+                    {
+                        clearInterval(updateInterval)
+                    }
+
+                }
+
+
+
+                /*calendar */
+                var todayDate = moment().startOf('day');
+                var YM = todayDate.format('YYYY-MM');
+                var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+                var TODAY = todayDate.format('YYYY-MM-DD');
+                var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+
+
+                var calendarEl = document.getElementById('calendar');
+
+                var calendar = new FullCalendar.Calendar(calendarEl,
+                {
+                    plugins: ['dayGrid', 'list', 'timeGrid', 'interaction', 'bootstrap'],
+                    themeSystem: 'bootstrap',
+                    timeZone: 'UTC',
+                    dateAlignment: "month", //week, month
+                    buttonText:
+                    {
+                        today: 'today',
+                        month: 'month',
+                        week: 'week',
+                        day: 'day',
+                        list: 'list'
+                    },
+                    eventTimeFormat:
+                    {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        meridiem: 'short'
+                    },
+                    navLinks: true,
+                    header:
+                    {
+                        left: 'title',
+                        center: '',
+                        right: 'today prev,next'
+                    },
+                    footer:
+                    {
+                        left: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+                        center: '',
+                        right: ''
+                    },
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                    {
+                        title: 'All Day Event',
+                        start: YM + '-01',
+                        description: 'This is a test description', //this is currently bugged: https://github.com/fullcalendar/fullcalendar/issues/1795
+                        className: "border-warning bg-warning text-dark"
+                    },
+                    {
+                        title: 'Reporting',
+                        start: YM + '-14T13:30:00',
+                        end: YM + '-14',
+                        className: "bg-white border-primary text-primary"
+                    },
+                    {
+                        title: 'Surgery oncall',
+                        start: YM + '-02',
+                        end: YM + '-03',
+                        className: "bg-primary border-primary text-white"
+                    },
+                    {
+                        title: 'NextGen Expo 2019 - Product Release',
+                        start: YM + '-03',
+                        end: YM + '-05',
+                        className: "bg-info border-info text-white"
+                    },
+                    {
+                        title: 'Dinner',
+                        start: YM + '-12',
+                        end: YM + '-10'
+                    },
+                    {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: YM + '-09T16:00:00',
+                        className: "bg-danger border-danger text-white"
+                    },
+                    {
+                        id: 1000,
+                        title: 'Repeating Event',
+                        start: YM + '-16T16:00:00'
+                    },
+                    {
+                        title: 'Conference',
+                        start: YESTERDAY,
+                        end: TOMORROW,
+                        className: "bg-success border-success text-white"
+                    },
+                    {
+                        title: 'Meeting',
+                        start: TODAY + 'T10:30:00',
+                        end: TODAY + 'T12:30:00',
+                        className: "bg-primary text-white border-primary"
+                    },
+                    {
+                        title: 'Lunch',
+                        start: TODAY + 'T12:00:00',
+                        className: "bg-info border-info"
+                    },
+                    {
+                        title: 'Meeting',
+                        start: TODAY + 'T14:30:00',
+                        className: "bg-warning text-dark border-warning"
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: TODAY + 'T17:30:00',
+                        className: "bg-success border-success text-white"
+                    },
+                    {
+                        title: 'Dinner',
+                        start: TODAY + 'T20:00:00',
+                        className: "bg-danger border-danger text-white"
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: TOMORROW + 'T07:00:00',
+                        className: "bg-primary text-white border-primary text-white"
+                    },
+                    {
+                        title: 'Gotbootstrap Meeting',
+                        url: 'http://gotbootstrap.com/',
+                        start: YM + '-28',
+                        className: "bg-info border-info text-white"
+                    }],
+                    viewSkeletonRender: function()
+                    {
+                        $('.fc-toolbar .btn-default').addClass('btn-sm');
+                        $('.fc-header-toolbar h2').addClass('fs-md');
+                        $('#calendar').addClass('fc-reset-order')
+                    },
+
+                });
+
+                calendar.render();
+            });
+
+        </script>
+        <script>
+            document.getElementById('customControlValidation4').addEventListener("change", function(){
+            if (this.checked) window.location.href = '<%= Routes.user_path(@conn, :dashboard)%>';
+            });
+        </script>
+    </body>
+</html>

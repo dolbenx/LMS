@@ -1,0 +1,292 @@
+<ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>Offtakers
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <%= if @user.user_role == "BACKOFFICE_INITIATOR" do %>
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_offtaker" data-toggle="modal"> Add Offtaker</button>
+      <% end %>
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Address</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                    <%= for offtaker <- @offtakers do %>
+                        <tr>
+                        <td><%= offtaker.offtaker_name %></td>
+                        <td><%= offtaker.email %></td>
+                        <td><%= offtaker.phone_number %></td>
+                        <td><%= offtaker.physical_address %></td>
+                        <td>
+                            <%= if @user.user_role == "BACKOFFICE_INITIATOR" do %>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                    <div class="dropdown-menu">
+                                      <a class="dropdown-item" href="#"  data-id="<%= offtaker.id %>" data-offtaker_name="<%= offtaker.offtaker_name %>" data-phone_number="<%= offtaker.phone_number %>" data-email="<%= offtaker.email %>" data-physical_address="<%= offtaker.physical_address %>" data-status="<%= offtaker.status %>" data-toggle="modal" data-target="#view_offtaker"><i class="fal fa-eye"></i> View</a>
+                                      <a class="dropdown-item" href="#"  data-id="<%= offtaker.id %>" data-offtaker_name="<%= offtaker.offtaker_name %>" data-phone_number="<%= offtaker.phone_number %>" data-email="<%= offtaker.email %>" data-physical_address="<%= offtaker.physical_address %>" data-toggle="modal" data-target="#edit_offtaker"><i class="fal fa-edit"></i> Edit</a>
+                                      <a class="dropdown-item" href="#"><i class="fal fa-user"></i> Map To Document</a>
+                                      <a class="dropdown-item" href="<%= Routes.customer_path(@conn, :offtaker_admin, off_taker_id: offtaker.off_taker_id)%>"><i class="fal fa-user"></i> View Admin</a>
+                                      <%= if offtaker.status == "ACTIVE" do %>
+                                        <a class="dropdown-item" href="#"><i class="fal fa-times"></i> Disable</a>
+                                      <% end %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% end %>
+                            <%= if @user.user_role == "BACKOFFICE_APPROVER" do %>
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class='subheader-icon fal fa-chevron-down'></i> </span>
+                                      <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#"  data-id="<%= offtaker.id %>" data-offtaker_name="<%= offtaker.offtaker_name %>" data-phone_number="<%= offtaker.phone_number %>" data-email="<%= offtaker.email %>" data-physical_address="<%= offtaker.physical_address %>" data-status="<%= offtaker.status %>" data-toggle="modal" data-target="#view_offtaker">View</a>
+                                        <%= if offtaker.status == "PENDING_ACTIVATION" do %>
+                                              <a class="dropdown-item js-sweetalert2-approve_offtaker" href="#" data-id="<%= offtaker.id %>">Approve</a>
+                                          <% else %>
+                                            <a class="dropdown-item js-sweetalert2-reject_company" href="#" style="color: #008000" data-id="<%= offtaker.id %>" >Reject</a>
+                                        <% end %>
+                                      </div>
+                                  </div>
+                                </div>
+                            <% end %>
+                        </td>
+                        </tr>
+                      <%end %>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%# --------------- Create Offtaker %>
+<div class="modal fade" id="add_offtaker" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add offtaker</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.customer_path(@conn, :add_offtaker)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="PENDING_ACTIVATION">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Name</label>
+                                <input type="text" id="example-input-small" name="offtaker_name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone Number</label>
+                                <input type="text" id="example-input-small" name="phone_number" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Offtaker ID</label>
+                                <input type="text" id="example-input-small" name="off_taker_id" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="example-input-small" name="physical_address" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">email</label>
+                                <input type="text" id="example-input-small" name="email" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Submit</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<%# --------------- View Offtaker %>
+<div class="modal fade" id="view_offtaker" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View offtaker Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.customer_path(@conn, :add_offtaker)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="PENDING_ACTIVATION">
+                    <input type="hidden" name="off_taker_id" value="2">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Name</label>
+                                <input type="text" id="offtaker_name" name="offtaker_name" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone Number</label>
+                                <input type="text" id="phone_number" name="phone_number" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="physical_address" name="physical_address" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Status</label>
+                                <input type="text" id="status" name="status" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Submit</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<%# --------------- View Offtaker %>
+<div class="modal fade" id="edit_offtaker" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Edit offtaker Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.customer_path(@conn, :update_offtaker)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="PENDING_ACTIVATION">
+                    <input type="hidden" name="off_taker_id" value="2">
+                    <input type="hidden" name="id" id="id">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Name</label>
+                                <input type="text" id="offtaker_name" name="offtaker_name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone Number</label>
+                                <input type="text" id="phone_number" name="phone_number" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="physical_address" name="physical_address" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Submit</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view company details
+    $('#view_offtaker').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var offtaker_name = button.data('offtaker_name')
+            var physical_address = button.data('physical_address')
+            var phone_number = button.data('phone_number')
+            var email = button.data('email')
+            var status = button.data('status')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #offtaker_name').val(offtaker_name);
+            modal.find('.modal-body #physical_address').val(physical_address);
+            modal.find('.modal-body #phone_number').val(phone_number);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #status').val(status);
+           
+    });
+    $('#edit_offtaker').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var offtaker_name = button.data('offtaker_name')
+            var physical_address = button.data('physical_address')
+            var phone_number = button.data('phone_number')
+            var email = button.data('email')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #offtaker_name').val(offtaker_name);
+            modal.find('.modal-body #physical_address').val(physical_address);
+            modal.find('.modal-body #phone_number').val(phone_number);
+            modal.find('.modal-body #email').val(email);
+           
+    });
+});
+</script>

@@ -8,5 +8,6 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUserLogs do
 
       timestamps()
     end
+
   end
 end

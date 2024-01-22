@@ -1,0 +1,405 @@
+
+<link rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/css/form.css") %>">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+
+.stepwizard-step p {
+    margin-top: 10px;
+}
+
+.stepwizard-row {
+    display: table-row;
+}
+
+.stepwizard {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+
+.stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+}
+
+.stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+
+}
+
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+</style>
+<%# --------------- Create Savings Product %>
+<div class="modal fade" id="add_savings" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="stepwizard">
+                        <div class="stepwizard-row setup-panel">
+                            <div class="stepwizard-step">
+                                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                                <h5>Step 1</h5><strong><small>Product Details</small></strong></li>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                <h5>Step 2</h5><strong><small>Product Charges</small></strong>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                <h5>Step 3</h5><strong><small>Product Divestment</small></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <form role="form" action="<%= Routes.product_path(@conn, :add_savings_product)%>" method="post">
+                        <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <!--<input type="hidden" name="currencyId" value="2">
+                        <input type="hidden" name="productType" value="SAVINGS">
+                        <input type="hidden" name="status" value="ACTIVE">-->
+                        <input type="hidden" name="clientId" value='<%= @conn.private.plug_session["client_id"] %>'>
+                        <div class="row setup-content" id="step-1" style="width: 100% !important">
+                            <div class="col-xs-12" style="width: 100% !important">
+                                <div class="col-md-12" style="width: 100% !important">
+                                    <h3 style="text-align:center"> Product Details</h3>
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Name<span style="color: red;">*</span></label>
+                                                    <input required type="text" id="example-input-small" name="name" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Product Code<span style="color: red;">*</span></label>
+                                                    <input required type="text" id="example-input-small" name="code" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Description</label>
+                                                    <input  type="text" id="example-input-small" name="details" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Currency<span style="color: red;">*</span></label>
+                                                    <select required name="currencyName" id="example-input-small" class="form-control">
+                                                        <%= for currency <- @currencies do %>
+                                                        <option value="<%= currency.id %>|||<%= currency.isoCode %>"><%= currency.name %></option>
+                                                        <% end %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Currency Decimals<span style="color: red;">*</span></label>
+                                                    <input required type="number" id="example-input-small" name="currencyDecimals" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Minimum Principal Amount<span style="color: red;">*</span></label>
+                                                    <input required type="number" id="example-input-small" name="minimumPrincipal" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Maximum Principal Amount<span style="color: red;">*</span></label>
+                                                    <input required type="number" id="example-input-small" name="maximumPrincipal" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Interest(%)<span style="color: red;">*</span></label>
+                                                    <input required step=0.00000001 type="number" id="example-input-small" name="interest" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Interest Type(%) <span style="color: red;">*</span></label>
+                                                    <select required name="interestType" id="example-input-small" class="form-control">
+                                                        <option value="Days">Per Day</option>
+                                                        <option value="Months">Per Month</option>
+                                                        <option value="Years">Annual</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Mode of Intrest(%)<span style="color: red;">*</span></label>
+                                                    <select required name="interestMode" id="example-input-small" class="form-control">
+                                                        <option value="FLAT">FLAT</option>
+                                                        <option value="COMPOUND INTEREST">COMPOUND INTEREST</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Year length (Days)<span style="color: red;">*</span></label>
+                                                    <select required name="yearLengthInDays" id="example-input-small" class="form-control">
+                                                        <option value="360">360</option>
+                                                        <option value="365">365</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Fixed Tenure<span style="color: red;">*</span></label>
+                                                    <input required type="defaultPeriod" id="example-input-small" name="defaultPeriod" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <div class="form-group">
+                                                    <label for="example-input-small" class="form-label">Tenure Type<span style="color: red;">*</span></label>
+                                                    <select required name="periodType" id="example-input-small" class="form-control">
+                                                        <option value="Days">Days</option>
+                                                        <option value="Months">Months</option>
+                                                        <option value="Years">Years</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <button class="btn btn-primary nextBtn btn-sm pull-right" type="button" >Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row setup-content" id="step-2">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <h3 style="text-align:center"> Product Charges</h3>
+                                        <div class="row">
+                                                <div id="dt-basic-example_wrapper" class="dataTables_wrapper dt-bootstrap4 col-md-12">
+                                                    <div class="col-md-12">
+                                                        <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                            <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending"><label for="example-input-small" class="form-label">Product Charges<span style="color: red;">*</span></label></th>
+                                                                <!--<th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Valuation</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Charge When</th>-->
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="tr_clone">
+                                                                    <td>
+                                                                        <div class="col-md-12 form-group">
+                                                                            <div class="form-group">
+                                                                                <select required name="productCharge[]" onchange="getSelectedValue();" id="charge" class="form-control chrg">
+                                                                                    <%= for charge <- @charges do %>
+                                                                                        <option value="<%= charge.id %>"><%= charge.chargeName %></option>
+                                                                                    <% end %>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <!--<td><input type="text" name="valuation" class="form-control form-control-sm"></td>
+                                                                    <td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+                                                                    <td>
+                                                                    <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                                                                    <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                        <button class="btn btn-primary nextBtn btn-sm pull-right" type="button" >Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row setup-content" id="step-3">
+                                <div class="col-xs-12">
+                                    <div class="col-md-12">
+                                        <h3 style="text-align:center"> Divestment</h3>
+                                            <div class="row">
+                                                <div id="dt-basic-example_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                    <div class="col-xl-12">
+                                                        <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                                <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                            <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Divestment Start Period (Days)</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">Divestment End Period (Days)</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 137px;" aria-label="Office: activate to sort column ascending">Divestment Valuation (%)</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Action</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="tr_clone">
+                                                                    <td><input type="text" name="startPeriodDays[]" class="form-control form-control-sm"></td>
+                                                                    <td><input type="text" name="endPeriodDays[]"class="form-control form-control-sm"></td>
+                                                                    <td><input type="text" name="divestmentValuation[]" class="form-control form-control-sm"></td>
+                                                                    <td>
+                                                                    <i style="cursor:pointer" onclick="addrow(this)" class="adder fal fa-plus tr_clone_add"></i>
+                                                                    <i style="cursor:pointer" onclick="removerow(this)" class="minus fal fa-minus"></i>
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                        <button class="btn btn-success btn-sm pull-right" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(  ).ready(function () {
+
+    var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn');
+
+    allWells.hide();
+
+    navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+                $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+            navListItems.removeClass('btn-primary').addClass('btn-default');
+            $item.addClass('btn-primary');
+            allWells.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+        }
+    });
+
+    allNextBtn.click(function(){
+        var curStep = $(this).closest(".setup-content"),
+            curStepBtn = curStep.attr("id"),
+            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            curInputs = curStep.find("input[type='text'],input[type='url']"),
+            isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for(var i=0; i<curInputs.length; i++){
+            if (!curInputs[i].validity.valid){
+                isValid = false;
+                $(curInputs[i]).closest(".form-group").addClass("has-error");
+            }
+        }
+
+        if (isValid)
+            nextStepWizard.removeAttr('disabled').trigger('click');
+    });
+
+    $('div.setup-panel div a.btn-primary').trigger('click');
+});
+</script>
+
+<script>
+  var selectedValues = [];
+      function getSelectedValue() {
+        var selectedValue = document.getElementById("charge").value;
+        if( !selectedValues.includes(selectedValue) ){
+          selectedValues.push(selectedValue);
+          
+          document.getElementById("myValues").innerHTML += 
+          '<input type="text" name="value[]" class="form-control form-control-sm" id="myValue" value="' + selectedValue + '"></br>';
+        }
+      }
+</script>
+
+<script>
+var $select = $(".asset-class");
+$select.on("change", function() {
+    var selected = [];  
+    $.each($select, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+   
+});
+
+</script>
+<script>
+var $select2 = $(".chrg");
+$select2.on("change", function() {
+    var selected = [];  
+    $.each($select2, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+
+
+
+});
+</script>
+<script>
+var $select3 = $(".charge_codes12");
+$select3.on("change", function() {
+    var selected = [];  
+    $.each($select3, function(index, select) {           
+        if (select.value !== "") { selected.push(select.value); }
+    });         
+  $('option.hide').hide();        
+   for (var index in selected) { $('option[value="'+selected[index]+'"]').hide(); }
+
+});
+</script>
+
+<script>
+
+function addrow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $clone = $tr.clone();
+    $clone.find(':text').val('');
+    $tr.after($clone);
+}
+
+function removerow(e)
+{
+    var $tr    = $(e).closest('.tr_clone');
+    var $remove = $tr.remove();
+    $remove.find(':text').val('');
+    $tr.after($remove);
+}
+
+</script>

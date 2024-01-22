@@ -1,0 +1,920 @@
+  <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i>
+       
+    </h1>
+
+    <div class="element-box-content">
+      <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#employee_upload" data-toggle="modal"><i class="fal fa-upload"></i> Bulk Upload</button>
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" id="employer_employee" data-toggle="modal"><i class="fal fa-user-plus"></i> Add Employee</button>
+      
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+        <div class="panel-container show">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <input type="hidden" id="csrf" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Email Address</th>
+                      <th>Means of Identification</th>
+                      <th>Means of Identification Number</th>
+                      <th>Phone Number</th>
+                      <th>Company</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%# --------------- Add Employee For Employer %>
+
+
+<div class="modal fade" id="create_employee" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <!--<input type="hidden" name="user_id" value="1">
+                    <input type="hidden" name="status" value="0">
+                    <input type="hidden" name="user_type" value="2">
+                    <input type="hidden" name="auto_password" value="N">
+                    <input type="hidden" name="approval_status" value="PENDING_ACTIVATION">
+                    <input type="hidden" name="password" id="password-gen" >-->
+                    <div class="row">
+
+
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Primary Mobile Number</label>
+                                <input type="text" id="verify_phone" name="verify_phone" class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Net Pay</label>
+                                <input type="text" id="netPay" name="verify_phone" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left !important">Close</button>
+                    <button class="btn btn-success" type="submit" style="float: right !important" onclick="verifyAddOrMoveToStepTwoNewUser()"> Verify My Number</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="verify_customer_details" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <form action="#" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" id="mobileNumber" name="mobileNumber" value="">
+                    <input type="hidden" id="employer_exists_net_pay" name="netPay" value="">
+                    <input type="hidden" id="companyId" name="companyId" value="">
+                    <div class="row">
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">Title</label>
+                                <div id="employer_exists_title"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <div id="employer_exists_first_name"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <div id="employer_exists_last_name"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Mobile Number</label>
+                                <div id="employer_exists_mobile_number"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email Address</label>
+                                <div id="employer_exists_email_address"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label for="example-input-small" class="form-label">Means of Identification</label>
+                            <div id="employer_exists_means_of_identification"></div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Means of Identification Number</label>
+                                <div id="employer_exists_means_of_identification_number"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Gender</label>
+                                <div id="employer_exists_gender"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group ">
+                                <label for="example-input-small" class="form-label"> Date of birth</label>
+                                <div id="employer_exists_dob"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 form-group" style="padding-left: 0px !important">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">User Roles</label>
+                                <div id="employer_exists_user_role"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit"> Add Company Employee Role</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="create_employee_step_two" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="#" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" id="mobileNumber" name="mobileNumber" value="">
+                    <input type="hidden" id="companyId" name="companyId" value="">
+                    <div class="row">
+
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">Title</label>
+                                <select class="form-control form-control-sm" id="title" name="title" required="required">
+                                    <option value="Mr"> Mr</option>
+                                    <option value="Mrs"> Mrs</option>
+                                    <option value="Ms"> Ms</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="example-input-small" name="firstName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="example-input-small" name="lastName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Mobile Number</label>
+                                <input type="phone" id="example-input-small" name="mobileNumber" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email Address</label>
+                                <input type="email" id="example-input-small" name="emailAddress" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <label for="example-input-small" class="form-label">Means of Identification</label>
+                            <select class="form-control form-control-sm" id="id_type" name="id_type" required="required">
+                                <option value="NRC">NRC</option>
+                                <option value="DRIVERS LICENSE">Drivers License</option>
+                                <option value="INTERNATIONAL PASSPORT">International Passport</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Means of Identification Number</label>
+                                <input type="text" id="example-input-small" name="meansOfIdentificationNumber" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Gender</label>
+                                <select class="form-control form-control-sm" id="sex" name="sex" required="required">
+                                    <option value="MALE"> Male</option>
+                                    <option value="FEMALE"> Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <div class="form-group ">
+                                <label for="example-input-small" class="form-label"> Date of Birth</label>
+                                <input class="form-control form-control-sm" id="age" name="age" type="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Submit</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<%# --------------- View Employee Staff %>
+<div class="modal fade" id="view_employee" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title"> Employee Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="#" method="post">
+                  <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Other Name</label>
+                                <input type="text" id="other_name" name="other_name" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone Number</label>
+                                <input type="text" id="phone" name="phone" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Staff ID</label>
+                                <input type="text" id="staff_id" name="staff_id" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">ID Type</label>
+                                <input type="text" id="id_type" name="id_type" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">ID Number</label>
+                                <input type="text" id="id_no" name="id_no" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">City</label>
+                                <input type="text" id="city" name="city" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Country</label>
+                                <input type="text" id="country" name="country" class="form-control form-control-sm" disabled>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<%# --------------- Edit Employee Staff %>
+<div class="modal fade" id="edit_employee" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Edit Employee's Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="#" method="post">
+                  <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="id" id="id">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Other Name</label>
+                                <input type="text" id="other_name" name="other_name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone Number</label>
+                                <input type="text" id="phone" name="phone" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="email" name="email" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Staff ID</label>
+                                <input type="text" id="staff_id" name="staff_id" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                              <label for="example-input-small">ID Type</label>
+                                  <select class="form-control form-control-sm" id="id_type" name="id_type" required="required">
+                                      <option value="NRC">NRC</option>
+                                      <option value="DriversLicense">Drivers License</option>
+                                      <option value="Passport"> Passport</option>
+                                  </select>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">ID Number</label>
+                                <input type="text" id="id_no" name="id_no" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">City</label>
+                                <input type="text" id="city" name="city" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Country</label>
+                                <input type="text" id="country" name="country" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Submit</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="employee_upload" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="#" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="status" value="PENDING_ACTIVATION">
+                <div class="modal-body">
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                        <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="">Select File</label><input class="form-control" name="staff_file_name" required="required" type="file">
+                                        <div class="help-block form-text with-errors form-control-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect waves-themed" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-themed">Upload</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="employer_create_employee" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Create Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="#" method="post">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+
+                    <div class="modal-body">
+                        <input type="hidden" name="password" id="password-gen" >
+                        <input type="hidden" name="userId" id="userId">
+                        <input type="hidden" name="createdByUserId" value="1">
+                        <div class="row">
+
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="firstName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="lastName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Other Name</label>
+                                <input type="text" id="last_name" name="otherName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">Gender</label>
+                                <select class="form-control form-control-sm" id="gender" name="gender" required="required">
+                                    <option value="MALE"> Male</option>
+                                    <option value="FEMALE"> Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone</label>
+                                <input type="text" id="mobilenumber" name="mobileNumber" class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="emailAddress" name="emailAddress" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="example-input-small">ID Type</label>
+                                <select class="form-control form-control-sm" id="meansOfIdentificationType" name="meansOfIdentificationType" required="required">
+                                    <option value="NRC">NRC</option>
+                                    <option value="DriversLicense">Drivers License</option>
+                                    <option value="Passport"> Passport</option>
+                                </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">ID No.</label>
+                                <input class="form-control form-control-sm" id="meansOfIdentificationNumber" name="meansOfIdentificationNumber" required="required" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control form-control-sm">
+                            </div>
+                        </div>
+
+                        <%# <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">User Role</label>
+                                <select class="form-control form-control-sm" id="roleType" name="roleType" required="required">
+                                    <option value="ADMIN_INITIATOR">Admin Initiator</option>
+                                    <option value="ADMIN_APPROVER">Admin Approver</option>
+                                    <option value="EMPLOYEE">Staff</option>
+                                </select>
+                            </div>
+                        </div> %>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group ">
+                                <label for="example-input-small"> Date Of Birth</label>
+                                <input class="form-control form-control-sm" id="dateOfBirth" name="dateOfBirth" type="date" required="required">
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="example-input-small">Title</label>
+                                <select class="form-control form-control-sm" id="title" name="title" required="required">
+                                    <option value="Mr">Mr.</option>
+                                    <option value="Mrs">Mrs.</option>
+                                    <option value="Ms"> Ms</option>
+                                </select>
+                        </div>
+                            <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Loan Limit</label>
+                                <input type="number" id="loan_limit" name="loan_limit" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!--------------------------------use for admin------------------------------------->
+                    <%# <div class="row">
+                        <div class="col-sm-2 form-group">
+                            <label for="example-input-small">Maker</label>
+                            <input type="checkbox" id="fname" value="maker" name="maker" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-sm-2 form-group">
+                            <label for="example-input-small">Checker</label>
+                            <input type="checkbox" id="fname" value="checker" name="checker" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-sm-2 form-group">
+                            <label for="example-input-small">upload document</label>
+                            <input type="checkbox" id="fname" value="upload" name="upload" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-sm-2 form-group">
+                            <label for="example-input-small">Create User</label>
+                            <input type="checkbox" id="fname" value="createuser" name="createuser" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-sm-2 form-group">
+                            <label for="example-input-small">Approve User</label>
+                            <input type="checkbox" id="fname" value="approveuser" name="approveuser" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-sm-2 form-group">
+                            <label for="example-input-small">Deactivate User</label>
+                            <input type="checkbox" id="fname" value="deactivateuser" name="deactivateuser" class="form-control form-control-sm">
+                        </div>
+                    </div> %>
+                     <!--------------------------------use for admin------------------------------------->
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit"> Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+            <!-- #######################################################       Edit modal #################################################################### -->
+
+
+
+<div class="modal fade" id="edit_employee_modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Details </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="#" method="post">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="example-input-small">Title</label>
+                                <select class="form-control form-control-sm" id="title" name="title" required="required">
+                                    <option value="Mr">Mr.</option>
+                                    <option value="Mrs">Mrs.</option>
+                                    <option value="Ms"> Ms</option>
+                                </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="firstName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="lastName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Other Name</label>
+                                <input type="text" id="other_name" name="otherName" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone</label>
+                                <input type="text" id="phone" name="mobileNumber" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                         <%# <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Staff ID</label>
+                                <input type="text" id="staff_id" name="staffId" class="form-control form-control-sm">
+                            </div>
+                        </div> %>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="email" name="emailAddress" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="example-input-small">ID Type</label>
+                                <select class="form-control form-control-sm" id="id_type" name="meansOfIdentificationType" required="required">
+                                    <option value="NRC">NRC</option>
+                                    <option value="DriversLicense">Drivers License</option>
+                                    <option value="Passport"> Passport</option>
+                                </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">ID No.</label>
+                                <input class="form-control form-control-sm" id="id_no" name="meansOfIdentificationNumber" required="required" type="text">
+                            </div>
+                        </div>
+                        <%# <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Address</label>
+                                <input type="text" id="address" name="address" class="form-control form-control-sm">
+                            </div>
+                        </div> %>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">Gender</label>
+                                <select class="form-control form-control-sm" id="gender" name="gender" required="required">
+                                    <option value="MALE"> Male</option>
+                                    <option value="FEMALE"> Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <%# <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">User Role</label>
+                                <select class="form-control form-control-sm" id="roleType" name="roleType" required="required">
+                                    <option value="ADMIN_INITIATOR">Admin Initiator</option>
+                                    <option value="ADMIN_APPROVER">Admin Approver</option>
+                                    <option value="EMPLOYEE">Staff</option>
+                                </select>
+                            </div>
+                        </div> %>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group ">
+                                <label for="example-input-small"> Date Of Birth</label>
+                                <input class="form-control form-control-sm" id="dob" name="dateOfBirth" type="date" readonly>
+
+                            </div>
+                        </div>
+                         <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Loan Limit</label>
+                                <input type="number" id="loan_limit" name="loan_limit" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit"> Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- #######################################################  End of Edit modal #################################################################### -->
+
+
+
+            <!-- #######################################################    View modal #################################################################### -->
+
+
+
+<div class="modal fade" id="view_employee_modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Details </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                    <form action="#" method="post">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+
+                    <div class="modal-body">
+
+                        <input id="company_id" name="company_id" value="" type="hidden">
+                        <div class="row">
+
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">Title</label>
+                                <input type="text" id="title" name="title" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">First Name</label>
+                                <input type="text" id="first_name" name="firstName" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Last Name</label>
+                                <input type="text" id="last_name" name="lastName" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Other Name</label>
+                                <input type="text" id="other_name" name="otherName" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Phone</label>
+                                <input type="text" id="phone" name="mobileNumber" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                         <%# <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Staff ID</label>
+                                <input type="text" id="staff_id" name="staffId" class="form-control form-control-sm">
+                            </div>
+                        </div> %>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Email</label>
+                                <input type="text" id="email" name="emailAddress" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+
+                         <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">ID Type</label>
+                                <input class="form-control form-control-sm" id="id_type" name="meansOfIdentificationType" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">ID No.</label>
+                                <input class="form-control form-control-sm" id="id_no" name="meansOfIdentificationNumber" type="text" readonly>
+                            </div>
+                        </div>
+
+
+                         <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                 <label for="example-input-small">Gender</label>
+                                <input class="form-control form-control-sm" id="gender" name="gender" type="text" readonly>
+                            </div>
+                        </div>
+                        <%# <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small">User Role</label>
+                                <select class="form-control form-control-sm" id="roleType" name="roleType" required="required">
+                                    <option value="ADMIN_INITIATOR">Admin Initiator</option>
+                                    <option value="ADMIN_APPROVER">Admin Approver</option>
+                                    <option value="EMPLOYEE">Staff</option>
+                                </select>
+                            </div>
+                        </div> %>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group ">
+                                <label for="example-input-small"> Date Of Birth</label>
+                                <input class="form-control form-control-sm" id="dob" name="dateOfBirth" type="date" readonly>
+
+                            </div>
+                        </div>
+                         <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Loan Limit</label>
+                                <input type="number" id="loan_limit" name="loan_limit" class="form-control form-control-sm" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!--------------------------------------------------------------------->
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- #######################################################  End of View modal #################################################################### -->
+
+
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+</script>

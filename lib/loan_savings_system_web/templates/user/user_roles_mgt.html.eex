@@ -1,0 +1,857 @@
+
+
+<ol class="breadcrumb page-breadcrumb">
+   <li class="breadcrumb-item">
+      <i class="subheader-icon fal fa-chart-area"></i> Loans & Servings
+   </li>
+   <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+</ol>
+<div class="subheader">
+   <h1 class="subheader-title">
+      <i class="subheader-icon fal fa-window"></i>User Roles Maintenance
+   </h1>
+   <div class="element-box-content">
+      <a href="#" onclick="history.back(-1)"  class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <button class="btn btn-sm waves-effect waves-themed" type="button" data-target="#create_user_roles" data-toggle="modal" style="background-color: #011941; color: red;" > Create user Roles</button>
+   </div>
+</div>
+<div class="row">
+   <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+         <div class="panel-container show">
+            <div class="panel-container show">
+               <div class="panel-content">
+                  <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                     <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                        <tr>
+                           <th>Role Group</th>
+                           <th>Role Name</th>
+                           <th>Status</th>
+                           <th>Action</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <%= for user_role <- @user_roles do %>
+                        <tr>
+                           <td>
+                                 <%= case String.contains?(user_role.role_group, "_") do
+                                    true -> String.replace(user_role.role_group, "_", " ")
+                                    false -> user_role.role_group end %>
+                           </td>
+                           <td>
+                                 <%= case String.contains?(user_role.role_desc, "_") do
+                                    true -> String.replace(user_role.role_desc, "_", " ")
+                                    false -> user_role.role_desc end %>
+
+                          </td>
+                           <td> <%= if user_role.status  == "ACTIVE" do %> ACTIVE <% else %> INACTIVE <% end %></td>
+                           <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class='subheader-icon fal fa-chevron-down'></i>
+                                    </span>
+                                    <div class="dropdown-menu">
+                                 <%= if LoanSavingsSystem.Accounts.User.has_role?(@user, :role_maintenance, :edit) do %>
+
+                                          <a class="dropdown-item" href="<%= Routes.user_path(@conn, :edit_user_roles, id: user_role.id) %>">
+                                            <i class="fal fa-edit"></i>
+                                            Edit
+                                        </a>
+                                 <% end %>
+                                 <%= if LoanSavingsSystem.Accounts.User.has_role?(@user, :role_maintenance, :view) do %>
+
+                                          <a class="dropdown-item" href="<%= Routes.user_path(@conn, :view_user_roles, id: user_role.id) %>">
+                                            <i class="fal fa-eye"></i>
+                                            View
+                                        </a>
+                                 <% end %>
+                                 <%= if LoanSavingsSystem.Accounts.User.has_role?(@user, :role_maintenance, :change_status) do %>
+                                    <a class="dropdown-item text-success role-change-status" href="#" data-id="<%= user_role.id %>" data-status="ACTIVE" style="display: <%= if user_role.status == "INACTIVE", do: "block;", else: "none;" %>"><i class="fal fa-check"></i> Activate</a>
+                                    <a class="dropdown-item text-warning role-change-status" href="#"  data-id="<%= user_role.id %>"  data-status="INACTIVE" style="display: <%= if user_role.status == "ACTIVE", do: "block;", else: "none;" %>"><i class="fal fa-times"></i> Disable</a>
+                                <% end %>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                        <% end %>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<%# --------------- Create Admin Roles %>
+
+<div class="modal fade" id="create_user_roles" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Create User Roles</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+            </button>
+         </div>
+            <form>
+               <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+               <div class="modal-body">
+                  <div class="col-lg-12">
+                     <div class="container">
+                        <div class="row">
+                           <div class="frame-wrap mb-0 w-100">
+                              <p class="demo">
+                                 <a class="btn btn-primary" data-toggle="collapse" href="#product_tab" role="button" aria-expanded="false" aria-controls="product_tab">Product</a>
+                                 <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Maintenence</a>
+                                 <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample3" role="button" aria-expanded="false" aria-controls="multiCollapseExample3">User Management</a>
+                                 <a class="btn btn-primary" data-toggle="collapse" href="#transactions_tab" role="button" aria-expanded="false" aria-controls="transactions_tab">Transactions</a>
+                                 <a class="btn btn-primary" data-toggle="collapse" href="#reports_tab" role="button" aria-expanded="false" aria-controls="reports_tab">Reports</a>
+
+
+
+                                 <a class="btn btn-primary" data-toggle="collapse" href="#eod_tab" role="button" aria-expanded="false" aria-controls="eod_tab">EOD</a>
+                              </p>
+                              <div class="row">
+                                 <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+                                       <label for="example-input-small" class="form-label">Role Group</label>
+                                       <input type="text" name="user_role[role_group]" id="role_group"  class="form-control form-control-sm">
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-6 form-group">
+                                    <div class="form-group">
+
+                                       <label for="example-input-small" class="form-label">Role Description</label>
+                                       <input type="text" name="user_role[role_desc]" id="role-desc" class="form-control form-control-sm">
+                                    </div>
+                                 </div>
+                              </div>
+                        <!------------------------------------- Product ---------------------------->
+
+                        <div class="">
+                              <div class="">
+
+                                 <div class="collapse multi-collapse show" id="product_tab">
+                                       <h4>
+                                          Product
+                                       </h4>
+                                       <div class="">
+                                          <div class="form-group">
+                                          <label class="form-label" for="checkbox-group-4">Product</label>
+                                          <div class="row">
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[product][create]" value="N">
+                                                   <input id="product_create" type="checkbox" class="custom-control-input" name="role_str[product][create]" value="Y">
+                                                   <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                   <label class="custom-control-label fw-500" for="product_create">Create</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[product][edit]" value="N">
+                                                   <input id="product_edit" name="role_str[product][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="product_edit">Edit</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[product][view]" value="N">
+                                                   <input id="product_view" name="role_str[product][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="product_view">View</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[product][change_status]" value="N">
+                                                   <input id="product_change_status" name="role_str[product][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="product_change_status"> Enable / Disable</label>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          </div>
+                                       </div>
+                                 </div>
+                              </div>
+                        </div>
+                           <br>
+                        <!------------------------------- User Management Permissions ---------------------------->
+                        <div class="">
+                           <div class="">
+
+                              <div class="collapse multi-collapse" id="multiCollapseExample3">
+                                    <h4>
+                                       User Management Permissions
+                                    </h4>
+                                    <div class="">
+                                       <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Client</label>
+                                       <div class="row">
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[client][create]" value="N">
+                                                <input id="client_create" type="checkbox" class="custom-control-input" name="role_str[client][create]" value="Y">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <label class="custom-control-label fw-500" for="client_create">Create</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[client][edit]" value="N">
+                                                <input id="client_edit" name="role_str[client][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="client_edit">Edit</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[client][view]" value="N">
+                                                <input id="client_view" name="role_str[client][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="client_view">View</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[client][change_status]" value="N">
+                                                <input id="client_change_status" name="role_str[client][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="client_change_status"> Enable / Disable</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                    <br>
+                                    <div class="">
+                                       <div class="form-group">
+                                          <label class="form-label" for="checkbox-group-4">System Users</label>
+                                          <div class="row">
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[system_users][create]" value="N">
+                                                   <input id="system_users_create" type="checkbox" class="custom-control-input" name="role_str[system_users][create]" value="Y">
+                                                   <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                   <label class="custom-control-label fw-500" for="system_users_create">Create</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[system_users][edit]" value="N">
+                                                   <input id="system_users_edit" name="role_str[system_users][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="system_users_edit">Edit</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[system_users][view]" value="N">
+                                                   <input id="system_users_view" name="role_str[system_users][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="system_users_view">View</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[system_users][change_status]" value="N">
+                                                   <input id="system_users_change_status" name="role_str[system_users][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="system_users_change_status"> Enable / Disable</label>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <br>
+                                    <div class="">
+                                       <div class="form-group">
+                                          <label class="form-label" for="checkbox-group-4">Role Maintenance</label>
+                                          <div class="row">
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[role_maintenance][create]" value="N">
+                                                   <input id="role_maintenance_create" type="checkbox" class="custom-control-input" name="role_str[role_maintenance][create]" value="Y">
+                                                   <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                   <label class="custom-control-label fw-500" for="role_maintenance_create">Create</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[role_maintenance][edit]" value="N">
+                                                   <input id="role_maintenance_edit" name="role_str[role_maintenance][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="role_maintenance_edit">Edit</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[role_maintenance][view]" value="N">
+                                                   <input id="role_maintenance_view" name="role_str[role_maintenance][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="role_maintenance_view">View</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[role_maintenance][change_status]" value="N">
+                                                   <input id="role_maintenance_change_status" name="role_str[role_maintenance][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="role_maintenance_change_status"> Enable / Disable</label>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <br>
+                                     <div class="">
+                                       <div class="form-group">
+                                          <label class="form-label" for="checkbox-group-4">User Logs</label>
+                                          <div class="row">
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[user_logs][view]" value="N">
+                                                   <input id="user_logs_view" type="checkbox" class="custom-control-input" name="role_str[user_logs][view]" value="Y">
+                                                   <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                   <label class="custom-control-label fw-500" for="user_logs_view">View</label>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+
+                        <!-------------------------------- Transactions ------------------------------------------>
+
+                        <div class="">
+                           <div class="">
+
+                              <div class="collapse multi-collapse" id="transactions_tab">
+                                    <h4>
+                                       Transactions
+                                    </h4>
+                                    <div class="">
+                                       <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Transactions</label>
+                                       <div class="row">
+
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[transaction][view]" value="N">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <input id="transaction_view" name="role_str[transaction][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="transaction_view">View</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[transaction][change_status]" value="N">
+                                                <input id="txn_change_status" name="role_str[transaction][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="txn_change_status"> Enable / Disable</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                    <br>
+
+
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                         <!-------------------------------- Reports ------------------------------------------>
+                         <div class="">
+                           <div class="">
+
+                              <div class="collapse multi-collapse" id="reports_tab">
+                                    <h4>
+                                       Reports
+                                    </h4>
+                                    <div class="">
+                                       <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Reports</label>
+                                       <div class="row">
+
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[report][view]" value="N">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <input id="report_view" name="role_str[report][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="report_view">View</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[report][change_status]" value="N">
+                                                <input id="report_change_status" name="role_str[transaction][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="report_change_status"> Enable / Disable</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                    <br>
+
+
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+
+                        <!-------------------------------------Calender---------------------------->
+                        <div class="">
+                           <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                    <h4>
+                                       Maintenance Permissions
+                                    </h4>
+                                 <div class="">
+                                    <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Calendar</label>
+                                       <div class="row">
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[calendar][create]" value="N">
+                                                <input id="calendar_create" type="checkbox" class="custom-control-input" name="role_str[calendar][create]" value="Y">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <label class="custom-control-label fw-500" for="calendar_create">Create</label>
+                                             </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[calendar][edit]" value="N">
+                                                <input id="calendar_edit" name="role_str[calendar][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="calendar_edit">Edit</label>
+                                             </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                             <input type="hidden" name="role_str[calendar][view]" value="N">
+                                             <input id="calendar_view" name="role_str[calendar][view]" type="checkbox" class="custom-control-input" value="Y">
+                                             <label class="custom-control-label fw-500" for="calendar_view">View</label>
+                                             </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[calendar][change_status]" value="N">
+                                                <input id="calendar_change_status" name="role_str[calendar][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="calendar_change_status"> Enable / Disable</label>
+                                             </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+                        <br>
+
+                        <!-------------------------------------holiday---------------------------->
+                        <div class="">
+                           <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                 <div class="">
+                                    <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">holiday</label>
+                                       <div class="row">
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[holiday][create]" value="N">
+                                                <input id="holiday_create" type="checkbox" class="custom-control-input" name="role_str[holiday][create]" value="Y">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <label class="custom-control-label fw-500" for="holiday_create">Create</label>
+                                             </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[holiday][edit]" value="N">
+                                                <input id="holiday_edit" name="role_str[holiday][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="holiday_edit">Edit</label>
+                                             </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                             <input type="hidden" name="role_str[holiday][view]" value="N">
+                                             <input id="holiday_view" name="role_str[holiday][view]" type="checkbox" class="custom-control-input" value="Y">
+                                             <label class="custom-control-label fw-500" for="holiday_view">View</label>
+                                             </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[holiday][change_status]" value="N">
+                                                <input id="holiday_change_status" name="role_str[holiday][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="holiday_change_status"> Enable / Disable</label>
+                                             </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+                        <br>
+                        <!-------------------------------------Chargers------------------------------------>
+                        <div class="">
+                           <div class="">
+                              <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                 <div class="">
+                                    <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Chargers</label>
+                                       <div class="row">
+                                                   <div class="col-sm-3">
+                                                      <div class="custom-control d-flex custom-switch">
+                                                         <input type="hidden" name="role_str[chargers][create]" value="N">
+                                                         <input id="chargers_create" type="checkbox" class="custom-control-input" name="role_str[chargers][create]" value="Y">
+                                                         <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                         <label class="custom-control-label fw-500" for="chargers_create">Create</label>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-sm-3">
+                                                      <div class="custom-control d-flex custom-switch">
+                                                         <input type="hidden" name="role_str[chargers][edit]" value="N">
+                                                         <input id="chargers_edit" name="role_str[chargers][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                         <label class="custom-control-label fw-500" for="chargers_edit">Edit</label>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-sm-3">
+                                                      <div class="custom-control d-flex custom-switch">
+                                                         <input type="hidden" name="role_str[chargers][view]" value="N">
+                                                         <input id="chargers_view" name="role_str[chargers][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                         <label class="custom-control-label fw-500" for="chargers_view">View</label>
+                                                      </div>
+                                                   </div>
+                                                   <div class="col-sm-3">
+                                                      <div class="custom-control d-flex custom-switch">
+                                                         <input type="hidden" name="role_str[chargers][change_status]" value="N">
+                                                         <input id="chargers_change_status" name="role_str[chargers][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                         <label class="custom-control-label fw-500" for="chargers_change_status"> Enable / Disable</label>
+                                                      </div>
+                                                   </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                        <!-------------------------------------Branches---------------------------------->
+                        <div class="">
+                           <div class="">
+                              <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                 <div class="">
+                                    <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Branches</label>
+                                       <div class="row">
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[branches][create]" value="N">
+                                                <input id="branches_create" type="checkbox" class="custom-control-input" name="role_str[branches][create]" value="Y">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <label class="custom-control-label fw-500" for="branches_create">Create</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[branches][edit]" value="N">
+                                                <input id="branches_edit" name="role_str[branches][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="branches_edit">Edit</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[branches][view]" value="N">
+                                                <input id="branches_view" name="role_str[branches][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="branches_view">View</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[branches][change_status]" value="N">
+                                                <input id="branches_change_status" name="role_str[branches][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="branches_change_status"> Enable / Disable</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                        <!-------------------------------------Countries-------------------------------->
+                        <div class="">
+                           <div class="">
+                              <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                 <div class="">
+                                    <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Countries</label>
+                                       <div class="row">
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[countries][create]" value="N">
+                                                <input id="countries_create" type="checkbox" class="custom-control-input" name="role_str[countries][create]" value="Y">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <label class="custom-control-label fw-500" for="countries_create">Create</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[countries][edit]" value="N">
+                                                <input id="countries_edit" name="role_str[countries][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="countries_edit">Edit</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[countries][view]" value="N">
+                                                <input id="countries_view" name="role_str[countries][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="countries_view">View</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[countries][change_status]" value="N">
+                                                <input id="countries_change_status" name="role_str[countries][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="countries_change_status"> Enable / Disable</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                        <!-------------------------------------Currency----------------------------------------------------------->
+                        <div class="">
+                           <div class="">
+                              <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                 <div class="">
+                                    <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Currency</label>
+                                       <div class="row">
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[currency][create]" value="N">
+                                                <input id="currency_create" type="checkbox" class="custom-control-input" name="role_str[currency][create]" value="Y">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <label class="custom-control-label fw-500" for="currency_create">Create</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[currency][edit]" value="N">
+                                                <input id="currency_edit" name="role_str[currency][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="currency_edit">Edit</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[currency][view]" value="N">
+                                                <input id="currency_view" name="role_str[currency][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="currency_view">View</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[currency][change_status]" value="N">
+                                                <input id="currency_change_status" name="role_str[currency][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="currency_change_status"> Enable / Disable</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+
+                        <!-------------------------------------Security Questions----------------------------------------------------------->
+                        <div class="">
+                           <div class="">
+                              <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                 <div class="">
+                                    <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Security Questions</label>
+                                       <div class="row">
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[sec_quesstion][create]" value="N">
+                                                <input id="sec_quesstion_create" type="checkbox" class="custom-control-input" name="role_str[sec_quesstion][create]" value="Y">
+                                                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <label class="custom-control-label fw-500" for="sec_quesstion_create">Create</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[sec_quesstion][edit]" value="N">
+                                                <input id="sec_quesstion_edit" name="role_str[sec_quesstion][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="sec_quesstion_edit">Edit</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[sec_quesstion][view]" value="N">
+                                                <input id="sec_quesstion_view" name="role_str[sec_quesstion][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="sec_quesstion_view">View</label>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="custom-control d-flex custom-switch">
+                                                <input type="hidden" name="role_str[sec_quesstion][change_status]" value="N">
+                                                <input id="sec_quesstion_change_status" name="role_str[sec_quesstion][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label fw-500" for="sec_quesstion_change_status"> Enable / Disable</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                     <!-------------------------------------- EOD  Config----------------------------------------------------------->
+                        <div class="">
+                           <div class="">
+                                 <div class="collapse multi-collapse " id="eod_tab">
+                                  <h4>
+                                       EOD
+                                    </h4>
+                                    <div class="">
+                                       <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">EOD Config</label>
+                                       <div class="row">
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod_config][create]" value="N">
+                                                   <input id="eod_config_create" type="checkbox" class="custom-control-input" name="role_str[eod_config][create]" value="Y">
+                                                   <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                   <label class="custom-control-label fw-500" for="eod_config_create">Create</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod_config][edit]" value="N">
+                                                   <input id="eod_config_edit" name="role_str[eod_config][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="eod_config_edit">Edit</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod_config][view]" value="N">
+                                                   <input id="eod_config_view" name="role_str[eod_config][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="eod_config_view">View</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod_config][change_status]" value="N">
+                                                   <input id="eod_config_change_status" name="role_str[eod_config][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="eod_config_change_status"> Enable / Disable</label>
+                                                </div>
+                                             </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+                        <!-------------------------------------- EOD ----------------------------------------------------------->
+
+                        <div class="">
+                           <div class="">
+                                 <div class="collapse multi-collapse " id="eod_tab">
+                                    <div class="">
+                                       <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">EOD</label>
+                                       <div class="row">
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod][create]" value="N">
+                                                   <input id="eod_create" type="checkbox" class="custom-control-input" name="role_str[eod][create]" value="Y">
+                                                   <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                   <label class="custom-control-label fw-500" for="eod_create">Create</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod][edit]" value="N">
+                                                   <input id="eod_edit" name="role_str[eod][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="eod_edit">Edit</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod][view]" value="N">
+                                                   <input id="eod_view" name="role_str[eod][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="eod_view">View</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[eod][change_status]" value="N">
+                                                   <input id="eod_change_status" name="role_str[eod][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="eod_change_status"> Enable / Disable</label>
+                                                </div>
+                                             </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+                        <br>
+                        <!-------------------------------------- Flex Cubu ----------------------------------------------------------->
+
+                        <div class="">
+                           <div class="">
+                                 <div class="collapse multi-collapse " id="eod_tab">
+                                    <div class="">
+                                       <div class="form-group">
+                                       <label class="form-label" for="checkbox-group-4">Flexcube GL</label>
+                                       <div class="row">
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[flexcube][create]" value="N">
+                                                   <input id="flexcube_create" type="checkbox" class="custom-control-input" name="role_str[flexcube][create]" value="Y">
+                                                   <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                   <label class="custom-control-label fw-500" for="flexcube_create">Create</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[flexcube][edit]" value="N">
+                                                   <input id="flexcube_edit" name="role_str[flexcube][edit]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="flexcube_edit">Edit</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[flexcube][view]" value="N">
+                                                   <input id="flexcube_view" name="role_str[flexcube][view]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="flexcube_view">View</label>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="custom-control d-flex custom-switch">
+                                                   <input type="hidden" name="role_str[flexcube][change_status]" value="N">
+                                                   <input id="flexcube_change_status" name="role_str[flexcube][change_status]" type="checkbox" class="custom-control-input" value="Y">
+                                                   <label class="custom-control-label fw-500" for="flexcube_change_status"> Enable / Disable</label>
+                                                </div>
+                                             </div>
+                                       </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  </div>
+
+               </div>
+
+            </form>
+         <div class="modal-footer">
+                <button class="btn btn-success" type="button" id ="create-usr-role" data-dismiss="modal"> Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+      </div>
+   </div>
+</div>
+
+
+

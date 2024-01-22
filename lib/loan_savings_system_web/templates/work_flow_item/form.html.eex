@@ -1,0 +1,59 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :workFlowId %>
+  <%= number_input f, :workFlowId %>
+  <%= error_tag f, :workFlowId %>
+
+  <%= label f, :createdByUserId %>
+  <%= number_input f, :createdByUserId %>
+  <%= error_tag f, :createdByUserId %>
+
+  <%= label f, :workflowItemRecipientUserId %>
+  <%= number_input f, :workflowItemRecipientUserId %>
+  <%= error_tag f, :workflowItemRecipientUserId %>
+
+  <%= label f, :createdByUserRoleId %>
+  <%= number_input f, :createdByUserRoleId %>
+  <%= error_tag f, :createdByUserRoleId %>
+
+  <%= label f, :workflowItemRecipientUserRoleId %>
+  <%= number_input f, :workflowItemRecipientUserRoleId %>
+  <%= error_tag f, :workflowItemRecipientUserRoleId %>
+
+  <%= label f, :branchId %>
+  <%= number_input f, :branchId %>
+  <%= error_tag f, :branchId %>
+
+  <%= label f, :entityId %>
+  <%= number_input f, :entityId %>
+  <%= error_tag f, :entityId %>
+
+  <%= label f, :entityType %>
+  <%= text_input f, :entityType %>
+  <%= error_tag f, :entityType %>
+
+  <%= label f, :status %>
+  <%= text_input f, :status %>
+  <%= error_tag f, :status %>
+
+  <%= label f, :actionTaken %>
+  <%= text_input f, :actionTaken %>
+  <%= error_tag f, :actionTaken %>
+
+  <%= label f, :notes %>
+  <%= text_input f, :notes %>
+  <%= error_tag f, :notes %>
+
+  <%= label f, :offTakerId %>
+  <%= number_input f, :offTakerId %>
+  <%= error_tag f, :offTakerId %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

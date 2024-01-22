@@ -1,0 +1,5 @@
+<h1>Edit Ussd request</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.ussd_request_path(@conn, :update, @ussd_request)) %>
+
+<span><%= link "Back", to: Routes.ussd_request_path(@conn, :index) %></span>

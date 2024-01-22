@@ -1,0 +1,156 @@
+<div class="element-header">
+    <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="mr-2 mb-2 btn btn-outline-secondary" type="button"> Back</a>
+</div>
+
+
+<!--------------------------------------------------------------------------------Flash -->
+<div class="row">
+  <div class="col-md-12 col-lg-offset-2">
+    <div class="form-group">
+      <%= if get_flash(@conn, :info) do %>
+        <div class="alert alert-info alert-styled-left">
+        <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+        <%= get_flash(@conn, :info) %>
+        </div>
+      <% end %>
+      <%= if get_flash(@conn, :error) do %>
+        <div class="alert alert-danger alert-styled-left">
+        <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+        Opps! <%= get_flash(@conn, :error) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<!---------------------------------------------------------------------------------------->
+
+
+<div class="row" style="margin-bottom: 9em;">
+    <div class="col-sm-5">
+        <div class="user-profile compact">
+            <div class="up-head-w">
+                <%# 
+                style="background-image:url(../../images/profile_bg1.jpg)"
+                <div class="up-social">
+                <a href="#"><i class="os-icon os-icon-twitter"></i></a><a href="#"><i class="os-icon os-icon-facebook"></i></a>
+                </div> 
+                %>
+                <div class="up-main-info">
+                    <h2 class="up-header">
+                    <%= "#{(@conn.assigns.user.first_name)}"%> <%= "#{(@conn.assigns.user.last_name)}"%>
+                    </h2>
+
+                    <h6 class="up-sub-header">
+                    <%= "#{(@conn.assigns.user.user_role)}"%>
+                    </h6>
+                </div>
+                <svg class="decor" width="842px" height="219px" viewBox="0 0 842 219" preserveAspectRatio="xMaxYMax meet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g transform="translate(-381.000000, -362.000000)" fill="#FFFFFF"><path class="decor-path" d="M1223,362 L1223,581 L381,581 C868.912802,575.666667 1149.57947,502.666667 1223,362 Z"></path></g></svg>
+            </div>
+
+            <div class="up-controls">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="value-pair">
+                            <div class="label">
+                                Status:
+                            </div>
+                            <%= if @conn.assigns.user.status == "1" do %>
+                                <div class="value badge badge-pill badge-success">
+                                    ACTIVE
+                                </div>
+                            <% else %>
+                                <div class="value badge badge-pill badge-danger">
+                                    INACTIVE
+                                </div>
+                            <% end %>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="up-contents">
+                <div class="m-b">
+                    <div class="padded">
+                        <div class="os-progress-bar primary">
+                            <div class="bar-labels">
+                                <div class="bar-label-left">
+                                Email:  <%= @conn.assigns.user.email %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="os-progress-bar primary">
+                            <div class="bar-labels">
+                                <div class="bar-label-left">
+                                    Created on: <%= @conn.assigns.user.updated_at %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-7">
+        <div class="element-wrapper">
+            <div class="element-box">
+                <form action="<%= Routes.user_path(@conn, :update_user)%>" method="POST">
+                    <div class="element-info">
+                        <div class="element-info-with-icon">
+                            <div class="element-info-icon">
+                                <div class="os-icon os-icon-edit"></div>
+                            </div>
+
+                            <div class="element-info-text">
+                                <h5 class="element-inner-header">
+                                <%= @conn.assigns.user.first_name %> <%= @conn.assigns.user.last_name %>'s Profile
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for=""> First Name</label>
+                                    <input class="form-control" name="first_name" value="<%= @conn.assigns.user.first_name %>" type="text">
+                                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <input type="hidden" name="id" value="<%= @conn.assigns.user.id %>">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="">Last Name</label>
+                                    <input class="form-control" name="last_name" value="<%= @conn.assigns.user.last_name %>" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <label for=""> Email</label>
+                                <input class="form-control" name="email" value="<%= @conn.assigns.user.email %>" type="email">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="">User Role</label>
+                                    <input class="form-control" value="<%= @conn.assigns.user.user_role %>">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br /><br /><br /><br /><br /><br /><br /><br />
+                    <%# <div class="form-buttons-w">
+                        <button class="btn btn-primary" type="submit"> Submit</button>
+                    </div><br /><br /> %>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

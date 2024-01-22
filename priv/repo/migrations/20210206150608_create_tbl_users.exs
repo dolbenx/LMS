@@ -5,16 +5,21 @@ defmodule LoanSavingsSystem.Repo.Migrations.CreateTblUsers do
     create table(:tbl_users) do
       add :username, :string
       add :password, :string
+      add :clientId, :integer
+      add :createdByUserId, :integer
       add :status, :string
-      add :pin, :string
+      add :canOperate, :boolean
+      add :ussdActive, :integer
+	  add :pin, :string
       add :auto_password, :string
       add :password_fail_count, :integer
-      add :company_id, :integer
-      add :classification_id, :integer
-      add :login_attempt, :integer
-      add(:role_id, :integer)
+	  add :securityQuestionId, :integer
+	  add :securityQuestionAnswer, :string
+	  add :security_question_fail_count, :integer
+
 
       timestamps()
     end
+
   end
 end

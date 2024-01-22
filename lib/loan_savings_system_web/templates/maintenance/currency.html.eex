@@ -1,0 +1,255 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Currency Maintenance
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+     
+        <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#add_currency" data-toggle="modal"> Add Currency</button>
+    
+    </div>
+  </div>    
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div id="panel-1" class="panel">
+          <div class="panel-content">
+            <div class="panel-container show">
+              <div class="panel-content">
+                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+                  <thead class="p-3 bg-success-900 rounded overflow-hidden position-relative text-white mb-g">
+                    <tr>
+                      <th>Currency Name</th>
+                      <th>Currency Code</th>
+                      <th>Currency Country</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%= for currency <- @currencies do %>
+                      <tr>
+                      <td><%= currency.name %></td>
+                      <td><%= currency.isoCode %></td>
+                      <td><%= currency.name %></td>
+                      <td>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                                  <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <i class='subheader-icon fal fa-chevron-down'></i>
+                                  </span>
+                                  <div class="dropdown-menu">
+                                      <a class="dropdown-item"
+                                        data-id="<%= currency.id %>" 
+                                        data-name="<%= currency.name %>" 
+                                        data-isocode="<%= currency.isoCode %>" 
+                                        data-countryid="<%= currency.countryId %>"
+                                        data-toggle="modal" data-target="#view_currency">
+                                          <i class="fal fa-eye"></i>
+                                          view
+                                      </a>
+
+                                      <a class="dropdown-item"  
+                                        data-id="<%= currency.id %>" 
+                                        data-name="<%= currency.name %>" 
+                                        data-isocode="<%= currency.isoCode %>" 
+                                        data-countryid="<%= currency.countryId %>" 
+                                        data-toggle="modal" data-target="#edit_currency">
+                                          <i class="fal fa-times"></i>
+                                          Edit
+                                      </a>
+                                  </div>
+                              </div>
+                          </div>
+                      </td>
+                      </tr>
+                    <%end %>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <%# --------------- Create Currency %>
+<div class="modal fade" id="add_currency" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Add Currency</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_currency)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency Name</label>
+                                <input type="text" id="example-input-small" name="name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency Code</label>
+                                <input type="text" id="example-input-small" name="isoCode" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Country</label>
+                                <select name="countryId" id="example-input-small" class="form-control">
+                                <%= for country <- @countries do %>
+                                  <option value="<%= country.id %>"><%= country.name %></option>
+                                 <% end %>
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Save</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+<%# --------------- View Currency %>
+<div class="modal fade" id="view_currency" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">View Currency</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_currency)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency Name</label>
+                                <input type="text" id="name" name="name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency Code</label>
+                                <input type="text" id="isocode" name="isoCode" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Country</label>
+                                <input type="text" id="countryid" name="countryId" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Save</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+
+<%# --------------- Edit Currency %>
+<div class="modal fade" id="edit_currency" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Edit Currency</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+              <form action="<%= Routes.maintenance_path(@conn, :add_currency)%>" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                      <div class="row">
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency Name</label>
+                                <input type="text" id="example-input-small" name="name" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Currency Code</label>
+                                <input type="text" id="example-input-small" name="isoCode" class="form-control form-control-sm">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Country</label>
+                                <select name="countryId" id="example-input-small" class="form-control">
+                                <%= for country <- @countries do %>
+                                  <option value="<%= country.id %>"><%= country.name %></option>
+                                 <% end %>
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-success" type="submit"> Save</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+              </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+$(document).ready(function(){
+//view Charge details
+    $('#view_branch').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var isocode = button.data('isocode')
+            var countryid = button.data('countryid')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #isocode').val(isocode);
+            modal.find('.modal-body #countryid').val(countryid);
+    });
+    $('#edit_branch').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var isocode = button.data('isocode')
+            var countryid = button.data('countryid')
+              
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #isocode').val(isocode);
+            modal.find('.modal-body #countryid').val(countryid);
+           
+    });
+});
+</script>

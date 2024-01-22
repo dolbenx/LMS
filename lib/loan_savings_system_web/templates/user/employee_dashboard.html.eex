@@ -1,0 +1,165 @@
+<div class="page-header min-height-250 border-radius-xl mt-4" style="background-image: url('../assets/img/Loans-1.webp'); background-position-y: 80%;">
+        <span class="mask bg-gradient-primary opacity-6"></span>
+      </div>
+      <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+        <div class="row gx-4">
+          <div class="col-auto">
+            <div class="avatar avatar-xl position-relative">
+              <img src="<%= Routes.static_path(@conn, "/images/logo/imgingest.png") %>" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+            </div>
+          </div>
+          <div class="col-auto my-auto">
+            <div class="h-100">
+              <h5 class="mb-1">
+                <%= @conn.private.plug_session["current_user_bio_data"].firstName %> <%= @conn.private.plug_session["current_user_bio_data"].lastName %>
+              </h5>
+              <p class="mb-0 font-weight-bold text-sm">
+                DASHBOARD - EMPLOYEE 
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+            <div class="nav-wrapper position-relative end-0">
+              <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                    <i class="fa-solid fa-box"  style="color:#E0494E;"></i>
+                    <span class="ms-1">Beula App</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                    <i class="fa-solid fa-calculator"  style="color:#E0494E;"></i>
+                    <span class="ms-1">Loan Calculator</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                     <i class="fa-solid fa-user-gear"  style="color:#E0494E;"></i>
+                    <span class="ms-1">Profile Details</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="container-fluid py-4">
+      <div class="row">        
+        <div class="col-12 mt-4">
+          <div class="card mb-4">
+            <div class="card-header pb-0 p-3">
+              <h6 class="mb-1">Products</h6>
+              <p class="text-sm">Current Loan Products Offered</p>
+            </div>
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                  <div class="card card-blog card-plain">
+                    <div class="position-relative">
+                      <a class="d-block shadow-xl border-radius-xl">
+                        <img src="../assets/img/carrer.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                      </a>
+                    </div>
+                    <div class="card-body px-1 pb-0">
+                      <p class="text-gradient text-danger mb-2 text-sm">Personal</p>
+                      <a href="javascript:;">
+                        <h5>
+                          Payroll backed Loans
+                        </h5>
+                      </a>
+                      <p class="mb-4 text-sm">
+                        Need cash urgently for an unexpected expense? Our Payroll Backed Loan is what you need.
+                      </p>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-0" style="color:#E0494E;">More Details</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                  <div class="card card-blog card-plain">
+                    <div class="position-relative">
+                      <a class="d-block shadow-xl border-radius-xl">
+                        <img src="../assets/img/Corporate-Finance-Management.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                      </a>
+                    </div>
+                    <div class="card-body px-1 pb-0">
+                      <p class="text-gradient text-danger mb-2 text-sm">Business</p>
+                      <a href="javascript:;">
+                        <h5>
+                          SME Financing
+                        </h5>
+                      </a>
+                      <p class="mb-4 text-sm">
+                        Micro Finance Zambia is your partner that gives you cash when you need it the most
+                      </p>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-0" style="color:#E0494E;">More Details</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                  <div class="card card-blog card-plain">
+                    <div class="position-relative">
+                      <a class="d-block shadow-xl border-radius-xl">
+                        <img src="../assets/img/invoice.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                      </a>
+                    </div>
+                    <div class="card-body px-1 pb-0">
+                      <p class="text-gradient mb-2 text-danger text-sm">Business</p>
+                      <a href="javascript:;">
+                        <h5>
+                          Invoice Discounting
+                        </h5>
+                      </a>
+                      <p class="mb-4 text-sm">
+                        Different people have different taste, and various types of music.
+                      </p>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-0" style="color:#E0494E;">More Details</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                  <div class="">
+                    <div class="card h-100">
+                      <div class="card-header pb-0 p-3">
+                          <div class="row">
+                            <div class="d-flex align-items-center">
+                                <h6 class="mb-0">Get loans at <strong style="color:#E0494E;">Competitive</strong> Rates</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <p class="text-sm" style="text-align: justify;">
+                              Micro Finance Zambia Limited is a registered deposit taking Non-Bank Financial Institution regulated and supervised by the Bank of Zambia. The company’s core business is the provision of credit facilities and various financial services to both the formal and informal sectors. As a wholly owned subsidiary of Atlas Mara Zambia, the company leverages on the strong brand and equity capacity of its parent company to deliver affordable products and services to the mass market and Small and Medium Enterprises.
+                            </p>
+                            <hr class="horizontal gray-light my-4" style="background-color:#E0494E;">
+                            <ul class="list-group">
+                              <li class="list-group-item border-0 ps-0 pb-0">
+                                  <strong class="text-dark text-sm">Social:</strong> &nbsp;
+                                  <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="https://www.facebook.com/MFZLtd"  target="_blank">
+                                  <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+                                  </a>
+                                  <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="https://twitter.com/MfZltd"  target="_blank">
+                                  <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+                                  </a>
+                                  <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;" target="_blank">
+                                  <i class="fab fa-instagram fa-lg" aria-hidden="true"></i>
+                                  </a>
+                              </li>
+                              <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Visit Website:</strong> &nbsp; <a href="https://www.microfinancezambialtd.com/" target="_blank">www.microfinancezambialtd.com</a></li>
+                            </ul>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

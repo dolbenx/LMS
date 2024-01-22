@@ -1,0 +1,183 @@
+defmodule LoanSavingsSystemWeb.SessionController do
+    use LoanSavingsSystemWeb, :controller
+
+    alias LoanSavingsSystem.Repo
+    alias LoanSavingsSystemWeb.UserController
+    alias LoanSavingsSystem.Logs
+    # alias LoanSavingsSystem.Accounts
+    alias LoanSavingsSystem.Accounts.UserRole
+    alias LoanSavingsSystem.Auth
+    alias LoanSavingsSystem.Client.Clients
+    alias LoanSavingsSystem.Client.UserBioData
+
+    require Logger
+    # alias LoanSavingsSystem.Accounts
+    # alias MfzUssd.{Auth, Logs}
+
+    alias LoanSavingsSystem.Repo
+    require Record
+    import Ecto.Query, only: [from: 2]
+
+    plug(
+      LoanSavingsSystemWeb.Plugs.RequireAuth
+      when action in [:signout]
+  )
+
+    def username(conn, _params) do
+      host = conn.host
+
+      client_session = get_session(conn, :client_session);
+      conn = if is_nil(client_session) do
+        query = from cl in LoanSavingsSystem.SystemSetting.ClientTelco, where: cl.domain == ^host, select: cl
+            client = Repo.all(query);
+            client = Enum.at(client, 0)
+            Logger.info "1<<<<<<<<<<<<<<<<<<<<<<<<"
+            Logger.info (client.id);
+        conn = put_session(conn, :client_id, client.id)
+
+      end
+      clientId = get_session(conn, :client_id)
+      Logger.info "<<<<<<<<<<<<<<<<<<<<<<<<"
+      Logger.info (clientId);
+
+
+      render(conn, "username.html")
+    end
+
+    def get_username(conn, %{"username"=> username}) do
+
+      with {:error, _reason} <- UserController.get_user_by_email(String.trim(username)) do
+        conn
+        |> put_flash(:error, "Username does not Exit")
+        |> put_layout(false)
+        |> render("username.html")
+      else
+      {:ok, user} ->
+        cond do
+          user.status == "ACTIVE" ->
+              cond do
+
+                user.status == "ACTIVE" ->
+                  conn
+                  #|> put_session(:current_user, user.id)
+                  #|> put_session(:session_timeout_at, session_timeout_at())
+                  |> redirect(to: Routes.session_path(conn, :new, %{"userId" => user.id, "username" => username}))
+
+              end
+          true ->
+            conn
+            # |> put_status(405)
+            # |> put_layout(false)
+            |> redirect(to: Routes.session_path(conn, :error_405))
+        end
+      end
+    # rescue
+    #   _ ->
+    #     conn
+    #     |> put_flash(:error, "An error occured. login failed")
+    #     |> put_layout(false)
+    #     |> render("index.html")
+    end
+
+    #def new(conn, _params) do
+      #render(conn, "index.html")
+      #render(conn, "login_step_two")
+    #end
+
+    def new(conn, %{"userId" => userId, "username" => username}) do
+        #userId = get_session(conn, :current_user_id)
+        Logger.info ">>>>>>>"
+        Logger.info userId
+        Logger.info username
+
+
+        query = from uR in UserRole, where: uR.userId == ^userId, select: uR
+            userRoles = Repo.all(query)
+
+
+        if (Enum.count(userRoles)>0) do
+              render(conn, "login_step_two.html", userRoles: userRoles, username: username)
+        else
+            conn
+            |> put_flash(:info, "Sign In failed.")
+            |> redirect(to: Routes.user_path(conn, :get_login_step_one))
+        end
+    end
+
+    def create(conn, params) do
+      with {:error, _reason} <- UserController.get_user_by_email(String.trim(params["username"])) do
+        conn
+        |> put_flash(:error, "Email do not match")
+        |> put_layout(false)
+        |> render("index.html")
+      else
+        {:ok, user} ->
+          with {:error, _reason} <- Auth.confirm_password(user, String.trim(params["password"])) do
+            conn
+            |> put_flash(:error, "Password do not match")
+            |> put_layout(false)
+            |> render("index.html")
+          else
+                {:ok, _} ->
+                  cond do
+                    user.status == "ACTIVE" ->
+                      {:ok, _} = Logs.create_user_logs(%{user_id: user.id, activity: "logged in"})
+                        cond do
+
+                          user.id == 1 ->
+                            user_id = user.id
+                            query = from uB in UserBioData, where: uB.userId == ^user_id, select: uB
+                              userBioData = Repo.all(query)
+
+                            currentUserBioData = Enum.at(userBioData, 0)
+
+                            conn
+                            |> put_session(:current_user, user.id)
+                            |> put_session(:session_timeout_at, session_timeout_at())
+                            |> put_session(:current_user_bio_data, currentUserBioData)
+                            |> redirect(to: Routes.user_path(conn, :savings_dashboard))
+
+                          user.id == 1 ->
+                            conn
+                            |> put_session(:current_user, user.id)
+                            |> put_session(:session_timeout_at, session_timeout_at())
+                            |> redirect(to: Routes.user_path(conn, :dashboard))
+
+                        end
+                    true ->
+                      conn
+                      # |> put_status(405)
+                      # |> put_layout(false)
+                      |> redirect(to: Routes.session_path(conn, :error_405))
+                  end
+          end
+      end
+    # rescue
+    #   _ ->
+    #     conn
+    #     |> put_flash(:error, "An error occured. login failed")
+    #     |> put_layout(false)
+    #     |> render("index.html")
+    end
+
+    defp session_timeout_at do
+      DateTime.utc_now() |> DateTime.to_unix() |> (&(&1 + 3_600)).()
+    end
+
+    def signout(conn, _params) do
+      {:ok, _} = Logs.create_user_logs(%{user_id: conn.assigns.user.id, activity: "logged out"})
+
+      conn
+      |> configure_session(drop: true)
+      |> redirect(to: Routes.session_path(conn, :username))
+    rescue
+      _ ->
+        conn
+        |> configure_session(drop: true)
+        |> redirect(to: Routes.session_path(conn, :username))
+    end
+
+    def error_405(conn, _params) do
+      render(conn, "disabled_account.html")
+    end
+  end

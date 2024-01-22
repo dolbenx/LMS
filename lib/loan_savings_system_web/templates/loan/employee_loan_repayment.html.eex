@@ -1,0 +1,119 @@
+ <ol class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-item">
+          <i class="subheader-icon fal fa-chart-area"></i> Loans & Savings
+      </li>
+      <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+  </ol>
+
+  <div class="subheader">
+    <h1 class="subheader-title">
+        <i class="subheader-icon fal fa-window"></i> Loans Repayments
+    </h1>
+
+    <div class="element-box-content">
+      <a href="<%= Routes.user_path(@conn, :dashboard)%>" class="btn btn-secondary btn-sm waves-effect waves-themed" type="button"> Back</a>
+      <button class="btn btn btn-sm waves-effect waves-themed" style="background-color: #011941; color: red;" type="button" data-target="#loan_repayment" data-toggle="modal"> Make Repayment</button>
+    </div>
+  </div>
+
+  <!--------------------------------------------------------------------------------Flash -->
+
+  <div class="row">
+      <div class="col-sm-12">
+        <div class="card mb-g">
+            <div class="card-body">
+                <div class="frame-wrap p-0 border-0 m-0">
+                    <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>Repayment No.</th>
+                                <th>Date Of Repayment</th>
+                                <th>Mode Of Repayment</th>
+                                <th>Amount</th>
+                                <th>Cheque No.</th>
+                                <th>Recept No.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="loan_repayment" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Make Loan Repayment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Date Of Repayment</label>
+                                <input type="text" id="verify_phone" name="verify_phone" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Mode Of Repayment</label>
+                                <input type="text" id="netPay" name="verify_phone" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Cheque No.</label>
+                                <input type="text" id="verify_phone" name="verify_phone" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Recept No.</label>
+                                <input type="text" id="netPay" name="verify_phone" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card mb-g">
+                            <div class="card-body">
+                                <div class="frame-wrap p-0 border-0 m-0">
+                                    <table id="dt-basic-example" class="table m-0 table-sm" id="table-example">
+                                        <thead>
+                                            <tr>
+                                                <th>&nbsp;</th>
+                                                <th>Customer Name.</th>
+                                                <th>Mobile Number</th>
+                                                <th>Date Of Repayment</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left !important">Close</button>
+                    <button class="btn btn-success" type="submit" style="float: right !important"> Repay</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+

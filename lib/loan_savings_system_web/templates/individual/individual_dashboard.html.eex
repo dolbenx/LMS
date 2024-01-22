@@ -1,0 +1,231 @@
+ <style>
+     
+    #calculation{
+       display: none;
+    }
+    .ajax-loader {
+    visibility: hidden;
+    background-color: rgba(255,255,255,0.7);
+    position: absolute;
+    z-index: +100 !important;
+    width: 95%;
+    height:37%;
+    }
+
+    .ajax-loader .spinner-border {
+    position: relative;
+    top:50%;
+    left:50%;
+    }
+    </style>
+<main id="js-page-content" role="main" class="page-content">
+    <ol class="breadcrumb page-breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0);">Loan & Savings</a></li>
+        <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+    </ol>
+    <div class="subheader">
+        <h1 class="subheader-title">
+            <i class='subheader-icon fal fa-chart-area'></i>Welcome <%= @conn.private.plug_session["current_user_bio_data"].firstName %>
+            <small>
+            </small>
+        </h1>
+        <div class="d-flex mr-0">
+            <div class="mr-2">
+                <button class="btn btn-sm waves-effect waves-themed" type="button" data-toggle="modal" data-target="#calculator" style="background-color: #011941; color: white;" > Loan Calculator &#160;<i class='fal fa-calculator'></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="p-3 bg-primary-300 rounded overflow-hidden position-relative text-white mb-g">
+                        <div class="">
+                            <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                                500
+                                <small class="m-0 l-h-n">Total Individual's</small>
+                            </h3>
+                        </div>
+                        <i class="fal fa-user position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-warning-400 rounded overflow-hidden position-relative text-white mb-g">
+                        <div class="">
+                            <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                            1
+                                <small class="m-0 l-h-n">Total Pending Loans</small>
+                            </h3>
+                        </div>
+                        <i class="fal fa-gem position-absolute pos-right pos-bottom opacity-15  mb-n1 mr-n4" style="font-size: 6rem;"></i>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="p-3 bg-success-200 rounded overflow-hidden position-relative text-white mb-g">
+                        <div class="">
+                            <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                                0
+                                <small class="m-0 l-h-n">Total Repayment Schedule</small>
+                            </h3>
+                        </div>
+                        <i class="fal fa-lightbulb position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div id="panel-2" class="panel panel-locked" data-panel-sortable data-panel-collapsed data-panel-close>
+                <div class="panel-hdr">
+                    <h2>
+                        Loans <span class="fw-300"><i>Graph</i></span>
+                    </h2>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-content poisition-relative">
+                        <div class="p-1 position-absolute pos-right pos-top mt-3 mr-3 z-index-cloud d-flex align-items-center justify-content-center">
+                            <div class="border-faded border-top-0 border-left-0 border-bottom-0 py-2 pr-4 mr-3 hidden-sm-down">
+                                <div class="text-right fw-500 l-h-n d-flex flex-column">
+                                    <div class="h3 m-0 d-flex align-items-center justify-content-end">
+                                        <div class='icon-stack mr-2'>
+                                            <i class="base base-7 icon-stack-3x opacity-100 color-success-600"></i>
+                                            <i class="base base-7 icon-stack-2x opacity-100 color-success-500"></i>
+                                            <i class="fal fa-arrow-up icon-stack-1x opacity-100 color-white"></i>
+                                        </div>
+                                        $44.34 / GE
+                                    </div>
+                                    <span class="m-0 fs-xs text-muted">Increased Profit as per redux margins and estimates</span>
+                                </div>
+                            </div>
+                            <div class="js-easy-pie-chart color-info-400 position-relative d-inline-flex align-items-center justify-content-center" data-percent="35" data-piesize="95" data-linewidth="10" data-scalelength="5">
+                                <div class="js-easy-pie-chart color-success-400 position-relative position-absolute pos-left pos-right pos-top pos-bottom d-flex align-items-center justify-content-center" data-percent="65" data-piesize="60" data-linewidth="5" data-scalelength="1" data-scalecolor="#fff">
+                                    <div class="position-absolute pos-top pos-left pos-right pos-bottom d-flex align-items-center justify-content-center fw-500 fs-xl text-dark">78%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="flot-area" style="width:100%; height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="calculator" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center">Loan Calculator</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="calform" action="#" method="POST">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <h4 class="text-center">Loan Calculator</h4><hr>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="basic-url">Select Product</label>
+                            <select class="form-control form-control-sm" id="productcode" name="productcode" required>
+                                <%= for {loans, index} <- Enum.with_index(@loans) do %>
+                                    <option value="<%= loans["productmapid"] %>"><%= loans["productcategory"] %></option>
+                                <% end %>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Gross Income</label>
+                                <input type="number" id="gincome" name="gincome" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <div class="form-group">
+                                <label for="example-input-small" class="form-label">Total Deduction</label>
+                                <input type="number" id="deduction" name="deduction" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="modal-footer">
+                        <button type="submit" style="background-color: #011941; color: white;" class="btn btn-sm waves-effect waves-themed" value="submit">Calculate</button>
+                    </div>
+
+                    
+                    <div class="ajax-loader">
+                        <div class="spinner-border spinner-border text-info" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 class="text-center">Results</h4>
+                    <hr>
+                     
+                    <div class="row" id="calculation">
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="basic-url"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Maximum Loan Amount</span>
+                                </div>
+                                <input type="text" id="maxamount" class="form-control" aria-label="Amount (to the nearest dollar)" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="form-label" for="name-f"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        thpad
+                                    </span>
+                                </div>
+                                <input type="text" id="thpad" aria-label="First name" class="form-control" id="user" readonly>
+                                <div class="input-group-append input-group-prepend">
+                                    <span class="input-group-text">
+                                        Max Deduction Amount
+                                    </span>
+                                </div>
+                                <input type="text" id="maxdeduc" aria-label="First name" class="form-control" id="maxloanamount" readonly>
+                            </div>
+                        </div>    
+                    </div>
+                    <!------------------------------->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+    $("#calform").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+            $.ajax({
+            type: "POST",
+            beforeSend: function(){
+                $('.ajax-loader').css("visibility", "visible");
+            },
+            url: '/Individual/View/Afordable/Amount',
+            data: form.serialize(), // serializes the form's elements.
+            success: function(response)
+            {
+            $('#calculation').show();	
+
+                var resp = JSON.parse(response)			
+                var data = resp.resp
+                console.log(data.MaxDeductionAmount, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            
+                $('#maxamount').val(data.MaxLoanAmount);
+                $('#maxdeduc').val(data.MaxDeductionAmount);
+                $('#thpad').val(data.THPAD);	
+            },
+            complete: function(){
+                $('.ajax-loader').css("visibility", "hidden");
+            }
+        });
+    });
+</script>
