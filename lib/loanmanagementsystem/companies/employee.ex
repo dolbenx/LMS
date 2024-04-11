@@ -1,0 +1,37 @@
+defmodule Loanmanagementsystem.Companies.Employee do
+  use Ecto.Schema
+  import Ecto.Changeset
+  use Endon
+  @timestamps_opts [autogenerate: {Loanmanagementsystem.Loan.Loans.Localtime, :autogenerate, []}]
+  @number_regex ~r(^[0-9]*$)
+
+  schema "tbl_employee" do
+    field :companyId, :integer
+    field :employerId, :integer
+    field :status, :string
+    field :userId, :integer
+    field :userRoleId, :integer
+    field :loan_limit, :decimal
+    field :nrc_image, :string
+    field :uploafile_name, :string
+
+    timestamps()
+  end
+
+  @doc false
+  def changeset(employee, attrs) do
+    employee
+    |> cast(attrs, [
+      :loan_limit,
+      :companyId,
+      :employerId,
+      :userRoleId,
+      :userId,
+      :status,
+      :nrc_image,
+      :uploafile_name
+    ])
+
+    # |> validate_required([:companyId, :employerId, :userRoleId, :userId, :status])
+  end
+end

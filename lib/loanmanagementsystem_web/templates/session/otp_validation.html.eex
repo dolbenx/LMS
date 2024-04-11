@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+		<meta name="description" content="Spruha -  Admin Panel HTML Dashboard Template">
+		<meta name="author" content="Spruko Technologies Private Limited">
+		<meta name="keywords" content="admin,dashboard,panel,bootstrap admin template,bootstrap dashboard,dashboard,themeforest admin dashboard,themeforest admin,themeforest dashboard,themeforest admin panel,themeforest admin template,themeforest admin dashboard,cool admin,it dashboard,admin design,dash templates,saas dashboard,dmin ui design">
+
+		<!-- Favicon -->
+		<link rel="icon" href="../../assets/img/brand/favicon.ico" type="image/x-icon"/>
+
+		<!-- Title -->
+		<title>Loan Management System</title>
+
+		<!-- Bootstrap css-->
+	<link  id="style" rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/css/bootstrap.min.css") %>">
+	<link  rel="stylesheet" media="screen, print" href="<%= Routes.static_path(@conn, "/webstatic/css/notifications/sweetalert2/sweetalert2.bundle.css") %>">
+
+
+
+	<!-- Icons css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/icons.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/font-awesome/font-awesome.min.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/plugins/web-fonts/plugin.css") %>">
+
+	<!-- Style css-->
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-boxed.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/skins.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/dark-style.css") %>">
+	<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/default.css") %>">
+		<!-- Color css-->
+		<!-- Color css-->
+	<link id="theme" rel="stylesheet" type="text/css" media="all" href="<%= Routes.static_path(@conn, "/webstatic/css/colors/color.css") %>">
+
+	<style>
+		.russ{
+		width: 100px;
+		height: 50px;
+		position: relative;
+		animation-name: example;
+		animation-duration: 2s;
+		}
+
+		@keyframes example {
+		0%   {left:25px; top:0px;}
+		25%  {left:200px; top:0px;}
+
+		60% {left:0px; top:0px;}
+		}
+
+		.russkay{
+		width: 100px;
+		height: 100px;
+		position: relative;
+		animation-name: example;
+		animation-duration: 4s;
+
+		}
+
+		@keyframes example {
+		0%   {left:25px; top:0px;}
+		25%  {left:200px; top:0px;}
+
+		60% {left:0px; top:0px;}
+		}
+
+			.russ_russ{
+		position: relative;
+		animation-name: example;
+		animation-duration: 2s;
+		}
+
+		body{
+		background:#eee;
+		}
+
+		.bgWhite{
+		background:white;
+		box-shadow:0px 3px 6px 0px #cacaca;
+		}
+
+		.title{
+		font-weight:600;
+		margin-top:20px;
+		font-size:24px
+		}
+
+		.customBtn{
+		border-radius:0px;
+		padding:10px;
+		}
+
+		form input{
+		display:inline-block;
+		width:50px;
+		height:50px;
+		text-align:center;
+		}
+
+	</style>
+	</head>
+
+
+	</head>
+
+	<body style="background: url(/images/img/brand/abstract-blue-line-4k-xh.jpg) no-repeat center bottom fixed; background-size: cover; " >
+
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="<%= Routes.static_path(@conn, "/images/img/loader.svg") %>" class="loader-img" alt="Loader">
+		</div>
+		<!-- End Loader -->
+
+		<!-- Page -->
+		<div class="page main-signin-wrapper" >
+
+
+					<div class="container" >
+						<div class="page-header">
+							<div>
+								<h2 class="main-content-title tx-24 mg-b-5" style="color:white"></h2>
+							</div>
+							 <button href="#" class="btn ripple btn-primary btn-rounded" onclick="history.back(-1)" type="button">Back &nbsp; <i class="fe fe-corner-up-left"></i></button>
+						</div>
+
+						<div class="row justify-content-md-center">
+
+							<div class="col-md-4 text-center">
+
+								<div class="row">
+								<div class="alert alert-success mb-0" role="alert">
+										One Time Pin(OTP) has been sent to your mobile line <b><%= @user_details.username %>. </b>
+								</div>
+								<div class="col-sm-12 mt-5 bgWhite" style="border-radius: 20px; ">
+									<div class="title">
+									Verify OTP
+									</div>
+
+
+
+										<form action="<%= Routes.session_path(@conn, :validate_otp)%>" method="POST" class="mt-5">
+											<input class="otp" type="text" oninput='digitValidate(this)' onkeyup='tabChange(1)' maxlength=1 name="otp1">
+											<input class="otp" type="text" oninput='digitValidate(this)' onkeyup='tabChange(2)' maxlength=1 name="otp2">
+											<input class="otp" type="text" oninput='digitValidate(this)' onkeyup='tabChange(3)' maxlength=1 name="otp3">
+											<input class="otp" type="text" oninput='digitValidate(this)'onkeyup='tabChange(4)' maxlength=1 name="otp4">
+											<input type="hidden" name="username" value="<%= @user_details.username %>" >
+											<input type="hidden" name="user_role" value="<%= @user_details.roleType %>" >
+											<input type="hidden" name="roleType" value="<%= @user_details.role_id %>" >
+
+
+
+
+
+										<hr class="mt-4">
+										<div class="modal-footer justify-content-center" >
+											<button href="#" class="btn ripple btn-primary btn-rounded" type="submit">Verify &nbsp; <i class="fe fe-check-circle"></i></button>
+										</div>
+									</form>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br><br>
+
+					<div class="blankpage-footer text-center text-white" >
+						©  <%= Timex.today.year %> Loan System powered by&nbsp;
+						<a href='http://www.probasegroup.com/' class='text-black' title='ProBASE' target='_blank'>
+							<img class="russ" src="<%= Routes.static_path(@conn, "/images/probaselogo.png") %>" width="120">
+						</a>
+					</div>
+
+		</div>
+
+		<!-- Main Footer-->
+
+		<!--End Footer-->
+
+
+
+
+
+		<!-- End Page -->
+
+		<!-- Jquery js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/jquery/jquery.min.js") %> "></script>
+
+		<!-- Bootstrap js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/popper.min.js") %> "></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/bootstrap/js/bootstrap.min.js") %> "></script>
+
+		<!-- Select2 js-->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/plugins/select2/js/select2.min.js") %> "></script>
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/select2.js") %> "></script>
+
+		<!-- Custom js -->
+		<script src="<%= Routes.static_path(@conn, "/webstatic/js/custom.js") %> "></script>
+
+
+
+   <script>
+        let digitValidate = function(ele){
+		console.log(ele.value);
+		ele.value = ele.value.replace(/[^0-9]/g,'');
+		}
+
+		let tabChange = function(val){
+			let ele = document.querySelectorAll('input');
+			if(ele[val-1].value != ''){
+			ele[val].focus()
+			}else if(ele[val-1].value == ''){
+			ele[val-2].focus()
+			}
+		}
+
+
+    </script>
+
+
+<script>
+
+function getValues()
+{
+	//button click gets values from inputs
+	var balance = parseFloat(document.getElementById("principal").value);
+	var interestRate =
+		parseFloat(document.getElementById("interest").value/100.0);
+	var terms = parseInt(document.getElementById("terms").value);
+
+	//set the div string
+	var div = document.getElementById("Result");
+
+	//in case of a re-calc, clear out the div!
+	div.innerHTML = "";
+
+	//validate inputs - display error if invalid, otherwise, display table
+	var balVal = validateInputs(balance);
+	var intrVal = validateInputs(interestRate);
+
+	if (balVal && intrVal)
+	{
+		//Returns div string if inputs are valid
+		div.innerHTML += amort(balance, interestRate, terms);
+	}
+	else
+	{
+		//returns error if inputs are invalid
+		div.innerHTML += "Please Check your inputs and retry - invalid values.";
+	}
+}
+
+/**
+ * Amort function:
+ * Calculates the necessary elements of the loan using the supplied user input
+ * and then displays each months updated amortization schedule on the page
+*/
+function amort(balance, interestRate, terms)
+{
+    //Calculate the per month interest rate
+	var monthlyRate = interestRate/12;
+
+	//Calculate the payment
+    var payment = balance * (monthlyRate/(1-Math.pow(
+        1+monthlyRate, -terms)));
+
+	//begin building the return string for the display of the amort table
+    var result = "<div class='row'><div class='form-group col-md-4'><p class='mg-b-10'>Loan Amount:</p> <input class='form-control' value="+'ZMW' + balance.toFixed(2) +"  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Interest Rate:</p> <input class='form-control' value="+ (interestRate*100).toFixed(2) + '%'+ "  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Number of Months:</p> <input class='form-control' value=" + terms + "  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Monthly Payment:</p> <input class='form-control' value="+ payment.toFixed(2) +"  type='text'></div>" +
+		"<div class='form-group col-md-4'><p class='mg-b-10'>Total Repayment:</p> <input class='form-control' value="+'ZMW' + (payment * terms).toFixed(2) +"  type='text'></div></div>";
+
+    //add header row for table to return string
+	result += "<table align=center class='table  text-nowrap text-md-nowrap table-striped mg-b-0'><tr><th>Month #</th><th>Balance</th>" +
+        "<th>Interest</th><th>Principal</th>";
+
+    /**
+     * Loop that calculates the monthly Loan amortization amounts then adds
+     * them to the return string
+     */
+	for (var count = 0; count < terms; ++count)
+	{
+		//in-loop interest amount holder
+		var interest = 0;
+
+		//in-loop monthly principal amount holder
+		var monthlyPrincipal = 0;
+
+		//start a new table row on each loop iteration
+		result += "<tr>";
+
+		//display the month number in col 1 using the loop count variable
+		result += "<td>" + (count + 1) + "</td>";
+
+
+		//code for displaying in loop balance
+		result += "<td> K" + balance.toFixed(2) + "</td>";
+
+		//calc the in-loop interest amount and display
+		interest = balance * monthlyRate;
+		result += "<td> K" + interest.toFixed(2) + "</td>";
+
+		//calc the in-loop monthly principal and display
+		monthlyPrincipal = payment - interest;
+		result += "<td> K" + monthlyPrincipal.toFixed(2) + "</td>";
+
+		//end the table row on each iteration of the loop
+		result += "</tr>";
+
+		//update the balance for each loop iteration
+		balance = balance - monthlyPrincipal;
+	}
+
+	//Final piece added to return string before returning it - closes the table
+    result += "</table>";
+
+	//returns the concatenated string to the page
+    return result;
+}
+
+function validateInputs(value)
+{
+	//some code here to validate inputs
+	if ((value == null) || (value == ""))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+</script>
+
+	</body>
+</html>

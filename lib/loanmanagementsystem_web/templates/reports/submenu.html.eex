@@ -1,0 +1,380 @@
+
+							<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+								<!--begin::Header Menu-->
+								<div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
+									<!--begin::Header Nav-->
+									<ul class="menu-nav">
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="fas fa-file-invoice-dollar menu-icon"></i>Client Statement Reports</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :customer_reports) %>" class="menu-link">
+															<i class="fas fa-hospital-user menu-icon"></i>
+															<span class="menu-text">Corporate Client Statement</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :individual_customer_reports) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Individual Client Statement</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="fas fa-file-invoice-dollar menu-icon"></i>Transactions</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :transaction_reports) %>" class="menu-link">
+															<i class="fas fa-file-invoice-dollar menu-icon"></i>
+															<span class="menu-text">Transaction Reports</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.credit_management_path(@conn, :collections_report) %>" class="menu-link">
+															<i class="fas fa-file-invoice-dollar menu-icon"></i>
+															<span class="menu-text">Collections Reports</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="fas fa-user-cog menu-icon"></i>Operational Reports</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+														<a href="#" class="menu-link menu-toggle">
+															<i class="flaticon-rotate menu-icon"></i>
+															<span class="menu-text"></i> Loans </span>
+															<i class="menu-arrow"></i>
+														</a>
+														<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+															<ul class= "menu-subnav">
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :loan_aiging_report) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text"> Loan Aging Report </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :loan_application_report) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text">Application Report </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :loan_credit_assessment_report) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text">Credit Assessment Report </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :admin_approved_loan_awaiting_disbursement) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text">Approved loans awaiting disbursement</span>
+																	</a>
+
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :admin_debtors_analysis_report) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text">Debtor's Analysis Report </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :admin_loan_book_report) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text">Loan Book Report </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :pending_approval) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text"> Loans Pending Approval </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :all_corparate_disbursed_loans) %>" class="menu-link">
+																		<i class="flaticon-list menu-icon"></i>
+																		<span class="menu-text"> Corparates Disbursed Loans </span>
+																	</a>
+																</li>
+																<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+																	<a href="#" class="menu-link menu-toggle">
+																		<i class="fas fa-file-invoice-dollar menu-icon"></i>
+																		<span class="menu-text"></i>Loan Collection</span>
+																		<i class="menu-arrow"></i>
+																	</a>
+																	<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+																		<ul class= "menu-subnav">
+																			<li class="menu-item" aria-haspopup="true">
+																				<a href="<%= Routes.reports_path(@conn, :all_due_repayment_loans) %>" class="menu-link">
+																					<i class="flaticon-price-tag menu-icon"></i>
+																					<span class="menu-text">Due Payments </span>
+																				</a>
+																			</li>
+																			<li class="menu-item" aria-haspopup="true">
+																				<a href="<%= Routes.reports_path(@conn, :all_overdue_repayment_loans) %>" class="menu-link">
+																					<i class="flaticon-price-tag menu-icon"></i>
+																					<span class="menu-text">Overdue Payments</span>
+																				</a>
+																			</li>
+																		</ul>
+																	</div>
+																</li>
+															</ul>
+														</div>
+													</li>
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+														<a href="#" class="menu-link menu-toggle">
+															<i class="flaticon-rotate menu-icon"></i>
+															<span class="menu-text">Active Loans</span>
+															<i class="menu-arrow"></i>
+														</a>
+														<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+															<ul class= "menu-subnav">
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :active_loans_employer) %>" class="menu-link">
+																		<i class="flaticon-avatar menu-icon"></i>
+																		<span class="menu-text">Active Loans by Employer</span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :active_loans_product) %>" class="menu-link">
+																		<i class="flaticon-avatar menu-icon"></i>
+																		<span class="menu-text">Active Loans by Loan Product</span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :active_loans_relationship) %>" class="menu-link">
+																		<i class="flaticon-avatar menu-icon"></i>
+																		<span class="menu-text">Active Loans by Relationship Manager</span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :active_loans_installment) %>" class="menu-link">
+																		<i class="flaticon-avatar menu-icon"></i>
+																		<span class="menu-text">Active Loans in their Last Installment</span>
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</li>
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+														<a href="#" class="menu-link menu-toggle">
+															<i class="fas fa-file-invoice-dollar menu-icon"></i>
+															<span class="menu-text"></i>Collection Schedule</span>
+															<i class="menu-arrow"></i>
+														</a>
+														<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+															<ul class= "menu-subnav">
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :client_summary) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text">Clients Summary </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :employer_collection_schedule) %>" class="menu-link">
+																		<i class="fas fa-file-pdf menu-icon"></i>
+																		<span class="menu-text">Employer Collection Schedule</span>
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :offtaker_information) %>" class="menu-link">
+															<i class="fas fa-file-pdf menu-icon"></i>
+															<span class="menu-text">Off-Taker Information </span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :offtaker_information) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Off-taker payments for Invoices </span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :offtaker_information) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Off-taker disbursement limits </span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :written_off_loans) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Written Off Loans</span>
+														</a>
+													</li>
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+														<a href="#" class="menu-link menu-toggle">
+															<i class="flaticon-rotate menu-icon"></i>
+															<span class="menu-text"></i>Balance Outstanding</span>
+															<i class="menu-arrow"></i>
+														</a>
+														<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+															<ul class= "menu-subnav">
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :balance_outstanding) %>" class="menu-link">
+																		<i class="flaticon-avatar menu-icon"></i>
+																		<span class="menu-text">Balance Outstanding </span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :source_of_funds) %>" class="menu-link">
+																		<i class="flaticon-avatar menu-icon"></i>
+																		<span class="menu-text">Balance Outstanding By Source Of Funds</span>
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</li>
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+														<a href="#" class="menu-link menu-toggle">
+															<i class="flaticon-rotate menu-icon"></i>
+															<span class="menu-text"></i>Due Vs Collected</span>
+															<i class="menu-arrow"></i>
+														</a>
+														<div class="menu-submenu menu-submenu-classic menu-submenu-right">
+															<ul class= "menu-subnav">
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :dv_employer) %>" class="menu-link">
+																		<i class="flaticon-user-settings menu-icon"></i>
+																		<span class="menu-text">Due Vs Collected – Employer</span>
+																	</a>
+																</li>
+																<li class="menu-item" aria-haspopup="true">
+																	<a href="<%= Routes.reports_path(@conn, :dv_relationship_manager) %>" class="menu-link">
+																		<i class="flaticon-user-settings menu-icon"></i>
+																		<span class="menu-text">Due Vs Collected – Relationship Manager</span>
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</li>
+									<!--<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="fas fa-file-invoice-dollar menu-icon"></i>Financial Reports</span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :balance_sheet) %>" class="menu-link">
+															<i class="flaticon-rotate menu-icon"></i>
+															<span class="menu-text">Balance Sheet</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :income_statement) %>" class="menu-link">
+															<i class="flaticon-avatar menu-icon"></i>
+															<span class="menu-text">Income Statement</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :trial_balance) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Trial Balance</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :general_ledger) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">General Ledger</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li> -->
+										<li class="menu-item menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here menu-item-active" data-menu-toggle="click" aria-haspopup="true">
+											<a href="<%= Routes.reports_path(@conn, :admin_user_logs) %>" class="menu-link">
+												 <span class="menu-text text-white"><i class="flaticon-presentation-1 menu-icon"></i>User Logs</span>
+												<i class="menu-arrow"></i>
+											</a>
+										</li>
+
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text text-white"><i class="fas fa-file-invoice-dollar menu-icon"></i>Custoner </span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :merchants_report) %>" class="menu-link">
+															<i class="fas fa-hospital-user menu-icon"></i>
+															<span class="menu-text">Merchant's Reports</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :employers_report) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Employer's Reports</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :employerees_by_employer_report) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Employee's Reports</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :blacklisted_employerees_report) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Blacklisted Client's Reports</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<%= Routes.reports_path(@conn, :defaulters_reports) %>" class="menu-link">
+															<i class="flaticon-user-settings menu-icon"></i>
+															<span class="menu-text">Defaulter's Reports</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</li>
+									</ul>
+									<!--end::Header Nav-->
+								</div>
+								<!--end::Header Menu-->
+							</div>
+
+
+
+
+
+
+
+							<div class="topbar">
+								<!--begin::User-->
+								<div class="topbar-item">
+									<div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
+										<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
+										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"><%= @conn.private.plug_session["current_user_bio_data"].firstName %></span>
+										<span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
+											<span class="symbol-label font-size-h5 font-weight-bold"><%= String.at(String.upcase(@conn.private.plug_session["current_user_bio_data"].firstName), 0) %><%= String.at(String.upcase(@conn.private.plug_session["current_user_bio_data"].lastName), 0) %></span>
+										</span>
+									</div>
+								</div>
+								<!--end::User-->
+							</div>

@@ -1,0 +1,265 @@
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Alert Template Maintainence</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Alert Template Maintainence
+                                    <span class="text-muted pt-2 font-size-sm d-block">List templates</span></h3>
+                                </div>
+                                <div class="card-toolbar">
+                                    <a href="#" class="btn text-white font-weight-bolder"  data-target="#addalerts" data-toggle="modal" style="background-color: #0E75BF;">
+                                        <span><i class="flaticon2-add-1 text-white"></i></span>Add Alert Template </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered border-bottom" id="kt_datatable">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                            <th>Alert Type</th>
+                                            <th>Alert Message</th>
+                                            <th>Alert Status</th>
+                                            <th class="text-center">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%=for alert <- @alert do %>
+                                            <tr>
+                                                <td><%= alert.alert_type %></td>
+                                                <td><%= alert.alert_message %></td>
+                                                <td><%= alert.status %></td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn">Options</button>
+                                                        <div class="dropdown-content">
+
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-target="#edit_alert"
+                                                                data-toggle="modal"
+                                                                data-id="<%= alert.id %>"
+                                                                data-alert_type="<%= alert.alert_type %>"
+                                                                data-alert_message="<%= alert.alert_message %>"
+                                                            >Edit</a>
+
+                                                            <a class="btn ripple btn-sm" href="#"
+                                                                data-target="#view_alert"
+                                                                data-toggle="modal"
+                                                                data-id="<%= alert.id %>"
+                                                                data-alert_type="<%= alert.alert_type %>"
+                                                                data-alert_message="<%= alert.alert_message %>"
+                                                            >View</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% end %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+
+    <div class="modal fade" id="addalerts">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Add Template</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                </div>
+                <form action=" <%= Routes.change_management_path(@conn, :admin_add_templete) %> " method="post">
+                <div class="modal-body">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                    <input type="hidden" name="status" value="ACTIVE">
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm">
+                                <div class="col-sm">
+                                <label class="form-label">Alert Type<span style="color: red;">*</span></label>
+                                    <select required name="alert_type" class="form-control">
+                                        <option value="User Creation">User Creation</option>
+                                        <option value="User Disable">User Disable</option>
+                                        <option value="Loan Application">Loan Application</option>
+                                        <option value="Loan Disbursment">Loan Disbursment</option>
+                                        <option value="Loan Approval">Loan Approval</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm">
+                                    <label class="form-label">Alert Message<span style="color: red;">*</span></label>
+                                        <input class="form-control" id="branchCode"name="alert_message"  type="textarea">
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success" type="submit">Submit</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit_alert">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Edit Template</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                </div>
+                <form action="<%= Routes.change_management_path(@conn, :admin_edit_alert_templete) %>" method="post">
+                <div class="modal-body">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="id" id="id">
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm">
+                                <div class="col-sm">
+                                <label class="form-label">Alert Type<span style="color: red;">*</span></label>
+                                    <select required name="alert_type" id="alert_type" class="form-control">
+                                        <option value="User Creation">User Creation</option>
+                                        <option value="User Disable">User Disable</option>
+                                        <option value="Loan Application">Loan Application</option>
+                                        <option value="Loan Disbursment">Loan Disbursment</option>
+                                        <option value="Loan Approval">Loan Approval</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm">
+                                    <label class="form-label">Alert Message<span style="color: red;">*</span></label>
+                                        <input class="form-control" id="alert_message" name="alert_message"  type="textarea">
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-success" type="submit">Submit</button>
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="view_alert">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">View Template</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                </div>
+                <form action="" method="post">
+                <div class="modal-body">
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="id" id="id">
+
+                    <input type="hidden" name="status" value="ACTIVE">
+                    <div class="row row-lg">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="row row-sm">
+                                <div class="col-sm">
+                                <label class="form-label">Alert Type<span style="color: red;">*</span></label>
+                                    <input required name="alert_type" id="alert_type" class="form-control" readonly>
+                                </div>
+
+                                <div class="col-sm">
+                                    <label class="form-label">Alert Message<span style="color: red;">*</span></label>
+                                        <input class="form-control" id="alert_message" name="alert_message"  type="textarea" readonly>
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#edit_alert').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var alert_type = button.data('alert_type')
+        var alert_message = button.data('alert_message')
+
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #alert_type').val(alert_type);
+        modal.find('.modal-body #alert_message').val(alert_message);
+    });
+
+    $('#view_alert').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var alert_type = button.data('alert_type')
+        var alert_message = button.data('alert_message')
+
+
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #alert_type').val(alert_type);
+        modal.find('.modal-body #alert_message').val(alert_message);
+    });
+});
+</script>

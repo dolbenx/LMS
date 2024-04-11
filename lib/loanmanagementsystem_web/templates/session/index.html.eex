@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from templates.seekviral.com/trimba3/forms/CompanyRegistrationPage/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 18 Apr 2023 08:23:01 GMT -->
+<head>
+
+    <!-- <link rel="stylesheet" href="assets/css/colorvariants/default.css" id="defaultscheme"> -->
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayKesho | Login</title>
+
+    <!-- font-awesome -->
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/all.min.css">
+
+    <!-- Bootstrap-5 -->
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/bootstrap.min.css">
+
+    <!-- custom-styles -->
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/style.css">
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/responsive.css">
+    <link phx-track-static rel="stylesheet" href="/loginassets/css/animation.css">
+
+    <link rel="shortcut icon" href="/images/paykesho_logos.png"/>
+</head>
+<body>
+
+    <!-- background -->
+    <div class="ls-bg">
+        <img class="ls-bg-inner" src="/images/Web.jpg" alt="">
+    </div>
+
+    <main class="overflow-hidden">
+        <div class="wrapper">
+            <div class="main-inner">
+
+                <!-- logo -->
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="/images/paykesho_logos.png" style="height: 95px" alt="BeRifma">
+                    </div>
+                    <div class="logo-text">
+                        PayKesho
+                    </div>
+                </div>
+                <div class="row h-100 align-content-center">
+                    <div class="col-md-6 tab-100 order_2">
+
+                        <!-- side text -->
+                        <div class="side-text">
+                            <article>
+                                <span>Financial Service Partner</span>
+                                <h3 class="main-heading">PayKesho</h3>
+                                <p>
+                                    Paykesho is an innovative digital credit card solution that empowers customers to conveniently make
+                                    payments for their purchases and meet their financial needs. With its user-friendly interface and
+                                    secure transactions, Paykesho offers a seamless experience for customers to pay for goods and services.
+                                    This digital credit card is designed to provide flexibility and convenience, allowing users to manage
+                                    their expenses with ease. By leveraging the power of technology, Paykesho simplifies the payment process,
+                                    enabling customers to access the products and services they desire while maintaining financial stability.
+
+                                </p>
+                            </article>
+
+                            <!-- login sign up button -->
+                            <div class="logSign">
+                                <button id="showlogin" type="button" style="color: #E69E38;" class="active">Login</button>
+                                <button id="showregister" style="color: #E69E38;" type="button">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 tab-100">
+
+                        <!-- form -->
+                        <div class="form">
+                            <div class="row">
+                                <div>
+                                    <div class="form-group login-form">
+                                        <div class="form-group">
+                                            <%= if get_flash(@conn, :info) do %>
+                                                <div class="alert alert-success alert-styled-left">
+                                                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                                                    <%= get_flash(@conn, :info) %>
+                                                </div>
+                                            <% end %>
+                                            <%= if get_flash(@conn, :error) do %>
+                                                <div class="alert alert-danger alert-styled-left">
+                                                <button type="button" class="close" data-dismiss="alert">&times; <span class="sr-only">Close</span></button>
+                                                <strong>Hmm!</strong> <%= get_flash(@conn, :error) %>
+                                                </div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <h2 class="login-form form-title">
+                                    <i style="color: #0F75BD;" class="fa fa-user-circle fa-3x"></i>
+                                </h2>
+                                <h2 class="signup-form form-title">
+                                    Create your Account!
+                                </h2>
+
+                                <!-- login form -->
+                            <form id="step1" class="login-form" action="<%= Routes.session_path(@conn, :create)%>" method="post">
+                                <div class="input-field">
+                                    <input type="text" name="username" id="username" required>
+                                    <label>
+                                        Username
+                                    </label>
+                                </div>
+                                <div class="input-field delay-100ms">
+                                    <input type="password" name="password" id="password" required>
+                                    <label>
+                                        Password
+                                    </label>
+                                </div>
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="rememberme">
+                                        <input type="checkbox">
+                                        <label>Remember Me</label>
+                                    </div>
+                                    <a href="#" class="forget" style="color: #E69E38">forgot password?</a>
+                                </div>
+                                <div class="login-btn">
+                                    <button type="submit" class="login">Login</button>
+                                </div>
+                            </form>
+
+                            <!-- sign up form -->
+                            <form id="step2" class="signup-form" method="">
+                                <p>To register click the link bellow and follow the steps.</p>
+                                <div style="text-align: center;">
+                                <a class="btn ripple btn-primary" href="/Self/Registration" style="background-color: #0F75BD; color: white; height: 50px; width: 320px; font-size: 24px;">Register Now!</a>
+                                </div>
+
+                            </form>
+
+                            <!-- social sign in -->
+                            <div class="login-form signup_social">
+                                <div class="divide-heading">
+                                    <span>Login with your Social Account</span>
+                                </div>
+                                <div class="social-signup">
+                                    <a class="twitch" href="#"><i class="fa-brands fa-yahoo"></i></a>
+                                    <a class="youtube" href="#"><i class="fa-brands fa-google"></i></a>
+                                </div>
+                            </div>
+                            <div class="signup-form register-text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <div id="error">
+
+    </div>
+
+<script>
+    document.getElementById("step1").addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent the default Enter key behavior
+            document.getElementById("step1").submit(); // Submit the form
+        }
+    });
+</script>
+
+
+    <!-- Bootstrap-5 -->
+    <script defer phx-track-static type="text/javascript" src="/loginassets/js/bootstrap.min.js"></script>
+    <!-- Jquery -->
+    <script defer phx-track-static type="text/javascript" src="/loginassets/js/jquery-3.6.1.min.js"></script>
+
+    <!-- My js -->
+    <script defer phx-track-static type="text/javascript" src="/loginassets/js/custom.js"></script>
+
+    <script src="<%= Routes.static_path(@conn, "/webstatic/plugins/global/plugins.bundle.js") %>"></script>
+</body>
+
+<!-- Mirrored from templates.seekviral.com/trimba3/forms/CompanyRegistrationPage/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 18 Apr 2023 08:23:07 GMT -->
+</html>

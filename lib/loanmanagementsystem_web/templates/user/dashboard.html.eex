@@ -1,0 +1,804 @@
+
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Dashboard</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<span class="text-muted font-weight-bold mr-4">LMS</span>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Actions-->
+									<div id="datetime"></div>
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+								<!--end::Row-->
+								<!--begin::Row-->
+								<div class="row">
+									<div class="col-lg-4">
+										<!--begin::Mixed Widget 14-->
+										<div class="card card-custom card-stretch gutter-b">
+											<!--begin::Header-->
+											<div class="card-header border-0 pt-5">
+												<h3 class="card-title font-weight-bolder">Monthly Total Recoveries</h3>
+												<div class="card-toolbar">
+													<div class="dropdown dropdown-inline">
+														<a href="#" class="btn btn-clean btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="ki ki-bold-more-hor"></i>
+														</a>
+														<div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+															<!--begin::Navigation-->
+															<ul class="navi navi-hover py-5">
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-drop"></i>
+																		</span>
+																		<span class="navi-text">New Group</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-list-3"></i>
+																		</span>
+																		<span class="navi-text">Contacts</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-rocket-1"></i>
+																		</span>
+																		<span class="navi-text">Groups</span>
+																		<span class="navi-link-badge">
+																			<span class="label label-light-primary label-inline font-weight-bold">new</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-bell-2"></i>
+																		</span>
+																		<span class="navi-text">Calls</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-gear"></i>
+																		</span>
+																		<span class="navi-text">Settings</span>
+																	</a>
+																</li>
+																<li class="navi-separator my-3"></li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-magnifier-tool"></i>
+																		</span>
+																		<span class="navi-text">Help</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-bell-2"></i>
+																		</span>
+																		<span class="navi-text">Privacy</span>
+																		<span class="navi-link-badge">
+																			<span class="label label-light-danger label-rounded font-weight-bold">5</span>
+																		</span>
+																	</a>
+																</li>
+															</ul>
+															<!--end::Navigation-->
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--end::Header-->
+											<!--begin::Body-->
+											<div class="card-body d-flex flex-column">
+												<div class="flex-grow-1">
+													<div id="kt_mixed_widget_14_chart" style="height: 200px"></div>
+												</div>
+												<div class="pt-5">
+													<p class="text-center font-weight-normal font-size-lg pb-7">Loan Repayment Statics
+													<br />Principal + Interest</p>
+													<a href="#" class="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3">View Repayments</a>
+												</div>
+											</div>
+											<!--end::Body-->
+										</div>
+										<!--end::Mixed Widget 14-->
+									</div>
+									<div class="col-lg-8">
+										<!--begin::Row-->
+										<div class="row m-0">
+											<div class="col px-6 py-8 rounded-xl mr-7 mb-7" style="background-color: white;">
+												<span class="svg-icon svg-icon-3x svg-icon-warning d-block my-2">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+															<rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5" />
+															<rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
+															<rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
+															<rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
+														</g>
+													</svg>
+													<!--end::Svg Icon-->
+												</span>
+												<a href="#" class="text-warning font-weight-bold font-size-h6">Disbursed Loans</a>
+											</div>
+
+
+											<div class="col px-6 py-8 rounded-xl mr-7 mb-7" style="background-color: white;">
+												<span class="svg-icon svg-icon-3x svg-icon-warning d-block my-2">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+															<rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5" />
+															<rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
+															<rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
+															<rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
+														</g>
+													</svg>
+													<!--end::Svg Icon-->
+												</span>
+												<a href="#" class="text-warning font-weight-bold font-size-h6">Pending Loans</a>
+											</div>
+
+											<div class="col px-6 py-8 rounded-xl mr-7 mb-7" style="background-color: white;">
+												<span class="svg-icon svg-icon-3x svg-icon-warning d-block my-2">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24" />
+															<rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5" />
+															<rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
+															<rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
+															<rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
+														</g>
+													</svg>
+													<!--end::Svg Icon-->
+												</span>
+												<a href="#" class="text-warning font-weight-bold font-size-h6">Total Interest Loans</a>
+											</div>
+
+											<div class="col px-6 py-8 rounded-xl mb-7" style="background-color: white;">
+												<span class="svg-icon svg-icon-3x svg-icon-primary d-block my-2">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Add-user.svg-->
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<polygon points="0 0 24 0 24 24 0 24" />
+															<path d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+															<path d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+														</g>
+													</svg>
+													<!--end::Svg Icon-->
+												</span>
+												<a href="#" class="text-primary font-weight-bold font-size-h6 mt-2">Total Staff</a>
+											</div>
+
+										</div>
+										<!--end::Row-->
+										<!--begin::Row-->
+										<div class="card card-custom bg-radial-gradient-danger gutter-b">
+													<!--begin::Header-->
+													<div class="card-header border-0 py-5">
+														<h3 class="card-title font-weight-bolder text-white">Loan Progress</h3>
+														<div class="card-toolbar">
+															<div class="dropdown dropdown-inline">
+																<a href="#" class="btn btn-text-white btn-hover-white btn-sm btn-icon border-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																	<i class="ki ki-bold-more-hor"></i>
+																</a>
+																<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+																	<!--begin::Navigation-->
+																	<ul class="navi navi-hover">
+																		<li class="navi-header pb-1">
+																			<span class="text-primary text-uppercase font-weight-bold font-size-sm">Add new:</span>
+																		</li>
+																		<li class="navi-item">
+																			<a href="#" class="navi-link">
+																				<span class="navi-icon">
+																					<i class="flaticon2-shopping-cart-1"></i>
+																				</span>
+																				<span class="navi-text">Order</span>
+																			</a>
+																		</li>
+																		<li class="navi-item">
+																			<a href="#" class="navi-link">
+																				<span class="navi-icon">
+																					<i class="flaticon2-calendar-8"></i>
+																				</span>
+																				<span class="navi-text">Event</span>
+																			</a>
+																		</li>
+																		<li class="navi-item">
+																			<a href="#" class="navi-link">
+																				<span class="navi-icon">
+																					<i class="flaticon2-graph-1"></i>
+																				</span>
+																				<span class="navi-text">Report</span>
+																			</a>
+																		</li>
+																		<li class="navi-item">
+																			<a href="#" class="navi-link">
+																				<span class="navi-icon">
+																					<i class="flaticon2-rocket-1"></i>
+																				</span>
+																				<span class="navi-text">Post</span>
+																			</a>
+																		</li>
+																		<li class="navi-item">
+																			<a href="#" class="navi-link">
+																				<span class="navi-icon">
+																					<i class="flaticon2-writing"></i>
+																				</span>
+																				<span class="navi-text">File</span>
+																			</a>
+																		</li>
+																	</ul>
+																	<!--end::Navigation-->
+																</div>
+															</div>
+														</div>
+													</div>
+													<!--end::Header-->
+													<!--begin::Body-->
+													<div class="card-body d-flex flex-column p-0" style="position: relative;">
+														<!--begin::Chart-->
+														<div id="kt_mixed_widget_6_chart" style="height: 200px; min-height: 200px;"><div id="apexcharts3951n7kuf" class="apexcharts-canvas apexcharts3951n7kuf apexcharts-theme-light" style="width: 553px; height: 200px;"><svg id="SvgjsSvg1412" width="553" height="200" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG1414" class="apexcharts-inner apexcharts-graphical" transform="translate(20, 0)"><defs id="SvgjsDefs1413"><linearGradient id="SvgjsLinearGradient1417" x1="0" y1="0" x2="0" y2="1"><stop id="SvgjsStop1418" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)" offset="0"></stop><stop id="SvgjsStop1419" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop><stop id="SvgjsStop1420" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop></linearGradient><clipPath id="gridRectMask3951n7kuf"><rect id="SvgjsRect1422" width="518" height="201" x="-2.5" y="-0.5" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="gridRectMarkerMask3951n7kuf"><rect id="SvgjsRect1423" width="517" height="204" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath></defs><rect id="SvgjsRect1421" width="10.992857142857144" height="200" x="475.2142560686384" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke-dasharray="3" fill="url(#SvgjsLinearGradient1417)" class="apexcharts-xcrosshairs" y2="200" filter="none" fill-opacity="0.9" x1="475.2142560686384" x2="475.2142560686384"></rect><g id="SvgjsG1443" class="apexcharts-xaxis" transform="translate(0, 0)"><g id="SvgjsG1444" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"></g></g><g id="SvgjsG1446" class="apexcharts-grid"><g id="SvgjsG1447" class="apexcharts-gridlines-horizontal" style="display: none;"><line id="SvgjsLine1449" x1="0" y1="0" x2="513" y2="0" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1450" x1="0" y1="20" x2="513" y2="20" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1451" x1="0" y1="40" x2="513" y2="40" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1452" x1="0" y1="60" x2="513" y2="60" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1453" x1="0" y1="80" x2="513" y2="80" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1454" x1="0" y1="100" x2="513" y2="100" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1455" x1="0" y1="120" x2="513" y2="120" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1456" x1="0" y1="140" x2="513" y2="140" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1457" x1="0" y1="160" x2="513" y2="160" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1458" x1="0" y1="180" x2="513" y2="180" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line><line id="SvgjsLine1459" x1="0" y1="200" x2="513" y2="200" stroke="#ebedf3" stroke-dasharray="4" class="apexcharts-gridline"></line></g><g id="SvgjsG1448" class="apexcharts-gridlines-vertical" style="display: none;"></g><line id="SvgjsLine1461" x1="0" y1="200" x2="513" y2="200" stroke="transparent" stroke-dasharray="0"></line><line id="SvgjsLine1460" x1="0" y1="1" x2="0" y2="200" stroke="transparent" stroke-dasharray="0"></line></g><g id="SvgjsG1424" class="apexcharts-bar-series apexcharts-plot-series"><g id="SvgjsG1425" class="apexcharts-series" rel="1" seriesName="NetxProfit" data:realIndex="0"><path id="SvgjsPath1427" d="M 25.650000000000002 200L 25.650000000000002 132.24821428571428Q 30.646428571428572 127.75178571428572 35.642857142857146 132.24821428571428L 35.642857142857146 132.24821428571428L 35.642857142857146 200L 35.642857142857146 200z" fill="rgba(255,255,255,0.25)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 25.650000000000002 200L 25.650000000000002 132.24821428571428Q 30.646428571428572 127.75178571428572 35.642857142857146 132.24821428571428L 35.642857142857146 132.24821428571428L 35.642857142857146 200L 35.642857142857146 200z" pathFrom="M 25.650000000000002 200L 25.650000000000002 200L 35.642857142857146 200L 35.642857142857146 200L 35.642857142857146 200L 25.650000000000002 200" cy="130" cx="98.4357142857143" j="0" val="35" barHeight="70" barWidth="10.992857142857144"></path><path id="SvgjsPath1428" d="M 98.9357142857143 200L 98.9357142857143 72.24821428571428Q 103.93214285714286 67.75178571428572 108.92857142857144 72.24821428571428L 108.92857142857144 72.24821428571428L 108.92857142857144 200L 108.92857142857144 200z" fill="rgba(255,255,255,0.25)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 98.9357142857143 200L 98.9357142857143 72.24821428571428Q 103.93214285714286 67.75178571428572 108.92857142857144 72.24821428571428L 108.92857142857144 72.24821428571428L 108.92857142857144 200L 108.92857142857144 200z" pathFrom="M 98.9357142857143 200L 98.9357142857143 200L 108.92857142857144 200L 108.92857142857144 200L 108.92857142857144 200L 98.9357142857143 200" cy="70" cx="171.7214285714286" j="1" val="65" barHeight="130" barWidth="10.992857142857144"></path><path id="SvgjsPath1429" d="M 172.2214285714286 200L 172.2214285714286 52.24821428571428Q 177.21785714285716 47.75178571428571 182.21428571428572 52.24821428571428L 182.21428571428572 52.24821428571428L 182.21428571428572 200L 182.21428571428572 200z" fill="rgba(255,255,255,0.25)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 172.2214285714286 200L 172.2214285714286 52.24821428571428Q 177.21785714285716 47.75178571428571 182.21428571428572 52.24821428571428L 182.21428571428572 52.24821428571428L 182.21428571428572 200L 182.21428571428572 200z" pathFrom="M 172.2214285714286 200L 172.2214285714286 200L 182.21428571428572 200L 182.21428571428572 200L 182.21428571428572 200L 172.2214285714286 200" cy="50" cx="245.00714285714287" j="2" val="75" barHeight="150" barWidth="10.992857142857144"></path><path id="SvgjsPath1430" d="M 245.50714285714287 200L 245.50714285714287 92.24821428571428Q 250.50357142857143 87.75178571428572 255.5 92.24821428571428L 255.5 92.24821428571428L 255.5 200L 255.5 200z" fill="rgba(255,255,255,0.25)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 245.50714285714287 200L 245.50714285714287 92.24821428571428Q 250.50357142857143 87.75178571428572 255.5 92.24821428571428L 255.5 92.24821428571428L 255.5 200L 255.5 200z" pathFrom="M 245.50714285714287 200L 245.50714285714287 200L 255.5 200L 255.5 200L 255.5 200L 245.50714285714287 200" cy="90" cx="318.29285714285714" j="3" val="55" barHeight="110" barWidth="10.992857142857144"></path><path id="SvgjsPath1431" d="M 318.79285714285714 200L 318.79285714285714 112.24821428571428Q 323.7892857142857 107.75178571428572 328.7857142857143 112.24821428571428L 328.7857142857143 112.24821428571428L 328.7857142857143 200L 328.7857142857143 200z" fill="rgba(255,255,255,0.25)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 318.79285714285714 200L 318.79285714285714 112.24821428571428Q 323.7892857142857 107.75178571428572 328.7857142857143 112.24821428571428L 328.7857142857143 112.24821428571428L 328.7857142857143 200L 328.7857142857143 200z" pathFrom="M 318.79285714285714 200L 318.79285714285714 200L 328.7857142857143 200L 328.7857142857143 200L 328.7857142857143 200L 318.79285714285714 200" cy="110" cx="391.5785714285714" j="4" val="45" barHeight="90" barWidth="10.992857142857144"></path><path id="SvgjsPath1432" d="M 392.0785714285714 200L 392.0785714285714 82.24821428571428Q 397.075 77.75178571428572 402.07142857142856 82.24821428571428L 402.07142857142856 82.24821428571428L 402.07142857142856 200L 402.07142857142856 200z" fill="rgba(255,255,255,0.25)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 392.0785714285714 200L 392.0785714285714 82.24821428571428Q 397.075 77.75178571428572 402.07142857142856 82.24821428571428L 402.07142857142856 82.24821428571428L 402.07142857142856 200L 402.07142857142856 200z" pathFrom="M 392.0785714285714 200L 392.0785714285714 200L 402.07142857142856 200L 402.07142857142856 200L 402.07142857142856 200L 392.0785714285714 200" cy="80" cx="464.8642857142857" j="5" val="60" barHeight="120" barWidth="10.992857142857144"></path><path id="SvgjsPath1433" d="M 465.3642857142857 200L 465.3642857142857 92.24821428571428Q 470.36071428571427 87.75178571428572 475.35714285714283 92.24821428571428L 475.35714285714283 92.24821428571428L 475.35714285714283 200L 475.35714285714283 200z" fill="rgba(255,255,255,0.25)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 465.3642857142857 200L 465.3642857142857 92.24821428571428Q 470.36071428571427 87.75178571428572 475.35714285714283 92.24821428571428L 475.35714285714283 92.24821428571428L 475.35714285714283 200L 475.35714285714283 200z" pathFrom="M 465.3642857142857 200L 465.3642857142857 200L 475.35714285714283 200L 475.35714285714283 200L 475.35714285714283 200L 465.3642857142857 200" cy="90" cx="538.15" j="6" val="55" barHeight="110" barWidth="10.992857142857144"></path></g><g id="SvgjsG1434" class="apexcharts-series" rel="2" seriesName="Revenue" data:realIndex="1"><path id="SvgjsPath1436" d="M 36.642857142857146 200L 36.642857142857146 122.24821428571428Q 41.63928571428572 117.75178571428572 46.635714285714286 122.24821428571428L 46.635714285714286 122.24821428571428L 46.635714285714286 200L 46.635714285714286 200z" fill="rgba(255,255,255,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="1" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 36.642857142857146 200L 36.642857142857146 122.24821428571428Q 41.63928571428572 117.75178571428572 46.635714285714286 122.24821428571428L 46.635714285714286 122.24821428571428L 46.635714285714286 200L 46.635714285714286 200z" pathFrom="M 36.642857142857146 200L 36.642857142857146 200L 46.635714285714286 200L 46.635714285714286 200L 46.635714285714286 200L 36.642857142857146 200" cy="120" cx="109.42857142857144" j="0" val="40" barHeight="80" barWidth="10.992857142857144"></path><path id="SvgjsPath1437" d="M 109.92857142857144 200L 109.92857142857144 62.24821428571428Q 114.92500000000001 57.75178571428571 119.92142857142859 62.24821428571428L 119.92142857142859 62.24821428571428L 119.92142857142859 200L 119.92142857142859 200z" fill="rgba(255,255,255,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="1" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 109.92857142857144 200L 109.92857142857144 62.24821428571428Q 114.92500000000001 57.75178571428571 119.92142857142859 62.24821428571428L 119.92142857142859 62.24821428571428L 119.92142857142859 200L 119.92142857142859 200z" pathFrom="M 109.92857142857144 200L 109.92857142857144 200L 119.92142857142859 200L 119.92142857142859 200L 119.92142857142859 200L 109.92857142857144 200" cy="60" cx="182.71428571428572" j="1" val="70" barHeight="140" barWidth="10.992857142857144"></path><path id="SvgjsPath1438" d="M 183.21428571428572 200L 183.21428571428572 42.24821428571428Q 188.2107142857143 37.75178571428571 193.20714285714286 42.24821428571428L 193.20714285714286 42.24821428571428L 193.20714285714286 200L 193.20714285714286 200z" fill="rgba(255,255,255,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="1" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 183.21428571428572 200L 183.21428571428572 42.24821428571428Q 188.2107142857143 37.75178571428571 193.20714285714286 42.24821428571428L 193.20714285714286 42.24821428571428L 193.20714285714286 200L 193.20714285714286 200z" pathFrom="M 183.21428571428572 200L 183.21428571428572 200L 193.20714285714286 200L 193.20714285714286 200L 193.20714285714286 200L 183.21428571428572 200" cy="40" cx="256" j="2" val="80" barHeight="160" barWidth="10.992857142857144"></path><path id="SvgjsPath1439" d="M 256.5 200L 256.5 82.24821428571428Q 261.49642857142857 77.75178571428572 266.49285714285713 82.24821428571428L 266.49285714285713 82.24821428571428L 266.49285714285713 200L 266.49285714285713 200z" fill="rgba(255,255,255,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="1" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 256.5 200L 256.5 82.24821428571428Q 261.49642857142857 77.75178571428572 266.49285714285713 82.24821428571428L 266.49285714285713 82.24821428571428L 266.49285714285713 200L 266.49285714285713 200z" pathFrom="M 256.5 200L 256.5 200L 266.49285714285713 200L 266.49285714285713 200L 266.49285714285713 200L 256.5 200" cy="80" cx="329.2857142857143" j="3" val="60" barHeight="120" barWidth="10.992857142857144"></path><path id="SvgjsPath1440" d="M 329.7857142857143 200L 329.7857142857143 102.24821428571428Q 334.78214285714284 97.75178571428572 339.7785714285714 102.24821428571428L 339.7785714285714 102.24821428571428L 339.7785714285714 200L 339.7785714285714 200z" fill="rgba(255,255,255,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="1" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 329.7857142857143 200L 329.7857142857143 102.24821428571428Q 334.78214285714284 97.75178571428572 339.7785714285714 102.24821428571428L 339.7785714285714 102.24821428571428L 339.7785714285714 200L 339.7785714285714 200z" pathFrom="M 329.7857142857143 200L 329.7857142857143 200L 339.7785714285714 200L 339.7785714285714 200L 339.7785714285714 200L 329.7857142857143 200" cy="100" cx="402.57142857142856" j="4" val="50" barHeight="100" barWidth="10.992857142857144"></path><path id="SvgjsPath1441" d="M 403.07142857142856 200L 403.07142857142856 72.24821428571428Q 408.0678571428571 67.75178571428572 413.0642857142857 72.24821428571428L 413.0642857142857 72.24821428571428L 413.0642857142857 200L 413.0642857142857 200z" fill="rgba(255,255,255,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="1" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 403.07142857142856 200L 403.07142857142856 72.24821428571428Q 408.0678571428571 67.75178571428572 413.0642857142857 72.24821428571428L 413.0642857142857 72.24821428571428L 413.0642857142857 200L 413.0642857142857 200z" pathFrom="M 403.07142857142856 200L 403.07142857142856 200L 413.0642857142857 200L 413.0642857142857 200L 413.0642857142857 200L 403.07142857142856 200" cy="70" cx="475.85714285714283" j="5" val="65" barHeight="130" barWidth="10.992857142857144"></path><path id="SvgjsPath1442" d="M 476.35714285714283 200L 476.35714285714283 82.24821428571428Q 481.3535714285714 77.75178571428572 486.34999999999997 82.24821428571428L 486.34999999999997 82.24821428571428L 486.34999999999997 200L 486.34999999999997 200z" fill="rgba(255,255,255,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="1" stroke-dasharray="0" class="apexcharts-bar-area" index="1" clip-path="url(#gridRectMask3951n7kuf)" pathTo="M 476.35714285714283 200L 476.35714285714283 82.24821428571428Q 481.3535714285714 77.75178571428572 486.34999999999997 82.24821428571428L 486.34999999999997 82.24821428571428L 486.34999999999997 200L 486.34999999999997 200z" pathFrom="M 476.35714285714283 200L 476.35714285714283 200L 486.34999999999997 200L 486.34999999999997 200L 486.34999999999997 200L 476.35714285714283 200" cy="80" cx="549.1428571428571" j="6" val="60" barHeight="120" barWidth="10.992857142857144"></path></g><g id="SvgjsG1426" class="apexcharts-datalabels" data:realIndex="0"></g><g id="SvgjsG1435" class="apexcharts-datalabels" data:realIndex="1"></g></g><line id="SvgjsLine1462" x1="0" y1="0" x2="513" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine1463" x1="0" y1="0" x2="513" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line><g id="SvgjsG1464" class="apexcharts-yaxis-annotations"></g><g id="SvgjsG1465" class="apexcharts-xaxis-annotations"></g><g id="SvgjsG1466" class="apexcharts-point-annotations"></g></g><g id="SvgjsG1445" class="apexcharts-yaxis" rel="0" transform="translate(-18, 0)"></g><g id="SvgjsG1415" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend"></div><div class="apexcharts-tooltip apexcharts-theme-light" style="left: 326.633px; top: 55px;"><div class="apexcharts-tooltip-title" style="font-family: Poppins; font-size: 12px;"></div><div class="apexcharts-tooltip-series-group apexcharts-active" style="order: 1; display: flex;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(255, 255, 255); display: none;"></span><div class="apexcharts-tooltip-text" style="font-family: Poppins; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-label">Revenue: </span><span class="apexcharts-tooltip-text-value">$60 thousands</span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group" style="order: 2; display: none;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(255, 255, 255); display: none;"></span><div class="apexcharts-tooltip-text" style="font-family: Poppins; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-label">Revenue: </span><span class="apexcharts-tooltip-text-value">$60 thousands</span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div><div class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light"><div class="apexcharts-yaxistooltip-text"></div></div></div></div>
+														<!--end::Chart-->
+														<!--begin::Stats-->
+														<div class="card-spacer bg-white card-rounded flex-grow-1">
+															<!--begin::Row-->
+															<div class="row m-0">
+																<div class="col px-8 py-6 mr-8">
+																	<div class="font-size-sm text-muted font-weight-bold">Total Disbursed</div>
+																	<div class="font-size-h4 font-weight-bolder">ZMW 650,000 </div>
+																</div>
+																<div class="col px-8 py-6">
+																	<div class="font-size-sm text-muted font-weight-bold">Expected Interest</div>
+																	<div class="font-size-h4 font-weight-bolder">ZMW 33,600</div>
+																</div>
+															</div>
+															<!--end::Row-->
+															<!--begin::Row-->
+															<div class="row m-0">
+																<div class="col px-8 py-6 mr-8">
+																	<div class="font-size-sm text-muted font-weight-bold">Total Taxes</div>
+																	<div class="font-size-h4 font-weight-bolder">ZMW 29,004</div>
+																</div>
+																<div class="col px-8 py-6">
+																	<div class="font-size-sm text-muted font-weight-bold">Annual Income</div>
+																	<div class="font-size-h4 font-weight-bolder">ZMW 1,480,00</div>
+																</div>
+															</div>
+															<!--end::Row-->
+														</div>
+														<!--end::Stats-->
+													<div class="resize-triggers"><div class="expand-trigger"><div style="width: 554px; height: 420px;"></div></div><div class="contract-trigger"></div></div></div>
+													<!--end::Body-->
+												</div>
+										<!--end::Row-->
+									</div>
+								<!--end::Body-->
+								</div>
+								<!--end::Row-->
+
+								<div class="row">
+
+									<div class="col-lg-6 col-xxl-12 order-1 order-xxl-2">
+										<!--begin::List Widget 4-->
+										<div class="card card-custom card-stretch gutter-b">
+											<!--begin::Header-->
+											<div class="card-header border-0">
+												<h3 class="card-title font-weight-bolder text-dark">Employers</h3>
+												<div class="card-toolbar">
+													<div class="dropdown dropdown-inline">
+														<a href="#" class="btn btn-light btn-sm font-size-sm font-weight-bolder dropdown-toggle text-dark-75" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Employer</a>
+														<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+															<!--begin::Navigation-->
+															<ul class="navi navi-hover">
+																<li class="navi-header pb-1">
+																	<span class="text-primary text-uppercase font-weight-bold font-size-sm">Add new:</span>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-shopping-cart-1"></i>
+																		</span>
+																		<span class="navi-text">Order</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-calendar-8"></i>
+																		</span>
+																		<span class="navi-text">Event</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-graph-1"></i>
+																		</span>
+																		<span class="navi-text">Report</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-rocket-1"></i>
+																		</span>
+																		<span class="navi-text">Post</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-writing"></i>
+																		</span>
+																		<span class="navi-text">File</span>
+																	</a>
+																</li>
+															</ul>
+															<!--end::Navigation-->
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--end::Header-->
+											<!--begin::Body-->
+											<div class="card-body pt-2">
+												<!--begin::Item-->
+												<div class="d-flex align-items-center">
+													<!--begin::Bullet-->
+													<span class="bullet bullet-bar bg-success align-self-stretch"></span>
+													<!--end::Bullet-->
+													<!--begin::Checkbox-->
+													<label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4">
+														<input type="checkbox" name="select" value="1" />
+														<span></span>
+													</label>
+													<!--end::Checkbox-->
+													<!--begin::Text-->
+													<div class="d-flex flex-column flex-grow-1">
+														<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg mb-1">Zesco</a>
+														<span class="text-muted font-weight-bold">10,000 Employees</span>
+													</div>
+													<!--end::Text-->
+													<!--begin::Dropdown-->
+													<div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
+														<a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="ki ki-bold-more-hor"></i>
+														</a>
+														<div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
+															<!--begin::Navigation-->
+															<ul class="navi navi-hover">
+																<li class="navi-header font-weight-bold py-4">
+																	<span class="font-size-lg">Choose Label:</span>
+																	<i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
+																</li>
+																<li class="navi-separator mb-3 opacity-70"></li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-success">Customer</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-danger">Partner</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-warning">Suplier</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-primary">Member</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-dark">Staff</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-separator mt-3 opacity-70"></li>
+																<li class="navi-footer py-4">
+																	<a class="btn btn-clean font-weight-bold btn-sm" href="#">
+																	<i class="ki ki-plus icon-sm"></i>Add new</a>
+																</li>
+															</ul>
+															<!--end::Navigation-->
+														</div>
+													</div>
+													<!--end::Dropdown-->
+												</div>
+												<!--end:Item-->
+												<!--begin::Item-->
+												<div class="d-flex align-items-center mt-10">
+													<!--begin::Bullet-->
+													<span class="bullet bullet-bar bg-primary align-self-stretch"></span>
+													<!--end::Bullet-->
+													<!--begin::Checkbox-->
+													<label class="checkbox checkbox-lg checkbox-light-primary checkbox-inline flex-shrink-0 m-0 mx-4">
+														<input type="checkbox" value="1" />
+														<span></span>
+													</label>
+													<!--end::Checkbox-->
+													<!--begin::Text-->
+													<div class="d-flex flex-column flex-grow-1">
+														<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg mb-1">Zanaco</a>
+														<span class="text-muted font-weight-bold">3000 Employee Onboaded</span>
+													</div>
+													<!--end::Text-->
+													<!--begin::Dropdown-->
+													<div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
+														<a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="ki ki-bold-more-hor"></i>
+														</a>
+														<div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
+															<!--begin::Navigation-->
+															<ul class="navi navi-hover">
+																<li class="navi-header font-weight-bold py-4">
+																	<span class="font-size-lg">Choose Label:</span>
+																	<i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
+																</li>
+																<li class="navi-separator mb-3 opacity-70"></li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-success">Customer</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-danger">Partner</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-warning">Suplier</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-primary">Member</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-dark">Staff</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-separator mt-3 opacity-70"></li>
+																<li class="navi-footer py-4">
+																	<a class="btn btn-clean font-weight-bold btn-sm" href="#">
+																	<i class="ki ki-plus icon-sm"></i>Add new</a>
+																</li>
+															</ul>
+															<!--end::Navigation-->
+														</div>
+													</div>
+													<!--end::Dropdown-->
+												</div>
+												<!--end::Item-->
+												<!--begin::Item-->
+												<div class="d-flex align-items-center mt-10">
+													<!--begin::Bullet-->
+													<span class="bullet bullet-bar bg-warning align-self-stretch"></span>
+													<!--end::Bullet-->
+													<!--begin::Checkbox-->
+													<label class="checkbox checkbox-lg checkbox-light-warning checkbox-inline flex-shrink-0 m-0 mx-4">
+														<input type="checkbox" value="1" />
+														<span></span>
+													</label>
+													<!--end::Checkbox-->
+													<!--begin::Text-->
+													<div class="d-flex flex-column flex-grow-1">
+														<a href="#" class="text-dark-75 text-hover-primary font-size-sm font-weight-bold font-size-lg mb-1">Probase</a>
+														<span class="text-muted font-weight-bold">1,400 Employees Onboaded</span>
+													</div>
+													<!--end::Text-->
+													<!--begin: Dropdown-->
+													<div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
+														<a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="ki ki-bold-more-hor"></i>
+														</a>
+														<div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
+															<!--begin::Navigation-->
+															<ul class="navi navi-hover">
+																<li class="navi-header font-weight-bold py-4">
+																	<span class="font-size-lg">Choose Label:</span>
+																	<i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
+																</li>
+																<li class="navi-separator mb-3 opacity-70"></li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-success">Customer</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-danger">Partner</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-warning">Suplier</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-primary">Member</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-dark">Staff</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-separator mt-3 opacity-70"></li>
+																<li class="navi-footer py-4">
+																	<a class="btn btn-clean font-weight-bold btn-sm" href="#">
+																	<i class="ki ki-plus icon-sm"></i>Add new</a>
+																</li>
+															</ul>
+															<!--end::Navigation-->
+														</div>
+													</div>
+													<!--end::Dropdown-->
+												</div>
+												<!--end::Item-->
+												<!--begin::Item-->
+												<div class="d-flex align-items-center mt-10">
+													<!--begin::Bullet-->
+													<span class="bullet bullet-bar bg-info align-self-stretch"></span>
+													<!--end::Bullet-->
+													<!--begin::Checkbox-->
+													<label class="checkbox checkbox-lg checkbox-light-info checkbox-inline flex-shrink-0 m-0 mx-4">
+														<input type="checkbox" value="1" />
+														<span></span>
+													</label>
+													<!--end::Checkbox-->
+													<!--begin::Text-->
+													<div class="d-flex flex-column flex-grow-1">
+														<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg mb-1">Napsa</a>
+														<span class="text-muted font-weight-bold">760 Employeed Onboaded</span>
+													</div>
+													<!--end::Text-->
+													<!--begin::Dropdown-->
+													<div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
+														<a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="ki ki-bold-more-hor"></i>
+														</a>
+														<div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
+															<!--begin::Navigation-->
+															<ul class="navi navi-hover py-5">
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-drop"></i>
+																		</span>
+																		<span class="navi-text">New Group</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-list-3"></i>
+																		</span>
+																		<span class="navi-text">Contacts</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-rocket-1"></i>
+																		</span>
+																		<span class="navi-text">Groups</span>
+																		<span class="navi-link-badge">
+																			<span class="label label-light-primary label-inline font-weight-bold">new</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-bell-2"></i>
+																		</span>
+																		<span class="navi-text">Calls</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-gear"></i>
+																		</span>
+																		<span class="navi-text">Settings</span>
+																	</a>
+																</li>
+																<li class="navi-separator my-3"></li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-magnifier-tool"></i>
+																		</span>
+																		<span class="navi-text">Help</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-icon">
+																			<i class="flaticon2-bell-2"></i>
+																		</span>
+																		<span class="navi-text">Privacy</span>
+																		<span class="navi-link-badge">
+																			<span class="label label-light-danger label-rounded font-weight-bold">5</span>
+																		</span>
+																	</a>
+																</li>
+															</ul>
+															<!--end::Navigation-->
+														</div>
+													</div>
+													<!--end::Dropdown-->
+												</div>
+												<!--end::Item-->
+												<!--begin::Item-->
+												<div class="d-flex align-items-center mt-10">
+													<!--begin::Bullet-->
+													<span class="bullet bullet-bar bg-danger align-self-stretch"></span>
+													<!--end::Bullet-->
+													<!--begin::Checkbox-->
+													<label class="checkbox checkbox-lg checkbox-light-danger checkbox-inline flex-shrink-0 m-0 mx-4">
+														<input type="checkbox" value="1" />
+														<span></span>
+													</label>
+													<!--end::Checkbox:-->
+													<!--begin::Title-->
+													<div class="d-flex flex-column flex-grow-1">
+														<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg mb-1">Comics Limited</a>
+														<span class="text-muted font-weight-bold">310 Employees Onboaded</span>
+													</div>
+													<!--end::Text-->
+													<!--begin: Dropdown-->
+													<div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
+														<a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="ki ki-bold-more-hor"></i>
+														</a>
+														<div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
+															<!--begin::Navigation-->
+															<ul class="navi navi-hover">
+																<li class="navi-header font-weight-bold py-4">
+																	<span class="font-size-lg">Choose Label:</span>
+																	<i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
+																</li>
+																<li class="navi-separator mb-3 opacity-70"></li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-success">Customer</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-danger">Partner</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-warning">Suplier</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-primary">Member</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-item">
+																	<a href="#" class="navi-link">
+																		<span class="navi-text">
+																			<span class="label label-xl label-inline label-light-dark">Staff</span>
+																		</span>
+																	</a>
+																</li>
+																<li class="navi-separator mt-3 opacity-70"></li>
+																<li class="navi-footer py-4">
+																	<a class="btn btn-clean font-weight-bold btn-sm" href="#">
+																	<i class="ki ki-plus icon-sm"></i>Add new</a>
+																</li>
+															</ul>
+															<!--end::Navigation-->
+														</div>
+													</div>
+													<!--end::Dropdown-->
+												</div>
+												<!--end::Item-->
+											</div>
+											<!--end::Body-->
+										</div>
+										<!--end:List Widget 4-->
+									</div>
+
+								</div>
+								<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->

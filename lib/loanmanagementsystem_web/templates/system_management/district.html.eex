@@ -1,0 +1,330 @@
+
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                <%= render LoanmanagementsystemWeb.OrganizationManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">City Maintenance</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">City List
+                                    <span class="text-muted pt-2 font-size-sm d-block">List of all maintained cities</span></h3>
+                                </div>
+                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                                <div class="card-toolbar">
+                                    <a href="#" data-target="#district_upload" data-toggle="modal" class="btn text-white font-weight-bolder" style="background-color: #0E75BF;">
+                                        <span><i class="flaticon2-add-1 text-white"></i></span>Upload City </a>&nbsp;
+                                    <a href="#" data-target="#modaldemo12" data-toggle="modal" class="btn text-white font-weight-bolder" style="background-color: #0E75BF;">
+                                        <span><i class="flaticon2-add-1 text-white"></i></span>Add City </a>
+                                </div>
+                                <% end %>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                        <tr>
+                                    <th class="wd-20p">No#</th>
+                                    <th class="wd-25p">Town Name</th>
+                                    <th class="wd-20p">Province Name</th>
+                                    <th class="wd-15p">Country Name</th>
+                                    <th class="wd-15p">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <%= for district <- @districts do %>
+                                    <tr>
+                                        <td> <%= district.id %> </td>
+                                        <td> <%= district.name %> </td>
+
+                                        <td> <%= district.provinceName %> </td>
+
+                                        <td> <%= district.countryName %> </td>
+
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="dropbtn">Options</button>
+                                                <div class="dropdown-content">
+
+                                                    <a class="btn ripple btn-sm" href="#"
+                                                        title="edit"
+                                                        data-target="#edit_district"
+                                                        data-toggle="modal"
+                                                        data-id ="<%=district.id %>"
+                                                        data-name ="<%=district.name %>"
+                                                        data-country ="<%= district.provinceName %>  "
+                                                        data-province ="<%= district.countryName %> "
+                                                    >Edit</a>
+
+                                                    <a class="btn ripple btn-sm" href="#"
+                                                        title="view"
+                                                        data-target="#view_country"
+                                                        data-toggle="modal"
+                                                        data-id ="<%=district.id %>"
+                                                        data-name ="<%=district.name %>"
+                                                        data-country ="<%= district.provinceName %>  "
+                                                        data-province ="<%= district.countryName %> "
+                                                    >View</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Town Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+        <form action="<%= Routes.maintenance_path(@conn, :admin_create_district) %>" method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Town Name<span style="color: red;">*</span></label>
+                                <input class="form-control" name="name" required type="text">
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label">Select Province<span style="color: red;">*</span></label>
+                                <select required  name="province" class="form-control">
+                                    <%= for province <- @provinces do %>
+                                        <option value="<%= province.id %>|||<%= province.name %> "><%= province.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label">Select Country<span style="color: red;">*</span></label>
+                                <select required name="country" class="form-control">
+                                    <%= for country <- @countries do %>
+                                        <option value="<%= country.id %>|||<%= country.name %> "><%= country.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Submit</button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="district_upload">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Upload Province </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+          <form action=" <%= Routes.credit_management_path(@conn, :handle__district_bulk_upload)%>" method="post" enctype="multipart/form-data">
+            <div class="modal-body">
+                <div class="d-flex">
+                    <div class="justify-content-center" >
+                        <a class="btn ripple btn-rounded" href="<%= Routes.static_path(@conn, "/js/files/excel/district.xlsx") %>" download="Sample" style="background-color: #0E75BF; color: white;" type="button"> Check Sample file </a>
+                    </div>
+                </div><br>
+                <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                                <label class="form-label">Province Name<span style="color: red;">*</span></label>
+                                <input class="form-control" name="districtfile_name" required type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Upload Districts </button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+<%# ---------------------------------------- Edit District------------------------------------------------------- %>
+
+<div class="modal fade" id="edit_district" class="edit_district">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Town Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action=" <%= Routes.maintenance_path(@conn, :admin_update_district) %> " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+             <input type="hidden" name="id" id="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Town Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="name" name="name" placeholder="Enter District Name" type="text">
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label">Select Province<span style="color: red;">*</span></label>
+                                <select required id="province" name="province" class="form-control">
+                                     <option>Choose Province</option>
+                                    <%= for province <- @provinces do %>
+                                        <option value="<%= province.id %>||| <%= province.name %> "><%= province.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label">Select Country<span style="color: red;">*</span></label>
+                                <select required id="country" name="country" class="form-control">
+                                     <option>Choose Country</option>
+                                    <%= for country <- @countries do %>
+                                        <option value="<%= country.id %>||| <%= country.name %> "><%= country.name %></option>
+                                    <% end %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Submit</button>
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="view_country" class="view_district">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">View Town Details</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action=" # " method="post">
+            <div class="modal-body">
+            <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+             <input type="hidden" name="id" id="id">
+                <div class="row row-lg">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row row-sm">
+                            <div class="col-sm">
+                            <label class="form-label">Town Name<span style="color: red;">*</span></label>
+                                <input class="form-control" id="name" name="name" type="text" readonly>
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label"> Province Name<span style="color: red;">*</span></label>
+                                <input required id="province" name="province" class="form-control" readonly>
+                            </div>
+                             <div class="col-sm">
+                                <label class="form-label"> Country Name<span style="color: red;">*</span></label>
+                                <input required id="country" name="country" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function(){
+        $('#edit_district').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var country = button.data('country')
+            var province = button.data('province')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #country').val(country);
+            modal.find('.modal-body #province').val(province);
+        });
+
+         $('#view_country').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var name = button.data('name')
+            var country = button.data('country')
+            var province = button.data('province')
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #country').val(country);
+            modal.find('.modal-body #province').val(province);
+        });
+    });
+</script>

@@ -1,0 +1,386 @@
+
+    <script>
+        function hide_receiver_number() {
+            $( "#receiver_number" ).hide();
+            $( "#bank_details" ).hide();
+            $("#wallet_number").hide();
+            $("#bank_details_summary" ).hide();
+
+        }
+    </script>
+    <div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+                 <%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Loan Application</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <body  onload="hide_receiver_number()">
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                             <div class="flex-wrap border-0 pt-6 pb-0">
+                                <div class="text-center">
+                                    <h3 class="card-label "><u>VIEW SALARY ADVANCE LOAN</u>
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span></h3>
+                                </div>
+                            </div>
+                             <div class="card-body">
+								<!--begin: Wizard-->
+                                <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="last" data-wizard-clickable="true">
+                                    <!--begin: Wizard Nav-->
+                                    <div class="wizard-nav">
+                                        <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                                            <!--begin::Wizard Step 1 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>1.</span>Customer Details</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 1 Nav-->
+                                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="done">
+                                                <div class="wizard-label">
+                                                    <h3 class="wizard-title">
+                                                    <span>2.</span>Loan Details</h3>
+                                                    <div class="wizard-bar"></div>
+                                                </div>
+                                            </div>
+                                            <!--end::Wizard Step 4 Nav-->
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                                        <div class="col-xl-12 col-xxl-12">
+                                            <!--begin: Wizard Form-->
+                                            <form class="form fv-plugins-bootstrap fv-plugins-framework" id="kt_form" action="<%= Routes.loan_path(@conn, :approve_employee_consumer_loan_by_management) %>" enctype="multipart/form-data" method="post">
+                                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                <!--begin: Wizard Step 1-->
+                                                <div class="pb-5" data-wizard-type="step-content" >
+                                                    <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Customer Details</u></h4>
+                                                    <!--begin::Input-->
+                                                    <div class="row">
+                                                        <div class="col-md-6 border">
+                                                        <br><h5 class="text-center"> <u>Personal Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Full Name: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_kyc.firstname %> <%= @client_kyc.othername %> <%= @client_kyc.surname %>" readonly>
+                                                                        <input type="hidden" class="form-control" name="customer_id" value="<%= @client_kyc.customer_id %>" readonly>
+                                                                        <input type="hidden" class="form-control" name="account_balance" value="<%= :erlang.float_to_binary((@get_account_details.balance), [{:decimals, 2}]) %>" readonly>
+                                                                        <input type="hidden" class="form-control" name="employee_number" value="<%= @get_account_details.employee_number %>" readonly>
+                                                                        <input type="hidden" class="form-control" name="loan_limit" value="<%= :erlang.float_to_binary((@get_account_details.limit), [{:decimals, 2}]) %>" readonly>
+                                                                        <input type="hidden" class="form-control" name="loan_limit_balance" value="<%= :erlang.float_to_binary((@get_account_details.limit_balance), [{:decimals, 2}]) %>" readonly>
+
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Gender: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_kyc.gender %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">NRC Number: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_kyc.id_number %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Date Of Birth:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_kyc.dob %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Phone Number:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_kyc.cell_number %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Email Address: </label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_kyc.email %>" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <!--
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Home Address: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @client_kyc.residential_address %>"  readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                                <div class="form-group row fv-plugins-icon-container has-success">
+                                                                    <label class="col-3 col-form-label">Marital Status: </label>
+                                                                    <div class="col-9">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" value="<%= @client_kyc.marital_status %>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fv-plugins-message-container"></div>
+                                                                </div>
+                                                            -->
+                                                        </div>
+                                                        <div class="col-md-6 border">
+                                                            <br><h5 class="text-center"> <u>Address Details</u> </h5><br>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">House/Plot Number</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_address_details.house_number %>" name="house_number">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Road/Street Name:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_address_details.street_name %>" name="street_name">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Area:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_address_details.area %>" name="area">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Town:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_address_details.town %>" name="area">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Province:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_address_details.province %>" name="area">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+
+
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Accomodation Status:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text" class="form-control" value="<%= @client_address_details.accomodation_status %>" name="accomodation_status">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div>
+                                                            <div class="form-group row fv-plugins-icon-container has-success">
+                                                                <label class="col-3 col-form-label">Years At Current Address:</label>
+                                                                <div class="col-9">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="number" class="form-control" value="<%= @client_address_details.year_at_current_address %>" name="year_at_current_address">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fv-plugins-message-container"></div>
+                                                            </div><br>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                       <!--begin: Wizard Step 4-->
+                                                    <div class="pb-5" data-wizard-type="step-content" >
+                                                        <h4 class="mb-10 font-weight-bold text-dark text-center"><u>Loan Details</u></h4>
+                                                        <div class="row">
+                                                         <input class="form-control" value="<%= @loan_details.id %>" id="loan_id" name="loan_id" type="hidden">
+                                                            <div class="col-md-12 border">
+                                                            <br>
+                                                                <div class="form-group row">
+                                                                    <div class="col-lg-4">
+                                                                        <label>Principle Loan Amount:</label>
+                                                                            <input type="number" class="form-control principal_amount" value="<%= :erlang.float_to_binary((@loan_details.principal_amount), [{:decimals, 2}]) %>"  id="numberInput" name="amount" readonly>
+                                                                    </div>
+                                                                    <div class="col-lg-4">
+                                                                        <label>Tenure (Months):</label>
+                                                                            <input class="form-control" value="<%= @loan_details.tenor %>"  name="tenor_log" readonly>
+
+                                                                    </div>
+                                                                        <div class="col-lg-4">
+                                                                        <label>Interest:</label>
+                                                                            <input type="text" id="total_interest" value="<%= :erlang.float_to_binary((@loan_details.interest_amount), [{:decimals, 2}]) %>"  class="form-control" name="total_interest" readonly>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-lg-4">
+                                                                        <label>Repayment Period(months):</label>
+                                                                            <input type="text" class="form-control" value="<%= @loan_details.repayment %>"  name="repayment" readonly>
+                                                                    </div>
+                                                                    <div class="col-lg-4">
+                                                                        <label>Monthly Installment:</label>
+                                                                        <input type="text" value="<%= @loan_details.monthly_installment %>" class="form-control" id="total_monthly_payment" name="monthly_installment" readonly>
+                                                                    </div>
+                                                                        <div class="col-lg-4">
+                                                                        <label>Total Loan:</label>
+                                                                        <input type="text" id="total_amount" value="<%= Decimal.round(Decimal.from_float(@loan_details.repayment_amount)) %>" class="form-control" name="totalPayment" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--end: Wizard Step 4-->
+                                                    <!--begin: Wizard Step 3-->
+
+                                                    <!--end: Wizard Step 4-->
+                                                    <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                                        <div class="mr-2">
+                                                            <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                                        </div>
+                                                        <div>
+                                                            <a href="<%= Routes.loan_path(@conn, :consumer_loans_datatable) %>" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Done</a>
+                                                            <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                                        </div>
+                                                    </div>
+                                                    <!--end: Wizard Actions-->
+                                                <div></div><div></div><div></div><div></div></form>
+                                                <!--end: Wizard Form-->
+                                            </div>
+                                        </div>
+                                        <!--end: Wizard Body-->
+                                </div>
+                                <!--end: Wizard-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            </body>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+
+
+    <div class="col-sm-4 col-md-4">
+        <div class="card custom-card">
+            <div class="modal" id="viewDocument" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="main-content-label mb-3">View Document</h6>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i aria-hidden="true" class="ki ki-close"></i>
+                            </button>
+                        </div>
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <div class="modal-body">
+                            <div class="row row-lg">
+                                <div class="col-sm-12 col-md-12 col-lg-12" id="theDocumentView"> </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-danger" data-dismiss="modal" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    $(document).ready(function(){
+        //JS FOR VIEWING USER PROFILE
+        $('#viewDocument').on('show.bs.modal', function (event){
+            console.log("qwertyuiop")
+            let button = $(event.relatedTarget)
+            let id = button.data('id')
+            let content_type = button.data('content_type')
+            let path = button.data('path')
+
+
+            let portocal = location.protocol;
+            let host = portocal+"//" + window.location.host
+            let route = host + "<%= Routes.loan_path(@conn, :display_pdf) %>";
+            let url = route + "?path="+path+"&content_type="+content_type;
+
+
+            let the_document = '<embed src="'+ url +'" width="100%" height="870px" />';
+
+
+            var modal = $(this)
+            modal.find('.modal-body #theDocumentView').html(the_document);
+        });
+    });
+
+</script>

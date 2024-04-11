@@ -1,0 +1,151 @@
+
+<div id="kt_header" class="header header-fixed">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+        <!--begin::Header Menu Wrapper-->
+            <%= render LoanmanagementsystemWeb.CreditManagementView, "submenu.html", assigns %>
+        <!--end::Header Menu Wrapper-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Header-->
+<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Repayments</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Daterange-->
+                TIME
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 col-xxl-12">
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">Repayments
+                                <span class="text-muted pt-2 font-size-sm d-block">List of Repayments loans</span></h3>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered border-bottom" id="td-mgt-loan-repayment">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                <input type="hidden" name="usertype" id="usertype" value="<%= String.trim(@conn.private.plug_session["current_user_role"].roleType) %>">
+                                <input type="hidden" name="create" id="create" value="<%= @conn.assigns.user.role.loan.create %>">
+                                <input type="hidden" name="edit" id="edit" value="<%= @conn.assigns.user.role.loan.edit %>">
+                                <input type="hidden" name="view" id="view" value="<%= @conn.assigns.user.role.loan.view %>">
+                                <input type="hidden" name="change_status" id="change_status" value="<%= @conn.assigns.user.role.loan.change_status %>">
+                                    <thead>
+                                        <tr>
+                                            <th>Disbursement Date</th>
+                                            <th>Ref No</th>
+                                            <th>Client</th>
+                                            <th>Contact Person</th>
+                                            <th>Contact Number</th>
+                                            <th>Product Type</th>
+                                            <th>Principle Amount</th>
+                                            <th>Interest Amount</th>
+                                            <th>Finance Cost</th>
+                                            <th>Total Repayment Amount</th>
+                                            <th>Tenure(Days)</th>
+                                            <th>Installment Amount</th>
+                                            <th>Expected Date of Payment</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+<!--end::Content-->
+
+<!-- Tooltips and Popovers -->
+<div class="modal fade" id="modaldemo12">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Loan Repayments</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <div class="card-body">
+                <form action="<%= Routes.loan_path(@conn,:go_to_repayment_page) %>" enctype="multipart/form-data" method="post">
+                    <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title">
+                            <h3 class="card-label">Enter Loan Reference Number
+                            <span class="text-muted pt-2 font-size-sm d-block">Provide the Loan Reference Number.</span></h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10"> Enter Loan Reference Number </p>
+                                        <input class="form-control" name="reference_no" type="text" text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="modal-footer">
+                            <button class="btn ripple" style="background-color: #0E75BF; color: white;" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Tooltips and Popovers -->
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+
+    $('#rejectmodal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+
+    });
+});
+</script>

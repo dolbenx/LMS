@@ -1,0 +1,1226 @@
+
+<div id="kt_header" class="header header-fixed">
+        <!--begin::Container-->
+        <div class="container-fluid d-flex align-items-stretch justify-content-between">
+            <!--begin::Header Menu Wrapper-->
+            <%= render LoanmanagementsystemWeb.UserView, "submenu.html", assigns %>
+            <!--end::Header Menu Wrapper-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Header-->
+    <%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-2">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Administrator</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Actions-->
+                    <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                    <!--end::Actions-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center">
+                    <!--begin::Daterange-->
+                    TIME
+                </div>
+                <!--end::Toolbar-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Dashboard-->
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-12 col-xxl-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Administrator
+                                    <span class="text-muted pt-2 font-size-sm d-block">Administrator Table</span></h3>
+                                </div>
+                                <div class="card-toolbar">
+                                    <a type="button" class="btn ripple text-white font-weight-bolder" data-toggle="modal" id="create_admin_employee" style="background-color: #0E75BF;">
+                                        Add Admin
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable_staff_admin">
+                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                    <thead>
+                                       <tr>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">First Name</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Last Name</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Email</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Date Of Birth</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Mobile Number</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Status</th>
+                                            <th class="wd-20p" style="text-align: center; vertical-align: middle;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <%= for get_bio_data <- @get_bio_datas  do %>
+
+                                        <tr>
+                                            <td><%= get_bio_data.firstname %></td>
+                                            <td> <%= get_bio_data.lastname %></td>
+                                            <td><%= get_bio_data.emailaddress %></td>
+                                            <td><%= get_bio_data.dateofbirth %></td>
+                                            <td><%= get_bio_data.mobilenumber %></td>
+                                            <td style="text-align: center; ">
+                                                <%= if get_bio_data.status == "ACTIVE" do %>
+                                                    <span class="badge bg-pill bg-success"><%= get_bio_data.status %></span>
+                                                <% else %>
+                                                    <span class="badge bg-pill bg-danger"><%= get_bio_data.status %></span>
+                                                <% end %>
+                                            </td>
+                                            <td style="text-align: center; ">
+
+                                                <%= if get_bio_data.status == "ACTIVE" do %>
+                                                    <a class="btn ripple btn-danger btn-sm  employer-deactivate-admin-employee" title="Disable" data-deactivate-id="<%= get_bio_data.id %>"><i class="fe fe-x-circle"></i> Disable </a>
+                                                <% end %>
+                                                <%= if get_bio_data.status == "INACTIVE" or get_bio_data.status == "DISABLED"  do %>
+                                                    <a class="btn ripple btn-success btn-sm employer-activate-admin-employee" data-activate-id="<%= get_bio_data.id%>" title= "Enable"><i class="fe fe-check-circle" ></i> Enable </a>
+                                                <% end %>
+
+                                                 <a class="btn ripple btn-info btn-sm " title="view"
+                                                    data-target="#edit_admin_employee_modal"
+                                                    data-toggle="modal"
+                                                    data-id ="<%= get_bio_data.id %>"
+                                                    data-bio_title ="<%= get_bio_data.bio_title %>"
+                                                    data-gender ="<%= get_bio_data.gender %>"
+                                                    data-nationality ="<%= get_bio_data.nationality %>"
+                                                    data-firstname= "<%= get_bio_data.firstname %>"
+                                                    data-meansofidentificationnumber= "<%= get_bio_data.meansofidentificationnumber %>"
+                                                    data-lastname= "<%= get_bio_data.lastname %>"
+                                                    data-dateofbirth= "<%= get_bio_data.dateofbirth %>"
+                                                    data-emailaddress= "<%= get_bio_data.emailaddress %>"
+                                                    data-mobilenumber= "<%= get_bio_data.mobilenumber %>"
+                                                    data-marital_status= "<%= get_bio_data.marital_status %>"
+                                                    data-marital_status= "<%= get_bio_data.marital_status %>"
+                                                    data-number_of_dependants= "<%= get_bio_data.number_of_dependants %>"
+                                                    data-accomodation_status= "<%= get_bio_data.accomodation_status %>"
+                                                    data-area= "<%= get_bio_data.area %>"
+                                                    data-roletype= "<%= get_bio_data.roletype %>"
+                                                    data-house_number= "<%= get_bio_data.house_number %>"
+                                                    data-street_name= "<%= get_bio_data.street_name %>"
+                                                    data-town= "<%= get_bio_data.town %>"
+                                                    data-province= "<%= get_bio_data.province %>"
+                                                    data-year_at_current_address= "<%= get_bio_data.year_at_current_address %>"
+                                                    data-province= "<%= get_bio_data.province %>"
+                                                    data-mobile_network_operator= "<%= get_bio_data.mobile_network_operator %>"
+                                                    data-registered_name_mobile_number= "<%= get_bio_data.registered_name_mobile_number %>">
+                                                <i class="si si-note"></i> Edit </a>
+
+                                                <a class="btn ripple btn-warning btn-sm " title="view"
+                                                    data-target="#view_admin_employee_modal"
+                                                    data-toggle="modal"
+                                                    data-id ="<%= get_bio_data.id %>"
+                                                    data-bio_title ="<%= get_bio_data.bio_title %>"
+                                                    data-gender ="<%= get_bio_data.gender %>"
+                                                    data-nationality ="<%= get_bio_data.nationality %>"
+                                                    data-firstname= "<%= get_bio_data.firstname %>"
+                                                    data-meansofidentificationnumber= "<%= get_bio_data.meansofidentificationnumber %>"
+                                                    data-lastname= "<%= get_bio_data.lastname %>"
+                                                    data-dateofbirth= "<%= get_bio_data.dateofbirth %>"
+                                                    data-emailaddress= "<%= get_bio_data.emailaddress %>"
+                                                    data-mobilenumber= "<%= get_bio_data.mobilenumber %>"
+                                                    data-marital_status= "<%= get_bio_data.marital_status %>"
+                                                    data-marital_status= "<%= get_bio_data.marital_status %>"
+                                                    data-number_of_dependants= "<%= get_bio_data.number_of_dependants %>"
+                                                    data-accomodation_status= "<%= get_bio_data.accomodation_status %>"
+                                                    data-area= "<%= get_bio_data.area %>"
+                                                    data-roletype= "<%= get_bio_data.roletype %>"
+                                                    data-house_number= "<%= get_bio_data.house_number %>"
+                                                    data-street_name= "<%= get_bio_data.street_name %>"
+                                                    data-town= "<%= get_bio_data.town %>"
+                                                    data-province= "<%= get_bio_data.province %>"
+                                                    data-year_at_current_address= "<%= get_bio_data.year_at_current_address %>"
+                                                    data-province= "<%= get_bio_data.province %>"
+                                                    data-mobile_network_operator= "<%= get_bio_data.mobile_network_operator %>"
+                                                    data-registered_name_mobile_number= "<%= get_bio_data.registered_name_mobile_number %>">
+                                                <i class="si si-eye"></i> View </a>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+
+
+
+<!-- Grid modal -->
+
+<div class="modal fade" id="admin_employee_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Administrative Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+                            <!--begin: Wizard-->
+            <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="step-first" data-wizard-clickable="true">
+                <!--begin: Wizard Nav-->
+                <div class="wizard-nav">
+                    <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                        <!--begin::Wizard Step 1 Nav-->
+                        <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>1.</span>Admin Details</h3>
+                                <div class="wizard-bar"></div>
+                            </div>
+                        </div>
+
+                        <div class="wizard-step" data-wizard-type="step">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>2.</span>Address Details</h3>
+                                <div class="wizard-bar"></div>
+                            </div>
+                        </div>
+
+                        <div class="wizard-step" data-wizard-type="step">
+                            <div class="wizard-label">
+                                <h3 class="wizard-title">
+                                <span>3.</span>Document Upload</h3>
+                                <div class="wizard-bar"></div>
+                            </div>
+                        </div>
+                        <!--end::Wizard Step 4 Nav-->
+                    </div>
+                </div>
+
+                <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                    <div class="col-xl-12 col-xxl-13">
+                        <!--begin: Wizard Form-->
+                        <form class="form" action="<%= Routes.employer_path(@conn, :employer_create_admin_employee) %>" enctype="multipart/form-data" method="post" id="tst">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                            <!--begin: Wizard Step 1-->
+                            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                            <input type="hidden" name="password" id="password-generate">
+                                <!--begin::Input-->
+                                <div class="row row-sm">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <h5 class="modal-title"> Personal Details </h5><br>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Title</p>
+                                                <select name="title" id="titleSelect" onchange="updateGender()" class="form-control">
+                                                    <option label="Choose Title"></option>
+                                                    <option value="Mr">Mr</option>
+                                                    <option value="Mrs">Mrs</option>
+                                                    <option value="Ms">Ms</option>
+                                                    <option value="Dr">Dr </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">First Name</p>
+                                                <input name="firstName" class="form-control" type="text">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Last Name</p>
+                                                <input name="lastName" class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Choose Gender</p>
+                                                <select name="gender"  id="genderSelect" class="form-control">
+                                                    <option label="Choose Gender"></option>
+                                                    <option value="Male">Male </option>
+                                                    <option value="Female">Female </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Nationality</p>
+                                                <select name="nationality" class="form-control form-control-solid form-control-lg">
+                                                    <option value="">Select</option>
+                                                    <option value="AF">Afghanistan</option>
+                                                    <option value="AX">Åland Islands</option>
+                                                    <option value="AL">Albania</option>
+                                                    <option value="DZ">Algeria</option>
+                                                    <option value="AS">American Samoa</option>
+                                                    <option value="AD">Andorra</option>
+                                                    <option value="AO">Angola</option>
+                                                    <option value="AI">Anguilla</option>
+                                                    <option value="AQ">Antarctica</option>
+                                                    <option value="AG">Antigua and Barbuda</option>
+                                                    <option value="AR">Argentina</option>
+                                                    <option value="AM">Armenia</option>
+                                                    <option value="AW">Aruba</option>
+                                                    <option value="AU">Australia</option>
+                                                    <option value="AT">Austria</option>
+                                                    <option value="AZ">Azerbaijan</option>
+                                                    <option value="BS">Bahamas</option>
+                                                    <option value="BH">Bahrain</option>
+                                                    <option value="BD">Bangladesh</option>
+                                                    <option value="BB">Barbados</option>
+                                                    <option value="BY">Belarus</option>
+                                                    <option value="BE">Belgium</option>
+                                                    <option value="BZ">Belize</option>
+                                                    <option value="BJ">Benin</option>
+                                                    <option value="BM">Bermuda</option>
+                                                    <option value="BT">Bhutan</option>
+                                                    <option value="BO">Bolivia, Plurinational State of</option>
+                                                    <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                                                    <option value="BA">Bosnia and Herzegovina</option>
+                                                    <option value="BW">Botswana</option>
+                                                    <option value="BV">Bouvet Island</option>
+                                                    <option value="BR">Brazil</option>
+                                                    <option value="IO">British Indian Ocean Territory</option>
+                                                    <option value="BN">Brunei Darussalam</option>
+                                                    <option value="BG">Bulgaria</option>
+                                                    <option value="BF">Burkina Faso</option>
+                                                    <option value="BI">Burundi</option>
+                                                    <option value="KH">Cambodia</option>
+                                                    <option value="CM">Cameroon</option>
+                                                    <option value="CA">Canada</option>
+                                                    <option value="CV">Cape Verde</option>
+                                                    <option value="KY">Cayman Islands</option>
+                                                    <option value="CF">Central African Republic</option>
+                                                    <option value="TD">Chad</option>
+                                                    <option value="CL">Chile</option>
+                                                    <option value="CN">China</option>
+                                                    <option value="CX">Christmas Island</option>
+                                                    <option value="CC">Cocos (Keeling) Islands</option>
+                                                    <option value="CO">Colombia</option>
+                                                    <option value="KM">Comoros</option>
+                                                    <option value="CG">Congo</option>
+                                                    <option value="CD">Congo, the Democratic Republic of the</option>
+                                                    <option value="CK">Cook Islands</option>
+                                                    <option value="CR">Costa Rica</option>
+                                                    <option value="CI">Côte d'Ivoire</option>
+                                                    <option value="HR">Croatia</option>
+                                                    <option value="CU">Cuba</option>
+                                                    <option value="CW">Curaçao</option>
+                                                    <option value="CY">Cyprus</option>
+                                                    <option value="CZ">Czech Republic</option>
+                                                    <option value="DK">Denmark</option>
+                                                    <option value="DJ">Djibouti</option>
+                                                    <option value="DM">Dominica</option>
+                                                    <option value="DO">Dominican Republic</option>
+                                                    <option value="EC">Ecuador</option>
+                                                    <option value="EG">Egypt</option>
+                                                    <option value="SV">El Salvador</option>
+                                                    <option value="GQ">Equatorial Guinea</option>
+                                                    <option value="ER">Eritrea</option>
+                                                    <option value="EE">Estonia</option>
+                                                    <option value="ET">Ethiopia</option>
+                                                    <option value="FK">Falkland Islands (Malvinas)</option>
+                                                    <option value="FO">Faroe Islands</option>
+                                                    <option value="FJ">Fiji</option>
+                                                    <option value="FI">Finland</option>
+                                                    <option value="FR">France</option>
+                                                    <option value="GF">French Guiana</option>
+                                                    <option value="PF">French Polynesia</option>
+                                                    <option value="TF">French Southern Territories</option>
+                                                    <option value="GA">Gabon</option>
+                                                    <option value="GM">Gambia</option>
+                                                    <option value="GE">Georgia</option>
+                                                    <option value="DE">Germany</option>
+                                                    <option value="GH">Ghana</option>
+                                                    <option value="GI">Gibraltar</option>
+                                                    <option value="GR">Greece</option>
+                                                    <option value="GL">Greenland</option>
+                                                    <option value="GD">Grenada</option>
+                                                    <option value="GP">Guadeloupe</option>
+                                                    <option value="GU">Guam</option>
+                                                    <option value="GT">Guatemala</option>
+                                                    <option value="GG">Guernsey</option>
+                                                    <option value="GN">Guinea</option>
+                                                    <option value="GW">Guinea-Bissau</option>
+                                                    <option value="GY">Guyana</option>
+                                                    <option value="HT">Haiti</option>
+                                                    <option value="HM">Heard Island and McDonald Islands</option>
+                                                    <option value="VA">Holy See (Vatican City State)</option>
+                                                    <option value="HN">Honduras</option>
+                                                    <option value="HK">Hong Kong</option>
+                                                    <option value="HU">Hungary</option>
+                                                    <option value="IS">Iceland</option>
+                                                    <option value="IN">India</option>
+                                                    <option value="ID">Indonesia</option>
+                                                    <option value="IR">Iran, Islamic Republic of</option>
+                                                    <option value="IQ">Iraq</option>
+                                                    <option value="IE">Ireland</option>
+                                                    <option value="IM">Isle of Man</option>
+                                                    <option value="IL">Israel</option>
+                                                    <option value="IT">Italy</option>
+                                                    <option value="JM">Jamaica</option>
+                                                    <option value="JP">Japan</option>
+                                                    <option value="JE">Jersey</option>
+                                                    <option value="JO">Jordan</option>
+                                                    <option value="KZ">Kazakhstan</option>
+                                                    <option value="KE">Kenya</option>
+                                                    <option value="KI">Kiribati</option>
+                                                    <option value="KP">Korea, Democratic People's Republic of</option>
+                                                    <option value="KR">Korea, Republic of</option>
+                                                    <option value="KW">Kuwait</option>
+                                                    <option value="KG">Kyrgyzstan</option>
+                                                    <option value="LA">Lao People's Democratic Republic</option>
+                                                    <option value="LV">Latvia</option>
+                                                    <option value="LB">Lebanon</option>
+                                                    <option value="LS">Lesotho</option>
+                                                    <option value="LR">Liberia</option>
+                                                    <option value="LY">Libya</option>
+                                                    <option value="LI">Liechtenstein</option>
+                                                    <option value="LT">Lithuania</option>
+                                                    <option value="LU">Luxembourg</option>
+                                                    <option value="MO">Macao</option>
+                                                    <option value="MK">Macedonia, the former Yugoslav Republic of</option>
+                                                    <option value="MG">Madagascar</option>
+                                                    <option value="MW">Malawi</option>
+                                                    <option value="MY">Malaysia</option>
+                                                    <option value="MV">Maldives</option>
+                                                    <option value="ML">Mali</option>
+                                                    <option value="MT">Malta</option>
+                                                    <option value="MH">Marshall Islands</option>
+                                                    <option value="MQ">Martinique</option>
+                                                    <option value="MR">Mauritania</option>
+                                                    <option value="MU">Mauritius</option>
+                                                    <option value="YT">Mayotte</option>
+                                                    <option value="MX">Mexico</option>
+                                                    <option value="FM">Micronesia, Federated States of</option>
+                                                    <option value="MD">Moldova, Republic of</option>
+                                                    <option value="MC">Monaco</option>
+                                                    <option value="MN">Mongolia</option>
+                                                    <option value="ME">Montenegro</option>
+                                                    <option value="MS">Montserrat</option>
+                                                    <option value="MA">Morocco</option>
+                                                    <option value="MZ">Mozambique</option>
+                                                    <option value="MM">Myanmar</option>
+                                                    <option value="NA">Namibia</option>
+                                                    <option value="NR">Nauru</option>
+                                                    <option value="NP">Nepal</option>
+                                                    <option value="NL">Netherlands</option>
+                                                    <option value="NC">New Caledonia</option>
+                                                    <option value="NZ">New Zealand</option>
+                                                    <option value="NI">Nicaragua</option>
+                                                    <option value="NE">Niger</option>
+                                                    <option value="NG">Nigeria</option>
+                                                    <option value="NU">Niue</option>
+                                                    <option value="NF">Norfolk Island</option>
+                                                    <option value="MP">Northern Mariana Islands</option>
+                                                    <option value="NO">Norway</option>
+                                                    <option value="OM">Oman</option>
+                                                    <option value="PK">Pakistan</option>
+                                                    <option value="PW">Palau</option>
+                                                    <option value="PS">Palestinian Territory, Occupied</option>
+                                                    <option value="PA">Panama</option>
+                                                    <option value="PG">Papua New Guinea</option>
+                                                    <option value="PY">Paraguay</option>
+                                                    <option value="PE">Peru</option>
+                                                    <option value="PH">Philippines</option>
+                                                    <option value="PN">Pitcairn</option>
+                                                    <option value="PL">Poland</option>
+                                                    <option value="PT">Portugal</option>
+                                                    <option value="PR">Puerto Rico</option>
+                                                    <option value="QA">Qatar</option>
+                                                    <option value="RE">Réunion</option>
+                                                    <option value="RO">Romania</option>
+                                                    <option value="RU">Russian Federation</option>
+                                                    <option value="RW">Rwanda</option>
+                                                    <option value="BL">Saint Barthélemy</option>
+                                                    <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+                                                    <option value="KN">Saint Kitts and Nevis</option>
+                                                    <option value="LC">Saint Lucia</option>
+                                                    <option value="MF">Saint Martin (French part)</option>
+                                                    <option value="PM">Saint Pierre and Miquelon</option>
+                                                    <option value="VC">Saint Vincent and the Grenadines</option>
+                                                    <option value="WS">Samoa</option>
+                                                    <option value="SM">San Marino</option>
+                                                    <option value="ST">Sao Tome and Principe</option>
+                                                    <option value="SA">Saudi Arabia</option>
+                                                    <option value="SN">Senegal</option>
+                                                    <option value="RS">Serbia</option>
+                                                    <option value="SC">Seychelles</option>
+                                                    <option value="SL">Sierra Leone</option>
+                                                    <option value="SG">Singapore</option>
+                                                    <option value="SX">Sint Maarten (Dutch part)</option>
+                                                    <option value="SK">Slovakia</option>
+                                                    <option value="SI">Slovenia</option>
+                                                    <option value="SB">Solomon Islands</option>
+                                                    <option value="SO">Somalia</option>
+                                                    <option value="ZA">South Africa</option>
+                                                    <option value="GS">South Georgia and the South Sandwich Islands</option>
+                                                    <option value="SS">South Sudan</option>
+                                                    <option value="ES">Spain</option>
+                                                    <option value="LK">Sri Lanka</option>
+                                                    <option value="SD">Sudan</option>
+                                                    <option value="SR">Suriname</option>
+                                                    <option value="SJ">Svalbard and Jan Mayen</option>
+                                                    <option value="SZ">Swaziland</option>
+                                                    <option value="SE">Sweden</option>
+                                                    <option value="CH">Switzerland</option>
+                                                    <option value="SY">Syrian Arab Republic</option>
+                                                    <option value="TW">Taiwan, Province of China</option>
+                                                    <option value="TJ">Tajikistan</option>
+                                                    <option value="TZ">Tanzania, United Republic of</option>
+                                                    <option value="TH">Thailand</option>
+                                                    <option value="TL">Timor-Leste</option>
+                                                    <option value="TG">Togo</option>
+                                                    <option value="TK">Tokelau</option>
+                                                    <option value="TO">Tonga</option>
+                                                    <option value="TT">Trinidad and Tobago</option>
+                                                    <option value="TN">Tunisia</option>
+                                                    <option value="TR">Turkey</option>
+                                                    <option value="TM">Turkmenistan</option>
+                                                    <option value="TC">Turks and Caicos Islands</option>
+                                                    <option value="TV">Tuvalu</option>
+                                                    <option value="UG">Uganda</option>
+                                                    <option value="UA">Ukraine</option>
+                                                    <option value="AE">United Arab Emirates</option>
+                                                    <option value="United Kingdom">United Kingdom</option>
+                                                    <option value="United States">United States</option>
+                                                    <option value="UM">United States Minor Outlying Islands</option>
+                                                    <option value="UY">Uruguay</option>
+                                                    <option value="UZ">Uzbekistan</option>
+                                                    <option value="VU">Vanuatu</option>
+                                                    <option value="VE">Venezuela, Bolivarian Republic of</option>
+                                                    <option value="VN">Viet Nam</option>
+                                                    <option value="VG">Virgin Islands, British</option>
+                                                    <option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option>
+                                                    <option value="Wallis and Futuna">Wallis and Futuna</option>
+                                                    <option value="Western Sahara">Western Sahara</option>
+                                                    <option value="Yemen">Yemen</option>
+                                                    <option value="Zambia"  selected="selected">Zambia</option>
+                                                    <option value="Zimbabwe">Zimbabwe</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">National Registration Card Number</p>
+                                                <input class="form-control" name="meansOfIdentificationNumber" type="text" id="nrcInput" maxlength="11" oninput="formatNRC()" placeholder="xxxxxx/xx/x">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                             <div class="col-lg">
+                                                <p class="mg-b-10">Date Of Birth</p>
+                                                <input class="form-control" name="dateOfBirth" type="date" max="<%= Timex.shift(Timex.today(), years: -18) %>">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Choose Marital</p>
+                                                <select name="marital_status" class="form-control">
+                                                    <option label="Choose Marital Status"></option>
+                                                    <option value="Single">Single </option>
+                                                    <option value="Married">Married </option>
+                                                    <option value="Widow">Widow </option>
+                                                    <option value="Widower">Widower </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Number Of Dependents</p>
+                                                <input class="form-control" name="number_of_dependants" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <input type="hidden" name="meansOfIdentificationType" value="NRC">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Mobile Network Operator</p>
+                                                <select name="mobile_network_operator" class="form-control">
+                                                    <option label="Choose Operator"></option>
+                                                    <option value="Airtel Zambia">Airtel Zambia </option>
+                                                    <option value="MTN Zambia">MTN Zambia </option>
+                                                    <option value="Zamtel">Zamtel </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Mobile Number</p>
+                                                <input class="form-control" type="text" name="mobileNumber"  id="phoneInput" maxlength="10" oninput="formatPhoneNumber()" placeholder="0977********">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Registered Names for the Mobile Number</p>
+                                                <input class="form-control" name="registered_name_mobile_number" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg-4">
+                                                <p class="mg-b-10">Email Address</p>
+                                                <input class="form-control" name="emailAddress" type="email">
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Choose Role Type</p>
+                                                    <select name="roleType" class="form-control">
+                                                        <option label="Choose Role Type"></option>
+                                                        <option value="ADMIN_EMPLOYER_INITATOR">ADMIN INITIATOR
+                                                        </option>
+                                                            <option value="ADMIN_EMPLOYER_APPROVER">ADMIN APPROVER
+                                                        </option>
+                                                    </select>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <p class="mg-b-10">Account Type</p>
+                                                <select class="form-control"  name="product_name">
+                                                    <option label="Choose Type"></option>
+                                                    <option value="01">Loans</option>
+                                                    <option value="02">Savings</option>
+                                                    <option value="03">Investments</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pb-5" data-wizard-type="step-content">
+                                <!--begin::Input-->
+                                <div class="row row-sm">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <h5 class="modal-title"> Address Details </h5><br>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">House/Plot Number</p>
+                                                <input name="house_number" class="form-control" type="text" required>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Road/Street Name</p>
+                                                <input name="street_name" class="form-control" type="text" required>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Area</p>
+                                                <input name="area" class="form-control" type="text" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Town</p>
+                                                <input class="form-control" name="town" type="text" required>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Accomodation Status</p>
+                                                <select name="accomodation_status" class="form-control" required>
+                                                    <option label="Choose Status"></option>
+                                                    <option value="RENTED">RENTED </option>
+                                                    <option value="OWNED">OWNED </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg">
+                                                <p class="mg-b-10">Years At Current Address</p>
+                                                <input class="form-control" name="year_at_current_address" type="number" required>
+                                            </div>
+                                        </div>
+                                        <div class="row row-sm mg-b-20">
+
+                                            <div class="col-lg-4">
+                                                <p class="mg-b-10">Select Province</p>
+                                                <select name="departmentId" class="form-control">
+                                                    <option label="Choose Province"></option>
+                                                    <%= for province <- @provinces do %>
+                                                    <option value="<%= province.id %>"><%= province.name %> </option>
+                                                    <% end %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pb-5" data-wizard-type="step-content">
+                                <!--begin::Input-->
+                                <div class="row row-sm">
+                                    <div class="col-md-12 col-lg-12 col-xl-12">
+                                        <h5 class="modal-title"> Document Upload </h5><br>
+                                        <div class="row row-sm mg-b-20">
+                                           <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                            <label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+                                                        <%# <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th> %>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <span class="form-text text-muted"><span style="color: red;">*</span> Please make sure to attach PDF File Format</span>
+                                                    <%= for item <- required_document() do %>
+                                                        <tr class="tr_clone">
+                                                            <td>
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="form-group"> <span><%= "#{item.name}  #{is_required(item.is_required)}" %></span> </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="receiver form-control" id="phx-FuvZHeMu4hedhwED" name="nrc_image" type="file" multiple= "<%= is_required?(item.is_required) %>">
+                                                            </td>
+                                                        </tr>
+                                                    <% end %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                <div class="mr-2">
+                                    <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
+                                    <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Grid modal -->
+
+
+
+<!-- Grid modal -->
+<div class="modal" id="modaldemo12">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Create Administrator</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+            </div>
+            <form action=" <%= Routes.user_path(@conn, :admin_create_user) %> " method="post">
+                <div class="card-body">
+
+                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                <input type="hidden" name="password" id="password-gen" >
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                <p class="mg-b-10">Title</p>
+                                    <select name="title" class="form-control select2">
+                                        <option label="Choose Currency"></option>
+                                        <option value="Mr">Mr
+                                        </option>
+                                        <option value="Mrs">Mrs
+                                        </option>
+                                        <option value="Ms">Ms
+                                        </option>
+                                        <option value="Dr">Dr
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg">
+                                <p class="mg-b-10">First Name</p>
+                                    <input name="firstName" class="form-control" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                <p class="mg-b-10">Last Name</p>
+                                    <input name="lastName" class="form-control" required type="text">
+                                </div>
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                <p class="mg-b-10">Other Name</p>
+                                    <input class="form-control" name="otherName" required type="text">
+                                </div>
+                                <div class="col-lg">
+                                <p class="mg-b-10">Date Of Birth</p>
+                                    <input class="form-control" name="dateOfBirth" required type="date">
+                                </div>
+                                    <div class="col-lg">
+                                <p class="mg-b-10">Personal Email</p>
+                                    <input class="form-control" name="emailAddress" required type="email">
+                                </div>
+
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                <p class="mg-b-10">Identification Type</p>
+                                    <select name="meansOfIdentificationType" class="form-control select2">
+                                        <option label="Choose Currency"></option>
+                                        <option value="Drivers License">Drivers License
+                                        </option>
+                                        <option value="National Registration Card">National Registration Card
+                                        </option>
+                                        <option value="Passport">Passport
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg">
+                                <p class="mg-b-10">Identification Number</p>
+                                    <input class="form-control" name="meansOfIdentificationNumber" required type="text">
+                                </div>
+                                    <div class="col-lg">
+                                <p class="mg-b-10">Mobile Number</p>
+                                    <input class="form-control" name="mobileNumber" required type="text">
+                                </div>
+
+                            </div>
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg">
+                                <p class="mg-b-10">Choose Gender</p>
+                                    <select name="gender" class="form-control select2">
+                                        <option label="Choose Currency"></option>
+                                        <option value="Male">Male
+                                        </option>
+                                        <option value="Female">Female
+                                        </option>
+
+                                    </select>
+                                </div>
+                                <div class="col-lg">
+                                <p class="mg-b-10">Choose Role Type</p>
+                                    <select name="roleType" class="form-control select2">
+                                        <option label="Choose Role Type"></option>
+                                        <option value="ADMIN_EMPLOYER_INITATOR">ADMIN INITIATOR
+                                        </option>
+                                            <option value="ADMIN_EMPLOYER_APPROVER">ADMIN APPROVER
+                                        </option>
+                                         <option value="EMPLOYER">EMPLOYER
+                                        </option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+            <div class="modal-footer">
+                <button class="btn ripple btn-primary" type="submit">Add New Administrator</button>
+                <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="view_admin_employee_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View Admin</h5>
+            </div>
+            <div class="modal-body">
+               <form action= "#" enctype="multipart/form-data" id="tst"  method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                        <input type="hidden" name="id" id="id">
+
+                        <h3><strong>Personal Details</strong></h3>
+
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Title</p>
+                                        <input name="title" class="form-control" id="bio_title" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">First Name</p>
+                                        <input name="firstName" id="firstname" class="form-control" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Last Name</p>
+                                        <input name="lastName" id="lastname" class="form-control" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Gender</p>
+                                        <input name="gender" id="gender" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Nationality</p>
+                                        <input class="form-control" name="nationality" id="nationality" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">National Registration Card Number</p>
+                                        <input class="form-control" name="meansOfIdentificationNumber" id="meansofidentificationnumber" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                        <div class="col-lg">
+                                        <p class="mg-b-10">Date Of Birth</p>
+                                        <input class="form-control" name="dateOfBirth" id="dateofbirth" type="date" max="<%= Timex.shift(Timex.today(), years: -18) %>" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Marital Staus</p>
+                                        <input name="marital_status" class="form-control" id="marital_status" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Number Of Dependents</p>
+                                        <input class="form-control" name="number_of_dependants" id="number_of_dependants" type="number" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <input type="hidden" name="meansOfIdentificationType" id="meansofidentificationnumber" value="NRC" readonly>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Network Operator</p>
+                                        <input class="form-control" name="mobile_network_operator" id="mobile_network_operator" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Mobile Number</p>
+                                        <input class="form-control" name="mobileNumber" id="mobilenumber" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Registered Names for the Mobile Number</p>
+                                        <input class="form-control" name="registered_name_mobile_number" id="registered_name_mobile_number" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg-4">
+                                        <p class="mg-b-10">Email Address</p>
+                                        <input class="form-control" id="emailaddress" name="emailAddress" type="email" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Role Type</p>
+                                            <input name="roleType" id="roletype" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <p class="mg-b-10">Account Type</p>
+                                        <input class="form-control"  name="product_name" id="product_name" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br><br>
+
+                        <h3><strong>Address Details</strong></h3>
+
+                        <div class="row row-sm">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <h5 class="modal-title"> Address Details </h5><br>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">House/Plot Number</p>
+                                        <input name="house_number" id="house_number" class="form-control" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Road/Street Name</p>
+                                        <input name="street_name" id="street_name" class="form-control" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Area</p>
+                                        <input name="area" id="area" class="form-control" type="text" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Town</p>
+                                        <input class="form-control" name="town" id="town" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Accomodation Status</p>
+                                        <input class="form-control" name="accomodation_status" id="accomodation_status" type="text" readonly>
+                                    </div>
+                                    <div class="col-lg">
+                                        <p class="mg-b-10">Years At Current Address</p>
+                                        <input class="form-control" name="year_at_current_address" id="year_at_current_address" type="number" readonly>
+                                    </div>
+                                </div>
+                                <div class="row row-sm mg-b-20">
+                                    <div class="col-lg-4">
+                                        <p class="mg-b-10">Province</p>
+                                        <input name="departmentId" class="form-control" id="province" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+			<!--End Grid modal -->
+
+<%= render "edit_employer_admin_mgt.html", assigns %>
+
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+
+<script>
+
+    $('#create_admin_employee').on('click', function (event){
+        var modal= $("#admin_employee_modal");
+        var acc= ""
+        $.ajax({
+            url: '/Generate/Random/Password/user',
+            type: 'POST',
+            data: {_csrf_token: $('#csrf').val()},
+            success: function(result) {
+                if (result.account){
+                    acc = result.account
+                    console.log(acc)
+                    console.log(modal.find('#password-generate').val(acc));
+                    modal.modal("show")
+                } else {
+                    modal.find('#password-gen').val("error");
+                    modal.modal("show")
+                }
+            },
+            error: function(request, msg, error) {
+                modal.find('#password-gen').val("error 2");
+                modal.modal("show")
+            }
+        })
+    });
+
+</script>
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#view_admin_employee_modal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+            var firstname = button.data('firstname')
+            var title = button.data('title')
+            var lastname = button.data('lastname')
+            var emailaddress = button.data('emailaddress')
+            var dateofbirth = button.data('dateofbirth')
+            var mobilenumber = button.data('mobilenumber')
+            var bio_title = button.data('bio_title')
+            var gender = button.data('gender')
+            var nationality = button.data('nationality')
+            var meansofidentificationnumber = button.data('meansofidentificationnumber')
+            var marital_status = button.data('marital_status')
+            var number_of_dependants = button.data('number_of_dependants')
+            var accomodation_status = button.data('accomodation_status')
+            var street_name = button.data('street_name')
+            var town = button.data('town')
+            var year_at_current_address = button.data('year_at_current_address')
+            var province = button.data('province')
+            var mobile_network_operator = button.data('mobile_network_operator')
+            var registered_name_mobile_number = button.data('registered_name_mobile_number')
+            var area = button.data('area')
+            var roletype = button.data('roletype')
+            var house_number = button.data('house_number')
+
+
+            var modal = $(this)
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #firstname').val(firstname);
+            modal.find('.modal-body #title').val(title);
+            modal.find('.modal-body #lastname').val(lastname);
+            modal.find('.modal-body #emailaddress').val(emailaddress);
+            modal.find('.modal-body #dateofbirth').val(dateofbirth);
+            modal.find('.modal-body #mobilenumber').val(mobilenumber);
+            modal.find('.modal-body #bio_title').val(bio_title);
+            modal.find('.modal-body #gender').val(gender);
+            modal.find('.modal-body #nationality').val(nationality);
+            modal.find('.modal-body #meansofidentificationnumber').val(meansofidentificationnumber);
+            modal.find('.modal-body #marital_status').val(marital_status);
+            modal.find('.modal-body #number_of_dependants').val(number_of_dependants);
+            modal.find('.modal-body #accomodation_status').val(accomodation_status);
+            modal.find('.modal-body #street_name').val(street_name);
+            modal.find('.modal-body #house_number').val(house_number);
+            modal.find('.modal-body #town').val(town);
+            modal.find('.modal-body #year_at_current_address').val(year_at_current_address);
+            modal.find('.modal-body #province').val(province);
+            modal.find('.modal-body #mobile_network_operator').val(mobile_network_operator);
+            modal.find('.modal-body #registered_name_mobile_number').val(registered_name_mobile_number);
+            modal.find('.modal-body #roletype').val(roletype);
+            modal.find('.modal-body #area').val(area);
+
+            console.log("heee");
+            console.log(title);
+
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+
+    $('#kt_datatable_staff_admin').DataTable({
+        dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>
+            <'row'<'col-sm-12'tr>>
+            <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+        buttons:[
+            {
+                extend: 'csvHtml5',
+                text: 'CSV',
+                titleAttr: 'Generate CSV',
+                className: 'btn-outline-primary btn-sm mr-1',
+                messageTop: "Administrators Report",
+                filename: "Administrators Report",
+                exportOptions: {
+                    'columns': [  0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'copyHtml5',
+                text: 'Copy',
+                titleAttr: 'Copy to clipboard',
+                className: 'btn-outline-primary btn-sm mr-1',
+                messageTop: "Administrators Report",
+                filename: "Administrators Report",
+                exportOptions: {
+                    'columns': [  0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                titleAttr: 'Print Table',
+                className: 'btn-outline-primary btn-sm mr-1',
+                messageTop: "Administrators Report",
+                filename: "Administrators Report",
+                exportOptions: {
+                    'columns': [  0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                titleAttr: 'Generate PDF',
+                className: 'btn-outline-primary btn-sm mr-1',
+                messageTop: "Administrators Report",
+                filename: "Administrators Report",
+                exportOptions: {
+                    'columns': [  0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                titleAttr: 'Generate Excel',
+                className: 'btn-outline-primary btn-sm mr-1',
+                messageTop: "Administrators Report",
+                filename: "Administrators Report",
+                exportOptions: {
+                    'columns': [  0, 1, 2, 3, 4, 5]
+                }
+            },
+
+        ],
+        "responsive": true,
+        "processing": true,
+        'language': {
+            'loadingRecords': '&nbsp;',
+            processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only">Loading...</span> ',
+            "EmptyTable": "No Records !"
+        },
+        "serverSide": false,
+        "paging": true,
+        "lengthMenu": [
+            [10, 25, 50, 100, 500, 1000],
+            [10, 25, 50, 100, 500, 1000]
+        ],
+        "order": [
+            [0, 'asc']
+        ],
+    });
+});
+</script>
+
+<script>
+
+    function check() {
+        var length = document.getElementById("phone_length").value.
+
+
+    }
+
+    function validate(){
+         var input = document.getElementById("phone_length");
+        if (input.value.length > 10) {
+            input.value = input.value.slice(0, 10); // Truncate input to 10 characters
+        }
+    }
+
+
+</script>
+
+
+    <script>
+        function formatPhoneNumber() {
+            const inputElement = document.getElementById('phoneInput');
+            let phoneNumber = inputElement.value;
+
+            // Remove any non-digit characters
+            phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+
+            // Ensure the phone number is in the format 0977111111 if numeric characters are present
+            if (/^\d{10}$/.test(phoneNumber)) {
+                phoneNumber = phoneNumber.substring(0, 3) + phoneNumber.substring(3, 10);
+            }
+
+            // Update the input field with the formatted or unmodified phone number
+            inputElement.value = phoneNumber;
+        }
+    </script>
+
+
+    <script>
+        function updateGender() {
+            const titleSelect = document.getElementById('titleSelect');
+            const genderSelect = document.getElementById('genderSelect');
+
+            const selectedTitle = titleSelect.value;
+
+            // Map title options to gender options
+            const titleToGender = {
+                'Mr': 'Male',
+                'Ms': 'Female',
+                'Mrs': 'Female'
+            };
+
+            // Set the value of the gender select field based on the selected title
+            if (titleToGender.hasOwnProperty(selectedTitle)) {
+                genderSelect.value = titleToGender[selectedTitle];
+            } else {
+                genderSelect.value = ''; // Reset to default if no matching title
+            }
+        }
+    </script>
+
+
+
+ <script>
+        function formatNRC() {
+            const inputElement = document.getElementById('nrcInput');
+            let nrc = inputElement.value;
+
+            // Remove any non-digit characters
+            nrc = nrc.replace(/[^0-9]/g, '');
+
+            // Ensure the NRC number is in the format 222222/22/222
+            if (nrc.length > 0) {
+                // Ensure the first part has a maximum of 6 digits
+                const firstPart = nrc.substring(0, 6);
+
+                // Ensure the second part has a maximum of 2 digits
+                const secondPart = nrc.substring(6, 8);
+
+                // Ensure the third part has a maximum of 3 digits
+                const thirdPart = nrc.substring(8, 11);
+
+                // Reconstruct the NRC number with the correct format and slashes
+                nrc = `${firstPart}`;
+
+                if (secondPart.length > 0) {
+                    nrc += `/${secondPart}`;
+                }
+
+                if (thirdPart.length > 0) {
+                    nrc += `/${thirdPart}`;
+                }
+
+                // Update the input field with the formatted NRC number
+                inputElement.value = nrc;
+            }
+        }
+    </script>

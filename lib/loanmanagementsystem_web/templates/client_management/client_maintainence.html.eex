@@ -1,0 +1,483 @@
+
+					<div id="kt_header" class="header header-fixed">
+						<!--begin::Container-->
+						<div class="container-fluid d-flex align-items-stretch justify-content-between">
+							<!--begin::Header Menu Wrapper-->
+								<%= render LoanmanagementsystemWeb.ClientManagementView, "submenu.html", assigns %>
+							<!--end::Header Menu Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<%= render LoanmanagementsystemWeb.UserView, "aleart.html", assigns %>
+					<!--begin::Content-->
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!--begin::Subheader-->
+						<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+							<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+								<!--begin::Info-->
+								<div class="d-flex align-items-center flex-wrap mr-2">
+									<!--begin::Page Title-->
+									<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Employee Maintenance</h5>
+									<!--end::Page Title-->
+									<!--begin::Actions-->
+									<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+									<!--end::Actions-->
+								</div>
+								<!--end::Info-->
+								<!--begin::Toolbar-->
+								<div class="d-flex align-items-center">
+									<!--begin::Actions-->
+									<div id="datetime"></div>
+								</div>
+								<!--end::Toolbar-->
+							</div>
+						</div>
+						<!--end::Subheader-->
+						<!--begin::Entry-->
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container-fluid">
+								<!--begin::Dashboard-->
+								<!--begin::Row-->
+								<div class="row">
+                                    <div class="col-md-12 col-xxl-12">
+                                        <div class="card card-custom card-stretch gutter-b">
+                                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                                <div class="card-title">
+                                                    <h3 class="card-label">Employee List
+                                                    <span class="text-muted pt-2 font-size-sm d-block">List of onboaded employee's</span></h3>
+                                                </div>
+                                                <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :create) do %>
+                                                <div class="card-toolbar">
+                                                    <a href="<%= Routes.client_management_path(@conn, :add_client) %>" class="btn text-white font-weight-bolder" style="background-color: #0E75BF;">
+                                                        <span><i class="flaticon2-add-1 text-white"></i></span>Add Employee </a>
+                                                </div>
+                                                 <% end %>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-bordered table-hover table-striped w-100" id="kt_datatable">
+                                                <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Client Name</th>
+                                                            <th>Client Number</th>
+                                                            <th>NRC</th>
+                                                            <th>Email Address</th>
+                                                            <th>Employer</th>
+                                                            <th>Employer Tax Number</th>
+                                                            <th>Status</th>
+                                                            <th class="text-center">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    </tbody>
+                                                        <%= for employee <- @employee do %>
+                                                            <tr>
+                                                                <td><%= employee.firstName %> <%= employee.lastName %> <%= employee.otherName %> </td>
+                                                                <td><%= employee.mobileNumber %></td>
+                                                                <td><%= employee.meansOfIdentificationNumber %></td>
+                                                                <td><%= employee.emailAddress %></td>
+
+
+                                                                <%= if employee.roletype == "EMPLOYEE" do %>
+                                                                    <td><%= employee.companyName %></td>
+                                                                <% else %>
+                                                                    <%= if employee.roletype == "INDIVIDUALS" do %>
+                                                                        <td><%= employee.client_company_name %></td>
+                                                                    <% end %>
+                                                                <% end %>
+
+                                                                <%= if employee.roletype == "EMPLOYEE" do %>
+                                                                    <td><%= employee.company_taxno %></td>
+                                                                <% else %>
+                                                                    <%= if employee.roletype == "INDIVIDUALS" do %>
+                                                                        <td><%= employee.client_taxno %></td>
+                                                                    <% end %>
+                                                                <% end %>
+
+                                                                <%= if employee.user_status == "ACTIVE" do %>
+
+                                                                    <td><span class= "badge bg-pill bg-success" ><%= employee.user_status %></span> </td>
+
+                                                                <% else %>
+
+                                                                    <%= if employee.user_status == "INACTIVE" do %>
+
+                                                                        <td><span class="badge bg-pill bg-danger"><%= employee.user_status %></span> </td>
+
+                                                                    <% end %>
+
+                                                                <% end %>
+                                                                <td class="text-center">
+                                                                    <div class="dropdown">
+                                                                        <button class="dropbtn">Options</button>
+                                                                        <div class="dropdown-content">
+
+                                                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :change_status) do %>
+                                                                                <%=if employee.user_status == "ACTIVE" do %>
+                                                                                    <a class="btn ripple btn-sm deactivate-client" data-activate-id="<%= employee.userId %>" title="Disable">Disable</a>
+                                                                                <% else %>
+                                                                                    <a class="btn ripple btn-sm activate-client" data-activate-id="<%= employee.userId %>" title="Enable">Enable</a>
+                                                                                <% end %>
+                                                                            <% end %>
+
+                                                                            <%= if Loanmanagementsystem.Accounts.User.has_role?(@user, :client, :edit) do %>
+                                                                                <a class="btn ripple btn-sm" href="<%= Routes.client_management_path(@conn, :update_client_employee, userid: employee.userid) %>">Edit</a>
+                                                                            <% end %>
+
+                                                                            <a class="btn ripple btn-sm" href="<%= Routes.client_management_path(@conn, :view_individual_details, userid: employee.userid) %>">View</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <% end %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								<!--end::Row-->
+								<!--end::Dashboard-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+					</div>
+					<!--end::Content-->
+
+
+
+                    <div class="modal" id="editemployeremployee">
+                    <div class="modal-dialog modal-fullscreen modal-dialog-centered" role="document">
+                            <div class="modal-content modal-content-demo">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Edit Employee Personal Details</h6><button type="button" class="close" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="ki ki-close"></i></button>
+                                </div>
+                                    <form action="<%= Routes.client_management_path(@conn, :admin_create_employer_employee)%>" enctype="multipart/form-data" id="tst" method="post">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="_csrf_token" id="csrf" value="<%= Plug.CSRFProtection.get_csrf_token()%>">
+                                            <input type="hidden" name="roleType" value="EMPLOYEE">
+                                            <div id="wizard3">
+
+                                                <h3>Employee Personal Details</h3>
+                                                <section>
+
+                                                    <div class="row row-sm mg-b-20">
+
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">Title</p>
+                                                                <select name="title" id="title" class="form-control select2">
+                                                                    <option label="Choose Currency"></option>
+                                                                    <option value="Mr">Mr </option>
+                                                                    <option value="Mrs">Mrs </option>
+                                                                    <option value="Ms">Ms </option>
+                                                                    <option value="Dr">Dr </option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">First Name</p>
+                                                                <input name="firstName" id="first_name" class="form-control" type="text">
+                                                            </div>
+                                                            <div class="col-lg">
+                                                                <p class="mg-b-10">Last Name</p>
+                                                                <input name="lastName" id="lastname" class="form-control" type="text">
+                                                            </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Other Name</p>
+                                                            <input class="form-control" id="othername" name="otherName" type="text">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Date Of Birth</p>
+                                                            <input class="form-control" id="dateofbirth" name="dateOfBirth" type="date">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Personal Email</p>
+                                                            <input class="form-control" id="email_address" name="emailAddress" type="email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                    <input type="hidden" name="meansOfIdentificationType"  value="National Registration Card">
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">National Registration Number</p>
+                                                            <input class="form-control" id="meansofidentificationnumber" name="meansOfIdentificationNumber" type="text">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Mobile Number</p>
+                                                            <input class="form-control" id="mobile_number" name="mobileNumber" type="text">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Choose Gender</p>
+                                                            <select name="gender" id="gender" class="form-control select2">
+                                                                <option label="Choose Currency"></option>
+                                                                <option value="Male">Male </option>
+                                                                <option value="Female">Female </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">House/Plot Number</p>
+                                                            <input name="house_number" id="house_number" class="form-control" type="text" required>
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Road/Street Name</p>
+                                                            <input name="street_name" id="street_name" class="form-control" type="text" required>
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Area</p>
+                                                            <input name="area" id="area" class="form-control" type="text" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Town</p>
+                                                            <input class="form-control" id="town_personal" name="town" type="text" required>
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Accomodation Status</p>
+                                                            <input class="form-control" id="accomodation_status" name="accomodation_status" type="text" required>
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Years At Current Address</p>
+                                                            <input class="form-control" id="year_at_current_address"  name="year_at_current_address" type="text" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Choose Marital</p>
+                                                            <select name="marital_status" id="marital_status" class="form-control select2">
+                                                                <option label="Choose Currency"></option>
+                                                                <option value="Single">Single </option>
+                                                                <option value="Married">Married </option>
+                                                                <option value="Widow">Widow </option>
+                                                                <option value="Widower">Widower </option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Number Of Dependents</p>
+                                                            <input class="form-control" id="number_of_dependants" name="number_of_dependants" type="number">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Nationality</p>
+                                                            <input class="form-control" id="nationality" name="nationality" type="text">
+                                                        </div>
+
+                                                    </div>
+                                                </section>
+
+
+                                                <h3>Corporate Details</h3>
+                                                <section>
+                                                    <div class="row row-sm mg-b-20">
+
+                                                        <!-- col-4 -->
+                                                        <div class="col-lg">
+                                                        <p class="mg-b-10">Select Company</p>
+                                                            <select name="employer" id="employer" class="form-control">
+                                                            <option label="Choose Company">
+                                                            </option>
+                                                            <%= for company <- @companies do %>
+
+                                                                <option value="<%= company.companyName %>"><%= company.companyName %>
+                                                                </option>
+                                                                <input name="company_id" value="<%= company.id %>" class="form-control"  type="hidden">
+                                                            <% end %>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Company Mobile Number</p>
+                                                            <input type="text" class="form-control"  name="companyPhone" id="company_phone" required>
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10"> Pacra-Registration Number</p>
+                                                            <input type="text" class="form-control" id="company_registration_number" name="registrationNumber" id="registration_number" required>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Employer Industry Type</p>
+                                                            <input name="employer_industry_type"  id="employer_industry_type" class="form-control" type="text">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Choose Employment Type</p>
+                                                            <select name="employment_type" id="employment_type" class="form-control">
+                                                                <option label="Choose Currency"></option>
+                                                                <option value="PERMANENT">PERMANENT</option>
+                                                                <option value="PART TIME">PART TIME</option>
+                                                                <option value="FULL TIME">FULL TIME</option>
+                                                                <option value="SHORT TIME">SHORT TIME</option>
+                                                            </select>
+                                                        </div>
+
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Occupation</p>
+                                                            <input name="occupation" id="employer_occupation" class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Date Of Joining</p>
+                                                            <input class="form-control" id="date_of_joining" name="date_of_joining" type="date">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Employee Number</p>
+                                                            <input class="form-control" id="employee_number" name="employee_number" type="text">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Job Title</p>
+                                                            <input class="form-control" id="job_title" name="job_title" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">HR/Supervisor's Email ID</p>
+                                                            <input class="form-control" id="hr_supervisor_email" name="hr_supervisor_email" type="text">
+                                                        </div>
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">HR/Supervisor Name</p>
+                                                            <input class="form-control" id="hr_supervisor_name" name="hr_supervisor_name" type="text">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">HR/Supervisor's Number</p>
+                                                            <input class="form-control" id="hr_supervisor_mobile_number" name="hr_supervisor_mobile_number" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Area</p>
+                                                            <input class="form-control" id="employer_area" name="employment_area" type="text">
+                                                        </div>
+
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Employer Office Build Name</p>
+                                                            <input class="form-control" id="employer_office_building_name" name="employer_office_building_name" type="text">
+                                                        </div>
+                                                        <div class="col-lg">
+                                                            <p class="mg-b-10">Employer Road/Street Name</p>
+                                                            <input class="form-control" id="employer_officer_street_name" name="employer_officer_street_name" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row row-sm mg-b-20">
+
+
+                                                        <div class="col-lg-4">
+                                                            <p class="mg-b-10">Town</p>
+                                                            <input class="form-control" id="employer_town" name="employer_town" type="text">
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <p class="mg-b-5">Province</p>
+                                                            <input class="form-control" id="employer_province" name="employer_province" type="text">
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+                                                <h3> Bank Details</h3>
+                                                <section>
+                                                    <div class="modal-body">
+                                                            <div class="row row-sm mg-b-20">
+                                                                <div class="col-lg">
+                                                                    <p class="mg-b-10">Select Bank</p>
+                                                                    <select name="bankName" id="bank_name" class="form-control">
+                                                                    <option label="Choose Bank Name">
+                                                                    </option>
+                                                                    <%= for bank <- @banks do %>
+
+                                                                        <option value="<%= bank.bankName %>"><%= bank.bankName %>  (<%= bank.process_branch %>)
+                                                                        </option>
+                                                                        <input name="bank_id" id="bank_id" value="<%= bank.id %>" type="hidden">
+                                                                        <input name="branchName" value="<%= bank.process_branch %>" type="hidden">
+                                                                    <% end %>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-lg">
+                                                                    <p class="mg-b-10">Account Number</p>
+                                                                    <input class="form-control" id="account_number"  name="bank_account_number" type="text">
+                                                                </div>
+                                                                <div class="col-lg">
+                                                                    <p class="mg-b-10">Account Name</p>
+                                                                    <input class="form-control" id="account_name"  name="accountName" type="text">
+                                                                </div>
+
+                                                            </div>
+
+                                                    </div>
+                                                </section>
+
+                                                <h3>Document Upload</h3>
+                                                <section>
+                                                    <div class="row row-sm mg-b-20">
+                                                        <table id="" class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1160px;">
+                                                            <thead>
+                                                                <tr role="row">
+                                                                    <th class="sorting_asc" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 185px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">
+                                                                        <label for="example-input-small" class="form-label">Document Type<span style="color: red;">*</span></label>
+                                                                    </th>
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 279px;" aria-label="Position: activate to sort column ascending">File</th>
+
+                                                                    <th class="sorting" tabindex="0" aria-controls="dt-basic-example" rowspan="1" colspan="1" style="width: 68px;" aria-label="Age: activate to sort column ascending">Add More</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="tr_clone">
+                                                                    <td>
+                                                                        <div class="col-md-12 form-group">
+                                                                            <div class="form-group">
+                                                                                <select name="meansOfIdentificationType" class="form-control select2">
+                                                                                    <option value="NRC">NRC</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="file" name="document" class="form-control form-control-sm-10"> </td>
+                                                                        <!--<td><input type="text" name="chargeWhen" class="form-control form-control-sm"></td>-->
+                                                                    <td> <i style="cursor:pointer" onclick="addrow(this)" class="adder fe fe-plus tr_clone_add"></i> <i style="cursor:pointer" onclick="removerow(this)" class="minus fe fe-minus tr_clone_minus"></i> </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </section>
+
+                                            <div>
+                                        <div>
+                                    </form>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+<script>
+    $(document).ready(function(){
+
+
+
+          $('#edite_client_eployee').on('show.bs.modal', function (event){
+                var button = $(event.relatedTarget)
+                var user_id = button.data('user_id')
+                var firstname = button.data('firstname')
+
+                alert(user_id)
+
+                var modal = $(this)
+                modal.find('.modal-body #user_id').val(user_id);
+                modal.find('.modal-body #firstname').val(firstname);
+
+
+        });
+    });
+</script>
