@@ -1,0 +1,33 @@
+ACCOUNTS
+- Users
+mix phx.gen.context Accounts User tbl_users username:string password:string status:string pin:string password_fail_count:integer auto_password:string external_id:integer classification_id:integer is_rm:boolean is_employee:boolean is_employer:boolean is_sme:boolean is_admin:boolean is_offtaker:boolean
+mix phx.gen.context Accounts UserBioData tbl_user_bio_data first_name:string last_name:string gender:string date_of_birth:date email_address:string id_number:string id_type:string mobile_number:string other_name:string title:string user_id:integer marital_status:string nationality:string number_of_dependants:integer age:integer accept_conditions:boolean
+mix phx.gen.context Accounts Account tbl_account account_number:string external_id:integer status:string user_id:integer mobile_number:string user_role_id:integer account_type:string available_balance:float current_balance:float total_debited:float total_credited:float limit:float
+mix phx.gen.context Accounts UserRole tbl_user_roles role_type:string status:string user_id:integer session:string permissions:string auth_level:integer
+mix phx.gen.context Accounts Role tbl_roles role_desc:string role_group:string role_str:map status:string
+mix phx.gen.context Accounts NextOfKin tbl_next_of_kin user_id:integer kin_id_number:string kin_first_name:string kin_gender:string kin_last_name:string kin_mobile_number:string kin_other_name:string kin_personal_email:string kin_relationship:string kin_status:string
+mix phx.gen.context Accounts AddressDetails tbl_address_details accomodation_status:string area:string house_number:string street_name:string user_id:integer years_at_current_address:integer country:integer province:integer town:integer
+mix phx.gen.context Accounts UserToken tbl_user_tokens user_id:integer token:binary context:string sent_to:string login_timestamp:naive_datetime
+
+
+LOGS
+mix phx.gen.context Logs UserLogs tbl_user_logs activity:string user_id:integer
+mix phx.gen.context Logs SessionLogs tbl_session_logs status:boolean session_id:string description:string device_uuid:string ip_address:string device_type:string known_browser:boolean browser_details:string full_browser_name:string system_platform_name:string portal:string
+
+SETTINGS
+mix phx.gen.context Settings ConfigSettings tbl_config_settings name:string value:string value_type:string description:string deleted_at:naive_datetime updated_by:string
+mix phx.gen.context Settings Receivers tbl_notification_receivers name:string email:string status:string company:string
+mix phx.gen.context Settings SmsConfigs tbl_sms_configuration username:string password:string host:string sender:string max_attempts:string
+
+
+EMPLOYER
+
+
+
+EMPLOYEE
+
+=====================================================================================================================================================================
+mix phx.gen.context SystemSetting WeightLimit tbl_weight_limit maxWeight:float minWeight:float
+mix phx.gen.context Maintenance Towns tbl_towns_limit countryId:integer townName:string provinceId:integer
+
+mix phx.gen.context SystemSetting DeliveryCost tbl_delivery_cost pickUpTownId:integer destTownId:integer maxWeight:float minWeight:float amount:float
