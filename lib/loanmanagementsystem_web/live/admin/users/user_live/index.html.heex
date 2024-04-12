@@ -1,0 +1,190 @@
+<div class="subheader">
+    <h1 class="sub-title">
+        <i class='subheader-icon fal fa-users'></i> Administrators
+        <small>
+            A list of system administrators
+        </small>
+        <%= if Enum.member?(@permits, "create_users") do %>
+            <a href={Routes.user_index_path(@socket, :new)} class="btn btn-info">  
+                Add user
+                <i class="fal fa-user-plus"></i>
+            </a>
+        <% end %>
+    </h1>
+</div>
+
+<!-- Flash Notification -->
+<div class="row">
+    <div class="col-md-12 col-lg-offset-2">
+        <div class="container">
+            <%= if live_flash(@flash, :info) do %>
+                <p class="alert alert-info text-center" role="alert"
+                phx-click="lv:clear-flash"
+                phx-value-key="info">
+                    <%= live_flash(@flash, :info) %>
+                </p>
+            <% end %>
+
+            <%= if live_flash(@flash, :error) do %>
+                <p class="alert alert-danger text-center" role="alert"
+                phx-click="lv:clear-flash"
+                phx-value-key="error">
+                    <%= live_flash(@flash, :error) %>
+                </p>
+            <% end %>
+        </div>
+    </div>
+</div> 
+
+        <div id="panel-1" class="panel web-panels">
+            <div class="panel-container show">
+                <div class="d-flex flex-container justify-content-between px-5">
+                    <.live_component module={LoanmanagementsystemWeb.Helpers.ISearchComponent} id="ISearchComponent" params={@params} />
+                    <div class="px-4 d-flex">
+                        <button class="btn btn-primary mx-2" phx-click="open_modal"><i class="fal fa-filter"></i>Filter</button>
+                        <button class="btn btn-primary mx-2"  phx-click="reload"><i class="fal fa-sync"></i> Reload</button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <input type="hidden" name="_csrf_token" id="csrf" value={Plug.CSRFProtection.get_csrf_token()}>
+                    <!-- datatable start -->
+                    <table id="tbl_users" class="table table-bordered rounded table-hover nowrap compact w-100">
+                        <thead class="bg-primary-600">
+                            <tr>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Sex</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <%= for phin <- @data do %>
+                                <tr>
+                                    <td><%= phin.first_name %></td>
+                                    <td><%= phin.last_name %></td>
+                                    <td><%= phin.username %></td>
+                                    <td><%= phin.email %></td>
+                                    <td><%= phin.phone %></td>
+                                    <td><%= phin.sex %></td>
+                                    <td><%= if(phin.user_role == nil, do: "", else: String.replace(phin.user_role, "_", " ")) %></td>
+                                    <td><%= raw(Loanmanagementsystem.Workers.Util.Utils.td_status(phin.status)) %></td>
+                                    <td>
+                                        <%= if phin.status in ["ACTIVE", "PENDING_APPROVAL", "DEACTIVATED", "REJECTED", "APPROVED", "BLOCKED"] && Enum.member?(@permits, "manage_users") do %>
+                                            <div class="dropdown " x-data="{ open: false }" >
+                                                <button type="button" @click="open = !open" @keydown.escape.window="open = false" @click.away="open = false" class="btn btn-info btn-xs">
+                                                    Options
+                                                </button>
+                                                <div class="call_dropdown" style="text-align: left;position: fixed;" x-show="open" x-transition>
+                                                    <%= live_patch raw('<span x-on:click="open = ! open"> 
+                                                        <i class="subheader-icon fal fa-edit"></i> Edit </span>'),
+                                                        to: Routes.user_index_path(@socket, :edit, phin.id),
+                                                        class: "dropdown-item text-info" %>
+                                                                                                
+                                                    <%= live_patch raw('<span x-on:click="open = ! open"><i class="subheader-icon fal fa-eye"></i>
+                                                        View </span>'),
+                                                        to: Routes.user_index_path(@socket, :view, phin.id),
+                                                        class: "dropdown-item text-info" %>                                                 
+
+                                                    <%= if phin.status == "PENDING_APPROVAL" && Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="approve" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-check"></i>
+                                                            Approve
+                                                        </button>
+                                                    <% end %>
+
+                                                    <%= if phin.status == "APPROVED" && Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-danger" role="button" phx-click="reject" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-times"></i>
+                                                            Reject
+                                                        </button>
+                                                    <% end %>
+
+                                                    <%= if phin.status == "REJECTED" && Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="approve" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-check"></i>
+                                                            Approve
+                                                        </button>
+                                                    <% end %>
+
+                                                    <%= if phin.status in ["ACTIVE", "APPROVED"] && Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-warning" role="button" phx-click="deactivate" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-times"></i>
+                                                            Deactivate
+                                                        </button>
+                                                    <% end %>
+
+                                                    <%= if phin.status == "DEACTIVATED" && Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="activate" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-check"></i>
+                                                            Activate
+                                                        </button>
+                                                    <% end %>
+
+                                                    <%= if phin.blocked == false && Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-danger" role="button" phx-click="block" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-lock"></i>
+                                                            Block
+                                                        </button>
+                                                    <% end %>
+
+                                                    <%= if phin.blocked == true && Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="unblock" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-lock"></i>
+                                                            Unblock
+                                                        </button>
+                                                    <% end %>
+
+                                                    <%= if Enum.member?(@permits, "approve_users") do %>
+                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-danger" role="button" phx-click="delete" phx-value-id={phin.id}>
+                                                            <i class="subheader-icon fal fa-trash"></i>
+                                                            Delete
+                                                        </button>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        <% else %>
+                                            <div class="text-center text-danger">No Actions</div>
+                                        <% end %>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                        <%= if @data_loader do %>
+                            <tr style="text-align: center">
+                                <td valign="top" colspan="20" class="dataTables_empty">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% else %>
+                            <%= if Enum.empty?(@data) do %>
+                                <tr style="text-align: center">
+                                    <td valign="top" colspan="20" class="dataTables_empty">No data available in table</td>
+                                </tr>
+                            <% end %>
+                        <% end %>
+                    </table>
+                    
+                    <.live_component module={LoanmanagementsystemWeb.Helpers.PaginationComponent} id="PaginationComponent" params={@params} pagination_data={@data} />
+                </div>
+            </div>
+        </div>
+
+<%= if @live_action in [:new, :edit] do %>
+    <.modal return_to={Routes.user_index_path(@socket, :index)}>
+    <.live_component module={LoanmanagementsystemWeb.Admin.UserLive.FormComponent}
+    id={@user.id || :new}
+    title={@page_title}
+    action={@live_action}
+    user={@user}
+    user_type={@user_type}
+    return_to={Routes.user_index_path(@socket, :index)} />
+    </.modal>
+<% end %>

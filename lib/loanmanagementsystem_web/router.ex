@@ -66,6 +66,16 @@ defmodule LoanmanagementsystemWeb.Router do
       live "/Dashboard", DashboardLive.Index, :index
       # get "/Dashboard/Stats", ReportController, :dash_stats
     end
+
+    # =========== USER MANAGEMENT =========
+    scope "/admin/users", UserLive do
+      live "/management", Index, :index
+      # live "/Blocked", Blocked, :index
+      live "/new", Index, :new
+      live "/:id/edit", Index, :edit
+      live "/:id/view", Index, :view
+    end
+
   end
 
   # Other scopes may use custom stacks.

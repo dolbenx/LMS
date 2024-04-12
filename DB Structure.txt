@@ -25,9 +25,3 @@ EMPLOYER
 
 
 EMPLOYEE
-
-=====================================================================================================================================================================
-mix phx.gen.context SystemSetting WeightLimit tbl_weight_limit maxWeight:float minWeight:float
-mix phx.gen.context Maintenance Towns tbl_towns_limit countryId:integer townName:string provinceId:integer
-
-mix phx.gen.context SystemSetting DeliveryCost tbl_delivery_cost pickUpTownId:integer destTownId:integer maxWeight:float minWeight:float amount:float

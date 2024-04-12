@@ -1,0 +1,41 @@
+<div id={"modal-#{@id}"}>
+    <div class="custom-modal-container" phx-hook="ScrollLock" id={"modals-#{@id}"}>
+        <div class="custom-modal-inner-container">
+            <div class="custom-modal-card">
+                <div class="custom-modal-inner-card">
+                    <div class="custom-modal-error-title">
+                        <div class="swal2-icon swal2-success swal2-icon-show" style="display: flex;">
+                            <div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+                            <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+                            <div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+                            <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <!-- Body -->
+                    <%= if @body != nil do %>
+                    <div class="custom-modal-body">
+                        <%= @body %>
+                    </div>
+                    <% end %>
+
+                    <!-- Buttons -->
+                    <div class="custom-modal-buttons">
+                        <!-- Left Button -->
+                        <div style="margin: 2px"></div>
+                        <!-- Right Button -->
+                        <button class="btn btn-success"
+                                type="button"
+                                phx-click="right-button-click"
+                                phx-target={"#modal-#{@id}"}>
+                            <div>
+                                <%= @right_button %>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
