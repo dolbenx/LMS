@@ -1,0 +1,48 @@
+<div id={"modal-#{@id}"} x-transition>
+    <div class="custom-modal-container1 custom-modal-center" phx-hook="ScrollLock" id={"modals-#{@id}"}>
+        <div class="modal-dialog-centered modal-dialog-centered" style="max-width: 700px; margin: auto" role="document">
+            <form class="modal-content" id="customs_tax_form_payment_submit" style="border-radius: 20px!important;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><%= @title %></h5>
+                    <%= if @no_click == false do %>
+                        <button type="button" class="close" phx-target={"#modal-#{@id}"} phx-click="dismiss-transaction-summary">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    <% end %>
+                </div>
+                <div class="modal-body">
+                    <table class="table w-100">
+                        <%= for data <- @table do %>
+                            <tr>
+                                <th><%= data.head %></th>
+                                <td><%= data.data %></td>
+                            </tr>
+                        <% end %>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <%= if @no_click == false do %>
+                        <button type="button" class="btn btn-secondary"
+                                phx-click="dismiss-transaction-summary"
+                                phx-target={"#modal-#{@id}"}
+                                @click="if (connected) open = false">
+                            <%= @left_button %>
+                        </button>
+                        <%= if @right_button != nil do %>
+                            <button type="button" class="btn btn-success"
+                                    phx-click="right-button-click"
+                                    phx-target={"#modal-#{@id}"}
+                                    @click="if (connected) open = false">
+                                <%= @right_button %>
+                            </button>
+                        <% end %>
+                    <% else %>
+                        <button type="button" class="btn btn-success" disabled>
+                            <%= @right_button %>
+                        </button>
+                    <% end %>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

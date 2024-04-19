@@ -1,4 +1,4 @@
-defmodule LoanmanagementsystemWeb.Helps.ModalComponent do
+defmodule LoanmanagementsystemWeb.ModalComponent do
   @moduledoc false
   use LoanmanagementsystemWeb, :live_component
 

@@ -66,14 +66,14 @@ defmodule LoanmanagementsystemWeb.LiveHelpers do
   end
 
   @doc """
-  Renders a component inside the `UssdWeb.ModalComponent` component.
+  Renders a component inside the `LoanmanagementsystemWeb.ModalComponent` component.
 
   The rendered modal receives a `:return_to` option to properly update
   the URL when the modal is closed.
 
   ## Examples
 
-      <%= live_modal UssdWeb.UserLive.FormComponent,
+      <%= live_modal LoanmanagementsystemWeb.UserLive.FormComponent,
         id: @user.id || :new,
         action: @live_action,
         user: @user,

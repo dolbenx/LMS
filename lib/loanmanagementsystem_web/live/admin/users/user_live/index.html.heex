@@ -39,7 +39,7 @@
         <div id="panel-1" class="panel web-panels">
             <div class="panel-container show">
                 <div class="d-flex flex-container justify-content-between px-5">
-                    <.live_component module={LoanmanagementsystemWeb.Helpers.ISearchComponent} id="ISearchComponent" params={@params} />
+                    <.live_component module={LoanmanagementsystemWeb.Helps.ISearchComponent} id="ISearchComponent" params={@params} />
                     <div class="px-4 d-flex">
                         <button class="btn btn-primary mx-2" phx-click="open_modal"><i class="fal fa-filter"></i>Filter</button>
                         <button class="btn btn-primary mx-2"  phx-click="reload"><i class="fal fa-sync"></i> Reload</button>
@@ -172,19 +172,7 @@
                         <% end %>
                     </table>
                     
-                    <.live_component module={LoanmanagementsystemWeb.Helpers.PaginationComponent} id="PaginationComponent" params={@params} pagination_data={@data} />
+                    <.live_component module={LoanmanagementsystemWeb.Helps.PaginationComponent} id="PaginationComponent" params={@params} pagination_data={@data} />
                 </div>
             </div>
         </div>
-
-<%= if @live_action in [:new, :edit] do %>
-    <.modal return_to={Routes.user_index_path(@socket, :index)}>
-    <.live_component module={LoanmanagementsystemWeb.Admin.UserLive.FormComponent}
-    id={@user.id || :new}
-    title={@page_title}
-    action={@live_action}
-    user={@user}
-    user_type={@user_type}
-    return_to={Routes.user_index_path(@socket, :index)} />
-    </.modal>
-<% end %>

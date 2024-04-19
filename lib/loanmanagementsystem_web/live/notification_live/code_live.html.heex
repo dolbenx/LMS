@@ -1,0 +1,37 @@
+
+<div id={"modal-#{@id}"} x-cloak x-transition>
+    <div class="custom-modal-container1 custom-modal-center" phx-hook="ScrollLock" id={"modals-#{@id}"}>
+        <div class="modal-dialog-centered"  style="justify-content: center;" role="document">
+            <div class="custom-modal-card" style="border-radius: 20px!important;">
+                <div class="modal-inner-card">
+                    <div class="custom-modal-error-title">
+                        <div class="swal2-icon swal2-error swal2-icon-show" style="display: flex;">
+                          <span class="swal2-x-mark">
+                            <span class="swal2-x-mark-line-left"></span>
+                            <span class="swal2-x-mark-line-right"></span>
+                          </span>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <%= if @body != nil do %>
+                    <div class="custom-modal-body">
+                        <%= @body %>
+                    </div>
+                    <% end %>
+
+                    <!-- Buttons -->
+                    <div class="custom-modal-buttons">
+                        <!-- Right Button -->
+                        <button class="btn btn-secondary" type="button"
+                                phx-click="right-button-click" phx-target={"#modal-#{@id}"}>
+                            <div>
+                                <%= @right_button %>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -22,7 +22,7 @@ defmodule LoanmanagementsystemWeb.Router do
   end
 
   pipeline :login_user do
-    plug(:put_root_layout, {LoanmanagementsystemWeb.LayoutView, :root})
+    plug(:put_root_layout, {LoanmanagementsystemWeb.LayoutView, :login_user})
   end
 
   pipeline :auth do
@@ -60,7 +60,7 @@ defmodule LoanmanagementsystemWeb.Router do
   live_session :admins, on_mount: LoanmanagementsystemWeb.UserLiveAuth do
     # =================== ADMIN ==================
     scope "/Admin", LoanmanagementsystemWeb.Admin do
-      pipe_through([:browser, :root, :csrf, :auth, :app])
+      pipe_through([:browser, :root, :csrf, :auth])
 
       # =========== USER MANAGEMENT =========
       live "/Dashboard", DashboardLive.Index, :index
@@ -70,7 +70,6 @@ defmodule LoanmanagementsystemWeb.Router do
     # =========== USER MANAGEMENT =========
     scope "/admin/users", UserLive do
       live "/management", Index, :index
-      # live "/Blocked", Blocked, :index
       live "/new", Index, :new
       live "/:id/edit", Index, :edit
       live "/:id/view", Index, :view

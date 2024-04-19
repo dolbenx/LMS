@@ -1,0 +1,55 @@
+<div id={"modal-#{@id}"}>
+    <!-- Modal Background -->
+    <div class="custom-modal-container-fill" phx-hook="ScrollLock" id={"modals-#{@id}"}>
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><%= @title %></h5>
+                    <button type="button" class="close" phx-target={"#modal-#{@id}"} phx-click="two_table_dismiss">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Tax
+                    <table class="table m-0">
+                        <tr>
+                            <%= for data <- @table1 do %>
+                            <th style="background-color:black; border-bottom: 3px solid #EE3D42;"><span style="color:#fff;"><%= data.head %></span></th>
+                            <% end %>
+                        </tr>
+                        <tr>
+                            <%= for data <- @table1 do %>
+                                <td><%= data.data %></td>
+                            <% end %>
+                        </tr>
+                    </table>
+                    <br>
+                    <h4 class="text-center"><%= @table_2_title %></h4>
+                    <table class="table m-0">
+                        <tr>
+                        <%= for data <- @table2.head do %>
+                            <th style="background-color:black; border-bottom: 3px solid #EE3D42;"><span style="color:#fff;"><%= data %></span></th>
+                        <% end %>
+                        </tr>
+                        <%= for data <- @table2.data do %>
+                        <tr>
+                            <%= for data1 <- data do %>
+                            <td><%= data1 %></td>
+                            <% end %>
+                        </tr>
+                        <% end %>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            phx-click="two_table_dismiss"
+                            phx-target={"#modal-#{@id}"}>
+                        <%= @left_button %>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

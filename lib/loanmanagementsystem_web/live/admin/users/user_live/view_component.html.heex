@@ -1,0 +1,40 @@
+<div class="modal-body">
+  <.form for={@changeset} id="document-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+
+  </.form>
+
+  <div class="modal-body">
+    <div class="container">  
+      <div class="row">
+        <div class="col-md-6">  
+          <h5 class="card-title text-muted">User Information</h5>  
+          <p class="card-text">Username:  <%= @user.username %></p>
+          <p class="card-text">First Name:  <%= @user.first_name %></p>
+          <p class="card-text">Last Name:  <%= @user.last_name %></p>
+        </div>
+        <div class="col-md-6">
+          <h5 class="card-title text-muted" >Contact Details</h5>  
+          <p class="card-text">Email:  <%= @user.email %></p>
+          <p class="card-text">Phone:  <%= @user.phone %></p>
+          <p class="card-text">Address:  <%= @tbl_user.address %></p>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12" style="padding-top: 10px;">
+        <h5 class="card-title text-muted">Additional Details</h5>
+        <p class="card-text">ID Number:  <%= @user.id_no %></p>
+        <p class="card-text">Date of Birth:  <%= @user.dob %></p>
+        <p class="card-text">Sex:  <%= @user.sex %></p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    p{
+      font-weight: bold;
+    }
+  </style>
+
+  
+</div>

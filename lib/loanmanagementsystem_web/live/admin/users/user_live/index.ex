@@ -3,7 +3,6 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
 
   alias Loanmanagementsystem.Repo
   alias Loanmanagementsystem.Accounts
-  alias Loanmanagementsystem.Roles
   alias Loanmanagementsystem.Accounts.User
   alias Loanmanagementsystem.Workers.Utlis.Utils
   # alias Loanmanagementsystem.Workers.Utlis.Helpers
@@ -14,6 +13,8 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
 
   @impl true
   def mount(_params, _session, %{assigns: _assigns} = socket) do
+    IO.inspect "------------------!socket"
+    IO.inspect socket
     socket =
       assign(socket, :data_loader, true)
       |> assign(:data, [])
@@ -22,7 +23,7 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
       |> assign(error_message: "")
       |> assign(success_modal: false)
       |> assign(show_modal: false)
-      |> assign(roles: Roles.list_user_roles)
+      |> assign(roles: Accounts.list_tbl_roles)
       |> Control.order_by_composer()
       |> Control.i_search_composer()
       |> assign(:user_type, "ADMIN")
@@ -232,14 +233,14 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
 
   defp list_users(%{assigns: assigns} = socket, params) do
     IO.inspect(params, label: "===== USER PARAMS =====")
-    data = Accounts.list_system_users(Control.create_table_params(socket, params), assigns.user_type)
-    {
-      :noreply,
-      assign(socket, :data, data)
-      |> assign(data_loader: false)
-      |> assign(show_modal: false)
-      |> assign(params: params)
-    }
+    # data = Accounts.list_system_users(Control.create_table_params(socket, params), assigns.user_type)
+    # {
+    #   :noreply,
+    #   assign(socket, :data, data)
+    #   |> assign(data_loader: false)
+    #   |> assign(show_modal: false)
+    #   |> assign(params: params)
+    # }
   end
 
 
