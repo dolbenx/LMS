@@ -9,6 +9,7 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
   alias Loanmanagementsystem.Workers.Helpers.ErrorHelper
   alias LoanmanagementsystemWeb.Helps.PaginationControl, as: Control
   alias LoanmanagementsystemWeb.NotificationLive.{ErrorModalLive, InfoModalLive, SuccessModalLive}
+  alias LoanmanagementsystemWeb.NotificationLive.ModalLive
 
 
   @impl true
@@ -233,14 +234,14 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
 
   defp list_users(%{assigns: assigns} = socket, params) do
     IO.inspect(params, label: "===== USER PARAMS =====")
-    # data = Accounts.list_system_users(Control.create_table_params(socket, params), assigns.user_type)
-    # {
-    #   :noreply,
-    #   assign(socket, :data, data)
-    #   |> assign(data_loader: false)
-    #   |> assign(show_modal: false)
-    #   |> assign(params: params)
-    # }
+    data = Accounts.list_system_users(Control.create_table_params(socket, params), assigns.user_type)
+    {
+      :noreply,
+      assign(socket, :data, data)
+      |> assign(data_loader: false)
+      |> assign(show_modal: false)
+      |> assign(params: params)
+    }
   end
 
 

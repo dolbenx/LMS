@@ -7,9 +7,9 @@ import Config
 # Run `mix help test` for more information.
 config :loanmanagementsystem, Loanmanagementsystem.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "Password123$$",
   hostname: "localhost",
-  database: "loanmanagementsystem_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "loan_dev",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 

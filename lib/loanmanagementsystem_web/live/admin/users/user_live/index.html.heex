@@ -175,4 +175,18 @@
                     <.live_component module={LoanmanagementsystemWeb.Helps.PaginationComponent} id="PaginationComponent" params={@params} pagination_data={@data} />
                 </div>
             </div>
-        </div>
+        </div>          
+
+
+<%= if @success_modal do %>
+    <.live_component module={SuccessModalLive}
+         id="success-boom"
+         title="Successful"
+         body={@success_message}
+         right_button="OK"
+         left_button={nil}
+         right_button_action="phin",
+         right_button_param="phin",
+         left_button_action="cancel-phin"
+    />
+<% end %>

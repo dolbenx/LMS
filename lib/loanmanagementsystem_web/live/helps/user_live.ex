@@ -66,7 +66,7 @@ defmodule LoanmanagementsystemWeb.UserLiveAuth do
         assign(socket, :current_user, user)
         |> assign(:user, user)
         |> assign(:user_token, token)
-        # |> assign(:permits, Poison.decode!(role.permissions))
+        |> assign(:permits, role.permissions)
 
       user ->
         token =
