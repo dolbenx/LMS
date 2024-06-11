@@ -33,29 +33,19 @@ defmodule LoanmanagementsystemWeb.LiveHelpers do
       assign_new(assigns, :return_to, fn -> nil end)
       |> assign_new(:title, fn -> nil end)
     ~H"""
-    <div id="modal" class="modal fade-in fade show" phx-remove={hide_modal()} phx-hook="ScrollLock"
-      style="display: block; padding-right: 15px; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px);"
-      tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" >
-         <div id="modal-content" class="modal-dialog modal-xl fade-in-scale" role="document" phx-click-away={JS.dispatch("click", to: "#close")}
-            phx-window-keydown={JS.dispatch("click", to: "#close")} phx-key="escape"
-          >
-          <div class="modal-content" style="max-height: 90vh">
-            <div class="modal-header">
-              <h5 class="modal-title"><%= @title %></h5>
-              <%= if @return_to do %>
-                <%= live_patch "✖", to: @return_to, id: "close", class: "phx-modal-close close",
-                  phx_click: hide_modal()
-                %>
-              <% else %>
-                <a id="close" href="#" class="phx-modal-close close" phx-click={hide_modal()}>✖</a>
-              <% end %>
+      <div data-tw-backdrop="" aria-hidden="true" phx-remove={hide_modal()} style="padding-top:50px;" phx-hook="ScrollLock" tabindex="-1" id="modal" class="modal fade-in fade show group bg-gradient-to-b from-theme-1/50 via-theme-2/50 to-black/50 transition-[visibility,opacity] w-screen h-screen fixed left-0 top-0 [&:not(.show)]:duration-[0s,0.2s] [&:not(.show)]:delay-[0.2s,0s] [&:not(.show)]:invisible [&:not(.show)]:opacity-0 [&.show]:visible [&.show]:opacity-100 [&.show]:duration-[0s,0.4s]">
+        <div data-tw-merge="" id="modal-content" class="w-[90%] mx-auto bg-white relative rounded-md shadow-md transition-[margin-top,transform] duration-[0.4s,0.3s] -mt-16 group-[.show]:mt-16 group-[.modal-static]:scale-[1.05] dark:bg-darkmode-600 sm:w-[600px] lg:w-[900px] p-10 text-center">
+          <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title"><%= @title %></h5>
+              </div>
+              <div class="modal-body" style="overflow-y: auto";>
+                  <%= render_slot(@inner_block) %>
+              </div>
             </div>
-            <div class="modal-body" style="overflow-y: auto";>
-         <%= render_slot(@inner_block) %>
-            </div>
-          </div>
         </div>
-      </div>
+		</div>
+
     """
   end
 

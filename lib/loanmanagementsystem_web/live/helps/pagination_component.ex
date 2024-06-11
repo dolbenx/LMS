@@ -16,24 +16,29 @@ defmodule LoanmanagementsystemWeb.Helps.PaginationComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="row">
-      <div class="col-sm-12 col-md-5" style="margin: auto;">
-        <div class="">Showing <%= if (@total_entries != 0), do: (@page_number - 1) * @page_size + 1, else: 0  %> to
-        <%= if (@page_number * @page_size) > @total_entries, do: @total_entries, else: (@page_number * @page_size) %> of
-        <%= @total_entries %> entries</div>
-      </div>
-      <div class="col-sm-12 col-md-7">
-        <ul id={assigns[:id] || "pagination"} class="pagination justify-content-end" style="margin: auto;">
+     <div class="flex-reverse flex flex-col-reverse flex-wrap items-center gap-y-2 p-5 sm:flex-row">
+        <nav class="mr-auto w-full flex-1 sm:w-auto">
+          <ul class="flex w-full mr-0 sm:mr-auto sm:w-auto pagination" id={assigns[:id] || "pagination"}>
             <%= if @total_pages > 1 do %>
-                <li class="page-item"><%= prev_link(@params, @page_number) %></li>
-                <%= for num <- start_page(@page_number)..end_page(@page_number, @total_pages) do %>
-                  <li class={"page-item #{if @page_number == num, do: "active"}"}><%= live_patch num, to: "?#{querystring(@params, page: num)}", class: "page-link #{if @page_number == num, do: "active", else: ""}" %></li>
-                <% end %>
-                <li class="page-item"><%= next_link(@params, @page_number, @total_pages) %></li>
+              <li class="flex-1 sm:flex-initial">
+                <%= prev_link(@params, @page_number) %><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-left" class="lucide lucide-chevrons-left stroke-[1] h-4 w-4"><path d="m11 17-5-5 5-5"></path><path d="m18 17-5-5 5-5"></path></svg>
+              </li>
+              <%= for num <- start_page(@page_number)..end_page(@page_number, @total_pages) do %>
+                <li class={"page-item flex-1 sm:flex-initial #{if @page_number == num, do: "active"}"}>
+                <a class="transition duration-200 border items-center justify-center py-2 rounded-md cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed min-w-0 sm:min-w-[40px] shadow-none font-normal flex border-transparent text-slate-800 sm:mr-2 dark:text-slate-300 px-1 sm:px-3"><%= live_patch num, to: "?#{querystring(@params, page: num)}", class: "page-link #{if @page_number == num, do: "active", else: ""}" %></a>
+                </li>
+              <% end %>
+              <li class="flex-1 sm:flex-initial">
+                <%= next_link(@params, @page_number, @total_pages) %><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-right" class="lucide lucide-chevrons-right stroke-[1] h-4 w-4"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg>
+              </li>
             <% end %>
           </ul>
-      </div>
-      </div>
+        </nav>
+        <div class="">Showing <%= if (@total_entries != 0), do: (@page_number - 1) * @page_size + 1, else: 0  %> to
+          <%= if (@page_number * @page_size) > @total_entries, do: @total_entries, else: (@page_number * @page_size) %> of
+          <%= @total_entries %> entries
+        </div>
+		  </div>
     """
   end
 

@@ -68,12 +68,19 @@ defmodule LoanmanagementsystemWeb.Router do
     end
 
     # =========== USER MANAGEMENT =========
-    scope "/admin/users", UserLive do
+    scope "/admin/users", LoanmanagementsystemWeb.Admin.UserLive do
       live "/management", Index, :index
       live "/new", Index, :new
       live "/:id/edit", Index, :edit
       live "/:id/view", Index, :view
     end
+
+    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
+      live "/Titles", Titles, :index
+      live "/Add-Title", Titles, :new
+      live "/:id/Edit-Title", Titles, :edit
+    end
+
 
   end
 

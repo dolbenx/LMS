@@ -1,22 +1,4 @@
 defmodule LoanmanagementsystemWeb do
-  @moduledoc """
-  The entrypoint for defining your web interface, such
-  as controllers, views, channels and so on.
-
-  This can be used in your application as:
-
-      use LoanmanagementsystemWeb, :controller
-      use LoanmanagementsystemWeb, :view
-
-  The definitions below will be executed for every view,
-  controller, etc, so keep them short and clean, focused
-  on imports, uses and aliases.
-
-  Do NOT define functions inside the quoted expressions
-  below. Instead, define any helper function in modules
-  and import those modules here.
-  """
-
   def controller do
     quote do
       use Phoenix.Controller, namespace: LoanmanagementsystemWeb
@@ -30,7 +12,7 @@ defmodule LoanmanagementsystemWeb do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/loanmanagementsystem_web/templates",
+        root: "lib/Loanmanagementsystem_web/templates",
         namespace: LoanmanagementsystemWeb
 
       # Import convenience functions from controllers
@@ -46,6 +28,12 @@ defmodule LoanmanagementsystemWeb do
     quote do
       use Phoenix.LiveView,
         layout: {LoanmanagementsystemWeb.LayoutView, "live.html"}
+
+      alias LoanmanagementsystemWeb.Endpoint
+      alias LoanmanagementsystemWeb.Helps.PaginationControl, as: Control
+      alias Loanmanagementsystem.Workers.Helpers.PermissionsCheck
+      alias Loanmanagementsystem.Logs
+      alias LoanmanagementsystemWeb.Helps.ISearchComponent
 
       unquote(view_helpers())
     end
@@ -91,6 +79,7 @@ defmodule LoanmanagementsystemWeb do
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
+      import LoanmanagementsystemWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View

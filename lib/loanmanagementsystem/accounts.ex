@@ -2,7 +2,7 @@ defmodule Loanmanagementsystem.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
+  @pagination [page_size: 10]
   import Ecto.Query, warn: false
   alias Loanmanagementsystem.Repo
 
@@ -31,6 +31,72 @@ defmodule Loanmanagementsystem.Accounts do
   def list_tbl_users do
     Repo.all(User)
   end
+
+  def list_system_users(search_params) do
+    User
+    |> join(:left, [u], ub in "tbl_user_bio_data", on: u.id == ub.user_id)
+    # |> where([u], u.status != "DELETED" and u.user_type == ^user_type)
+    |> handle_user_filter(search_params)
+    |> order_by(desc: :inserted_at)
+    |> compose_user_select()
+    # |> select_merge([_u, ub], %{first_name: ub.first_name})
+    |> Scrivener.paginate(Scrivener.Config.new(Repo, @pagination, search_params))
+  end
+
+  defp handle_user_filter(query, params) do
+    Enum.reduce(params, query, fn
+      {"isearch", value}, query when byte_size(value) > 0 ->
+        user_isearch_filter(query, Utils.sanitize_term(value))
+
+      {"username", value}, query when byte_size(value) > 0 ->
+        where(query, [a], fragment("lower(?) LIKE lower(?)", a.username, ^Utils.sanitize_term(value)))
+
+      {"status", value}, query when byte_size(value) > 0 ->
+        where(query, [a], fragment("lower(?) LIKE lower(?)", a.status, ^Utils.sanitize_term(value)))
+
+      {"from", value}, query when byte_size(value) > 0 ->
+        where(query, [a], fragment("CAST(? AS DATE) >= ?", a.inserted_at, ^value))
+
+      {"to", value}, query when byte_size(value) > 0 ->
+        where(query, [a], fragment("CAST(? AS DATE) <= ?", a.inserted_at, ^value))
+
+
+
+      {_, _}, query ->
+        # Not a where parameter
+        query
+    end)
+  end
+
+  defp user_isearch_filter(query, search_term) do
+    where(query, [a, ub],
+      fragment("lower(?) LIKE lower(?)", a.username, ^search_term)
+    )
+  end
+
+
+  defp compose_user_select(query) do
+    query
+    |> select(
+      [u, ub],
+      %{
+        id: u.id,
+        username: u.username,
+        status: u.status,
+        inserted_at: u.inserted_at,
+        updated_at: u.updated_at,
+        first_name: ub.first_name,
+        last_name: ub.last_name,
+        mobile_number: ub.mobile_number,
+        email_address: ub.email_address,
+        id_number: ub.id_number,
+        id_type: ub.id_type
+      }
+    )
+  end
+
+
+
 
   @doc """
   Gets a single user.

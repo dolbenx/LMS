@@ -28,11 +28,15 @@ defmodule LoanmanagementsystemWeb.UserLiveAuth do
   end
 
   def on_mount(:default, _params, %{"user_token" => user_token} = session, socket) do
+
+    IO.inspect "socket --------------------------------"
+    IO.inspect user_token
+    IO.inspect socket
+
     data = String.replace(to_string(socket.view), ".", ",")
     |> String.split(",")
     |> Enum.at(2)
     |> String.upcase()
-
     socket =
       fetch_current_user(data, user_token, socket)
       |> assign(:browser_id, session["uuid_browser"])
@@ -66,7 +70,7 @@ defmodule LoanmanagementsystemWeb.UserLiveAuth do
         assign(socket, :current_user, user)
         |> assign(:user, user)
         |> assign(:user_token, token)
-        |> assign(:permits, role.permissions)
+        # |> assign(:permits, role.permissions)
 
       user ->
         token =

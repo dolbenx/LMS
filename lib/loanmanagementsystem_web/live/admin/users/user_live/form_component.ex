@@ -25,6 +25,10 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.FormComponent  do
   def handle_event(target, params, socket), do: handle_event_switch(target, params, socket)
 
 
+  @spec handle_event_switch(<<_::32, _::_*32>>, any(), %{
+          :assigns => atom() | %{:user => atom() | map(), optional(any()) => any()},
+          optional(any()) => any()
+        }) :: {:noreply, map()}
   def handle_event_switch(target, params, socket) do
     case target do
       "validate" -> validate(params, socket)

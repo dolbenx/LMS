@@ -5,7 +5,7 @@ defmodule LoanmanagementsystemWeb.ModalComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div
+      <div
       id={@id}
       class="phx-modal"
       tabindex="-1"

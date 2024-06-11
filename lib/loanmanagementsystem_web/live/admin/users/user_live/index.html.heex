@@ -1,192 +1,183 @@
-<div class="subheader">
-    <h1 class="sub-title">
-        <i class='subheader-icon fal fa-users'></i> Administrators
-        <small>
-            A list of system administrators
-        </small>
-        <%= if Enum.member?(@permits, "create_users") do %>
-            <a href={Routes.user_index_path(@socket, :new)} class="btn btn-info">  
-                Add user
-                <i class="fal fa-user-plus"></i>
-            </a>
-        <% end %>
-    </h1>
-</div>
-
-<!-- Flash Notification -->
-<div class="row">
-    <div class="col-md-12 col-lg-offset-2">
+    <div class="content transition-[margin,width] duration-100 px-5 mt-[65px] pt-[31px] pb-16 relative z-10 content--compact xl:ml-[275px] [&.content--compact]:xl:ml-[91px]">
         <div class="container">
-            <%= if live_flash(@flash, :info) do %>
-                <p class="alert alert-info text-center" role="alert"
-                phx-click="lv:clear-flash"
-                phx-value-key="info">
-                    <%= live_flash(@flash, :info) %>
-                </p>
-            <% end %>
+            <div class="grid grid-cols-12 gap-x-6 gap-y-10">
+                <div class="col-span-12">
+                    <div class="mt-4 flex flex-col gap-y-3 md:mt-0 md:h-10 md:flex-row md:items-center">
+                        <div class="text-base font-medium group-[.mode--light]:text-white">
+                            Admin Users
+                        </div>
+                        <div class="mx-3 hidden group-[.mode--light]:text-white/80 lg:block">
+                            •
+                        </div>
+                        <div class="hidden leading-relaxed text-slate-500 group-[.mode--light]:text-white/80 lg:block">
+                            List Of All Admin Users
+                        </div>
+                    </div>
+                    <div class="box box--stacked flex flex-col p-5">
+                        <div class="preview-component">
+                            <div class="mb-5 flex flex-col border-b border-dashed border-slate-300/70 pb-5 sm:flex-row sm:items-center">
+                                <div class="text-[0.94rem] font-medium">
+                                    Users Table
+                                </div>
+                                <div class="flex items-center mt-3 w-full sm:ml-auto sm:mt-0 sm:w-auto"><label for="show-example-21" class="cursor-pointer ml-0 sm:ml-2"></label>
+                                    <a href={Routes.user_index_path(@socket, :new)} class="transition duration-200 border shadow-sm inline-flex items-center justify-center py-2 px-3 font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary rounded-full w-24">
+                                        Add User
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="relative mb-4 mt-7 rounded-[0.6rem] border border-slate-200/80 dark:border-darkmode-400">
+                                    <div class="absolute left-0 -mt-2 ml-4 bg-white px-3 text-xs uppercase text-slate-500">
+                                        <div class="-mt-px">Example code / preview</div>
+                                    </div>
+                                    <div class="mt-4 flex flex-col gap-3.5 px-5 py-2">
+                                        <div class="preview relative [&amp;.hide]:overflow-hidden [&amp;.hide]:h-0">
+                                            <div class="overflow-x-auto">
+                                                <.live_component module={LoanmanagementsystemWeb.Helps.ISearchComponent} id="ISearchComponent" params={@params} />
+                                                <input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+                                                <table class="w-full text-left" id="tbl_users">
+                                                    <thead class="">
+                                                        <tr class="">
+                                                            <th class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 border-l border-r border-t whitespace-nowrap">
+                                                                First Name
+                                                            </th>
+                                                            <th class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 border-l border-r border-t whitespace-nowrap">
+                                                                Last Name
+                                                            </th>
+                                                            <th class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 border-l border-r border-t whitespace-nowrap">
+                                                                Username
+                                                            </th>
+                                                            <th class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 border-l border-r border-t whitespace-nowrap">
+                                                                Mobile Number
+                                                            </th>
+                                                            <th class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 border-l border-r border-t whitespace-nowrap">
+                                                                Email Address
+                                                            </th>
+                                                            <th class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 border-l border-r border-t whitespace-nowrap">
+                                                                ID Number
+                                                            </th>
+                                                            <th class="font-medium px-5 py-3 border-b-2 dark:border-darkmode-300 border-l border-r border-t whitespace-nowrap">
+                                                                Action
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%= for user <- @data do %>
+                                                            <tr class="">
+                                                                <td class="px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                    <%= user.first_name %>
+                                                                </td>
+                                                                <td class="px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                    <%= user.last_name %>
+                                                                </td>
+                                                                <td class="px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                    <%= user.username %>
+                                                                </td>
+                                                                <td class="px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                    <%= user.mobile_number %>
+                                                                </td>
+                                                                <td class="px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                    <%= user.email_address %>
+                                                                </td>
+                                                                <td class="px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                    <%= user.id_number %>
+                                                                </td>
+                                                                <td class="px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                    
+                                                                    <%= live_patch raw('<span x-on:click="open = ! open"><i class="subheader-icon fal fa-eye"></i>
+                                                                        View </span>'),
+                                                                        to: Routes.user_index_path(@socket, :view, user.id),
+                                                                        class: "dropdown-item text-info" %> 
+                                                                </td>
 
-            <%= if live_flash(@flash, :error) do %>
-                <p class="alert alert-danger text-center" role="alert"
-                phx-click="lv:clear-flash"
-                phx-value-key="error">
-                    <%= live_flash(@flash, :error) %>
-                </p>
-            <% end %>
+                                                            </tr>
+                                                        <% end %>
+                                                    </tbody>
+                                                </table>
+                                                 <.live_component module={LoanmanagementsystemWeb.Helps.PaginationComponent} id="PaginationComponent" params={@params} pagination_data={@data} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+    
+                            <%= if @live_action in [:new, :edit] do %>
+                                <.modal return_to={Routes.user_index_path(@socket, :index)}>
+                                    <.live_component module={LoanmanagementsystemWeb.Admin.UserLive.FormComponent}
+                                    id={@user.id || :new}
+                                    title={@page_title}
+                                    action={@live_action}
+                                    user={@user}
+                                    user_type={@user_type}
+                                    return_to={Routes.user_index_path(@socket, :index)} />
+                                </.modal>
+                            <% end %>
+
+                            <%= if @live_action in [:view] do %>
+                                <.modal return_to={Routes.user_index_path(@socket, :index)}>
+                                <.live_component module={LoanmanagementsystemWeb.Admin.UserLive.ViewComponent}
+                                id={@user.id || :new} title={@page_title}
+                                action={@live_action} user={@user} tbl_user={@tbl_user } 
+                                user_type={@user_type}
+                                return_to={Routes.user_index_path(@socket, :index)} />
+                                </.modal>
+                                <% end %>
+
+
+                            <%= if @info_modal do %>
+                                <.live_component module={InfoModalLive}
+                                    id="warning-boom"
+                                    title="Warning"
+                                    body={@info_message}
+                                    right_button={@info_wording}
+                                    right_button_action="process"
+                                    right_button_param={@info_modal_param}
+                                    left_button_action="cancel-crash"
+                                    left_button="Cancel"
+                                />
+                            <% end %>
+
+                            <%= if @success_modal do %>
+                                <.live_component module={SuccessModalLive}
+                                    id="success-boom"
+                                    title="Successful"
+                                    body={@success_message}
+                                    right_button="OK"
+                                    left_button={nil}
+                                    right_button_action="phin",
+                                    right_button_param="phin",
+                                    left_button_action="cancel-phin"
+                                />
+                            <% end %>
+
+                            <%= if @error_modal do %>
+                                <.live_component module={ErrorModalLive}
+                                    id="error-phin"
+                                    title="Failed"
+                                    body={@error_message}
+                                    right_button="OK"
+                                    left_button={nil}
+                                    right_button_action="phin",
+                                    right_button_param="phin",
+                                    left_button_action="cancel-phin"
+                                />
+                            <% end %>
+
+                            <%= if @show_modal do %>
+                            <.live_component  module={LoanmanagementsystemWeb.Admin.UserLive.UserLiveFilterComponent}
+                                        id={"modal-component"}
+                                        params={@params}
+                                        roles={@roles}
+                                        page={@page}/>
+                            <% end %>
+
+                        </div>
+                    </div>
+                </div>   
+            </div>
         </div>
     </div>
-</div> 
-
-        <div id="panel-1" class="panel web-panels">
-            <div class="panel-container show">
-                <div class="d-flex flex-container justify-content-between px-5">
-                    <.live_component module={LoanmanagementsystemWeb.Helps.ISearchComponent} id="ISearchComponent" params={@params} />
-                    <div class="px-4 d-flex">
-                        <button class="btn btn-primary mx-2" phx-click="open_modal"><i class="fal fa-filter"></i>Filter</button>
-                        <button class="btn btn-primary mx-2"  phx-click="reload"><i class="fal fa-sync"></i> Reload</button>
-                    </div>
-                </div>
-                <div class="panel-content">
-                    <input type="hidden" name="_csrf_token" id="csrf" value={Plug.CSRFProtection.get_csrf_token()}>
-                    <!-- datatable start -->
-                    <table id="tbl_users" class="table table-bordered rounded table-hover nowrap compact w-100">
-                        <thead class="bg-primary-600">
-                            <tr>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Sex</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <%= for phin <- @data do %>
-                                <tr>
-                                    <td><%= phin.first_name %></td>
-                                    <td><%= phin.last_name %></td>
-                                    <td><%= phin.username %></td>
-                                    <td><%= phin.email %></td>
-                                    <td><%= phin.phone %></td>
-                                    <td><%= phin.sex %></td>
-                                    <td><%= if(phin.user_role == nil, do: "", else: String.replace(phin.user_role, "_", " ")) %></td>
-                                    <td><%= raw(Loanmanagementsystem.Workers.Util.Utils.td_status(phin.status)) %></td>
-                                    <td>
-                                        <%= if phin.status in ["ACTIVE", "PENDING_APPROVAL", "DEACTIVATED", "REJECTED", "APPROVED", "BLOCKED"] && Enum.member?(@permits, "manage_users") do %>
-                                            <div class="dropdown " x-data="{ open: false }" >
-                                                <button type="button" @click="open = !open" @keydown.escape.window="open = false" @click.away="open = false" class="btn btn-info btn-xs">
-                                                    Options
-                                                </button>
-                                                <div class="call_dropdown" style="text-align: left;position: fixed;" x-show="open" x-transition>
-                                                    <%= live_patch raw('<span x-on:click="open = ! open"> 
-                                                        <i class="subheader-icon fal fa-edit"></i> Edit </span>'),
-                                                        to: Routes.user_index_path(@socket, :edit, phin.id),
-                                                        class: "dropdown-item text-info" %>
-                                                                                                
-                                                    <%= live_patch raw('<span x-on:click="open = ! open"><i class="subheader-icon fal fa-eye"></i>
-                                                        View </span>'),
-                                                        to: Routes.user_index_path(@socket, :view, phin.id),
-                                                        class: "dropdown-item text-info" %>                                                 
-
-                                                    <%= if phin.status == "PENDING_APPROVAL" && Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="approve" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-check"></i>
-                                                            Approve
-                                                        </button>
-                                                    <% end %>
-
-                                                    <%= if phin.status == "APPROVED" && Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-danger" role="button" phx-click="reject" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-times"></i>
-                                                            Reject
-                                                        </button>
-                                                    <% end %>
-
-                                                    <%= if phin.status == "REJECTED" && Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="approve" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-check"></i>
-                                                            Approve
-                                                        </button>
-                                                    <% end %>
-
-                                                    <%= if phin.status in ["ACTIVE", "APPROVED"] && Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-warning" role="button" phx-click="deactivate" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-times"></i>
-                                                            Deactivate
-                                                        </button>
-                                                    <% end %>
-
-                                                    <%= if phin.status == "DEACTIVATED" && Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="activate" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-check"></i>
-                                                            Activate
-                                                        </button>
-                                                    <% end %>
-
-                                                    <%= if phin.blocked == false && Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-danger" role="button" phx-click="block" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-lock"></i>
-                                                            Block
-                                                        </button>
-                                                    <% end %>
-
-                                                    <%= if phin.blocked == true && Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="unblock" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-lock"></i>
-                                                            Unblock
-                                                        </button>
-                                                    <% end %>
-
-                                                    <%= if Enum.member?(@permits, "approve_users") do %>
-                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-danger" role="button" phx-click="delete" phx-value-id={phin.id}>
-                                                            <i class="subheader-icon fal fa-trash"></i>
-                                                            Delete
-                                                        </button>
-                                                    <% end %>
-                                                </div>
-                                            </div>
-                                        <% else %>
-                                            <div class="text-center text-danger">No Actions</div>
-                                        <% end %>
-                                    </td>
-                                </tr>
-                            <% end %>
-                        </tbody>
-                        <%= if @data_loader do %>
-                            <tr style="text-align: center">
-                                <td valign="top" colspan="20" class="dataTables_empty">
-                                    <div class="spinner-border" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        <% else %>
-                            <%= if Enum.empty?(@data) do %>
-                                <tr style="text-align: center">
-                                    <td valign="top" colspan="20" class="dataTables_empty">No data available in table</td>
-                                </tr>
-                            <% end %>
-                        <% end %>
-                    </table>
-                    
-                    <.live_component module={LoanmanagementsystemWeb.Helps.PaginationComponent} id="PaginationComponent" params={@params} pagination_data={@data} />
-                </div>
-            </div>
-        </div>          
-
-
-<%= if @success_modal do %>
-    <.live_component module={SuccessModalLive}
-         id="success-boom"
-         title="Successful"
-         body={@success_message}
-         right_button="OK"
-         left_button={nil}
-         right_button_action="phin",
-         right_button_param="phin",
-         left_button_action="cancel-phin"
-    />
-<% end %>
+    
+    
+    

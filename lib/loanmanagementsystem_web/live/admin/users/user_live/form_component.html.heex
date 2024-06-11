@@ -1,98 +1,19 @@
-<div class="modal-body">
-    <.form let={f} for={@changeset} id="document-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class='subheader-icon fal fa-user-circle'><%= @title %></i></h5>
-      </div>
-      <div class="modal-body">
-            <div class="row form-group">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :first_name, class: "form-label" %>
-                        <%= text_input f, :first_name, class: "form-control", placeholder: "Enter Firstname" %>
-                        <%= error_tag f, :first_name %>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :last_name, class: "form-label" %>
-                        <%= text_input f, :last_name, class: "form-control", placeholder: "Enter Lastname" %>
-                        <%= error_tag f, :last_name %>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row form-group">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :username, class: "form-label" %>
-                        <%= text_input f, :username, class: "form-control", placeholder: "Enter Username" %>
-                        <%= error_tag f, :username %>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :email, class: "form-label" %>
-                        <%= text_input f, :email, class: "form-control", placeholder: "Enter Email" %>
-                        <%= error_tag f, :email %>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :sex, class: "form-label" %>
-                        <%= select f, :sex, ["Male": "M", "Female": "F"],
-                            required: true, class: "form-control", prompt: "-- Gender --" %>
-                        <%= error_tag f, :sex %>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :dob, class: "form-label" %>
-                        <%= date_input f, :dob, required: true, class: "form-control" %>
-                        <%= error_tag f, :dob %>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :id_no, class: "form-label" %>
-                        <%= text_input f, :id_no, class: "form-control", placeholder: "Enter ID Number" %>
-                        <%= error_tag f, :id_no %>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <%= label f, :phone, class: "form-label" %>
-                        <%= number_input f, :phone, class: "form-control", placeholder: "Enter Phone" %>
-                        <%= error_tag f, :phone %>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-md-6">
-                <div class="form-group">
-                    <%= label f, :address, class: "form-label" %>
-                    <%= text_input f, :address, class: "form-control", placeholder: "Enter Address" %>
-                    <%= error_tag f, :address %>
-                </div>
-                </div>
-                <div class="col-md-6">
-                <div class="form-group">
-                    <%= label f, :role, class: "form-label" %>
-                    <%= select f, :role_id, Enum.map(@roles, &{&1.name, &1.id}),
-                        required: true, class: "form-control", prompt: "-- Select Role --" %>
-                    <%= error_tag f, :role_id %>
-                </div>
-                </div>
-            </div>
-        </div>
+    <.form let={f} for={@changeset} id="document-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+
+      <div class="row form-group">
+          <div class="col-md-6">
+              <div class="form-group">
+                  <%= label f, :username, class: "form-label" %>
+                  <%= text_input f, :username, class: "form-control", placeholder: "Enter Username" %>
+                  <%= error_tag f, :username %>
+              </div>
+          </div>
+      </div>
       <div class="modal-footer">
         <%= submit "Save", phx_disable_with: "Saving...", class: "btn btn-info submit" %>
       </div>
     </.form>
-</div> 
 
           
             

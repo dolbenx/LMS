@@ -14,8 +14,6 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
 
   @impl true
   def mount(_params, _session, %{assigns: _assigns} = socket) do
-    IO.inspect "------------------!socket"
-    IO.inspect socket
     socket =
       assign(socket, :data_loader, true)
       |> assign(:data, [])
@@ -50,6 +48,8 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
 
 
   defp apply_action(socket, :new, _params) do
+    IO.inspect "[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]"
+    IO.inspect socket
     socket
     |> assign(:page_title, "Add User")
     |> assign(:user, %User{})
@@ -234,7 +234,7 @@ defmodule LoanmanagementsystemWeb.Admin.UserLive.Index do
 
   defp list_users(%{assigns: assigns} = socket, params) do
     IO.inspect(params, label: "===== USER PARAMS =====")
-    data = Accounts.list_system_users(Control.create_table_params(socket, params), assigns.user_type)
+    data = Accounts.list_system_users(Control.create_table_params(socket, params))
     {
       :noreply,
       assign(socket, :data, data)

@@ -18,10 +18,27 @@ SETTINGS
 mix phx.gen.context Settings ConfigSettings tbl_config_settings name:string value:string value_type:string description:string deleted_at:naive_datetime updated_by:string
 mix phx.gen.context Settings Receivers tbl_notification_receivers name:string email:string status:string company:string
 mix phx.gen.context Settings SmsConfigs tbl_sms_configuration username:string password:string host:string sender:string max_attempts:string
+mix phx.gen.context Configs Titles tbl_titles title:string description:string status:string updater:integer maker:integer
 
+
+MAINTENANCE
+mix phx.gen.context Maintenance Bank tbl_banks acronym:string bank_code:string bank_descrip:string process_branch:string swift_code:string bank_name:string status:string country_id:integer province_id:integer city_id:integer district_id:integer bank_address:string approved_by:integer created_by:integer
+mix phx.gen.context Maintenance Branch tbl_branchs branch_code:string branch_name:string bank_id, :integer is_default_ussd_branch:boolean status:string country_id:integer province_id:integer city_id:integer district_id:integer branch_address:string approved_by:integer created_by:integer
 
 EMPLOYER
 
 
 
 EMPLOYEE
+
+
+
+MERCHANT
+
+
+
+INDIVIDUAL
+
+
+
+CREDIT MANAGEMENT
