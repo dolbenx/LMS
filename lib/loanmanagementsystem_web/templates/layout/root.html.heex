@@ -262,40 +262,34 @@
                                             <i data-tw-merge="" data-lucide="user-square" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
                                             <div class="side-menu__link__title">Titles</div>
                                         </button>'), to: Routes.settings_titles_path(@conn, :index) %>
-                                    <!-- BEGIN: Second Child -->
-                                    <!-- END: Second Child -->
                                 </li>
                                 <li>
-                                    <a href="dagger-settings-two-factor-authentication.html" class="side-menu__link ">
-                                        <i data-tw-merge="" data-lucide="door-open" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
-                                        <div class="side-menu__link__title">Two-factor Authentication</div>
-                                    </a>
-                                    <!-- BEGIN: Second Child -->
-                                    <!-- END: Second Child -->
+                                    <%= live_redirect raw('
+                                        <button class="side-menu__link ">
+                                            <i data-tw-merge="" data-lucide="user-square" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
+                                            <div class="side-menu__link__title">Countries</div>
+                                        </button>'), to: Routes.settings_countries_path(@conn, :index) %>
                                 </li>
                                 <li>
-                                    <a href="dagger-settings-device-history.html" class="side-menu__link ">
-                                        <i data-tw-merge="" data-lucide="keyboard" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
-                                        <div class="side-menu__link__title">Device History</div>
-                                    </a>
-                                    <!-- BEGIN: Second Child -->
-                                    <!-- END: Second Child -->
+                                      <%= live_redirect raw('
+                                        <button class="side-menu__link ">
+                                            <i data-tw-merge="" data-lucide="user-square" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
+                                            <div class="side-menu__link__title">Province</div>
+                                        </button>'), to: Routes.settings_provinces_path(@conn, :index) %>
                                 </li>
                                 <li>
-                                    <a href="dagger-settings-notification-settings.html" class="side-menu__link ">
-                                        <i data-tw-merge="" data-lucide="ticket" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
-                                        <div class="side-menu__link__title">Notification Settings</div>
-                                    </a>
-                                    <!-- BEGIN: Second Child -->
-                                    <!-- END: Second Child -->
+                                     <%= live_redirect raw('
+                                        <button class="side-menu__link ">
+                                            <i data-tw-merge="" data-lucide="user-square" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
+                                            <div class="side-menu__link__title">Districts</div>
+                                        </button>'), to: Routes.settings_districts_path(@conn, :index) %>
                                 </li>
                                 <li>
-                                    <a href="dagger-settings-connected-services.html" class="side-menu__link ">
-                                        <i data-tw-merge="" data-lucide="bus-front" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
-                                        <div class="side-menu__link__title">Connected Services</div>
-                                    </a>
-                                    <!-- BEGIN: Second Child -->
-                                    <!-- END: Second Child -->
+                                     <%= live_redirect raw('
+                                        <button class="side-menu__link ">
+                                            <i data-tw-merge="" data-lucide="user-square" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
+                                            <div class="side-menu__link__title">Currencies</div>
+                                        </button>'), to: Routes.settings_currencies_path(@conn, :index) %>
                                 </li>
                                 <li>
                                     <a href="dagger-settings-social-media-links.html" class="side-menu__link ">

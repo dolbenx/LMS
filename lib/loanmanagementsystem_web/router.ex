@@ -82,6 +82,31 @@ defmodule LoanmanagementsystemWeb.Router do
     end
 
 
+    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
+      live "/Countries", Countries, :index
+      live "/Add-Country", Countries, :new
+      live "/:id/Edit-Country", Countries, :edit
+    end
+
+    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
+      live "/Province", Provinces, :index
+      live "/Add-Province", Provinces, :new
+      live "/:id/Edit-Province", Provinces, :edit
+    end
+
+    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
+      live "/District", Districts, :index
+      live "/Add-District", Districts, :new
+      live "/:id/Edit-District", Districts, :edit
+    end
+
+    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
+      live "/Currency", Currencies, :index
+      live "/Add-Currency", Currencies, :new
+      live "/:id/Edit-Currency", Currencies, :edit
+    end
+
+
   end
 
   # Other scopes may use custom stacks.

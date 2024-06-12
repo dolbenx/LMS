@@ -23,7 +23,13 @@ mix phx.gen.context Configs Titles tbl_titles title:string description:string st
 
 MAINTENANCE
 mix phx.gen.context Maintenance Bank tbl_banks acronym:string bank_code:string bank_descrip:string process_branch:string swift_code:string bank_name:string status:string country_id:integer province_id:integer city_id:integer district_id:integer bank_address:string approved_by:integer created_by:integer
-mix phx.gen.context Maintenance Branch tbl_branchs branch_code:string branch_name:string bank_id, :integer is_default_ussd_branch:boolean status:string country_id:integer province_id:integer city_id:integer district_id:integer branch_address:string approved_by:integer created_by:integer
+mix phx.gen.context Maintenance Branch tbl_branchs branch_code:string branch_name:string bank_id:integer is_default_ussd_branch:boolean status:string country_id:integer province_id:integer city_id:integer district_id:integer branch_address:string approved_by:integer created_by:integer
+mix phx.gen.context Maintenance Country tbl_country country_file_name:string name:string code:string status:string approved_by:integer created_by:integer
+mix phx.gen.context Maintenance Province tbl_province name:string country_id:integer status:string approved_by:integer created_by:integer
+mix phx.gen.context Maintenance District tbl_district name:string country_id:integer province_id:integer status:string approved_by:integer created_by:integer
+mix phx.gen.context Maintenance Currency tbl_currency name:string acronym:string country_id:integer iso_code:string currency_decimal:integer status:string approved_by:integer created_by:integer
+
+    
 
 EMPLOYER
 
