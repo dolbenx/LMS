@@ -9,7 +9,6 @@ defmodule Loanmanagementsystem.Maintenance.Bank do
     field :bank_code, :string
     field :bank_descrip, :string
     field :bank_name, :string
-    field :city_id, :integer
     field :country_id, :integer
     field :created_by, :integer
     field :district_id, :integer
@@ -24,7 +23,7 @@ defmodule Loanmanagementsystem.Maintenance.Bank do
   @doc false
   def changeset(bank, attrs) do
     bank
-    |> cast(attrs, [:acronym, :bank_code, :bank_descrip, :process_branch, :swift_code, :bank_name, :status, :country_id, :province_id, :city_id, :district_id, :bank_address, :approved_by, :created_by])
-    |> validate_required([:acronym, :bank_code, :bank_descrip, :process_branch, :swift_code, :bank_name, :status, :country_id, :province_id, :city_id, :district_id, :bank_address, :approved_by, :created_by])
+    |> cast(attrs, [:acronym, :bank_code, :bank_descrip, :process_branch, :swift_code, :bank_name, :status, :country_id, :province_id, :district_id, :bank_address, :approved_by, :created_by])
+    |> validate_required([:acronym, :bank_code, :swift_code, :bank_name, :status, :country_id, :province_id, :district_id, :created_by])
   end
 end

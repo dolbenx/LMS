@@ -102,6 +102,75 @@ defmodule Loanmanagementsystem.Maintenance do
     Bank.changeset(bank, attrs)
   end
 
+  def list_bank(search_params) do
+    Bank
+    |> where([b], b.status != "DELETED")
+    |> handle_bank_filter(search_params)
+    |> order_by(desc: :inserted_at)
+    |> compose_bank_select()
+    |> Scrivener.paginate(Scrivener.Config.new(Repo, @pagination, search_params))
+  end
+
+  defp handle_bank_filter(query, params) do
+    Enum.reduce(params, query, fn
+      {"isearch", value}, query when byte_size(value) > 0 ->
+        bank_isearch_filter(query, Utils.sanitize_term(value))
+
+      {"bank_name", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("lower(?) LIKE lower(?)", b.bank_name, ^Utils.sanitize_term(value)))
+
+      {"status", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("lower(?) LIKE lower(?)", b.status, ^Utils.sanitize_term(value)))
+
+      {"from", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("CAST(? AS DATE) >= ?", b.inserted_at, ^value))
+
+      {"to", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("CAST(? AS DATE) <= ?", b.inserted_at, ^value))
+
+      {_, _}, query ->
+        # Not a where parameter
+        query
+    end)
+  end
+
+
+  defp bank_isearch_filter(query, search_term) do
+    where(
+      query,
+      [b],
+      fragment("lower(?) LIKE lower(?)", b.bank_name, ^search_term) or
+      fragment("lower(?) LIKE lower(?)", b.status, ^search_term)
+
+
+    )
+  end
+
+  defp compose_bank_select(query) do
+    query
+    |> select(
+      [b],
+      %{
+        id: b.id,
+        bank_name: b.bank_name,
+        bank_address: b.bank_address,
+        country_id: b.country_id,
+        acronym: b.acronym,
+        status: b.status,
+        bank_code: b.bank_code,
+        province_id: b.province_id,
+        created_by: b.created_by,
+        approved_by: b.approved_by,
+        inserted_at: b.inserted_at,
+        updated_at: b.updated_at,
+        process_branch: b.process_branch,
+        swift_code: b.swift_code,
+        district_id: b.district_id,
+        bank_descrip: b.bank_descrip
+      }
+    )
+  end
+
   alias Loanmanagementsystem.Maintenance.Branch
 
   @doc """
@@ -196,6 +265,76 @@ defmodule Loanmanagementsystem.Maintenance do
   """
   def change_branch(%Branch{} = branch, attrs \\ %{}) do
     Branch.changeset(branch, attrs)
+  end
+
+
+  def list_branch(search_params) do
+    Branch
+    |> join(:left, [b], bK in "tbl_banks", on: b.bank_id == bK.id)
+    |> where([b, bK], b.status != "DELETED")
+    |> handle_branch_filter(search_params)
+    |> order_by(desc: :inserted_at)
+    |> compose_branch_select()
+    |> Scrivener.paginate(Scrivener.Config.new(Repo, @pagination, search_params))
+  end
+
+  defp handle_branch_filter(query, params) do
+    Enum.reduce(params, query, fn
+      {"isearch", value}, query when byte_size(value) > 0 ->
+        branch_isearch_filter(query, Utils.sanitize_term(value))
+
+      {"branch_name", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("lower(?) LIKE lower(?)", b.branch_name, ^Utils.sanitize_term(value)))
+
+      {"status", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("lower(?) LIKE lower(?)", b.status, ^Utils.sanitize_term(value)))
+
+      {"from", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("CAST(? AS DATE) >= ?", b.inserted_at, ^value))
+
+      {"to", value}, query when byte_size(value) > 0 ->
+        where(query, [b], fragment("CAST(? AS DATE) <= ?", b.inserted_at, ^value))
+
+      {_, _}, query ->
+        # Not a where parameter
+        query
+    end)
+  end
+
+
+  defp branch_isearch_filter(query, search_term) do
+    where(
+      query,
+      [b, bK],
+      fragment("lower(?) LIKE lower(?)", b.branch_name, ^search_term) or
+      fragment("lower(?) LIKE lower(?)", b.status, ^search_term)
+
+
+    )
+  end
+
+  defp compose_branch_select(query) do
+    query
+    |> select(
+      [b, bK],
+      %{
+        id: b.id,
+        bank_name: bK.bank_name,
+        branch_address: b.branch_address,
+        country_id: b.country_id,
+        status: b.status,
+        branch_code: b.branch_code,
+        province_id: b.province_id,
+        created_by: b.created_by,
+        approved_by: b.approved_by,
+        inserted_at: b.inserted_at,
+        updated_at: b.updated_at,
+        branch_name: b.branch_name,
+        is_default_ussd_branch: b.is_default_ussd_branch,
+        district_id: b.district_id,
+        bank_id: b.bank_id
+      }
+    )
   end
 
   alias Loanmanagementsystem.Maintenance.Country
@@ -819,8 +958,6 @@ defmodule Loanmanagementsystem.Maintenance do
       [cU, c],
       fragment("lower(?) LIKE lower(?)", cU.name, ^search_term) or
       fragment("lower(?) LIKE lower(?)", cU.status, ^search_term)
-
-
     )
   end
 

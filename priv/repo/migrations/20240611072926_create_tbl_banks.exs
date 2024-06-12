@@ -12,7 +12,6 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblBanks do
       add :status, :string
       add :country_id, :integer
       add :province_id, :integer
-      add :city_id, :integer
       add :district_id, :integer
       add :bank_address, :string
       add :approved_by, :integer

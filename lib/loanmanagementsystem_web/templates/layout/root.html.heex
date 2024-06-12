@@ -233,20 +233,18 @@
                                     SYSTEM SETTINGS
                                 </li>
                                 <li>
-                                    <a href="dagger-settings.html" class="side-menu__link ">
-                                        <i data-tw-merge="" data-lucide="briefcase" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
-                                        <div class="side-menu__link__title">Profile Info</div>
-                                    </a>
-                                    <!-- BEGIN: Second Child -->
-                                    <!-- END: Second Child -->
+                                   <%= live_redirect raw('
+                                        <button class="side-menu__link ">
+                                            <i data-tw-merge="" data-lucide="user-square" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
+                                            <div class="side-menu__link__title">Banks</div>
+                                        </button>'), to: Routes.settings_banks_path(@conn, :index) %>
                                 </li>
                                 <li>
-                                    <a href="dagger-settings-email-settings.html" class="side-menu__link ">
-                                        <i data-tw-merge="" data-lucide="mail-check" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
-                                        <div class="side-menu__link__title">Email Settings</div>
-                                    </a>
-                                    <!-- BEGIN: Second Child -->
-                                    <!-- END: Second Child -->
+                                   <%= live_redirect raw('
+                                        <button class="side-menu__link ">
+                                            <i data-tw-merge="" data-lucide="user-square" class="stroke-[1] w-5 h-5 side-menu__link__icon"></i>
+                                            <div class="side-menu__link__title">Branches</div>
+                                        </button>'), to: Routes.settings_branches_path(@conn, :index) %>
                                 </li>
                                 <li>
                                     <a href="dagger-settings-security.html" class="side-menu__link ">

@@ -1,0 +1,137 @@
+    <div class="content transition-[margin,width] duration-100 px-5 mt-[65px] pt-[31px] pb-16 relative z-10 content--compact xl:ml-[275px] [&.content--compact]:xl:ml-[91px]">
+        <div class="container">
+            <div class="grid grid-cols-12 gap-x-6 gap-y-10">
+                <div class="col-span-12">
+                    <div class="mt-4 flex flex-col gap-y-3 md:mt-0 md:h-10 md:flex-row md:items-center">
+                        <div class="text-base font-medium group-[.mode--light]:text-white">
+                            Banks
+                        </div>
+                        <div class="mx-3 hidden group-[.mode--light]:text-white/80 lg:block">
+                            •
+                        </div>
+                        <div class="hidden leading-relaxed text-slate-500 group-[.mode--light]:text-white/80 lg:block">
+                            List Of All Banks
+                        </div>
+                    </div>
+                    <!-- Flash -->
+                    <div class="container">
+                        <p class="alert alert-info text-center" role="alert"
+                        phx-click="lv:clear-flash"
+                        phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+
+                        <p class="alert alert-danger text-center" role="alert"
+                        phx-click="lv:clear-flash"
+                        phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+                    </div>
+
+                    <div class="box box--stacked flex flex-col p-5" id="panel-1" class="panel web-panels">
+                        <div class="preview-component panel-container show">
+                            <div class="mb-5 flex flex-col border-b border-dashed border-slate-300/70 pb-5 sm:flex-row sm:items-center">
+                                <div class="text-[0.94rem] font-medium">
+                                    Banks Table
+                                </div>
+                                <div class="flex items-center mt-3 w-full sm:ml-auto sm:mt-0 sm:w-auto"><label for="show-example-21" class="cursor-pointer ml-0 sm:ml-2"></label>    
+                                    <%= live_patch raw('<span class="transition duration-200 border shadow-sm inline-flex items-center justify-center py-2 px-3 font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary rounded-full w-24"> <i class="subheader-icon fal fa-plus"></i> Add Bank</span>'),
+                                        to: Routes.settings_banks_path(@socket, :new),
+                                        class: "text-info" %>                                                                
+                                </div>
+                            </div>
+                            <div>
+                                <div class="relative mb-4 mt-7 rounded-[0.6rem] border border-slate-200/80 dark:border-darkmode-400 panel-content">
+                                    <div class="absolute left-0 -mt-2 ml-4 bg-white px-3 text-xs uppercase text-slate-500">
+                                        <div class="-mt-px">List / preview</div>
+                                    </div>
+
+                                    <div class="mt-4 flex flex-col gap-3.5 px-5 py-2">
+                                        <div class="preview relative [&amp;.hide]:overflow-hidden [&amp;.hide]:h-0">
+                                            <div class="overflow-x-auto">
+                                            <.live_component module={LoanmanagementsystemWeb.Helps.ISearchComponent} id="ISearchComponent" params={@params} />
+                                                <input type="hidden" id="csrf" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+                                                <table class="w-full text-left border-b border-slate-200/60" id="tbl_users">
+                                                    <thead class="">
+                                                        <tr class="">
+                                                            <td class="px-5 border-b dark:border-darkmode-300 border-t border-slate-200/60 bg-slate-50 py-4 font-medium text-slate-500">
+                                                                Bank Name
+                                                            </td>
+                                                            <td class="px-5 border-b dark:border-darkmode-300 border-t border-slate-200/60 bg-slate-50 py-4 font-medium text-slate-500">
+                                                                Acronym
+                                                            </td>
+                                                            <td class="px-5 border-b dark:border-darkmode-300 border-t border-slate-200/60 bg-slate-50 py-4 font-medium text-slate-500">
+                                                                Bank Code
+                                                            </td>
+                                                            <td class="px-5 border-b dark:border-darkmode-300 border-t border-slate-200/60 bg-slate-50 py-4 font-medium text-slate-500">
+                                                                bank Address
+                                                            </td>
+                                                            <td class="px-5 border-b dark:border-darkmode-300 border-t border-slate-200/60 bg-slate-50 py-4 font-medium text-slate-500">
+                                                                Status
+                                                            </td>
+                                                            <td class="px-5 border-b dark:border-darkmode-300 w-36 border-t border-slate-200/60 bg-slate-50 py-4 text-center font-medium text-slate-500">
+                                                                Action
+                                                            </td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <%= for bank <- @data do %>
+                                                            <tr>
+                                                                <td class="px-5 border-b dark:border-darkmode-300 border-dashed py-4 dark:bg-darkmode-600"><%= bank.bank_name %></td>
+                                                                <td class="px-5 border-b dark:border-darkmode-300 border-dashed py-4 dark:bg-darkmode-600"><%= bank.acronym %></td>
+                                                                <td class="px-5 border-b dark:border-darkmode-300 border-dashed py-4 dark:bg-darkmode-600"><%= bank.bank_code %></td>
+                                                                <td class="px-5 border-b dark:border-darkmode-300 border-dashed py-4 dark:bg-darkmode-600"><%= bank.bank_address %></td>
+                                                                <td class="px-5 border-b dark:border-darkmode-300 border-dashed py-4 dark:bg-darkmode-600"><%= bank.status %></td>
+                                                                <td class="px-5 border-b dark:border-darkmode-300 relative border-dashed py-4 dark:bg-darkmode-600">
+                                                                    <div class="call_dropdown" style="text-align: left;" x-show="open" x-transition>
+                                                                        <%= live_patch raw('<span> <i class="subheader-icon fal fa-edit"></i> Edit Setting</span>'),
+                                                                            to: Routes.settings_banks_path(@socket, :edit, bank.id),
+                                                                            class: "text-info" %>
+                                                                    </div>
+                                                                 </td>
+                                                            </tr>
+                                                        <% end %>
+                                                    </tbody>
+                                                    <%= if @data_loader do %>
+                                                        <tr style="text-align: center">
+                                                            <td valign="top" colspan="20" class="dataTables_empty px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">
+                                                                <div class="spinner-border" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    <% else %>
+                                                        <%= if Enum.empty?(@data) do %>
+                                                           <tr style="text-align: center">
+                                                                <td valign="top" colspan="20" class="dataTables_empty px-5 py-3 border-b dark:border-darkmode-300 border-l border-r border-t">No data available in table</td>
+                                                            </tr>
+                                                        <% end %>
+                                                    <% end %>
+                                                </table>
+                                                <.live_component module={LoanmanagementsystemWeb.Helps.PaginationComponent} id="PaginationComponent" params={@params} pagination_data={@data} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%= if @live_action in [:new, :edit] do %>
+                                <.modal return_to={Routes.settings_banks_path(@socket, :index)}>
+                                    <.live_component
+                                    module={LoanmanagementsystemWeb.Admin.SettingsLive.BanksComponent}
+                                    id={@bank.id || :new}
+                                    title={@page_title}
+                                    action={@live_action} 
+                                    bank={@bank}
+                                    country={@country}
+                                    province={@province}
+                                    district={@district}
+                                    user={@user}
+                                    return_to={Routes.settings_banks_path(@socket, :index)} />
+                                </.modal>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+        
+            
+
+

@@ -106,6 +106,18 @@ defmodule LoanmanagementsystemWeb.Router do
       live "/:id/Edit-Currency", Currencies, :edit
     end
 
+    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
+      live "/Bank", Banks, :index
+      live "/Add-Bank", Banks, :new
+      live "/:id/Edit-Bank", Banks, :edit
+    end
+
+    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
+      live "/Branch", Branches, :index
+      live "/Add-Branch", Branches, :new
+      live "/:id/Edit-Branch", Branches, :edit
+    end
+
 
   end
 

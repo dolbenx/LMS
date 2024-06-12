@@ -10,7 +10,6 @@ defmodule Loanmanagementsystem.Repo.Migrations.CreateTblBranchs do
       add :status, :string
       add :country_id, :integer
       add :province_id, :integer
-      add :city_id, :integer
       add :district_id, :integer
       add :branch_address, :string
       add :approved_by, :integer
