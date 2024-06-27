@@ -5,7 +5,8 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-
+import Swal from 'sweetalert2';
+window.Swal = Swal;
 
 // If you want to use Phoenix channels, run `mix help phx.gen.channel`
 // to get started and then uncomment the line below.
@@ -24,13 +25,31 @@ import topbar from "../vendor/topbar"
 //     import "some-package"
 //
 
+let Hooks = {};
+
+Hooks.SweetAlert = {
+    mounted() {
+      this.handleEvent("alert", ({ title, text, icon, confirmButtonText, footer }) => {
+        Swal.fire({
+          title: title,
+          text: text,
+          icon: icon,
+          confirmButtonText: confirmButtonText,
+          footer: footer
+        });
+      });
+    }
+  };
+
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken }, hooks: Hooks });
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
+
 
 // connect if there are any LiveViews on the page
 liveSocket.connect()

@@ -12,11 +12,9 @@ defmodule Loanmanagementsystem.Workers.Utlis.Utils do
     |> Base.encode64()
   end
 
-
   def timestamp do
     :os.system_time(:seconds)
   end
-
 
   def redirect_to_back(conn) do
     case List.keyfind(conn.req_headers, "referer", 0) do
@@ -30,11 +28,9 @@ defmodule Loanmanagementsystem.Workers.Utlis.Utils do
     end
   end
 
-
   def time_stamp_ref() do
     Timex.now() |> Timex.format!("%Y%m%d%H%M%S", :strftime)
   end
-
 
   def local_datetime() do
     Timex.local() |> DateTime.to_naive()
@@ -88,7 +84,6 @@ defmodule Loanmanagementsystem.Workers.Utlis.Utils do
     date
   end
 
-
   def get_randstr() do
     "0123456789"
     |> String.codepoints
@@ -96,15 +91,11 @@ defmodule Loanmanagementsystem.Workers.Utlis.Utils do
     |> Enum.join
   end
 
-
   def gen_ref() do
     date = Timex.format!(Date.utc_today(), "%y%m%d", :strftime)
     random_int = to_string(Enum.random(1111..9999))
     date <> random_int
   end
-
-
-
 
   def gen_token() do
     to_string(Enum.random(100_000..999_999))

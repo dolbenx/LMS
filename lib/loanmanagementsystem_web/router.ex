@@ -65,60 +65,60 @@ defmodule LoanmanagementsystemWeb.Router do
       # =========== USER MANAGEMENT =========
       live "/Dashboard", DashboardLive.Index, :index
       # get "/Dashboard/Stats", ReportController, :dash_stats
+
+      # =========== USER MANAGEMENT =========
+      scope "/admin/users", UserLive do
+        live "/management", Index, :index
+        live "/new", Index, :new
+        live "/:id/edit", Index, :edit
+        live "/:id/view", Index, :view
+      end
+
+      scope "/Settings", SettingsLive do
+        live "/Titles", Titles, :index
+        live "/Add-Title", Titles, :new
+        live "/:id/Edit-Title", Titles, :edit
+      end
+
+
+      scope "/Settings", SettingsLive do
+        live "/Countries", Countries, :index
+        live "/Add-Country", Countries, :new
+        live "/:id/Edit-Country", Countries, :edit
+      end
+
+      scope "/Settings", SettingsLive do
+        live "/Province", Provinces, :index
+        live "/Add-Province", Provinces, :new
+        live "/:id/Edit-Province", Provinces, :edit
+      end
+
+      scope "/Settings", SettingsLive do
+        live "/District", Districts, :index
+        live "/Add-District", Districts, :new
+        live "/:id/Edit-District", Districts, :edit
+      end
+
+      scope "/Settings", SettingsLive do
+        live "/Currency", Currencies, :index
+        live "/Add-Currency", Currencies, :new
+        live "/:id/Edit-Currency", Currencies, :edit
+      end
+
+      scope "/Settings", SettingsLive do
+        live "/Bank", Banks, :index
+        live "/Add-Bank", Banks, :new
+        live "/:id/Edit-Bank", Banks, :edit
+        live "/:id/Aprove-Bank", Banks, :show_alert
+      end
+
+      scope "/Settings", SettingsLive do
+        live "/Branch", Branches, :index
+        live "/Add-Branch", Branches, :new
+        live "/:id/Edit-Branch", Branches, :edit
+      end
+
     end
-
-    # =========== USER MANAGEMENT =========
-    scope "/admin/users", LoanmanagementsystemWeb.Admin.UserLive do
-      live "/management", Index, :index
-      live "/new", Index, :new
-      live "/:id/edit", Index, :edit
-      live "/:id/view", Index, :view
-    end
-
-    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
-      live "/Titles", Titles, :index
-      live "/Add-Title", Titles, :new
-      live "/:id/Edit-Title", Titles, :edit
-    end
-
-
-    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
-      live "/Countries", Countries, :index
-      live "/Add-Country", Countries, :new
-      live "/:id/Edit-Country", Countries, :edit
-    end
-
-    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
-      live "/Province", Provinces, :index
-      live "/Add-Province", Provinces, :new
-      live "/:id/Edit-Province", Provinces, :edit
-    end
-
-    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
-      live "/District", Districts, :index
-      live "/Add-District", Districts, :new
-      live "/:id/Edit-District", Districts, :edit
-    end
-
-    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
-      live "/Currency", Currencies, :index
-      live "/Add-Currency", Currencies, :new
-      live "/:id/Edit-Currency", Currencies, :edit
-    end
-
-    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
-      live "/Bank", Banks, :index
-      live "/Add-Bank", Banks, :new
-      live "/:id/Edit-Bank", Banks, :edit
-    end
-
-    scope "/settings", LoanmanagementsystemWeb.Admin.SettingsLive do
-      live "/Branch", Branches, :index
-      live "/Add-Branch", Branches, :new
-      live "/:id/Edit-Branch", Branches, :edit
-    end
-
-
   end
 
   # Other scopes may use custom stacks.

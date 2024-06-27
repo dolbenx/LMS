@@ -33,7 +33,11 @@
                                 <div class="flex items-center mt-3 w-full sm:ml-auto sm:mt-0 sm:w-auto"><label for="show-example-21" class="cursor-pointer ml-0 sm:ml-2"></label>    
                                     <%= live_patch raw('<span class="transition duration-200 border shadow-sm inline-flex items-center justify-center py-2 px-3 font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&amp;:hover:not(:disabled)]:bg-opacity-90 [&amp;:hover:not(:disabled)]:border-opacity-90 [&amp;:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary rounded-full w-24"> <i class="subheader-icon fal fa-plus"></i> Add Bank</span>'),
                                         to: Routes.settings_banks_path(@socket, :new),
-                                        class: "text-info" %>                                                                
+                                        class: "text-info" %>  
+
+                                              <div class="text-center">
+                                                                    <a data-tw-merge="" data-tw-toggle="modal" data-tw-target="#warning-modal-preview" href="#" class="transition duration-200 border shadow-sm inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&:hover:not(:disabled)]:bg-opacity-90 [&:hover:not(:disabled)]:border-opacity-90 [&:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary">Show Modal</a>
+                                                                </div>                                                              
                                 </div>
                             </div>
                             <div>
@@ -80,9 +84,14 @@
                                                                 <td class="px-5 border-b dark:border-darkmode-300 border-dashed py-4 dark:bg-darkmode-600"><%= bank.status %></td>
                                                                 <td class="px-5 border-b dark:border-darkmode-300 relative border-dashed py-4 dark:bg-darkmode-600">
                                                                     <div class="call_dropdown" style="text-align: left;" x-show="open" x-transition>
-                                                                        <%= live_patch raw('<span> <i class="subheader-icon fal fa-edit"></i> Edit Setting</span>'),
+                                                                        <%= live_patch raw('<span> <i class="subheader-icon fal fa-edit"></i> Edit</span>'),
                                                                             to: Routes.settings_banks_path(@socket, :edit, bank.id),
                                                                             class: "text-info" %>
+
+                                                                        <button type="button" x-on:click="open = ! open" class="dropdown-item text-success" role="button" phx-click="approve" phx-value-id={bank.id}>
+                                                                            <i class="subheader-icon fal fa-check"></i>
+                                                                            Approve
+                                                                        </button>
                                                                     </div>
                                                                  </td>
                                                             </tr>
@@ -125,6 +134,20 @@
                                     return_to={Routes.settings_banks_path(@socket, :index)} />
                                 </.modal>
                             <% end %>
+
+                             <%= if @info_modal do %>
+                                <.live_component module={InfoModalLive}
+                                    id="warning-boom"
+                                    title="Warning"
+                                    body={@info_message}
+                                    right_button={@info_wording}
+                                    right_button_action="process"
+                                    right_button_param={@info_modal_param}
+                                    left_button_action="cancel-crash"
+                                    left_button="Cancel"
+                                />
+                            <% end %>
+
                         </div>
                     </div>
                 </div>   
@@ -135,3 +158,23 @@
             
 
 
+
+ <div data-tw-backdrop="" aria-hidden="true" tabindex="-1" id="warning-modal-preview" class="modal group bg-gradient-to-b from-theme-1/50 via-theme-2/50 to-black/50 transition-[visibility,opacity] w-screen h-screen fixed left-0 top-0 [&:not(.show)]:duration-[0s,0.2s] [&:not(.show)]:delay-[0.2s,0s] [&:not(.show)]:invisible [&:not(.show)]:opacity-0 [&.show]:visible [&.show]:opacity-100 [&.show]:duration-[0s,0.4s]">
+    <div data-tw-merge="" class="w-[90%] mx-auto bg-white relative rounded-md shadow-md transition-[margin-top,transform] duration-[0.4s,0.3s] -mt-16 group-[.show]:mt-16 group-[.modal-static]:scale-[1.05] dark:bg-darkmode-600 sm:w-[460px]">
+        <div class="p-5 text-center">
+            <i data-tw-merge="" data-lucide="x-circle" class="stroke-[1] mx-auto mt-3 h-16 w-16 text-warning"></i>
+            <div class="mt-5 text-3xl">Oops...</div>
+            <div class="mt-2 text-slate-500">
+                Something went wrong!
+            </div>
+        </div>
+        <div class="px-5 pb-8 text-center">
+            <button data-tw-merge="" data-tw-dismiss="modal" type="button" class="transition duration-200 border shadow-sm inline-flex items-center justify-center py-2 px-3 rounded-md font-medium cursor-pointer focus:ring-4 focus:ring-primary focus:ring-opacity-20 focus-visible:outline-none dark:focus:ring-slate-700 dark:focus:ring-opacity-50 [&:hover:not(:disabled)]:bg-opacity-90 [&:hover:not(:disabled)]:border-opacity-90 [&:not(button)]:text-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary border-primary text-white dark:border-primary w-24">Ok</button>
+        </div>
+        <div class="border-t border-slate-200/60 p-5 text-center dark:border-darkmode-400">
+            <a class="text-primary" href="#">
+                Why do I have this issue?
+            </a>
+        </div>
+    </div>
+</div>
